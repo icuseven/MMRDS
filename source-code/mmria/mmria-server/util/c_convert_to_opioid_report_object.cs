@@ -228,28 +228,41 @@ namespace mmria.server.util
 			}
 
 
-			var work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			mmria.server.model.opioid_report_value_struct work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+			
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 			opioid_report_value_header.pregnancy_related = work_item.pregnancy_related;
 
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 
 
 			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 
 			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
-            this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
+			this.popluate_mEducation(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mHomeless(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mHxofEmoStress(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mHxofSubAbu(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mIncarHx(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mLivingArrange(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mMHTxTiming(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
+            this.popluate_mTimingofDeath(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+		
+			this.popluate_mSubstAutop(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+/*
 			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
 			this.popluate_list(ref report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, ref report_object, source_object, "committee_review/pmss_mm", true);
 
@@ -289,7 +302,7 @@ namespace mmria.server.util
 			//this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
 			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", true);
 			this.popluate_list(ref report_object.total_pregnancy_associated_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", false);
-
+*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -308,6 +321,8 @@ namespace mmria.server.util
 			result.case_review_year = p_header.case_review_year;
 			result.case_review_month = p_header.case_review_month;
 
+			result.pregnancy_related = p_header.pregnancy_related;
+			result.host_state = p_header.host_state;
 
 
 			return result;
@@ -973,9 +988,121 @@ death_certificate/Race/race = Other
 		}
 
 
-		private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		private void popluate_mTimingofDeath(ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
+
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			int length_between_child_birth_and_death_of_mother =  -1;
+			if(length_between_child_birth_and_death_of_mother_dynamic is string)
+			{
+				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
+				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
+				{
+					length_between_child_birth_and_death_of_mother = -1;
+				}
+			}
+			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
+			{
+				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
+			}
+
+			
+			if(length_between_child_birth_and_death_of_mother < -1)
+			{
+				length_between_child_birth_and_death_of_mother = -1;
+			}
+
+			string val_1 = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
+
+			int test_int;
+
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD1	Pregnant at the Time of Death	1	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR
+//  (death_certificate/death_information/pregnancy_status = 1)
+			try
+			{	
+				if(length_between_child_birth_and_death_of_mother == 0 || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
+//(death_certificate/death_information/pregnancy_status = 2)
+			try
+			{	
+				if((length_between_child_birth_and_death_of_mother >= 1 && length_between_child_birth_and_death_of_mother <= 42) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
+// (death_certificate/death_information/pregnancy_status = 3)
+			try
+			{	
+				if((length_between_child_birth_and_death_of_mother >= 43 && length_between_child_birth_and_death_of_mother <= 365) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
+//  (death_certificate/death_information/pregnancy_status = 9999)
+
+			try
+			{	
+				if(
+					length_between_child_birth_and_death_of_mother == -1 &&
+					(
+						val_1 == null || 
+						! int.TryParse(val_1, out test_int) ||
+						test_int == 9999)
+					)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+		return;
 /*
 
 1
@@ -1022,26 +1149,7 @@ pregnancy_status <- list field
 
 */
 
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			int length_between_child_birth_and_death_of_mother =  -1;
-			if(length_between_child_birth_and_death_of_mother_dynamic is string)
-			{
-				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
-				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
-				{
-					length_between_child_birth_and_death_of_mother = -1;
-				}
-			}
-			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
-			{
-				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
-			}
 
-			
-			if(length_between_child_birth_and_death_of_mother < -1)
-			{
-				length_between_child_birth_and_death_of_mother = -1;
-			}
 
 			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 			int pregnancy_status = -1;
@@ -1674,6 +1782,7 @@ MPregRel5	(Blank)
 
 			p_opioid_report_value.indicator_id = "mPregRelated";
 			p_opioid_report_value.value = 1;
+			p_opioid_report_value.pregnancy_related = 0;
 
 
 			try
@@ -1690,7 +1799,9 @@ MPregRel5	(Blank)
 						case "Pregnancy Related":
 						case "1":
 							p_report_object.mPregRelated.pregnancy_related = 1;
-							p_opioid_report_value.field_id = "mPregRelated";
+							p_opioid_report_value.field_id = "MPregRel1";
+							p_opioid_report_value.pregnancy_related = 1;
+
 						break;
 						case "Pregnancy-Associated but NOT Related":
 						case "Pregnancy-Associated, but NOT -Related":
@@ -2021,6 +2132,1074 @@ MPregRel5	(Blank)
 
 		}
 
+
+		private void popluate_mEducation (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+birth_fetal_death_certificate_parent/demographic_of_mother/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'
+OR
+death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'
+*/
+
+
+
+//mEducation	Education	MEduc1	Completed High School or less	1	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed' OR death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (0, 1, 2)  OR death_certificate/demographics/education_level in (0, 1, 2)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=0 && test_int <= 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=0 && test_int <= 2)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc1";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc2	Completed Some College	2	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Some College; No Degree' OR death_certificate/demographics/education_level =  'Some College; No Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 3 OR death_certificate/demographics/education_level =  3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=3 && test_int <= 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=3 && test_int <= 3)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc2";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc3	College Graduate	3	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Associate Degree' or 'Bachelor's Degree'  OR death_certificate/demographics/education_level = 'Associate Degree' or 'Bachelor's Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (4, 5) OR death_certificate/demographics/education_level in (4, 5)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=4 && test_int <= 5)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=4 && test_int <= 5)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc3";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc4	Completed Advanced Degree	4	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Master's Degree' or 'Doctorate or Professional Degree' OR death_certificate/demographics/education_level = 'Master's Degree' or 'Doctorate or Professional Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (6, 7) OR death_certificate/demographics/education_levelin (6, 7)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=6 && test_int <= 7)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 7)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc4";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		}
+		private void popluate_mHomeless (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/socio_economic_characteristics/homelessness
+*/
+
+
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
+		private void popluate_mHxofEmoStress (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
+*/
+
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress1	History of domestic violence	1	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of domestic violence	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=0
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress2	History of psychiatric hospitalizations or treatment	2	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of psychiatric hospitalizations or treatment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=1
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress3	Child Protective Services involvement	3	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Child Protective Services involvement	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=2
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress4	History of substance use	4	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of substance use	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress5	Unemployment	5	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Unemployment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=4
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress6	History of substance use treatment	6	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of substance use treatment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=5
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress7	Pregnancy Unwanted	7	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Pregnancy Unwanted	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=6
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress7";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress8	Recent Trauma	8	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Recent Trauma	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=7
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 8)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress8";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress9	History of childhood trauma	9	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of childhood trauma	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=8
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress9";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress10	Prior suicice attempts	10	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Prior suicide attempts	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=9
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 10)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress10";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress11	Other	11	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Other	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=10
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 11)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress11";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
+		private void popluate_mHxofSubAbu (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+//social_and_environmental_profile/documented_substance_use
+
+//mHxofSubAbu	History of Documented Substance Use	MHxSub1	Yes	1	social_and_environmental_profile/documented_substance_use=Yes	social_and_environmental_profile/documented_substance_use = 1
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofSubAbu";
+					curr.field_id = "MHxSub1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		
+
+//mHxofSubAbu	History of Documented Substance Use	MHxSub2	No	2	social_and_environmental_profile/documented_substance_use=No	social_and_environmental_profile/documented_substance_use = 0
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofSubAbu";
+					curr.field_id = "MHxSub2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		
+
+//mHxofSubAbu	History of Documented Substance Use	MHxSub3	Not Specified	3	social_and_environmental_profile/documented_substance_use=Not Specified	social_and_environmental_profile/documented_substance_use = 8888
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 8888)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofSubAbu";
+					curr.field_id = "MHxSub3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		}
+
+		private void popluate_mIncarHx (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+//social_and_environmental_profile/previous_or_current_incarcerations
+
+//mIncarHx	Incarceration History	MHxIncar1	Never Incarcerated	1	social_and_environmental_profile/previous_or_current_incarcerations=Never	social_and_environmental_profile/previous_or_current_incarcerations=0
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mIncarHx	Incarceration History	MHxIncar2	Was Incarcerated	2	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy or During Pregnancy or After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 1 && test_int <= 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mIncarHx	Incarceration History	MHxIncar3	Incarcerated Before Current Pregnancy	3	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=1
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mIncarHx	Incarceration History	MHxIncar4	Incarcerated During Current Pregnancy	4	social_and_environmental_profile/previous_or_current_incarcerations=During Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=2
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mIncarHx	Incarceration History	MHxIncar5	Incarcerated After Current Pregnancy	5	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mIncarHx	Incarceration History	MHxIncar6	Incarcerated 2 or more timepoints	6	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and Before Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy and After Pregnancy	(social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 2)  OR (social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 1) OR (social_and_environmental_profile/previous_or_current_incarcerations = 2 and social_and_environmental_profile/previous_or_current_incarcerations = 1)  OR (social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3))
+/*
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+			*/
+		}
+
+		private void popluate_mLivingArrange (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+//social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements
+
+//mLivingArrange	Living Arrangements at time of death	MLivD1	Own	1	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Own	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=0
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mLivingArrange	Living Arrangements at time of death	MLivD2	Rent	2	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Rent	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=1
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mLivingArrange	Living Arrangements at time of death	MLivD3	Public Housing	3	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Public Housing	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=2
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mLivingArrange	Living Arrangements at time of death	MLivD4	Live with relative	4	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Live with relative	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mLivingArrange	Living Arrangements at time of death	MLivD5	Homeless	5	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Homeless	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=4
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mLivingArrange	Living Arrangements at time of death	MLivD6	Other or Unknown or Not specified	6	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Other or Unknown or Not specified	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements in (5, 7777, 8888)
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 5 || test_int == 7777 || test_int == 8888))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		}
+
+		private void popluate_mMHTxTiming (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx1	Prior to Most Recent Pregnancy	1	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx2	Was During Most Recent Pregnancy	2	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx3	Mental Health Treatment After Most Recent Pregnancy	3	mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy = yes	mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
+		private void popluate_mSubstAutop (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+//autopsy_report/toxicology/substance
+
+//mSubstAutop	MSubAuto1	Alcohol	1	autopsy_report/toxicology/substance= Substance that are mapped to ‘Alcohol‘ category in the substance categorization table below	autopsy_report/toxicology/substance = 'Alcohol'
+//mSubstAutop	MSubAuto2	Amphetamine	2	autopsy_report/toxicology/substance= Substance that are mapped to ‘Amphetamine‘ category in the substance categorization table below	autopsy_report/toxicology/substance in ('Amphetamines, 'Methamphetamine')
+//mSubstAutop	MSubAuto3	Benzodiazepine	3	autopsy_report/toxicology/substance= Substance that are mapped to ‘Benzodiazepine‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Alprazolam (Xanax)', 'Aminoclonazepam', 'Chlordiazepoxide (Librium)', 'Clonazepam (Klonopin or Rivotril)', 'Diazepam (Valium)', 'Lorazepam (Ativan)', 'Temazepam (Restoril)', 'Zolpidem (Ambien)')
+//mSubstAutop	MSubAuto4	Buprenorphine/Methadone	4	autopsy_report/toxicology/substance= Substance that are mapped to ‘Buprenorphine/Methadone‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Buprenorphine', 'Methadone Hydrochloride')
+//mSubstAutop	MSubAuto5	Cocaine	5	autopsy_report/toxicology/substance= Substance that are mapped to ‘Cocaine‘category in the substance categorization table below	autopsy_report/toxicology/substance = 'Cocaine'
+//mSubstAutop	MSubAuto6	Opioid (excl Buprenorphine/Methadone)	6	autopsy_report/toxicology/substance= Substance that are mapped to ‘Opioid (excl Buprenorphine/Methadone)‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Fentanyl', 'Heroin', 'Hydromorphone (Dilaudid)', 'Morphine Sulfate', 'Oxycodone Hydrochloride', 'Oxymorphone Hydrochloride (Opana)')
+//mSubstAutop	MSubAuto7	Substance with Other Chemical Classification	7	autopsy_report/toxicology/substance= Substance that are mapped to ‘Substance with Other Chemical Classification‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Acetaminophen', 'Acetazolamide (Diamox)', 'Aripiprazole (Abilify)', 'Carbamazepine (Neurontin)', 'Citalopram (Celexa)', 'Doxepin (Silenor, Zonalon, Prudoxin), 'Duloxetine (Cymbalta)', 'Felbamate (Felbatol)', 'Fluoxetine/Olanzapine (Symbyax)', 'Lurasidone (Latuda)', 'Meprobamate (Equanil)', 'Midazolam (Versed)', 'Pregabalin (Lyrica)', 'Quetiapine (Seroquel)', 'Sertraline (Zoloft)', 'Trazadone (Oleptro)')
+
+
+
+var is_Alcohol = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Amphetamine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Benzodiazepine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Buprenorphine_Methadone = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Cocaine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Opioid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Other_Substance = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+
+is_Alcohol.Add("Alcohol");
+is_Amphetamine.Add("Amphetamines");
+is_Amphetamine.Add("Methamphetamine");
+
+is_Benzodiazepine.Add("Alprazolam (Xanax)");
+is_Benzodiazepine.Add("Aminoclonazepam");
+is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
+is_Benzodiazepine.Add("Clonazepam (Klonopin or Rivotril)");
+is_Benzodiazepine.Add("Diazepam (Valium)");
+is_Benzodiazepine.Add("Lorazepam (Ativan)");
+is_Benzodiazepine.Add("Temazepam (Restoril)");
+is_Benzodiazepine.Add("Zolpidem (Ambien)");
+
+
+is_Buprenorphine_Methadone.Add("Buprenorphine");
+is_Buprenorphine_Methadone.Add("MethadoneMethadone Hydrochloride");
+
+is_Cocaine.Add("Cocaine");
+
+is_Opioid.Add("Fentanyl");
+is_Opioid.Add("Heroin");
+is_Opioid.Add("Hydromorphone (Dilaudid)");
+is_Opioid.Add("Morphine Sulfate");
+is_Opioid.Add("Oxycodone Hydrochloride");
+is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
+
+ is_Other_Substance.Add("Acetaminophen");
+ is_Other_Substance.Add("Acetazolamide (Diamox)");
+ is_Other_Substance.Add("Aripiprazole (Abilify)");
+ is_Other_Substance.Add("Carbamazepine (Neurontin)");
+ is_Other_Substance.Add("Citalopram (Celexa)");
+ is_Other_Substance.Add("Doxepin (Silenor, Zonalon, Prudoxin)");
+ is_Other_Substance.Add("Duloxetine (Cymbalta)");
+ is_Other_Substance.Add("Felbamate (Felbatol)");
+ is_Other_Substance.Add("Fluoxetine/Olanzapine (Symbyax)");
+ is_Other_Substance.Add("Lurasidone (Latuda)");
+ is_Other_Substance.Add("Meprobamate (Equanil)");
+ is_Other_Substance.Add("Midazolam (Versed)");
+ is_Other_Substance.Add("Pregabalin (Lyrica)");
+ is_Other_Substance.Add("Quetiapine (Seroquel)");
+ is_Other_Substance.Add("Sertraline (Zoloft)");
+ is_Other_Substance.Add("Trazadone (Oleptro)");
+
+
+
+
+
+
+
+
+
+
+
+
+
+//mSubstAutop	MSubAuto1	Alcohol	1	autopsy_report/toxicology/substance= Substance that are mapped to ‘Alcohol‘ category in the substance categorization table below	autopsy_report/toxicology/substance = 'Alcohol'
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Alcohol.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto2	Amphetamine	2	autopsy_report/toxicology/substance= Substance that are mapped to ‘Amphetamine‘ category in the substance categorization table below	autopsy_report/toxicology/substance in ('Amphetamines, 'Methamphetamine')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Amphetamine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto3	Benzodiazepine	3	autopsy_report/toxicology/substance= Substance that are mapped to ‘Benzodiazepine‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Alprazolam (Xanax)', 'Aminoclonazepam', 'Chlordiazepoxide (Librium)', 'Clonazepam (Klonopin or Rivotril)', 'Diazepam (Valium)', 'Lorazepam (Ativan)', 'Temazepam (Restoril)', 'Zolpidem (Ambien)')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Benzodiazepine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto4	Buprenorphine/Methadone	4	autopsy_report/toxicology/substance= Substance that are mapped to ‘Buprenorphine/Methadone‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Buprenorphine', 'Methadone Hydrochloride')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Buprenorphine_Methadone.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto5	Cocaine	5	autopsy_report/toxicology/substance= Substance that are mapped to ‘Cocaine‘category in the substance categorization table below	autopsy_report/toxicology/substance = 'Cocaine'
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Cocaine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto6	Opioid (excl Buprenorphine/Methadone)	6	autopsy_report/toxicology/substance= Substance that are mapped to ‘Opioid (excl Buprenorphine/Methadone)‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Fentanyl', 'Heroin', 'Hydromorphone (Dilaudid)', 'Morphine Sulfate', 'Oxycodone Hydrochloride', 'Oxymorphone Hydrochloride (Opana)')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Opioid.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mSubstAutop	MSubAuto7	Substance with Other Chemical Classification	7	autopsy_report/toxicology/substance= Substance that are mapped to ‘Substance with Other Chemical Classification‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Acetaminophen', 'Acetazolamide (Diamox)', 'Aripiprazole (Abilify)', 'Carbamazepine (Neurontin)', 'Citalopram (Celexa)', 'Doxepin (Silenor, Zonalon, Prudoxin), 'Duloxetine (Cymbalta)', 'Felbamate (Felbatol)', 'Fluoxetine/Olanzapine (Symbyax)', 'Lurasidone (Latuda)', 'Meprobamate (Equanil)', 'Midazolam (Versed)', 'Pregabalin (Lyrica)', 'Quetiapine (Seroquel)', 'Sertraline (Zoloft)', 'Trazadone (Oleptro)')
+
+
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Other_Substance.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto7";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		}
 
 	}
 }
