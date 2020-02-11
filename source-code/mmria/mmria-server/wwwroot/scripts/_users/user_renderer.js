@@ -76,8 +76,6 @@ function user_entry_render(p_user, p_i, p_created_by)
 	{
 		result.push("&nbsp;")
 	}
-	
-
 
 	result.push("</td>");
 
@@ -454,8 +452,14 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 
 
 	result.push("<tr><td>");
-	result.push("<input type='button' value='Remove Role' onclick='remove_role(\"" + p_user_role_jurisdiction._id + "\")'/>");
-	result.push("<input type='button' value='Update Role' onclick='update_role(\"" + p_user_role_jurisdiction._id + "\",\"" + p_updated_by + "\")' />");
+	result.push(`<span>`);
+	result.push("<input type='button' value='Remove Role' onclick='init_small_loader(function(){ remove_role(\"" + p_user_role_jurisdiction._id + "\") })'/>");
+	result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+	result.push(`</span>`);
+	result.push(`<span>`);
+	result.push("<input type='button' value='Update Role' onclick='init_small_loader(function(){ update_role(\"" + p_user_role_jurisdiction._id + "\",\"" + p_updated_by + "\") })' />");
+	result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+	result.push(`</span>`);
 	result.push("</td></tr>");
 	result.push("</table></td>");
 
