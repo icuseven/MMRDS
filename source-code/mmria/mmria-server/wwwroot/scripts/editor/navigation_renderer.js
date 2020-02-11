@@ -57,25 +57,25 @@ function navigation_render(p_metadata, p_level, p_ui)
         break;
 
      case 'app':
-        result.push('<li class="list-group-item"><a href="#/summary">Summary</a></li>');
+        // result.push('<li class="list-group-item"><a href="#/summary">Summary</a></li>');
 
             
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {
 
-          result.push('<li class="list-group-item">');
+          result.push('<li id="case_item" class="list-group-item nav-lvl2">');
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="selected_form">Select case form</label>');
               result.push('<div class="form-control-wrap">');
                 result.push('<select id="selected_form" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
-                  result.push('<option value=""> </option>');
+                  result.push('<option value=""></option>');
                   for(var i = 0; i < p_metadata.children.length; i++)
                   {
                     var child = p_metadata.children[i];
                     var url = p_ui.url_state.path_array[0] + "/" + child.name;
                     
-                    if (child.type === 'form') {
-
+                    if (child.type === 'form')
+                    {
                       if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
                       {
                         result.push('<option value="' + url + '" selected>');
@@ -84,18 +84,16 @@ function navigation_render(p_metadata, p_level, p_ui)
                       {
                         result.push('<option value="' + url + '">');
                       }
-                      
-                        result.push(child.prompt);
-                      result.push('</option>');
+                      result.push(child.prompt);
                     }
+                    result.push('</option>');
                   }
-                result.push("</ul>");
                 result.push('</select>');
               result.push('</div>');
             result.push('</div>');
           result.push('</li>');
 
-          result.push('<li class="list-group-item">');
+          result.push('<li id="quickedit_item" class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="search_case_fields" class="row no-gutters align-items-center"><span>Quick Edit</span> <button class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" data-toggle="tooltip" data-placement="bottom" title="Use Quick Edit to locate and edit similar fields across all forms for this case. Type at least three characters to begin your search."></button></label>');
               result.push('<div class="form-control-wrap">');

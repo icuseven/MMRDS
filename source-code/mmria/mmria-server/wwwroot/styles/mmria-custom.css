@@ -1048,9 +1048,13 @@ button.link {
 /*
   Sidebar Nav
 */
+#navbar .list-group-item {
+  margin-left: 20px;
+}
+
 .fake-list-group-anchor {
   border-left: 4px solid;
-  border-left-color: transparent;
+  border-left-color: var(--grape-light);
   text-decoration: none;
   color: #333;
   position: relative;
@@ -1059,14 +1063,20 @@ button.link {
   margin-bottom: 0;
   border-bottom: 1px dashed #e0e0e0;
   position: relative;
-  transition: border-color .5s, background-color .5s, color .5s;
 }
-.fake-list-group-anchor:focus,
-.fake-list-group-anchor:hover {
-  border-left-color: var(--grape);
-  background-color: var(--neutral-light);
-  color: var(--grape);
-}
+  /* .fake-list-group-anchor:focus,
+  .fake-list-group-anchor:hover {
+    border-left-color: var(--grape);
+    background-color: var(--neutral-light);
+    color: var(--grape);
+  } */
+  .active .fake-list-group-anchor {
+    font-weight: bold;
+  }
+  .theme-purple .selected .fake-list-group-anchor {
+    background-color: var(--neutral-light);
+    color: var(--grape);
+  }
 
 .fake-list-group-anchor label {
   font-size: 80%;

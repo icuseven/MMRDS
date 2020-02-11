@@ -104,6 +104,67 @@
       tar.focus();
     });
   </script>
+
+  <script>
+    var breadcrumbs = $('#breadcrumb_list');
+    var summary = $('#summary-item');
+    var currHash = window.location.hash;
+
+    if (currHash === '' || currHash === '#/summary')
+    {
+      summary.addClass('active selected');
+    }
+
+    $(window).on('hashchange', function() {
+      var newHash = window.location.hash;
+
+      setTimeout(() => {
+        var case_item = $('#case_item');
+        var quickedit_item = $('#quickedit_item');
+        
+        if (!isNullOrUndefined(case_item) && !isNullOrUndefined(quickedit_item))
+        {
+          if (newHash === '' || newHash === '#/summary')
+          {
+            summary.addClass('selected');
+
+            setTimeout(() => {
+              if (breadcrumbs.children().length >= 2)
+              {
+                breadcrumbs.children().last().remove();
+              }
+            }, 100);
+          }
+          else if (newHash !== '#/summary' && !newHash.includes('field_search'))
+          {
+            summary.removeClass('selected');
+            quickedit_item.removeClass('active selected');
+            case_item.addClass('active selected');
+            
+            setTimeout(() => {
+              if (breadcrumbs.children().length < 2)
+              {
+                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
+              }
+            }, 100);
+          }
+          else if (newHash !== '#/summary' && newHash.includes('field_search'))
+          {
+            summary.removeClass('selected');
+            case_item.removeClass('active selected');
+            quickedit_item.addClass('active selected');
+
+            setTimeout(() => {
+              if (breadcrumbs.children().length < 2)
+              {
+                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
+              }
+            }, 100);
+          }
+        }
+      }, 100);
+    });
+  </script>
 }
 
 <div id="form_content_id" class="app-content col"></div>

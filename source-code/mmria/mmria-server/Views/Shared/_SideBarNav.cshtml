@@ -3,7 +3,19 @@
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
       <title>home</title>
       <path d="M9.984 20.016h-4.969v-8.016h-3l9.984-9 9.984 9h-3v8.016h-4.969v-6h-4.031v6z"></path>
-    </svg><a id="home-link" href="/">Home</a>
+    </svg><a id="home-link" href="/">MMRIA Home</a>
   </div>
-  <ul id="navbar" class="list-group tp-nav-main list-unstyled"></ul>
+  <ul class="list-group tp-nav-main">
+    <li id="summary-item" class="list-group-item nav-lvl1"><a href="#/summary">Summary</a></li>
+    <ul id="navbar" class="list-group tp-nav-main list-unstyled">
+      <li id="case_item" class="list-group-item nav-lvl2">
+        <div class="form-group fake-list-group-anchor">
+          <label for="selected_form">Select case form</label>
+          <select id="selected_form" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">
+            <option value=""></option>
+          </select>
+        </div>
+      </li>
+    </ul>
+  </ul>
 </nav>
