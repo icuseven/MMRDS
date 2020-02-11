@@ -425,6 +425,10 @@ ul {
   min-height: 100%; /* Helps auto height based on content flow */
 }
 
+.site-title + .site-content {
+  margin-top: 10px;
+}
+
 .body-wrapper {
   width: 1380px; /* Turns off responsiveness for now */
 }
