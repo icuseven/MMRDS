@@ -100,6 +100,59 @@
       tar.focus();
     });
   </script>
+
+  <script>
+    var breadcrumbs = $('#breadcrumb_list');
+    var summary = $('#summary-item');
+    var currHash = window.location.hash;
+
+    if (currHash === '' || currHash === '#/summary')
+    {
+      summary.addClass('active selected');
+    }
+
+    $(window).on('hashchange', function() {
+      var newHash = window.location.hash;
+
+      // Set a time out to give our DOM a little time (200ms)
+      setTimeout(() => {
+        var case_item = $('#case_item');
+        var quickedit_item = $('#quickedit_item');
+        
+        // If case_item && quickedit_item exists
+        if (!isNullOrUndefined(case_item) && !isNullOrUndefined(quickedit_item))
+        {
+          // If there is no hash || hash is on summary page
+          if (newHash === '' || newHash === '#/summary')
+          {
+            summary.addClass('selected');
+
+            setTimeout(() => {
+              if (breadcrumbs.children().length >= 2)
+              {
+                // If there are 2 or more breadcrumb items, remove it
+                breadcrumbs.children().last().remove();
+              }
+            }, 200);
+          }
+          // If hash isn't empty && not on summary page
+          else if (newHash !== '' && newHash !== '#/summary')
+          {
+            summary.removeClass('selected');
+            quickedit_item.removeClass('active selected');
+            case_item.addClass('active selected');
+            
+            setTimeout(() => {
+              if (breadcrumbs.children().length < 2)
+              {
+                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
+              }
+            }, 200);
+          }
+        }
+      }, 200);
+    });
+  </script>
 }
 
 <div id="form_content_id" class="app-content col"></div>

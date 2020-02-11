@@ -59,10 +59,8 @@ function navigation_render(p_metadata, p_level, p_ui)
      case 'app':
         // result.push('<li class="list-group-item"><a href="#/summary">Summary</a></li>');
 
-            
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {
-
           result.push('<li id="case_item" class="list-group-item nav-lvl2">');
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="selected_form">Select case form</label>');

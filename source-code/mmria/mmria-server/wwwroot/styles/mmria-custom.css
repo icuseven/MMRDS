@@ -945,6 +945,7 @@ button.link {
 .app-sidebar {
   height: 100%;
   max-width: 276px;
+  min-width: 276px;
   position: sticky;
   top: 0; /* required */
 
@@ -954,7 +955,7 @@ button.link {
 @media screen and (min-width: 768px) {
   .app-sidebar {
      /* The below width is used to calculate app-content's width */
-    width: 280px;
+    width: 276px;
   }
 }
 

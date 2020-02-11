@@ -118,12 +118,15 @@
     $(window).on('hashchange', function() {
       var newHash = window.location.hash;
 
+      // Set a time out to give our DOM a little time (200ms)
       setTimeout(() => {
         var case_item = $('#case_item');
         var quickedit_item = $('#quickedit_item');
         
+        // If case_item && quickedit_item exists
         if (!isNullOrUndefined(case_item) && !isNullOrUndefined(quickedit_item))
         {
+          // If there is no hash || hash is on summary page
           if (newHash === '' || newHash === '#/summary')
           {
             summary.addClass('selected');
@@ -131,10 +134,12 @@
             setTimeout(() => {
               if (breadcrumbs.children().length >= 2)
               {
+                // If there are 2 or more breadcrumb items, remove it
                 breadcrumbs.children().last().remove();
               }
-            }, 100);
+            }, 200);
           }
+          // If hash isn't summary && doesn't include 'field_search' (quick edit page)
           else if (newHash !== '#/summary' && !newHash.includes('field_search'))
           {
             summary.removeClass('selected');
@@ -146,8 +151,9 @@
               {
                 breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
               }
-            }, 100);
+            }, 200);
           }
+          // If hash isn't summary && includes 'field_search' (quick edit page)
           else if (newHash !== '#/summary' && newHash.includes('field_search'))
           {
             summary.removeClass('selected');
@@ -162,7 +168,7 @@
             }, 100);
           }
         }
-      }, 100);
+      }, 200);
     });
   </script>
 }
