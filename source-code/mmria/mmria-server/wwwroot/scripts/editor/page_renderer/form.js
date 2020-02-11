@@ -807,7 +807,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                         else if (key === 'mental_health_profile')
                         {
-                            noteTitle = 'Social and Environmental Profile';
+                            noteTitle = 'Mental Health Profile';
                             notes = g_data[key];
                             noteUrl = window.location.hash.replace(p_metadata.name, key);
 
