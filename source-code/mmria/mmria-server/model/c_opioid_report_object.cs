@@ -92,6 +92,7 @@ namespace mmria.server.model
 
 		public string field_id;
 		public int? value;
+		public string jurisdiction_id;
 	}
 
 	public class c_opioid_report_object
@@ -112,13 +113,15 @@ namespace mmria.server.model
 		public int? year_of_death;
 		public int? month_of_case_review;
 		public int? year_of_case_review;
-		public total_number_of_cases_by_pregnancy_relatedness_struct mPregRelated;
-		public ethnicity_struct mDeathsbyRaceEth;
-		public ethnicity_struct total_number_of_pregnancy_associated_by_ethnicity;
-		public age_at_death_struct mAgeatDeath;
-		public age_at_death_struct total_number_of_pregnancy_associated_deaths_by_age;
-		public timing_of_death_in_relation_to_pregnancy_struct mTimingofDeath;
-		public timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_associated_at_time_of_death;
+
+		public string jurisdiction_id;
+		//private total_number_of_cases_by_pregnancy_relatedness_struct mPregRelated;
+		//private ethnicity_struct mDeathsbyRaceEth;
+		//private ethnicity_struct total_number_of_pregnancy_associated_by_ethnicity;
+		//private age_at_death_struct mAgeatDeath;
+		//private age_at_death_struct total_number_of_pregnancy_associated_deaths_by_age;
+		//private timing_of_death_in_relation_to_pregnancy_struct mTimingofDeath;
+		//private timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_associated_at_time_of_death;
 
 	}
 }
