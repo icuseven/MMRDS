@@ -109,6 +109,7 @@ let fdTemplates = {
                 }
 
 
+                /*
                 if(value.control_style && value.control_style.indexOf("editable") > -1)
                 {
                     listField = `
@@ -116,14 +117,13 @@ let fdTemplates = {
                                 <select style="width:98%;height:49%;">
                                     ${listOptions}
                                 </select>
-                                <br/>
-                                <input value="editable list" style="width:98%;height:49%;"/>
                                 </div>
                                 
                                 `;
 
                 }
-                else if
+                else*/
+                if
                 (
                     (value.is_multiselect && value.is_multiselect == true) ||
                     value.control_style && 
