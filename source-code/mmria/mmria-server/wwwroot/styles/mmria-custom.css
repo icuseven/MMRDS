@@ -908,6 +908,27 @@ button.link {
   }
 }
 
+/* MODAL DIALOG */
+.modal {
+  z-index: 1041;
+}
+
+.modal-header {
+  padding: .5rem 1rem;
+}
+
+.modal button.close {
+  background-color: transparent;
+  font-size: 28px;
+  top: 34px;
+  border: none;
+  text-shadow: none;
+  color: #eee;
+}
+
+.modal.fade .modal-dialog {
+  transform 0.1s ease-out, -webkit-transform 0.1s ease-out
+}
 
 
 
@@ -1191,7 +1212,7 @@ button.link {
   padding-top: 20px;
   position: sticky;
   top: 0;
-  z-index: 1080; /* not sure why but this makes tooltips appear behind it when sticky */
+  z-index: 998; /* not sure why but this makes tooltips appear behind it when sticky */
 }
 
 .construct__title {
@@ -1500,4 +1521,13 @@ button.link {
     display: none !important;
     visibility: hidden !important;
   }  
+}
+
+/* Ordering */
+.flex-order-1 {
+  order: 1
+}
+
+.flex-order-2 {
+  order: 2
 }

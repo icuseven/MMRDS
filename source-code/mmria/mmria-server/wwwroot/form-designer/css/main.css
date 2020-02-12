@@ -138,6 +138,10 @@
     padding-right: 0;
 }
 
+.form-designer-wrapper .form-designer-canvas .form-field-item-editable {
+    padding: 0;
+}
+
 /* Adding borders to legends */
 .form-designer-wrapper .form-designer-canvas fieldset legend {
     display: inline-block;

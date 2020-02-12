@@ -1,3 +1,9 @@
+// Helper func to capitalize first letter
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+
 // Helper func to help if a value is null, undefined, 0, ''(empty str), false or NaN
 const isNullOrUndefined = (value) => {
   if (typeof value !== 'undefined' && value) {
