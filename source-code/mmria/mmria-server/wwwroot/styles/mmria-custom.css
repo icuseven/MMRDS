@@ -927,7 +927,13 @@ button.link {
 }
 
 .modal.fade .modal-dialog {
-  transform 0.1s ease-out, -webkit-transform 0.1s ease-out
+  transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
+}
+
+.modal .close:focus,
+.modal .close:hover {
+  color: var(--neutral);
+  opacity: .9;
 }
 
 
@@ -1417,7 +1423,8 @@ button.link {
 }
 
 .list-control-select {
-  height: 50%;
+  height: 100%;
+  /* height: 50%; */
   width: 100%;
 }
 
