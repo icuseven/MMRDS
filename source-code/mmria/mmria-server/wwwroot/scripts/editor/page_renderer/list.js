@@ -713,10 +713,51 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     }
 
+    p_result.push(`<button onclick="show_moal(${p_dictionary_path})">Test modal</button>`);
+    p_result.push(`${render_modal(p_metadata, p_dictionary_path)}`);
     p_result.push("</div>");
-    
-
 }
+
+
+function show_moal(str) {
+    const newStr = str.split('/').join('_').substring(1);
+    $('#' + newStr).modal('show');
+}
+function hide_moal(str) {
+    const newStr = str.split('/').join('_').substring(1);
+    $('#' + newStr).modal('show');
+}
+
+
+function render_modal(p_metadata, p_dictionary_path) {
+    const path = p_dictionary_path.split('/').join('_').substring(1);
+    const modal_ui = [];
+
+    console.log(path);
+    
+    modal_ui.push(`
+        <div id="${path}" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title">Confirm ${capitalizeFirstLetter(p_metadata.name)} Selection</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to change the <strong>${capitalizeFirstLetter(p_metadata.name)}</strong> selection from <strong>${capitalizeFirstLetter(p_metadata.name)}</strong> to <strong>{selected option}</strong>? The text in the <strong>{Other_Prompt_Label}}</strong> textbox will be cleared.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary flex-order-1 ml-0 mr-2">Yes, change my selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+
+    return modal_ui;
+}
+
 
 function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
