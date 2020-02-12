@@ -504,6 +504,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_result.push("\",this.value)'  ");
     }
 
+    let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
+
+    p_result.push("  onchange='editable_list_onchange(this, \"");
+    p_result.push(d_path);
+    p_result.push("\")' ");
+
     if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
     {
         p_result.push(" multiple>");
@@ -624,8 +630,9 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             var item = metadata_value_list[i];
             if(p_data == item.value)
             {
+                
                 let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
-                if(item.display.indexOf("Other" == 0))
+                if(item.display.indexOf("Other") != 0)
                 {
                     p_post_html_render.push(" document.querySelector('div input[dpath=\"" + d_path + "\"]').parentElement.style.visibility = 'hidden';");
                 }
@@ -713,23 +720,36 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     }
 
-    p_result.push(`<button onclick="show_moal(${p_dictionary_path})">Test modal</button>`);
-    p_result.push(`${render_modal(p_metadata, p_dictionary_path)}`);
+    p_result.push(`<button onclick="editable_list_other_show_confirm('${p_dictionary_path}')">Test modal</button>`);
+    p_result.push(`${render_editable_list_confirm_modal(p_metadata, p_dictionary_path)}`);
     p_result.push("</div>");
 }
 
-
-function show_moal(str) {
+function editable_list_onchange(p_select_list, p_dpath)
+{
+    if(p_select_list.value.indexOf("Other") != 0)
+    {
+        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "hidden";
+    }
+    else
+    {
+        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+    }  
+}
+function editable_list_other_show_confirm(str) 
+{
     const newStr = str.split('/').join('_').substring(1);
     $('#' + newStr).modal('show');
 }
-function hide_moal(str) {
+function editable_list_other_hide_confirm(str) 
+{
     const newStr = str.split('/').join('_').substring(1);
-    $('#' + newStr).modal('show');
+    $('#' + newStr).modal('hide');
 }
 
 
-function render_modal(p_metadata, p_dictionary_path) {
+function render_editable_list_confirm_modal(p_metadata, p_dictionary_path) 
+{
     const path = p_dictionary_path.split('/').join('_').substring(1);
     const modal_ui = [];
 
