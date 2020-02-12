@@ -1657,8 +1657,8 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 			p_opioid_report_value.indicator_id = "mDeathsbyRaceEth";
 			p_opioid_report_value.value = 1;
 
-			if (p_is_pregnancy_related)
-			{
+			//if (p_is_pregnancy_related)
+			//{
 				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
 				
@@ -1799,7 +1799,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 				}
 				
 				//System.Console.WriteLine ("break");
-			}
+			//}
 		}
 
 /*
