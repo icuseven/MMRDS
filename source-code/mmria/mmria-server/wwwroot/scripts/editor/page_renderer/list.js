@@ -624,6 +624,15 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             var item = metadata_value_list[i];
             if(p_data == item.value)
             {
+                let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
+                if(item.display.indexOf("Other" == 0))
+                {
+                    p_post_html_render.push(" document.querySelector('div input[dpath=\"" + d_path + "\"]').parentElement.style.visibility = 'hidden';");
+                }
+                else
+                {
+                    p_post_html_render.push(" document.querySelector('div input[dpath=\"" + d_path + "\"]').parentElement.style.visibility = '';");
+                }
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected>");
