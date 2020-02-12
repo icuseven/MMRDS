@@ -110,7 +110,7 @@ namespace mmria.server.util
 
 
 
-		private Dictionary<string, mmria.server.model.opioid_report_value_struct> get_zero_indicators()
+		private Dictionary<string, mmria.server.model.opioid_report_value_struct> get_zero_indicators(mmria.server.model.opioid_report_value_struct p_header)
 		{
 
 			mmria.server.model.opioid_report_value_struct get_new_struct(string p_indicator_field_id)
@@ -124,6 +124,15 @@ namespace mmria.server.util
 					result.field_id = keys[1];
 				}
 				result.value = 0;
+
+				result.year_of_death = p_header.year_of_death;
+				result.month_of_death = p_header.month_of_death;
+
+				result.case_review_year = p_header.case_review_year;
+				result.case_review_month = p_header.case_review_month;
+
+				result.pregnancy_related = p_header.pregnancy_related;
+				result.host_state = p_header.host_state;
 
 				return result;
 			}
@@ -266,7 +275,7 @@ namespace mmria.server.util
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 
-			this.indicators = get_zero_indicators();
+			
 
 			report_object = new mmria.server.model.c_opioid_report_object ();
 			report_object._id = get_value (source_object, "_id");
@@ -344,17 +353,23 @@ namespace mmria.server.util
 			}
 
 
+			
+
 			mmria.server.model.opioid_report_value_struct work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
 			
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
-			report_object.data.Add(work_item);
+			
 			opioid_report_value_header.pregnancy_related = work_item.pregnancy_related;
+
+			this.indicators = get_zero_indicators(opioid_report_value_header);
+			this.indicators[$"{work_item.indicator_id} {work_item.field_id}"] = work_item;
+
 
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
 			
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref work_item, ref report_object, source_object);
-			report_object.data.Add(work_item);
+			this.indicators[$"{work_item.indicator_id} {work_item.field_id}"] = work_item;
 
 
 			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
@@ -362,7 +377,7 @@ namespace mmria.server.util
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
 			
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
-			report_object.data.Add(work_item);
+			this.indicators[$"{work_item.indicator_id} {work_item.field_id}"] = work_item;
 
 			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
@@ -378,6 +393,11 @@ namespace mmria.server.util
             this.popluate_mTimingofDeath(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 		
 			this.popluate_mSubstAutop(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+
+			foreach(var indicator_item in this.indicators)
+			{
+				report_object.data.Add(indicator_item.Value);
+			}
 /*
 			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
 			this.popluate_list(ref report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, ref report_object, source_object, "committee_review/pmss_mm", true);
@@ -1144,7 +1164,7 @@ death_certificate/Race/race = Other
 					curr.indicator_id = "mTimingofDeath";
 					curr.field_id = "MTimeD1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -1163,7 +1183,7 @@ death_certificate/Race/race = Other
 					curr.indicator_id = "mTimingofDeath";
 					curr.field_id = "MTimeD2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -1182,7 +1202,7 @@ death_certificate/Race/race = Other
 					curr.indicator_id = "mTimingofDeath";
 					curr.field_id = "MTimeD3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -1208,7 +1228,7 @@ death_certificate/Race/race = Other
 					curr.indicator_id = "mTimingofDeath";
 					curr.field_id = "MTimeD4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2089,7 +2109,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2108,7 +2128,8 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD2";
 					curr.value = 1;					
-					p_opioid_report_value_list.Add(curr);
+
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2129,7 +2150,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2149,7 +2170,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2168,7 +2189,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD5";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2189,7 +2210,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD6";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2218,7 +2239,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathSubAbuseEvi";
 					curr.field_id = "MEviSub1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2238,7 +2259,7 @@ MPregRel5	(Blank)
 					curr.indicator_id = "mDeathSubAbuseEvi";
 					curr.field_id = "MEviSub2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 			}
 			catch(Exception ex)
@@ -2273,7 +2294,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 					curr.indicator_id = "mEducation";
 					curr.field_id = "MEduc1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				else 
 				{
@@ -2284,7 +2305,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc1";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
 			}
@@ -2304,7 +2325,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 					curr.indicator_id = "mEducation";
 					curr.field_id = "MEduc2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				else 
 				{
@@ -2315,7 +2336,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc2";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
 			}
@@ -2335,7 +2356,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 					curr.indicator_id = "mEducation";
 					curr.field_id = "MEduc3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				else 
 				{
@@ -2346,7 +2367,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc3";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
 			}
@@ -2366,7 +2387,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 					curr.indicator_id = "mEducation";
 					curr.field_id = "MEduc4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				else 
 				{
@@ -2377,7 +2398,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc4";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
 			}
@@ -2408,7 +2429,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 					curr.indicator_id = "mHomeless";
 					curr.field_id = "MHomeless1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2428,7 +2449,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 					curr.indicator_id = "mHomeless";
 					curr.field_id = "MHomeless2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2448,7 +2469,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 					curr.indicator_id = "mHomeless";
 					curr.field_id = "MHomeless3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2468,7 +2489,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 					curr.indicator_id = "mHomeless";
 					curr.field_id = "MHomeless4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2511,7 +2532,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress1";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2532,7 +2553,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress2";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2553,7 +2574,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress3";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2574,7 +2595,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress4";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2595,7 +2616,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress5";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2616,7 +2637,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress6";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2637,7 +2658,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress7";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2659,7 +2680,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress8";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2680,7 +2701,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress9";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2702,7 +2723,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress10";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}				
@@ -2722,7 +2743,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mHxofEmoStress";
 						curr.field_id = "MEmoStress11";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -2752,7 +2773,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mHxofSubAbu";
 					curr.field_id = "MHxSub1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2773,7 +2794,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mHxofSubAbu";
 					curr.field_id = "MHxSub2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2795,7 +2816,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mHxofSubAbu";
 					curr.field_id = "MHxSub3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2823,7 +2844,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2842,7 +2863,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2861,7 +2882,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2880,7 +2901,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2899,7 +2920,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar5";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2919,7 +2940,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mIncarHx";
 					curr.field_id = "MHxIncar6";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2948,7 +2969,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2967,7 +2988,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -2986,7 +3007,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3005,7 +3026,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3024,7 +3045,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD5";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3044,7 +3065,7 @@ foreach(var item in val_list)
 					curr.indicator_id = "mLivingArrange";
 					curr.field_id = "MLivD6";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3079,7 +3100,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mMHTxTiming";
 						curr.field_id = "MMHTx1";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -3110,7 +3131,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mMHTxTiming";
 						curr.field_id = "MMHTx2";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -3141,7 +3162,7 @@ foreach(var item in val_list)
 						curr.indicator_id = "mMHTxTiming";
 						curr.field_id = "MMHTx3";
 						curr.value = 1;
-						p_opioid_report_value_list.Add(curr);
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
 					}
 				}
@@ -3244,7 +3265,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto1";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3265,7 +3286,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto2";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3286,7 +3307,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto3";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3307,7 +3328,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto4";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3328,7 +3349,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto5";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3349,7 +3370,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto6";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
@@ -3372,7 +3393,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto7";
 					curr.value = 1;
-					p_opioid_report_value_list.Add(curr);
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
 				
 			}
