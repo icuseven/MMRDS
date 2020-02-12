@@ -438,7 +438,9 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push("<div style='");
     if(style_object && style_object.prompt)
     {
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
+       // p_result.push(get_only_size_and_position_string(style_object.control.style));
+       p_result.push(get_style_string(style_object.control.style));
+       
     }
 
     p_result.push("'>");
@@ -562,7 +564,9 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         }
         p_result.push("</select>");
 
+        /*
         p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
+        
         p_result.push("<input id='"+p_metadata.name+"' class='list-control-input mt-1' placeholder='Specify Other' class='list' type='text3' name='");
         // p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='list' type='text3' name='");
         p_result.push(p_metadata.name);
@@ -591,6 +595,8 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)' />");
         }
+        */
+
         p_result.push("</label> </div> ");
 
 
@@ -661,6 +667,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
     //{
         // p_result.push("<label>");
+        /*
         p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
         p_result.push("<input placeholder='Specify Other' id='"+p_metadata.name+"' class='list-control-input mt-1' type='text3' name='");
         p_result.push(p_metadata.name);
@@ -689,7 +696,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)' /> ");
             // p_result.push("</label>");
-        }
+        }*/
         p_result.push("</div>");
         
     //}
