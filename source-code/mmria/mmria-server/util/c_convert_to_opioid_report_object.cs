@@ -6,6 +6,9 @@ namespace mmria.server.util
 {
 	public partial class c_convert_to_opioid_report_object
 	{
+
+		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
+
 		string source_json;
 
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
@@ -107,15 +110,125 @@ namespace mmria.server.util
 
 
 
+		private Dictionary<string, mmria.server.model.opioid_report_value_struct> get_zero_indicators()
+		{
+
+			mmria.server.model.opioid_report_value_struct get_new_struct(string p_indicator_field_id)
+			{
+				var result = new mmria.server.model.opioid_report_value_struct();
+				var keys = p_indicator_field_id.Split(" ");
+
+				if(keys.Length > 1)
+				{
+					result.indicator_id = keys[0];
+					result.field_id = keys[1];
+				}
+				result.value = 0;
+
+				return result;
+			}
+
+			var result = new Dictionary<string, mmria.server.model.opioid_report_value_struct>(StringComparer.OrdinalIgnoreCase); 
+
+			result.Add("mPregRelated MPregRel1", get_new_struct("mPregRelated MPregRel1"));
+			result.Add("mPregRelated MPregRel2", get_new_struct("mPregRelated MPregRel2"));
+			result.Add("mPregRelated MPregRel3", get_new_struct("mPregRelated MPregRel3"));
+			result.Add("mPregRelated MPregRel4", get_new_struct("mPregRelated MPregRel4"));
+			result.Add("mPregRelated MPregRel5", get_new_struct("mPregRelated MPregRel5"));
+			result.Add("mDeathsbyRaceEth MRaceEth3", get_new_struct("mDeathsbyRaceEth MRaceEth3"));
+			result.Add("mDeathsbyRaceEth MRaceEth4", get_new_struct("mDeathsbyRaceEth MRaceEth4"));
+			result.Add("mDeathsbyRaceEth MRaceEth5", get_new_struct("mDeathsbyRaceEth MRaceEth5"));
+			result.Add("mDeathsbyRaceEth MRaceEth6", get_new_struct("mDeathsbyRaceEth MRaceEth6"));
+			result.Add("mDeathsbyRaceEth MRaceEth7", get_new_struct("mDeathsbyRaceEth MRaceEth7"));
+			result.Add("mDeathsbyRaceEth MRaceEth8", get_new_struct("mDeathsbyRaceEth MRaceEth8"));
+			result.Add("mDeathsbyRaceEth MRaceEth9", get_new_struct("mDeathsbyRaceEth MRaceEth9"));
+			result.Add("mDeathsbyRaceEth MRaceEth10", get_new_struct("mDeathsbyRaceEth MRaceEth10"));
+			result.Add("mDeathsbyRaceEth MRaceEth11", get_new_struct("mDeathsbyRaceEth MRaceEth11"));
+			result.Add("mDeathsbyRaceEth MRaceEth12", get_new_struct("mDeathsbyRaceEth MRaceEth12"));
+			result.Add("mDeathsbyRaceEth MRaceEth13", get_new_struct("mDeathsbyRaceEth MRaceEth13"));
+			result.Add("mDeathsbyRaceEth MRaceEth14", get_new_struct("mDeathsbyRaceEth MRaceEth14"));
+			result.Add("mDeathsbyRaceEth MRaceEth15", get_new_struct("mDeathsbyRaceEth MRaceEth15"));
+			result.Add("mDeathsbyRaceEth MRaceEth16", get_new_struct("mDeathsbyRaceEth MRaceEth16"));
+			result.Add("mDeathsbyRaceEth MRaceEth17", get_new_struct("mDeathsbyRaceEth MRaceEth17"));
+			result.Add("mDeathsbyRaceEth MRaceEth18", get_new_struct("mDeathsbyRaceEth MRaceEth18"));
+			result.Add("mDeathsbyRaceEth MRaceEth1", get_new_struct("mDeathsbyRaceEth MRaceEth1"));
+			result.Add("mDeathsbyRaceEth MRaceEth2", get_new_struct("mDeathsbyRaceEth MRaceEth2"));
+			result.Add("mDeathsbyRaceEth MRaceEth20", get_new_struct("mDeathsbyRaceEth MRaceEth20"));
+			result.Add("mDeathsbyRaceEth MRaceEth19", get_new_struct("mDeathsbyRaceEth MRaceEth19"));
+			result.Add("mTimingofDeath MTimeD1", get_new_struct("mTimingofDeath MTimeD1"));
+			result.Add("mTimingofDeath MTimeD2", get_new_struct("mTimingofDeath MTimeD2"));
+			result.Add("mTimingofDeath MTimeD3", get_new_struct("mTimingofDeath MTimeD3"));
+			result.Add("mTimingofDeath MTimeD4", get_new_struct("mTimingofDeath MTimeD4"));
+			result.Add("mAgeatDeath MAgeD1", get_new_struct("mAgeatDeath MAgeD1"));
+			result.Add("mAgeatDeath MAgeD2", get_new_struct("mAgeatDeath MAgeD2"));
+			result.Add("mAgeatDeath MAgeD3", get_new_struct("mAgeatDeath MAgeD3"));
+			result.Add("mAgeatDeath MAgeD4", get_new_struct("mAgeatDeath MAgeD4"));
+			result.Add("mAgeatDeath MAgeD5", get_new_struct("mAgeatDeath MAgeD5"));
+			result.Add("mAgeatDeath MAgeD6", get_new_struct("mAgeatDeath MAgeD6"));
+			result.Add("mDeathCause MCauseD1", get_new_struct("mDeathCause MCauseD1"));
+			result.Add("mDeathCause MCauseD2", get_new_struct("mDeathCause MCauseD2"));
+			result.Add("mDeathCause MCauseD3", get_new_struct("mDeathCause MCauseD3"));
+			result.Add("mDeathCause MCauseD4", get_new_struct("mDeathCause MCauseD4"));
+			result.Add("mDeathCause MCauseD5", get_new_struct("mDeathCause MCauseD5"));
+			result.Add("mDeathCause MCauseD6", get_new_struct("mDeathCause MCauseD6"));
+			result.Add("mSubstAutop MSubAuto1", get_new_struct("mSubstAutop MSubAuto1"));
+			result.Add("mSubstAutop MSubAuto2", get_new_struct("mSubstAutop MSubAuto2"));
+			result.Add("mSubstAutop MSubAuto3", get_new_struct("mSubstAutop MSubAuto3"));
+			result.Add("mSubstAutop MSubAuto4", get_new_struct("mSubstAutop MSubAuto4"));
+			result.Add("mSubstAutop MSubAuto5", get_new_struct("mSubstAutop MSubAuto5"));
+			result.Add("mSubstAutop MSubAuto6", get_new_struct("mSubstAutop MSubAuto6"));
+			result.Add("mSubstAutop MSubAuto7", get_new_struct("mSubstAutop MSubAuto7"));
+			result.Add("mDeathSubAbuseEvi MEviSub1", get_new_struct("mDeathSubAbuseEvi MEviSub1"));
+			result.Add("mDeathSubAbuseEvi MEviSub2", get_new_struct("mDeathSubAbuseEvi MEviSub2"));
+			result.Add("mHxofSubAbu MHxSub1", get_new_struct("mHxofSubAbu MHxSub1"));
+			result.Add("mHxofSubAbu MHxSub2", get_new_struct("mHxofSubAbu MHxSub2"));
+			result.Add("mHxofSubAbu MHxSub3", get_new_struct("mHxofSubAbu MHxSub3"));
+			result.Add("mLivingArrange MLivD1", get_new_struct("mLivingArrange MLivD1"));
+			result.Add("mLivingArrange MLivD2", get_new_struct("mLivingArrange MLivD2"));
+			result.Add("mLivingArrange MLivD3", get_new_struct("mLivingArrange MLivD3"));
+			result.Add("mLivingArrange MLivD4", get_new_struct("mLivingArrange MLivD4"));
+			result.Add("mLivingArrange MLivD5", get_new_struct("mLivingArrange MLivD5"));
+			result.Add("mLivingArrange MLivD6", get_new_struct("mLivingArrange MLivD6"));
+			result.Add("mHomeless MHomeless1", get_new_struct("mHomeless MHomeless1"));
+			result.Add("mHomeless MHomeless2", get_new_struct("mHomeless MHomeless2"));
+			result.Add("mHomeless MHomeless3", get_new_struct("mHomeless MHomeless3"));
+			result.Add("mHomeless MHomeless4", get_new_struct("mHomeless MHomeless4"));
+			result.Add("mIncarHx MHxIncar1", get_new_struct("mIncarHx MHxIncar1"));
+			result.Add("mIncarHx MHxIncar2", get_new_struct("mIncarHx MHxIncar2"));
+			result.Add("mIncarHx MHxIncar3", get_new_struct("mIncarHx MHxIncar3"));
+			result.Add("mIncarHx MHxIncar4", get_new_struct("mIncarHx MHxIncar4"));
+			result.Add("mIncarHx MHxIncar5", get_new_struct("mIncarHx MHxIncar5"));
+			result.Add("mIncarHx MHxIncar6", get_new_struct("mIncarHx MHxIncar6"));
+			result.Add("mHxofEmoStress MEmoStress1", get_new_struct("mHxofEmoStress MEmoStress1"));
+			result.Add("mHxofEmoStress MEmoStress2", get_new_struct("mHxofEmoStress MEmoStress2"));
+			result.Add("mHxofEmoStress MEmoStress3", get_new_struct("mHxofEmoStress MEmoStress3"));
+			result.Add("mHxofEmoStress MEmoStress4", get_new_struct("mHxofEmoStress MEmoStress4"));
+			result.Add("mHxofEmoStress MEmoStress5", get_new_struct("mHxofEmoStress MEmoStress5"));
+			result.Add("mHxofEmoStress MEmoStress6", get_new_struct("mHxofEmoStress MEmoStress6"));
+			result.Add("mHxofEmoStress MEmoStress7", get_new_struct("mHxofEmoStress MEmoStress7"));
+			result.Add("mHxofEmoStress MEmoStress8", get_new_struct("mHxofEmoStress MEmoStress8"));
+			result.Add("mHxofEmoStress MEmoStress9", get_new_struct("mHxofEmoStress MEmoStress9"));
+			result.Add("mHxofEmoStress MEmoStress10", get_new_struct("mHxofEmoStress MEmoStress10"));
+			result.Add("mHxofEmoStress MEmoStress11", get_new_struct("mHxofEmoStress MEmoStress11"));
+			result.Add("mMHTxTiming MMHTx1", get_new_struct("mMHTxTiming MMHTx1"));
+			result.Add("mMHTxTiming MMHTx2", get_new_struct("mMHTxTiming MMHTx2"));
+			result.Add("mMHTxTiming MMHTx3", get_new_struct("mMHTxTiming MMHTx3"));
+
+			result.Add("mEducation MEduc1", get_new_struct("mEducation MEduc1"));
+			result.Add("mEducation MEduc2", get_new_struct("mEducation MEduc2"));
+			result.Add("mEducation MEduc3", get_new_struct("mEducation MEduc3"));
+			result.Add("mEducation MEduc4", get_new_struct("mEducation MEduc4"));
+
+			return result;
+
+		}
+
 		public string execute ()
 		{
 			string result = null;
 
 
-
-
 			
-
 			string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -151,6 +264,9 @@ namespace mmria.server.util
 			}
 
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
+
+
+			this.indicators = get_zero_indicators();
 
 			report_object = new mmria.server.model.c_opioid_report_object ();
 			report_object._id = get_value (source_object, "_id");
