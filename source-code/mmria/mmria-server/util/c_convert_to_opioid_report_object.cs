@@ -198,27 +198,33 @@ namespace mmria.server.util
 			result.Add("mSubstAutop MSubAuto5", get_new_struct("mSubstAutop MSubAuto5"));
 			result.Add("mSubstAutop MSubAuto6", get_new_struct("mSubstAutop MSubAuto6"));
 			result.Add("mSubstAutop MSubAuto7", get_new_struct("mSubstAutop MSubAuto7"));
+			result.Add("mSubstAutop MSubAuto8", get_new_struct("mSubstAutop MSubAuto8"));
 			result.Add("mDeathSubAbuseEvi MEviSub1", get_new_struct("mDeathSubAbuseEvi MEviSub1"));
 			result.Add("mDeathSubAbuseEvi MEviSub2", get_new_struct("mDeathSubAbuseEvi MEviSub2"));
+			result.Add("mDeathSubAbuseEvi MEviSub3", get_new_struct("mDeathSubAbuseEvi MEviSub3"));
 			result.Add("mHxofSubAbu MHxSub1", get_new_struct("mHxofSubAbu MHxSub1"));
 			result.Add("mHxofSubAbu MHxSub2", get_new_struct("mHxofSubAbu MHxSub2"));
 			result.Add("mHxofSubAbu MHxSub3", get_new_struct("mHxofSubAbu MHxSub3"));
+			result.Add("mHxofSubAbu MHxSub4", get_new_struct("mHxofSubAbu MHxSub4"));
 			result.Add("mLivingArrange MLivD1", get_new_struct("mLivingArrange MLivD1"));
 			result.Add("mLivingArrange MLivD2", get_new_struct("mLivingArrange MLivD2"));
 			result.Add("mLivingArrange MLivD3", get_new_struct("mLivingArrange MLivD3"));
 			result.Add("mLivingArrange MLivD4", get_new_struct("mLivingArrange MLivD4"));
 			result.Add("mLivingArrange MLivD5", get_new_struct("mLivingArrange MLivD5"));
 			result.Add("mLivingArrange MLivD6", get_new_struct("mLivingArrange MLivD6"));
+			result.Add("mLivingArrange MLivD7", get_new_struct("mLivingArrange MLivD7"));
 			result.Add("mHomeless MHomeless1", get_new_struct("mHomeless MHomeless1"));
 			result.Add("mHomeless MHomeless2", get_new_struct("mHomeless MHomeless2"));
 			result.Add("mHomeless MHomeless3", get_new_struct("mHomeless MHomeless3"));
 			result.Add("mHomeless MHomeless4", get_new_struct("mHomeless MHomeless4"));
+			result.Add("mHomeless MHomeless5", get_new_struct("mHomeless MHomeless5"));
 			result.Add("mIncarHx MHxIncar1", get_new_struct("mIncarHx MHxIncar1"));
 			result.Add("mIncarHx MHxIncar2", get_new_struct("mIncarHx MHxIncar2"));
 			result.Add("mIncarHx MHxIncar3", get_new_struct("mIncarHx MHxIncar3"));
 			result.Add("mIncarHx MHxIncar4", get_new_struct("mIncarHx MHxIncar4"));
 			result.Add("mIncarHx MHxIncar5", get_new_struct("mIncarHx MHxIncar5"));
 			result.Add("mIncarHx MHxIncar6", get_new_struct("mIncarHx MHxIncar6"));
+			result.Add("mIncarHx MHxIncar7", get_new_struct("mIncarHx MHxIncar7"));
 			result.Add("mHxofEmoStress MEmoStress1", get_new_struct("mHxofEmoStress MEmoStress1"));
 			result.Add("mHxofEmoStress MEmoStress2", get_new_struct("mHxofEmoStress MEmoStress2"));
 			result.Add("mHxofEmoStress MEmoStress3", get_new_struct("mHxofEmoStress MEmoStress3"));
@@ -230,14 +236,17 @@ namespace mmria.server.util
 			result.Add("mHxofEmoStress MEmoStress9", get_new_struct("mHxofEmoStress MEmoStress9"));
 			result.Add("mHxofEmoStress MEmoStress10", get_new_struct("mHxofEmoStress MEmoStress10"));
 			result.Add("mHxofEmoStress MEmoStress11", get_new_struct("mHxofEmoStress MEmoStress11"));
+			result.Add("mHxofEmoStress MEmoStress12", get_new_struct("mHxofEmoStress MEmoStress12"));
 			result.Add("mMHTxTiming MMHTx1", get_new_struct("mMHTxTiming MMHTx1"));
 			result.Add("mMHTxTiming MMHTx2", get_new_struct("mMHTxTiming MMHTx2"));
 			result.Add("mMHTxTiming MMHTx3", get_new_struct("mMHTxTiming MMHTx3"));
+			result.Add("mMHTxTiming MMHTx4", get_new_struct("mMHTxTiming MMHTx4"));
 
 			result.Add("mEducation MEduc1", get_new_struct("mEducation MEduc1"));
 			result.Add("mEducation MEduc2", get_new_struct("mEducation MEduc2"));
 			result.Add("mEducation MEduc3", get_new_struct("mEducation MEduc3"));
 			result.Add("mEducation MEduc4", get_new_struct("mEducation MEduc4"));
+			result.Add("mEducation MEduc5", get_new_struct("mEducation MEduc5"));
 
 			return result;
 
@@ -2167,6 +2176,25 @@ MPregRel5	(Blank)
 				System.Console.WriteLine (ex);
 			}
 
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathSubAbuseEvi";
+					curr.field_id = "MEviSub3";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 		private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -2632,6 +2660,37 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{
 				System.Console.WriteLine (ex);
 			}
+
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int >=6 && test_int <= 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc5";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 9999))
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc5";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 		}
 		private void popluate_mHomeless (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
@@ -2723,6 +2782,26 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 			{
 				System.Console.WriteLine (ex);
 			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless5";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 		}
 
@@ -2979,6 +3058,26 @@ foreach(var item in val_list)
 				System.Console.WriteLine (ex);
 			}
 
+			try
+			{	
+				foreach(string val_1 in val_string_list)
+				{
+					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mHxofEmoStress";
+						curr.field_id = "MEmoStress12";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						break;
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 		private void popluate_mHxofSubAbu (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3041,6 +3140,25 @@ foreach(var item in val_list)
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHxofSubAbu";
 					curr.field_id = "MHxSub3";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofSubAbu";
+					curr.field_id = "MHxSub4";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3154,6 +3272,26 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mIncarHx";
+					curr.field_id = "MHxIncar7";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mIncarHx	Incarceration History	MHxIncar6	Incarcerated 2 or more timepoints	6	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and Before Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy and After Pregnancy	(social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 2)  OR (social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 1) OR (social_and_environmental_profile/previous_or_current_incarcerations = 2 and social_and_environmental_profile/previous_or_current_incarcerations = 1)  OR (social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3))
 /*
 			try
@@ -3299,6 +3437,25 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mLivingArrange";
+					curr.field_id = "MLivD7";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 		}
 
 		private void popluate_mMHTxTiming (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3387,6 +3544,35 @@ foreach(var item in val_list)
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
 						curr.field_id = "MMHTx3";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						break;
+					}
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+				List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
+
+				List<string> val_string_list = new List<string>();
+
+				foreach(var item in val_list)
+				{
+					val_string_list.Add(item.ToString());
+				}
+				foreach(string val_1 in val_string_list)
+				{
+					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mMHTxTiming";
+						curr.field_id = "MMHTx4";
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 						break;
@@ -3618,6 +3804,27 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mSubstAutop";
 					curr.field_id = "MSubAuto7";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+				int test_int;
+				
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto8";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
