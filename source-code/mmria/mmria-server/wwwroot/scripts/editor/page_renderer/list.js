@@ -676,7 +676,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
         let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
         
-        p_post_html_render.push(" editable_list_set_visibility('" + p_data + "','" + d_path + "');");
+        p_post_html_render.push(" editable_list_set_visibility('" + p_data + "','" + p_object_path + "_other');");
         
         
 
@@ -725,8 +725,10 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push("</div>");
 }
 
-function editable_list_set_visibility(p_data, p_dpath)
+function editable_list_set_visibility(p_data, p_object_path)
 {
+
+    let query_path = convert_object_path_to_jquery_id(p_object_path);
     if
     (
         p_data == null || 
@@ -734,22 +736,24 @@ function editable_list_set_visibility(p_data, p_dpath)
         
     )
     {
-        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+        document.querySelector('div [id="' + query_path + '"]').style.visibility = "";
     }
     else if(p_data.indexOf("Other") == 0)
     {
-        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "hidden";
+        document.querySelector('div [id="' + query_path + '"]').style.visibility = "";
     }  
     else
     {
-        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
     }  
 }
 
 
-function editable_list_onchange(p_select_list, p_object_path, p_dpath)
+function editable_list_onchange(p_select_list, p_object_path)
 {
-    var current_value = eval(p_object_path);
+    
+    let query_path = convert_object_path_to_jquery_id(p_object_path);
+    let current_value = eval(p_object_path);
     if
     (
         current_value.indexOf("Other") == 0 &&
@@ -768,11 +772,11 @@ function editable_list_onchange(p_select_list, p_object_path, p_dpath)
     }
     else if(p_select_list.value.indexOf("Other") != 0)
     {
-        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "hidden";
+        document.querySelector('div [id="' + query_path + '_other"]').style.visibility = "hidden";
     }
     else
     {
-        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+        document.querySelector('div [id="' + query_path + '_other"]').style.visibility = "";
     }  
 }
 function editable_list_other_show_confirm(str) 
