@@ -507,6 +507,8 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
 
     p_result.push("  onchange='editable_list_onchange(this, \"");
+    p_result.push(p_object_path);
+    p_result.push("\",\"");
     p_result.push(d_path);
     p_result.push("\")' ");
 
@@ -631,15 +633,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             if(p_data == item.value)
             {
                 
-                let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
-                if(item.display.indexOf("Other") != 0)
-                {
-                    p_post_html_render.push(" document.querySelector('div input[dpath=\"" + d_path + "\"]').parentElement.style.visibility = 'hidden';");
-                }
-                else
-                {
-                    p_post_html_render.push(" document.querySelector('div input[dpath=\"" + d_path + "\"]').parentElement.style.visibility = '';");
-                }
+
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected>");
@@ -678,6 +672,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             }
         }
         p_result.push("</select> ");
+        
+
+        let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
+        
+        p_post_html_render.push(" editable_list_set_visibility('" + p_data + "','" + d_path + "');");
+        
         
 
     //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
@@ -725,9 +725,48 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push("</div>");
 }
 
-function editable_list_onchange(p_select_list, p_dpath)
+function editable_list_set_visibility(p_data, p_dpath)
 {
-    if(p_select_list.value.indexOf("Other") != 0)
+    if
+    (
+        p_data == null || 
+        p_data == ""  
+        
+    )
+    {
+        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+    }
+    else if(p_data.indexOf("Other") == 0)
+    {
+        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "hidden";
+    }  
+    else
+    {
+        document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "";
+    }  
+}
+
+
+function editable_list_onchange(p_select_list, p_object_path, p_dpath)
+{
+    var current_value = eval(p_object_path);
+    if
+    (
+        current_value.indexOf("Other") == 0 &&
+        p_select_list.value.indexOf("Other") != 0
+    )
+    {
+        let is_confirm = prompt("Are you sure?", "No");
+        if
+        (
+            is_confirm != null && 
+            is_confirm.toLocaleLowerCase() == "yes"
+        )
+        {
+
+        }
+    }
+    else if(p_select_list.value.indexOf("Other") != 0)
     {
         document.querySelector('div input[dpath="' + p_dpath + '"]').parentElement.style.visibility = "hidden";
     }

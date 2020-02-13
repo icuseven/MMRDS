@@ -972,6 +972,7 @@ function tally_case(p_save_case, p_case)
 }
 
 
+
 function traverse_case(p_case, p_call_back)
 {
     let all_cases = document.getElementById("all_cases").checked;
