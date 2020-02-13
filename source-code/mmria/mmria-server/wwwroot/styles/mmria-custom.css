@@ -425,8 +425,14 @@ ul {
   min-height: 100%; /* Helps auto height based on content flow */
 }
 
+
 .site-title + .site-content {
   margin-top: 10px;
+}
+
+.site-title-link:focus,
+.site-title-link:hover {
+  text-decoration: underline !important;
 }
 
 .body-wrapper {

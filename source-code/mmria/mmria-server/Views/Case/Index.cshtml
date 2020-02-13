@@ -139,7 +139,7 @@
                 // If there are 2 or more breadcrumb items, remove it
                 breadcrumbs.children().last().remove();
               }
-            }, 200);
+            }, 250);
           }
           // If hash isn't summary && doesn't include 'field_search' (quick edit page)
           else if (newHash !== '#/summary' && !newHash.includes('field_search'))
@@ -151,9 +151,9 @@
             setTimeout(() => {
               if (breadcrumbs.children().length < 2)
               {
-                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
+                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Summary</a></li>');
               }
-            }, 200);
+            }, 250);
           }
           // If hash isn't summary && includes 'field_search' (quick edit page)
           else if (newHash !== '#/summary' && newHash.includes('field_search'))
@@ -165,12 +165,12 @@
             setTimeout(() => {
               if (breadcrumbs.children().length < 2)
               {
-                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Case Listings</a></li>');
+                breadcrumbs.append('<li class="breadcrumb-item"><a href="#/summary">Summary</a></li>');
               }
-            }, 100);
+            }, 250);
           }
         }
-      }, 200);
+      }, 250);
     });
   </script>
 }
