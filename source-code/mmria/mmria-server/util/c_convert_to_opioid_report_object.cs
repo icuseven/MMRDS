@@ -182,6 +182,15 @@ namespace mmria.server.util
 			result.Add("mDeathCause MCauseD4", get_new_struct("mDeathCause MCauseD4"));
 			result.Add("mDeathCause MCauseD5", get_new_struct("mDeathCause MCauseD5"));
 			result.Add("mDeathCause MCauseD6", get_new_struct("mDeathCause MCauseD6"));
+			result.Add("mDeathCause MCauseD7", get_new_struct("mDeathCause MCauseD7"));
+			result.Add("mDeathCause MCauseD8", get_new_struct("mDeathCause MCauseD8"));
+			result.Add("mDeathCause MCauseD9", get_new_struct("mDeathCause MCauseD9"));
+			result.Add("mDeathCause MCauseD10", get_new_struct("mDeathCause MCauseD10"));
+			result.Add("mDeathCause MCauseD11", get_new_struct("mDeathCause MCauseD11"));
+			result.Add("mDeathCause MCauseD12", get_new_struct("mDeathCause MCauseD12"));
+			result.Add("mDeathCause MCauseD13", get_new_struct("mDeathCause MCauseD13"));
+			result.Add("mDeathCause MCauseD14", get_new_struct("mDeathCause MCauseD14"));
+			result.Add("mDeathCause MCauseD15", get_new_struct("mDeathCause MCauseD15"));
 			result.Add("mSubstAutop MSubAuto1", get_new_struct("mSubstAutop MSubAuto1"));
 			result.Add("mSubstAutop MSubAuto2", get_new_struct("mSubstAutop MSubAuto2"));
 			result.Add("mSubstAutop MSubAuto3", get_new_struct("mSubstAutop MSubAuto3"));
@@ -2111,134 +2120,6 @@ MPregRel5	(Blank)
             }
         }
 */
-		private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
-		{
-
-				int test_int;
-
-//mDeathCause	MCauseD1	Mental Health Conditions	1	committee_review/did_mental_health_conditions_contribute_to_the_death = yes	committee_review/did_mental_health_conditions_contribute_to_the_death = 1
-
-			try
-			{	
-
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-//mDeathCause	MCauseD2	Not Mental Health Conditions	2	committee_review/did_mental_health_conditions_contribute_to_the_death = No	committee_review/did_mental_health_conditions_contribute_to_the_death = 0
-			try
-			{	
-
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD2";
-					curr.value = 1;					
-
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-//mDeathCause	MCauseD3	Substance Use Disorder	3	committee_review/did_substance_use_disorder_contribute_to_the_death = Yes	committee_review/did_substance_use_disorder_contribute_to_the_death = 1
-
-
-			try
-			{	
-
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-//mDeathCause	MCauseD4	Not Substance Use Disorder	4	committee_review/did_substance_use_disorder_contribute_to_the_death = No	committee_review/did_substance_use_disorder_contribute_to_the_death = 0
-
-			try
-			{	
-				
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-//mDeathCause	MCauseD5	Was Suicide	5	committee_review/was_this_death_a_suicide = Yes	committee_review/was_this_death_a_suicide = 1
-			try
-			{	
-				
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_suicide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD5";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-//mDeathCause	MCauseD6	Not Suicide	6	committee_review/was_this_death_a_suicide = No	committee_review/was_this_death_a_suicide = 0
-
-			try
-			{	
-				
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_suicide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD6";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-		}
-
 
 		private void popluate_mDeathSubAbuseEvi (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
@@ -2285,6 +2166,332 @@ MPregRel5	(Blank)
 			{
 				System.Console.WriteLine (ex);
 			}
+
+		}
+
+		private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+				int test_int;
+
+
+//mDeathCause	MCauseD1	Mental Health Conditions - Yes	1	committee_review/did_mental_health_conditions_contribute_to_the_death = yes	committee_review/did_mental_health_conditions_contribute_to_the_death = 1
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD1";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
+//mDeathCause	MCauseD2	Mental Health Conditions - No	2	committee_review/did_mental_health_conditions_contribute_to_the_death = No	committee_review/did_mental_health_conditions_contribute_to_the_death = 0
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD2";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
+//mDeathCause	MCauseD3	Mental Health Conditions - Possibly	3	committee_review/did_mental_health_conditions_contribute_to_the_death = Probably	committee_review/did_mental_health_conditions_contribute_to_the_death = 2
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD3";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
+//mDeathCause	MCauseD4	Mental Health Conditions - Unknown	4	committee_review/did_mental_health_conditions_contribute_to_the_death = Unknown	committee_review/did_mental_health_conditions_contribute_to_the_death = 7777
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD4";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
+//mDeathCause	MCauseD5	Mental Health Conditions - Blank	5	committee_review/did_mental_health_conditions_contribute_to_the_death = Blank	committee_review/did_mental_health_conditions_contribute_to_the_death = 9999
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD5";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD6	Substance Use Disorder - Yes	6	committee_review/did_substance_use_disorder_contribute_to_the_death = Yes	committee_review/did_substance_use_disorder_contribute_to_the_death = 1
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD6";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD7	Substance Use Disorder - No	7	committee_review/did_substance_use_disorder_contribute_to_the_death = No	committee_review/did_substance_use_disorder_contribute_to_the_death = 0
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD7";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD8	Mental Health Conditions-Possibly - Possibly	8	committee_review/did_substance_use_disorder_contribute_to_the_death = Probably	committee_review/did_substance_use_disorder_contribute_to_the_death = 2
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD8";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD9	Mental Health Conditions - Unknown	9	committee_review/did_substance_use_disorder_contribute_to_the_death  = Unknown	committee_review/did_substance_use_disorder_contribute_to_the_death  = 7777
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD9";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD10	Mental Health Conditions - Blank	10	committee_review/did_substance_use_disorder_contribute_to_the_death  = Blank	committee_review/did_substance_use_disorder_contribute_to_the_death  = 9999
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD10";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
+//mDeathCause	MCauseD11	Suicide - Yes	11	committee_review/was_this_death_a_sucide = Yes	committee_review/was_this_death_a_sucde = 1
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD11";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD12	Suicide - No	12	committee_review/was_this_death_a_sucide = No	committee_review/was_this_death_a_sucide = 0
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD12";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD13	Suicide - Possibly	13	committee_review/was_this_death_a_sucide = Probably	committee_review/was_this_death_a_sucide = 2
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD13";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD14	Suicide - Unknown	14	committee_review/was_this_death_a_sucide  = Unknown	committee_review/was_this_death_a_sucide  = 7777
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD14";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD15	Suicide - Blank	15	committee_review/was_this_death_a_sucide  = Blank	committee_review/was_this_death_a_sucide  = 9999
+
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD15";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 		}
 
