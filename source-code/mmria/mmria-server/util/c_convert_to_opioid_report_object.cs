@@ -1981,22 +1981,26 @@ MPregRel5	(Blank)
 						case "0":
 							//p_report_object.mPregRelated.pregnancy_associated_but_not_related = 1;
 							p_opioid_report_value.field_id = "MPregRel2";
+							p_opioid_report_value.pregnancy_related = 0;
 						break;
 						case "Not Pregnancy Related or Associated (i.e. False Positive)":
 						case "Not Pregnancy-Related or -Associated (i.e. False Positive)":
 						case "99":
 							//p_report_object.mPregRelated.not_pregnancy_related_or_associated = 1;
 							p_opioid_report_value.field_id = "MPregRel4";
+							p_opioid_report_value.pregnancy_related = 99;
 						break;
 						case "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness":
 						case "Unable to Determine if Pregnancy Related or Associated":
 						case "2":
 							//p_report_object.mPregRelated.unable_to_determine = 1;
 							p_opioid_report_value.field_id = "MPregRel3";
+							p_opioid_report_value.pregnancy_related = 2;
 						break;
 						default:
 							//p_report_object.mPregRelated.blank = 1;
 							p_opioid_report_value.field_id = "MPregRel5";
+							p_opioid_report_value.pregnancy_related = 9999;
 						break;
 					}
 
@@ -2005,6 +2009,7 @@ MPregRel5	(Blank)
 				{
 					//p_report_object.mPregRelated.blank = 1;
 					p_opioid_report_value.field_id = "MPregRel5";
+					p_opioid_report_value.pregnancy_related = 9999;
 				}
 			}
 			catch(Exception ex)
