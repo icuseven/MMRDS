@@ -852,6 +852,8 @@ function editable_list_other_callback(confirm, p_object_path)
     else
     {
         // console.log('false');
+        editable_list_other.attr('style', 'visibility: visible'); // If user cancels, make it visible
+        editable_list_other.find('input').focus(); // Then focus on the input
 
         return false; // Returns false and does nothing
     }
