@@ -720,8 +720,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     }
 
-    p_result.push(`<button onclick="editable_list_other_show_confirm('${p_dictionary_path}')">Test modal</button>`);
-    p_result.push(`${render_editable_list_confirm_modal(p_metadata, p_dictionary_path)}`);
+    p_result.push(`${render_editable_list_confirm_modal(p_metadata, p_object_path)}`);
     p_result.push("</div>");
 }
 
@@ -754,21 +753,25 @@ function editable_list_onchange(p_select_list, p_object_path)
     
     let query_path = convert_object_path_to_jquery_id(p_object_path);
     let current_value = eval(p_object_path);
+
     if
     (
         current_value.indexOf("Other") == 0 &&
         p_select_list.value.indexOf("Other") != 0
     )
     {
-        let is_confirm = prompt("Are you sure?", "No");
-        if
-        (
-            is_confirm != null && 
-            is_confirm.toLocaleLowerCase() == "yes"
-        )
-        {
+        // let is_confirm = prompt("Are you sure?", "No");
+        // if
+        // (
+        //     // is_confirm != null && 
+        //     // is_confirm.toLocaleLowerCase() == "yes"
+        // )
+        // {
 
-        }
+        // }
+
+        editable_list_events(p_object_path, editable_list_other_callback);
+
     }
     else if(p_select_list.value.indexOf("Other") != 0)
     {
@@ -779,27 +782,109 @@ function editable_list_onchange(p_select_list, p_object_path)
         document.querySelector('div [id="' + query_path + '_other"]').style.visibility = "";
     }  
 }
-function editable_list_other_show_confirm(str) 
+
+function editable_list_events(p_object_path, callback)
 {
-    const newStr = str.split('/').join('_').substring(1);
-    $('#' + newStr).modal('show');
-}
-function editable_list_other_hide_confirm(str) 
-{
-    const newStr = str.split('/').join('_').substring(1);
-    $('#' + newStr).modal('hide');
+    let selector = p_object_path.split('.').join('_').replace('[', '_').replace(']', '_') + '_modal';
+
+    // Show the modal by default on function init
+    // ex selector: g_data_autopsy_report_toxicology_0__substance_modal
+    $('#' + selector).modal('show');
+    $('#' + selector).show();
+    
+    // If clicked on confirm button
+    $('#' + selector + ' .modal-confirm').on('click', function () {
+        // console.log('confirmed');
+
+        callback(true, p_object_path);
+    });
+
+    // If clicked on cancel button
+    $('#' + selector + ' .modal-cancel').on('click', function () {
+        // console.log('canceled');
+
+        callback(false, p_object_path);
+    });
+
+    // If clicked on X button
+    $('#' + selector + ' button.close').on('click', function () {
+        // console.log('X canceled');
+        
+        callback(false, p_object_path);
+    });
+
+    // If clicked anywhere on document
+    $(document).on('click', function(event) {
+        const container = $('#' + selector + ' .modal-content'); // find the modal content container
+
+        // if clicked on anywhere outside container &&
+        // container doesn't have a click event binded &&
+        // modal is ACTIVE
+        if
+        (
+            !container.is(event.target) &&
+            container.has(event.target).length === 0 &&
+            $('body').hasClass('modal-open')
+        ){
+            // console.log('clicked outside'); // X clicked
+
+            callback(false, p_object_path);
+        }
+    });
 }
 
 
-function render_editable_list_confirm_modal(p_metadata, p_dictionary_path) 
+// Callback that returns true or false
+function editable_list_other_callback(confirm, p_object_path)
 {
-    const path = p_dictionary_path.split('/').join('_').substring(1);
+    let query_path = convert_object_path_to_jquery_id(p_object_path);
+    let editable_list_other = $(`#${query_path}_other`);
+
+    editable_list_other_hide_all_confirm(); // Hide all modals because regardless, we want to hide it
+
+    if (confirm)
+    {
+        // console.log('true');
+        editable_list_other.find('input').val(''); // set our other input's value to an empty string
+        
+        return true; // Returns true and does something unique
+    }
+    else
+    {
+        // console.log('false');
+
+        return false; // Returns false and does nothing
+    }
+}
+
+
+// Function to simply hide and deactivate the modal
+function editable_list_other_hide_all_confirm()
+{
+    $('.modal').modal('hide') // Closes all active modals showing
+    $('.modal').hide() // Closes all active modals showing
+    $('.modal-backdrop').remove() // Removes the modal backdrop/overlay
+    $('body').removeClass('modal-open');
+    $('body').removeAttr('style');
+}
+
+
+// Function to create and render the modal
+// Gets populated with the correct information
+// TODO: Make it singular and a global component we call/init. Not pretty and base case scenario but for now it works
+function render_editable_list_confirm_modal(p_metadata, p_object_path) 
+{
+    const path = p_object_path.split('.').join('_').replace('[', '_').replace(']', '_');
     const modal_ui = [];
 
-    console.log(path);
+    // Get the current selected option
+    const selected_option = $('#' + path).find('select').val();
+
+    // Get the other text control's inner text value
+    const label = $('#' + path + '_other label').text();
     
     modal_ui.push(`
-        <div id="${path}" class="modal fade" tabindex="-1" role="dialog">
+        <div id="${path}_modal" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
@@ -807,11 +892,11 @@ function render_editable_list_confirm_modal(p_metadata, p_dictionary_path)
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to change the <strong>${capitalizeFirstLetter(p_metadata.name)}</strong> selection from <strong>${capitalizeFirstLetter(p_metadata.name)}</strong> to <strong>{selected option}</strong>? The text in the <strong>{Other_Prompt_Label}}</strong> textbox will be cleared.</p>
+                        <p>Are you sure you want to change the <strong>${capitalizeFirstLetter(p_metadata.name)}</strong> selection from <strong>Other</strong> to <strong>${selected_option}</strong>? The text in the <strong>${label}</strong> textbox will be cleared.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary flex-order-1 ml-0 mr-2">Yes, change my selection</button>
+                        <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2">Yes, change my selection</button>
                     </div>
                 </div>
             </div>
