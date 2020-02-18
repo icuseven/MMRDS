@@ -760,7 +760,7 @@ function editable_list_onchange(p_select_list, p_object_path)
         p_select_list.value.indexOf("Other") != 0
     )
     {
-        editable_list_events(p_object_path, editable_list_other_callback);
+        editable_list_events(p_select_list, p_object_path, editable_list_other_callback);
 
     }
     else if(p_select_list.value.indexOf("Other") != 0)
@@ -773,7 +773,7 @@ function editable_list_onchange(p_select_list, p_object_path)
     }  
 }
 
-function editable_list_events(p_object_path)
+function editable_list_events(p_select_list, p_object_path)
 {
     let selector = p_object_path.split('.').join('_').replace('[', '_').replace(']', '_') + '_modal';
 
@@ -786,21 +786,21 @@ function editable_list_events(p_object_path)
     $('#' + selector + ' .modal-confirm').on('click', function () {
         // console.log('confirmed');
 
-        editable_list_other_callback(true, p_object_path);
+        editable_list_other_callback(p_select_list, true, p_object_path);
     });
 
     // If clicked on cancel button
     $('#' + selector + ' .modal-cancel').on('click', function () {
         // console.log('canceled');
 
-        editable_list_other_callback(false, p_object_path);
+        editable_list_other_callback(p_select_list, false, p_object_path);
     });
 
     // If clicked on X button
     $('#' + selector + ' button.close').on('click', function () {
         // console.log('X canceled');
         
-        editable_list_other_callback(false, p_object_path);
+        editable_list_other_callback(p_select_list, false, p_object_path);
     });
 
     // If clicked anywhere on document
@@ -827,7 +827,7 @@ function editable_list_events(p_object_path)
 
 
 // Callback that returns true or false
-function editable_list_other_callback(confirm, p_object_path)
+function editable_list_other_callback(p_select_list, confirm, p_object_path)
 {
     let query_path = convert_object_path_to_jquery_id(p_object_path);
     let editable_list_other = $(`#${query_path}_other`);
@@ -838,15 +838,17 @@ function editable_list_other_callback(confirm, p_object_path)
     {
         // console.log('true');
         editable_list_other.find('input').val(''); // set our other input's value to an empty string
-        
+        editable_list_other.find('input').onblur();
         return true; // Returns true and does something unique
     }
     else
     {
         // console.log('false');
         editable_list_other.attr('style', 'visibility: visible'); // If user cancels, make it visible
-        editable_list_other.find('input').focus(); // Then focus on the input
-
+        //editable_list_other.find('input').focus(); // Then focus on the input
+        p_select_list.selectedIndex = p_select_list.options.length -1;
+        //p_select_list.value = p_select_list.options[p_select_list.options.length -1];
+        p_select_list.onblur();
         return false; // Returns false and does nothing
     }
 }
