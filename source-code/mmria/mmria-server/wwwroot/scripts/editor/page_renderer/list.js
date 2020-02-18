@@ -837,8 +837,9 @@ function editable_list_other_callback(p_select_list, confirm, p_object_path)
     if (confirm)
     {
         // console.log('true');
-        editable_list_other.find('input').val(''); // set our other input's value to an empty string
-        editable_list_other.find('input').onblur();
+        let control = editable_list_other.find('input')[0];
+        control.value = ""; 
+        control.onblur();
         return true; // Returns true and does something unique
     }
     else
