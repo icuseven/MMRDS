@@ -760,16 +760,6 @@ function editable_list_onchange(p_select_list, p_object_path)
         p_select_list.value.indexOf("Other") != 0
     )
     {
-        // let is_confirm = prompt("Are you sure?", "No");
-        // if
-        // (
-        //     // is_confirm != null && 
-        //     // is_confirm.toLocaleLowerCase() == "yes"
-        // )
-        // {
-
-        // }
-
         editable_list_events(p_object_path, editable_list_other_callback);
 
     }
@@ -783,7 +773,7 @@ function editable_list_onchange(p_select_list, p_object_path)
     }  
 }
 
-function editable_list_events(p_object_path, callback)
+function editable_list_events(p_object_path)
 {
     let selector = p_object_path.split('.').join('_').replace('[', '_').replace(']', '_') + '_modal';
 
@@ -796,24 +786,25 @@ function editable_list_events(p_object_path, callback)
     $('#' + selector + ' .modal-confirm').on('click', function () {
         // console.log('confirmed');
 
-        callback(true, p_object_path);
+        editable_list_other_callback(true, p_object_path);
     });
 
     // If clicked on cancel button
     $('#' + selector + ' .modal-cancel').on('click', function () {
         // console.log('canceled');
 
-        callback(false, p_object_path);
+        editable_list_other_callback(false, p_object_path);
     });
 
     // If clicked on X button
     $('#' + selector + ' button.close').on('click', function () {
         // console.log('X canceled');
         
-        callback(false, p_object_path);
+        editable_list_other_callback(false, p_object_path);
     });
 
     // If clicked anywhere on document
+    /*
     $(document).on('click', function(event) {
         const container = $('#' + selector + ' .modal-content'); // find the modal content container
 
@@ -828,9 +819,10 @@ function editable_list_events(p_object_path, callback)
         ){
             // console.log('clicked outside'); // X clicked
 
-            callback(false, p_object_path);
+            editable_list_other_callback(false, p_object_path);
         }
     });
+    */
 }
 
 
