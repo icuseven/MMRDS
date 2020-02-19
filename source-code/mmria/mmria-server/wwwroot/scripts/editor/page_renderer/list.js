@@ -754,10 +754,17 @@ function editable_list_onchange(p_select_list, p_object_path)
     let query_path = convert_object_path_to_jquery_id(p_object_path);
     let current_value = eval(p_object_path);
 
+
+    
+    let editable_list_other = $(`#${query_path}_other`);
+    let control = editable_list_other.find('input')[0];
+    let control_value = control.value; 
+
     if
     (
         current_value.indexOf("Other") == 0 &&
-        p_select_list.value.indexOf("Other") != 0
+        p_select_list.value.indexOf("Other") != 0  &&
+        (control_value!= null && control_value != "")
     )
     {
         editable_list_events(p_select_list, p_object_path, editable_list_other_callback);
