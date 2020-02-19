@@ -902,6 +902,122 @@ function get_value(p_path, p_data)
 }
 
 
+function set_value(p_data, p_metadata, p_path, p_target_path, p_target_data)
+{
+    let is_changed = false;
+
+
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "form":
+            if
+            (
+                p_metadata.cardinality == "+" ||
+                p_metadata.cardinality == "*"
+            )
+            {
+                if(Array.isArray(p_data))
+                {
+                    for(let j = 0; j < p_data.length; j++)
+                    {
+                        for(let i = 0; i < p_metadata.children.length; i++)
+                        {
+                            let child = p_metadata.children[i];
+                            //let data_child = p_data[j][child.name];
+                            if(p_data[j][child.name])
+                            {
+                                if(child.children != null)
+                                {
+                                    is_changed = is_changed || set_value(p_data[j][child.name], child, p_path + "/" + child.name, p_target_path, p_target_data);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+                    //let data_child = p_data[child.name];
+                    if(p_data[child.name])
+                    {
+                        if(child.children != null)
+                        {
+                            set_value(p_data[child.name], child, p_path + "/" + child.name, p_target_path, p_target_data);
+                        }
+                    }
+                }
+            }
+            break;
+        case "app":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                //let data_child = p_data[child.name];
+                if(p_data[child.name])
+                {
+                    if(child.children != null)
+                    {
+                        is_changed = is_changed || set_value(p_data[child.name], child, p_path + "/" + child.name, p_target_path, p_target_data);
+                    }
+                }
+            }
+            break;
+        case "group":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                //let data_child = p_data[child.name];
+                if(p_data[child.name])
+                {
+                    if(child.children != null)
+                    {
+                        is_changed = is_changed || set_value(p_data[child.name], child, p_path + "/" + child.name, p_target_path, p_target_data);
+                    }
+                }
+            }
+            break;
+        case "grid":
+            for(let j = 0; j < p_data.length; j++)
+            {
+                let grid_item = p_data[j];
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+
+                    let child = p_metadata.children[i];
+                    //let data_child = p_data[child.name];
+                    if(grid_item[child.name])
+                    {
+                        if(child.children != null)
+                        {
+                            is_changed = is_changed || set_value(grid_item[child.name], child, p_path + "/" + child.name, p_target_path, p_target_data);
+                        }
+                    }
+                }
+            }
+            break;
+        default:
+            if(p_path.toLowerCase() == p_target_path.toLowerCase())
+            {
+                p_data = p_target_data;
+                is_changed = true;
+            }
+            break;
+
+    }
+}
+
+
+/*
+"autopsy_report/toxicology/substance"
+"prenatal/substance_use_grid/substance"
+"medical_transport/origin_information/place_of_origin"
+"social_and_environmental_profile/if_yes_specify_substances/substance"
+*/
+
 function migrate_cases_click()
 {
     let el = document.getElementById("output");
