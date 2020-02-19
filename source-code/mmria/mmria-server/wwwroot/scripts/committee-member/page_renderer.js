@@ -931,16 +931,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
            break;
 	case 'date':
-	
-			if(p_metadata.name == "date_of_screening")
+			if (p_metadata.name == "date_of_screening")
 			{
 				console.log("break");
 			}
+
 			result.push("<div class='date' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
-			
 			result.push("'> ");
 			result.push("<span ");
+
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -952,7 +952,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(">");
 			}
 			
-
 			result.push(p_metadata.prompt);
 
 			/*
@@ -971,7 +970,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
+
 			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
+
 			if(de_identified_list[dictionary_path] && de_identified_list[dictionary_path] == true)
 			{
 				result.push("de-identified");
@@ -983,8 +984,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			result.push("</div>");
+			break;
 
-			 break;	
 	case 'datetime':
 	/*
 			if(typeof(p_data) == "string")

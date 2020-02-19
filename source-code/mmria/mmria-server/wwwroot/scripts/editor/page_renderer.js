@@ -4,29 +4,35 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	var stack = [];
 	var result = [];
 
-
 	switch(p_metadata.type.toLowerCase())
-  	{
+	{
 		case 'grid':
 			grid_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'group':
 			group_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'form':
 			form_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'app':
 			app_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'label':
 			label_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'button':
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			break;
+
 		case 'string':
 			let string_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -45,8 +51,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 		case 'address':
 		case 'textarea':
-			
 			let textarea_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -62,8 +68,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			textarea_render(result, p_metadata, textarea_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'number':
 			let number_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -79,8 +87,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}			
 			number_render(result, p_metadata, number_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'boolean':
 			let boolean_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -96,8 +106,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}				
 			boolean_render(result, p_metadata, boolean_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'list':
 			let list_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -113,8 +125,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}				
 			list_render(result, p_metadata, list_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'date':
 			let date_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -127,11 +141,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					date_data = mirror_object;
 				}
-			}			
+			}
 			date_render(result, p_metadata, date_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
-			break;	
+			break;
+
 		case 'datetime':
 			let datetime_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -147,8 +163,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}			
 			datetime_render(result, p_metadata, datetime_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'time':
 			let time_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -164,14 +182,18 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}			
 			time_render(result, p_metadata, time_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'chart':
 			chart_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
-			break;			
+			break;		
+
 		case 'hidden':
 			hidden_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
+
 		case 'jurisdiction':
 			let jurisdiction_data = p_data;
+
 			if
 			(
 				p_metadata.mirror_reference &&
@@ -186,24 +208,23 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 			}
 			user_jurisdiction_render(result, p_metadata, jurisdiction_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
-			break;						
+			break;
+
 		default:
 			console.log("page_render not processed", p_metadata);
 			break;
 	}
 
 	return result;
-
 }
+
 
 function get_style_string(p_style_string)
 {
-
 	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
 	var result = p_style_string.substring(1);
 
 	result = result.replace(/["']/g, "").replace("{","").replace("}","").replace(/,/g, ";");
-
 
 	return result;
 }
@@ -217,12 +238,10 @@ function get_grid_style_string(p_grid_style_string, p_style_string)
 	var grid_left = null;
 	var other_top = null;
 	var other_left = null;
-
-
 	var new_top = null;
 	var new_left = null;
-
 	var match = top_regex.exec(p_grid_style_string);
+
 	grid_top = new Number(match[1]);
 	match = left_regex.exec(p_grid_style_string);
 	grid_left = new Number(match[1]);
@@ -231,10 +250,10 @@ function get_grid_style_string(p_grid_style_string, p_style_string)
 	match = left_regex.exec(p_style_string);
 	other_left = new Number(match[1]);
 	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
+
 	var result = p_style_string.substring(1);
 
 	result = result.replace(/["']/g, "").replace("{","").replace("}","").replace(/,/g, ";");
-
 
 	return result;
 }
@@ -242,7 +261,6 @@ function get_grid_style_string(p_grid_style_string, p_style_string)
 
 function convert_dictionary_path_to_array_field(p_path)
 {
-
 	//g_data.prenatal.routine_monitoring.systolic_bp
 	//er_visit_and_hospital_medical_records/vital_signs/date_and_time
 	//er_visit_and_hospital_medical_records[current_index]/vital_signs[]/date_and_time
@@ -257,12 +275,13 @@ function convert_dictionary_path_to_array_field(p_path)
 
 	var result = []
 	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".");
-	
 	var multi_form_check = temp.split(".") ;
 	var check_path = eval(multi_form_check[0] + "." + multi_form_check[1]);
+
 	if(Array.isArray(check_path))
 	{
 		var new_path = [];
+
 		for(var i = 0; i < multi_form_check.length; i++)
 		{
 			
@@ -277,12 +296,14 @@ function convert_dictionary_path_to_array_field(p_path)
 		}
 		var path = new_path.join('.');
 		var index = path.lastIndexOf('.');
+
 		result.push(path.substr(0, index));
 		result.push(path.substr(index + 1, path.length - (index + 1)));
 	}
 	else
 	{
 		var index = temp.lastIndexOf('.');
+
 		result.push(temp.substr(0, index));
 		result.push(temp.substr(index + 1, temp.length - (index + 1)));
 	}
@@ -293,12 +314,12 @@ function convert_dictionary_path_to_array_field(p_path)
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {
-
 	//g_data.prenatal.routine_monitoring.systolic_bp
 	var result = null;
 	var temp_result = []
 	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 	var index = temp.lastIndexOf('.');
+
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
@@ -347,7 +368,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 				p_result.push(" readonly='true' ");
 	}
 
-
 	p_result.push(" style='");
 
 	// Apply styles only to non button types
@@ -356,9 +376,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	{
 		p_result.push(get_style_string(style_object.control.style));
 	}
+
 	p_result.push("' ");
-
-
 	p_result.push(" class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	
@@ -421,6 +440,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		{
 			p_result.push("' type='hidden' name='");
 		}
+		else if (p_metadata.type.toLowerCase() == "date")
+		{
+			p_result.push("' type='date' name='");
+		}
 		else
 		{
 			p_result.push("' type='text' name='");
@@ -438,7 +461,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			{
 				p_result.push(p_data);
 			}
-			
 		}
 		p_result.push("' ");
 
@@ -451,6 +473,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		)
 		{
 			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+
 			if(path_to_onfocus_map[p_metadata_path])
 			{
 				page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
@@ -998,29 +1021,23 @@ function get_data_object_for_mirror(p_mirror_reference)
 
 function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 {
-
-	
-
-	let result = null;
-	let height = null;
-	let top = null;
-	
-	let child = p_metadata.children[p_metadata.children.length -1];
-	let dictionary_path = p_dictionary_path + "/" + child.name;
-
-	let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
-
-	let specicification_style_string = style_object.control.style;
-
-    let properly_formated_style = specicification_style_string;
+		let result = null;
+		let height = null;
+		let top = null;
+		let child = p_metadata.children[p_metadata.children.length -1];
+		let dictionary_path = p_dictionary_path + "/" + child.name;
+		let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
+		let specicification_style_string = style_object.control.style;
+		let properly_formated_style = specicification_style_string;
+		
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
-	let items = properly_formated_style.split(";")
-	let height_is_found = false;
-	let top_is_found = false;
+		let items = properly_formated_style.split(";")
+		let height_is_found = false;
+		let top_is_found = false;
 	
     for(let i = 0; i < items.length && (!height_is_found || !top_is_found); i++)
     {
@@ -1040,6 +1057,7 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 				}
 				height_is_found = true;
 				break;
+
 			case "top":
 				value = pair[1].trim();
 				if(/px$/.test(value))
@@ -1052,9 +1070,10 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 				}
 				top_is_found = true;
 				break;
-			defalut:
-                break;
-        }
+				
+			default:
+				break;
+			}
     }
 
 	if(height_is_found && top_is_found)
@@ -1064,5 +1083,5 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 		result = result + "px";
 	}
 
-    return result;
+	return result;
 }
