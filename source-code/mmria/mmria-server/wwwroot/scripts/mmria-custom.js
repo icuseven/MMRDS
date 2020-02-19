@@ -85,3 +85,29 @@ function init_content_loader(callback) {
 		spinner.removeClass('spinner-active');
 	}, 500);
 }
+
+function init_spinner_promise(type)
+{
+	return new Promise((resolve, error) => {
+		switch (type)
+		{
+			case 'inline':
+				const spinner = $(event.target).siblings('.spinner-inline');
+				spinner.addClass('spinner-active');
+
+				setTimeout(() => {
+					if (spinner.hasClass('spinner-active'))
+					{
+						spinner.removeClass('spinner-active');
+
+						resolve();
+					}
+					else
+					{
+						error('Something happened, please try again');
+					}
+				}, 500)
+				break;
+		}
+	})
+}
