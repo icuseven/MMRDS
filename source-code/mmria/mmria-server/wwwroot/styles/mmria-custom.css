@@ -726,7 +726,8 @@ button.link {
   position: relative;
   width: 50px;
 
-  animation: spin-rotate 2s ease-in-out infinite;
+  /* animation: spin-rotate 2s ease-in-out infinite; */
+  animation: spin-rotate 2s cubic-bezier(0.71, 0.31, 0.1, 1.14) infinite;
 }
   .spinner-action .spinner {
     height: 30px;
