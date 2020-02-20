@@ -82,9 +82,12 @@ namespace mmria.server.model
 
 		public int? year_of_death;
 		public int? month_of_death;
+		public int? day_of_death;
 
 		public int? case_review_year;
 		public int? case_review_month;
+
+		public int? case_review_day;
 
 		public int? pregnancy_related;
 
@@ -113,6 +116,7 @@ namespace mmria.server.model
 		public int? year_of_death;
 		public int? month_of_case_review;
 		public int? year_of_case_review;
+		public int? day_of_case_review;
 
 		public string jurisdiction_id;
 		//private total_number_of_cases_by_pregnancy_relatedness_struct mPregRelated;

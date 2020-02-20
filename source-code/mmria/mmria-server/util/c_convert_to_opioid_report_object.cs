@@ -127,9 +127,11 @@ namespace mmria.server.util
 
 				result.year_of_death = p_header.year_of_death;
 				result.month_of_death = p_header.month_of_death;
+				result.day_of_death = p_header.day_of_death;
 
 				result.case_review_year = p_header.case_review_year;
 				result.case_review_month = p_header.case_review_month;
+				result.case_review_day = p_header.case_review_day;
 
 				result.pregnancy_related = p_header.pregnancy_related;
 				result.host_state = p_header.host_state;
@@ -342,14 +344,32 @@ namespace mmria.server.util
 
 			try
 			{
+				val = get_value(source_object, "home_record/date_of_death/day");
+				if(val != null && val.ToString() != "")
+				{
+					opioid_report_value_header.day_of_death = System.Convert.ToInt32(val);
+
+				}
+			}
+			catch(Exception ex)
+			{
+				//System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
 				val = get_value(source_object, "committee_review/date_of_review");
 				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_case_review = System.Convert.ToDateTime(val).Year;
 					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
+					report_object.day_of_case_review = System.Convert.ToDateTime(val).Day;
 
 					opioid_report_value_header.case_review_year = report_object.year_of_case_review ;
 					opioid_report_value_header.case_review_month = report_object.month_of_case_review;
+					opioid_report_value_header.case_review_day = report_object.day_of_case_review;
+					
 					
 				}
 			}
@@ -489,9 +509,11 @@ namespace mmria.server.util
 
 			result.year_of_death = p_header.year_of_death;
 			result.month_of_death = p_header.month_of_death;
+			result.day_of_death = p_header.day_of_death;
 
 			result.case_review_year = p_header.case_review_year;
 			result.case_review_month = p_header.case_review_month;
+			result.case_review_day = p_header.case_review_day;
 
 			result.pregnancy_related = p_header.pregnancy_related;
 			result.host_state = p_header.host_state;

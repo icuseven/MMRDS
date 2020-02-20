@@ -884,6 +884,17 @@ function get_value(p_path, p_data)
                             g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
                         }
                         break;
+                    case "/committee_review/pregnancy_relatedness":
+                        if(p_data.trim().toLowerCase() == "pregnancy-associated but not related")
+                        {
+                            result = 0;
+                        }
+                        else if(p_data.trim().toLowerCase() == "Not Pregnancy Related or Associated (i.e. False Positive)".toLowerCase())
+                        {
+                            result = 99;
+                        }
+                        
+                        break;
                     default:
                         g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
                         break;
