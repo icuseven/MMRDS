@@ -57,9 +57,8 @@ function navigation_render(p_metadata, p_level, p_ui)
         break;
 
       case 'app':
-        // console.log($("#navbar").children().length);
-        // console.log(window.location.hash);
         // result.push('<li class="list-group-item"><a href="#/summary">Summary</a></li>');
+
         const breadcrumb_list = $('#breadcrumb_list');
         const bread_crumb_summary_link = `<li class="breadcrumb-item"><a href="#/summary">Summary</a></li>`;
         let currHash = window.location.hash;
