@@ -440,10 +440,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		{
 			p_result.push("' type='hidden' name='");
 		}
-		else if (p_metadata.type.toLowerCase() == "date")
-		{
-			p_result.push("' type='date' name='");
-		}
+		// else if (p_metadata.type.toLowerCase() == "date")
+		// {
+		// 	p_result.push("' type='date' name='");
+		// }
 		else
 		{
 			p_result.push("' type='text' name='");
