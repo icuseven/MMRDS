@@ -1357,7 +1357,16 @@ namespace mmria.server.util
 										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 										{
 
-											grid_row[file_field_name] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+											var has_val = val.Count > 0 && ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+											if(has_val)
+											{
+												var check_value = ((IDictionary<string, object>)val[0])[path_to_node_map[node].name];
+												if(check_value != null && !string.IsNullOrWhiteSpace(check_value.ToString()))
+												{
+													grid_row[file_field_name] = check_value;
+												}
+											}
+											
 
 											/*
 											if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
@@ -1394,7 +1403,16 @@ namespace mmria.server.util
 												val = over_limit_message;
 											}
 
-											grid_row[file_field_name] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+											
+											var has_val = val.Count > 0 && ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+
+											if(has_val)
+											{
+												grid_row[file_field_name] = ((IDictionary<string, object>)val[0])[path_to_node_map[node].name];
+											}
+
+											
+
 											/*
 											if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 											{
