@@ -235,7 +235,7 @@ function add_new_user_click()
 	var new_user_password = null;
 	var new_user_verify= null;
 
-	if(g_policy_values.sams_is_enabled == "True")
+	if(g_policy_values.sams_is_enabled.toLowerCase() == "True".toLowerCase())
 	{
 		new_user_password = $mmria.get_new_guid().replace("-","");
 		new_user_verify = new_user_password;
