@@ -13,12 +13,51 @@ using mmria.common.model;
 
 namespace mmria.server
 {
-	[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
+	
 	[Route("api/[controller]")]
 	public class userController: ControllerBase 
 	{ 
-		// GET api/values 
+		
+		[Authorize(Roles  = "abstractor")]
+		[Route("my-user")]
+		[HttpGet]
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> GetMyUser() 
+		{ 
+			try
+			{
+
+				var userName = "";
+
+				if (User.Identities.Any(u => u.IsAuthenticated))
+				{
+					userName = User.Identities.First(
+						u => u.IsAuthenticated && 
+						u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+				}
+
+				string request_string = $"{Program.config_couchdb_url}/_users/org.couchdb.user:{userName}";
+
+				var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+				string responseFromServer = await user_curl.executeAsync();
+
+				var result  = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
+
+
+				return result;
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
+			
+		} 
+
 		//public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 		[HttpGet]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>> Get() 
 		{ 
@@ -97,6 +136,7 @@ namespace mmria.server
 			//return new mmria.common.model.couchdb.user[] { default(mmria.common.model.couchdb.user), default(mmria.common.model.couchdb.user) }; 
 		} 
 
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> Get(string id) 
 		{ 
 			mmria.common.model.couchdb.user result = null;
@@ -118,6 +158,7 @@ namespace mmria.server
 			return result; 
 		} 
 
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] mmria.common.model.couchdb.user user) 
 		{ 
@@ -152,6 +193,7 @@ namespace mmria.server
 			return result;
 		} 
 
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 		[HttpDelete]
         public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string user_id = null, string rev = null) 
         { 
