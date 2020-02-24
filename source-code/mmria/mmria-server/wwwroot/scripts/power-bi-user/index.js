@@ -1,5 +1,5 @@
 
-var g_de_identified_list = null;
+var g_power_bi_user_list = null;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -37,17 +37,17 @@ function load_de_identification_list()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/de_identified_list?id=export',
+		url: location.protocol + '//' + location.host + '/api/user',
 	}).done(function(response) 
 	{
-		g_de_identified_list = response;
+		g_power_bi_user_list = response;
 		
-		document.getElementById('output').innerHTML = render_de_identified_list().join("");
+		document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 	});
 
 }
 
-function render_de_identified_list()
+function render_power_bi_user_list()
 {
 
 	var result = [];
@@ -62,9 +62,9 @@ function render_de_identified_list()
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
 	
-	for(var i in g_de_identified_list.paths)
+	for(var i in g_power_bi_user_list.paths)
 	{
-		var item = g_de_identified_list.paths[i];
+		var item = g_power_bi_user_list.paths[i];
 
 		if(i % 2)
 		{
@@ -98,33 +98,33 @@ function render_de_identified_list()
 
 function update_item(p_index, p_value)
 {
-	g_de_identified_list.paths[p_index] = p_value;
+	g_power_bi_user_list.paths[p_index] = p_value;
 
 
 }
 
 function delete_item(p_index)
 {
-	g_de_identified_list.paths.splice(p_index,1);
-	document.getElementById('output').innerHTML = render_de_identified_list().join("");
+	g_power_bi_user_list.paths.splice(p_index,1);
+	document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 }
 
 function add_new_item_click()
 {
 	
-	g_de_identified_list.paths.push("");
+	g_power_bi_user_list.paths.push("");
 
-	document.getElementById('output').innerHTML = render_de_identified_list().join("");
+	document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 }
 
 function server_save()
 {
 
 	$.ajax({
-				url: location.protocol + '//' + location.host + '/api/de_identified_list/export',
+				url: location.protocol + '//' + location.host + '/api/user',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				data: JSON.stringify(g_de_identified_list),
+				data: JSON.stringify(g_power_bi_user_list),
 				type: "POST"/*,
 				beforeSend: function (request)
 				{
@@ -137,9 +137,9 @@ function server_save()
 			var response_obj = eval(response);
 			if(response_obj.ok)
 			{
-				g_de_identified_list._rev = response_obj.rev; 
+				g_power_bi_user_list._rev = response_obj.rev; 
 
-				document.getElementById('output').innerHTML = render_de_identified_list().join("");
+				document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 			}
 		});
 
