@@ -1,6 +1,12 @@
 // Helper func to capitalize first letter
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.substring(1);
+// Grabs first letter and captilizes
+function capitalizeFirstLetter(str) {
+	// if str exists
+	if (str) {
+		// Grab first letter and upperCase it
+		// Then cuts off first letter and returns the rest, then lowerCases the rest
+		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+	}
 }
 
 

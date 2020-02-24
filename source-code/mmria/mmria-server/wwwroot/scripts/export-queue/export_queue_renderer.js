@@ -224,7 +224,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 								<div class="form-inline mb-2">
 									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
-									<select id="filter_sort_by" class="custom-select" ><option selected="">date_created</option><option>jurisdiction_id</option><option>last_name</option><option>first_name</option><option>middle_name</option><option>state_of_death</option><option>record_id</option><option>year_of_death</option><option>month_of_death</option><option>committee_review_date</option><option>agency_case_id</option><option>created_by</option><option>last_updated_by</option><option>date_last_updated</option></select>
+									<select id="filter_sort_by" class="custom-select" ><option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
@@ -503,17 +503,6 @@ function export_queue_comfirm_render(p_answer_summary)
 }
 
 
-// Grabs first letter and captilizes
-function capitalizeFirstLetter(str) {
-	// if str exists
-	if (str) {
-		// Grab first letter and upperCase it then lowerCase the rest and return
-		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-	}
-}
-
-
-
 // Function returned after promise to update/set answer_summary to new value
 function updateSummarySection(event)
 {
@@ -586,6 +575,7 @@ function handleElementDisplay(event, str)
 					tars[i].style.display = 'none';
 				}
 			}
+			resolve();
 		} else {
 			// target doesn't exist, reject
 			reject('Target(s) do not exist');
