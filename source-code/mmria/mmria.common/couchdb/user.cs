@@ -26,6 +26,8 @@ namespace mmria.common.model.couchdb
 		public string first_name { get; set; } 
 		public string last_name { get; set; } 
 
+		public string alternate_email { get; set; } 
+
 
 		public user()
 		{

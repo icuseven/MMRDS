@@ -9,7 +9,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_de_identification_list();
+	load_user_list();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -33,7 +33,7 @@ $(function ()
 
 
 
-function load_de_identification_list()
+function load_user_list()
 {
 
 	$.ajax({
@@ -53,18 +53,18 @@ function render_power_bi_user_list()
 	var result = [];
 	result.push("<br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>de identified list</th></tr>");
-	result.push("<tr>");
-	result.push("<th scope='col'>path</th>");
-	result.push("<th scope='col'>&nbsp;</th>");
+	result.push("<tr  bgcolor='silver'>")
+	result.push("<th scope='col'>user name</th>");
+	result.push("<th scope='col'>power bi user</th>");
+	result.push("<th scope='col'>action</th>");
 	result.push("</tr>");
 
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
 	
-	for(var i in g_power_bi_user_list.paths)
+	for(var i in g_power_bi_user_list.rows)
 	{
-		var item = g_power_bi_user_list.paths[i];
+		var item = g_power_bi_user_list.rows[i].doc;
 
 		if(i % 2)
 		{
@@ -74,19 +74,18 @@ function render_power_bi_user_list()
 		{
 			result.push("<tr>");
 		}
+		result.push("<td>");
+		result.push(item.name);
+		result.push("</td>");
 		result.push("<td><label title='");
-		result.push(item);
+		result.push(item.alternate_email);
 		result.push("'><input size='120' type='text' value='");
-		result.push(item);
-		result.push("' onblur='update_item("+ i+", this.value)'/></label></td>");
-		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
+		result.push(item.alternate_email);
+		result.push("' onchange='update_item("+ i+", this.value)'/></label></td>");
+		result.push("<td colspan=2 align=center><input type='button' value='save' onclick='server_save("+ i +")' /></td>")
 		result.push("</tr>");		
 		
 	}
-
-	result.push("<tr><td colspan=2 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
-
-	result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
 	
 	result.push("</table>");
@@ -98,7 +97,7 @@ function render_power_bi_user_list()
 
 function update_item(p_index, p_value)
 {
-	g_power_bi_user_list.paths[p_index] = p_value;
+	g_power_bi_user_list.rows[p_index].doc.alternate_email = p_value;
 
 
 }
@@ -117,27 +116,24 @@ function add_new_item_click()
 	document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 }
 
-function server_save()
+function server_save(p_index)
 {
+
+	let user = g_power_bi_user_list.rows[p_index].doc;
 
 	$.ajax({
 				url: location.protocol + '//' + location.host + '/api/user',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				data: JSON.stringify(g_power_bi_user_list),
-				type: "POST"/*,
-				beforeSend: function (request)
-				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
-					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-				},*/
+				data: JSON.stringify(user),
+				type: "POST"
 		}).done(function(response) 
 		{
 
 			var response_obj = eval(response);
 			if(response_obj.ok)
 			{
-				g_power_bi_user_list._rev = response_obj.rev; 
+				user._rev = user.rev; 
 
 				document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 			}
