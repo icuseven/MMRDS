@@ -735,7 +735,7 @@ function editable_list_set_visibility(p_data, p_object_path)
         
     )
     {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "";
+        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
     }
     else if(p_data.indexOf("Other") == 0)
     {
