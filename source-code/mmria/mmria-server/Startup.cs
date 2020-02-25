@@ -703,7 +703,7 @@ namespace mmria.server
                             if
                             (
                                 (context.Request.Headers.ContainsKey("Content-Length") && 
-                                context.Request.Headers["HeaderContentLength"].Count > 1) ||
+                                context.Request.Headers["Content-Length"].Count > 1) ||
                                 (context.Request.Headers.ContainsKey("Transfer-Encoding") && 
                                 context.Request.Headers["Transfer-Encoding"].Count > 1)
                             )
