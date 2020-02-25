@@ -708,7 +708,7 @@ namespace mmria.server
                                 context.Request.Headers["Transfer-Encoding"].Count > 1)
                             )
                             {
-                                context.Response.StatusCode = 406;
+                                context.Response.StatusCode = 400;
                                 context.Response.Headers.Add("Connection", "close");
                                 context.Abort();
                                 //context.RequestAborted.Session
@@ -720,7 +720,7 @@ namespace mmria.server
                                 context.Request.Headers.ContainsKey("Transfer-Encoding")
                             )
                             {
-                                context.Response.StatusCode = 406;
+                                context.Response.StatusCode = 400;
                                 context.Response.Headers.Add("Connection", "close");
                                 context.Abort();
                             }
@@ -738,7 +738,7 @@ namespace mmria.server
                                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                                 context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
                                 context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
-                                context.Response.StatusCode = 405;
+                                context.Response.StatusCode = 400;
 
                             }
                             else
@@ -756,7 +756,7 @@ namespace mmria.server
 
                         break;
                         default:
-                            context.Response.StatusCode = 406;
+                            context.Response.StatusCode = 400;
                             context.Response.Headers.Add("Connection", "close");
                             context.Abort();
                         break;
