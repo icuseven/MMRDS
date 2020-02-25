@@ -22,6 +22,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	{
 		filter_decending = "checked=true";
 	}
+
+	// console.log(g_case_view_request);
+
 	result.push(`
 		<div class="row">
 			<div class="col">
@@ -224,7 +227,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 								<div class="form-inline mb-2">
 									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
-									<select id="filter_sort_by" class="custom-select" ><option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option></select>
+									<select id="filter_sort_by" class="custom-select" >
+										${render_sort_by_include_in_export(g_case_view_request)}
+									</select>
 								</div>
 
 								<div class="form-inline mb-2">
@@ -700,29 +705,31 @@ function result_checkbox_click(p_checkbox)
 }
 
 var g_case_view_request = {
-    total_rows: 0,
-    page :1,
-    skip : 0,
-    take : 100,
-    sort : "by_date_last_updated",
-    search_key : null,
-    descending : true,
-    get_query_string : function(){
-      var result = [];
-      result.push("?skip=" + (this.page - 1) * this.take);
-      result.push("take=" + this.take);
-      result.push("sort=" + this.sort);
-  
-      if(this.search_key)
-      {
-        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
-      }
-  
-      result.push("descending=" + this.descending);
-  
-      return result.join("&");
-    }
-  };
+	total_rows: 0,
+	page :1,
+	skip : 0,
+	take : 100,
+	sort : "date_last_updated",
+	search_key : null,
+	descending : true,
+	get_query_string : function(){
+		var result = [];
+		result.push("?skip=" + (this.page - 1) * this.take);
+		result.push("take=" + this.take);
+		result.push("sort=" + this.sort);
+
+		if(this.search_key)
+		{
+			result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+		}
+
+		result.push("descending=" + this.descending);
+		
+		// console.log(this);
+
+		return result.join("&");
+	}
+};
 
 
 function get_case_set()
@@ -1104,55 +1111,90 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 		//html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 
 		let checked = "";
-
 		let index = p_answer_summary.de_identified_field_set.indexOf(item_id);
+
 		if(index > -1)
 		{
 			checked = "checked=true"
 		}
 
 		p_result.push(`
-		<tr class="tr">
-			<td class="td text-center" width="38">
-				<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
-				<label for="unique_id_1" class="sr-only">unique_id_1</label>
-			</td>
-			<td class="td">
-				<table class="table rounded-0 mb-0">
-					<thead class="thead">
-						<tr class="tr">
-							<th class="th" colspan="4" scope="colgroup">
-								<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
-												data-prop="selected--${item_id.replace(/-/g,"/")}"
-												onclick="handleElementDisplay(event, 'table-row', 'none')">
-									<span class="pointer-none"><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
-								</button>
-							</th>
-						</tr>
-					</thead>
-					<thead class="thead">
-						<tr class="tr bg-white" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
-							<th class="th" scope="col">Name</th>
-							<th class="th" scope="col">Type</th>
-							<th class="th" scope="col">Prompt</th>
-							<th class="th" scope="col">Values</th>
-						</tr>
-					</thead>
-					<tbody class="tbody">
-						<tr class="tr" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
-							<td class="td">${(value_list != null) ? value_list.name : '' }</td>
-							<td class="td">${(value_list != null) ? value_list.type : ''}</td>
-							<td class="td">${(value_list != null) ? value_list.prompt : ''}</td>
-							<td class="td"></td>
-						</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
+			<tr class="tr">
+				<td class="td text-center" width="38">
+					<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
+					<label for="unique_id_1" class="sr-only">unique_id_1</label>
+				</td>
+				<td class="td">
+					<table class="table rounded-0 mb-0">
+						<thead class="thead">
+							<tr class="tr">
+								<th class="th" colspan="4" scope="colgroup">
+									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
+													data-prop="selected--${item_id.replace(/-/g,"/")}"
+													onclick="handleElementDisplay(event, 'table-row', 'none')">
+										<span class="pointer-none"><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<thead class="thead">
+							<tr class="tr bg-white" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
+								<th class="th" scope="col">Name</th>
+								<th class="th" scope="col">Type</th>
+								<th class="th" scope="col">Prompt</th>
+								<th class="th" scope="col">Values</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr class="tr" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
+								<td class="td">${(value_list != null) ? value_list.name : '' }</td>
+								<td class="td">${(value_list != null) ? value_list.type : ''}</td>
+								<td class="td">${(value_list != null) ? value_list.prompt : ''}</td>
+								<td class="td"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
 		`);
 	}
 
 	//el.innerHTML = html.join("");
+}
+
+
+function render_sort_by_include_in_export(p_case_view_request)
+{
+	// Not sure how to retrieve these keys so creating them statically
+	// TODO: Get with James to make this more dynamic
+	const export_include_list = [
+		'first_name',
+		'middle_name',
+		'last_name',
+		'date_of_death_year',
+		'date_of_death_month',
+		'date_created',
+		'created_by',
+		'date_last_updated',
+		'last_updated_by',
+		'record_id',
+		'agency_case_id',
+		'date_of_committee_review',
+		'jurisdiction_id'
+	];
+	// Empty string to push dynamically created options into
+	const result = [];
+
+	// <option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option>
+
+	// Using the trusty ole' .map method instead of for loop
+	export_include_list.map((item) => {
+		// Ternary: if sort = current item, add selected attr
+		// Also remove underscores then capitalize first letter in UI, but not value as that it important for sort
+		result.push(`<option value="${item}" ${ item === p_case_view_request.sort ? 'selected' : ''}>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`)
+	});
+
+	return result.join(''); // .join('') removes trailing comma in array interation
 }
 
 
@@ -1171,18 +1213,18 @@ function case_filter_type_click(p_value)
 		custom_case_filter.style.display = "none";
 	}
 
-
 	renderSummarySection(p_value)
-
 }
 
 function de_identify_filter_type_click(p_value)
 {
 	var de_identify_filter_standard = document.getElementById("de_identify_filter_standard");
 	var de_identify_filter = document.getElementById("de_identify_filter");
+
 	/*
 		setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))
 	*/
+
 	// Making this a promise so I can return a 'then' method
 	return new Promise((resolve, reject) => {
 		if (true)
@@ -1204,7 +1246,6 @@ function de_identify_filter_type_click(p_value)
 		{
 			reject();
 		}
-
 
 		// if (!isNullOrUndefined(de_identify_filter)) {
 		// 	if(p_value.value.toLowerCase() == "custom")
@@ -1318,8 +1359,6 @@ function render_summary_de_identified_fields(p_answer_summary)
 				}
 				result.push("</table>")
 				break;
-		
-
 	}
 	
 	return result.join("");
@@ -1333,15 +1372,11 @@ function render_summary_of_selected_cases(p_answer_summary)
 	switch(p_answer_summary.case_filter_type.toLowerCase())
 	{
 		case "all":
-
 			break;
-
 
 		case "custom":
 				result.push("<table>");
 	
-				
-
 				for (let i = 0; i < p_answer_summary.case_set.length; i++) 
 				{
 

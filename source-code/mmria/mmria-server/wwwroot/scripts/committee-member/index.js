@@ -1,8 +1,6 @@
 'use strict';
 
-
 //http://www.w3schools.com/css/css3_flexbox.asp
-
 var g_metadata = null;
 var g_data = null;
 var g_metadata_path = [];
@@ -15,11 +13,7 @@ var g_couchdb_url = null;
 var g_localDB = null;
 var g_remoteDB = null;
 var g_metadata_summary = [];
-
-
 var default_object = null;
-
-
 var g_ui = {
   url_state: {
     selected_form_name: null,
@@ -28,8 +22,11 @@ var g_ui = {
     "path_array" : []
 
   },
+
   data_list : [],
+
   broken_rules : [],
+
   set_value: function(p_path, p_value)
   {
     console.log("g_ui.set_value: ", p_path, p_value);
@@ -40,20 +37,19 @@ var g_ui = {
 
     //var target = eval(g_ui.get_eval_string(p_path));
   },
+
   get_eval_string: function (p_path)
   {
   	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','g'),"[$1]\\.").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
     //return an  array with 2 parts.
-      // g_data['attribute'].attribute...
+    // g_data['attribute'].attribute...
 
   	return result;
-
   },
+
   add_new_case: function()
 	{
-
     var result = create_default_object(g_metadata, {});
-
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
 		var new_data = [];
@@ -70,18 +66,43 @@ var g_ui = {
 		);
 
 		g_ui.data_list = new_data;
-
     g_data = result;
-
 		g_ui.selected_record_id = result._id;
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
-
     var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+
     window.location = url;
 
     return result;
-	}
+  },
+  
+  case_view_list : [],
+  
+  case_view_request : {
+    total_rows: 0,
+    page :1,
+    skip : 0,
+    take : 100,
+    sort : "date_last_updated",
+    search_key : null,
+    descending : true,
+    get_query_string : function(){
+      var result = [];
+      result.push("?skip=" + (this.page - 1) * this.take);
+      result.push("take=" + this.take);
+      result.push("sort=" + this.sort);
+  
+      if(this.search_key)
+      {
+        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+      }
+  
+      result.push("descending=" + this.descending);
+  
+      return result.join("&");
+    }
+  }
 };
 var $$ = {
 

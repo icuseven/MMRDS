@@ -35,134 +35,137 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mb-2'>");
-    p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
-    p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
-    if (p_ui.case_view_request.sort == "by_date_created") 
-    {
-        p_result.push("<option selected>date_created</option>");
-    }
-    else 
-    {
-        p_result.push("<option selected>date_created</option>");
-    }
+        p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
+        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+            p_result.push(`
+                ${render_sort_by_include_in_export(p_ui.case_view_request)}
+            `);
+            // if (p_ui.case_view_request.sort == "by_date_created") 
+            // {
+            //     p_result.push("<option selected>date_created</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option selected>date_created</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_jurisdiction_id") 
-    {
-        p_result.push("<option>jurisdiction_id</option>");
-    }
-    else 
-    {
-        p_result.push("<option>jurisdiction_id</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_jurisdiction_id") 
+            // {
+            //     p_result.push("<option>jurisdiction_id</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>jurisdiction_id</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_last_name") 
-    {
-        p_result.push("<option>last_name</option>");
-    }
-    else 
-    {
-        p_result.push("<option>last_name</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_last_name") 
+            // {
+            //     p_result.push("<option>last_name</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>last_name</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_first_name") 
-    {
-        p_result.push("<option>first_name</option>");
-    }
-    else 
-    {
-        p_result.push("<option>first_name</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_first_name") 
+            // {
+            //     p_result.push("<option>first_name</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>first_name</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_middle_name") 
-    {
-        p_result.push("<option>middle_name</option>");
-    }
-    else 
-    {
-        p_result.push("<option>middle_name</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_middle_name") 
+            // {
+            //     p_result.push("<option>middle_name</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>middle_name</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_state_of_death") 
-    {
-        p_result.push("<option>state_of_death</option>");
-    }
-    else 
-    {
-        p_result.push("<option>state_of_death</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_state_of_death") 
+            // {
+            //     p_result.push("<option>state_of_death</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>state_of_death</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_record_id") 
-    {
-        p_result.push("<option>record_id</option>");
-    }
-    else 
-    {
-        p_result.push("<option>record_id</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_record_id") 
+            // {
+            //     p_result.push("<option>record_id</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>record_id</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_year_of_death") 
-    {
-        p_result.push("<option>year_of_death</option>");
-    }
-    else 
-    {
-        p_result.push("<option>year_of_death</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_year_of_death") 
+            // {
+            //     p_result.push("<option>year_of_death</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>year_of_death</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_month_of_death") 
-    {
-        p_result.push("<option>month_of_death</option>");
-    }
-    else 
-    {
-        p_result.push("<option>month_of_death</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_month_of_death") 
+            // {
+            //     p_result.push("<option>month_of_death</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>month_of_death</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_committee_review_date") 
-    {
-        p_result.push("<option>committee_review_date</option>");
-    }
-    else 
-    {
-        p_result.push("<option>committee_review_date</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_committee_review_date") 
+            // {
+            //     p_result.push("<option>committee_review_date</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>committee_review_date</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_agency_case_id") 
-    {
-        p_result.push("<option>agency_case_id</option>");
-    }
-    else 
-    {
-        p_result.push("<option>agency_case_id</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_agency_case_id") 
+            // {
+            //     p_result.push("<option>agency_case_id</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>agency_case_id</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_created_by") 
-    {
-        p_result.push("<option>created_by</option>");
-    }
-    else 
-    {
-        p_result.push("<option>created_by</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_created_by") 
+            // {
+            //     p_result.push("<option>created_by</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>created_by</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_last_updated_by") 
-    {
-        p_result.push("<option>last_updated_by</option>");
-    }
-    else 
-    {
-        p_result.push("<option>last_updated_by</option>");
-    }
+            // if (p_ui.case_view_request.sort == "by_last_updated_by") 
+            // {
+            //     p_result.push("<option>last_updated_by</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>last_updated_by</option>");
+            // }
 
-    if (p_ui.case_view_request.sort == "by_date_last_updated") 
-    {
-        p_result.push("<option>date_last_updated</option>");
-    }
-    else 
-    {
-        p_result.push("<option>date_last_updated</option>");
-    }
-    p_result.push("</select>");
+            // if (p_ui.case_view_request.sort == "by_date_last_updated") 
+            // {
+            //     p_result.push("<option>date_last_updated</option>");
+            // }
+            // else 
+            // {
+            //     p_result.push("<option>date_last_updated</option>");
+            // }
+        p_result.push("</select>");
     p_result.push("</div>");
 
     /* Records per page */
@@ -430,6 +433,42 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         }
     }
 }
+
+
+function render_sort_by_include_in_export(p_sort)
+{
+	// Not sure how to retrieve these keys so creating them statically
+	// TODO: Get with James to make this more dynamic
+	const sort_list = [
+		'first_name',
+		'middle_name',
+		'last_name',
+		'date_of_death_year',
+		'date_of_death_month',
+		'date_created',
+		'created_by',
+		'date_last_updated',
+		'last_updated_by',
+		'record_id',
+		'agency_case_id',
+		'date_of_committee_review',
+		'jurisdiction_id'
+	];
+	// Empty string to push dynamically created options into
+    const result = [];
+
+	// <option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option>
+
+	// Using the trusty ole' .map method instead of for loop
+	sort_list.map((item) => {
+		// Ternary: if sort = current item, add selected attr
+		// Also remove underscores then capitalize first letter in UI, but not value as that it important for sort
+		result.push(`<option value="${item}" ${ item === p_sort.sort ? 'selected' : ''}>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`)
+	});
+
+	return result.join(''); // .join('') removes trailing comma in array interation
+}
+
 
 function clear_case_search() {
     g_ui.case_view_request.search_key = '';

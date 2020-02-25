@@ -26,7 +26,6 @@ var g_use_position_information = true;
 var g_look_up = {};
 var g_release_version = null;
 var g_autosave_interval = null;
-
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 
@@ -85,9 +84,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
         apply_validation();
       });
-
-		
-
     }
     else
     {
@@ -98,12 +94,12 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   else
   {
       var metadata = eval(p_metadata_path);
-
       var current_value = eval(p_object_path);
 
       if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
       {
         var item = eval(p_object_path);
+
         if(item.indexOf(value) > -1)
         {
           item.splice(item.indexOf(value), 1);
@@ -163,7 +159,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
         //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
       }
-      
 
       switch(metadata.type.toLowerCase())
       {
@@ -180,6 +175,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             }
           });
           break;
+
           /*
           case 'date':
           flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
@@ -192,7 +188,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           });
 
           break;
-*/
+          */
           case 'datetime':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
               {
@@ -226,9 +222,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             break;          
 
           case 'number':
-
               //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
-
               $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
               $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number0").numeric({ decimal: false });
               $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number1").numeric({ decimalPlaces: 1 });
@@ -258,7 +252,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           break;
       }
 
-
       if(post_html_call_back.length > 0)
       {
         eval(post_html_call_back.join(""));
@@ -275,14 +268,12 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 {
   var metadata = eval(p_metadata_path);
   var new_line_item = create_default_object(metadata, {}, true);
-
   let grid = eval(p_object_path);
 
   grid.push(new_line_item[metadata.name][0]);
   set_local_case(g_data, function()
   {
     var post_html_call_back = [];
-
     var render_result = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
     var element = document.getElementById(p_metadata_path);
     element.outerHTML = render_result;
@@ -299,8 +290,6 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
     {
       eval(post_html_call_back.join(""));
     }
-
-
   });
 }
 
@@ -312,10 +301,10 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path, p
 
   if (index_check != null && record_number == new Number(index_check))
   {
-
     var metadata = eval(p_metadata_path);
     var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
     var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+
     eval(object_string).splice(index, 1);
 
     set_local_case(g_data, function ()
@@ -346,9 +335,8 @@ function g_delete_record_item(p_object_path, p_metadata_path, p_index)
     var metadata = eval(p_metadata_path);
     var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
     var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+
     eval(object_string).splice(index, 1);
-
-
     set_local_case(g_data, function (){
       
       var post_html_call_back = [];
@@ -357,9 +345,7 @@ function g_delete_record_item(p_object_path, p_metadata_path, p_index)
       {
         eval(post_html_call_back.join(""));
       }
-    
     });
-
   }
 }
 
@@ -370,10 +356,12 @@ var g_ui = {
     "selected_id": null,
     "selected_child_id": null,
     "path_array" : []
-
   },
+
   data_list : [],
+
   broken_rules : [],
+
   set_value: function(p_path, p_value)
   {
     console.log("g_ui.set_value: ", p_path, p_value);
@@ -384,18 +372,18 @@ var g_ui = {
 
     //var target = eval(g_ui.get_eval_string(p_path));
   },
+
   get_eval_string: function (p_path)
   {
   	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','g'),"[$1]\\.").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
     //return an  array with 2 parts.
-      // g_data['attribute'].attribute...
+    // g_data['attribute'].attribute...
 
   	return result;
-
   },
+
   add_new_case: function()
 	{
-
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
@@ -412,8 +400,10 @@ var g_ui = {
     {
       result.home_record.jurisdiction_id = "/";
     }
+
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
+
 		var new_data = [];
 
 		for(var i in g_ui.case_view_list)
@@ -421,7 +411,8 @@ var g_ui = {
 			new_data.push(g_ui.case_view_list[i]);
 		}
 
-		var new_record_id = new Date().toISOString();
+    var new_record_id = new Date().toISOString();
+    
 		new_data.push
 		(
       {
@@ -447,10 +438,8 @@ var g_ui = {
 		);
 
 		g_ui.case_view_list = new_data;
-
     g_data = result;
     g_change_stack = [];
-
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
     
@@ -458,20 +447,22 @@ var g_ui = {
       save_case(g_data, function(){
             
       var url = location.protocol + '//' + location.host + '/Case#/' + g_ui.selected_record_index + '/home_record';
+
       window.location = url;
       });
     });
 
-
     return result;
   },
+
   case_view_list : [],
-   case_view_request : {
+
+  case_view_request : {
     total_rows: 0,
     page :1,
     skip : 0,
     take : 100,
-    sort : "by_date_last_updated",
+    sort : "date_last_updated",
     search_key : null,
     descending : true,
     get_query_string : function(){
@@ -491,9 +482,8 @@ var g_ui = {
     }
   }
 };
+
 var $$ = {
-
-
  is_id: function(value){
    // 2016-06-12T13:49:24.759Z
     if(value)
@@ -511,60 +501,54 @@ var $$ = {
 
 $(function ()
 {
-
-
 	$(document).keydown(function(evt){
 		if (evt.keyCode==90 && (evt.ctrlKey)){
 			evt.preventDefault();
 			undo_click();
 		}
-
 	});
 
-
-  
-
-  
   let working_space = 1000; // 1GB
   let default_local_storage_limit = 5000; // 5GB
 
-/*
+  /*
   let working_space = 100;
   let default_local_storage_limit = 300; */
+
   if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < working_space)
   {
-      let case_index = create_local_storage_index();
-      let case_index_array = convert_local_storage_index_to_array(case_index);
-      let is_update_case_index = false;
+    let case_index = create_local_storage_index();
+    let case_index_array = convert_local_storage_index_to_array(case_index);
+    let is_update_case_index = false;
 
-      let space_removed = 0;
-      for(let index = 0; index < case_index_array.length && space_removed < working_space; index++)
+    let space_removed = 0;
+    for(let index = 0; index < case_index_array.length && space_removed < working_space; index++)
+    {
+
+      let item = case_index_array[index];
+      let key = item._id;
+
+      try
       {
-
-        let item = case_index_array[index];
-        let key = item._id;
-
-        try
-        {
-          delete case_index[key]; 
-          space_removed += item.size_in_kilobytes
-          is_update_case_index = true;
-          localStorage.removeItem('case_' + key);
-        }
-        catch(ex)
-        {
-          //console.log("remove this");
-        }
-          
+        delete case_index[key]; 
+        space_removed += item.size_in_kilobytes
+        is_update_case_index = true;
+        localStorage.removeItem('case_' + key);
       }
-
-      if(is_update_case_index)
+      catch(ex)
       {
-        window.localStorage.setItem('case_index', JSON.stringify(case_index));
+        //console.log("remove this");
       }
+        
+    }
+
+    if(is_update_case_index)
+    {
+      window.localStorage.setItem('case_index', JSON.stringify(case_index));
+    }
   }
 
-/*
+  /*
         // Get the modal
         var modal = document.getElementById('myModal');
 
@@ -591,8 +575,7 @@ $(function ()
             }
         } 
 
-*/
-
+  */
 
   // https://pure-essence.net/2010/02/14/jquery-session-timeout-countdown/
   // create the warning window and set autoOpen to false
@@ -763,13 +746,11 @@ function load_user_role_jurisdiction()
       g_user_role_jurisdiction_list = []
       for(var i in response.rows)
       {
-
           var value = response.rows[i].value;
           //if(value.user_id == g_uid && value.role_name == "abstractor")
           //{
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
           //}
-          
       }
       
       create_jurisdiction_list(g_jurisdiction_tree);
@@ -779,15 +760,10 @@ function load_user_role_jurisdiction()
       $("#footer").hide();
       $("#root").removeClass("header");
 
-
       get_release_version();
 
       //load_profile();
-
- 
-
 	});
-
 }
 
 
@@ -813,8 +789,6 @@ function create_jurisdiction_list(p_data)
 
 			var child = p_data.children[i];
 			create_jurisdiction_list(child);
-
-			
 		}
 	}
 }
