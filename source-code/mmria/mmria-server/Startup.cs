@@ -708,7 +708,8 @@ namespace mmria.server
                                 context.Request.Headers["Transfer-Encoding"].Count > 1)
                             )
                             {
-                                context.Response.StatusCode = 405;
+                                context.Response.StatusCode = 406;
+                                context.Response.Headers.Add("Connection", "close");
                                 context.Abort();
                                 //context.RequestAborted.Session
                             }
@@ -719,7 +720,8 @@ namespace mmria.server
                                 context.Request.Headers.ContainsKey("Transfer-Encoding")
                             )
                             {
-                                context.Response.StatusCode = 405;
+                                context.Response.StatusCode = 406;
+                                context.Response.Headers.Add("Connection", "close");
                                 context.Abort();
                             }
                             else if
@@ -754,11 +756,28 @@ namespace mmria.server
 
                         break;
                         default:
-                            context.Response.StatusCode = 405;
+                            context.Response.StatusCode = 406;
+                            context.Response.Headers.Add("Connection", "close");
+                            context.Abort();
                         break;
                     }
                 }
             );
+
+
+            var use_sams = false;
+            
+            if(!string.IsNullOrWhiteSpace(Configuration["sams:is_enabled"]))
+            {
+                bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
+            }
+/*
+            if(use_sams)
+            {
+                app.UseHttpsRedirection();
+            }
+            app.UseHttpsRedirection();
+            */
             app.UseAuthentication();
 
 
