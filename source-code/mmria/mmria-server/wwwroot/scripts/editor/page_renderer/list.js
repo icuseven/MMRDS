@@ -847,6 +847,7 @@ function editable_list_other_callback(p_select_list, confirm, p_object_path)
         let control = editable_list_other.find('input')[0];
         control.value = ""; 
 
+        eval(p_object_path + ' = ""');
         window.setTimeout(0, ()=> { control.onblur(); editable_list_other[0].style.visibility = 'hidden';});
         return true; // Returns true and does something unique
     }
