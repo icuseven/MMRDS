@@ -710,7 +710,7 @@ namespace mmria.server
                             {
                                 context.Response.StatusCode = 400;
                                 context.Response.Headers.Add("Connection", "close");
-                                context.Abort();
+                                //context.Abort();
                                 //context.RequestAborted.Session
                             }
                             else if
@@ -722,7 +722,7 @@ namespace mmria.server
                             {
                                 context.Response.StatusCode = 400;
                                 context.Response.Headers.Add("Connection", "close");
-                                context.Abort();
+                               // context.Abort();
                             }
                             else if
                             (
@@ -738,7 +738,9 @@ namespace mmria.server
                                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                                 context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
                                 context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+                                context.Response.Headers.Add("Connection", "close");
                                 context.Response.StatusCode = 400;
+                                //context.Abort();
 
                             }
                             else
@@ -758,7 +760,7 @@ namespace mmria.server
                         default:
                             context.Response.StatusCode = 400;
                             context.Response.Headers.Add("Connection", "close");
-                            context.Abort();
+                            //context.Abort();
                         break;
                     }
                 }
