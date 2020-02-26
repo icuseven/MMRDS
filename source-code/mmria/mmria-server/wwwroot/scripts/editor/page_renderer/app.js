@@ -262,13 +262,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<table class='table mb-0'>");
     p_result.push("<thead class='thead'>");
     p_result.push("<tr class='tr bg-tertiary'>");
-    p_result.push("<th class='th h4' colspan='3' scope='colgroup'>Case Listing</th>");
+    p_result.push("<th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>");
     p_result.push("</tr>");
     p_result.push("</thead>");
     p_result.push("<thead class='thead'>");
     p_result.push("<tr class='tr'>");
     p_result.push("<th class='th' scope='col'>Case Information</th>");
-    p_result.push("<th class='th' scope='col'>Last Updated </th>");
+    p_result.push("<th class='th' scope='col'>Date Created</th>");
+    p_result.push("<th class='th' scope='col'>Last Updated</th>");
     p_result.push("<th class='th' scope='col'>Actions</th>");
     p_result.push("</tr>");
     p_result.push("</thead>");
@@ -325,6 +326,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</a>");
         p_result.push("</td>");
 
+        p_result.push("<td class='td'>");
+        p_result.push(item.value.date_created);
+        p_result.push("</td>");
+        
         p_result.push("<td class='td'>");
         p_result.push(item.value.last_updated_by);
         p_result.push(" ");

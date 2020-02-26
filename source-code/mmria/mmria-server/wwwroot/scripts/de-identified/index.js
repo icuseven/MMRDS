@@ -40,8 +40,11 @@ var g_ui = {
     "path_array" : []
 
   },
+
   data_list : [],
+
   broken_rules : [],
+
   set_value: function(p_path, p_value)
   {
     console.log("g_ui.set_value: ", p_path, p_value);
@@ -52,6 +55,7 @@ var g_ui = {
 
     //var target = eval(g_ui.get_eval_string(p_path));
   },
+
   get_eval_string: function (p_path)
   {
   	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','g'),"[$1]\\.").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
@@ -59,20 +63,19 @@ var g_ui = {
       // g_data['attribute'].attribute...
 
   	return result;
-
   },
+
   add_new_case: function()
 	{
-
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
     //result.created_by = g_uid;
     result.date_last_updated = new Date();
     //result.last_updated_by = g_uid;
-
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
+
 		var new_data = [];
 
 		for(var i in g_ui.case_view_list)
@@ -106,10 +109,8 @@ var g_ui = {
 		);
 
 		g_ui.case_view_list = new_data;
-
     g_data = result;
     g_change_stack = [];
-
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
     
@@ -121,16 +122,16 @@ var g_ui = {
       });
     });
 
-
     return result;
   },
+
   case_view_list : [],
    case_view_request : {
     total_rows: 0,
     page :1,
     skip : 0,
     take : 100,
-    sort : "by_date_last_updated",
+    sort : "date_last_updated",
     search_key : null,
     descending : true,
     get_query_string : function(){
@@ -150,6 +151,7 @@ var g_ui = {
     }
   }
 };
+
 var $$ = {
 
 
