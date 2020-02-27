@@ -201,9 +201,12 @@ namespace mmria.server.util
 			result.Add("mSubstAutop MSubAuto6", get_new_struct("mSubstAutop MSubAuto6"));
 			result.Add("mSubstAutop MSubAuto7", get_new_struct("mSubstAutop MSubAuto7"));
 			result.Add("mSubstAutop MSubAuto8", get_new_struct("mSubstAutop MSubAuto8"));
+			result.Add("mSubstAutop MSubAuto9", get_new_struct("mSubstAutop MSubAuto9"));
+			result.Add("mSubstAutop MSubAuto10", get_new_struct("mSubstAutop MSubAuto10"));
 			result.Add("mDeathSubAbuseEvi MEviSub1", get_new_struct("mDeathSubAbuseEvi MEviSub1"));
 			result.Add("mDeathSubAbuseEvi MEviSub2", get_new_struct("mDeathSubAbuseEvi MEviSub2"));
 			result.Add("mDeathSubAbuseEvi MEviSub3", get_new_struct("mDeathSubAbuseEvi MEviSub3"));
+			result.Add("mDeathSubAbuseEvi MEviSub4", get_new_struct("mDeathSubAbuseEvi MEviSub4"));
 			result.Add("mHxofSubAbu MHxSub1", get_new_struct("mHxofSubAbu MHxSub1"));
 			result.Add("mHxofSubAbu MHxSub2", get_new_struct("mHxofSubAbu MHxSub2"));
 			result.Add("mHxofSubAbu MHxSub3", get_new_struct("mHxofSubAbu MHxSub3"));
@@ -239,6 +242,8 @@ namespace mmria.server.util
 			result.Add("mHxofEmoStress MEmoStress10", get_new_struct("mHxofEmoStress MEmoStress10"));
 			result.Add("mHxofEmoStress MEmoStress11", get_new_struct("mHxofEmoStress MEmoStress11"));
 			result.Add("mHxofEmoStress MEmoStress12", get_new_struct("mHxofEmoStress MEmoStress12"));
+			result.Add("mHxofEmoStress MEmoStress13", get_new_struct("mHxofEmoStress MEmoStress13"));
+			result.Add("mHxofEmoStress MEmoStress14", get_new_struct("mHxofEmoStress MEmoStress14"));
 			result.Add("mMHTxTiming MMHTx1", get_new_struct("mMHTxTiming MMHTx1"));
 			result.Add("mMHTxTiming MMHTx2", get_new_struct("mMHTxTiming MMHTx2"));
 			result.Add("mMHTxTiming MMHTx3", get_new_struct("mMHTxTiming MMHTx3"));
@@ -2222,6 +2227,24 @@ MPregRel5	(Blank)
 				System.Console.WriteLine (ex);
 			}
 
+			try
+			{	
+
+				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 8888))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathSubAbuseEvi";
+					curr.field_id = "MEviSub4";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 		private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3130,6 +3153,46 @@ foreach(var item in val_list)
 				System.Console.WriteLine (ex);
 			}
 
+			try
+			{	
+				foreach(string val_1 in val_string_list)
+				{
+					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7777))
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mHxofEmoStress";
+						curr.field_id = "MEmoStress13";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						break;
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+				foreach(string val_1 in val_string_list)
+				{
+					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 11))
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mHxofEmoStress";
+						curr.field_id = "MEmoStress14";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						break;
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 		private void popluate_mHxofSubAbu (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3651,6 +3714,8 @@ foreach(var item in val_list)
 //mSubstAutop	MSubAuto5	Cocaine	5	autopsy_report/toxicology/substance= Substance that are mapped to ‘Cocaine‘category in the substance categorization table below	autopsy_report/toxicology/substance = 'Cocaine'
 //mSubstAutop	MSubAuto6	Opioid (excl Buprenorphine/Methadone)	6	autopsy_report/toxicology/substance= Substance that are mapped to ‘Opioid (excl Buprenorphine/Methadone)‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Fentanyl', 'Heroin', 'Hydromorphone (Dilaudid)', 'Morphine Sulfate', 'Oxycodone Hydrochloride', 'Oxymorphone Hydrochloride (Opana)')
 //mSubstAutop	MSubAuto7	Substance with Other Chemical Classification	7	autopsy_report/toxicology/substance= Substance that are mapped to ‘Substance with Other Chemical Classification‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Acetaminophen', 'Acetazolamide (Diamox)', 'Aripiprazole (Abilify)', 'Carbamazepine (Neurontin)', 'Citalopram (Celexa)', 'Doxepin (Silenor, Zonalon, Prudoxin), 'Duloxetine (Cymbalta)', 'Felbamate (Felbatol)', 'Fluoxetine/Olanzapine (Symbyax)', 'Lurasidone (Latuda)', 'Meprobamate (Equanil)', 'Midazolam (Versed)', 'Pregabalin (Lyrica)', 'Quetiapine (Seroquel)', 'Sertraline (Zoloft)', 'Trazadone (Oleptro)')
+//mSubstAutop	Substances at Autopsy	MSubAuto9	Cannabinoid	5	autopsy_report/toxicology/substance= Substance that are mapped to ‘Marijuana‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Marijuana')
+//mSubstAutop	Substances at Autopsy	MSubAuto10	Other	9	autopsy_report/toxicology/substance= Substance that are mapped to ‘Other‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Other')
 
 
 
@@ -3872,7 +3937,7 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 				
 				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				if(val_1 == null || (val_1 != null && (val_1== "" || int.TryParse(val_1, out test_int) && test_int == 9999 )))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mSubstAutop";
@@ -3886,6 +3951,45 @@ is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
 			{
 				System.Console.WriteLine (ex);
 			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(val_1 != null && val_1.ToLower() == "Cannabinoid".ToLower())
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto9";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(val_1 != null && val_1.ToLower() == "Other".ToLower())
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto10";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 	}

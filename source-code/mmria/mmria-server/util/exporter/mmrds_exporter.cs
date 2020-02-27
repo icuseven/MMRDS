@@ -440,10 +440,9 @@ namespace mmria.server.util
 								}
 								else
 								{
+									string file_field_name = path_to_field_name_map[path];
 									if (val != null)
 									{
-										string file_field_name = path_to_field_name_map[path];
-
 										if(val is List<object>)
 										{
 											List<object> temp = val as List<object>;
@@ -521,6 +520,22 @@ namespace mmria.server.util
 											{
 												row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 											}*/
+										}
+									}
+									else
+									{
+										if
+										(
+											path_to_node_map[path].data_type != null &&
+											path_to_node_map[path].data_type.ToLower() == "string"
+
+										)
+										{
+											row[file_field_name] = "";
+										}
+										else
+										{
+											row[file_field_name] = "9999";
 										}
 									}
 								}
@@ -749,6 +764,23 @@ namespace mmria.server.util
 																}
 															}
 														}
+														else
+														{
+															if
+															(
+																path_to_node_map[node].data_type != null &&
+																path_to_node_map[node].data_type.ToLower() == "string"
+
+															)
+															{
+																grid_row[file_field_name] = "";
+															}
+															else
+															{
+																grid_row[file_field_name] = "9999";
+															}
+															
+														}
 													}
 
 													break;
@@ -942,10 +974,9 @@ namespace mmria.server.util
 									}
 									else
 									{
+										string file_field_name = path_to_field_name_map[path];
 										if (val != null)
 										{
-											string file_field_name = path_to_field_name_map[path];
-
 											if 
 											(
 												(
@@ -994,6 +1025,22 @@ namespace mmria.server.util
 											}
 											
 
+										}
+										else
+										{
+											if
+											(
+												path_to_node_map[path].data_type != null &&
+												path_to_node_map[path].data_type.ToLower() == "string"
+
+											)
+											{
+												form_row[file_field_name] = "";
+											}
+											else
+											{
+												form_row[file_field_name] = "9999";
+											}
 										}
 									}
 
