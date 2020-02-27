@@ -892,11 +892,11 @@ function render_editable_list_confirm_modal(p_metadata, p_object_path)
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h5 class="modal-title">Confirm ${capitalizeFirstLetter(p_metadata.prompt)} Selection</h5>
+                        <h5 class="modal-title">Confirm ${p_metadata.prompt} Selection</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to change the <strong>${capitalizeFirstLetter(p_metadata.prompt)}</strong> selection from <strong>Other</strong> to <strong>${selected_option}</strong>? The text in the <strong>${label}</strong> textbox will be cleared.</p>
+                        <p>Are you sure you want to change the <strong>${p_metadata.prompt}</strong> selection from <strong>Other</strong> to <strong>${selected_option}</strong>? The text in the <strong>${label}</strong> textbox will be cleared.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal">Cancel</button>
