@@ -2564,18 +2564,24 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 
 
 
-//mEducation	Education	MEduc1	Completed High School or less	1	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed' OR death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (0, 1, 2)  OR death_certificate/demographics/education_level in (0, 1, 2)
+//mEducation	Education	MEduc1	Completed High School or less	1	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 
+//'8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed' OR death_certificate/demographics/education_level = '8th Grade or Less' or 
+//'9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (0, 1, 2) 
+// OR death_certificate/demographics/education_level in (0, 1, 2)
 			try
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=0 && test_int <= 2)
+				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mEducation";
-					curr.field_id = "MEduc1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					if( test_int>=0 && test_int <= 2)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc1";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 				}
 				else 
 				{
@@ -2595,18 +2601,25 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 				System.Console.WriteLine (ex);
 			}
 
-//mEducation	Education	MEduc2	Completed Some College	2	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Some College; No Degree' OR death_certificate/demographics/education_level =  'Some College; No Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 3 OR death_certificate/demographics/education_level =  3
+//mEducation	Education	MEduc2	Completed Some College	2	
+//birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Some College; No Degree' OR 
+//death_certificate/demographics/education_level =  'Some College; No Degree'	
+//birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 3 OR death_certificate/demographics/education_level =  3
+
 			try
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=3 && test_int <= 3)
+				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mEducation";
-					curr.field_id = "MEduc2";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					if(test_int >=3 && test_int <= 3)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc2";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 				}
 				else 
 				{
@@ -2631,24 +2644,30 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=4 && test_int <= 5)
+				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mEducation";
-					curr.field_id = "MEduc3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				else 
-				{
-					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
-					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=4 && test_int <= 5)
+					if(test_int >=4 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc3";
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int))
+					{
+						if(test_int >=4 && test_int <= 5)
+						{
+							var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+							curr.indicator_id = "mEducation";
+							curr.field_id = "MEduc3";
+							curr.value = 1;
+							this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						}
 					}
 				}
 			}
@@ -2662,13 +2681,16 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=6 && test_int <= 7)
+				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mEducation";
-					curr.field_id = "MEduc4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					if(test_int >=6 && test_int <= 7)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc4";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 				}
 				else 
 				{
@@ -2693,13 +2715,16 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int >=6 && test_int <= 9999))
+				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mEducation";
-					curr.field_id = "MEduc5";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					if(test_int >=6 && test_int <= 9999)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc5";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 				}
 				else 
 				{
