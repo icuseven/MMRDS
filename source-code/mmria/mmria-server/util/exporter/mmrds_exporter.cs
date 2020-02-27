@@ -508,7 +508,27 @@ namespace mmria.server.util
 											}
 											else
 											{
-												row[file_field_name] = val;
+												if(val == "")
+												{
+													if
+													(
+														path_to_node_map[path].data_type != null &&
+														path_to_node_map[path].data_type.ToLower() == "string"
+													)
+													{
+														row[file_field_name] = "";
+													}
+													else
+													{
+														row[file_field_name] = "9999";
+													}
+													
+												}
+												else
+												{
+													row[file_field_name] = val;	
+												}
+												
 											}
 											
 											/*
@@ -651,10 +671,11 @@ namespace mmria.server.util
 											val = null;
 										}
 
+										string file_field_name = path_to_field_name_map[node];
 										if (val != null)
 										{
 
-											string file_field_name = path_to_field_name_map[node];
+											
 											
 											switch (path_to_node_map[node].type.ToLower())
 											{
@@ -760,7 +781,29 @@ namespace mmria.server.util
 																}
 																else
 																{
-																	grid_row[file_field_name] = val;
+																	if(val == "")
+																	{
+
+																		if
+																		(
+																			path_to_node_map[node].data_type != null &&
+																			path_to_node_map[node].data_type.ToLower() == "string"
+																		)
+																		{
+																			grid_row[file_field_name] = "";
+																		}
+																		else
+																		{
+																			grid_row[file_field_name] = "9999";
+																		}
+
+																		grid_row[file_field_name] = "9999";
+																	}
+																	else
+																	{
+																		grid_row[file_field_name] = val;	
+																	}
+
 																}
 															}
 														}
@@ -788,8 +831,8 @@ namespace mmria.server.util
 													if
 													(
 														(
-															path_to_node_map[path].type.ToLower() == "textarea" ||
-															path_to_node_map[path].type.ToLower() == "string"
+															path_to_node_map[node].type.ToLower() == "textarea" ||
+															path_to_node_map[node].type.ToLower() == "string"
 														) 
 														&&
 														val.ToString().Length > max_qualitative_length
@@ -798,7 +841,7 @@ namespace mmria.server.util
 														WriteQualitativeData
 														(
 															mmria_case_id,
-															path,
+															node,
 															val,
 															i,
 															-1
@@ -811,6 +854,26 @@ namespace mmria.server.util
 
 													grid_row[file_field_name] = val;
 													break;
+											}
+										}
+										else
+										{
+
+											if(path_to_node_map[node].type.ToLower() == "list")
+											{
+												if
+												(
+													path_to_node_map[node].data_type != null &&
+													path_to_node_map[node].data_type.ToLower() == "string"
+
+												)
+												{
+													grid_row[file_field_name] = "";
+												}
+												else
+												{
+													grid_row[file_field_name] = "9999";
+												}
 											}
 										}
 									}
@@ -1021,7 +1084,28 @@ namespace mmria.server.util
 											}
 											else
 											{
-												form_row[file_field_name]  = val;
+												if(val == "")
+												{
+													if
+													(
+														path_to_node_map[path].data_type != null &&
+														path_to_node_map[path].data_type.ToLower() == "string"
+													)
+													{
+														form_row[file_field_name] = "";
+													}
+													else
+													{
+														form_row[file_field_name] = "9999";
+													}
+
+													form_row[file_field_name]  = "9999";
+												}
+												else
+												{
+													form_row[file_field_name]  = val;
+												}
+												
 											}
 											
 
@@ -1073,16 +1157,6 @@ namespace mmria.server.util
 
 										form_row[file_field_name] = val;
 
-										/*
-										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
-										{
-											form_row[file_field_name] = val;
-										}
-										else
-										{
-											form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
-										}
-										*/
 									}
 									break;
 
@@ -1522,9 +1596,10 @@ namespace mmria.server.util
 										val = null;
 									}
 
+									string file_field_name = path_to_field_name_map[node];
 									if (val != null)
 									{
-										string file_field_name = path_to_field_name_map[node];
+										
 
 										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 										{
@@ -1632,8 +1707,45 @@ namespace mmria.server.util
 														}
 														else
 														{
-															grid_row[file_field_name] = val;
+															if(val == "")
+															{
+
+																if
+																(
+																	path_to_node_map[node].data_type != null &&
+																	path_to_node_map[node].data_type.ToLower() == "string"
+																)
+																{
+																	grid_row[file_field_name] = "";
+																}
+																else
+																{
+																	grid_row[file_field_name] = "9999";
+																}
+																grid_row[file_field_name] = "9999";
+															}
+															else
+															{
+																grid_row[file_field_name] = val;
+															}
+															
 														}
+													}
+												}
+												else
+												{
+													if
+													(
+														path_to_node_map[node].data_type != null &&
+														path_to_node_map[node].data_type.ToLower() == "string"
+
+													)
+													{
+														grid_row[file_field_name] = "";
+													}
+													else
+													{
+														grid_row[file_field_name] = "9999";
 													}
 												}
 											}
@@ -1670,6 +1782,25 @@ namespace mmria.server.util
 											}
 
 										}
+									}
+									else
+									{
+										if(path_to_node_map[node].type.ToLower() == "list")
+											{
+												if
+												(
+													path_to_node_map[node].data_type != null &&
+													path_to_node_map[node].data_type.ToLower() == "string"
+
+												)
+												{
+													grid_row[file_field_name] = "";
+												}
+												else
+												{
+													grid_row[file_field_name] = "9999";
+												}
+											}
 									}
 								}
 								catch (Exception ex)
