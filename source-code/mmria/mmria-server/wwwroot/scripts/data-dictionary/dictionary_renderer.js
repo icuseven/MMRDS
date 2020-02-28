@@ -15,7 +15,7 @@ function dictionary_render(p_metadata, p_path)
 								 id="de_identify_search_text"
 								 value=""
 								 style="width: 170px;"
-								 onchange="de_identify_search_text_change(this.value)"/>
+								 onchange="de_identify_search_text_change(this.value)" />
 					<select id="de_identify_form_filter" class="custom-select mr-2">
 						${render_de_identify_form_filter(g_filter)}
 					</select>
@@ -123,7 +123,8 @@ function de_identified_search_click()
 
 function render_de_identified_search_result(p_result, p_filter)
 {
-	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
+	// Add toLowerCase() method to help with case sensitivity
+	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
 
