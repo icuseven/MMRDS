@@ -141,54 +141,64 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
 
         p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
-        p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
-        if (p_ui.case_view_request.take == 25) {
-            p_result.push("<option selected>25</option>");
-        }
-        else {
-            p_result.push("<option>25</option>");
+            p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
+            p_result.push(`
+                <select id="search_records_per_page"
+                        class="custom-select"
+                        onchange="g_ui.case_view_request.take = this.value;">
+                    ${render_filter_records_per_page(p_ui.case_view_request)}
+                </select>
+            `);
+            // p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
+            // if (p_ui.case_view_request.take == 25) {
+            //     p_result.push("<option selected>25</option>");
+            // }
+            // else {
+            //     p_result.push("<option>25</option>");
 
-        }
-        if (p_ui.case_view_request.take == 50) {
-            p_result.push("<option selected>50</option>");
-        }
-        else {
-            p_result.push("<option>50</option>");
+            // }
+            // if (p_ui.case_view_request.take == 50) {
+            //     p_result.push("<option selected>50</option>");
+            // }
+            // else {
+            //     p_result.push("<option>50</option>");
 
-        }
-        if (p_ui.case_view_request.take == 100) {
-            p_result.push("<option selected>100</option>");
-        }
-        else {
-            p_result.push("<option>100</option>");
+            // }
+            // if (p_ui.case_view_request.take == 100) {
+            //     p_result.push("<option selected>100</option>");
+            // }
+            // else {
+            //     p_result.push("<option>100</option>");
 
-        }
-        if (p_ui.case_view_request.take == 250) {
-            p_result.push("<option selected>250</option>");
-        }
-        else {
-            p_result.push("<option>250</option>");
+            // }
+            // if (p_ui.case_view_request.take == 250) {
+            //     p_result.push("<option selected>250</option>");
+            // }
+            // else {
+            //     p_result.push("<option>250</option>");
 
-        }
-        if (p_ui.case_view_request.take == 500) {
-            p_result.push("<option selected>500</option>");
-        }
-        else {
-            p_result.push("<option>500</option>");
+            // }
+            // if (p_ui.case_view_request.take == 500) {
+            //     p_result.push("<option selected>500</option>");
+            // }
+            // else {
+            //     p_result.push("<option>500</option>");
 
-        }
-        p_result.push("</select>");
+            // }
+            // p_result.push("</select>");
         p_result.push("</div>");
 
         p_result.push("<div class='form-inline mb-2'>");
         p_result.push("<label for='sort_decending' class='mr-2'>Descending order:</label>");
-        p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;'");
-        if (p_ui.case_view_request.descending) 
-        {
-            p_result.push(" checked='true' ");
-        }
-        p_result.push(" />");
+        p_result.push(`
+            <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
+        `);
+        // p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;'");
+        // if (p_ui.case_view_request.descending) 
+        // {
+        //     p_result.push(" checked='true' ");
+        // }
+        // p_result.push(" />");
         p_result.push("</div>");
 
         p_result.push("</div> <!-- end .content-intro -->");
@@ -488,8 +498,6 @@ function render_sort_by_include_in_export(p_sort)
 	// Empty string to push dynamically created options into
     const result = [];
 
-    console.log(p_sort);
-
 	// <option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option>
 
 	// Using the trusty ole' .map method instead of for loop
@@ -500,6 +508,18 @@ function render_sort_by_include_in_export(p_sort)
 	});
 
 	return result.join(''); // .join('') removes trailing comma in array interation
+}
+
+function render_filter_records_per_page(p_sort)
+{
+    const sort_list = [25, 50, 100, 250, 500];
+    const f_result = [];
+
+    sort_list.map((item) => {
+        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+    });
+
+    return f_result.join('');
 }
 
 
