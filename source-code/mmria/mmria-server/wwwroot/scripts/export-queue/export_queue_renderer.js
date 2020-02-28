@@ -895,10 +895,8 @@ function de_identified_search_click()
 
 function render_de_identified_search_result(p_result, p_answer_summary, p_filter)
 {
-
-	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
-
-	
+	// Add toLowerCase() method to help with case sensitivity
+	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
 function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
