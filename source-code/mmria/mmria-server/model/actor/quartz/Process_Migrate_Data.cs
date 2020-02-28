@@ -25,9 +25,10 @@ namespace mmria.server.model.actor.quartz
 				switch (message)
 				{
 					case string migration_plan_id:
-						process_migration_plan_by_id(migration_plan_id);
+						//process_migration_plan_by_id(migration_plan_id);
 						break;
 					case Process_Initial_Migrations_Message process_initial_migrations_message:
+						/*
 						string current_directory = AppContext.BaseDirectory;
 						if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
 						{
@@ -46,8 +47,9 @@ namespace mmria.server.model.actor.quartz
 						(
 							DateTime.Now
 						);
-
+						
 						Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+						*/
 						/*
 						var case_sync_actor = Context.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
 						case_sync_actor.Tell(Sync_All_Documents_Message);
