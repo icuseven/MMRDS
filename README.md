@@ -1,19 +1,28 @@
-# MMRDS
-Maternal Mortality Review Data System
+# MMRIA
 
-The Maternal Mortality Review and Data System (MMRDS) is a software tool created by CDC to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.
+## Maternal Mortality Review Information Application
+
+The Maternal Mortality Review Information Application, or  **MMRIA**, is a software tool created, developed, and maintained by CDC to collect, store, analyze, surveillance and summarize information relevant to maternal deaths. The MMRIA system as it is now is a newer, more improved version of the older system known as Maternal Mortality Review and Data System (MMRDS).
+
+The MMRIA system serves 2 purposes:
+
+  1. First, to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths.
+  2. Second to provide a standardized cumulative database for future research and analysis on maternal mortality.
 
 
 ## Texas A&M Geoservices Geocoding APIs
+
 This application uses the Texas A&M Geoservices Geocoding APIs <a href='http://geoservices.tamu.edu' target='_new'>http://geoservices.tamu.edu</a>
 
 
 ## Environment
+
 + [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/)
 + [Apache CouchDB](https://couchdb.apache.org/)
 
 
 ## Technology Stack
+
 + C#
 + Razor Syntax
 + HTML
@@ -22,6 +31,7 @@ This application uses the Texas A&M Geoservices Geocoding APIs <a href='http://g
 
 
 ## Updating meta-data values for Case Forms
+
 1. Go to the [meta-data editor](http://localhost:5000/editor)
 2. Locate and edit data you want to update (Hint: It helps to `ctrl+F` and find it)
 3. Once updated, click *save metadata* button at the top twice
