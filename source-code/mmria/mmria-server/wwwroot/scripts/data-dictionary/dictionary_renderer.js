@@ -1,8 +1,8 @@
 function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
-
 	let de_identified_search_result = [];
+
 	render_de_identified_search_result(de_identified_search_result, g_filter);
 
 	result.push(`
@@ -60,6 +60,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	var temp_result = []
 	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 	var index = temp.lastIndexOf('.');
+
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
@@ -90,7 +91,6 @@ function render_de_identify_form_filter(p_filter)
 
 		if(item.type.toLowerCase() == "form")
 		{
-
 			if(p_filter.selected_form == item.name)
 			{
 				result.push(`<option value="${item.name}" selected>${item.prompt}</option>`)
@@ -99,9 +99,7 @@ function render_de_identify_form_filter(p_filter)
 			{
 				result.push(`<option value="${item.name}">${item.prompt}</option>`)
 			}
-			
 		}
-		
 	}
 
 	return result.join("");
@@ -159,10 +157,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			break;
 
 		case "app":
-			
 			let de_identify_form_filter = "(any form)";
-			
 			let el = document.getElementById("de_identify_form_filter");
+
 			if(el)
 			{
 				de_identify_form_filter = el.value;
@@ -171,6 +168,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				let item = p_metadata.children[i];
+
 				if(de_identify_form_filter.toLowerCase() == "(any form)")
 				{
 					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
@@ -224,12 +222,12 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					for(let j = 0; j < p_metadata.tags.length; j++)
 					{
 						let check_item = p_metadata.tags[j].toLowerCase();
+
 						if(check_item.indexOf(search_term) > -1)
 						{
 							is_search_match = true;
 							break;
 						}
-						
 					}	
 				}
 				
@@ -417,6 +415,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	var temp_result = []
 	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 	var index = temp.lastIndexOf('.');
+	
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
