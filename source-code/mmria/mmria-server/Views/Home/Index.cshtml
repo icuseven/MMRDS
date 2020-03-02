@@ -135,7 +135,10 @@ else
             <li><a href="/Case">View case data</a></li>
             <li><a href="/export-queue">Export data</a></li>
             @*<li><a href="/recover-case">Recover-case</a></li>*@
-            <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+            @if(ViewBag.is_power_bi_user)
+            {
+              <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+            }
           </ul>
         </div>
       </li>

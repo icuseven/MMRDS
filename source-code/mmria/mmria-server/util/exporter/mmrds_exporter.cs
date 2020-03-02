@@ -1526,9 +1526,6 @@ namespace mmria.server.util
 		)
 		{
 
-
-
-			// flat grid - start
 			foreach (KeyValuePair<string, string> ptn in path_to_grid_map)
 			{
 				string path = ptn.Key;
@@ -1585,42 +1582,42 @@ namespace mmria.server.util
 						grid_row["_parent_record_index"] = parent_record_index;
 						foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
 						{
-							foreach (string node in grid_field_set)
+							foreach (string field_node in grid_field_set)
 							{
 								try
 								{
 									dynamic value_list = grid_item_row[path_to_node_map[kvp.Key].name];
 
-									if(de_identified_set.Contains(node))
+									if(de_identified_set.Contains(field_node))
 									{
 										value_list = null;
 									}
 
-									string file_field_name = path_to_field_name_map[node];
+									string file_field_name = path_to_field_name_map[field_node];
 									if (value_list != null)
 									{
 										
 
-										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(value_list.ToString()))
+										if (path_to_node_map[field_node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(value_list.ToString()))
 										{
 
-											var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[node].name);
+											var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[field_node].name);
 											if(has_val)
 											{
-												var check_value = ((IDictionary<string, object>)value_list[0])[path_to_node_map[node].name];
+												var check_value = ((IDictionary<string, object>)value_list[0])[path_to_node_map[field_node].name];
 												if(check_value != null && !string.IsNullOrWhiteSpace(check_value.ToString()))
 												{
 													grid_row[file_field_name] = check_value;
 												}
 											}
 										}
-										else if(path_to_node_map[node].type.ToLower() == "list")
+										else if(path_to_node_map[field_node].type.ToLower() == "list")
 										{
 											if
 											(
 												(
-													path_to_node_map[node].is_multiselect != null &&
-													path_to_node_map[node].is_multiselect == true
+													path_to_node_map[field_node].is_multiselect != null &&
+													path_to_node_map[field_node].is_multiselect == true
 												)// ||
 												//value_list is List<object>
 											)
@@ -1629,7 +1626,7 @@ namespace mmria.server.util
 												if (temp != null && temp.Count > i)
 												{
 													var temp_grid_row = temp[i];
-													var item_dictionary_key = path_to_field_name_map[node];
+													var item_dictionary_key = path_to_field_name_map[field_node];
 													IDictionary<string, object> item_dictionary = temp[i] as  IDictionary<string, object>;
 													if(item_dictionary != null  && item_dictionary.ContainsKey(item_dictionary_key))
 													{
@@ -1658,10 +1655,10 @@ namespace mmria.server.util
 											else
 											{
 
-												var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[node].name);
+												var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[field_node].name);
 												if(has_val)
 												{
-													var check_value = ((IDictionary<string, object>)value_list[0])[path_to_node_map[node].name];
+													var check_value = ((IDictionary<string, object>)value_list[0])[path_to_node_map[field_node].name];
 													if(check_value != null && !string.IsNullOrWhiteSpace(check_value.ToString()))
 													{
 														grid_row[file_field_name] = check_value;
@@ -1677,11 +1674,11 @@ namespace mmria.server.util
 															List<string> temp2 = new List<string>();
 															foreach(var item in temp)
 															{
-																var key = "/" + node;
+																var key = "/" + field_node;
 																var item_key = item.ToString();
 																if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
 																{
-																	temp2.Add(List_Look_Up["/" + node][item.ToString()]);
+																	temp2.Add(List_Look_Up["/" + field_node][item.ToString()]);
 																}
 																else
 																{
@@ -1698,8 +1695,8 @@ namespace mmria.server.util
 													{
 														if
 														(
-															path_to_node_map[node].data_type != null &&
-															path_to_node_map[node].data_type.ToLower() == "string" &&
+															path_to_node_map[field_node].data_type != null &&
+															path_to_node_map[field_node].data_type.ToLower() == "string" &&
 															(
 																value_list == "9999" ||
 																value_list == "8888" ||
@@ -1731,8 +1728,8 @@ namespace mmria.server.util
 
 																if
 																(
-																	path_to_node_map[node].data_type != null &&
-																	path_to_node_map[node].data_type.ToLower() == "string"
+																	path_to_node_map[field_node].data_type != null &&
+																	path_to_node_map[field_node].data_type.ToLower() == "string"
 																)
 																{
 																	grid_row[file_field_name] = "";
@@ -1755,8 +1752,8 @@ namespace mmria.server.util
 												{
 													if
 													(
-														path_to_node_map[node].data_type != null &&
-														path_to_node_map[node].data_type.ToLower() == "string"
+														path_to_node_map[field_node].data_type != null &&
+														path_to_node_map[field_node].data_type.ToLower() == "string"
 
 													)
 													{
@@ -1775,8 +1772,8 @@ namespace mmria.server.util
 											if
 											(
 												(
-													path_to_node_map[node].type.ToLower() == "textarea" ||
-													path_to_node_map[node].type.ToLower() == "string"
+													path_to_node_map[field_node].type.ToLower() == "textarea" ||
+													path_to_node_map[field_node].type.ToLower() == "string"
 												)  &&
 												value_list.ToString().Length > max_qualitative_length
 											)
@@ -1784,7 +1781,7 @@ namespace mmria.server.util
 												WriteQualitativeData
 												(
 													mmria_case_id,
-													node,
+													field_node,
 													value_list,
 													i,
 													parent_record_index
@@ -1793,23 +1790,23 @@ namespace mmria.server.util
 											}
 
 											
-											var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[node].name);
+											var has_val = value_list.Count > 0 && ((IDictionary<string, object>)value_list[0]).ContainsKey(path_to_node_map[field_node].name);
 
 											if(has_val)
 											{
-												grid_row[file_field_name] = ((IDictionary<string, object>)value_list[0])[path_to_node_map[node].name];
+												grid_row[file_field_name] = ((IDictionary<string, object>)value_list[0])[path_to_node_map[field_node].name];
 											}
 
 										}
 									}
 									else
 									{
-										if(path_to_node_map[node].type.ToLower() == "list")
+										if(path_to_node_map[field_node].type.ToLower() == "list")
 											{
 												if
 												(
-													path_to_node_map[node].data_type != null &&
-													path_to_node_map[node].data_type.ToLower() == "string"
+													path_to_node_map[field_node].data_type != null &&
+													path_to_node_map[field_node].data_type.ToLower() == "string"
 
 												)
 												{

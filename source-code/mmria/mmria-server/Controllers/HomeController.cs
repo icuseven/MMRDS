@@ -30,6 +30,12 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index()
         {
 
+
+			var userName = User.Identities.First(
+						u => u.IsAuthenticated && 
+						u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+
+
             var days_til_expiration = -1;
 
 			var password_days_before_expires = Program.config_pass_word_days_before_expires;
@@ -38,9 +44,6 @@ namespace mmria.server.Controllers
 			{
 				try
 				{
-					var userName = User.Identities.First(
-						u => u.IsAuthenticated && 
-						u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
 					//var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_date_created_user_id?startkey=[" + "{}" + $",\"{user.UserName}\"]&decending=true&limit={unsuccessful_login_attempts_number_before_lockout}";
 					var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
@@ -79,6 +82,34 @@ namespace mmria.server.Controllers
 					System.Console.WriteLine ($"{ex}");
 				}
 			}
+
+
+
+
+			try
+			{
+				ViewBag.is_power_bi_user = false;
+
+				string my_user_url = $"{Program.config_couchdb_url}/_users/org.couchdb.user:{userName}";
+
+				var user_curl = new cURL("GET",null,my_user_url,null, Program.config_timer_user_name, Program.config_timer_value);
+				string responseFromServer = await user_curl.executeAsync();
+
+				var user  = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
+				if
+				(
+					userName.IndexOf("@cdc.gov") > -1 ||
+					!string.IsNullOrEmpty(user.alternate_email)
+				)
+				{
+					ViewBag.is_power_bi_user = true;
+				}
+			}
+			catch(Exception ex) 
+			{
+				System.Console.WriteLine ($"{ex}");
+			}
+
 
 			ViewBag.sams_is_enabled = _config["sams:is_enabled"];
             ViewBag.days_til_password_expires = days_til_expiration;
