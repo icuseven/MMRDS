@@ -15,7 +15,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	let pagination_html = [];
 	render_pagination(pagination_html, g_case_view_request);
 	
-
 	let filter_decending = "";
 
 	if(g_case_view_request.descending)
@@ -641,6 +640,7 @@ class NumericDropdown
 	}
 }
 
+
 function apply_filter_button_click()
 {
 	var filter_search_text = document.getElementById("filter_search_text");
@@ -677,6 +677,7 @@ function result_checkbox_click(p_checkbox)
 	else
 	{
 		let index = answer_summary.case_set.indexOf(value);
+
 		if(index > -1)
 		{
 			answer_summary.case_set.splice(index,1)
@@ -684,8 +685,8 @@ function result_checkbox_click(p_checkbox)
 	}
 
 	let el = document.getElementById('selected_case_list');
+	let result = [];
 
-	let result = []
 	render_selected_case_list(result, answer_summary);
 	el.innerHTML = result.join("");
 
@@ -701,8 +702,8 @@ function result_checkbox_click(p_checkbox)
 
 	var summary_of_selected_cases = document.getElementById("summary_of_selected_cases");
 	summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(answer_summary);
-
 }
+
 
 var g_case_view_request = {
 	total_rows: 0,
@@ -763,8 +764,8 @@ function get_case_set()
 				selected_dictionary[item.id] = value_list;
 
 				let checked = "";
-
 				let index = answer_summary.case_set.indexOf(item.id);
+
 				if(index > -1)
 				{
 					checked = "checked=true"
@@ -819,9 +820,9 @@ function get_case_set()
 	)
 };
 
+
 function render_selected_case_list(p_result, p_answer_summary)
 {
-
 	//html.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < p_answer_summary.case_set.length; i++)
 	{
@@ -832,8 +833,8 @@ function render_selected_case_list(p_result, p_answer_summary)
 		//html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 
 		let checked = "";
-
 		let index = p_answer_summary.case_set.indexOf(item_id);
+
 		if(index > -1)
 		{
 			checked = "checked=true"
@@ -875,8 +876,6 @@ function render_selected_case_list(p_result, p_answer_summary)
 			</tr>
 		`);
 	}
-
-
 }
 
 
@@ -901,11 +900,20 @@ function render_de_identified_search_result(p_result, p_answer_summary, p_filter
 
 function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
-
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":
-				if(p_selected_form== null || p_selected_form=="")
+			if(p_selected_form== null || p_selected_form=="")
+			{
+				for(let i = 0; i < p_metadata.children.length; i++)
+				{
+					let item = p_metadata.children[i];
+					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				}
+			}
+			else
+			{
+				if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
 				{
 					for(let i = 0; i < p_metadata.children.length; i++)
 					{
@@ -913,19 +921,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 					}
 				}
-				else
-				{
-					if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
-					{
-						for(let i = 0; i < p_metadata.children.length; i++)
-						{
-							let item = p_metadata.children[i];
-							render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
-						}
-					}
-				}
-				
-				break;
+			}
+			break;
+
 		case "app":
 		case "group":
 		case "grid":
@@ -935,22 +933,22 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 			}
 			break;
-		default:
 
-		if(p_search_text != null && p_search_text !="")
-		{
-			if
-			(
-				!(
-					p_metadata.name.indexOf(p_search_text) > -1 ||
-					p_metadata.prompt.indexOf(p_search_text) > -1 
-				)
-			
-			)
+		default:
+			if(p_search_text != null && p_search_text !="")
 			{
-				return;
+				if
+				(
+					!(
+						p_metadata.name.indexOf(p_search_text) > -1 ||
+						p_metadata.prompt.indexOf(p_search_text) > -1 
+					)
+				
+				)
+				{
+					return;
+				}
 			}
-		}
 
 		//let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
 		let item_id = (p_path).replace(/\//g,"-");
@@ -1069,6 +1067,7 @@ function de_identified_result_checkbox_click(p_checkbox)
 	else
 	{
 		let index = answer_summary.de_identified_field_set.indexOf(value);
+
 		if(index > -1)
 		{
 			answer_summary.de_identified_field_set.splice(index,1)
@@ -1077,6 +1076,7 @@ function de_identified_result_checkbox_click(p_checkbox)
 
 	let el = document.getElementById('selected_de_identified_field_list');
 	let result = [];
+
 	render_selected_de_identified_list(result, answer_summary);
 
 	el.innerHTML = result.join("");
@@ -1091,7 +1091,6 @@ function de_identified_result_checkbox_click(p_checkbox)
 	el.innerHTML = `Fields that have been de-identified (${answer_summary.de_identified_field_set.length})`;
 
 	renderSummarySection(p_checkbox);
-
 }
 
 
@@ -1214,6 +1213,7 @@ function case_filter_type_click(p_value)
 	renderSummarySection(p_value)
 }
 
+
 function de_identify_filter_type_click(p_value)
 {
 	var de_identify_filter_standard = document.getElementById("de_identify_filter_standard");
@@ -1265,6 +1265,7 @@ function de_identify_filter_type_click(p_value)
 		// }
 	})
 }
+
 
 function de_identify_search_text_change(p_value)
 {
