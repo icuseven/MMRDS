@@ -33,14 +33,13 @@ function get_metadata()
 function load_user_role_jurisdiction()
 {
 
-  /*            int skip = 0,
-            int take = 25,
-            string sort = "by_date_created",
-            string search_key = null,
-            bool descending = false
-            */
-
-
+  /*            
+  int skip = 0,
+  int take = 25,
+  string sort = "by_date_created",
+  string search_key = null,
+  bool descending = false
+  */
 
 	$.ajax({
     url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
@@ -67,6 +66,7 @@ function load_user_role_jurisdiction()
         }
       }
     role_list_html.push("</p>");
+    
     role_list_html.push("<table class='table'>");
       role_list_html.push("<thead class='thead'>");
       role_list_html.push("<tr class='tr bg-tertiary'>");
