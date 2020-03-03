@@ -78,7 +78,7 @@ namespace mmria.server.model.actor
 							Program.config_timer_user_name,
 							Program.config_timer_value,
 							Program.config_export_directory,
-                            Program.grantee_name,
+                            Program.app_instance_name,
                             Program.metadata_release_version_name
 						);
 

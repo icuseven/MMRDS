@@ -98,7 +98,6 @@ namespace mmria.server.Controllers
 				var user  = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 				if
 				(
-					userName.IndexOf("@cdc.gov") > -1 ||
 					!string.IsNullOrEmpty(user.alternate_email)
 				)
 				{

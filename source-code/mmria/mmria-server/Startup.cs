@@ -62,9 +62,9 @@ namespace mmria.server
             }
 
 
-            if(!string.IsNullOrEmpty(Configuration["mmria_settings:grantee_name"]))
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:app_instance_name"]))
             {
-                Program.grantee_name = Configuration["mmria_settings:grantee_name"];
+                Program.app_instance_name = Configuration["mmria_settings:app_instance_name"];
             }
 
             if(!string.IsNullOrEmpty(Configuration["mmria_settings:metadata_version"]))
@@ -72,6 +72,11 @@ namespace mmria.server
                 Program.metadata_release_version_name = Configuration["mmria_settings:metadata_version"];
             }
 
+
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:power_bi_link"]))
+            {
+                Program.power_bi_link = Configuration["mmria_settings:power_bi_link"];
+            }
 
 
             var test_int = 0;
@@ -221,11 +226,18 @@ namespace mmria.server
                 }
 
 
-                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("grantee_name")))
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("app_instance_name")))
                 {
-                    Configuration["grantee_name"] = System.Environment.GetEnvironmentVariable ("grantee_name");
-                    Program.grantee_name = Configuration["grantee_name"];
+                    Configuration["app_instance_name"] = System.Environment.GetEnvironmentVariable ("app_instance_name");
+                    Program.app_instance_name = Configuration["app_instance_name"];
                 }
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("power_bi_link")))
+                {
+                    Configuration["power_bi_link"] = System.Environment.GetEnvironmentVariable ("power_bi_link");
+                    Program.power_bi_link = Configuration["power_bi_link"];
+                }
+
 
                 /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
@@ -254,6 +266,7 @@ namespace mmria.server
             Log.Information ("mmria_settings:is_db_check_enabled: {0}", Configuration["mmria_settings:is_db_check_enabled"]);
             Log.Information ("mmria_settings:is_development: {0}", Configuration["mmria_settings:is_development"]);
             Log.Information ("mmria_settings:metadata_version: {0}", Configuration["mmria_settings:metadata_version"]);
+            Log.Information ("mmria_settings:power_bi_link: {0}", Configuration["mmria_settings:power_bi_link"]);
 
 
 
