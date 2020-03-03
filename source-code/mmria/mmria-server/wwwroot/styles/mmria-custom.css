@@ -1545,3 +1545,16 @@ button.link {
 .flex-order-2 {
   order: 2
 }
+
+.search-highlight {
+  color: var(--grape);
+  /* background-color: var(--warning); */
+  font-weight: 900;
+}
+  @media print {
+    .search-highlight {
+      color: inherit;
+      background-color: transparent;
+      font-weight: inherit;
+    }  
+  }

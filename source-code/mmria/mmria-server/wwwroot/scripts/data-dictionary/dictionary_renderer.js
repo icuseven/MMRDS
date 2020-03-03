@@ -125,6 +125,29 @@ function render_de_identified_search_result(p_result, p_filter)
 	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
+// Converts spaces to underscores, then renders
+// function render_de_identified_search_result(p_result, p_filter)
+// {
+// 	let search_query = p_filter.search_text.toLowerCase();
+// 	search_query = search_query.replace(/ /g, '_'); // replaces 'all' spaces with and underscore
+
+// 	// Add toLowerCase() method to help with case sensitivity
+// 	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query);
+// }
+
+// Renders all keywords
+// function render_de_identified_search_result(p_result, p_filter)
+// {
+// 	let search_query = p_filter.search_text.toLowerCase();
+// 	search_query = search_query.split(' ');
+
+// 	for (let i = 0; i < search_query.length; i++)
+// 	{
+// 		// Add toLowerCase() method to help with case sensitivity
+// 		render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query[i]);
+// 	}
+// }
+
 
 // var that helps calculate current form and latest form
 // Used to calc and create section headers
@@ -140,6 +163,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				for(let i = 0; i < p_metadata.children.length; i++)
 				{
 					let item = p_metadata.children[i];
+
 					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 				}
 			}
@@ -150,6 +174,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					for(let i = 0; i < p_metadata.children.length; i++)
 					{
 						let item = p_metadata.children[i];
+
 						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 					}
 				}
@@ -378,6 +403,26 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				</tr>
 				${list_values.join("")}
 			`);
+
+			// Logic to dynamically highlight all matched search queries
+			// TODO: Comment back in once approved
+			// if (!isNullOrUndefined(p_search_text))
+			// {
+			// 	setTimeout(() => {
+			// 		const container = document.querySelectorAll('#de_identify_search_result_list td');
+					
+			// 		// Shorthand for loop, loop through container var
+			// 		for (let td of container)
+			// 		{
+			// 			let tdHtml = td.innerHTML;
+			// 			let newContainerHtml = '';
+						
+			// 			newContainerHtml = tdHtml.split(capitalizeFirstLetter(p_search_text)).join(`<span class="search-highlight">${capitalizeFirstLetter(p_search_text)}</span>`);
+			// 			newContainerHtml = newContainerHtml.split(p_search_text).join(`<span class="search-highlight">${p_search_text}</span>`);
+			// 			td.innerHTML = newContainerHtml;
+			// 		}
+			// 	}, 0);
+			// }
 			break;
 
 	}
