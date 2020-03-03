@@ -43,11 +43,11 @@ namespace mmria.server.Controllers
 				{
 					ViewBag.is_power_bi_user = true;
 
-                    var temp_string = configuration["power_bi_link"];
+                    var temp_string = configuration["mmria_settings:power_bi_link"];
                     
                     if(!string.IsNullOrWhiteSpace(temp_string))
                     {
-                        var app_instance_name = configuration["app_instance_name"];
+                        var app_instance_name = configuration["mmria_settings:app_instance_name"];
                         if(!string.IsNullOrWhiteSpace(app_instance_name))
                         {
                             ViewBag.power_bi_link = temp_string.Replace("{prefix}",app_instance_name);
