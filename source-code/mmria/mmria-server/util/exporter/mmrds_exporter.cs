@@ -508,7 +508,7 @@ namespace mmria.server.util
 											}
 											else
 											{
-												if(val == "")
+												if(val.ToString() == "")
 												{
 													if
 													(
@@ -530,16 +530,7 @@ namespace mmria.server.util
 												}
 												
 											}
-											
-											/*
-											if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
-											{
-												row[file_field_name] = val;
-											}
-											else
-											{
-												row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
-											}*/
+
 										}
 									}
 									else
@@ -587,15 +578,6 @@ namespace mmria.server.util
 
 									string file_field_name = path_to_field_name_map[path];
 									row[file_field_name] = val;
-									/*
-									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
-									{
-										row[file_field_name] = val;
-									}
-									else
-									{
-										row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
-									}*/
 
 								}
 								break;
@@ -963,25 +945,7 @@ namespace mmria.server.util
 
 							}
 
-							if (path.Trim() == "death_certificate/place_of_last_residence/latitude")
-							{
-								//System.Console.Write("pause");
-							}
-
 							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
-
-							/*
-							if (path.Trim() == "death_certificate/place_of_last_residence/latitude" && val != null)
-							{
-								//System.Console.Write("pause");
-							}
-
-							
-							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
-							{
-								System.Console.Write("pause");
-							}
-							*/
 
 							switch (path_to_node_map[path].type.ToLower())
 							{
@@ -991,16 +955,6 @@ namespace mmria.server.util
 									{
 										string file_field_name = path_to_field_name_map[path];
 										form_row[file_field_name] = val;
-										/*
-										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
-										{
-											form_row[file_field_name] = val;
-										}
-										else
-										{
-											form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
-										}*/
-		
 									}
 									break;
 								case "list":
@@ -1049,7 +1003,7 @@ namespace mmria.server.util
 												)
 											)
 											{
-												if(val == "")
+												if(val.ToString() == "")
 												{
 													form_row[file_field_name] = "9999";
 												}
@@ -1057,8 +1011,6 @@ namespace mmria.server.util
 												{
 													form_row[file_field_name] = val;
 												}
-												
-
 				
 											}
 											else if
@@ -1091,7 +1043,7 @@ namespace mmria.server.util
 											}
 											else
 											{
-												if(val == "")
+												if(val.ToString() == "")
 												{
 													if
 													(
@@ -1114,7 +1066,6 @@ namespace mmria.server.util
 												}
 												
 											}
-											
 
 										}
 										else
