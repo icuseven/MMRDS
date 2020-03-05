@@ -2286,7 +2286,8 @@ namespace mmria.server.util
 								index = val;
 							break;
 							default:
-								index = value_string;
+								System.Console.WriteLine("check this");
+								//index = value_string;
 							break;
 						}
 /*

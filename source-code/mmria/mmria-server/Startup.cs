@@ -228,14 +228,14 @@ namespace mmria.server
 
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("app_instance_name")))
                 {
-                    Configuration["app_instance_name"] = System.Environment.GetEnvironmentVariable ("app_instance_name");
-                    Program.app_instance_name = Configuration["app_instance_name"];
+                    Configuration["mmria_settings:app_instance_name"] = System.Environment.GetEnvironmentVariable ("app_instance_name");
+                    Program.app_instance_name = Configuration["mmria_settings:app_instance_name"];
                 }
 
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("power_bi_link")))
                 {
-                    Configuration["power_bi_link"] = System.Environment.GetEnvironmentVariable ("power_bi_link");
-                    Program.power_bi_link = Configuration["power_bi_link"];
+                    Configuration["mmria_settings:power_bi_link"] = System.Environment.GetEnvironmentVariable ("power_bi_link");
+                    Program.power_bi_link = Configuration["mmria_settings:power_bi_link"];
                 }
 
 
@@ -267,6 +267,7 @@ namespace mmria.server
             Log.Information ("mmria_settings:is_development: {0}", Configuration["mmria_settings:is_development"]);
             Log.Information ("mmria_settings:metadata_version: {0}", Configuration["mmria_settings:metadata_version"]);
             Log.Information ("mmria_settings:power_bi_link: {0}", Configuration["mmria_settings:power_bi_link"]);
+            Log.Information ("mmria_settings:app_instance_name: {0}", Configuration["mmria_settings:app_instance_name"]);
 
 
 
