@@ -269,97 +269,138 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
     p_result.push("</div>");
 
-    p_result.push("<table class='table mb-0'>");
-    p_result.push("<thead class='thead'>");
-    p_result.push("<tr class='tr bg-tertiary'>");
-    p_result.push("<th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>");
-    p_result.push("</tr>");
-    p_result.push("</thead>");
-    p_result.push("<thead class='thead'>");
-    p_result.push("<tr class='tr'>");
-    p_result.push("<th class='th' scope='col'>Case Information</th>");
-    p_result.push("<th class='th' scope='col'>Date Created</th>");
-    p_result.push("<th class='th' scope='col'>Last Updated</th>");
-    p_result.push("<th class='th' scope='col'>Actions</th>");
-    p_result.push("</tr>");
-    p_result.push("</thead>");
+    // p_result.push("<table class='table mb-0'>");
+    // p_result.push("<thead class='thead'>");
+    // p_result.push("<tr class='tr bg-tertiary'>");
+    // p_result.push("<th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>");
+    // p_result.push("</tr>");
+    // p_result.push("</thead>");
+    // p_result.push("<thead class='thead'>");
+    // p_result.push("<tr class='tr'>");
+    // p_result.push("<th class='th' scope='col'>Case Information</th>");
+    // p_result.push("<th class='th' scope='col'>Date Created</th>");
+    // p_result.push("<th class='th' scope='col'>Last Updated</th>");
+    // p_result.push("<th class='th' scope='col'>Actions</th>");
+    // p_result.push("</tr>");
+    // p_result.push("</thead>");
 
-    /*
-        by_date_created
-        by_date_last_updated
-        by_last_name
-        by_first_name
-        by_middle_name
-        by_year_of_death
-        by_month_of_death
-        by_committee_review_date
-        by_created_by
-        by_last_updated_by
-        by_state_of_death
+    // /*
+    //     by_date_created
+    //     by_date_last_updated
+    //     by_last_name
+    //     by_first_name
+    //     by_middle_name
+    //     by_year_of_death
+    //     by_month_of_death
+    //     by_committee_review_date
+    //     by_created_by
+    //     by_last_updated_by
+    //     by_state_of_death
 
-    */
-    p_result.push("<tbody class='tbody'>");
-    for (var i = 0; i < p_ui.case_view_list.length; i++) 
-    {
-        var item = p_ui.case_view_list[i];
+    // */
+    // p_result.push("<tbody class='tbody'>");
+    // for (var i = 0; i < p_ui.case_view_list.length; i++) 
+    // {
+    //     var item = p_ui.case_view_list[i];
 
-        if (i % 2) 
-        {
-            p_result.push('<tr class="tr" path="');
-        }
-        else 
-        {
-            p_result.push('<tr class="tr" path="');
-        }
-        p_result.push(item.id);
-        p_result.push('">');
+    //     if (i % 2) 
+    //     {
+    //         p_result.push('<tr class="tr" path="');
+    //     }
+    //     else 
+    //     {
+    //         p_result.push('<tr class="tr" path="');
+    //     }
+    //     p_result.push(item.id);
+    //     p_result.push('">');
 
-        p_result.push("<td class='td'>");
-        p_result.push("<a href='#/")
-        p_result.push(i);
-        p_result.push("/home_record' role='button' class='btn-purple'>");
-        p_result.push(item.value.jurisdiction_id); p_result.push("  :");
-        p_result.push(item.value.last_name); p_result.push(", ");
-        p_result.push(item.value.first_name); p_result.push(" ");
-        p_result.push(item.value.middle_name);
-        if (item.value.record_id)
-        {
-            p_result.push(" - (");
-            p_result.push(item.value.record_id);
-            p_result.push(" )");
-        }
-        if (item.value.agency_case_id) 
-        {
-            p_result.push("  ac_id: ");
-            p_result.push(item.value.agency_case_id)
-        }
-        p_result.push("</a>");
-        p_result.push("</td>");
+    //     p_result.push("<td class='td'>");
+    //     p_result.push("<a href='#/")
+    //     p_result.push(i);
+    //     p_result.push("/home_record' role='button' class='btn-purple'>");
+    //     p_result.push(item.value.jurisdiction_id); p_result.push("  :");
+    //     p_result.push(item.value.last_name); p_result.push(", ");
+    //     p_result.push(item.value.first_name); p_result.push(" ");
+    //     p_result.push(item.value.middle_name);
+    //     if (item.value.record_id)
+    //     {
+    //         p_result.push(" - (");
+    //         p_result.push(item.value.record_id);
+    //         p_result.push(" )");
+    //     }
+    //     if (item.value.agency_case_id) 
+    //     {
+    //         p_result.push("  ac_id: ");
+    //         p_result.push(item.value.agency_case_id)
+    //     }
+    //     p_result.push("</a>");
+    //     p_result.push("</td>");
 
-        p_result.push("<td class='td'>");
-        p_result.push(item.value.date_created);
-        p_result.push("</td>");
+    //     p_result.push("<td class='td'>");
+    //     p_result.push(item.value.date_created);
+    //     p_result.push("</td>");
         
-        p_result.push("<td class='td'>");
-        p_result.push(item.value.last_updated_by);
-        p_result.push(" ");
-        p_result.push(item.value.date_last_updated);
-        p_result.push("</td>");
+    //     p_result.push("<td class='td'>");
+    //     p_result.push(item.value.last_updated_by);
+    //     p_result.push(" ");
+    //     p_result.push(item.value.date_last_updated);
+    //     p_result.push("</td>");
 
-        p_result.push("<td class='td' width='200'>");
-            // p_result.push("&nbsp;");
-            // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
-            // p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
-            p_result.push("<button type='button' id='id_for_record_" + i + "' class='btn btn-primary' onclick='delete_record(" + i + ")'>Click twice to delete</button>");
-            // p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
-        p_result.push("</td>");
+    //     p_result.push("<td class='td' width='200'>");
+    //         // p_result.push("&nbsp;");
+    //         // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+    //         // p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
+    //         p_result.push("<button type='button' id='id_for_record_" + i + "' class='btn btn-primary' onclick='delete_record(" + i + ")'>Click twice to delete</button>");
+    //         // p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
+    //     p_result.push("</td>");
 
 
-        p_result.push('</tr>');
+    //     p_result.push('</tr>');
 
-    }
-    p_result.push("</tbody>");
-    p_result.push('</table>');
+    // }
+    // p_result.push("</tbody>");
+    // p_result.push('</table>');
+    p_result.push(`
+      <table class="table mb-0">
+          <thead class='thead'>
+              <tr class='tr bg-tertiary'>
+                  <th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>
+              </tr>
+          </thead>
+          <thead class='thead'>
+              <tr class='tr'>
+                  <th class='th' scope='col'>Case Information</th>
+                  <th class='th' scope='col'>Date Created</th>
+                  <th class='th' scope='col'>Last Updated</th>
+                  <th class='th' scope='col'>Actions</th>
+              </tr>
+          </thead>
+          <tbody class="tbody">
+              ${p_ui.case_view_list.map((item, i) => {
+                  return (`
+                      <tr class="tr" path=${item.id}>
+                          <td class="td">
+                              <a href="#/${i}/home_record">
+                                  / :${item.value.last_name}, ${item.value.first_name}
+                                  ${item.value.record_id && ' - (' + item.value.record_id + ')'}
+                                  ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
+                              </a>
+                          </td>
+                          <td class="td">
+                              ${item.value.date_created}
+                          </td>
+                          <td class="td">
+                              ${item.value.date_last_updated}
+                          </td>
+                          <td class="td" width="200">
+                              <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})">Click twice to delete</button>
+                          </td>
+                      </tr>
+                  `);
+              }).join('')}
+          </tbody>
+      </table>
+  `);
 
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
         p_result.push("<div class='col'>");
