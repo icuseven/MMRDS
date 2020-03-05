@@ -387,10 +387,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                               </a>
                           </td>
                           <td class="td">
-                              ${item.value.date_created}
+                            ${item.value.created_by} / ${item.value.date_created}
                           </td>
                           <td class="td">
-                              ${item.value.date_last_updated}
+                            ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
                           <td class="td" width="200">
                               <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})">Click twice to delete</button>
