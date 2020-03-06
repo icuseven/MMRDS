@@ -44,8 +44,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
 
         p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
-        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+        p_result.push("<label for='search_sort_by' class='mr-2'>Sort:</label>");
+        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = this.options[this.selectedIndex].value;'>");
             p_result.push(`
                 ${render_sort_by_include_in_export(p_ui.case_view_request)}
             `);
@@ -481,19 +481,17 @@ function render_sort_by_include_in_export(p_sort)
 	// Not sure how to retrieve these keys so creating them statically
 	// TODO: Get with James to make this more dynamic
 	const sort_list = [
-		'first_name',
-		'middle_name',
-		'last_name',
-		'date_of_death_year',
-		'date_of_death_month',
-		'date_created',
-		'created_by',
-		'date_last_updated',
-		'last_updated_by',
-		'record_id',
-		'agency_case_id',
-		'date_of_committee_review',
-		'jurisdiction_id'
+		'by_date_created',
+        'by_date_last_updated',
+        'by_last_name',
+        'by_first_name',
+        'by_middle_name',
+        'by_year_of_death',
+        'by_month_of_death',
+        'by_committee_review_date',
+        'by_created_by',
+        'by_last_updated_by',
+        'by_state_of_death'
 	];
 	// Empty string to push dynamically created options into
     const result = [];

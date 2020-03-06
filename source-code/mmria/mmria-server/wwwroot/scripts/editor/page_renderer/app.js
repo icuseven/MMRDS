@@ -1,4 +1,6 @@
 function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render) {
+
+
     p_result.push("<section id='app_summary'>");
 
     /* The Intro */
@@ -29,14 +31,29 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_post_html_render.push("	$(this).trigger(\"enterKey\");");
     p_post_html_render.push("	}");
     p_post_html_render.push("});");
-    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='init_inline_loader(get_case_set)'>Apply Filters</button>&nbsp;");
+    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='init_inline_loader(function(){ get_case_set() })'>Apply Filters</button>&nbsp;");
     p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(function(){ clear_case_search() })'>Clear</button>");
+    // p_result.push(`
+    //     <button type="button"
+    //             class="btn btn-secondary mr-1"
+    //             alt="search"
+    //             onclick="init_inline_loader(() => { get_case_set(render_sort_by_include_in_export(p_ui.case_view_request)) })">
+    //         Apply Filters
+    //     </button>
+    //     <button type="button"
+    //             class="btn btn-secondary"
+    //             alt="search"
+    //             id="search_command_button"
+    //             onclick="init_inline_loader(() => { clear_case_search() })">
+    //         Clear
+    //     </button>
+    // `);
     p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
-        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+        p_result.push("<label for='search_sort_by' class='mr-2'>Sort:</label>");
+        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = this.options[this.selectedIndex].value;'>");
             p_result.push(`
                 ${render_sort_by_include_in_export(p_ui.case_view_request)}
             `);
@@ -400,7 +417,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               }).join('')}
           </tbody>
       </table>
-  `);
+    `);
 
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
         p_result.push("<div class='col'>");
@@ -496,19 +513,17 @@ function render_sort_by_include_in_export(p_sort)
 	// Not sure how to retrieve these keys so creating them statically
 	// TODO: Get with James to make this more dynamic
 	const sort_list = [
-		'first_name',
-		'middle_name',
-		'last_name',
-		'date_of_death_year',
-		'date_of_death_month',
-		'date_created',
-		'created_by',
-		'date_last_updated',
-		'last_updated_by',
-		'record_id',
-		'agency_case_id',
-		'date_of_committee_review',
-		'jurisdiction_id'
+		'by_date_created',
+        'by_date_last_updated',
+        'by_last_name',
+        'by_first_name',
+        'by_middle_name',
+        'by_year_of_death',
+        'by_month_of_death',
+        'by_committee_review_date',
+        'by_created_by',
+        'by_last_updated_by',
+        'by_state_of_death'
 	];
 	// Empty string to push dynamically created options into
     const f_result = [];

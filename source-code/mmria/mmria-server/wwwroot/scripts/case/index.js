@@ -462,7 +462,7 @@ var g_ui = {
     page :1,
     skip : 0,
     take : 100,
-    sort : "date_last_updated",
+    sort : "by_date_created",
     search_key : null,
     descending : true,
     get_query_string : function(){
@@ -858,10 +858,13 @@ function get_case_set(p_call_back)
     {
         g_ui.case_view_list.push(case_view_response.rows[i]);
     }
-
+    
     if(p_call_back)
     {
+      // Useful to do somethings after I get/set cases
+      // Example usage is setting search filter on Case Listing page
       p_call_back();
+
     }
     else
     {
