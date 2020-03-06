@@ -245,16 +245,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     /* Descending Order */
     p_result.push("<div class='form-inline mb-2'>");
-    p_result.push("<label for='sort_descending' class='mr-2'>Descending order:</label>");
-    p_result.push(`
-        <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
-    `);
-    // p_result.push("<input id='sort_descending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
-    // if (p_ui.case_view_request.descending) 
-    // {
-    //     p_result.push(" checked='true' ");
-    // }
-    // p_result.push(" />");
+        p_result.push("<label for='sort_descending' class='mr-2'>Descending order:</label>");
+        p_result.push(`
+            <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
+        `);
+        // p_result.push("<input id='sort_descending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+        // if (p_ui.case_view_request.descending) 
+        // {
+        //     p_result.push(" checked='true' ");
+        // }
+        // p_result.push(" />");
     p_result.push("</div>");
 
     p_result.push("</div> <!-- end .content-intro -->");
@@ -534,8 +534,8 @@ function render_sort_by_include_in_export(p_sort)
 	sort_list.map((item) => {
 		// Ternary: if sort = current item, add selected attr
 		// Also remove underscores then capitalize first letter in UI, but not value as that it important for sort
-		f_result.push(`<option value="${item}" ${item === p_sort.sort ? 'selected' : ''}>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`)
-	});
+        f_result.push(`<option value="${item}" ${item === p_sort.sort ? 'selected' : ''}>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`);
+    });
 
 	return f_result.join(''); // .join('') removes trailing comma in array interation
 }

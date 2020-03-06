@@ -475,6 +475,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.date_created}</p>`);
                 }
 
+                if (g_data.created_by && !isNullOrUndefined(g_data.created_by))
+                {
+                    p_result.push(`<p class='construct__info mb-0'>Created by: ${g_data.created_by}</p>`);
+                }
+
             p_result.push("</div>");
             p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
                 p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
