@@ -238,7 +238,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 transportReason = transportReason.substring(0,100) + '...';
                             }
 
-
                             p_result.push(`
                                 <tr class="tr">
                                     <td class="td">
@@ -397,11 +396,13 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 
                 p_result.push("<div class='construct__body' tabindex='-1'>");
                     let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
+
                     p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
                         for(var i = 0; form_item && i < p_metadata.children.length; i++)
                         {
                             var child = p_metadata.children[i];
                             //var item = p_data[data_index][child.name];
+
                             if(form_item[child.name])
                             {
 
@@ -505,6 +506,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("<div class='construct__body' tabindex='-1'>");
 
             let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
+            
             p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
 
                 if(g_data && p_metadata.name !== "case_narrative")
@@ -555,6 +557,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         // It then stops after the label finally exists in the DOM
                         // Finally it sets the label HTML to the new version (see below)
                         let scan_for_narrative_label = setInterval(changeNarrativeLabel, 25);
+
                         function changeNarrativeLabel()
                         {
                             let caseNarrativeLabel = document.querySelectorAll('#g_data_case_narrative_case_opening_overview')[0].children[0];
