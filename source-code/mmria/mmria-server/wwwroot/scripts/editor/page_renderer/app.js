@@ -387,8 +387,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
           <thead class='thead'>
               <tr class='tr'>
                   <th class='th' scope='col'>Case Information</th>
-                  <th class='th' scope='col'>Date Created</th>
-                  <th class='th' scope='col'>Last Updated</th>
+                  <th class='th' scope='col'>Created By / Date Created</th>
+                  <th class='th' scope='col'>Last Updated By / Last Updated</th>
                   <th class='th' scope='col'>Actions</th>
               </tr>
           </thead>
