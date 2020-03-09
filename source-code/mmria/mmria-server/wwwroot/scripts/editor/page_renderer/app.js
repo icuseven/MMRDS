@@ -556,5 +556,8 @@ function render_filter_records_per_page(p_sort)
 
 function clear_case_search() {
     g_ui.case_view_request.search_key = '';
+    g_ui.case_view_request.sort = 'by_date_created';
+    g_ui.case_view_request.descending = true;
+
     get_case_set();
 }
