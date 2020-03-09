@@ -860,6 +860,22 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 				else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
 				else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
 			}
+			else
+			{
+				val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
+				value_test = 0;
+				if (val != null && int.TryParse (val.ToString (), out value_test))
+				{
+					if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+					else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+					else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
+					else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
+					else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
+					else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
+					else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
+				}
+
+			}
 
 			return result;
 		}
@@ -1575,93 +1591,7 @@ mAgeatDeath	MAgeD6	45+
 			p_opioid_report_value.field_id = "MAgeD7";
 			break;
 	}
-/*
-	switch (age_enum) 
-	{
-		case deaths_by_age_enum.age_less_than_20:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_less_than_20 = 1;
-				p_opioid_report_value.field_id = "";
-			} 
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20 = 1;
-				p_opioid_report_value.field_id = "";
-			}
-			break;
-		case deaths_by_age_enum.age_20_to_24:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_20_to_24 = 1;
-				p_opioid_report_value.field_id = "";
-			} 
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24 = 1;
-				p_opioid_report_value.field_id = "";
-			}
-	
-			break;
-		case deaths_by_age_enum.age_25_to_29:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_25_to_29 = 1;
-				p_opioid_report_value.field_id = "";
-			}
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29 = 1;
-			}
-	
-			break;
-		case deaths_by_age_enum.age_30_to_34:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_30_to_34 = 1;
-				p_opioid_report_value.field_id = "";
-			} 
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34 = 1;
-			}
-	
-			break;
-		case deaths_by_age_enum.age_35_to_44:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_35_to_44 = 1;
-			} 
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44 = 1;
-			}
-	
-			break;
-		case deaths_by_age_enum.age_45_and_above:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.age_45_and_above = 1;
-			}
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above = 1;
-			}
-			break;
-		case deaths_by_age_enum.blank:
-		default:
-			if (p_report_object.mPregRelated.pregnancy_related == 1) 
-			{
-				p_report_object.mAgeatDeath.blank = 1;
-			}
-			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
-			{
-				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.blank = 1;
-			}
-	
-			break;
-	}
-*/
+
 	/*			
 age_less_than_20,
 age_20_to_24,
