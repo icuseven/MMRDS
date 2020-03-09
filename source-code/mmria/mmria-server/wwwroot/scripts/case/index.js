@@ -462,7 +462,7 @@ var g_ui = {
     page :1,
     skip : 0,
     take : 100,
-    sort : "date_last_updated",
+    sort : "by_date_created",
     search_key : null,
     descending : true,
     get_query_string : function(){
@@ -845,14 +845,11 @@ function load_profile()
 
 function get_case_set(p_call_back)
 {
-
   var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
 
   $.ajax({
     url: case_view_url,
-}).done(function(case_view_response) {
-    
-
+  }).done(function(case_view_response) {
     //console.log(case_view_response);
     g_ui.case_view_list = [];
     g_ui.case_view_request.total_rows = case_view_response.total_rows;
@@ -861,46 +858,44 @@ function get_case_set(p_call_back)
     {
         g_ui.case_view_list.push(case_view_response.rows[i]);
     }
-
+    
     if(p_call_back)
     {
+      // Useful to do somethings after I get/set cases
+      // Example usage is setting search filter on Case Listing page
       p_call_back();
+
     }
     else
     {
       var post_html_call_back = [];
+
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
       document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
-  
-  
       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
+
       if(post_html_call_back.length > 0)
       {
         eval(post_html_call_back.join(""));
       }
   
       var section_list = document.getElementsByTagName("section");
+
       for(var i = 0; i < section_list.length; i++)
       {
         var section = section_list[i];
+
         if(section.id == "app_summary")
         {
             section.style.display = "block";
         }
         else
         {
-          
-            section.style.display = "block";
-          
+          section.style.display = "block";
         }
       }
     }
-    
-    
-
-});
-
-
+  });
 }
 
 
