@@ -2,45 +2,45 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<section id='app_summary'>");
 
         /* The De-ID'ed Intro */
-        p_result.push("<div class='content-intro' tabindex='-1'>");
-        p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
+        p_result.push("<div tabindex='-1'>");
+            p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
         p_result.push("</div> <!-- end .content-intro -->");
+
+        p_result.push(`<hr class="border-top mt-4 mb-4" />`);
 
         // p_result.push("<section id='app_summary'><h1>Line Listing Summary</h1>");
 
         // // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
         // //p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 
-        p_result.push("<div class='content-intro'>");
-        // p_result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
+        p_result.push("<div class='mb-4'>");
+            // p_result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
 
-        p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_text_box' class='mr-2'>Search for:</label>");
-        // p_result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
-        // p_result.push("<label for='search_text_box'>Search Text: ");
-        p_result.push("<input type='text1' class='form-control1 form-control mr-2' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
-        if (g_ui.case_view_request.search_key != null) {
-            p_result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
-        }
-        p_result.push("' />");
+            p_result.push("<div class='form-inline mb-2'>");
+            p_result.push("<label for='search_text_box' class='mr-2'>Search for:</label>");
+            // p_result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+            // p_result.push("<label for='search_text_box'>Search Text: ");
+            p_result.push("<input type='text1' class='form-control1 form-control mr-2' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
+            if (g_ui.case_view_request.search_key != null) {
+                p_result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
+            }
+            p_result.push("' />");
 
-        p_post_html_render.push("$('#search_text_box').bind(\"enterKey\",function(e){");
-        //p_post_html_render.push("	g_ui.case_view_request.search_key = \"\";");
-        p_post_html_render.push("	get_case_set();");
-        p_post_html_render.push(" });");
+            p_post_html_render.push("$('#search_text_box').bind(\"enterKey\",function(e){");
+            //p_post_html_render.push("	g_ui.case_view_request.search_key = \"\";");
+            p_post_html_render.push("	get_case_set();");
+            p_post_html_render.push(" });");
 
-        p_post_html_render.push("$('#search_text_box').keyup(function(e){");
-        p_post_html_render.push("	if(e.keyCode == 13)");
-        p_post_html_render.push("	{");
-        p_post_html_render.push("	$(this).trigger(\"enterKey\");");
-        p_post_html_render.push("	}");
-        p_post_html_render.push("});");
+            p_post_html_render.push("$('#search_text_box').keyup(function(e){");
+            p_post_html_render.push("	if(e.keyCode == 13)");
+            p_post_html_render.push("	{");
+            p_post_html_render.push("	$(this).trigger(\"enterKey\");");
+            p_post_html_render.push("	}");
+            p_post_html_render.push("});");
 
-        // // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
-        p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(get_case_set);'>Apply Filters</button>&nbsp; ");
-        p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(clear_case_search)'>Clear</button>");
-        p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
-        // p_result.push("<label>==><input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' /></label>");
+            // // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+            
+            // p_result.push("<label>==><input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' /></label>");
         p_result.push("</div>");
 
         p_result.push("<div class='form-inline mb-2'>");
@@ -188,7 +188,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             // p_result.push("</select>");
         p_result.push("</div>");
 
-        p_result.push("<div class='form-inline mb-2'>");
+        p_result.push("<div class='form-inline mb-3'>");
         p_result.push("<label for='sort_decending' class='mr-2'>Descending order:</label>");
         p_result.push(`
             <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
@@ -200,6 +200,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         // }
         // p_result.push(" />");
         p_result.push("</div>");
+        
+        p_result.push(`
+            <div class='form-inline'>
+                <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(get_case_set);'>Apply Filters</button>&nbsp; 
+                <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(clear_case_search)'>Clear</button>
+                <span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>
+            </div>
+        `);
 
         p_result.push("</div> <!-- end .content-intro -->");
 
