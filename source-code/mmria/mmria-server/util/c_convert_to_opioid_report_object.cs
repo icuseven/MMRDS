@@ -1548,8 +1548,8 @@ death_certificate/Race/race = Other
 				if(
 					length_between_child_birth_and_death_of_mother == -1 &&
 					(
-						val_1 == null || 
-						! int.TryParse(val_1, out test_int) ||
+						val_1 == null || val_1== "" || 
+						!int.TryParse(val_1, out test_int) ||
 						test_int == 9999)
 					)
 				{
@@ -2529,7 +2529,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2632,7 +2632,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || val == "" || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2738,7 +2738,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -3044,7 +3044,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHomeless";
@@ -3088,7 +3088,7 @@ foreach(var item in val_list)
 				
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3109,7 +3109,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3130,7 +3130,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3151,7 +3151,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3172,7 +3172,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3193,7 +3193,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3214,7 +3214,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3236,7 +3236,7 @@ foreach(var item in val_list)
 				foreach(string val_1 in val_string_list)
 				{
 				
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 8)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3257,7 +3257,7 @@ foreach(var item in val_list)
 				foreach(string val_1 in val_string_list)
 				{
 				
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 8)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3279,7 +3279,7 @@ foreach(var item in val_list)
 				foreach(string val_1 in val_string_list)
 				{
 				
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 10)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3299,7 +3299,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 11)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 10)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3319,7 +3319,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3451,7 +3451,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHxofSubAbu";
@@ -3574,7 +3574,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mIncarHx";
@@ -3739,7 +3739,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
 				
-				if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mLivingArrange";
@@ -3865,7 +3865,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -4169,7 +4169,7 @@ foreach(var item in val_list)
 					
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 == null || (val_1 != null && (val_1== "" || int.TryParse(val_1, out test_int) && test_int == 9999 )))
+					if(val_1 == null || val_1 == "" ||  (val_1 != null && (val_1== "" || int.TryParse(val_1, out test_int) && test_int == 9999 )))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
