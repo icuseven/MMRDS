@@ -941,122 +941,156 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 		private deaths_by_age_enum get_age_classifier (System.Dynamic.ExpandoObject p_source_object)
 		{
 
+				int? age_of_mother = null;
 
 
-				bool isValidDate(string p_year, string p_month, string p_day) 
-				{
-
-					int year;
-					int month;
-					int day;
-
-					if( 
-						
-						! 
-						(
-							int.TryParse(p_year, out year) &&
-							int.TryParse(p_month, out month) &&
-							int.TryParse(p_day, out day)
-						)
-					)
+				int calculate_age(DateTime date_of_birth, DateTime date_of_death)  
+				{  
+					int age = 0;  
+					age = date_of_death.Year - date_of_birth.Year;  
+					if (date_of_death.DayOfYear < date_of_birth.DayOfYear)  
 					{
-						return false;
+						age = age - 1;  
 					}
+				
+					return age;  
+				}  
 
-					var months31 = new List<int>()
+
+				object val1 = get_value (p_source_object, "death_certificate/demographics/age");
+
+				if
+				(
+					val1 != null && 
+					!string.IsNullOrWhiteSpace(val1.ToString())
+				)
+				{
+					int temp;
+
+					if(int.TryParse(val1.ToString(), out temp))
 					{
-							1,
-							3,
-							5,
-							7,
-							8,
-							10,
-							12
-					};
-					// months with 31 days
-					var months30 = new List<int>()
-					{
-							4,
-							6,
-							9,
-							11
-					};
-					// months with 30 days
-					var months28 = new List<int>() { 2 };
-					// the only month with 28 days (29 if year isLeap)
-					var isLeap = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
-					var valid = months31.IndexOf(month) != -1 && day <= 31 || months30.IndexOf(month) != -1 && day <= 30 || months28.IndexOf(month) != -1 && day <= 28 || months28.IndexOf(month) != -1 && day <= 29 && isLeap;
-					return valid;
+						age_of_mother = temp;
+					}
 				}
 
 
-//CALCULATE MOTHERS AGE AT DEATH ON DC
-/*
-path=death_certificate/demographics/age
-event=onfocus
-*/
+				if(!age_of_mother.HasValue)
+				{
+					//CALCULATE MOTHERS AGE AT DEATH ON DC
+					/*
+					path=death_certificate/demographics/age
+					event=onfocus
+					*/
 
-/*
-int mothers_age_death() 
-{
-    var years = null;
-    var start_year = parseInt(this.date_of_birth.year);
-    var start_month = parseInt(this.date_of_birth.month);
-    var start_day = parseInt(this.date_of_birth.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
-    if 
-	(
-		$global.isValidDate
-		(
-			start_year, start_month, start_day) == true &&
-			$global.isValidDate(end_year, end_month, end_day
-		) == true
-	) 
-	{
-        var start_date = new Date(start_year, start_month - 1, start_day);
-        var end_date = new Date(end_year, end_month - 1, end_day);
-        var years = $global.calc_years(start_date, end_date);
-        this.age = years;
-        p_control.value = this.age;
-    }
-}*/
-//CALCULATE MOTHERS AGE AT DELIVERY ON BC
-/*
-path=birth_fetal_death_certificate_parent/demographic_of_mother/age
-event=onfocus
-*/
+					DateTime? Convert(object year, object month, object day)
+					{
+						DateTime? result = null;
 
-/*
-int mothers_age_delivery() {
-    var years = null;
-    var start_year = parseInt(this.date_of_birth.year);
-    var start_month = parseInt(this.date_of_birth.month);
-    var start_day = parseInt(this.date_of_birth.day);
-    var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
-    var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
-    var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+						int start_year;
+						int start_month;
+						int start_day;
 
-    if 
-    (
-        $global.isValidDate(start_year, start_month, start_day) == true && 
-        $global.isValidDate(end_year, end_month, end_day) == true
-    ) 
-    {
-        var start_date = new Date(start_year, start_month - 1, start_day);
-        var end_date = new Date(end_year, end_month - 1, end_day);
-        var years = $global.calc_years(start_date, end_date);
-        this.age = years;
-        p_control.value = this.age;
-    }
-}
-*/
+						if
+						(
+							year!= null && !string.IsNullOrWhiteSpace(year.ToString()) &&
+							month!= null && !string.IsNullOrWhiteSpace(month.ToString()) &&
+							day!= null && !string.IsNullOrWhiteSpace(day.ToString()) &&
+							int.TryParse(year.ToString(), out start_year) &&
+							int.TryParse(month.ToString(), out start_month) &&
+							int.TryParse(day.ToString(), out start_day)
+						)
+						{
+							result = new DateTime(start_year, start_month, start_day);
+						}
 
+
+						return result;
+					}
+
+					val1 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/year");
+					object val2 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/month");
+					object val3 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/day");
+
+
+					var date_of_birth = Convert(val1, val2, val3);
+
+					val1 = get_value (p_source_object, "home_record/date_of_death/year");
+					val2 = get_value (p_source_object, "home_record/date_of_death/month");
+					val3 = get_value (p_source_object, "home_record/date_of_death/day");
+
+					var date_of_death = Convert(val1, val2, val3);
+
+					if(date_of_birth.HasValue && date_of_death.HasValue)
+					{
+						age_of_mother = calculate_age(date_of_birth.Value, date_of_death.Value);
+					}
+					
+					if(!age_of_mother.HasValue)
+					{
+						//CALCULATE MOTHERS AGE AT DELIVERY ON BC
+						/*
+						path=birth_fetal_death_certificate_parent/demographic_of_mother/age
+						event=onfocus
+						*/
+
+						val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
+
+						if
+						(
+							val1 != null && 
+							!string.IsNullOrWhiteSpace(val1.ToString())
+						)
+						{
+							int temp;
+
+							if(int.TryParse(val1.ToString(), out temp))
+							{
+								age_of_mother = temp;
+							}
+						}
+
+						if(!age_of_mother.HasValue)
+						{
+							val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/year");
+							val2 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/month");
+							val3 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/day");
+
+
+							date_of_birth = Convert(val1, val2, val3);
+
+							val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+							val2 = get_value (p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+							val3 = get_value (p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+
+							date_of_death = Convert(val1, val2, val3);
+
+							if(date_of_birth.HasValue && date_of_death.HasValue)
+							{
+								age_of_mother = calculate_age(date_of_birth.Value, date_of_death.Value);
+							}
+						}
+					}
+
+
+
+				}
 
 			deaths_by_age_enum result = deaths_by_age_enum.blank;;
 			
+			if(age_of_mother.HasValue)	
+			{
+				var value_test = age_of_mother.Value;
 
+				if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
+				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
+				else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
+				else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
+				else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
+			}
+
+/*
 			object val = get_value (p_source_object, "death_certificate/demographics/age");
 			int value_test = 0;
 			if (val != null && int.TryParse (val.ToString (), out value_test))
@@ -1084,7 +1118,7 @@ int mothers_age_delivery() {
 					else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
 				}
 
-			}
+			}*/
 
 			return result;
 		}
@@ -1094,6 +1128,7 @@ int mothers_age_delivery() {
 		{
 			HashSet<ethnicity_enum> result = new HashSet<ethnicity_enum> ();
 
+			object val_object = null;
 			string val = null;
 
 
@@ -1149,7 +1184,12 @@ int mothers_age_delivery() {
 			dc_hispanic_origin.Add ("5");
 
 
-			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if(val_object != null)
+			{
+				val = val_object.ToString();
+			}
+
 			if (val != null)
 			{
 				if (bc_hispanic_origin.Contains (val))
