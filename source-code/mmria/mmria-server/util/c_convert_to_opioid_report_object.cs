@@ -3985,23 +3985,12 @@ foreach(var item in val_list)
 						curr.value = 1;
 
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
-							this.indicators.Add(key, curr);
+
+							this.indicators[key] = curr;
 						}
 
-						
 					}
 					
 				}
@@ -4023,21 +4012,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto2";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4059,21 +4039,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto3";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4095,21 +4066,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto4";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4131,21 +4093,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto5";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4167,21 +4120,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto6";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4205,21 +4149,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto7";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4241,21 +4176,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto8";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4275,21 +4201,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto9";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+
 					}
 					
 				}
@@ -4309,21 +4226,12 @@ foreach(var item in val_list)
 						curr.field_id = "MSubAuto10";
 						curr.value = 1;
 						var key = $"{curr.indicator_id} {curr.field_id}";
-						if(this.indicators.ContainsKey(key))
+						if(this.indicators.ContainsKey(key) && this.indicators[key].value == 0)
 						{
-							if(this.indicators[key].value == 0)
-							{
-								this.indicators[key] = curr;
-							}
-							else
-							{
-								this.indicators.Add(key, curr);
-							}
-						}
-						else
-						{
+
 							this.indicators[key] = curr;
 						}
+						
 					}
 					
 				}
@@ -4333,6 +4241,218 @@ foreach(var item in val_list)
 				}
 
 			}
+		}
+
+		private int? Race_Recode(System.Dynamic.ExpandoObject p_source_object, string p_path)
+		{
+			List<int> get_intersection(IList<object> p_list_1, IList<int> p_list_2) 
+			{
+				var result = new List<int>();
+				for (int i = 0; i < p_list_1.Count; i++) 
+				{
+					object item1 = p_list_1[i];
+
+					if(item1 == null)
+					{
+						continue;
+					}
+
+					if (item1.GetType() == typeof(string)) 
+					{
+						int temp;
+
+						if(int.TryParse(item1.ToString(), out temp))
+						{
+							item1 = temp;
+						}
+					}
+
+					for (int j = 0; j < p_list_2.Count; j++) 
+					{
+						object item2 = p_list_2[j];
+						if(item2 == null)
+						{
+							continue;
+						}
+
+						if (item2.GetType() == typeof(string)) 
+						{
+							int temp;
+
+							if(int.TryParse(item2.ToString(), out temp))
+							{
+								item2 = temp;
+							}
+						}
+
+						if (item1 == item2) 
+						{
+							result.Add((int)item1);
+						}
+					}
+				}
+				return result;
+			}
+
+
+			/*
+			9999    (blank)
+			0       White
+			1       Black
+			2       American Indian/Alaska Native
+			3       Native Hawaiian
+			4       Guamanian or Chamorro
+			5       Samoan
+			6       Other Pacific Islander
+			7       Asian Indian
+			8       Chinese
+			9       Filipino
+			10      Japanese
+			11      Korean
+			12      Vietnamese
+			13      Other Asian
+			14      Other Race
+			8888    Race Not Specified
+
+			9999    (blank)
+			0       White
+			1       Black
+			2       American Indian/Alaska Native
+			3       Pacific Islander
+			4       Asian
+			5       Bi-Racial
+			6       Multi-Racial
+			14       Other Race
+			8888    Race Not Specified
+
+			*/
+
+
+
+			// p_value_list is an array
+			int? result = null;
+
+			var asian_list = new List<int>(){
+					7, //'Asian Indian',
+					8, //'Chinese',
+					9, //'Filipino',
+					10, //'Japanese',
+					11, //'Korean',
+					12, //'Vietnamese',
+					13 //'Other Asian'
+				};
+			var islander_list = new List<int>(){
+					3, //'Native Hawaiian',
+					4, //'Guamanian or Chamorro',
+					5, //'Samoan',
+					6 //'Other Pacific Islander'
+				};
+				
+
+
+			string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+			var p_value_list = new List<object>();
+
+			/*
+			9999    (blank)
+			0       White
+			1       Black
+			2       American Indian/Alaska Native
+			3       Pacific Islander
+			4       Asian
+			5       Bi-Racial
+			6       Multi-Racial
+			14       Other Race
+			8888    Race Not Specified
+
+			*/
+
+			if (p_value_list.Count == 0) 
+			{
+				result = 9999;
+			} 
+			else if (p_value_list.Count == 1) 
+			{
+				if (get_intersection(p_value_list, asian_list).Count > 0) 
+				{
+					result = 4; //'Asian';
+				} 
+				else if (get_intersection(p_value_list, islander_list).Count > 0) 
+				{
+					result = 3; //'Pacific Islander';
+				} 
+				else 
+				{
+					result = (int) p_value_list[0];
+				}
+			}
+			else // more than 1 item has been selected.
+			{
+				if (p_value_list.IndexOf(8888) > -1) 
+				{
+					result = 8888; //'Race Not Specified';
+				} 
+				else 
+				{
+					/* Description of recode process
+				
+				total unique = non list items + is_asian + is_islander
+				
+				non list items   is_asian   is_islander = total unique
+				2 - 1 - 1 = 0      	   1          1              2
+				2 - 1 - 0 = 1      	   1          0              2
+				2 - 0 - 1 = 1      	   0          1              2
+				2 - 0 - 0 = 2      	   0          0              2
+				2 - 0 - 2 = 0      	   0          1              1
+				2 - 2 - 0 = 0      	   1          0              1
+				3 - 0 - 0 = 3      	   0          0              3
+				3 - 1 - 1 = 1     	   1          1              3
+				3 - 2 - 0 = 1      	   1          0              2
+				*/
+					var asian_intersection_count = get_intersection(p_value_list, asian_list).Count;
+					var is_asian = 0;
+					var islander_intersection_count = get_intersection(p_value_list, islander_list).Count;
+					var is_islander = 0;
+					if (asian_intersection_count > 0)
+					{
+						is_asian = 1;
+					}
+
+					if (islander_intersection_count > 0)
+					{
+						is_islander = 1;
+					}
+
+					var number_not_in_asian_or_islander_categories = p_value_list.Count - asian_intersection_count - islander_intersection_count;
+					var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
+					switch (total_unique_items) 
+					{
+						case 1:
+							if (is_asian == 1) 
+							{
+								result = 4; //'Asian';
+							} 
+							else if (is_islander == 1) 
+							{
+								result = 3; //'Pacific Islander';
+							} 
+							else 
+							{
+								System.Console.WriteLine("This should never happen bug");
+							}
+							break;
+						case 2:
+							result = 5; //'Bi-Racial';
+							break;
+						default:
+							result = 6; //'Multi-Racial';
+							break;
+					}
+				}
+			}
+			return result;
+
+
 		}
 
 	}

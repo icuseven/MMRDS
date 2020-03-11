@@ -53,8 +53,7 @@ function $calculate_omb_recode(p_value_list)
             5, //'Samoan',
             6 //'Other Pacific Islander'
         ];
-    if (p_value_list.length == 0) 
-    {
+
 /*
 9999    (blank)
 0       White
@@ -67,7 +66,10 @@ function $calculate_omb_recode(p_value_list)
 14       Other Race
 8888    Race Not Specified
 
-*/
+*/        
+    if (p_value_list.length == 0) 
+    {
+        result = 9999;
     } 
     else if (p_value_list.length == 1) 
     {
@@ -86,7 +88,12 @@ function $calculate_omb_recode(p_value_list)
     }
     else // more than 1 item has been selected.
     {
-        if (p_value_list.includes('Race Not Specified')) 
+        if 
+        (
+            p_value_list.includes('Race Not Specified') || 
+            p_value_list.includes(8888) ||
+            p_value_list.includes("8888")
+        ) 
         {
             result = 8888; //'Race Not Specified';
         } 
@@ -151,27 +158,33 @@ function $calculate_omb_recode(p_value_list)
     return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
-function $get_intersection(p_list_1, p_list_2) {
-    var a = p_list_1.slice(0);
-    var b = p_list_2.slice(0);
-    a.sort();
-    b.sort();
-    var ai = 0, bi = 0;
+function $get_intersection(p_list_1, p_list_2) 
+{
     var result = [];
-    while (ai < a.length && bi < b.length) {
-        if (a[ai] < b[bi]) {
-            ai++;
-        } else if (a[ai] > b[bi]) {
-            bi++;
-        } else
-            /* they're equal */
-            /* they're equal */
+    for(let i = 0; i < p_list_1.length; i++)
+    {
+        let item1 = p_list_1[i];
+
+        if (typeof item1 === 'string' || item1 instanceof String)
+        {
+            item1 = parseInt(item1);
+        }
+
+        for(let j = 0; j < p_list_2.length; j++)
+        {
+            let item2 = p_list_2[j]
+            if (typeof item1 === 'string' || item1 instanceof String)
             {
-                result.push(a[ai]);
-                ai++;
-                bi++;
+                item2 = parseInt(item2);
             }
+
+            if(item1 == item2)
+            {
+                result.push(item1)
+            }
+        }
     }
+
     return result;
 }
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
