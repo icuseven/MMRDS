@@ -355,7 +355,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 		</div>
 	`);
 
-	result.push('<table class="table mt-4">');
+	result.push('<table class="table mt-4 mb-0">');
 		result.push('<thead class="thead">');
 			result.push('<tr class="tr bg-tertiary"><th class="th h4" colspan="8" scope="colgroup">Export Request History</th></tr>');
 			result.push('<tr class="tr bg-quaternary"><th class="th" colspan="8" scope="colgroup">(*Please note that the export queue is deleted at midnight each day.)</th></tr>');
