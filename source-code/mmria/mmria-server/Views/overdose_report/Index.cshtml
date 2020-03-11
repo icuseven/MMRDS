@@ -25,26 +25,26 @@
     }
   </script>
 }
+
 <h1 class="h2">Overdose Data Summary</h1>
+
 @if(@ViewBag.is_power_bi_user)
 {
+  <p>Your Power BI user name is <span id="output"></span></p>
 
-<p>Your Power BI user name is <span id="output"></span></p>
-
-<span class="spinner-container spinner-content spinner-active">
-  <span class="spinner-body text-primary">
-    <span class="spinner"></span>
-    <span class="spinner-info">Loading...</span>
+  <span class="spinner-container spinner-content spinner-active">
+    <span class="spinner-body text-primary">
+      <span class="spinner"></span>
+      <span class="spinner-info">Loading...</span>
+    </span>
   </span>
-</span>
 
   <div class="spinner-replace ratio-16-9" style="display: none;">
-  <iframe
-    class="content p-0"
-    src="@ViewBag.power_bi_link"
-    frameborder="0"
-    allowFullScreen="true"
-    onload="init_content_loader(iframe_loaded)"></iframe> 
-</div>
-
+    <iframe
+      class="content p-0"
+      src="@ViewBag.power_bi_link"
+      frameborder="0"
+      allowFullScreen="true"
+      onload="init_content_loader(iframe_loaded)"></iframe> 
+  </div>
 }
