@@ -40,10 +40,14 @@
   </span>
 
   <div class="spinner-replace ratio-16-9" style="display: none;">
+    @*
+      TODO: Add in dynamic "...for <State>" on title attr 
+    *@
     <iframe class="content p-0"
             src="@ViewBag.power_bi_link"
             frameborder="0"
             allowFullScreen="true"
+            title="MMRIA Overdose Data Summary Report"
             onload="init_content_loader(iframe_loaded)"></iframe>
   </div>
 }
