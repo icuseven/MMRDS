@@ -74,7 +74,7 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
          var child = p_metadata.children[i];
          create_default_object(child, p_parent);
        }
-       p_parent["host_state"] = window.location.host.split("-")[0];
+       p_parent["host_state"] = sanitize_encodeHTML(window.location.host.split("-")[0]);
        break;
     case 'string':
     case 'textarea':
@@ -157,4 +157,10 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
 
 
   return p_parent;
+}
+
+function sanitize_encodeHTML(s) 
+{
+	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    return result;
 }

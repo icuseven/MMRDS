@@ -459,47 +459,7 @@ namespace mmria.server.util
 			{
 				report_object.data.Add(indicator_item.Value);
 			}
-/*
-			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
-			this.popluate_list(ref report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, ref report_object, source_object, "committee_review/pmss_mm", true);
 
-
-
-			//this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", false);
-
-
-			//this.popluate_pregnancy_related_obesity_contributed_to_the_death(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_obesity_contributed_to_the_death(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_obesity_contributed_to_the_death, ref report_object, source_object, "committee_review/did_obesity_contribute_to_the_death", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_obesity_contributed_to_the_death, ref report_object, source_object, "committee_review/did_obesity_contribute_to_the_death", false);
-
-
-			//this.popluate_pregnancy_related_mental_health_conditions_contributed_to_death(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_mental_health_conditions_contributed_to_death(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_mental_health_conditions_contributed_to_death, ref report_object, source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_mental_health_conditions_contributed_to_death, ref report_object, source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death", false);
-
-
-
-			//this.popluate_pregnancy_related_substance_use_disorder_contributed_to_death(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_substance_use_disorder_contributed_to_death(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_substance_use_disorder_contributed_to_death, ref report_object, source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_substance_use_disorder_contributed_to_death, ref report_object, source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death", false);
-
-
-			//this.popluate_pregnancy_related_is_suicide(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_is_suicide(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_is_suicide, ref report_object, source_object, "committee_review/was_this_death_a_sucide", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_is_suicide, ref report_object, source_object, "committee_review/was_this_death_a_sucide", false);
-
-			//this.popluate_pregnancy_related_is_homocide(ref report_object, source_object);
-			//this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", true);
-			this.popluate_list(ref report_object.total_pregnancy_associated_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", false);
-*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -742,17 +702,19 @@ namespace mmria.server.util
 						if (index is IList<object>)
 						{
 							var grid_list = index as IList<object>;
-
-							for(int grid_index = 0; grid_index < grid_list.Count; grid_index++)
+							if(grid_list != null)
 							{
-								var grid_row = grid_list[grid_index];
-
-								if(grid_row is IDictionary<string, object>)
+								for(int grid_index = 0; grid_index < grid_list.Count; grid_index++)
 								{
-									var grid_row_dictionary = grid_row as IDictionary<string, object>;
-									if(grid_row_dictionary.ContainsKey(path[i]))
+									var grid_row = grid_list[grid_index];
+
+									if(grid_row is IDictionary<string, object>)
 									{
-										result.Add((grid_index, grid_row_dictionary[path[i]]));
+										var grid_row_dictionary = grid_row as IDictionary<string, object>;
+										if(grid_row_dictionary.ContainsKey(path[i]))
+										{
+											result.Add((grid_index, grid_row_dictionary[path[i]]));
+										}
 									}
 								}
 							}		
@@ -821,6 +783,8 @@ namespace mmria.server.util
 				)
 				{
 					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+
+
 					if (val != null)
 					{
 						
@@ -1611,177 +1575,6 @@ pregnancy_status <- list field
 8888 Not Specififed
 
 
-
-
-
-
-
-			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
-			int pregnancy_status = -1;
-			if(!int.TryParse(pregnancy_status_string, out pregnancy_status))
-			{
-				pregnancy_status = -1;
-			}
-
-
-			if
-			(
-				length_between_child_birth_and_death_of_mother == 0 
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_at_the_time_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
-				}
-			}
-			else if
-			(
-				length_between_child_birth_and_death_of_mother == -1 &&
-				pregnancy_status == 1
-
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_at_the_time_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
-				}
-			}
-
-			else if
-			(
-				(
-					length_between_child_birth_and_death_of_mother >= 1 &&
-					length_between_child_birth_and_death_of_mother <= 42 
-				)
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_within_42_days_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
-				}
-			}
-			else if
-			(
-				length_between_child_birth_and_death_of_mother == -1 &&
-				pregnancy_status == 2
-
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_within_42_days_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
-				}
-			}
-			else if
-			(
-				(
-					length_between_child_birth_and_death_of_mother >= 43 &&
-					length_between_child_birth_and_death_of_mother <= 365
-				)
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_within_43_to_365_days_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
-				}
-			}
-			else if
-			(
-				length_between_child_birth_and_death_of_mother == -1 &&
-				pregnancy_status == 3
-
-			)
-			{
-				if(p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					p_report_object.mTimingofDeath.pregnant_within_43_to_365_days_of_death = 1;
-				}
-				else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
-				}
-			}
-			else if(p_report_object.mPregRelated.pregnancy_related == 1)
-			{
-				p_report_object.mTimingofDeath.blank = 1;
-			}
-			else if(p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-			{
-				p_report_object.total_number_pregnancy_associated_at_time_of_death.blank = 1;
-			}
-*/	
-
-/*
-			pregnant_at_time_of_death_enum time_of_death_enum = get_pregnant_at_time_of_death_classifier (p_source_object);
-			switch (time_of_death_enum) 
-			{
-				case pregnant_at_time_of_death_enum.pregnant_at_the_time_of_death:
-				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
-				{
-					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death = 1;
-				} 
-				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
-				}
-	
-
-				break;
-			case pregnant_at_time_of_death_enum.pregnant_within_42_days_of_death:
-				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
-				{
-					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death = 1;
-				} 
-				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
-				}
-	
-				break;
-			case pregnant_at_time_of_death_enum.pregnant_within_43_to_365_days_of_death:
-				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
-				{
-					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
-				} 
-				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
-				}
-	
-				break;
-				case pregnant_at_time_of_death_enum.blank:
-				default:
-				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
-				{
-					p_report_object.total_number_pregnancy_related_at_time_of_death.blank = 1;
-				} 
-				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
-				{
-					p_report_object.total_number_of_pregnancy_associated_deaths_by_age.blank = 1;
-				}
-	
-				break;
-			}
 */
 				/*			
 			age_less_than_20,
@@ -2029,128 +1822,6 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 			//}
 		}
 
-/*
-		private void popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
-		{
-			if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-			{
-				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
-
-				bool is_blank = true;
-				
-				if (ethnicity_set.Count() == 0)
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.blank = 1;
-					return;
-				}
-
-				if (ethnicity_set.Contains(ethnicity_enum.hispanic))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.hispanic  = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black  = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian = 1;
-					is_blank = false;
-				}
-
-			
-				if (ethnicity_set.Contains (ethnicity_enum.guamanian_or_chamorro))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.samoan))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.samoan = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.asian_indian = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.filipino))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.filipino = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.korean))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity .korean = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other_asian = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.chinese))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.chinese = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.japanese))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.japanese = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.vietnamese = 1;
-					is_blank = false;
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other))
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other = 1;
-					is_blank = false;
-				}
-
-				
-				if(is_blank)
-				{
-					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.blank = 1;
-				}
-				
-				//System.Console.WriteLine ("break");
-			}
-		}
-*/
 
 		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
