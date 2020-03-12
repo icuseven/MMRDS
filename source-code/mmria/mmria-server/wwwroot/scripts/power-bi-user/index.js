@@ -42,7 +42,7 @@ function load_user_list()
 	{
 		g_power_bi_user_list = response;
 		
-		document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
+		render();
 	});
 
 }
@@ -62,7 +62,7 @@ function render_power_bi_user_list()
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
 	
-	for(var i in g_power_bi_user_list.rows)
+	for(let i = 0; i < g_power_bi_user_list.rows.length; i++)
 	{
 		var item = g_power_bi_user_list.rows[i].doc;
 
@@ -87,7 +87,7 @@ function render_power_bi_user_list()
 		{
 			result.push(escape(item.alternate_email));
 		}
-		result.push("' onchange='update_item("+ i+", this.value)'/></label></td>");
+		result.push("' onchange='update_item("+ i +", this.value)'/></label></td>");
 		result.push("<td colspan=2 align=center><input type='button' value='save' onclick='server_save("+ i +")' /></td>")
 		result.push("</tr>");		
 		
@@ -122,15 +122,21 @@ function server_save(p_index)
 		}).done(function(response) 
 		{
 
-			var response_obj = eval(response);
+			let response_obj = eval(response);
 			if(response_obj.ok)
 			{
 				user._rev = user.rev; 
 
-				document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
+				render();
 			}
 		});
+		
+}
 
+
+function render()
+{
+	document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
 }
 
 function encodeHTML(s) 

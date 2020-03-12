@@ -835,73 +835,6 @@ namespace mmria.server.util
 
 		}
 
-
-			
-
-		private pregnant_at_time_of_death_enum get_pregnant_at_time_of_death_classifier (System.Dynamic.ExpandoObject p_source_object)
-		{
-
-			pregnant_at_time_of_death_enum result = pregnant_at_time_of_death_enum.blank;
-
-			
-/*
-			pregnant_at_the_time_of_death,
-birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0; 
-OR death_certificate/pregnancy_status = pregnant at time of death
-
-			pregnant_within_42_days_of_death,
-birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 1-42;
- OR death_certificate/pregnancy_status = Pregnant within 42 days of death
-
-			pregnant_within_43_to_365_days_of_death
-
-birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 43-365; 
-OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
-
-			blank,
-			pregnant_at_the_time_of_death,
-			pregnant_within_42_days_of_death,
-			pregnant_within_43_to_365_days_of_death
-*/
-
-			object length = get_value (p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			int length_test = -1;
-
-			if (length != null) int.TryParse (length.ToString (), out length_test);
-
-			string status = get_value (p_source_object, "death_certificate/pregnancy_status");
-
-			if (status == null) status = "";
-
-			if 
-			(
-				(length_test == 0) || 
-				status.Equals ("pregnant at time of death", StringComparison.InvariantCultureIgnoreCase)
-			)
-			{
-				result = pregnant_at_time_of_death_enum.pregnant_at_the_time_of_death;
-			}
-			else if
-			(
-				(length_test >= 1 && length_test <= 42) ||
-				status.Equals ("pregnant within 42 days of death", StringComparison.InvariantCultureIgnoreCase)
-			)
-			{
-				result = pregnant_at_time_of_death_enum.pregnant_within_42_days_of_death;
-			}
-			else if
-			(
-				(length_test >= 43 && length_test <= 365) ||
-				status.Equals ("Pregnant 43 to 365 days of death", StringComparison.InvariantCultureIgnoreCase)
-			)
-			{
-				result = pregnant_at_time_of_death_enum.pregnant_within_43_to_365_days_of_death;
-			}
-			
-
-			return result;
-		}
-
 		private deaths_by_age_enum get_age_classifier (System.Dynamic.ExpandoObject p_source_object)
 		{
 
@@ -1451,7 +1384,15 @@ death_certificate/Race/race = Other
 //  (death_certificate/death_information/pregnancy_status = 1)
 			try
 			{	
-				if(length_between_child_birth_and_death_of_mother == 0 || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1))
+				if
+				(	length_between_child_birth_and_death_of_mother == 0 || 
+					length_between_child_birth_and_death_of_mother == -1 &&
+					(
+						val_1 != null && 
+						int.TryParse(val_1, out test_int) &&
+						test_int == 1
+					)
+				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
@@ -1470,7 +1411,20 @@ death_certificate/Race/race = Other
 //(death_certificate/death_information/pregnancy_status = 2)
 			try
 			{	
-				if((length_between_child_birth_and_death_of_mother >= 1 && length_between_child_birth_and_death_of_mother <= 42) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2))
+				if
+				(
+					(
+						length_between_child_birth_and_death_of_mother >= 1 && 
+						length_between_child_birth_and_death_of_mother <= 42
+					) 
+					|| 
+					length_between_child_birth_and_death_of_mother == -1 &&
+					(
+						val_1 != null && 
+						int.TryParse(val_1, out test_int) && 
+						test_int == 2
+					)
+				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
@@ -1489,7 +1443,14 @@ death_certificate/Race/race = Other
 // (death_certificate/death_information/pregnancy_status = 3)
 			try
 			{	
-				if((length_between_child_birth_and_death_of_mother >= 43 && length_between_child_birth_and_death_of_mother <= 365) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
+				if(
+					(
+						length_between_child_birth_and_death_of_mother >= 43 &&
+						length_between_child_birth_and_death_of_mother <= 365
+					)
+					|| 
+					length_between_child_birth_and_death_of_mother == -1 &&
+					(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
@@ -1512,10 +1473,18 @@ death_certificate/Race/race = Other
 				if(
 					length_between_child_birth_and_death_of_mother == -1 &&
 					(
-						val_1 == null || val_1== "" || 
+						val_1 == null || 
+						val_1== "" || 
 						!int.TryParse(val_1, out test_int) ||
-						test_int == 9999)
+						(
+							test_int == 9999 || 
+							test_int == 0 ||
+							test_int == 88 ||
+							test_int == 4 ||
+							test_int == 8888
+						)
 					)
+				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
@@ -2066,7 +2035,12 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if(val == null || val == "" || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if
+				(
+					val == null || 
+					val == "" || 
+					(val != null && int.TryParse(val, out test_int) && test_int == 9999)
+				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathSubAbuseEvi";
@@ -3536,7 +3510,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";

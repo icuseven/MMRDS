@@ -70,7 +70,7 @@ var g_ui = {
 		g_ui.selected_record_id = result._id;
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
-    var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+    var url = escape(location.protocol) + '//' + escape(location.host) + '#/' + escape(g_ui.selected_record_index) + '/home_record';
 
     window.location = url;
 
