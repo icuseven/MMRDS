@@ -13,6 +13,7 @@ namespace mmria.server.util
 
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
+		private int blank_value = 9999;
 
 
 		private enum deaths_by_age_enum
@@ -286,13 +287,29 @@ namespace mmria.server.util
 			try
 			{
 				var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
+				int int_check = 0;
 				if
 				(
 					filter_check_string == null ||
-					filter_check_string.ToString().ToLower() != "3") //"poisoning/overdose"
+					string.IsNullOrWhiteSpace(filter_check_string.ToString())
+				)
 				{
 					return result;
 				}
+				
+				int Overdose_Poisioning = 3;
+				if(int.TryParse(filter_check_string.ToString(), out int_check))
+				{
+					if(int_check != Overdose_Poisioning)
+					{
+						return result;
+					}
+				}
+				else
+				{
+					return result;
+				}
+
 			}
 			catch(Exception ex)
 			{
@@ -1474,10 +1491,10 @@ death_certificate/Race/race = Other
 					length_between_child_birth_and_death_of_mother == -1 &&
 					(
 						val_1 == null || 
-						val_1== "" || 
+						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
 						(
-							test_int == 9999 || 
+							test_int == blank_value || 
 							test_int == 0 ||
 							test_int == 88 ||
 							test_int == 4 ||
@@ -1849,7 +1866,7 @@ MPregRel5	(Blank)
 						default:
 							//p_report_object.mPregRelated.blank = 1;
 							p_opioid_report_value.field_id = "MPregRel5";
-							p_opioid_report_value.pregnancy_related = 9999;
+							p_opioid_report_value.pregnancy_related = blank_value;
 						break;
 					}
 
@@ -1858,7 +1875,7 @@ MPregRel5	(Blank)
 				{
 					//p_report_object.mPregRelated.blank = 1;
 					p_opioid_report_value.field_id = "MPregRel5";
-					p_opioid_report_value.pregnancy_related = 9999;
+					p_opioid_report_value.pregnancy_related = blank_value;
 				}
 			}
 			catch(Exception ex)
@@ -2038,8 +2055,8 @@ MPregRel5	(Blank)
 				if
 				(
 					val == null || 
-					val == "" || 
-					(val != null && int.TryParse(val, out test_int) && test_int == 9999)
+					string.IsNullOrWhiteSpace(val) || 
+					(val != null && int.TryParse(val, out test_int) && test_int == blank_value)
 				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -2174,7 +2191,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2277,7 +2294,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val == null || val == "" || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) || (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2383,7 +2400,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2567,7 +2584,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 				
 				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					if(test_int >=6 && test_int <= 9999)
+					if(test_int >=6 && test_int <= blank_value)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
@@ -2579,7 +2596,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 				else 
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
-					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 9999))
+					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
@@ -2689,7 +2706,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 				
-				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHomeless";
@@ -2964,7 +2981,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3096,7 +3113,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
 				
-				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHxofSubAbu";
@@ -3219,7 +3236,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 				
-				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mIncarHx";
@@ -3384,7 +3401,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
 				
-				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1)|| (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value ))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mLivingArrange";
@@ -3510,7 +3527,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3814,7 +3831,7 @@ foreach(var item in val_list)
 					
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 == null || val_1 == "" ||  (val_1 != null && (val_1== "" || int.TryParse(val_1, out test_int) && test_int == 9999 )))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) ||  (val_1 != null && (string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && test_int == blank_value )))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
@@ -4014,7 +4031,7 @@ foreach(var item in val_list)
 
 			if (p_value_list.Count == 0) 
 			{
-				result = 9999;
+				result = blank_value;
 			} 
 			else if (p_value_list.Count == 1) 
 			{
