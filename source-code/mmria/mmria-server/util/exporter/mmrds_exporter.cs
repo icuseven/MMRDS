@@ -763,7 +763,7 @@ namespace mmria.server.util
 																}
 																else
 																{
-																	if(val == "")
+																	if(val == "" || val == "9999")
 																	{
 
 																		if
@@ -779,7 +779,7 @@ namespace mmria.server.util
 																			grid_row[file_field_name] = "9999";
 																		}
 
-																		grid_row[file_field_name] = "9999";
+																		//grid_row[file_field_name] = "9999";
 																	}
 																	else
 																	{
@@ -1043,7 +1043,7 @@ namespace mmria.server.util
 											}
 											else
 											{
-												if(val.ToString() == "")
+												if(val.ToString() == "" || val.ToString() == "9999")
 												{
 													if
 													(
@@ -1058,7 +1058,7 @@ namespace mmria.server.util
 														form_row[file_field_name] = "9999";
 													}
 
-													form_row[file_field_name]  = "9999";
+													//form_row[file_field_name]  = "9999";
 												}
 												else
 												{
