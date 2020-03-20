@@ -914,7 +914,15 @@ namespace mmria.server.util
 							int.TryParse(day.ToString(), out start_day)
 						)
 						{
-							result = new DateTime(start_year, start_month, start_day);
+							try
+							{
+								result = new DateTime(start_year, start_month, start_day);
+							}
+							catch(Exception ex)
+							{
+								
+							}
+							
 						}
 
 
@@ -995,7 +1003,7 @@ namespace mmria.server.util
 			{
 				var value_test = age_of_mother.Value;
 
-				if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				if(value_test <= 0) result = deaths_by_age_enum.blank;
 				else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
 				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
 				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
