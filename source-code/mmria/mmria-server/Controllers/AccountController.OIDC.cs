@@ -86,63 +86,7 @@ namespace mmria.common.Controllers
             var sams_callback_url = _configuration["sams:callback_url"];        
 
             var state = Guid.NewGuid().ToString("N");
-
             var nonce = Guid.NewGuid().ToString("N");
-
-
-            try 
-            {
-                var session_data = new System.Collections.Generic.Dictionary<string,string> (StringComparer.OrdinalIgnoreCase);
-                session_data.Add("nonce", nonce);
-
-
-                var Session_Message = new mmria.server.model.actor.Session_Message
-                (
-                    state, //_id = 
-                    null, //_rev = 
-                    DateTime.Now, //date_created = 
-                    DateTime.Now, //date_last_updated = 
-                    null, //date_expired = 
-
-                    true, //is_active = 
-                    "", //user_id = 
-                    this.GetRequestIP(), //ip = 
-                    Guid.NewGuid().ToString("N"), // session_event_id = 
-                    session_data
-                );
-
-                var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-                var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-                var config_timer_password = _configuration["mmria_settings:timer_password"];
-
-                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-                settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
-
-
-                string session_request_url = $"{config_couchdb_url}/session/{Session_Message._id}";
-
-                var put_session_curl = new mmria.server.cURL ("PUT", null, session_request_url, object_string,  config_timer_user_name, config_timer_password);
-                string put_session_response_json = put_session_curl.execute();
-                
-            } 
-            catch (Exception ex) 
-            {
-                // do nothing for now document doesn't exsist.
-                System.Console.WriteLine ($"err caseController.Post\n{ex}");
-                
-            }            
-
-            
-            
-
-            
-/*
-            requestcontext.Request.Cookies["sid"];
-
-            session.data["state"] = state;
-            session.data["nonce"] = nonce;
-            */
 
             var sams_url = $"{sams_endpoint_authorization}?" +
                 "&client_id=" + sams_client_id +
@@ -187,38 +131,6 @@ namespace mmria.common.Controllers
             var state = querystring_dictionary["state"];
             System.Diagnostics.Debug.WriteLine($"code: {code}");
             System.Diagnostics.Debug.WriteLine($"state: {state}");
-
-
-            var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-            var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_password"];
-
-
-            string session_request_url = $"{config_couchdb_url}/session/{state}";
-
-            mmria.common.model.couchdb.session Session_Message = null;
-
-            try 
-            {
-                var check_document_curl = new mmria.server.cURL ("GET", null, session_request_url, null,  config_timer_user_name, config_timer_password);
-                string check_document_json = check_document_curl.execute();
-                Session_Message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (check_document_json);
-
-                if(Session_Message == null || !state.Equals(Session_Message._id, StringComparison.OrdinalIgnoreCase))
-                {
-                    //this.Response.StatusCode = 401;
-                    
-                    return StatusCode(401);
-                }
-            } 
-            catch (Exception ex) 
-            {
-                // do nothing for now document doesn't exsist.
-                System.Console.WriteLine ($"err caseController.Post\n{ex}");
-                return StatusCode(401);
-            }
-
-
 
             HttpClient client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_token);
@@ -303,7 +215,9 @@ namespace mmria.common.Controllers
 
 
             //check if user exists
-
+            var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
+            var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
+            var config_timer_password = _configuration["mmria_settings:timer_password"];
 
             mmria.common.model.couchdb.user user = null;
 			try
@@ -368,32 +282,23 @@ namespace mmria.common.Controllers
 
 
 
-                Session_Message.user_id = user.name;
-                Session_Message.date_last_updated = DateTime.Now;
-                try
-                {
-                        
-                    Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-                    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                    var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
 
+                var Session_Message = new mmria.server.model.actor.Session_Message
+                (
+                    Guid.NewGuid().ToString(), //_id = 
+                    null, //_rev = 
+                    DateTime.Now, //date_created = 
+                    DateTime.Now, //date_last_updated = 
+                    null, //date_expired = 
 
-                    session_request_url = $"{config_couchdb_url}/session/{Session_Message._id}";
+                    true, //is_active = 
+                    user.name, //user_id = 
+                    this.GetRequestIP(), //ip = 
+                    Session_Event_Message._id, // session_event_id = 
+                    session_data
+                );
 
-                    var put_session_curl = new mmria.server.cURL ("PUT", null, session_request_url, object_string,  config_timer_user_name, config_timer_password);
-                    string put_session_response_json = put_session_curl.execute();
-                    
-                } 
-                catch (Exception ex) 
-                {
-                    // do nothing for now document doesn't exsist.
-                    System.Console.WriteLine ($"err caseController.Post\n{ex}");
-                    
-                }            
-
-
-
-                //_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message2);
+                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
                 Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
                 Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                 //return RedirectToAction("Index", "HOME");
