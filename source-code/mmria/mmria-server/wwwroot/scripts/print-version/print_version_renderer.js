@@ -2,8 +2,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 {
 	var result = [];
 
-	// console.log('d. Rendering ' + p_metadata.type + ' on page...');
-
 	switch(p_metadata.type.toLowerCase())
 	{
 		case 'group':
@@ -89,7 +87,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 			
 			)
 			{
-				// Start Multi-record case forms
 				result.push('<section id="');
 				result.push(p_metadata.name)
 				result.push('">');
@@ -112,7 +109,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 								for(var i = 0; i < p_metadata.children.length; i++)
 								{
 									var child = p_metadata.children[i];
-
 									if(form_item[child.name] != null || child.type == "chart")
 									Array.prototype.push.apply(result, print_version_render(child, form_item[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + i + "]." + child.name, p_post_html_render, form_index));
 								}
@@ -124,7 +120,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 			}
 			else
 			{
-				// Start Single-record case form
 				result.push('<section id="');
 					result.push(p_metadata.name)
 					result.push('"> <h2>')
@@ -137,7 +132,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 						for(var i = 0; i < p_metadata.children.length; i++)
 						{
 							var child = p_metadata.children[i];
-
 							if(p_data[child.name] != null || child.type == "chart")
 							Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
 						}
@@ -164,7 +158,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				for(let list_index = 0; list_index < data_value_list.length; list_index++)
 				{
 					let list_item = data_value_list[list_index];
-
 					list_lookup[list_item.value] = list_item.display;
 				}
 
@@ -215,7 +208,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 					for(var i = 0; i < p_metadata.children.length; i++)
 					{
 						var child = p_metadata.children[i];
-
 						if(child.type.toLowerCase() == "form" && p_data[child.name] != null)
 						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
 					}
