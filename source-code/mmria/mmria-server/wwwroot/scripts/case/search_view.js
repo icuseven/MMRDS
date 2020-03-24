@@ -135,6 +135,7 @@ function render_search_text(p_ctx)
 
 function render_search_text_input_control(p_ctx)
 {   
+    let control_type = p_ctx.metadata.type;
     let result = p_ctx.result;
     let style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
     let style_string = get_only_size_and_font_style_string(style_object.prompt.style);
@@ -189,7 +190,19 @@ function render_search_text_input_control(p_ctx)
         
     result.push("<input id='");
     result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-    result.push("_input' class='form-control' type='text' style='");
+
+    result.push("_input' class='form-control' ");
+
+    if (control_type === 'date')
+    {
+        result.push("type='date'");
+    }
+    else
+    {
+        result.push("type='text'");
+    }
+
+    result.push(" style='");
 
     if
     (
@@ -277,20 +290,20 @@ function render_search_text_input_control(p_ctx)
                 }
             );`);*/
 
-            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
-            p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
-            p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
-            p_ctx.post_html_render.push(`
-                icons: {
-                    time: "x24 fill-p cdc-icon-clock_01",
-                    date: "x24 fill-p cdc-icon-calendar_01",
-                    up: "x24 fill-p cdc-icon-chevron-circle-up",
-                    down: "x24 fill-p cdc-icon-chevron-circle-down",
-                    previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-                    next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-                }
-            `);
-            p_ctx.post_html_render.push('});');
+            // p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
+            // p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
+            // p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
+            // p_ctx.post_html_render.push(`
+            //     icons: {
+            //         time: "x24 fill-p cdc-icon-clock_01",
+            //         date: "x24 fill-p cdc-icon-calendar_01",
+            //         up: "x24 fill-p cdc-icon-chevron-circle-up",
+            //         down: "x24 fill-p cdc-icon-chevron-circle-down",
+            //         previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+            //         next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            //     }
+            // `);
+            // p_ctx.post_html_render.push('});');
 
             break;
         case "datetime":
