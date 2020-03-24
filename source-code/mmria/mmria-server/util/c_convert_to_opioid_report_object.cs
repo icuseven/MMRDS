@@ -779,6 +779,305 @@ namespace mmria.server.util
 
 
 
+		private string get_race_ethnicity (System.Dynamic.ExpandoObject p_source_object)
+		{
+			string result = "9999";
+
+			string val = null;
+			object val_object = null;
+			string race_name = "blank";
+
+
+//Hispanic
+			
+			HashSet<string> bc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+
+//birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin 
+			// Yes, Mexican, Mexican American, Chicano 
+			// Yes, Puerto Rican 
+			// Yes, Cuban 
+			// Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+/*
+9999 (blank)
+0 No, Not Spanish/Hispanic/Latino
+1 Yes, Mexican, Mexican American, Chicano
+2 Yes, Puerto Rican
+3 Yes, Cuban
+4 Yes, Other Spanish/Hispanic/Latino
+5 Yes, Origin Unknown
+8888 Not Specified
+
+
+			bc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
+			bc_hispanic_origin.Add ("Yes, Puerto Rican");
+			bc_hispanic_origin.Add ("Yes, Cuban");
+			bc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino");
+			bc_hispanic_origin.Add ("Yes, Origin Unknown");
+ */
+			bc_hispanic_origin.Add ("1");
+			bc_hispanic_origin.Add ("2");
+			bc_hispanic_origin.Add ("3");
+			bc_hispanic_origin.Add ("4");
+			bc_hispanic_origin.Add ("5");
+
+
+
+//IF NO BC present:
+//death_certificate/demographics/is_of_hispanic_origin
+			//Yes, Mexican, Mexican American, Chicano
+			//Yes, Puerto Rican 
+			//Yes, Cuban
+			//Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+			dc_hispanic_origin.Add ("1");
+			dc_hispanic_origin.Add ("2");
+			dc_hispanic_origin.Add ("3");
+			dc_hispanic_origin.Add ("4");
+			dc_hispanic_origin.Add ("5");
+
+			bool is_hispanic = false;
+			bool is_hispanic_blank = true;
+			
+
+			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if (val != null)
+			{
+				if
+				(
+					string.IsNullOrWhiteSpace(val.ToString()) ||
+					val.ToString() == "9999" ||
+					val.ToString() == "7777" ||
+					val.ToString() == "8888"
+
+				)
+				{
+					is_hispanic_blank = true;
+				}
+				else if (bc_hispanic_origin.Contains (val))
+				{
+					//result.Add (ethnicity_enum.hispanic);
+					is_hispanic = true;
+					is_hispanic_blank = false;
+				}
+				else if 
+				(
+					//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+				)
+				{
+					is_hispanic = false;
+					is_hispanic_blank = false;
+				}
+
+			}
+
+			if(is_hispanic_blank && !is_hispanic)
+			{
+				val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+				if
+				(
+					string.IsNullOrWhiteSpace(val.ToString()) ||
+					val.ToString() == "9999" ||
+					val.ToString() == "7777" ||
+					val.ToString() == "8888"
+
+				)
+				{
+					is_hispanic_blank = true;
+				}
+				else if (dc_hispanic_origin.Contains (val))
+				{
+					//result.Add (ethnicity_enum.hispanic);
+					is_hispanic = true;
+					is_hispanic_blank = false;
+				}
+				else if 
+				(
+					//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+				)
+				{
+					is_hispanic = false;
+					is_hispanic_blank = false;
+				}
+			}
+
+
+
+			val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+			if (val_object != null)
+			{
+				
+				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+				var val_list = val_object as IList<object>;
+
+				if(val_list != null)
+				{
+					if(val_list.Count == 1)
+					{
+						if(val_list[0]!= null)
+						switch(val_list[0].ToString().ToLower())
+						{
+
+							case "white":
+							case "black":
+								race_name = val_list[0].ToString().ToLower();
+							break;
+							case "9999":
+							case "8888":
+							case "7777":
+								race_name = "blank";
+								break;
+							default:
+								race_name = "other";
+							break;
+						}
+					}
+					else if(val_list.Count > 1)
+					{
+						race_name = "other";
+						foreach(object item in val_list)
+						{
+
+							if(item!= null)
+							{
+								string item_value = item.ToString().ToLower();
+								if
+								(
+									item_value == "9999" ||
+									item_value == "8888" ||
+									item_value == "7777"
+								)
+								{
+										race_name = "blank";
+										break;
+								}
+								else
+								{
+									race_name = "other";
+								}
+							}
+							
+						}
+					}
+					
+
+				}
+			}
+
+
+			val_object = get_value (p_source_object, "death_certificate/race/race");
+			if (val_object != null)
+			{
+				
+				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+				var val_list = val_object as IList<object>;
+
+				if(val_list != null)
+				{
+					if(val_list.Count == 1)
+					{
+						if(val_list[0]!= null)
+						switch(val_list[0].ToString().ToLower())
+						{
+
+							case "white":
+							case "black":
+								race_name = val_list[0].ToString().ToLower();
+							break;
+							case "9999":
+							case "8888":
+							case "7777":
+								race_name = "blank";
+								break;
+							default:
+								race_name = "other";
+							break;
+						}
+					}
+					else if(val_list.Count > 1)
+					{
+						race_name = "other";
+						foreach(object item in val_list)
+						{
+
+							if(item!= null)
+							{
+								string item_value = item.ToString().ToLower();
+								if
+								(
+									item_value == "9999" ||
+									item_value == "8888" ||
+									item_value == "7777"
+								)
+								{
+										race_name = "blank";
+										break;
+								}
+								else
+								{
+									race_name = "other";
+								}
+							}
+							
+						}
+					}
+					
+
+				}
+			}
+
+			if(is_hispanic_blank)
+			{
+				return "9999";
+			}
+			else
+			{
+				if(is_hispanic)
+				{
+					if(race_name == "blank")
+					{
+						return "9999";
+					}
+					else
+					{
+						return "hispanic";
+					}
+					
+				}
+				else
+				{
+					if(race_name == "blank")
+					{
+						return "9999";
+					}
+					else
+					{
+						if(race_name == "black" || race_name == "white")
+						{
+							return race_name;
+						}
+						else
+						{
+							return "other";
+						}						
+					}
+				}
+
+			}
+
+			//return result;
+
+			
+		}
+
+
 		private bool is_non_hispanic (string p_ethnicity, System.Dynamic.ExpandoObject p_source_object)
 		{
 			bool result = false;
@@ -1675,7 +1974,29 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 			//{
 				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
-				
+				var race_ethnicity_result = get_race_ethnicity(p_source_object);
+
+				switch(race_ethnicity_result)
+				{
+					case "9999":
+						p_opioid_report_value.field_id = "MRaceEth20";
+					break;
+					case "hispanic":
+						p_opioid_report_value.field_id = "MRaceEth3";
+					break;
+					case "black":
+						p_opioid_report_value.field_id = "MRaceEth4";
+					break;
+					case "white":
+						p_opioid_report_value.field_id = "MRaceEth5";
+					break;
+					case "other":
+						p_opioid_report_value.field_id = "MRaceEth18";
+					break;
+				}
+
+/*
+
 				if (ethnicity_set.Count() == 0)
 				{
 					//p_report_object.mDeathsbyRaceEth.blank = 1;
@@ -1811,7 +2132,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 					p_opioid_report_value.field_id = "MRaceEth20";
 					return;
 				}
-				
+				*/
 				//System.Console.WriteLine ("break");
 			//}
 		}
