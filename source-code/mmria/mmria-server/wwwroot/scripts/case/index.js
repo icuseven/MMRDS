@@ -1463,32 +1463,65 @@ function delete_record(p_index)
 var save_interval_id = null;
 var save_queue = [];
 
-function print_case_onchange()
+function print_case_onchange(event)
 {
-  var section_id = escape(document.getElementById("print_case_id").value);
+  var section_name = event.target.options[event.target.options.selectedIndex].value; // get value of selected option
+  var record_number = event.target.options[event.target.options.selectedIndex].dataset.record; // data-record of selected option
 
-  if(section_id && section_id.length > 0)
+  // console.log('a. Start print onchange...');
+
+  // IF section_name exists
+  if(section_name && section_name.length > 0)
   {
-    if(section_id == "core-summary")
+    if(section_name == "core-summary")
     {
       open_core_summary("all");
     }
     else
     {
-      open_print_version(section_id);
+      if (isNullOrUndefined(record_number))
+      {
+        // Singular form
+        open_print_version(section_name);
+      }
+      else
+      {
+        // Multi-record form
+        // Also pass the record number (record_number)
+        open_print_version(section_name, record_number);
+      }
     }
-    
   }
 }
+// Commenting out old way but keeping for legacy purposes
+// function print_case_onchange()
+// {
+//   var section_id = escape(document.getElementById("print_case_id").value);
+
+//   if(section_id && section_id.length > 0)
+//   {
+//     if(section_id == "core-summary")
+//     {
+//       open_core_summary("all");
+//     }
+//     else
+//     {
+//       open_print_version(section_id);
+//     }
+    
+//   }
+// }
 
 
-function open_print_version(p_section)
+function open_print_version(p_section, p_number)
 {
   var print_window = window.open('./print-version','_print_version',null,false);
 
+  // console.log('b. Open print version...');
+
 	window.setTimeout(function()
 	{
-		print_window.create_print_version(g_metadata, g_data, p_section)
+		print_window.create_print_version(g_metadata, g_data, p_section, p_number)
 	}, 1000);	
 }
 
@@ -1646,6 +1679,7 @@ function convert_local_storage_index_to_array(p_case_index)
       {
           let item = p_case_index[key];
           let item_object = JSON.parse(window.localStorage['case_' + key]);
+
           if(!(item.date_last_updated instanceof Date))
           {
             item.date_last_updated = new Date(item.date_last_updated);
@@ -1712,6 +1746,7 @@ function get_local_case(p_id)
 function undo_click()
 {
   var current_change = g_change_stack.pop();
+
   if(current_change)
   {
 
@@ -1720,6 +1755,7 @@ function undo_click()
     if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
     {
       var item = eval(current_change.object_path);
+
       if(item.indexOf(current_change.old_value) > -1)
       {
         item.splice(item.indexOf(current_change.old_value), 1);
@@ -1751,9 +1787,11 @@ function autosave()
   if(split_one.length > 1)
   {
     let split_two = split_one[0].split("/");
+
     if(split_two.length > 3 && split_two[3].toLocaleLowerCase() == "case")
     {
       let split_three = split_one[1].split("/");
+
       if(split_three.length > 1 && split_three[1].toLocaleLowerCase() != "summary")
       {
         if(g_data)
@@ -1776,11 +1814,10 @@ function autosave()
 
 function diff_minutes(dt1, dt2) 
 {
-
   let diff =(dt2.getTime() - dt1.getTime()) / 1000;
+
   diff /= 60;
   return Math.abs(Math.round(diff));
-  
 }
 
 
@@ -1791,6 +1828,7 @@ function g_textarea_oninput(p_object_path, p_metadata_path, p_dictionary_path,  
   if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
   {
     var item = eval(p_object_path);
+
     if(item.indexOf(value) > -1)
     {
       item.splice(item.indexOf(value), 1);
