@@ -7,9 +7,9 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 		case 'group':
 				result.push('<fieldset>');
 					//result.push(p_path)
-					result.push('<legend>')
+					result.push('<legend><strong>')
 						result.push(p_metadata.prompt);
-					result.push('</legend> ');
+					result.push('</strong></legend> ');
 					//result.push(p_data[p_metadata.name]);
 					for(var i = 0; i < p_metadata.children.length; i++)
 					{
