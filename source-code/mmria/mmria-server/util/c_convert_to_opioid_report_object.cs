@@ -13,6 +13,7 @@ namespace mmria.server.util
 
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
+		private int blank_value = 9999;
 
 
 		private enum deaths_by_age_enum
@@ -286,13 +287,29 @@ namespace mmria.server.util
 			try
 			{
 				var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
+				int int_check = 0;
 				if
 				(
 					filter_check_string == null ||
-					filter_check_string.ToString().ToLower() != "3") //"poisoning/overdose"
+					string.IsNullOrWhiteSpace(filter_check_string.ToString())
+				)
 				{
 					return result;
 				}
+				
+				int Overdose_Poisioning = 3;
+				if(int.TryParse(filter_check_string.ToString(), out int_check))
+				{
+					if(int_check != Overdose_Poisioning)
+					{
+						return result;
+					}
+				}
+				else
+				{
+					return result;
+				}
+
 			}
 			catch(Exception ex)
 			{
@@ -762,6 +779,305 @@ namespace mmria.server.util
 
 
 
+		private string get_race_ethnicity (System.Dynamic.ExpandoObject p_source_object)
+		{
+			string result = "9999";
+
+			string val = null;
+			object val_object = null;
+			string race_name = "blank";
+
+
+//Hispanic
+			
+			HashSet<string> bc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+
+//birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin 
+			// Yes, Mexican, Mexican American, Chicano 
+			// Yes, Puerto Rican 
+			// Yes, Cuban 
+			// Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+/*
+9999 (blank)
+0 No, Not Spanish/Hispanic/Latino
+1 Yes, Mexican, Mexican American, Chicano
+2 Yes, Puerto Rican
+3 Yes, Cuban
+4 Yes, Other Spanish/Hispanic/Latino
+5 Yes, Origin Unknown
+8888 Not Specified
+
+
+			bc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
+			bc_hispanic_origin.Add ("Yes, Puerto Rican");
+			bc_hispanic_origin.Add ("Yes, Cuban");
+			bc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino");
+			bc_hispanic_origin.Add ("Yes, Origin Unknown");
+ */
+			bc_hispanic_origin.Add ("1");
+			bc_hispanic_origin.Add ("2");
+			bc_hispanic_origin.Add ("3");
+			bc_hispanic_origin.Add ("4");
+			bc_hispanic_origin.Add ("5");
+
+
+
+//IF NO BC present:
+//death_certificate/demographics/is_of_hispanic_origin
+			//Yes, Mexican, Mexican American, Chicano
+			//Yes, Puerto Rican 
+			//Yes, Cuban
+			//Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+			dc_hispanic_origin.Add ("1");
+			dc_hispanic_origin.Add ("2");
+			dc_hispanic_origin.Add ("3");
+			dc_hispanic_origin.Add ("4");
+			dc_hispanic_origin.Add ("5");
+
+			bool is_hispanic = false;
+			bool is_hispanic_blank = true;
+			
+
+			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if (val != null)
+			{
+				if
+				(
+					string.IsNullOrWhiteSpace(val.ToString()) ||
+					val.ToString() == "9999" ||
+					val.ToString() == "7777" ||
+					val.ToString() == "8888"
+
+				)
+				{
+					is_hispanic_blank = true;
+				}
+				else if (bc_hispanic_origin.Contains (val))
+				{
+					//result.Add (ethnicity_enum.hispanic);
+					is_hispanic = true;
+					is_hispanic_blank = false;
+				}
+				else if 
+				(
+					//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+				)
+				{
+					is_hispanic = false;
+					is_hispanic_blank = false;
+				}
+
+			}
+
+			if(is_hispanic_blank && !is_hispanic)
+			{
+				val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+				if
+				(
+					string.IsNullOrWhiteSpace(val.ToString()) ||
+					val.ToString() == "9999" ||
+					val.ToString() == "7777" ||
+					val.ToString() == "8888"
+
+				)
+				{
+					is_hispanic_blank = true;
+				}
+				else if (dc_hispanic_origin.Contains (val))
+				{
+					//result.Add (ethnicity_enum.hispanic);
+					is_hispanic = true;
+					is_hispanic_blank = false;
+				}
+				else if 
+				(
+					//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+				)
+				{
+					is_hispanic = false;
+					is_hispanic_blank = false;
+				}
+			}
+
+
+
+			val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+			if (val_object != null)
+			{
+				
+				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+				var val_list = val_object as IList<object>;
+
+				if(val_list != null)
+				{
+					if(val_list.Count == 1)
+					{
+						if(val_list[0]!= null)
+						switch(val_list[0].ToString().ToLower())
+						{
+
+							case "white":
+							case "black":
+								race_name = val_list[0].ToString().ToLower();
+							break;
+							case "9999":
+							case "8888":
+							case "7777":
+								race_name = "blank";
+								break;
+							default:
+								race_name = "other";
+							break;
+						}
+					}
+					else if(val_list.Count > 1)
+					{
+						race_name = "other";
+						foreach(object item in val_list)
+						{
+
+							if(item!= null)
+							{
+								string item_value = item.ToString().ToLower();
+								if
+								(
+									item_value == "9999" ||
+									item_value == "8888" ||
+									item_value == "7777"
+								)
+								{
+										race_name = "blank";
+										break;
+								}
+								else
+								{
+									race_name = "other";
+								}
+							}
+							
+						}
+					}
+					
+
+				}
+			}
+
+
+			val_object = get_value (p_source_object, "death_certificate/race/race");
+			if (val_object != null)
+			{
+				
+				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+				var val_list = val_object as IList<object>;
+
+				if(val_list != null)
+				{
+					if(val_list.Count == 1)
+					{
+						if(val_list[0]!= null)
+						switch(val_list[0].ToString().ToLower())
+						{
+
+							case "white":
+							case "black":
+								race_name = val_list[0].ToString().ToLower();
+							break;
+							case "9999":
+							case "8888":
+							case "7777":
+								race_name = "blank";
+								break;
+							default:
+								race_name = "other";
+							break;
+						}
+					}
+					else if(val_list.Count > 1)
+					{
+						race_name = "other";
+						foreach(object item in val_list)
+						{
+
+							if(item!= null)
+							{
+								string item_value = item.ToString().ToLower();
+								if
+								(
+									item_value == "9999" ||
+									item_value == "8888" ||
+									item_value == "7777"
+								)
+								{
+										race_name = "blank";
+										break;
+								}
+								else
+								{
+									race_name = "other";
+								}
+							}
+							
+						}
+					}
+					
+
+				}
+			}
+
+			if(is_hispanic_blank)
+			{
+				return "9999";
+			}
+			else
+			{
+				if(is_hispanic)
+				{
+					if(race_name == "blank")
+					{
+						return "9999";
+					}
+					else
+					{
+						return "hispanic";
+					}
+					
+				}
+				else
+				{
+					if(race_name == "blank")
+					{
+						return "9999";
+					}
+					else
+					{
+						if(race_name == "black" || race_name == "white")
+						{
+							return race_name;
+						}
+						else
+						{
+							return "other";
+						}						
+					}
+				}
+
+			}
+
+			//return result;
+
+			
+		}
+
+
 		private bool is_non_hispanic (string p_ethnicity, System.Dynamic.ExpandoObject p_source_object)
 		{
 			bool result = false;
@@ -897,7 +1213,15 @@ namespace mmria.server.util
 							int.TryParse(day.ToString(), out start_day)
 						)
 						{
-							result = new DateTime(start_year, start_month, start_day);
+							try
+							{
+								result = new DateTime(start_year, start_month, start_day);
+							}
+							catch(Exception ex)
+							{
+								
+							}
+							
 						}
 
 
@@ -978,7 +1302,7 @@ namespace mmria.server.util
 			{
 				var value_test = age_of_mother.Value;
 
-				if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				if(value_test <= 0) result = deaths_by_age_enum.blank;
 				else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
 				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
 				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
@@ -1474,10 +1798,10 @@ death_certificate/Race/race = Other
 					length_between_child_birth_and_death_of_mother == -1 &&
 					(
 						val_1 == null || 
-						val_1== "" || 
+						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
 						(
-							test_int == 9999 || 
+							test_int == blank_value || 
 							test_int == 0 ||
 							test_int == 88 ||
 							test_int == 4 ||
@@ -1650,7 +1974,29 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 			//{
 				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
-				
+				var race_ethnicity_result = get_race_ethnicity(p_source_object);
+
+				switch(race_ethnicity_result)
+				{
+					case "9999":
+						p_opioid_report_value.field_id = "MRaceEth20";
+					break;
+					case "hispanic":
+						p_opioid_report_value.field_id = "MRaceEth3";
+					break;
+					case "black":
+						p_opioid_report_value.field_id = "MRaceEth4";
+					break;
+					case "white":
+						p_opioid_report_value.field_id = "MRaceEth5";
+					break;
+					case "other":
+						p_opioid_report_value.field_id = "MRaceEth18";
+					break;
+				}
+
+/*
+
 				if (ethnicity_set.Count() == 0)
 				{
 					//p_report_object.mDeathsbyRaceEth.blank = 1;
@@ -1786,7 +2132,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 					p_opioid_report_value.field_id = "MRaceEth20";
 					return;
 				}
-				
+				*/
 				//System.Console.WriteLine ("break");
 			//}
 		}
@@ -1849,7 +2195,7 @@ MPregRel5	(Blank)
 						default:
 							//p_report_object.mPregRelated.blank = 1;
 							p_opioid_report_value.field_id = "MPregRel5";
-							p_opioid_report_value.pregnancy_related = 9999;
+							p_opioid_report_value.pregnancy_related = blank_value;
 						break;
 					}
 
@@ -1858,7 +2204,7 @@ MPregRel5	(Blank)
 				{
 					//p_report_object.mPregRelated.blank = 1;
 					p_opioid_report_value.field_id = "MPregRel5";
-					p_opioid_report_value.pregnancy_related = 9999;
+					p_opioid_report_value.pregnancy_related = blank_value;
 				}
 			}
 			catch(Exception ex)
@@ -2038,8 +2384,8 @@ MPregRel5	(Blank)
 				if
 				(
 					val == null || 
-					val == "" || 
-					(val != null && int.TryParse(val, out test_int) && test_int == 9999)
+					string.IsNullOrWhiteSpace(val) || 
+					(val != null && int.TryParse(val, out test_int) && test_int == blank_value)
 				)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -2174,7 +2520,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2277,7 +2623,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val == null || val == "" || (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) || (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2383,7 +2729,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val == null || val == "" ||  (val != null && int.TryParse(val, out test_int) && test_int == 9999))
+				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2567,7 +2913,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 				
 				if(val_1 != null && int.TryParse(val_1, out test_int))
 				{
-					if(test_int >=6 && test_int <= 9999)
+					if(test_int >=6 && test_int <= blank_value)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
@@ -2579,7 +2925,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 				else 
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
-					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 9999))
+					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
@@ -2689,7 +3035,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 				
-				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHomeless";
@@ -2964,7 +3310,7 @@ foreach(var item in val_list)
 			{	
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mHxofEmoStress";
@@ -3096,7 +3442,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
 				
-				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mHxofSubAbu";
@@ -3219,7 +3565,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 				
-				if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mIncarHx";
@@ -3384,7 +3730,7 @@ foreach(var item in val_list)
 			{	
 				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
 				
-				if(val_1 == null || val_1 == "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999 ))
+				if(val_1 == null || string.IsNullOrWhiteSpace(val_1)|| (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value ))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mLivingArrange";
@@ -3510,7 +3856,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 == null || val_1== "" || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3814,7 +4160,7 @@ foreach(var item in val_list)
 					
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 == null || val_1 == "" ||  (val_1 != null && (val_1== "" || int.TryParse(val_1, out test_int) && test_int == 9999 )))
+					if(val_1 == null || string.IsNullOrWhiteSpace(val_1) ||  (val_1 != null && (string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && test_int == blank_value )))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
@@ -4014,7 +4360,7 @@ foreach(var item in val_list)
 
 			if (p_value_list.Count == 0) 
 			{
-				result = 9999;
+				result = blank_value;
 			} 
 			else if (p_value_list.Count == 1) 
 			{

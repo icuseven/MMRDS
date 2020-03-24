@@ -539,12 +539,10 @@ var path_to_validation_description = [];
 	//var source_code = escodegen.generate(p_metadata.onfocus);
 	var code_array = [];
 	
-	code_array.push(`init_small_loader(function(){`); // init the loader, pass it anonymouse function so we can give callback some parameters
-		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
-		code_array.push(".call(");
-		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-		code_array.push(", this);");
-	code_array.push(`});`);
+	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
+	code_array.push(".call(");
+	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+	code_array.push(", this);")
 
 	p_result.push(" ");
 	p_result.push(p_event_name);

@@ -93,7 +93,7 @@ namespace mmria.server.model.actor
                         string check_document_json = check_document_curl.execute();
                         var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (check_document_json);
 
-                        if(!session_message.user_id.Equals(check_document_expando_object.user_id, StringComparison.OrdinalIgnoreCase))
+                        if(!string.IsNullOrWhiteSpace(check_document_expando_object.user_id) && !session_message.user_id.Equals(check_document_expando_object.user_id, StringComparison.OrdinalIgnoreCase))
                         {
                             Console.Write($"unauthorized PUT {session_message._id} by: {session_message.user_id}");
                             return;//result;
