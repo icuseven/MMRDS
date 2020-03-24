@@ -1,7 +1,7 @@
 # Build runtime image
 #FROM imagehub.cdc.gov:5989/rhel7/rhel:latest
 #FROM  alpine:3.7
-FROM imagehub.cdc.gov:5990/ahb/rhel-minimal:7.6
+FROM imagehub.cdc.gov:5990/ahb/rhel-minimal:7.7
 
 
 RUN mkdir /home/net_core_user
