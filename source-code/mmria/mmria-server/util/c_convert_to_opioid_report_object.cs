@@ -925,9 +925,11 @@ namespace mmria.server.util
 						switch(val_list[0].ToString().ToLower())
 						{
 
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
+							case "0": //white":
+								race_name ="white";
+							break;
+							case "1"://"black":
+								race_name = "black";
 							break;
 							case "9999":
 							case "8888":
@@ -972,7 +974,15 @@ namespace mmria.server.util
 			}
 
 
-			val_object = get_value (p_source_object, "death_certificate/race/race");
+			if(race_name == "blank")
+			{
+				val_object = get_value (p_source_object, "death_certificate/race/race");
+			}
+			else
+			{
+				val_object = null;
+			}
+			
 			if (val_object != null)
 			{
 				
@@ -987,9 +997,12 @@ namespace mmria.server.util
 						switch(val_list[0].ToString().ToLower())
 						{
 
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
+
+							case "0": //white":
+								race_name ="white";
+							break;
+							case "1"://"black":
+								race_name = "black";
 							break;
 							case "9999":
 							case "8888":
