@@ -925,18 +925,21 @@ namespace mmria.server.util
 						switch(val_list[0].ToString().ToLower())
 						{
 
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
-							break;
+							case "0": //white":
+								race_name ="white";
+								break;
+							case "1"://"black":
+								race_name = "black";
+								break;
 							case "9999":
 							case "8888":
 							case "7777":
+							case "":
 								race_name = "blank";
 								break;
 							default:
 								race_name = "other";
-							break;
+								break;
 						}
 					}
 					else if(val_list.Count > 1)
@@ -952,7 +955,8 @@ namespace mmria.server.util
 								(
 									item_value == "9999" ||
 									item_value == "8888" ||
-									item_value == "7777"
+									item_value == "7777" ||
+									item_value == ""
 								)
 								{
 										race_name = "blank";
@@ -972,7 +976,15 @@ namespace mmria.server.util
 			}
 
 
-			val_object = get_value (p_source_object, "death_certificate/race/race");
+			if(race_name == "blank")
+			{
+				val_object = get_value (p_source_object, "death_certificate/race/race");
+			}
+			else
+			{
+				val_object = null;
+			}
+			
 			if (val_object != null)
 			{
 				
@@ -987,18 +999,22 @@ namespace mmria.server.util
 						switch(val_list[0].ToString().ToLower())
 						{
 
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
-							break;
+
+							case "0": //white":
+								race_name ="white";
+								break;
+							case "1"://"black":
+								race_name = "black";
+								break;
 							case "9999":
 							case "8888":
 							case "7777":
+							case "":
 								race_name = "blank";
 								break;
 							default:
 								race_name = "other";
-							break;
+								break;
 						}
 					}
 					else if(val_list.Count > 1)
@@ -1014,7 +1030,8 @@ namespace mmria.server.util
 								(
 									item_value == "9999" ||
 									item_value == "8888" ||
-									item_value == "7777"
+									item_value == "7777" ||
+									item_value == ""
 								)
 								{
 										race_name = "blank";
@@ -1041,7 +1058,7 @@ namespace mmria.server.util
 			{
 				if(is_hispanic)
 				{
-					if(race_name == "blank")
+					if(race_name == "blank") 
 					{
 						return "9999";
 					}
@@ -1171,6 +1188,7 @@ namespace mmria.server.util
 
 
 				object val1 = get_value (p_source_object, "death_certificate/demographics/age");
+				val1 = null;
 
 				if
 				(
@@ -1255,7 +1273,7 @@ namespace mmria.server.util
 						*/
 
 						val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
-
+						val1 = null;
 						if
 						(
 							val1 != null && 
@@ -3765,7 +3783,7 @@ foreach(var item in val_list)
 
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3796,7 +3814,7 @@ foreach(var item in val_list)
 
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3827,7 +3845,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3843,7 +3861,7 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+/*
 			try
 			{	
 				List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
@@ -3872,7 +3890,7 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+*/
 		}
 
 		private void popluate_mSubstAutop (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
