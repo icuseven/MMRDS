@@ -1188,6 +1188,7 @@ namespace mmria.server.util
 
 
 				object val1 = get_value (p_source_object, "death_certificate/demographics/age");
+				val1 = null;
 
 				if
 				(
@@ -1272,7 +1273,7 @@ namespace mmria.server.util
 						*/
 
 						val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
-
+						val1 = null;
 						if
 						(
 							val1 != null && 
