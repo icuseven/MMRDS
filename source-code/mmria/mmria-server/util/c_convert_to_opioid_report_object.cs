@@ -2883,7 +2883,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if( test_int>=0 && test_int <= 2)
 					{
@@ -2894,7 +2894,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=0 && test_int <= 2)
@@ -2921,7 +2921,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=3 && test_int <= 3)
 					{
@@ -2932,7 +2932,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=3 && test_int <= 3)
@@ -2955,7 +2955,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=4 && test_int <= 5)
 					{
@@ -2966,7 +2966,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int))
@@ -2992,7 +2992,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=6 && test_int <= 7)
 					{
@@ -3001,9 +3001,10 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.field_id = "MEduc4";
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 7)
@@ -3025,11 +3026,14 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			try
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+
+				var record_id = get_value(p_source_object, "_id");
+				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
-					if(test_int >=6 && test_int <= blank_value)
+					if(string.IsNullOrWhiteSpace(val_2) || (int.TryParse(val_2, out test_int) && test_int > 7 && test_int <= blank_value))
 					{
+						//System.Console.WriteLine ($"MEduc5 blank death_certificate id: {record_id}");
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc5";
@@ -3037,11 +3041,12 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
-					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
-					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= blank_value))
+					
+					if(string.IsNullOrWhiteSpace(val_2) || (int.TryParse(val_2, out test_int) && test_int > 7 && test_int <= blank_value))
 					{
+						//System.Console.WriteLine ($"MEduc5 blank death_certificate id: {record_id}");
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc5";
