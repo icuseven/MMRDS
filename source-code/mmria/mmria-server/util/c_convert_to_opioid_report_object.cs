@@ -874,6 +874,74 @@ namespace mmria.server.util
 					is_hispanic_blank = false;
 				}
 
+				if(!is_hispanic_blank)
+				{
+					val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+					if (val_object != null)
+					{
+						
+						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+						var val_list = val_object as IList<object>;
+
+						if(val_list != null)
+						{
+							if(val_list.Count == 1)
+							{
+								if(val_list[0]!= null)
+								switch(val_list[0].ToString().ToLower())
+								{
+
+									case "0": //white":
+										race_name ="white";
+										break;
+									case "1"://"black":
+										race_name = "black";
+										break;
+									case "9999":
+									case "8888":
+									case "7777":
+									case "":
+										race_name = "blank";
+										break;
+									default:
+										race_name = "other";
+										break;
+								}
+							}
+							else if(val_list.Count > 1)
+							{
+								race_name = "other";
+								foreach(object item in val_list)
+								{
+
+									if(item!= null)
+									{
+										string item_value = item.ToString().ToLower();
+										if
+										(
+											item_value == "9999" ||
+											item_value == "8888" ||
+											item_value == "7777" ||
+											item_value == ""
+										)
+										{
+												race_name = "blank";
+												break;
+										}
+										else
+										{
+											race_name = "other";
+										}
+									}
+									
+								}
+							}
+							
+
+						}
+					}
+				}				
+
 			}
 
 			if(is_hispanic_blank && !is_hispanic)
@@ -906,149 +974,86 @@ namespace mmria.server.util
 					is_hispanic = false;
 					is_hispanic_blank = false;
 				}
-			}
 
 
-
-			val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
-			if (val_object != null)
-			{
-				
-				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
-				var val_list = val_object as IList<object>;
-
-				if(val_list != null)
+				if(!is_hispanic_blank)
 				{
-					if(val_list.Count == 1)
+					if(race_name == "blank")
 					{
-						if(val_list[0]!= null)
-						switch(val_list[0].ToString().ToLower())
-						{
-
-							case "0": //white":
-								race_name ="white";
-								break;
-							case "1"://"black":
-								race_name = "black";
-								break;
-							case "9999":
-							case "8888":
-							case "7777":
-							case "":
-								race_name = "blank";
-								break;
-							default:
-								race_name = "other";
-								break;
-						}
+						val_object = get_value (p_source_object, "death_certificate/race/race");
 					}
-					else if(val_list.Count > 1)
+					else
 					{
-						race_name = "other";
-						foreach(object item in val_list)
-						{
+						val_object = null;
+					}
+					
+					if (val_object != null)
+					{
+						
+						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+						var val_list = val_object as IList<object>;
 
-							if(item!= null)
+						if(val_list != null)
+						{
+							if(val_list.Count == 1)
 							{
-								string item_value = item.ToString().ToLower();
-								if
-								(
-									item_value == "9999" ||
-									item_value == "8888" ||
-									item_value == "7777" ||
-									item_value == ""
-								)
+								if(val_list[0]!= null)
+								switch(val_list[0].ToString().ToLower())
 								{
+
+
+									case "0": //white":
+										race_name ="white";
+										break;
+									case "1"://"black":
+										race_name = "black";
+										break;
+									case "9999":
+									case "8888":
+									case "7777":
+									case "":
 										race_name = "blank";
 										break;
+									default:
+										race_name = "other";
+										break;
 								}
-								else
+							}
+							else if(val_list.Count > 1)
+							{
+								race_name = "other";
+								foreach(object item in val_list)
 								{
-									race_name = "other";
+
+									if(item!= null)
+									{
+										string item_value = item.ToString().ToLower();
+										if
+										(
+											item_value == "9999" ||
+											item_value == "8888" ||
+											item_value == "7777" ||
+											item_value == ""
+										)
+										{
+												race_name = "blank";
+												break;
+										}
+										else
+										{
+											race_name = "other";
+										}
+									}
+									
 								}
 							}
 							
+
 						}
 					}
-					
-
 				}
 			}
 
-
-			if(race_name == "blank")
-			{
-				val_object = get_value (p_source_object, "death_certificate/race/race");
-			}
-			else
-			{
-				val_object = null;
-			}
-			
-			if (val_object != null)
-			{
-				
-				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
-				var val_list = val_object as IList<object>;
-
-				if(val_list != null)
-				{
-					if(val_list.Count == 1)
-					{
-						if(val_list[0]!= null)
-						switch(val_list[0].ToString().ToLower())
-						{
-
-
-							case "0": //white":
-								race_name ="white";
-								break;
-							case "1"://"black":
-								race_name = "black";
-								break;
-							case "9999":
-							case "8888":
-							case "7777":
-							case "":
-								race_name = "blank";
-								break;
-							default:
-								race_name = "other";
-								break;
-						}
-					}
-					else if(val_list.Count > 1)
-					{
-						race_name = "other";
-						foreach(object item in val_list)
-						{
-
-							if(item!= null)
-							{
-								string item_value = item.ToString().ToLower();
-								if
-								(
-									item_value == "9999" ||
-									item_value == "8888" ||
-									item_value == "7777" ||
-									item_value == ""
-								)
-								{
-										race_name = "blank";
-										break;
-								}
-								else
-								{
-									race_name = "other";
-								}
-							}
-							
-						}
-					}
-					
-
-				}
-			}
 
 			if(is_hispanic_blank)
 			{
