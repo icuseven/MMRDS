@@ -1696,8 +1696,99 @@ death_certificate/Race/race = Other
 		{
 
 
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+//CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
+/*
+function $calc_days(p_start_date, p_end_date) {
+    var days = null;
+    p_start_date = p_start_date.getTime() / 86400000;
+    p_end_date = p_end_date.getTime() / 86400000;
+    days = Math.trunc(p_end_date - p_start_date);
+    return days;
+}
+*/
+//CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
+/*
+path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
+event=onclick
+*/
+/*
+function birth_2_death(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var days = $global.calc_days(start_date, end_date);
+        this.length_between_child_birth_and_death_of_mother = days;
+        $mmria.save_current_record();
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
+    }
+}
+*/
+			DateTime? Convert(object year, object month, object day)
+			{
+				DateTime? result = null;
+
+				int start_year;
+				int start_month;
+				int start_day;
+
+				if
+				(
+					year!= null && !string.IsNullOrWhiteSpace(year.ToString()) &&
+					month!= null && !string.IsNullOrWhiteSpace(month.ToString()) &&
+					day!= null && !string.IsNullOrWhiteSpace(day.ToString()) &&
+					int.TryParse(year.ToString(), out start_year) &&
+					int.TryParse(month.ToString(), out start_month) &&
+					int.TryParse(day.ToString(), out start_day)
+				)
+				{
+					try
+					{
+						result = new DateTime(start_year, start_month, start_day);
+					}
+					catch(Exception ex)
+					{
+						
+					}
+					
+				}
+
+
+				return result;
+			}
+
+
+			var start_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+			var start_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+			var start_day = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+			var end_year = get_value(p_source_object, "home_record/date_of_death/year");
+			var end_month = get_value(p_source_object, "home_record/date_of_death/month");
+			var end_day = get_value(p_source_object, "home_record/date_of_death/day");
+
+
+			var start = Convert(start_year, start_month, start_day);
+			var end = Convert(end_year, end_month, end_day);
+
 			int length_between_child_birth_and_death_of_mother =  -1;
+			if(start.HasValue && end.HasValue)
+			{
+				var interval = (end - start).Value;
+
+				System.Console.WriteLine($"{interval.Days} - {interval.TotalDays}");
+				length_between_child_birth_and_death_of_mother = (int) interval.TotalDays;
+			}
+
+/*			
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			
 			if(length_between_child_birth_and_death_of_mother_dynamic is string)
 			{
 				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
@@ -1710,6 +1801,7 @@ death_certificate/Race/race = Other
 			{
 				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
 			}
+			*/
 
 			
 			if(length_between_child_birth_and_death_of_mother < -1)
