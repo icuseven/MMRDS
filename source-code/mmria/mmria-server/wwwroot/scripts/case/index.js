@@ -41,6 +41,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   }
 
   var current_value = eval(p_object_path);
+
   //if(current_value != value)
   //{
   if(g_validator_map[p_metadata_path])
@@ -138,6 +139,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         render_search_text(new_context);
         var new_html = new_context.result.join("");
         let result = $("#" + convert_object_path_to_jquery_id(p_object_path));
+
         if(result.length)
         {
           result[0].outerHTML = new_html
@@ -151,11 +153,13 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       else if(metadata.type.toLowerCase() == "textarea")
       {
         var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+
         $("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
       }
       else
       {
         var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+
         $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
         //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
       }
@@ -520,8 +524,8 @@ $(function ()
     let case_index = create_local_storage_index();
     let case_index_array = convert_local_storage_index_to_array(case_index);
     let is_update_case_index = false;
-
     let space_removed = 0;
+
     for(let index = 0; index < case_index_array.length && space_removed < working_space; index++)
     {
 
@@ -696,15 +700,11 @@ $(function ()
 function load_values()
 {
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
+    url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-      load_jurisdiction_tree();
-
- 
-
+    g_couchdb_url = response.couchdb_url;
+    load_jurisdiction_tree();
 	});
-
 }
 
 
@@ -714,15 +714,13 @@ function load_jurisdiction_tree()
 
 	$.ajax
 	({
-			url: metadata_url
+    url: metadata_url
 	}).done(function(response) 
 	{
+    g_jurisdiction_tree = response;
 
-			g_jurisdiction_tree = response;
-
-			load_user_role_jurisdiction()
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
-
+    load_user_role_jurisdiction()
+    //document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
 	});
 }
 
@@ -740,29 +738,29 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
+    url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
 	}).done(function(response) {
 
-      g_user_role_jurisdiction_list = []
-      for(var i in response.rows)
-      {
-          var value = response.rows[i].value;
-          //if(value.user_id == g_uid && value.role_name == "abstractor")
-          //{
-            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
-          //}
-      }
-      
-      create_jurisdiction_list(g_jurisdiction_tree);
+    g_user_role_jurisdiction_list = []
+    for(var i in response.rows)
+    {
+        var value = response.rows[i].value;
+        //if(value.user_id == g_uid && value.role_name == "abstractor")
+        //{
+          g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+        //}
+    }
+    
+    create_jurisdiction_list(g_jurisdiction_tree);
 
-      $("#landing_page").hide();
-      $("#logout_page").hide();
-      $("#footer").hide();
-      $("#root").removeClass("header");
+    $("#landing_page").hide();
+    $("#logout_page").hide();
+    $("#footer").hide();
+    $("#root").removeClass("header");
 
-      get_release_version();
+    get_release_version();
 
-      //load_profile();
+    //load_profile();
 	});
 }
 
@@ -772,8 +770,9 @@ function create_jurisdiction_list(p_data)
 
   for(var i = 0; i < g_user_role_jurisdiction_list.length; i++)
   {
-    var jurisdiction_regex = new RegExp ("^" +  g_user_role_jurisdiction_list[i]); 
+    var jurisdiction_regex = new RegExp ("^" +  g_user_role_jurisdiction_list[i]);
     var match = p_data.name.match(jurisdiction_regex);
+
     if(match)
     {
       g_jurisdiction_list.push(p_data.name);
@@ -786,8 +785,8 @@ function create_jurisdiction_list(p_data)
 	{
 		for(var i = 0; i < p_data.children.length; i++)
 		{
-
-			var child = p_data.children[i];
+      var child = p_data.children[i];
+      
 			create_jurisdiction_list(child);
 		}
 	}
@@ -806,7 +805,6 @@ function load_profile()
       $("#root").removeClass("header");
       
       get_release_version();
-      
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
@@ -834,9 +832,9 @@ function load_profile()
       document.getElementById('form_content_id').innerHTML ="";
 
       var url = location.protocol + '//' + location.host + '/';
+
       window.location.href = url;
     };
-
 
   	profile.initialize_profile();
 }
@@ -864,7 +862,6 @@ function get_case_set(p_call_back)
       // Useful to do somethings after I get/set cases
       // Example usage is setting search filter on Case Listing page
       p_call_back();
-
     }
     else
     {
@@ -887,7 +884,7 @@ function get_case_set(p_call_back)
 
         if(section.id == "app_summary")
         {
-            section.style.display = "block";
+          section.style.display = "block";
         }
         else
         {
@@ -902,10 +899,10 @@ function get_case_set(p_call_back)
 function get_ui_specification()
 {
  	$.ajax({
-			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/ui_specification`,
+    url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/ui_specification`,
 	}).done(function(response) {
-      g_default_ui_specification = response;
-      get_metadata();
+    g_default_ui_specification = response;
+    get_metadata();
 	});
 }
 
@@ -915,14 +912,12 @@ function get_release_version()
 {
   $.ajax
   ({
-
-      url: location.protocol + '//' + location.host + '/api/version/release-version',
+    url: location.protocol + '//' + location.host + '/api/version/release-version',
   })
   .done(function(response) 
   {
-      g_release_version = response;
-      get_ui_specification();
-      
+    g_release_version = response;
+    get_ui_specification();
 	});
 }
 
@@ -933,43 +928,43 @@ function get_metadata()
 
   $.ajax
   ({
-      //url: location.protocol + '//' + location.host + '/api/metadata',
-      url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`,
+    //url: location.protocol + '//' + location.host + '/api/metadata',
+    url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`,
   })
   .done(function(response) 
   {
-			g_metadata = response;
-      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
-      default_object =  create_default_object(g_metadata, {});
+    g_metadata = response;
+    metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
+    default_object =  create_default_object(g_metadata, {});
 
-      set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_metadata, "");
+    set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_metadata, "");
 
-      for(var i in g_metadata.lookup)
-      {
-          var child = g_metadata.lookup[i];
+    for(var i in g_metadata.lookup)
+    {
+        var child = g_metadata.lookup[i];
 
-          g_look_up["lookup/" + child.name] = child.values;
-      }
+        g_look_up["lookup/" + child.name] = child.values;
+    }
 
-      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+    //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
-      //window.location.href = location.protocol + '//' + location.host;
-      
+    //window.location.href = location.protocol + '//' + location.host;
+    
 
-      get_case_set();
-      
-      g_ui.url_state = url_monitor.get_url_state(window.location.href);
-      if(window.onhashchange)
-      {
-        window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-      }
-      else
-      {
-        window.onhashchange = window_on_hash_change;
-        window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-      }
+    get_case_set();
+    
+    g_ui.url_state = url_monitor.get_url_state(window.location.href);
+    if(window.onhashchange)
+    {
+      window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+    }
+    else
+    {
+      window.onhashchange = window_on_hash_change;
+      window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+    }
 
-      g_autosave_interval = window.setInterval(autosave, 10000);
+    g_autosave_interval = window.setInterval(autosave, 10000);
 
 	});
 }
@@ -988,44 +983,43 @@ function window_on_hash_change(e)
   if(g_data)
   {
     
-        if(e.isTrusted)
+    if(e.isTrusted)
+    {
+
+      var new_url = e.newURL || window.location.href;
+      g_ui.url_state = url_monitor.get_url_state(new_url);
+
+      if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+      {
+        /*
+        if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
         {
+            save_queue.push(g_data._id);
+        }*/
 
-          var new_url = e.newURL || window.location.href;
-          g_ui.url_state = url_monitor.get_url_state(new_url);
+        var case_id = g_data._id;
+        save_case(g_data, function()
+        {
+          get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
+        });
+        
 
-          if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
-          {
-            /*
-            if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
-            {
-                save_queue.push(g_data._id);
-            }*/
-
-            var case_id = g_data._id;
-            save_case(g_data, function()
-            {
-              get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
-            });
-            
-
-          }
-          else
-          {
-            /*
-            if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-            {
-              save_queue.push(g_data._id);
-            }*/
-            save_case(g_data, function(){
-              g_data = null;
-              get_case_set(function(){ g_render();} );
-            });
-            
-          }
       }
+      else
+      {
+        /*
+        if(g_data && !(save_queue.indexOf(g_data._id) > -1))
+        {
+          save_queue.push(g_data._id);
+        }*/
+        save_case(g_data, function(){
+          g_data = null;
+          get_case_set(function(){ g_render();} );
+        });
+        
+      }
+    }
       
-    
    // g_data_access.set_data(g_data);
 			
   }
@@ -1069,14 +1063,13 @@ function window_on_hash_change(e)
   {
     // do nothing for now
   }
-
 };
 
 
 function get_specific_case(p_id)
 {
-
   var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+
   $.ajax({
     url: case_url,
   }).done(function(case_response) 
@@ -1272,6 +1265,7 @@ function g_render()
       for(var i = 0; i < section_list.length; i++)
       {
         var section = section_list[i];
+
         if(section.id == g_ui.url_state.path_array[1])
         {
           section.style.display = "block";
@@ -1390,9 +1384,9 @@ function apply_validation()
     for(var i in g_ui.broken_rules)
     {
       var element = document.getElementById(i);
+
       if(g_ui.broken_rules[i] == true)
       {
-        
         if
         (
           element &&
@@ -1423,6 +1417,7 @@ function apply_validation()
         )
         {
           var class_array = element.className.split(' ');
+
           class_array.splice(class_array.indexOf('failed-validation'),1);
           element.className = class_array.join(' ');
         }
@@ -1437,6 +1432,7 @@ function delete_record(p_index)
   if(p_index == g_selected_delete_index)
   {
     var data = g_ui.case_view_list[p_index];
+
     g_selected_delete_index = null;
 
     $.ajax({
@@ -1450,11 +1446,14 @@ function delete_record(p_index)
     if(g_selected_delete_index != null && g_selected_delete_index > -1)
     {
       var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+
       $("tr[path='" + old_id + "']").css("background", "");
     }
 
     g_selected_delete_index = p_index;
+    
     var id = g_ui.case_view_list[p_index].id;
+
     $("tr[path='" + id + "']").css("background", "#ffd54f");
   }
 }
@@ -1463,32 +1462,65 @@ function delete_record(p_index)
 var save_interval_id = null;
 var save_queue = [];
 
-function print_case_onchange()
+function print_case_onchange(event)
 {
-  var section_id = escape(document.getElementById("print_case_id").value);
+  var section_name = event.target.options[event.target.options.selectedIndex].value; // get value of selected option
+  var record_number = event.target.options[event.target.options.selectedIndex].dataset.record; // data-record of selected option
 
-  if(section_id && section_id.length > 0)
+  // console.log('a. Start print onchange...');
+
+  // IF section_name exists
+  if(section_name && section_name.length > 0)
   {
-    if(section_id == "core-summary")
+    if(section_name == "core-summary")
     {
       open_core_summary("all");
     }
     else
     {
-      open_print_version(section_id);
+      if (isNullOrUndefined(record_number))
+      {
+        // Singular form
+        open_print_version(section_name);
+      }
+      else
+      {
+        // Multi-record form
+        // Also pass the record number (record_number)
+        open_print_version(section_name, record_number);
+      }
     }
-    
   }
 }
+// Commenting out old way but keeping for legacy purposes
+// function print_case_onchange()
+// {
+//   var section_id = escape(document.getElementById("print_case_id").value);
+
+//   if(section_id && section_id.length > 0)
+//   {
+//     if(section_id == "core-summary")
+//     {
+//       open_core_summary("all");
+//     }
+//     else
+//     {
+//       open_print_version(section_id);
+//     }
+    
+//   }
+// }
 
 
-function open_print_version(p_section)
+function open_print_version(p_section, p_number)
 {
   var print_window = window.open('./print-version','_print_version',null,false);
 
+  // console.log('b. Open print version...');
+
 	window.setTimeout(function()
 	{
-		print_window.create_print_version(g_metadata, g_data, p_section)
+		print_window.create_print_version(g_metadata, g_data, p_section, p_number)
 	}, 1000);	
 }
 
@@ -1646,6 +1678,7 @@ function convert_local_storage_index_to_array(p_case_index)
       {
           let item = p_case_index[key];
           let item_object = JSON.parse(window.localStorage['case_' + key]);
+
           if(!(item.date_last_updated instanceof Date))
           {
             item.date_last_updated = new Date(item.date_last_updated);
@@ -1712,6 +1745,7 @@ function get_local_case(p_id)
 function undo_click()
 {
   var current_change = g_change_stack.pop();
+
   if(current_change)
   {
 
@@ -1720,6 +1754,7 @@ function undo_click()
     if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
     {
       var item = eval(current_change.object_path);
+
       if(item.indexOf(current_change.old_value) > -1)
       {
         item.splice(item.indexOf(current_change.old_value), 1);
@@ -1751,9 +1786,11 @@ function autosave()
   if(split_one.length > 1)
   {
     let split_two = split_one[0].split("/");
+
     if(split_two.length > 3 && split_two[3].toLocaleLowerCase() == "case")
     {
       let split_three = split_one[1].split("/");
+
       if(split_three.length > 1 && split_three[1].toLocaleLowerCase() != "summary")
       {
         if(g_data)
@@ -1776,11 +1813,10 @@ function autosave()
 
 function diff_minutes(dt1, dt2) 
 {
-
   let diff =(dt2.getTime() - dt1.getTime()) / 1000;
+
   diff /= 60;
   return Math.abs(Math.round(diff));
-  
 }
 
 
@@ -1791,6 +1827,7 @@ function g_textarea_oninput(p_object_path, p_metadata_path, p_dictionary_path,  
   if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
   {
     var item = eval(p_object_path);
+
     if(item.indexOf(value) > -1)
     {
       item.splice(item.indexOf(value), 1);
