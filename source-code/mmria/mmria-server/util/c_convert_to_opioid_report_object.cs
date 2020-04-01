@@ -4012,6 +4012,7 @@ foreach(var item in val_list)
 			var is_Amphetamine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Benzodiazepine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Buprenorphine_Methadone = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+			var is_Cannabinoid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Cocaine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Opioid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Other_Substance = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
@@ -4032,6 +4033,8 @@ foreach(var item in val_list)
 
 			is_Buprenorphine_Methadone.Add("Buprenorphine");
 			is_Buprenorphine_Methadone.Add("MethadoneMethadone Hydrochloride");
+
+			is_Cannabinoid.Add("Marijuana");
 
 			is_Cocaine.Add("Cocaine");
 
@@ -4301,7 +4304,7 @@ foreach(var item in val_list)
 				{	
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 != null && val_1.ToLower() == "Cannabinoid".ToLower())
+					if(val_1 != null && val_1.ToLower() == "Cannabinoid".ToLower() || is_Cannabinoid.Contains(val_1))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
