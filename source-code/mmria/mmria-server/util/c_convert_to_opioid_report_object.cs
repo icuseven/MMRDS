@@ -944,7 +944,7 @@ namespace mmria.server.util
 
 			}
 
-			if(is_hispanic_blank && !is_hispanic)
+			if(is_hispanic_blank || race_name == "blank")
 			{
 				val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
 				if
@@ -978,14 +978,10 @@ namespace mmria.server.util
 
 				if(!is_hispanic_blank)
 				{
-					if(race_name == "blank")
-					{
-						val_object = get_value (p_source_object, "death_certificate/race/race");
-					}
-					else
-					{
-						val_object = null;
-					}
+					race_name = "blank";
+					
+					val_object = get_value (p_source_object, "death_certificate/race/race");
+
 					
 					if (val_object != null)
 					{
