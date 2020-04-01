@@ -1776,7 +1776,7 @@ function birth_2_death(p_control) {
 			var start = Convert(start_year, start_month, start_day);
 			var end = Convert(end_year, end_month, end_day);
 
-			int length_between_child_birth_and_death_of_mother =  -1;
+			int? length_between_child_birth_and_death_of_mother = null;
 			if(start.HasValue && end.HasValue)
 			{
 				var interval = (end - start).Value;
@@ -1802,13 +1802,13 @@ function birth_2_death(p_control) {
 			{
 				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
 			}
-			*/
+			
 
 			
 			if(length_between_child_birth_and_death_of_mother < -1)
 			{
 				length_between_child_birth_and_death_of_mother = -1;
-			}
+			}*/
 
 			string val_1 = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 
@@ -1820,8 +1820,9 @@ function birth_2_death(p_control) {
 			try
 			{	
 				if
-				(	length_between_child_birth_and_death_of_mother == 0 || 
-					length_between_child_birth_and_death_of_mother == -1 &&
+				(	
+					length_between_child_birth_and_death_of_mother.HasValue &&
+					length_between_child_birth_and_death_of_mother.Value <= 0 || 
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) &&
@@ -1849,11 +1850,12 @@ function birth_2_death(p_control) {
 				if
 				(
 					(
-						length_between_child_birth_and_death_of_mother >= 1 && 
-						length_between_child_birth_and_death_of_mother <= 42
+						length_between_child_birth_and_death_of_mother.HasValue &&
+						length_between_child_birth_and_death_of_mother.Value >= 1 && 
+						length_between_child_birth_and_death_of_mother.Value <= 42
 					) 
 					|| 
-					length_between_child_birth_and_death_of_mother == -1 &&
+					!length_between_child_birth_and_death_of_mother.HasValue &&
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) && 
@@ -1880,11 +1882,12 @@ function birth_2_death(p_control) {
 			{	
 				if(
 					(
-						length_between_child_birth_and_death_of_mother >= 43 &&
-						length_between_child_birth_and_death_of_mother <= 365
+						length_between_child_birth_and_death_of_mother.HasValue &&
+						length_between_child_birth_and_death_of_mother.Value >= 43 &&
+						length_between_child_birth_and_death_of_mother.Value <= 365
 					)
 					|| 
-					length_between_child_birth_and_death_of_mother == -1 &&
+					!length_between_child_birth_and_death_of_mother.HasValue &&
 					(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -1906,9 +1909,9 @@ function birth_2_death(p_control) {
 			try
 			{	
 				if(
-					length_between_child_birth_and_death_of_mother == -1 &&
+					!length_between_child_birth_and_death_of_mother.HasValue &&
 					(
-						val_1 == null || 
+						//val_1 == null || 
 						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
 						(
@@ -4020,7 +4023,7 @@ foreach(var item in val_list)
 			is_Alcohol.Add("Alcohol");
 			is_Amphetamine.Add("Amphetamines");
 			is_Amphetamine.Add("Methamphetamine");
-
+/*
 			is_Benzodiazepine.Add("Alprazolam (Xanax)");
 			is_Benzodiazepine.Add("Aminoclonazepam");
 			is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
@@ -4029,10 +4032,20 @@ foreach(var item in val_list)
 			is_Benzodiazepine.Add("Lorazepam (Ativan)");
 			is_Benzodiazepine.Add("Temazepam (Restoril)");
 			is_Benzodiazepine.Add("Zolpidem (Ambien)");
+*/
 
+		is_Benzodiazepine.Add("Alprazolam (Xanax)");
+		is_Benzodiazepine.Add("Aminoclonazepam");
+		is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
+		is_Benzodiazepine.Add("Clonazepam (Klonopin or Rivotril)");
+		is_Benzodiazepine.Add("Diazepam (Valium)");
+		is_Benzodiazepine.Add("Lorazepam (Ativan)");
+		is_Benzodiazepine.Add("Midazolam (Versed)");
+		is_Benzodiazepine.Add("Temazepam (Restoril)");
 
 			is_Buprenorphine_Methadone.Add("Buprenorphine");
-			is_Buprenorphine_Methadone.Add("MethadoneMethadone Hydrochloride");
+			is_Buprenorphine_Methadone.Add("Methadone");
+			is_Buprenorphine_Methadone.Add("Methadone Hydrochloride");
 
 			is_Cannabinoid.Add("Marijuana");
 
@@ -4327,9 +4340,25 @@ foreach(var item in val_list)
 
 				try
 				{	
+					int test_int;
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 != null && val_1.ToLower() == "Other".ToLower())
+					if
+					(
+						val_1 != null && 
+						!string.IsNullOrWhiteSpace(val_1) &&
+						!(int.TryParse(val_1, out test_int) && test_int == blank_value) &&
+						val_1.ToLower() == "Other".ToLower() &&
+						!is_Alcohol.Contains(val_1) &&
+						!is_Amphetamine.Contains(val_1) &&
+						!is_Benzodiazepine.Contains(val_1) &&
+						!is_Buprenorphine_Methadone.Contains(val_1) &&
+						!is_Cannabinoid.Contains(val_1) &&
+						!is_Cocaine.Contains(val_1) &&
+						!is_Opioid.Contains(val_1) &&
+						!is_Other_Substance.Contains(val_1)
+
+					)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
