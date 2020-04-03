@@ -1744,9 +1744,9 @@ function birth_2_death(p_control) {
 					year!= null && !string.IsNullOrWhiteSpace(year.ToString()) &&
 					month!= null && !string.IsNullOrWhiteSpace(month.ToString()) &&
 					day!= null && !string.IsNullOrWhiteSpace(day.ToString()) &&
-					int.TryParse(year.ToString(), out start_year) &&
-					int.TryParse(month.ToString(), out start_month) &&
-					int.TryParse(day.ToString(), out start_day)
+					int.TryParse(year.ToString(), out start_year) && start_year != 9999 &&
+					int.TryParse(month.ToString(), out start_month) && start_month != 9999  &&
+					int.TryParse(day.ToString(), out start_day) && start_day != 9999 
 				)
 				{
 					try
