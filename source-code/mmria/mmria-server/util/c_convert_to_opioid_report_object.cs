@@ -1819,99 +1819,92 @@ function birth_2_death(p_control) {
 //  (death_certificate/death_information/pregnancy_status = 1)
 			try
 			{	
-				if
-				(	
-					length_between_child_birth_and_death_of_mother.HasValue &&
-					length_between_child_birth_and_death_of_mother.Value <= 0 || 
+
+
+
+				if(length_between_child_birth_and_death_of_mother.HasValue)
+				{
+
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.value = 1;
+					
+					if(length_between_child_birth_and_death_of_mother.Value <= 0)
+					{
+						curr.field_id = "MTimeD1";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else if
 					(
+						length_between_child_birth_and_death_of_mother.Value > 0 && 
+						length_between_child_birth_and_death_of_mother.Value <= 42
+					)
+					{
+						curr.field_id = "MTimeD2";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+
+					}
+					else if
+					(
+						length_between_child_birth_and_death_of_mother.Value >= 43 &&
+						length_between_child_birth_and_death_of_mother.Value <= 365
+					)
+					{
+						curr.field_id = "MTimeD3";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+				}
+				else
+				{
+
+
+					if
+					(
+					
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) &&
 						test_int == 1
+					
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
-//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
-//(death_certificate/death_information/pregnancy_status = 2)
-			try
-			{	
-				if
-				(
-					(
-						length_between_child_birth_and_death_of_mother.HasValue &&
-						length_between_child_birth_and_death_of_mother.Value >= 1 && 
-						length_between_child_birth_and_death_of_mother.Value <= 42
-					) 
-					|| 
-					!length_between_child_birth_and_death_of_mother.HasValue &&
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD1";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+
+					if
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) && 
 						test_int == 2
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD2";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
-// (death_certificate/death_information/pregnancy_status = 3)
-			try
-			{	
-				if(
-					(
-						length_between_child_birth_and_death_of_mother.HasValue &&
-						length_between_child_birth_and_death_of_mother.Value >= 43 &&
-						length_between_child_birth_and_death_of_mother.Value <= 365
-					)
-					|| 
-					!length_between_child_birth_and_death_of_mother.HasValue &&
-					(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
-//  (death_certificate/death_information/pregnancy_status = 9999)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD2";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 
-			try
-			{	
-				if(
-					!length_between_child_birth_and_death_of_mother.HasValue &&
+					if
 					(
-						//val_1 == null || 
+						val_1 != null && 
+						int.TryParse(val_1, out test_int) && 
+						test_int == 3
+					)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD3";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+
+
+					if
+					(
 						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
 						(
@@ -1922,21 +1915,29 @@ function birth_2_death(p_control) {
 							test_int == 8888
 						)
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD4";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
 				}
-				
+
 			}
 			catch(Exception ex)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
+//(death_certificate/death_information/pregnancy_status = 2)
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
+// (death_certificate/death_information/pregnancy_status = 3)
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
+//  (death_certificate/death_information/pregnancy_status = 9999)
 
 		return;
 /*
