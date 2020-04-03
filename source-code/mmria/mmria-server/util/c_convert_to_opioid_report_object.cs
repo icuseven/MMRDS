@@ -1759,6 +1759,10 @@ function birth_2_death(p_control) {
 					}
 					
 				}
+				else
+				{
+
+				}
 
 
 				return result;
@@ -1773,13 +1777,13 @@ function birth_2_death(p_control) {
 			var end_day = get_value(p_source_object, "home_record/date_of_death/day");
 
 
-			var start = Convert(start_year, start_month, start_day);
-			var end = Convert(end_year, end_month, end_day);
+			var delivery_date = Convert(start_year, start_month, start_day);
+			var death_date = Convert(end_year, end_month, end_day);
 
 			int? length_between_child_birth_and_death_of_mother = null;
-			if(start.HasValue && end.HasValue)
+			if(delivery_date.HasValue && death_date.HasValue)
 			{
-				var interval = (end - start).Value;
+				var interval = (death_date - delivery_date).Value;
 
 				System.Console.WriteLine($"{interval.Days} - {interval.TotalDays}");
 				length_between_child_birth_and_death_of_mother = (int) interval.TotalDays;
@@ -1853,8 +1857,13 @@ function birth_2_death(p_control) {
 						curr.field_id = "MTimeD3";
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
+					else
+					{
+						length_between_child_birth_and_death_of_mother = null;
+					}
 				}
-				else
+				
+				if(!length_between_child_birth_and_death_of_mother.HasValue)
 				{
 
 
@@ -1873,8 +1882,7 @@ function birth_2_death(p_control) {
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
-
-					if
+					else if
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) && 
@@ -1887,8 +1895,7 @@ function birth_2_death(p_control) {
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
-
-					if
+					else if
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) && 
@@ -1901,9 +1908,7 @@ function birth_2_death(p_control) {
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
-
-
-					if
+					else if
 					(
 						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
@@ -1921,6 +1926,10 @@ function birth_2_death(p_control) {
 						curr.field_id = "MTimeD4";
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else
+					{
+
 					}
 				}
 
