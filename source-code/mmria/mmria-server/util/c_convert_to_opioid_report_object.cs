@@ -4031,6 +4031,7 @@ foreach(var item in val_list)
 			var is_Other_Substance = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 
 			is_Alcohol.Add("Alcohol");
+
 			is_Amphetamine.Add("Amphetamines");
 			is_Amphetamine.Add("Methamphetamine");
 /*
@@ -4079,7 +4080,6 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Fluoxetine/Olanzapine (Symbyax)");
 			is_Other_Substance.Add("Lurasidone (Latuda)");
 			is_Other_Substance.Add("Meprobamate (Equanil)");
-			//is_Other_Substance.Add("Midazolam (Versed)");
 			is_Other_Substance.Add("Pregabalin (Lyrica)");
 			is_Other_Substance.Add("Quetiapine (Seroquel)");
 			is_Other_Substance.Add("Sertraline (Zoloft)");
@@ -4360,7 +4360,7 @@ foreach(var item in val_list)
 						val_1 != null && 
 						!string.IsNullOrWhiteSpace(val_1) &&
 						!(int.TryParse(val_1, out test_int) && test_int == blank_value) &&
-						val_1.ToLower() == "Other".ToLower() &&
+						//val_1.ToLower() == "Other".ToLower() &&
 						!is_Alcohol.Contains(val_1) &&
 						!is_Amphetamine.Contains(val_1) &&
 						!is_Benzodiazepine.Contains(val_1) &&
