@@ -4084,6 +4084,7 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Quetiapine (Seroquel)");
 			is_Other_Substance.Add("Sertraline (Zoloft)");
 			is_Other_Substance.Add("Trazadone (Oleptro)");
+			is_Other_Substance.Add("Zolpidem (Ambien)");
 
 
 
