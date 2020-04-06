@@ -4071,7 +4071,7 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Acetaminophen");
 			is_Other_Substance.Add("Acetazolamide (Diamox)");
 			is_Other_Substance.Add("Aripiprazole (Abilify)");
-			is_Other_Substance.Add("Carbamazepine (Neurontin)");
+			is_Other_Substance.Add("Carbamazepine (Tegretol)");
 			is_Other_Substance.Add("Citalopram (Celexa)");
 			is_Other_Substance.Add("Doxepin (Silenor, Zonalon, Prudoxin)");
 			is_Other_Substance.Add("Duloxetine (Cymbalta)");
@@ -4079,7 +4079,7 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Fluoxetine/Olanzapine (Symbyax)");
 			is_Other_Substance.Add("Lurasidone (Latuda)");
 			is_Other_Substance.Add("Meprobamate (Equanil)");
-			is_Other_Substance.Add("Midazolam (Versed)");
+			//is_Other_Substance.Add("Midazolam (Versed)");
 			is_Other_Substance.Add("Pregabalin (Lyrica)");
 			is_Other_Substance.Add("Quetiapine (Seroquel)");
 			is_Other_Substance.Add("Sertraline (Zoloft)");
