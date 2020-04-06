@@ -4356,7 +4356,7 @@ foreach(var item in val_list)
 					
 					if
 					(
-						val_1 == null ||
+						//val_1 == null ||
 						val_1 != null && 
 						!string.IsNullOrWhiteSpace(val_1) &&
 						!(int.TryParse(val_1, out test_int) && test_int == blank_value) &&
