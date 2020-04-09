@@ -7,6 +7,46 @@ namespace mmria.server.util
 	public partial class c_convert_to_opioid_report_object
 	{
 
+
+		static Dictionary<string,bool> Id_Check = new Dictionary<string, bool>()
+		{
+			{ "1f12bfd7-5320-8459-3b29-b17b58c21be4", false },	
+			{ "2ab37059-44ea-00d9-c706-a9dcfaf83f4f", false },	
+			{ "3c41ea4d-efd0-d62f-ff80-d3275547eb14", false },
+			{ "4794bd4a-60b4-2eb7-37e1-bc0019992e80", false },	
+			{ "672590aa-65a1-588f-fd1b-cc4ef734f05b", false },	
+			{ "6caea646-083b-3b82-940e-9d1bb9c44dd8", false },	
+			{ "87e709fb-45c2-49f0-6498-648ffbfbcef9", false },	
+			{ "9dac1cfe-4f89-895d-8fee-da9dd15b1c2d", false },	
+			{ "a26c122a-6272-ef64-30bf-fbcca739c660", false },	
+			{ "c63a82d5-bca6-0a91-5bb9-738c338d5f60", false },	
+			{ "e33b2219-3154-5e02-51a8-5555b691ec02", false },	
+			{ "e7b29677-ea9c-088d-bc3a-67988645089b", false },	
+			{ "f11c1579-b0df-2719-a1ef-44ec70a0ee76", false },	
+			{ "f5a544fb-62e0-1b78-03d9-8ffb1d4fb134", false },	
+			{ "fcefe163-f91a-0dad-f1df-4ad00f65f057", false }
+		};
+
+		static int set_count = 0;
+
+/*
+1f12bfd7-5320-8459-3b29-b17b58c21be4
+3c41ea4d-efd0-d62f-ff80-d3275547eb14
+4794bd4a-60b4-2eb7-37e1-bc0019992e80
+672590aa-65a1-588f-fd1b-cc4ef734f05b
+6caea646-083b-3b82-940e-9d1bb9c44dd8
+87e709fb-45c2-49f0-6498-648ffbfbcef9
+9dac1cfe-4f89-895d-8fee-da9dd15b1c2d
+a26c122a-6272-ef64-30bf-fbcca739c660
+c63a82d5-bca6-0a91-5bb9-738c338d5f60
+e33b2219-3154-5e02-51a8-5555b691ec02
+e7b29677-ea9c-088d-bc3a-67988645089b
+f11c1579-b0df-2719-a1ef-44ec70a0ee76
+f5a544fb-62e0-1b78-03d9-8ffb1d4fb134
+fcefe163-f91a-0dad-f1df-4ad00f65f057
+*/
+
+
 		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
 
 		string source_json;
@@ -325,6 +365,8 @@ namespace mmria.server.util
 			report_object._id = get_value (source_object, "_id");
 
 
+			Id_Check[report_object._id] = true;
+			set_count++;
 			var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
 
 			/*
@@ -843,7 +885,12 @@ namespace mmria.server.util
 			bool is_hispanic_blank = true;
 			
 
-			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			var val_dynamic = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if(val_dynamic != null)
+			{
+				val = val_dynamic.ToString();
+			}
+
 			if (val != null)
 			{
 				if
@@ -2096,7 +2143,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 
 			//if (p_is_pregnancy_related)
 			//{
-				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
+				//HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
 				var race_ethnicity_result = get_race_ethnicity(p_source_object);
 
