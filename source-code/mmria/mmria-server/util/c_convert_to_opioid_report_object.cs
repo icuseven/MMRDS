@@ -7,6 +7,46 @@ namespace mmria.server.util
 	public partial class c_convert_to_opioid_report_object
 	{
 
+
+		static Dictionary<string,bool> Id_Check = new Dictionary<string, bool>()
+		{
+			{ "1f12bfd7-5320-8459-3b29-b17b58c21be4", false },	
+			{ "2ab37059-44ea-00d9-c706-a9dcfaf83f4f", false },	
+			{ "3c41ea4d-efd0-d62f-ff80-d3275547eb14", false },
+			{ "4794bd4a-60b4-2eb7-37e1-bc0019992e80", false },	
+			{ "672590aa-65a1-588f-fd1b-cc4ef734f05b", false },	
+			{ "6caea646-083b-3b82-940e-9d1bb9c44dd8", false },	
+			{ "87e709fb-45c2-49f0-6498-648ffbfbcef9", false },	
+			{ "9dac1cfe-4f89-895d-8fee-da9dd15b1c2d", false },	
+			{ "a26c122a-6272-ef64-30bf-fbcca739c660", false },	
+			{ "c63a82d5-bca6-0a91-5bb9-738c338d5f60", false },	
+			{ "e33b2219-3154-5e02-51a8-5555b691ec02", false },	
+			{ "e7b29677-ea9c-088d-bc3a-67988645089b", false },	
+			{ "f11c1579-b0df-2719-a1ef-44ec70a0ee76", false },	
+			{ "f5a544fb-62e0-1b78-03d9-8ffb1d4fb134", false },	
+			{ "fcefe163-f91a-0dad-f1df-4ad00f65f057", false }
+		};
+
+		static int set_count = 0;
+
+/*
+1f12bfd7-5320-8459-3b29-b17b58c21be4
+3c41ea4d-efd0-d62f-ff80-d3275547eb14
+4794bd4a-60b4-2eb7-37e1-bc0019992e80
+672590aa-65a1-588f-fd1b-cc4ef734f05b
+6caea646-083b-3b82-940e-9d1bb9c44dd8
+87e709fb-45c2-49f0-6498-648ffbfbcef9
+9dac1cfe-4f89-895d-8fee-da9dd15b1c2d
+a26c122a-6272-ef64-30bf-fbcca739c660
+c63a82d5-bca6-0a91-5bb9-738c338d5f60
+e33b2219-3154-5e02-51a8-5555b691ec02
+e7b29677-ea9c-088d-bc3a-67988645089b
+f11c1579-b0df-2719-a1ef-44ec70a0ee76
+f5a544fb-62e0-1b78-03d9-8ffb1d4fb134
+fcefe163-f91a-0dad-f1df-4ad00f65f057
+*/
+
+
 		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
 
 		string source_json;
@@ -325,6 +365,8 @@ namespace mmria.server.util
 			report_object._id = get_value (source_object, "_id");
 
 
+			Id_Check[report_object._id] = true;
+			set_count++;
 			var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
 
 			/*
@@ -843,7 +885,12 @@ namespace mmria.server.util
 			bool is_hispanic_blank = true;
 			
 
-			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			var val_dynamic = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if(val_dynamic != null)
+			{
+				val = val_dynamic.ToString();
+			}
+
 			if (val != null)
 			{
 				if
@@ -874,9 +921,77 @@ namespace mmria.server.util
 					is_hispanic_blank = false;
 				}
 
+				if(!is_hispanic_blank)
+				{
+					val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+					if (val_object != null)
+					{
+						
+						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+						var val_list = val_object as IList<object>;
+
+						if(val_list != null)
+						{
+							if(val_list.Count == 1)
+							{
+								if(val_list[0]!= null)
+								switch(val_list[0].ToString().ToLower())
+								{
+
+									case "0": //white":
+										race_name ="white";
+										break;
+									case "1"://"black":
+										race_name = "black";
+										break;
+									case "9999":
+									case "8888":
+									case "7777":
+									case "":
+										race_name = "blank";
+										break;
+									default:
+										race_name = "other";
+										break;
+								}
+							}
+							else if(val_list.Count > 1)
+							{
+								race_name = "other";
+								foreach(object item in val_list)
+								{
+
+									if(item!= null)
+									{
+										string item_value = item.ToString().ToLower();
+										if
+										(
+											item_value == "9999" ||
+											item_value == "8888" ||
+											item_value == "7777" ||
+											item_value == ""
+										)
+										{
+												race_name = "blank";
+												break;
+										}
+										else
+										{
+											race_name = "other";
+										}
+									}
+									
+								}
+							}
+							
+
+						}
+					}
+				}				
+
 			}
 
-			if(is_hispanic_blank && !is_hispanic)
+			if(is_hispanic_blank || race_name == "blank")
 			{
 				val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
 				if
@@ -906,132 +1021,82 @@ namespace mmria.server.util
 					is_hispanic = false;
 					is_hispanic_blank = false;
 				}
-			}
 
 
-
-			val_object = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
-			if (val_object != null)
-			{
-				
-				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
-				var val_list = val_object as IList<object>;
-
-				if(val_list != null)
+				if(!is_hispanic_blank)
 				{
-					if(val_list.Count == 1)
-					{
-						if(val_list[0]!= null)
-						switch(val_list[0].ToString().ToLower())
-						{
+					race_name = "blank";
+					
+					val_object = get_value (p_source_object, "death_certificate/race/race");
 
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
-							break;
-							case "9999":
-							case "8888":
-							case "7777":
-								race_name = "blank";
-								break;
-							default:
-								race_name = "other";
-							break;
-						}
-					}
-					else if(val_list.Count > 1)
+					
+					if (val_object != null)
 					{
-						race_name = "other";
-						foreach(object item in val_list)
-						{
+						
+						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+						var val_list = val_object as IList<object>;
 
-							if(item!= null)
+						if(val_list != null)
+						{
+							if(val_list.Count == 1)
 							{
-								string item_value = item.ToString().ToLower();
-								if
-								(
-									item_value == "9999" ||
-									item_value == "8888" ||
-									item_value == "7777"
-								)
+								if(val_list[0]!= null)
+								switch(val_list[0].ToString().ToLower())
 								{
+
+
+									case "0": //white":
+										race_name ="white";
+										break;
+									case "1"://"black":
+										race_name = "black";
+										break;
+									case "9999":
+									case "8888":
+									case "7777":
+									case "":
 										race_name = "blank";
 										break;
+									default:
+										race_name = "other";
+										break;
 								}
-								else
+							}
+							else if(val_list.Count > 1)
+							{
+								race_name = "other";
+								foreach(object item in val_list)
 								{
-									race_name = "other";
+
+									if(item!= null)
+									{
+										string item_value = item.ToString().ToLower();
+										if
+										(
+											item_value == "9999" ||
+											item_value == "8888" ||
+											item_value == "7777" ||
+											item_value == ""
+										)
+										{
+												race_name = "blank";
+												break;
+										}
+										else
+										{
+											race_name = "other";
+										}
+									}
+									
 								}
 							}
 							
+
 						}
 					}
-					
-
 				}
 			}
 
-
-			val_object = get_value (p_source_object, "death_certificate/race/race");
-			if (val_object != null)
-			{
-				
-				HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
-				var val_list = val_object as IList<object>;
-
-				if(val_list != null)
-				{
-					if(val_list.Count == 1)
-					{
-						if(val_list[0]!= null)
-						switch(val_list[0].ToString().ToLower())
-						{
-
-							case "white":
-							case "black":
-								race_name = val_list[0].ToString().ToLower();
-							break;
-							case "9999":
-							case "8888":
-							case "7777":
-								race_name = "blank";
-								break;
-							default:
-								race_name = "other";
-							break;
-						}
-					}
-					else if(val_list.Count > 1)
-					{
-						race_name = "other";
-						foreach(object item in val_list)
-						{
-
-							if(item!= null)
-							{
-								string item_value = item.ToString().ToLower();
-								if
-								(
-									item_value == "9999" ||
-									item_value == "8888" ||
-									item_value == "7777"
-								)
-								{
-										race_name = "blank";
-										break;
-								}
-								else
-								{
-									race_name = "other";
-								}
-							}
-							
-						}
-					}
-					
-
-				}
-			}
 
 			if(is_hispanic_blank)
 			{
@@ -1041,7 +1106,7 @@ namespace mmria.server.util
 			{
 				if(is_hispanic)
 				{
-					if(race_name == "blank")
+					if(race_name == "blank") 
 					{
 						return "9999";
 					}
@@ -1171,6 +1236,7 @@ namespace mmria.server.util
 
 
 				object val1 = get_value (p_source_object, "death_certificate/demographics/age");
+				val1 = null;
 
 				if
 				(
@@ -1255,7 +1321,7 @@ namespace mmria.server.util
 						*/
 
 						val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
-
+						val1 = null;
 						if
 						(
 							val1 != null && 
@@ -1678,8 +1744,103 @@ death_certificate/Race/race = Other
 		{
 
 
+//CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
+/*
+function $calc_days(p_start_date, p_end_date) {
+    var days = null;
+    p_start_date = p_start_date.getTime() / 86400000;
+    p_end_date = p_end_date.getTime() / 86400000;
+    days = Math.trunc(p_end_date - p_start_date);
+    return days;
+}
+*/
+//CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
+/*
+path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
+event=onclick
+*/
+/*
+function birth_2_death(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var days = $global.calc_days(start_date, end_date);
+        this.length_between_child_birth_and_death_of_mother = days;
+        $mmria.save_current_record();
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
+    }
+}
+*/
+			DateTime? Convert(object year, object month, object day)
+			{
+				DateTime? result = null;
+
+				int start_year;
+				int start_month;
+				int start_day;
+
+				if
+				(
+					year!= null && !string.IsNullOrWhiteSpace(year.ToString()) &&
+					month!= null && !string.IsNullOrWhiteSpace(month.ToString()) &&
+					day!= null && !string.IsNullOrWhiteSpace(day.ToString()) &&
+					int.TryParse(year.ToString(), out start_year) && start_year != 9999 &&
+					int.TryParse(month.ToString(), out start_month) && start_month != 9999  &&
+					int.TryParse(day.ToString(), out start_day) && start_day != 9999 
+				)
+				{
+					try
+					{
+						result = new DateTime(start_year, start_month, start_day);
+					}
+					catch(Exception ex)
+					{
+						
+					}
+					
+				}
+				else
+				{
+
+				}
+
+
+				return result;
+			}
+
+
+			var start_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+			var start_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+			var start_day = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+			var end_year = get_value(p_source_object, "home_record/date_of_death/year");
+			var end_month = get_value(p_source_object, "home_record/date_of_death/month");
+			var end_day = get_value(p_source_object, "home_record/date_of_death/day");
+
+
+			var delivery_date = Convert(start_year, start_month, start_day);
+			var death_date = Convert(end_year, end_month, end_day);
+
+			int? length_between_child_birth_and_death_of_mother = null;
+			if(delivery_date.HasValue && death_date.HasValue)
+			{
+				var interval = (death_date - delivery_date).Value;
+
+				System.Console.WriteLine($"{interval.Days} - {interval.TotalDays}");
+				length_between_child_birth_and_death_of_mother = (int) interval.TotalDays;
+			}
+
+/*			
 			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			int length_between_child_birth_and_death_of_mother =  -1;
+
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			
 			if(length_between_child_birth_and_death_of_mother_dynamic is string)
 			{
 				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
@@ -1692,12 +1853,13 @@ death_certificate/Race/race = Other
 			{
 				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
 			}
+			
 
 			
 			if(length_between_child_birth_and_death_of_mother < -1)
 			{
 				length_between_child_birth_and_death_of_mother = -1;
-			}
+			}*/
 
 			string val_1 = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 
@@ -1708,96 +1870,93 @@ death_certificate/Race/race = Other
 //  (death_certificate/death_information/pregnancy_status = 1)
 			try
 			{	
-				if
-				(	length_between_child_birth_and_death_of_mother == 0 || 
-					length_between_child_birth_and_death_of_mother == -1 &&
+
+
+
+				if(length_between_child_birth_and_death_of_mother.HasValue)
+				{
+
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.value = 1;
+					
+					if(length_between_child_birth_and_death_of_mother.Value <= 0)
+					{
+						curr.field_id = "MTimeD1";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else if
 					(
+						length_between_child_birth_and_death_of_mother.Value > 0 && 
+						length_between_child_birth_and_death_of_mother.Value <= 42
+					)
+					{
+						curr.field_id = "MTimeD2";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+
+					}
+					else if
+					(
+						length_between_child_birth_and_death_of_mother.Value >= 43 &&
+						length_between_child_birth_and_death_of_mother.Value <= 365
+					)
+					{
+						curr.field_id = "MTimeD3";
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else
+					{
+						length_between_child_birth_and_death_of_mother = null;
+					}
+				}
+				
+				if(!length_between_child_birth_and_death_of_mother.HasValue)
+				{
+
+
+					if
+					(
+					
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) &&
 						test_int == 1
+					
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
-//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
-//(death_certificate/death_information/pregnancy_status = 2)
-			try
-			{	
-				if
-				(
-					(
-						length_between_child_birth_and_death_of_mother >= 1 && 
-						length_between_child_birth_and_death_of_mother <= 42
-					) 
-					|| 
-					length_between_child_birth_and_death_of_mother == -1 &&
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD1";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else if
 					(
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) && 
 						test_int == 2
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD2";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
-// (death_certificate/death_information/pregnancy_status = 3)
-			try
-			{	
-				if(
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD2";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else if
 					(
-						length_between_child_birth_and_death_of_mother >= 43 &&
-						length_between_child_birth_and_death_of_mother <= 365
+						val_1 != null && 
+						int.TryParse(val_1, out test_int) && 
+						test_int == 3
 					)
-					|| 
-					length_between_child_birth_and_death_of_mother == -1 &&
-					(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
-//  (death_certificate/death_information/pregnancy_status = 9999)
-
-			try
-			{	
-				if(
-					length_between_child_birth_and_death_of_mother == -1 &&
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD3";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else if
 					(
-						val_1 == null || 
 						string.IsNullOrWhiteSpace(val_1) || 
 						!int.TryParse(val_1, out test_int) ||
 						(
@@ -1808,21 +1967,33 @@ death_certificate/Race/race = Other
 							test_int == 8888
 						)
 					)
-				)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mTimingofDeath";
-					curr.field_id = "MTimeD4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mTimingofDeath";
+						curr.field_id = "MTimeD4";
+						curr.value = 1;
+						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+					}
+					else
+					{
+
+					}
 				}
-				
+
 			}
 			catch(Exception ex)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
+//(death_certificate/death_information/pregnancy_status = 2)
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
+// (death_certificate/death_information/pregnancy_status = 3)
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
+//  (death_certificate/death_information/pregnancy_status = 9999)
 
 		return;
 /*
@@ -1972,7 +2143,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 
 			//if (p_is_pregnancy_related)
 			//{
-				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
+				//HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
 				var race_ethnicity_result = get_race_ethnicity(p_source_object);
 
@@ -2768,7 +2939,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if( test_int>=0 && test_int <= 2)
 					{
@@ -2779,7 +2950,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=0 && test_int <= 2)
@@ -2806,7 +2977,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=3 && test_int <= 3)
 					{
@@ -2817,7 +2988,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=3 && test_int <= 3)
@@ -2840,7 +3011,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=4 && test_int <= 5)
 					{
@@ -2851,7 +3022,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int))
@@ -2877,7 +3048,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
 				{
 					if(test_int >=6 && test_int <= 7)
 					{
@@ -2886,9 +3057,10 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						curr.field_id = "MEduc4";
 						curr.value = 1;
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+						
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
 					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
 					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 7)
@@ -2910,11 +3082,14 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 			try
 			{	
 				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int))
+				string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+
+				var record_id = get_value(p_source_object, "_id");
+				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
 				{
-					if(test_int >=6 && test_int <= blank_value)
+					if(string.IsNullOrWhiteSpace(val_2) || (int.TryParse(val_2, out test_int) && test_int > 7 && test_int <= blank_value))
 					{
+						//System.Console.WriteLine ($"MEduc5 blank death_certificate id: {record_id}");
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc5";
@@ -2922,11 +3097,12 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 				}
-				else 
+				else if(val_1 == null || string.IsNullOrWhiteSpace(val_1))
 				{
-					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
-					if(val_2 == null || (val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= blank_value))
+					
+					if(string.IsNullOrWhiteSpace(val_2) || (int.TryParse(val_2, out test_int) && test_int > 7 && test_int <= blank_value))
 					{
+						//System.Console.WriteLine ($"MEduc5 blank death_certificate id: {record_id}");
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mEducation";
 						curr.field_id = "MEduc5";
@@ -3765,7 +3941,7 @@ foreach(var item in val_list)
 
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3796,7 +3972,7 @@ foreach(var item in val_list)
 
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3827,7 +4003,7 @@ foreach(var item in val_list)
 				}
 				foreach(string val_1 in val_string_list)
 				{
-					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+					if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mMHTxTiming";
@@ -3843,7 +4019,7 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+/*
 			try
 			{	
 				List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
@@ -3872,7 +4048,7 @@ foreach(var item in val_list)
 			{
 				System.Console.WriteLine (ex);
 			}
-
+*/
 		}
 
 		private void popluate_mSubstAutop (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3896,14 +4072,16 @@ foreach(var item in val_list)
 			var is_Amphetamine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Benzodiazepine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Buprenorphine_Methadone = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+			var is_Cannabinoid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Cocaine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Opioid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 			var is_Other_Substance = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
 
 			is_Alcohol.Add("Alcohol");
+
 			is_Amphetamine.Add("Amphetamines");
 			is_Amphetamine.Add("Methamphetamine");
-
+/*
 			is_Benzodiazepine.Add("Alprazolam (Xanax)");
 			is_Benzodiazepine.Add("Aminoclonazepam");
 			is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
@@ -3912,10 +4090,22 @@ foreach(var item in val_list)
 			is_Benzodiazepine.Add("Lorazepam (Ativan)");
 			is_Benzodiazepine.Add("Temazepam (Restoril)");
 			is_Benzodiazepine.Add("Zolpidem (Ambien)");
+*/
 
+		is_Benzodiazepine.Add("Alprazolam (Xanax)");
+		is_Benzodiazepine.Add("Aminoclonazepam");
+		is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
+		is_Benzodiazepine.Add("Clonazepam (Klonopin or Rivotril)");
+		is_Benzodiazepine.Add("Diazepam (Valium)");
+		is_Benzodiazepine.Add("Lorazepam (Ativan)");
+		is_Benzodiazepine.Add("Midazolam (Versed)");
+		is_Benzodiazepine.Add("Temazepam (Restoril)");
 
 			is_Buprenorphine_Methadone.Add("Buprenorphine");
-			is_Buprenorphine_Methadone.Add("MethadoneMethadone Hydrochloride");
+			is_Buprenorphine_Methadone.Add("Methadone");
+			is_Buprenorphine_Methadone.Add("Methadone Hydrochloride");
+
+			is_Cannabinoid.Add("Marijuana");
 
 			is_Cocaine.Add("Cocaine");
 
@@ -3929,7 +4119,7 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Acetaminophen");
 			is_Other_Substance.Add("Acetazolamide (Diamox)");
 			is_Other_Substance.Add("Aripiprazole (Abilify)");
-			is_Other_Substance.Add("Carbamazepine (Neurontin)");
+			is_Other_Substance.Add("Carbamazepine (Tegretol)");
 			is_Other_Substance.Add("Citalopram (Celexa)");
 			is_Other_Substance.Add("Doxepin (Silenor, Zonalon, Prudoxin)");
 			is_Other_Substance.Add("Duloxetine (Cymbalta)");
@@ -3937,11 +4127,11 @@ foreach(var item in val_list)
 			is_Other_Substance.Add("Fluoxetine/Olanzapine (Symbyax)");
 			is_Other_Substance.Add("Lurasidone (Latuda)");
 			is_Other_Substance.Add("Meprobamate (Equanil)");
-			is_Other_Substance.Add("Midazolam (Versed)");
 			is_Other_Substance.Add("Pregabalin (Lyrica)");
 			is_Other_Substance.Add("Quetiapine (Seroquel)");
 			is_Other_Substance.Add("Sertraline (Zoloft)");
 			is_Other_Substance.Add("Trazadone (Oleptro)");
+			is_Other_Substance.Add("Zolpidem (Ambien)");
 
 
 
@@ -4185,7 +4375,7 @@ foreach(var item in val_list)
 				{	
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 != null && val_1.ToLower() == "Cannabinoid".ToLower())
+					if(val_1 != null && val_1.ToLower() == "Cannabinoid".ToLower() || is_Cannabinoid.Contains(val_1))
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";
@@ -4208,9 +4398,26 @@ foreach(var item in val_list)
 
 				try
 				{	
+					int test_int;
 					//string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 					
-					if(val_1 != null && val_1.ToLower() == "Other".ToLower())
+					if
+					(
+						//val_1 == null ||
+						val_1 != null && 
+						!string.IsNullOrWhiteSpace(val_1) &&
+						!(int.TryParse(val_1, out test_int) && test_int == blank_value) &&
+						//val_1.ToLower() == "Other".ToLower() &&
+						!is_Alcohol.Contains(val_1) &&
+						!is_Amphetamine.Contains(val_1) &&
+						!is_Benzodiazepine.Contains(val_1) &&
+						!is_Buprenorphine_Methadone.Contains(val_1) &&
+						!is_Cannabinoid.Contains(val_1) &&
+						!is_Cocaine.Contains(val_1) &&
+						!is_Opioid.Contains(val_1) &&
+						!is_Other_Substance.Contains(val_1)
+
+					)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 						curr.indicator_id = "mSubstAutop";

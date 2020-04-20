@@ -483,24 +483,24 @@ namespace mmria.server.util
 												path_to_node_map[path].data_type != null &&
 												path_to_node_map[path].data_type.ToLower() == "string" &&
 												(
-													val == "9999" ||
-													val == "8888" ||
-													val == "7777"
+													val.ToString() == "9999" ||
+													val.ToString() == "8888" ||
+													val.ToString() == "7777"
 												)
 											)
 											{
 												
-												if(val == "9999")
+												if(val.ToString() == "9999")
 												{
 													row[file_field_name] = "";
 												}
 
-												if(val == "8888")
+												if(val.ToString() == "8888")
 												{
 													row[file_field_name] = "Not specified";
 												}
 
-												if(val == "7777")
+												if(val.ToString() == "7777")
 												{
 													row[file_field_name] = "Unknown";
 												}
@@ -738,24 +738,24 @@ namespace mmria.server.util
 																	path_to_node_map[node].data_type != null &&
 																	path_to_node_map[node].data_type.ToLower() == "string" &&
 																	(
-																		val == "9999" ||
-																		val == "8888" ||
-																		val == "7777"
+																		val.ToString() == "9999" ||
+																		val.ToString() == "8888" ||
+																		val.ToString() == "7777"
 																	)
 																)
 																{
 																	
-																	if(val == "9999")
+																	if(val.ToString() == "9999")
 																	{
 																		grid_row[file_field_name] = "";
 																	}
 
-																	if(val == "8888")
+																	if(val.ToString() == "8888")
 																	{
 																		grid_row[file_field_name] = "Not specified";
 																	}
 
-																	if(val == "7777")
+																	if(val.ToString() == "7777")
 																	{
 																		grid_row[file_field_name] = "Unknown";
 																	}
@@ -763,7 +763,7 @@ namespace mmria.server.util
 																}
 																else
 																{
-																	if(val == "" || val == "9999")
+																	if(val.ToString() == "" || val.ToString() == "9999")
 																	{
 
 																		if
@@ -1018,9 +1018,9 @@ namespace mmria.server.util
 												path_to_node_map[path].data_type != null &&
 												path_to_node_map[path].data_type.ToLower() == "string" &&
 												(
-													val == "9999" ||
-													val == "8888" ||
-													val == "7777"
+													val.ToString() == "9999" ||
+													val.ToString() == "8888" ||
+													val.ToString() == "7777"
 												)
 											)
 											{

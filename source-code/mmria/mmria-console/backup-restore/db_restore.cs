@@ -132,6 +132,12 @@ namespace mmria.console.db
 						doc.Remove("_rev");
 					}
 
+					if (doc.ContainsKey ("_attachments")) 
+					{
+						doc.Remove("_attachments");
+					}
+
+
 					string _id = "";
 
 					if (doc.ContainsKey ("_id")) 
@@ -147,7 +153,7 @@ namespace mmria.console.db
 					{
 						continue;
 					}
-
+/*
 					var home_record = doc["home_record"] as Newtonsoft.Json.Linq.JObject;
 
 					if(!home_record.ContainsKey("jurisdiction_id"))
@@ -161,7 +167,7 @@ namespace mmria.console.db
 					else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
 					{
 						home_record["jurisdiction_id"] = "/";
-					}
+					}*/
 					
 				} 
 				/**/
