@@ -828,8 +828,7 @@ function init_case_narrative_editor()
 			['fontsize'],
 			['foreColor', 'backColor'],
 			['formatting'],
-			['superscript', 'subscript'],
-			['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+			['justifyLeft', 'justifyCenter', 'justifyRight'],
 			['unorderedList', 'orderedList'],
 			['horizontalRule'],
 			['removeformat'],
@@ -879,7 +878,13 @@ function init_case_narrative_editor()
 		if (!isNullOrUndefined(case_narrative))
 		{
 			// console.log('looking...');
-			$('#case_narrative_editor').trumbowyg(opts);
+			$('#case_narrative_editor').trumbowyg(opts)
+				.on('tbwchange', function() {
+					let box = $('.trumbowyg-editor')[0];
+					let top = box.scrollTop;
+					
+					box.scrollTop = top;
+				});
 			// console.log('done...');
 
 			clearInterval(scan_interval_for_case_narrative);
