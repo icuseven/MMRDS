@@ -819,7 +819,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 // TODO: Need to get with James about storing and retrieving HTML
 function init_case_narrative_editor()
 {
-	// Options to set up our rich text editor
+	// Options to set up buttons in tool bar
 	let opts = {
 		btns: [
 			['viewHTML'],
@@ -835,6 +835,7 @@ function init_case_narrative_editor()
 			['fullscreen'],
 		],
 		plugins: {
+			// Add font sizes manually
 			fontsize: {
 				sizeList: [
 					'14px',
@@ -846,6 +847,8 @@ function init_case_narrative_editor()
 				],
 				allowCustomSize: false
 			},
+			// Add colors manually
+			// Currently utilizing all primary, secondary, tertiary colors in color wheel
 			colors: {
 				colorList: [
 					'FFFFFF',
@@ -869,24 +872,38 @@ function init_case_narrative_editor()
 			}
 		}
 	}
+
+	// Interval to check dynamically created DOM element we want to isntantiate editor onto
+	// Runs every 25ms
 	let scan_interval_for_case_narrative = setInterval(convert_case_narrative_to_editor, 25);
 
+	// Fn the interval runs against to check for DOM element
 	function convert_case_narrative_to_editor()
 	{
 		let case_narrative = $('#case_narrative_editor');
 
+		// if the case narrative box exists
 		if (!isNullOrUndefined(case_narrative))
 		{
 			// console.log('looking...');
+			// Init the Trumbowyg plugin
 			$('#case_narrative_editor').trumbowyg(opts)
+				// Sometimes when interacting with editor, scroll jumps around
+				// This event detects when there is a change
 				.on('tbwchange', function() {
+					// Grab the box
 					let box = $('.trumbowyg-editor')[0];
+					// and the box's current scroll top
 					let top = box.scrollTop;
 					
-					box.scrollTop = top;
+					// Place it into setTimeout method incase there are any async weirdness
+					setTimeout(function() {
+						// Set the current box to the scroll value we captured
+						box.scrollTop = top;
+					}, 0);
 				});
 			// console.log('done...');
-
+			
 			clearInterval(scan_interval_for_case_narrative);
 		}
 	}
