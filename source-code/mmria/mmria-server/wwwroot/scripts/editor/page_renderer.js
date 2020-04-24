@@ -728,14 +728,14 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	//hack
+	//hacky, needs some fixing
 	if(p_metadata.name == "case_opening_overview")
 	{
-		p_result.push("<textarea  rows=30 cols=120 name='");
+		p_result.push("<textarea id='case_narrative_editor' style='display: none; white-space: pre-wrap' name='");
 	}
 	else
 	{
-		p_result.push("<textarea  name='");
+		p_result.push("<textarea name='");
 	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
@@ -758,12 +758,12 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	}
 
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-    if(style_object && p_metadata.name != "case_opening_overview")
-    {
-        p_result.push(" style='");
-        p_result.push(get_style_string(style_object.control.style));
-        p_result.push("'");
-    }
+	if(style_object && p_metadata.name != "case_opening_overview")
+	{
+			p_result.push(" style='");
+			p_result.push(get_style_string(style_object.control.style));
+			p_result.push("'");
+	}
 
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
@@ -798,9 +798,96 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 
 	p_result.push(" >");
 	p_result.push(p_data);
-	p_result.push("</textarea>");
-	
+
+	if(p_metadata.name == "case_opening_overview")
+	{
+		p_result.push("</textarea> <!-- end rich text editor -->");
+	}
+	else
+	{
+		p_result.push("</textarea>");
+	}
+
+	if(p_metadata.name == "case_opening_overview")
+	{
+		init_case_narrative_editor();
+	}
 }
+
+
+function init_case_narrative_editor()
+{
+	// Options to set up our rich text editor
+	let opts = {
+		btns: [
+			['viewHTML'],
+			['undo', 'redo'],
+			['strong', 'em', 'del'],
+			['fontsize'],
+			['foreColor', 'backColor'],
+			['formatting'],
+			['superscript', 'subscript'],
+			['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+			['unorderedList', 'orderedList'],
+			['horizontalRule'],
+			['removeformat'],
+			['fullscreen'],
+		],
+		plugins: {
+			fontsize: {
+				sizeList: [
+					'14px',
+					'16px',
+					'18px',
+					'24px',
+					'32px',
+					'48px'
+				],
+				allowCustomSize: false
+			},
+			colors: {
+				colorList: [
+					'FFFFFF',
+					'CCCCCC',
+					'777777',
+					'333333',
+					'000000',
+					'FF0000	',
+					'00FF00	',
+					'0000FF	',
+					'FFFF00	',
+					'FF00FF	',
+					'00FFFF	',
+					'FF7F00	',
+					'FF007F	',
+					'7FFF00	',
+					'7F00FF	',
+					'00FF7F	',
+					'007FFF'
+				]
+			}
+		}
+	}
+	let scan_interval_for_case_narrative = setInterval(convert_case_narrative_to_editor, 25);
+
+	function convert_case_narrative_to_editor()
+	{
+		let case_narrative = $('#case_narrative_editor');
+
+		if (!isNullOrUndefined(case_narrative))
+		{
+			// console.log('looking...');
+			$('#case_narrative_editor').trumbowyg(opts)
+				.on('tbwchange', function() {
+					console.log('Changed');
+				});
+			// console.log('done...');
+
+			clearInterval(scan_interval_for_case_narrative);
+		}
+	}
+}
+
 
 function convert_object_path_to_jquery_id(p_value)
 {
