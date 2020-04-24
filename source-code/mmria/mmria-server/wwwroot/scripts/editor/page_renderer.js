@@ -731,7 +731,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	//hacky, needs some fixing
 	if(p_metadata.name == "case_opening_overview")
 	{
-		p_result.push("<textarea id='case_narrative_editor' style='display: none; white-space: pre-wrap' name='");
+		p_result.push("<textarea id='case_narrative_editor' name='");
 	}
 	else
 	{
@@ -815,6 +815,8 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 }
 
 
+// Inits rich text editor logic
+// TODO: Need to get with James about storing and retrieving HTML
 function init_case_narrative_editor()
 {
 	// Options to set up our rich text editor
@@ -877,10 +879,7 @@ function init_case_narrative_editor()
 		if (!isNullOrUndefined(case_narrative))
 		{
 			// console.log('looking...');
-			$('#case_narrative_editor').trumbowyg(opts)
-				.on('tbwchange', function() {
-					console.log('Changed');
-				});
+			$('#case_narrative_editor').trumbowyg(opts);
 			// console.log('done...');
 
 			clearInterval(scan_interval_for_case_narrative);
