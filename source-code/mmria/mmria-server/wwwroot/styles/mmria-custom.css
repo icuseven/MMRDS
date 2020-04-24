@@ -1363,6 +1363,11 @@ button.link {
   width: 100%;
 }
 
+/* ~~~~~~~ Rich Text Editor ~~~~~~~ */
+#case_narrative_editor {
+  padding: 20px;
+}
+
 
 
 
@@ -1558,3 +1563,12 @@ button.link {
       font-weight: inherit;
     }  
   }
+
+
+
+
+/* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-editor {
+  white-space: pre-wrap;
+}
+/* ~~~~~~~ END VENDER OVERRIDES ~~~~~~~ */
