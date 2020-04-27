@@ -647,6 +647,10 @@ button.link {
   display: inherit;
 }
 
+.spinner-container.spinner-infinite {
+  display: block;
+}
+
 .spinner-takeover {
   align-items: center;
   background-color: rgba(0,0,0,.35);
@@ -721,7 +725,7 @@ button.link {
   }
 
 .spinner {
-  display: block;
+  display: flex;
   height: 50px;
   position: relative;
   width: 50px;
@@ -941,6 +945,10 @@ button.link {
 .modal .close:hover {
   color: var(--neutral);
   opacity: .9;
+}
+
+.modal-icons {
+  padding-right: 1rem;
 }
 
 

@@ -401,7 +401,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
           <tbody class="tbody">
               ${p_ui.case_view_list.map((item, i) => {
                   return (`
-                      <tr class="tr" path=${item.id}>
+                      <tr class="tr" path="${item.id}">
                           <td class="td">
                               <a href="#/${i}/home_record">
                                   / :${item.value.last_name}, ${item.value.first_name}
@@ -415,8 +415,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                           <td class="td">
                             ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
-                          <td class="td" width="200">
-                              <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})">Click twice to delete</button>
+                          <td class="td">
+                              <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})">Delete</button>
                           </td>
                       </tr>
                   `);
