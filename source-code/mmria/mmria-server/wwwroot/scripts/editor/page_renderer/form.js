@@ -612,6 +612,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // MULTI RECORD FORM
                         //~~~ birth_certificate_infant_fetal_section
                         else if (key === 'birth_certificate_infant_fetal_section') 
                         {
@@ -648,6 +649,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // SINGLE FORM
                         //~~~ autopsy_report
                         else if (key === 'autopsy_report') 
                         {
@@ -662,6 +664,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // SINGLE FORM
                         //~~~ prenatal
                         else if (key === 'prenatal') 
                         {
@@ -676,6 +679,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // MULTI RECORD FORM
                         //~~~ er_visit_and_hospital_medical_records
                         else if (key === 'er_visit_and_hospital_medical_records') 
                         {
@@ -720,6 +724,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // MULTI RECORD FORM
                         //~~ other_medical_office_visits
                         else if (key === 'other_medical_office_visits') 
                         {
@@ -768,6 +773,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // MULTI RECORD FORM
+                        //~~~ medical_transport
                         else if (key === 'medical_transport')
                         {
                             noteTitle = 'Medical Transport';
@@ -810,6 +817,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // SINGLE FORM
+                        //~~~ social_and_environmental_profile
                         else if (key === 'social_and_environmental_profile')
                         {
                             noteTitle = 'Social and Environmental Profile';
@@ -823,6 +832,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // SINGLE FORM
+                        //~~~ mental_health_profile
                         else if (key === 'mental_health_profile')
                         {
                             noteTitle = 'Mental Health Profile';
@@ -836,6 +847,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             `);
                         }
 
+                        // MULTI RECORD FORM
+                        //~~~ informant_interviews
                         else if (key === 'informant_interviews')
                         {
                             noteTitle = 'Informant Interviews';
