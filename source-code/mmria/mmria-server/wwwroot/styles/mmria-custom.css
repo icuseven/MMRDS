@@ -1568,7 +1568,15 @@ button.link {
 
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
-.trumbowyg-editor {
-  white-space: pre-wrap;
+.trumbowyg-box {
+  margin-top: 0 !important;
 }
+
+.trumbowyg-editor {
+  white-space: pre-wrap !important;
+}
+  /* Helps remove text content from jumping around when focusing on editor */
+  .trumbowyg-editor p:first-of-type {
+    margin-top: 0 !important;
+  }
 /* ~~~~~~~ END VENDER OVERRIDES ~~~~~~~ */
