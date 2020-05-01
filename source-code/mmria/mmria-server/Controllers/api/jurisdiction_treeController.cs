@@ -27,7 +27,7 @@ namespace mmria.server
 
 			try
 			{
-                string jurisdiction_tree_url = Program.config_couchdb_url + $"/jurisdiction/jurisdiction_tree";
+                string jurisdiction_tree_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/jurisdiction_tree";
 
 				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, Program.config_timer_user_name, Program.config_timer_value);
 				string response_from_server = await jurisdiction_curl.executeAsync ();
@@ -76,7 +76,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_tree, settings);
 
-				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/jurisdiction_tree";
+				string jurisdiction_tree_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/jurisdiction_tree";
 
 				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, jurisdiction_json, Program.config_timer_user_name, Program.config_timer_value);
 

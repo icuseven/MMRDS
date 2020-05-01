@@ -88,7 +88,7 @@ namespace mmria.server.model.actor
 				    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				    var session_event_json = Newtonsoft.Json.JsonConvert.SerializeObject(se, settings);
 
-                    var request_url = $"{Program.config_couchdb_url}/session/{se._id}";
+                    var request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/{se._id}";
                     var curl = new cURL("PUT", null, request_url, session_event_json, Program.config_timer_user_name, Program.config_timer_value);
                     curl.executeAsync ().Wait();
 

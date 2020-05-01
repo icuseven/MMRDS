@@ -104,7 +104,7 @@ effective_end_date
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -305,7 +305,7 @@ effective_end_date
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))

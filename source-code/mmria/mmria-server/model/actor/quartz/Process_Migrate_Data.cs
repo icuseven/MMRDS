@@ -74,7 +74,7 @@ namespace mmria.server.model.actor.quartz
 				Console.WriteLine($"Process_Migrate_Data Begin {System.DateTime.Now}");
 
 
-				string url = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+				string url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
 
 				var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = case_curl.execute();
@@ -155,7 +155,7 @@ namespace mmria.server.model.actor.quartz
 						settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 						var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
 
-						string put_url = Program.config_couchdb_url + "/mmrds/"  + case_item.id;
+						string put_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/"  + case_item.id;
 						cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
 						try
