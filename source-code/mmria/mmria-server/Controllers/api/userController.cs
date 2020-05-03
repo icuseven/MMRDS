@@ -87,8 +87,14 @@ namespace mmria.server
 				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
 				{
 					bool is_jurisdiction_ok = false;
+					bool is_app_prefix_ok = false;
 					foreach(var jurisdiction_item in jurisdiction_hashset)
 					{
+
+						if(uai.doc.app_prefix_list.ContainsKey(Program.db_prefix))
+						{
+							is_app_prefix_ok = uai.doc.app_prefix_list[Program.db_prefix];
+						}
 
 						if(jurisdiction_item.jurisdiction_id == "/")
 						{
@@ -115,9 +121,14 @@ namespace mmria.server
 						{
 							break;
 						}
+
+
+						
 					}
 
-					if(is_jurisdiction_ok) temp_list.Add (uai);
+
+
+					if(is_jurisdiction_ok && is_app_prefix_ok) temp_list.Add (uai);
 				}
 
 
@@ -144,7 +155,7 @@ namespace mmria.server
 			{
 				string request_string = Program.config_couchdb_url + "/_users/" + id;
 
-				var user_curl = new cURL("PUT", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				var user_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				var responseFromServer = await user_curl.executeAsync();
 
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -167,6 +178,9 @@ namespace mmria.server
 
 			try
 			{
+
+				user.app_prefix_list[Program.db_prefix] = true;
+
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);

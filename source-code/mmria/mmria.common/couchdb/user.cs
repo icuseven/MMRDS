@@ -4,6 +4,10 @@ namespace mmria.common.model.couchdb
 {
 	public class user
 	{
+		public user()
+		{
+			this.app_prefix_list = new System.Collections.Generic.Dictionary<string,bool>(StringComparer.OrdinalIgnoreCase);
+		}
 
 		public string _id { get; set; } // ": "org.couchdb.user:user1",
 		public string _rev { get; set; } // ": "3-a8db5e34c488c3516220de7e033ba794",
@@ -28,11 +32,7 @@ namespace mmria.common.model.couchdb
 
 		public string alternate_email { get; set; } 
 
-
-		public user()
-		{
-			
-		}
+		public System.Collections.Generic.Dictionary<string,bool> app_prefix_list { get; set; }
 
 	}
 }

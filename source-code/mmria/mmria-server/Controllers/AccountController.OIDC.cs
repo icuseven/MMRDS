@@ -235,6 +235,7 @@ namespace mmria.common.Controllers
 			} 
 
             mmria.common.model.couchdb.document_put_response user_save_result = null;
+            var is_app_prefix_ok = false;
 
             if(user == null)// if user does NOT exists create user with email
             {
@@ -242,6 +243,9 @@ namespace mmria.common.Controllers
 
                 try
                 {
+                    user.app_prefix_list[_configuration["mmria_settings:db_prefix"]] = true;
+                    is_app_prefix_ok = true;
+
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
@@ -258,9 +262,16 @@ namespace mmria.common.Controllers
                     Console.WriteLine (ex);
                 }
             }
+            else
+            {
+                if(user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
+                {
+                    is_app_prefix_ok = user.app_prefix_list[_configuration["mmria_settings:db_prefix"]];
+                }
+            }
 
             //create login session
-            if(user_save_result == null || user_save_result.ok)
+            if(is_app_prefix_ok && (user_save_result == null || user_save_result.ok))
             {
                 var session_data = new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
                 session_data["access_token"] = access_token;
