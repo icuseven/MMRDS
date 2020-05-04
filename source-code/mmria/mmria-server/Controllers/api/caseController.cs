@@ -34,12 +34,11 @@ namespace mmria.server
 		{ 
 			try
 			{
-                string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
 
                 if (!string.IsNullOrWhiteSpace (case_id)) 
                 {
-                    request_string = Program.config_couchdb_url + "/mmrds/" + case_id;
-
+                    request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
 					var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
 
@@ -142,7 +141,7 @@ namespace mmria.server
 				// begin - check if doc exists
 				try 
 				{
-					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, Program.config_timer_user_name, Program.config_timer_value);
+					var check_document_curl = new cURL ("GET", null, $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}", null, Program.config_timer_user_name, Program.config_timer_value);
 					string check_document_json = await check_document_curl.executeAsync ();
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
 					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
@@ -168,7 +167,7 @@ namespace mmria.server
 
 
 
-				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
+				string metadata_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}";
 				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
                 try
@@ -220,7 +219,7 @@ namespace mmria.server
 
                 if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {
-                    request_string = Program.config_couchdb_url + "/mmrds/" + case_id + "?rev=" + rev;
+                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + rev;
                 }
                 else 
                 {
@@ -228,7 +227,7 @@ namespace mmria.server
                 }
 
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_value);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_value);
 
 				string document_json = null;
 				// check if doc exists
@@ -240,7 +239,7 @@ namespace mmria.server
 					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
 					if (result_dictionary.ContainsKey ("_rev")) 
 					{
-						request_string = Program.config_couchdb_url + "/mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
+						request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
 						//System.Console.WriteLine ("json\n{0}", object_string);
 					}
 				} 

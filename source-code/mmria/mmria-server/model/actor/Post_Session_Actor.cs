@@ -85,7 +85,7 @@ namespace mmria.server.model.actor
                 try
                 {
                     mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-                    string request_string = Program.config_couchdb_url + $"/session/{session_message._id}";
+                    string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{session_message._id}";
 
                     try 
                     {

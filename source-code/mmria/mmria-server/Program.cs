@@ -95,6 +95,8 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
         public static string config_couchdb_url = "http://localhost:5984";
+
+        public static string db_prefix = "";
         public static string config_web_site_url;
         //public static string config_file_root_folder;
         public static string config_timer_user_name;

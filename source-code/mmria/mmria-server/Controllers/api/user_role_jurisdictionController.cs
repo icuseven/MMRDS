@@ -22,10 +22,10 @@ namespace mmria.server
 
 			try
 			{
-				string jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;
+				string jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + p_urj_id;
 				if(string.IsNullOrWhiteSpace(p_urj_id))
 				{
-					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/_all_docs?include_docs=true";
+					jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/_all_docs?include_docs=true";
 
 					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
@@ -55,7 +55,7 @@ namespace mmria.server
 				}
 				else
 				{
-					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;	
+					jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + p_urj_id;	
 					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
 
@@ -110,7 +110,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				user_role_jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(user_role_jurisdiction, settings);
 
-				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/" + user_role_jurisdiction._id;
+				string jurisdiction_tree_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + user_role_jurisdiction._id;
 
 
 				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, Program.config_timer_user_name, Program.config_timer_value);
@@ -151,7 +151,7 @@ namespace mmria.server
 
                 if (!string.IsNullOrWhiteSpace (_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {
-                    request_string = Program.config_couchdb_url + "/jurisdiction/" + _id + "?rev=" + rev;
+                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id + "?rev=" + rev;
                 }
                 else 
                 {
@@ -159,7 +159,7 @@ namespace mmria.server
                 }
 
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/jurisdiction/" + _id, null, Program.config_timer_user_name, Program.config_timer_value);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id, null, Program.config_timer_user_name, Program.config_timer_value);
 					// check if doc exists
 
 				try 
@@ -176,7 +176,7 @@ namespace mmria.server
 
 					if (result_dictionary.ContainsKey ("_rev")) 
 					{
-						request_string = Program.config_couchdb_url + "/jurisdiction/" + _id + "?rev=" + result_dictionary ["_rev"];
+						request_string = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id + "?rev=" + result_dictionary ["_rev"];
 						//System.Console.WriteLine ("json\n{0}", object_string);
 					}
 

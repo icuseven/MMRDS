@@ -106,12 +106,12 @@ namespace mmria.server.util
                 await c_db_setup.UpdateMetadata(current_directory);
                 await c_db_setup.UpdateJurisdiction(current_directory);
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_value)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", Program.config_timer_user_name, Program.config_timer_value)) 
                 {
-                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
+                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
                     Log.Information ("mmrds_curl\n{0}", await mmrds_curl.executeAsync ());
 
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
                     Log.Information ("mmrds/_security completed successfully");
 
 
@@ -121,22 +121,22 @@ namespace mmria.server.util
                         {
 
                             string case_design_sortable = sr.ReadToEnd ();
-                            var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
                             await case_design_sortable_curl.executeAsync ();
                         }
 
 
-                        //await EnsureUpdate(case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable");
+                        
 
                         using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
                         {
                             string case_store_design_auth = await sr.ReadToEndAsync ();
-                            var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                            var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
                             await case_store_design_auth_curl.executeAsync ();    
                         }
                         
 
-                        //await EnsureUpdate(case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth");
+                        
 
                     }
                     catch (Exception ex) 
@@ -149,12 +149,12 @@ namespace mmria.server.util
 
 
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/session", Program.config_timer_user_name, Program.config_timer_value)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}session", Program.config_timer_user_name, Program.config_timer_value)) 
                 {
-                    var session_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session", null, Program.config_timer_user_name, Program.config_timer_value);
+                    var session_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}session", null, Program.config_timer_user_name, Program.config_timer_value);
                     Log.Information ("session_curl\n{0}", await session_curl.executeAsync ());
 
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/session/_security", "{\"admins\":{\"names\":[],\"roles\":[\"_admin\"]},\"members\":{\"names\":[],\"roles\":[\"_admin\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}session/_security", "{\"admins\":{\"names\":[],\"roles\":[\"_admin\"]},\"members\":{\"names\":[],\"roles\":[\"_admin\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
                     Log.Information ("session/_security completed successfully");
 
 
@@ -165,7 +165,7 @@ namespace mmria.server.util
                         using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_event_sortable.json")))
                         {
                             string session_design_session_event_sortable = await sr.ReadToEndAsync ();
-                            var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_value);
                             await session_design_session_event_sortable_curl.executeAsync ();                            
                         }
                         
@@ -173,7 +173,7 @@ namespace mmria.server.util
                         using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_sortable.json")))
                         {
                             string session_design_session_sortable = await sr.ReadToEndAsync ();
-                            var session_design_session_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_sortable", session_design_session_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            var session_design_session_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}session/_design/session_sortable", session_design_session_sortable, Program.config_timer_user_name, Program.config_timer_value);
                             await session_design_session_sortable_curl.executeAsync ();    
                         }
                         
@@ -192,10 +192,10 @@ namespace mmria.server.util
 
                 if 
                 (
-                    await url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_value)
+                    await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", Program.config_timer_user_name, Program.config_timer_value)
                 ) 
                 {
-                    var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_value);
+                    var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, Program.config_timer_user_name, Program.config_timer_value);
                     Log.Information (await delete_queue_curl.executeAsync ());
                 }
 
@@ -218,18 +218,18 @@ namespace mmria.server.util
                 }
 
                 Log.Information ("Creating export_queue db.");
-                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_value);
+                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, Program.config_timer_user_name, Program.config_timer_value);
                 Log.Information (await export_queue_curl.executeAsync ());
-                await new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
+                await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
 
 
                 if
                 (
                     await url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_value) &&
-                    await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_value)
+                    await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", Program.config_timer_user_name, Program.config_timer_value)
                 ) 
                 {
-                    var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_value);
+                    var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_value);
                     string res = await sync_curl.executeAsync ();
                     mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
 
@@ -271,20 +271,20 @@ namespace mmria.server.util
         {
             IDictionary<string, string>  result = new Dictionary<string,string>();
 
-            if (!await url_endpoint_exists (Program.config_couchdb_url + "/jurisdiction", Program.config_timer_user_name, Program.config_timer_value)) 
+            if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction", Program.config_timer_user_name, Program.config_timer_value)) 
             {
                 try 
                 {
-                    var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_value);
+                    var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction", null, Program.config_timer_user_name, Program.config_timer_value);
                     Log.Information ("jurisdiction_curl\n{0}", await jurisdiction_curl.executeAsync ());
 
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
                     Log.Information ("jurisdiction/_security completed successfully");
 
                     using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")))
                     {
                         string jurisdiction_design_sortable = await sr.ReadToEndAsync ();
-                        var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                        var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
                         await jurisdiction_design_sortable_curl.executeAsync ();
                         Log.Information ("jurisdiction_design_sortable_curl completed successfully");
                     }
@@ -292,7 +292,7 @@ namespace mmria.server.util
                     using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")))
                     {
                         string jurisdiction_store_design_auth = await sr.ReadToEndAsync ();
-                        var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                        var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
                         await jurisdiction_store_design_auth_curl.executeAsync ();
                     }
 
@@ -300,7 +300,7 @@ namespace mmria.server.util
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     string jurisdiction_tree_json = Newtonsoft.Json.JsonConvert.SerializeObject(new mmria.common.model.couchdb.jurisdiction_tree(), settings);
 
-                    var jurisdiction_tree_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/jurisdiction_tree", jurisdiction_tree_json, Program.config_timer_user_name, Program.config_timer_value);
+                    var jurisdiction_tree_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/jurisdiction_tree", jurisdiction_tree_json, Program.config_timer_user_name, Program.config_timer_value);
                     await jurisdiction_tree_curl.executeAsync ();
 
                     Log.Information ("jurisdiction_store_design_auth completed successfully");

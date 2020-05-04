@@ -112,7 +112,7 @@ by_state_of_death
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/de_id/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}de_id/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -332,7 +332,7 @@ by_state_of_death
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/de_id/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}de_id/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))

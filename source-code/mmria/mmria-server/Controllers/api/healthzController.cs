@@ -26,7 +26,7 @@ namespace mmria.server.Controllers
 		public async Task<IActionResult> Index()
         {
 
-            if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_value)) 
+            if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", Program.config_timer_user_name, Program.config_timer_value)) 
             {
                 return StatusCode(500); 
             }
