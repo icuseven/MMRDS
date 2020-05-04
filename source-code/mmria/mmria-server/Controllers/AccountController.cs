@@ -157,12 +157,22 @@ namespace mmria.server.Controllers
                     var user_request_curl = new cURL("GET", null, user_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
                     string user_response_string = await user_request_curl.executeAsync ();
                     var test_user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(user_response_string);
-                    if(test_user.app_prefix_list.ContainsKey(Program.db_prefix))
+
+                    if(string.IsNullOrWhiteSpace(Program.db_prefix))
+                    {
+                        if(test_user.app_prefix_list == null || test_user.app_prefix_list.Count == 0)
+                        {
+                            is_app_prefix_ok = true;
+                        }
+                        else if(test_user.app_prefix_list.ContainsKey("__no_prefix__"))
+                        {
+                            is_app_prefix_ok = true;
+                        }
+                    }
+                    else if(test_user.app_prefix_list.ContainsKey(Program.db_prefix))
                     {
                         is_app_prefix_ok = test_user.app_prefix_list[Program.db_prefix];
                     }
-
-
 
                     var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
 
@@ -287,7 +297,17 @@ namespace mmria.server.Controllers
                     result[0].auth_session = "";
                 }
 
-                
+                if(!is_app_prefix_ok)
+                {
+                    foreach(var role in json_result.roles)
+                    {
+                        if(role == "_admin")
+                        {
+                           is_app_prefix_ok = true;
+                        }
+                    }
+                }
+
                 if (is_app_prefix_ok && json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
                 {
 

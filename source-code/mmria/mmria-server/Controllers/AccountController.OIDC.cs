@@ -243,8 +243,17 @@ namespace mmria.common.Controllers
 
                 try
                 {
-                    user.app_prefix_list[_configuration["mmria_settings:db_prefix"]] = true;
-                    is_app_prefix_ok = true;
+                    //test_user.app_prefix_list.ContainsKey("__no_prefix__")
+                    if(string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+                    {
+                        user.app_prefix_list.Add("__no_prefix__", true);
+                        is_app_prefix_ok = true;
+                    }
+                    else if(user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
+                    {
+                        user.app_prefix_list[_configuration["mmria_settings:db_prefix"]] = true;
+                        is_app_prefix_ok = true;
+                    }
 
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -264,9 +273,31 @@ namespace mmria.common.Controllers
             }
             else
             {
+                if(string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+                {
+                    if(user.app_prefix_list == null || user.app_prefix_list.Count == 0)
+                    {
+                        is_app_prefix_ok = true;
+                    }
+                    else if(user.app_prefix_list.ContainsKey("__no_prefix__"))
+                    {
+                        is_app_prefix_ok = true;
+                    }
+                }
                 if(user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
                 {
                     is_app_prefix_ok = user.app_prefix_list[_configuration["mmria_settings:db_prefix"]];
+                }
+            }
+
+            if(!is_app_prefix_ok)
+            {
+                foreach(var role in user.roles)
+                {
+                    if(role == "_admin")
+                    {
+                        is_app_prefix_ok = true;
+                    }
                 }
             }
 

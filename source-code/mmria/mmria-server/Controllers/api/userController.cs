@@ -91,7 +91,18 @@ namespace mmria.server
 					foreach(var jurisdiction_item in jurisdiction_hashset)
 					{
 
-						if(uai.doc.app_prefix_list.ContainsKey(Program.db_prefix))
+						if(string.IsNullOrWhiteSpace(Program.db_prefix))
+						{
+							if(uai.doc.app_prefix_list == null || uai.doc.app_prefix_list.Count == 0)
+							{
+								is_app_prefix_ok = true;
+							}
+							else if(uai.doc.app_prefix_list.ContainsKey("__no_prefix__"))
+							{
+								is_app_prefix_ok = true;
+							}
+						}
+						else if(uai.doc.app_prefix_list.ContainsKey(Program.db_prefix))
 						{
 							is_app_prefix_ok = uai.doc.app_prefix_list[Program.db_prefix];
 						}
@@ -179,7 +190,24 @@ namespace mmria.server
 			try
 			{
 
-				user.app_prefix_list[Program.db_prefix] = true;
+					
+				if(string.IsNullOrWhiteSpace(Program.db_prefix))
+				{
+					if(user.app_prefix_list == null)
+					{
+						user.app_prefix_list = new Dictionary<string, bool>();
+					}
+
+					if(user.app_prefix_list.Count == 0 || !user.app_prefix_list.ContainsKey("__no_prefix__"))
+					{
+						user.app_prefix_list.Add("__no_prefix__", true);
+					}
+				}
+				else if(!user.app_prefix_list.ContainsKey(Program.db_prefix))
+				{
+					user.app_prefix_list.Add(Program.db_prefix, true);
+				}
+				
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -215,6 +243,8 @@ namespace mmria.server
             {
                 string request_string = null;
 
+				bool is_only_remove_prefix = true;
+
                 if (!string.IsNullOrWhiteSpace (user_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {
                     request_string = Program.config_couchdb_url + "/_users/" + user_id + "?rev=" + rev;
@@ -227,15 +257,31 @@ namespace mmria.server
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/_users/" + user_id, null, Program.config_timer_user_name, Program.config_timer_value);
 					// check if doc exists
+				mmria.common.model.couchdb.user user = null;
 
 				try 
 				{
 					string document_json = null;
 					document_json = await check_document_curl.executeAsync ();
-					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
-					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
+					user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
+					IDictionary<string, object> result_dictionary = user as IDictionary<string, object>;
 
-					if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
+					
+					
+					if(string.IsNullOrWhiteSpace(Program.db_prefix))
+					{
+						if(user.app_prefix_list.Count == 0 || !user.app_prefix_list.ContainsKey("__no_prefix__"))
+						{
+							is_only_remove_prefix = false;
+						}
+					}
+					else if(user.app_prefix_list.Count == 1 && user.app_prefix_list.ContainsKey(Program.db_prefix))
+					{
+						is_only_remove_prefix = false;
+					}
+
+
+					if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
 					{
 						return null;
 					}
@@ -253,10 +299,36 @@ namespace mmria.server
                     System.Console.WriteLine ($"err caseController.Delete\n{ex}");
 				}
 
-                string responseFromServer = await delete_report_curl.executeAsync ();;
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+				if(is_only_remove_prefix == false)
+				{
+					string responseFromServer = await delete_report_curl.executeAsync ();;
+					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-                return result;
+					return result;
+				}
+				else if(user != null)
+				{
+
+					user.app_prefix_list.Remove(Program.db_prefix);
+					
+					string user_db_url = Program.config_couchdb_url + "/_users/"  + user._id;
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
+
+					var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+					var responseFromServer = await user_curl.executeAsync();
+					var put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+					var result = new System.Dynamic.ExpandoObject();
+					result.Append(new KeyValuePair<string, object>("ok", put_response.ok));
+					result.Append(new KeyValuePair<string, object>("id", put_response.id));
+					result.Append(new KeyValuePair<string, object>("rev", put_response.rev));
+
+					return result;
+				}
+
 
             }
             catch(Exception ex)
