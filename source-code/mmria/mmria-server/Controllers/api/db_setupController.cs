@@ -58,7 +58,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		{
 
 			Dictionary<string,string> result = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-            //var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_user_value);
+            
             if(!await url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_user_value))
             {
                 result.Add ("End point url NOT available:", Program.config_couchdb_url);
@@ -91,12 +91,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 
 
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_user_value)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", p_target_db_user_name, p_target_db_user_value)) 
                 {
-                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_user_value);
+                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, p_target_db_user_name, p_target_db_user_value);
                     Log.Information($"mmrds_curl\n{ await mmrds_curl.executeAsync ()}");
 
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
                     Log.Information($"mmrds/_security completed successfully");
                 }
 
@@ -106,7 +106,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")))
                     {
                         string case_design_sortable = sr.ReadToEnd ();
-                        await sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_user_value);
+                        await sync_document (case_design_sortable, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", p_target_db_user_name, p_target_db_user_value);
                         
                     }
 
@@ -114,7 +114,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
                     {
                         string case_store_design_auth = sr.ReadToEnd ();
-                        await sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_user_value);
+                        await sync_document (case_store_design_auth, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", p_target_db_user_name, p_target_db_user_value);
                     }
                 }
                 catch (Exception ex) 
@@ -123,12 +123,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 }
                 
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_user_value)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", p_target_db_user_name, p_target_db_user_value)) 
                 {
                     System.Console.WriteLine ("Creating export_queue db.");
-                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, p_target_db_user_name, p_target_db_user_value);
+                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, p_target_db_user_name, p_target_db_user_value);
                     System.Console.WriteLine (await export_queue_curl.executeAsync ());
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
                 }
             }
             catch(Exception ex) 

@@ -85,12 +85,12 @@ namespace mmria.server.util
 		public async System.Threading.Tasks.Task executeAsync()
 		{
 
-			string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
+			string de_identified_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + this.document_id);
 			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
 			string de_identified_json = null;
 
 			de_identfied_url.Append(Program.config_couchdb_url);
-			de_identfied_url.Append("/de_id/");
+			de_identfied_url.Append("/{Program.db_prefix}de_id/");
 			de_identfied_url.Append(this.document_id);
 
 			if(this.method == "DELETE")
@@ -152,10 +152,7 @@ namespace mmria.server.util
 
 				if(!string.IsNullOrEmpty(de_identified_revision))
 				{
-					//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
-					
 					de_identified_json = set_revision (de_identified_json, de_identified_revision);
-
 				}
 			}
 
@@ -174,25 +171,24 @@ namespace mmria.server.util
 			}
 		
 			
-			//string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
+
 
 			try
 			{
 				string aggregate_json = new mmria.server.util.c_convert_to_report_object(document_json).execute();
 
-				string aggregate_revision = await get_revision (Program.config_couchdb_url + "/report/" + this.document_id);
+				string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
 
 				System.Text.StringBuilder aggregate_url = new System.Text.StringBuilder();
 
 				if(!string.IsNullOrEmpty(aggregate_revision))
 				{
-					//aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id + "?new_edits=false";
 					aggregate_json = set_revision (aggregate_json, aggregate_revision);
 				}
 
 
 				aggregate_url.Append(Program.config_couchdb_url);
-				aggregate_url.Append("/report/");
+				aggregate_url.Append($"/{Program.db_prefix}report/");
 				aggregate_url.Append(this.document_id);
 	
 				if(this.method == "DELETE")
@@ -223,7 +219,7 @@ namespace mmria.server.util
 				if(!string.IsNullOrWhiteSpace(opioid_report_json))
 				{
 					var opioid_id = "opioid-" + this.document_id;
-					string aggregate_revision = await get_revision (Program.config_couchdb_url + "/report/" + opioid_id);
+					string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + opioid_id);
 
 
 					var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
@@ -235,13 +231,12 @@ namespace mmria.server.util
 
 					if(!string.IsNullOrEmpty(aggregate_revision))
 					{
-						//aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id + "?new_edits=false";
 						opioid_report_json = set_revision (opioid_report_json, aggregate_revision);
 					}
 
 
 					opioid_aggregate_url.Append(Program.config_couchdb_url);
-					opioid_aggregate_url.Append("/report/");
+					opioid_aggregate_url.Append($"/{Program.db_prefix}report/");
 					opioid_aggregate_url.Append(opioid_id);
 		
 					if(this.method == "DELETE")

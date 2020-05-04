@@ -51,7 +51,7 @@ namespace mmria.server
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -176,7 +176,7 @@ namespace mmria.server
 		{ 
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/session";
+				string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;

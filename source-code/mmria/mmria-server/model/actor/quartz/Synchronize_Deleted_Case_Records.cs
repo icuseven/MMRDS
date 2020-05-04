@@ -99,7 +99,7 @@ namespace mmria.server.model.actor.quartz
                             else
                             {
             
-                                string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
+                                string document_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + kvp.Key;
                                 var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_value);
                                 string document_json = null;
             
@@ -136,11 +136,11 @@ namespace mmria.server.model.actor.quartz
 
 			if (string.IsNullOrWhiteSpace(p_last_sequence))
 			{
-				url = Program.config_couchdb_url + "/mmrds/_changes";
+				url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes";
 			}
 			else
 			{
-				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
+				url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes?since=" + p_last_sequence;
 			}
 			var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.user_value);
 			string res = curl.execute();

@@ -25,7 +25,7 @@ namespace mmria.server.util
 			try
 			{
 
-				var delete_de_id_curl = new cURL ("DELETE", null, this.couchdb_url + "/de_id", null, this.user_name, this.user_value);
+				var delete_de_id_curl = new cURL ("DELETE", null, this.couchdb_url + $"/{Program.db_prefix}de_id", null, this.user_name, this.user_value);
 				await delete_de_id_curl.executeAsync ();
 			}
 			catch (Exception ex)
@@ -36,7 +36,7 @@ namespace mmria.server.util
 
 			try
 			{
-				var delete_report_curl = new cURL ("DELETE", null, this.couchdb_url + "/report", null, this.user_name, this.user_value);
+				var delete_report_curl = new cURL ("DELETE", null, this.couchdb_url + $"/{Program.db_prefix}report", null, this.user_name, this.user_value);
 				await delete_report_curl.executeAsync ();
 			}
 			catch (Exception ex)
@@ -48,7 +48,7 @@ namespace mmria.server.util
 
 			try
 			{
-				var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id", null, this.user_name, this.user_value);
+				var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + $"/{Program.db_prefix}de_id", null, this.user_name, this.user_value);
 				await create_de_id_curl.executeAsync ();
 			}
 			catch (Exception ex)
@@ -68,7 +68,7 @@ namespace mmria.server.util
 				using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
 				{
 					string result = await sr.ReadToEndAsync ();
-					var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.user_value);
+					var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + $"/{Program.db_prefix}de_id/_design/sortable", result, this.user_name, this.user_value);
 					await create_de_id_curl.executeAsync ();					
 				}
 
@@ -83,7 +83,7 @@ namespace mmria.server.util
 
 			try
 			{
-				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.user_value);
+				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + $"/{Program.db_prefix}report", null, this.user_name, this.user_value);
 				await create_report_curl.executeAsync ();	
 			}
 			catch (Exception ex)
@@ -91,7 +91,7 @@ namespace mmria.server.util
 			
 			}
 
-			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
+			var curl = new cURL ("GET", null, this.couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
 			string res = await curl.executeAsync ();
 /*
 {

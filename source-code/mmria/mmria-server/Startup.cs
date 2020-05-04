@@ -78,6 +78,11 @@ namespace mmria.server
                 Program.power_bi_link = Configuration["mmria_settings:power_bi_link"];
             }
 
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:db_prefix"]))
+            {
+                Program.db_prefix = Configuration["mmria_settings:db_prefix"];
+            }
+
 
             var test_int = 0;
             //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
@@ -239,6 +244,12 @@ namespace mmria.server
                 }
 
 
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("db_prefix")))
+                {
+                    Configuration["mmria_settings:db_prefix"] = System.Environment.GetEnvironmentVariable ("db_prefix");
+                    Program.db_prefix = Configuration["mmria_settings:db_prefix"];
+                }
+
                 /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
                 Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
@@ -258,6 +269,7 @@ namespace mmria.server
 
             Log.Information($"Program.config_timer_user_name = {Program.config_timer_user_name}");
             Log.Information($"Program.config_couchdb_url = {Program.config_couchdb_url}");
+            Log.Information($"Program.db_prefix = {Program.db_prefix}");
             Log.Information($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {Configuration["Console:LogLevel:Default"]}");
             Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
@@ -599,7 +611,7 @@ namespace mmria.server
                             {
                                 var sid = context.Request.Cookies["sid"];
 
-                                string request_string = Program.config_couchdb_url + $"/session/{sid}";
+                                string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{sid}";
                                 var curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                                 string session_json = curl.execute();
                                 var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (session_json);

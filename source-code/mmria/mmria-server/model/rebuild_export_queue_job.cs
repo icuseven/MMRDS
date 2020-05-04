@@ -62,9 +62,9 @@ namespace mmria.server.model
             }
 
 
-            if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.user_value)) 
+            if (url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", this.user_name, this.user_value)) 
             {
-                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.user_value);
+                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, this.user_name, this.user_value);
                 System.Console.WriteLine (delete_queue_curl.execute ());
             }
 
@@ -72,9 +72,9 @@ namespace mmria.server.model
             try 
             {
                 System.Console.WriteLine ("Creating export_queue db.");
-                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.user_value);
+                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, this.user_name, this.user_value);
                 System.Console.WriteLine (export_queue_curl.execute ());
-                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.user_value).execute ();
+                new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.user_value).execute ();
 
             }
             catch (Exception ex) 

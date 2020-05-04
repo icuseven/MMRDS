@@ -29,7 +29,7 @@ namespace mmria.server
 			
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/report/_all_docs?include_docs=true";
+				string request_string = this.get_couch_db_url() + $"/{Program.db_prefix}report/_all_docs?include_docs=true";
 
 
 				var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);

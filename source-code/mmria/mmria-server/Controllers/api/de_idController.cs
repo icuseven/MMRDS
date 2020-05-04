@@ -21,11 +21,11 @@ namespace mmria.server
 		{ 
 			try
 			{
-                string request_string = Program.config_couchdb_url + "/de_id/_all_docs?include_docs=true";
+                string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_all_docs?include_docs=true";
 
                 if (!string.IsNullOrWhiteSpace (case_id)) 
                 {
-                    request_string = Program.config_couchdb_url + "/de_id/" + case_id;
+                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + case_id;
                 } 
 
 

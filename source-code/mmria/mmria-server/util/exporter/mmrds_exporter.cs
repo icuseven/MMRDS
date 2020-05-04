@@ -109,7 +109,7 @@ namespace mmria.server.util
 			this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
 
 
-			string URL = this.database_url + "/mmrds/_all_docs";
+			string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
 			string urlParameters = "?include_docs=true";
 			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
@@ -1390,7 +1390,7 @@ namespace mmria.server.util
 			);
 
 
-			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.value_string);
+			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
 			string responseFromServer = get_item_curl.execute ();
 			export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer); 
 
@@ -1400,7 +1400,7 @@ namespace mmria.server.util
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings); 
-			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
 			responseFromServer = set_item_curl.execute ();
 
 
