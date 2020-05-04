@@ -142,14 +142,39 @@ namespace mmria.server.Controllers
 
                 var is_locked_out = false;
                 var failed_login_count = 0;
+                var is_app_prefix_ok = false;
+
+
+
                 
                 
                 DateTime grace_period_date = DateTime.Now;
 
                 try
                 {
-                    //var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_date_created_user_id?startkey=[" + "{}" + $",\"{user.UserName}\"]&decending=true&limit={unsuccessful_login_attempts_number_before_lockout}";
-                    var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
+
+                    var user_request_url = $"{Program.config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
+                    var user_request_curl = new cURL("GET", null, user_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                    string user_response_string = await user_request_curl.executeAsync ();
+                    var test_user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(user_response_string);
+
+                    if(string.IsNullOrWhiteSpace(Program.db_prefix))
+                    {
+                        if(test_user.app_prefix_list == null || test_user.app_prefix_list.Count == 0)
+                        {
+                            is_app_prefix_ok = true;
+                        }
+                        else if(test_user.app_prefix_list.ContainsKey("__no_prefix__"))
+                        {
+                            is_app_prefix_ok = true;
+                        }
+                    }
+                    else if(test_user.app_prefix_list.ContainsKey(Program.db_prefix))
+                    {
+                        is_app_prefix_ok = test_user.app_prefix_list[Program.db_prefix];
+                    }
+
+                    var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
 
                     var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
                     string response_from_server = await session_event_curl.executeAsync ();
@@ -258,7 +283,7 @@ namespace mmria.server.Controllers
                 }; 
 
 
-                this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
+                //this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
 
                 string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
                 string[] auth_array = set_cookie[0].Split('=');
@@ -272,8 +297,18 @@ namespace mmria.server.Controllers
                     result[0].auth_session = "";
                 }
 
-                
-                if (json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
+                if(!is_app_prefix_ok)
+                {
+                    foreach(var role in json_result.roles)
+                    {
+                        if(role == "_admin")
+                        {
+                           is_app_prefix_ok = true;
+                        }
+                    }
+                }
+
+                if (is_app_prefix_ok && json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
                 {
 
                     const string Issuer = "https://contoso.com";
@@ -440,8 +475,8 @@ namespace mmria.server.Controllers
 						u => u.IsAuthenticated && 
 						u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-					//var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_date_created_user_id?startkey=[" + "{}" + $",\"{user.UserName}\"]&decending=true&limit={unsuccessful_login_attempts_number_before_lockout}";
-					var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
+					
+					var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
 
 					var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string response_from_server = await session_event_curl.executeAsync ();

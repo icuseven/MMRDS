@@ -183,9 +183,6 @@ function load_data()
 {
 	var url =  location.protocol + '//' + location.host + '/api/aggregate_report'
 
-//	var prefix = 'http://' + p_uid + ":" + p_pwd + '@';
-    //var url = prefix + g_couchdb_url.replace('http://','') + '/mmrds/_design/aggregate_report/_view/all';
-
 	$.ajax({
 			url: url
 	}).done(function(response) {

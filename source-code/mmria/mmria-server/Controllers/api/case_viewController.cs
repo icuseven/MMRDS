@@ -34,7 +34,7 @@ namespace mmria.server
 		{
             /*
              * 
-             * http://localhost:5984/mmrds/_design/sortable/_view/conflicts
+             * http://localhost:5984/{Program.db_prefix}mmrds/_design/sortable/_view/conflicts
              * 
 by_date_created
 by_date_last_updated
@@ -133,8 +133,7 @@ by_state_of_death
 			try
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-                request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/mmrds/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -350,7 +349,7 @@ by_state_of_death
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/mmrds/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))

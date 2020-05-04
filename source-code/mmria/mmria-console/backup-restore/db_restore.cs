@@ -153,7 +153,7 @@ namespace mmria.console.db
 					{
 						continue;
 					}
-/*
+
 					var home_record = doc["home_record"] as Newtonsoft.Json.Linq.JObject;
 
 					if(!home_record.ContainsKey("jurisdiction_id"))
@@ -167,14 +167,21 @@ namespace mmria.console.db
 					else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
 					{
 						home_record["jurisdiction_id"] = "/";
-					}*/
+					}/**/
+
+
+
 					
+					string put_result = await Put_Document (doc, _id);
+
+					Console.WriteLine (put_result);
 				} 
 				/**/
-
+/*
 				string post_result = await Post_Document_List (bulk_document);
 
 				Console.WriteLine (post_result);
+				*/
 
 				Console.WriteLine ("Restore Finished.");
 			}
@@ -185,6 +192,25 @@ namespace mmria.console.db
 
 		}
 
+
+
+		private async Task<string> Put_Document (IDictionary<string,object> p_value, string p_id)
+		{
+
+			string result = null;
+			string document_json = Newtonsoft.Json.JsonConvert.SerializeObject(p_value);
+			string URL = $"{this.database_url}/{p_id}";
+			cURL document_curl = new cURL ("PUT", null, URL, document_json, this.user_name, this.user_value);
+			try
+			{
+				result = await document_curl.executeAsync ();
+			}
+			catch (Exception ex)
+			{
+				result = ex.ToString ();
+			}
+			return result;
+		}
 
 		private async Task<string> Post_Document_List (mmria.console.model.couchdb.cBulkDocument p_bulk_document)
 		{

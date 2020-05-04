@@ -32,7 +32,7 @@ namespace mmria.server
 			//FileStream stream = null;
 			string file_name = null;
 
-			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + id, null, Program.config_timer_user_name, Program.config_timer_value);
+			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + id, null, Program.config_timer_user_name, Program.config_timer_value);
 			string responseFromServer = await get_item_curl.executeAsync ();
 			export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer);
 
@@ -58,7 +58,7 @@ namespace mmria.server
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (export_queue_item, settings); 
-				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_value);
+				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + $/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_value);
 				responseFromServer = await set_item_curl.executeAsync ();
 				
 				//var res = File(stream, "application/octet-stream", file_name);
@@ -75,7 +75,7 @@ namespace mmria.server
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (export_queue_item, settings); 
-			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_value);
+			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_value);
 			responseFromServer = await set_item_curl.executeAsync ();
 			
 

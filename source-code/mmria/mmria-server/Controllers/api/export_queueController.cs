@@ -46,7 +46,7 @@ namespace mmria.server
 
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true";
+				string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_all_docs?include_docs=true";
 				var export_queue_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 
 				string responseFromServer = await export_queue_curl.executeAsync();
@@ -183,7 +183,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_item, settings); 
 
-				string export_queue_request_url = Program.config_couchdb_url + "/export_queue/"  +  queue_item._id;
+				string export_queue_request_url = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/"  +  queue_item._id;
 
 				var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
