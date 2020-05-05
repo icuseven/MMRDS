@@ -395,7 +395,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Case Information</th>
                   <th class='th' scope='col'>Created By / Date Created</th>
                   <th class='th' scope='col'>Last Updated By / Last Updated</th>
-                  <th class='th' scope='col'>Actions</th>
+                  <th class='th' scope='col' width='1'>Actions</th>
               </tr>
           </thead>
           <tbody class="tbody">
@@ -416,7 +416,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                             ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
                           <td class="td">
-                              <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})">Delete</button>
+                                <button type="button" id="id_for_record_${i}" class="btn btn-primary d-flex align-items-center" onclick="init_delete_dialog(${i})">
+                                    <span class="btn-icon x20 fill-w cdc-icon-trash mr-1"></span>
+                                    <span>Delete</span>
+                                </button>
                           </td>
                       </tr>
                   `);

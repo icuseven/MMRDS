@@ -1453,12 +1453,18 @@ function update_delete_dialog(p_index, callback)
 
   setTimeout(() => {
     const date = new Date();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    const second = date.getSeconds();
+    const user_name = document.getElementById('user_logged_in').innerText;
 
     callback();
 
     modal_icons.parent().hide();
-    // TODO: Find a way to insert @UserName dynamically
-    modal_msgs.first().text(`Deleted by <@UserName> ${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+    modal_msgs.first().text(`Deleted ${user_name && 'by '+ user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
     modal_msgs.first().css({
       'color': 'red',
       'fontWeight': 'bold'
