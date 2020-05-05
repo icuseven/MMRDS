@@ -513,6 +513,10 @@ button.link {
   padding: 0;
 }
 
+.btn-icon {
+  display: block;
+}
+
 
 .smooth-list {
   padding-left: 0;
@@ -925,6 +929,7 @@ button.link {
 }
 
 .modal-header {
+  border: none;
   padding: .5rem 1rem;
 }
 
