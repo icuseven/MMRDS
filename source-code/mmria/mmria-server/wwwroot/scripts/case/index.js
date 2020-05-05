@@ -1472,7 +1472,7 @@ function update_delete_dialog(p_index, callback)
     modal_msgs.last().hide();
     modal_btns.hide();
     modal_btns.last().show();
-  }, 3000);
+  }, 2500);
 }
 
 
