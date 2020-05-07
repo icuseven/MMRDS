@@ -197,7 +197,7 @@ function render_search_text_input_control(p_ctx)
 
     if (control_type === 'date')
     {
-        result.push("type='date'");
+        result.push("type='date' min='1900-01-01' max='2100-12-31'");
     }
     else
     {
