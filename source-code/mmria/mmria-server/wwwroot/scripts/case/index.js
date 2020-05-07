@@ -1427,35 +1427,166 @@ function apply_validation()
 }
 
 
+// First
+function init_delete_dialog(p_index, callback)
+{
+  const case_list = g_ui.case_view_list;
+  const modal = build_delete_dialog(case_list[p_index], p_index);
+  const box = $('#content');
+
+  box.append(modal[0]);
+  
+  $('#case_modal_' + p_index).modal('show');
+}
+
+
+// Second
+function update_delete_dialog(p_index, callback)
+{
+  const modal = $(`#case_modal_${p_index}`);
+  const modal_msgs = modal.find('.modal-messages p');
+  const modal_icons = modal.find('.modal-icons > span');
+  const modal_btns = modal.find('.modal-footer button');
+
+  modal_icons.first().hide();
+  modal_icons.last().show();
+
+  setTimeout(() => {
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    const second = date.getSeconds();
+    const user_name = document.getElementById('user_logged_in').innerText;
+
+    callback();
+
+    modal_icons.parent().hide();
+    modal_msgs.first().text(`Deleted ${user_name && 'by '+ user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
+    modal_msgs.first().css({
+      'color': 'red',
+      'fontWeight': 'bold'
+    });
+    modal_msgs.last().hide();
+    modal_btns.hide();
+    modal_btns.last().show();
+  }, 2500);
+}
+
+
+// function delete_record_callback(p_index, callback) {
+//   // find any modal
+//   const modal = $('.modal');
+
+//   setTimeout(() => {
+//     callback();
+//     modal.modal('hide')
+//       .on('hidden.bs.modal', () => {
+//         $(this).data('bs.modal', null);
+//         dispose_all_modals();
+//       });
+//   }, 500);
+// }
+
+
+function build_delete_dialog(p_values, p_index)
+{
+  const modal_ui = [];
+
+  modal_ui.push(`
+    <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-primary">
+                <h5 id="case_modal_label_${p_index}" class="modal-title">Confirm Delete Case</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body modal-body-1 row no-gutters">
+                <div class="modal-icons">
+                  <span class="x40 fill-p cdc-icon-alert_02" aria-hidden="true"></span>
+                  <span class="spinner-container spinner-inline" style="display: none">
+                    <span class="spinner-body text-primary">
+                      <span class="spinner"></span>
+                    </span>
+                  </span>
+                </div>
+                <div class="modal-messages">
+                  <p>Are you sure you want to delete this case?</p>
+                  <p>
+                    <strong>
+                      ${p_values.value.jurisdiction_id && `${p_values.value.jurisdiction_id} : `}
+                      ${p_values.value.last_name && `${p_values.value.last_name}`}
+                      ${p_values.value.first_name && ` , ${p_values.value.first_name}`}
+                      ${p_values.value.record_id && ` - ${p_values.value.record_id}`}
+                      ${p_values.value.agency_case_id && ` ac_id: ${p_values.value.agency_case_id}`}
+                    </strong>
+                  </p>
+                  <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal" onclick="dispose_all_modals()">Cancel</button>
+                <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" onclick="update_delete_dialog(${p_index}, () => { delete_record(${p_index}) })">Delete</button>
+                <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" style="display: none" onclick="dispose_all_modals()">OK</button>
+              </div>
+          </div>
+      </div>
+    </div>
+  `);
+
+  return modal_ui;
+}
+
+
+function dispose_all_modals() {
+  $('.modal').remove();
+  $('.modal-backdrop').remove();
+  $('body').removeClass( "modal-open").removeAttr("class");
+  $('body').removeAttr("style");
+}
+
+
 function delete_record(p_index)
 {
-  if(p_index == g_selected_delete_index)
-  {
-    var data = g_ui.case_view_list[p_index];
+  var data = g_ui.case_view_list[p_index];
+  console.log('delete');
 
-    g_selected_delete_index = null;
+  g_selected_delete_index = null;
 
-    $.ajax({
-      url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-    }).done(function(case_response) {
-      delete_case(case_response._id, case_response._rev);
-    });
-  }
-  else
-  {
-    if(g_selected_delete_index != null && g_selected_delete_index > -1)
-    {
-      var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+  $.ajax({
+    url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+  }).done(function(case_response) {
+    delete_case(case_response._id, case_response._rev);
+  });
+  // if(p_index == g_selected_delete_index)
+  // {
+  //   var data = g_ui.case_view_list[p_index];
 
-      $("tr[path='" + old_id + "']").css("background", "");
-    }
+  //   g_selected_delete_index = null;
 
-    g_selected_delete_index = p_index;
+  //   $.ajax({
+  //     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+  //   }).done(function(case_response) {
+  //     delete_case(case_response._id, case_response._rev);
+  //   });
+  // }
+  // else
+  // {
+  //   if(g_selected_delete_index != null && g_selected_delete_index > -1)
+  //   {
+  //     var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+
+  //     $("tr[path='" + old_id + "']").css("background", "");
+  //   }
+
+  //   g_selected_delete_index = p_index;
     
-    var id = g_ui.case_view_list[p_index].id;
+  //   var id = g_ui.case_view_list[p_index].id;
 
-    $("tr[path='" + id + "']").css("background", "#ffd54f");
-  }
+  //   $("tr[path='" + id + "']").css("background", "#ffd54f");
+  // }
 }
 
 
