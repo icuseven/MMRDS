@@ -545,6 +545,13 @@ button.link {
   transform: translateY(-50%);
 }
 
+/* Vertical align the calendar icons */
+::-webkit-inner-spin-button {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .table {
   backface-visibility: hidden;
   border: none;
