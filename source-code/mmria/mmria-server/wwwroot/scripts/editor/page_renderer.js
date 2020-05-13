@@ -338,7 +338,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
+function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
@@ -505,7 +505,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 }
 
 
-function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path)
+function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var post_fix = null;
 

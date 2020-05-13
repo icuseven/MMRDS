@@ -414,11 +414,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                             if(child.type=="group")
                             {
-                                Array.prototype.push.apply(p_result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
+                                Array.prototype.push.apply(p_result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx, { "form_index": data_index }));
                             }
                             else
                             {
-                                Array.prototype.push.apply(p_result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
+                                Array.prototype.push.apply(p_result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx, { "form_index": data_index }));
                             }
                         }
                     p_result.push("</div>");

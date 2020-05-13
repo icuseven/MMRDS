@@ -1,4 +1,4 @@
-function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
+function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
 
     if
@@ -49,6 +49,12 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("<ul class='grid-control-items p-0 list-unstyled'>");
             for(var i = 0; i < p_data.length; i++)
             {
+                var ctx = { "grid_index": i };
+                if( p_ctx != null && p_ctx.form_index != null)
+                {
+                    ctx["form_index"] = p_ctx.form_index;
+                }
+
                 p_result.push("<li class='grid-control-item mb-0'>");
                     for(var j = 0; j < p_metadata.children.length; j++)
                     {
@@ -78,7 +84,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 p_dictionary_path + "/" + child.name,
                                 is_grid_context,
                                 p_post_html_render,
-                                p_search_ctx
+                                p_search_ctx,
+                                ctx
                             )
                         );
                     }
