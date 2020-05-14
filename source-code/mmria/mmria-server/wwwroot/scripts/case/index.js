@@ -29,7 +29,7 @@ var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 
-function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value)
+function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value, p_form_index, p_grid_index)
 {
   var is_search_result = false;
   var search_text = null;
@@ -133,9 +133,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
       var post_html_call_back = [];
 
+      let ctx = {
+        "form_index": p_form_index, 
+        "grid_index": p_grid_index
+      };
+
       if(is_search_result)
       {
-        let new_context = get_seach_text_context([], post_html_call_back, metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text);
+        let new_context = get_seach_text_context([], post_html_call_back, metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text, ctx);
         render_search_text(new_context);
         var new_html = new_context.result.join("");
         let result = $("#" + convert_object_path_to_jquery_id(p_object_path));
@@ -152,13 +157,13 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       }
       else if(metadata.type.toLowerCase() == "textarea")
       {
-        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
 
         $("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
       }
       else
       {
-        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
 
         $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
         //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;

@@ -2142,8 +2142,9 @@ function geocode_omov_location(p_control)
 path=prenatal/routine_monitoring/gestational_age_weeks
 event=onfocus
 */
-function pc_rm_ga(p_control) {
+function pc_rm_ga(p_control, p_grid_index) {
     var ga = [];
+    let form_index = null;
     var weeks = null;
     var days = null;
     var current_pcrm_index = $global.get_current_multiform_index();
@@ -2166,8 +2167,8 @@ function pc_rm_ga(p_control) {
             this.gestational_age_weeks = ga[0];
             this.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0], form_index, p_grid_index);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1], form_index, p_grid_index);
         }
     } else if ($global.isValidDate(lmp_year, lmp_month, lmp_day) == true && this.date_and_time != '' || this.date_and_time != null) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -2175,8 +2176,8 @@ function pc_rm_ga(p_control) {
             this.gestational_age_weeks = ga[0];
             this.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0], form_index, p_grid_index);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1], form_index, p_grid_index);
         }
     }
 }

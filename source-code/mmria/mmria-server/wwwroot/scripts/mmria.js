@@ -191,9 +191,22 @@ var $mmria = function()
         removeCookie: function (name) {
             $mmria.addCookie(name,"",-1);
         },
-        set_control_value: function(p_dictionary_path, p_value)
+        set_control_value: function(p_dictionary_path, p_value, p_form_index, p_grid_index)
         {
-            $('[dpath="' + p_dictionary_path + '"]').val(p_value);
+            let form_string = "";
+            let grid_string = "";
+
+            if(p_form_index != null)
+            {
+                form_string = "form_index=" + p_form_index;
+            }
+
+            if(p_grid_index != null)
+            {
+                grid_string = "grid_index=" + p_grid_index;
+            }
+
+            $('[dpath="' + p_dictionary_path + '" ' + form_string + ' ' + grid_string + ' ]').val(p_value);
         },
         save_current_record: function(p_call_back)
         {
