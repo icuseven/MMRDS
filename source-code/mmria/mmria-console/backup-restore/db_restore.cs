@@ -151,24 +151,25 @@ namespace mmria.console.db
 
 					if (_id.IndexOf ("_design/") > -1)
 					{
-						continue;
+						//continue;
 					}
-
-					var home_record = doc["home_record"] as Newtonsoft.Json.Linq.JObject;
-
-					if(!home_record.ContainsKey("jurisdiction_id"))
+					else if(doc.ContainsKey("home_record"))
 					{
-						home_record.Add("jurisdiction_id", "/");
+						var home_record = doc["home_record"] as IDictionary<string,object>;
+
+						if(!home_record.ContainsKey("jurisdiction_id"))
+						{
+							home_record.Add("jurisdiction_id", "/");
+						}
+						else if(home_record["jurisdiction_id"] == null)
+						{
+							home_record["jurisdiction_id"] = "/";
+						}
+						else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
+						{
+							home_record["jurisdiction_id"] = "/";
+						}/**/
 					}
-					else if(home_record["jurisdiction_id"] == null)
-					{
-						home_record["jurisdiction_id"] = "/";
-					}
-					else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
-					{
-						home_record["jurisdiction_id"] = "/";
-					}/**/
-
 
 
 					

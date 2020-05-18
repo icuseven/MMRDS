@@ -1,4 +1,5 @@
-function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render) {
+function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx) 
+{
 
 
     p_result.push("<section id='app_summary'>");
@@ -395,13 +396,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Case Information</th>
                   <th class='th' scope='col'>Created By / Date Created</th>
                   <th class='th' scope='col'>Last Updated By / Last Updated</th>
-                  <th class='th' scope='col'>Actions</th>
+                  <th class='th' scope='col' width='1'>Actions</th>
               </tr>
           </thead>
           <tbody class="tbody">
               ${p_ui.case_view_list.map((item, i) => {
                   return (`
-                      <tr class="tr" path=${item.id}>
+                      <tr class="tr" path="${item.id}">
                           <td class="td">
                               <a href="#/${i}/home_record">
                                   / :${item.value.last_name}, ${item.value.first_name}
@@ -415,8 +416,11 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                           <td class="td">
                             ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
-                          <td class="td" width="200">
-                              <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})">Click twice to delete</button>
+                          <td class="td">
+                                <button type="button" id="id_for_record_${i}" class="btn btn-primary d-flex align-items-center" onclick="init_delete_dialog(${i})">
+                                    <span class="btn-icon x20 fill-w cdc-icon-trash mr-1"></span>
+                                    <span>Delete</span>
+                                </button>
                           </td>
                       </tr>
                   `);

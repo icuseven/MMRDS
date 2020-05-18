@@ -513,6 +513,10 @@ button.link {
   padding: 0;
 }
 
+.btn-icon {
+  display: block;
+}
+
 
 .smooth-list {
   padding-left: 0;
@@ -537,6 +541,13 @@ button.link {
   right: 10px;
   /* pointer-events: none; */
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Vertical align the calendar icons */
+::-webkit-inner-spin-button {
+  position: relative;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -647,6 +658,10 @@ button.link {
   display: inherit;
 }
 
+.spinner-container.spinner-infinite {
+  display: block;
+}
+
 .spinner-takeover {
   align-items: center;
   background-color: rgba(0,0,0,.35);
@@ -721,7 +736,7 @@ button.link {
   }
 
 .spinner {
-  display: block;
+  display: flex;
   height: 50px;
   position: relative;
   width: 50px;
@@ -921,6 +936,7 @@ button.link {
 }
 
 .modal-header {
+  border: none;
   padding: .5rem 1rem;
 }
 
@@ -941,6 +957,10 @@ button.link {
 .modal .close:hover {
   color: var(--neutral);
   opacity: .9;
+}
+
+.modal-icons {
+  padding-right: 1rem;
 }
 
 
@@ -1382,7 +1402,7 @@ button.link {
 }
 
 .statement-info {
-  font-size: 90%;
+  font-size: smaller;
 }
 
 

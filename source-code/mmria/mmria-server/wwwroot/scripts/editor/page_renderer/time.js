@@ -1,4 +1,4 @@
-function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
     /*
     if(typeof(p_data) == "string")
@@ -33,7 +33,7 @@ function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("</label> ");
 
         p_result.push("<div>");
-            page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+            page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
             p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
                 p_post_html_render.push(`
                     format: 'LT',

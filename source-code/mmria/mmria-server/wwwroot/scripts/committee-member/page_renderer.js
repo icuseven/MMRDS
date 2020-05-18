@@ -1097,7 +1097,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 }
 
 
-function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
+function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
@@ -1126,7 +1126,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 		if(p_metadata.onclick && p_metadata.onclick != "")
 		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 		}
 	}
 	else
@@ -1176,7 +1176,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 }
 
 
-function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path)
+function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var post_fix = null;
 
@@ -1224,7 +1224,7 @@ var path_to_validation_description = [];
 }
 
 
-function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path)
+function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
 {
 /*
 var path_to_int_map = [];
@@ -1281,7 +1281,7 @@ var path_to_validation_description = [];
 }
 
 
-function page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
+function page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
 {
 /*
 var path_to_int_map = [];
