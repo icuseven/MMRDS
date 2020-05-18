@@ -33,7 +33,10 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
         
-        /* START datetimepicker() init and options */
+        /*
+            START datetimepicker() init and options
+            TODO: Comment out when going to test
+        */
         p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
         p_post_html_render.push(' format: "Y-MM-DD", ');
         p_post_html_render.push(' defaultDate: "' + p_data + '",');

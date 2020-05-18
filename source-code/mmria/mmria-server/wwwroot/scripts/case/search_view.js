@@ -292,7 +292,10 @@ function render_search_text_input_control(p_ctx)
                 }
             );`);*/
 
-            /* START datetimepicker() init and options */
+            /*
+                START datetimepicker() init and options
+                TODO: Comment out when going to test
+            */
             p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
             p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
             p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
