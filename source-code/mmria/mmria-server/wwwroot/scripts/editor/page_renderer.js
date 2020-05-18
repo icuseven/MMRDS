@@ -956,7 +956,7 @@ function init_case_narrative_editor()
 
 	// Interval to check dynamically created DOM element we want to isntantiate editor onto
 	// Runs every 25ms
-	let scan_interval_for_case_narrative = setInterval(convert_case_narrative_to_editor, 25);
+	let scan_interval_for_case_narrative = setInterval(convert_case_narrative_to_editor, 50);
 
 	// Fn the interval runs against to check for DOM element
 	function convert_case_narrative_to_editor()
