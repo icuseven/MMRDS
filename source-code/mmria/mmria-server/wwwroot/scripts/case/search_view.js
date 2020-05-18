@@ -197,7 +197,7 @@ function render_search_text_input_control(p_ctx)
 
     if (control_type === 'date')
     {
-        result.push("type='date' min='1900-01-01' max='2100-12-31'");
+        // result.push("type='date' min='1900-01-01' max='2100-12-31'");
     }
     else
     {
@@ -292,20 +292,22 @@ function render_search_text_input_control(p_ctx)
                 }
             );`);*/
 
-            // p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
-            // p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
-            // p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
-            // p_ctx.post_html_render.push(`
-            //     icons: {
-            //         time: "x24 fill-p cdc-icon-clock_01",
-            //         date: "x24 fill-p cdc-icon-calendar_01",
-            //         up: "x24 fill-p cdc-icon-chevron-circle-up",
-            //         down: "x24 fill-p cdc-icon-chevron-circle-down",
-            //         previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-            //         next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-            //     }
-            // `);
-            // p_ctx.post_html_render.push('});');
+            /* START datetimepicker() init and options */
+            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
+            p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
+            p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
+            p_ctx.post_html_render.push(`
+                icons: {
+                    time: "x24 fill-p cdc-icon-clock_01",
+                    date: "x24 fill-p cdc-icon-calendar_01",
+                    up: "x24 fill-p cdc-icon-chevron-circle-up",
+                    down: "x24 fill-p cdc-icon-chevron-circle-down",
+                    previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+                    next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+                }
+            `);
+            p_ctx.post_html_render.push('});');
+            /* END datetimepicker() */
 
             break;
 
