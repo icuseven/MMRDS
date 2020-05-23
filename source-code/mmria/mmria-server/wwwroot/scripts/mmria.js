@@ -196,17 +196,19 @@ var $mmria = function()
             let form_string = "";
             let grid_string = "";
 
+            let jq = $('[dpath="' + p_dictionary_path + '"]');
+
             if(p_form_index != null)
             {
-                form_string = "form_index=" + p_form_index;
+                jq = jq.find("[form_index=" + p_form_index +  "]");
             }
 
             if(p_grid_index != null)
             {
-                grid_string = "grid_index=" + p_grid_index;
+                jq = jq.find("[grid_index=" + p_grid_index +  "]");
             }
 
-            $('[dpath="' + p_dictionary_path + '" ' + form_string + ' ' + grid_string + ' ]').val(p_value);
+           jq.val(p_value);
         },
         save_current_record: function(p_call_back)
         {
