@@ -196,19 +196,19 @@ var $mmria = function()
             let form_string = "";
             let grid_string = "";
 
-            let jq = $('[dpath="' + p_dictionary_path + '"]');
+            let jq = [ '[dpath="' + p_dictionary_path + '"]' ];
 
             if(p_form_index != null)
             {
-                jq = jq.find("[form_index=" + p_form_index +  "]");
+                jq.push('[form_index="' + p_form_index +  '"]');
             }
 
             if(p_grid_index != null)
             {
-                jq = jq.find("[grid_index=" + p_grid_index +  "]");
+                jq.push('[grid_index="' + p_grid_index +  '"]');
             }
-
-           jq.val(p_value);
+            var control = document.querySelector(jq.join(""));
+            control.value = p_value;
         },
         save_current_record: function(p_call_back)
         {
