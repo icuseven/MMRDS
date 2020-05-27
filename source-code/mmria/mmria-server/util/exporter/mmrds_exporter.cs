@@ -43,7 +43,7 @@ namespace mmria.server.util
 			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
 
 		}
-		public void Execute(mmria.server.export_queue_item queue_item)
+		public bool Execute(mmria.server.export_queue_item queue_item)
 		{
 			this.database_path = this.Configuration.couch_db_url;
 			this.juris_user_name = this.Configuration.jurisdiction_user_name;
@@ -66,7 +66,7 @@ namespace mmria.server.util
 					System.Console.WriteLine(" example database:http://localhost:5984");
 					System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984");
 
-					return;
+					return false;
 				}
 			}
 				
@@ -77,7 +77,7 @@ namespace mmria.server.util
 				System.Console.WriteLine(" form user_name:[user_name]");
 				System.Console.WriteLine(" example user_name:user1");
 				System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
-				return;
+				return false;
 			}
 
 			if (string.IsNullOrWhiteSpace(this.value_string))
@@ -86,7 +86,7 @@ namespace mmria.server.util
 				System.Console.WriteLine(" form password:[password]");
 				System.Console.WriteLine(" example password:secret");
 				System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
-				return;
+				return false;
 			}
 
 			string export_directory = System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name);
@@ -1405,6 +1405,8 @@ namespace mmria.server.util
 
 
 			Console.WriteLine("{0} Export Finished", System.DateTime.Now);
+
+			return true;
 		}
 
 
