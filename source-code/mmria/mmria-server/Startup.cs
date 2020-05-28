@@ -166,6 +166,7 @@ namespace mmria.server
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("metadata_version")))
                 {
                     Configuration["mmria_settings:metadata_version"] = System.Environment.GetEnvironmentVariable ("metadata_version");
+                    Program.metadata_release_version_name = System.Environment.GetEnvironmentVariable ("metadata_version");
                 }
 
 
