@@ -667,7 +667,17 @@ namespace mmria.server.util
 													case "number":
 														if(!string.IsNullOrWhiteSpace(val.ToString()))
 														{
-															grid_row[file_field_name] = val;
+															double test_double = 0.0;
+															if(double.TryParse(val.ToString(), out test_double))
+															{
+
+																grid_row[file_field_name] = val;
+															}
+															else
+															{
+
+															}
+															
 														}
 														break;
 													case "list":
@@ -954,10 +964,26 @@ namespace mmria.server.util
 								{
 
 									case "number":
-										if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
+										if (val != null)
 										{
-											string file_field_name = path_to_field_name_map[path];
-											form_row[file_field_name] = val;
+											var test_value_string =  val.ToString();
+											if(!string.IsNullOrWhiteSpace(test_value_string))
+											{
+												double test_double = 0.0;
+												if(double.TryParse(test_value_string, out test_double))
+												{
+													string file_field_name = path_to_field_name_map[path];
+													form_row[file_field_name] = test_double;
+												}
+												else
+												{
+
+												}
+											}
+											else
+											{
+												
+											}
 										}
 										break;
 									case "list":

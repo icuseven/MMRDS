@@ -380,7 +380,12 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 						case "number":
 							if (val != null && (!string.IsNullOrWhiteSpace (val.ToString ()))) 
 							{
-								row [field_name] = val;
+								double test_double = 0.0;
+								if(double.TryParse(val.ToString(), out test_double))
+								{
+									row [field_name] = test_double;
+								}
+								
 							}
 							break;
 						case "list":
