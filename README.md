@@ -30,6 +30,12 @@ This application uses the Texas A&M Geoservices Geocoding APIs <a href='http://g
 + JavaScript, jQuery
 
 
+## Running Debug in Terminal to run local version of MMRIA
+
+1. Make sure root folder is: `MMRDS/source-code/mmria`
+2. Run Debug by going to top menu "Go" then clicking "Debug" OR click `f5`
+
+
 ## Updating meta-data values for Case Forms
 
 1. Go to the [meta-data editor](http://localhost:5000/editor)
