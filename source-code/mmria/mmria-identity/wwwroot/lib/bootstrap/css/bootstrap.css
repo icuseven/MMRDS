@@ -6797,4 +6797,9 @@ button.close {
     display: none !important;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */
+/*
+  bootstrap.css.map is missing and may be causing some errors in our environments
+  Deleted the '#' to remove DevTools source map
+  Insert after first '*' should we ever need it
+*/
+/* sourceMappingURL=bootstrap.css.map */
