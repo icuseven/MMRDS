@@ -960,93 +960,98 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
 
+    // Wrapper element that contains all radios
+    p_result.push("<div class='pick-list'>");
 
-    let data_value_list = p_metadata.values;
+        let data_value_list = p_metadata.values;
 
-    if(p_metadata.path_reference && p_metadata.path_reference != "")
-    {
-        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-        if(data_value_list == null)	
+        if(p_metadata.path_reference && p_metadata.path_reference != "")
         {
-            data_value_list = p_metadata.values;
-        }
-    }
+            data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
 
-    for(let i = 0; i < data_value_list.length; i++)
-    {
-        var item = data_value_list[i];
-
-        let item_key = null;
-
-        if(item.value == null | item.value == "")
-        {
-            item_key = p_dictionary_path.substring(1) + "/";
-        }
-        else
-        {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/').replace(/'/g, "-");//.replace(/\//g, "--")
-        }
-        var item_style = g_default_ui_specification.form_design[item_key];
-
-        var is_selected = "";
-
-        if (item.value == p_data)
-        {
-            is_selected = " checked ";
+            if(data_value_list == null)	
+            {
+                data_value_list = p_metadata.values;
+            }
         }
 
-        
-        var is_read_only = "";
-        let onclick_text = "";
-        if
-        (
+        for(let i = 0; i < data_value_list.length; i++)
+        {
+            var item = data_value_list[i];
+
+            let item_key = null;
+
+            if(item.value == null | item.value == "")
+            {
+                item_key = p_dictionary_path.substring(1) + "/";
+            }
+            else
+            {
+                item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/').replace(/'/g, "-");//.replace(/\//g, "--")
+            }
+            var item_style = g_default_ui_specification.form_design[item_key];
+
+            var is_selected = "";
+
+            if (item.value == p_data)
+            {
+                is_selected = " checked ";
+            }
+
+            
+            var is_read_only = "";
+            let onclick_text = "";
+            if
             (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            is_read_only= " readonly=true ";
-            
-        }
-        else
-        {
-            onclick_text = `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`;
-        }
-        
-        
-        
-
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
-        let input_html = 
-            `<input 
-                id='${object_id}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
-                type='radio' 
-                value='${item.value}'
-                ${onclick_text}
-                ${is_selected}
-                ${is_read_only}
+                (
+                    p_metadata.is_read_only != null &&
+                    p_metadata.is_read_only == true
+                ) ||
+                p_metadata.mirror_reference
+            )
+            {
+                is_read_only= " readonly=true ";
                 
-             />`;
+            }
+            else
+            {
+                onclick_text = `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`;
+            }
+            
+            
+            
 
-        if (item.display) 
-        {
-            
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
-            
-            
+            let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
+            let input_html = 
+                `<input 
+                    id='${object_id}'
+                    name='${convert_object_path_to_jquery_id(p_object_path)}' 
+                    type='radio' 
+                    value='${item.value}'
+                    ${onclick_text}
+                    ${is_selected}
+                    ${is_read_only}
+                    
+                />`;
+
+            if (item.display) 
+            {
+                
+                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
+                
+                
+            }
+            else if(item.value == 9999)
+            {
+                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
+            }
+            else 
+            {
+                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
+            }
         }
-        else if(item.value == 9999)
-        {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
-        }
-        else 
-        {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
-        }
-    }
+
+    p_result.push("</div>");
 
     p_result.push("</fieldset>");
 

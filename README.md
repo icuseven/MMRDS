@@ -48,3 +48,24 @@ This application uses the Texas A&M Geoservices Geocoding APIs <a href='http://g
 7. Click *load latest metadata* under *edit attachments*
 8. Click *#1 attach metadata* under *edit attachments*
 9. If values prefill in form controls under *edit attachments*, then Done
+
+
+## Making changes and updating `ui_spefications` in Form Designer
+
+### Designing, Changing, Updating case forms
+
+1. Log into user with **Form Designer** role (`sysadmin` is current one)
+2. On home page dashboard, under Form Designer Options, click on `Open form designer`
+3. Select `default_ui_specification` from dropdown on left sidebar
+4. Make necessary changes, once finished, click `Save Specification` on top navigation
+
+### Updating `ui_specifications`
+
+To see your latest UI changes, this is required. See steps below:
+
+1. Should be already logged in but if not... Log into user with **Form Designer** role (`sysadmin` is current one)
+2. On home page dashboard, under Form Designer Options, click on `Open metadata version manager`
+3. Under `load version`, click on dropdown and select latest version (usually last on list)
+4. Under `edit version` select `draft`
+5. Under `edit attachments` click on `load latest metadata` button... Then wait a few seconds
+6. Under `edit attachments` click on #4 `ui_specifications` button to attach latest changes
