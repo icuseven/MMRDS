@@ -18,7 +18,9 @@ function hidden_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     p_result.push("' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     p_result.push("'");
-    p_result.push(" mpath='");
+    p_result.push(" dpath='");
+	p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
+    p_result.push("'  mpath='");
     p_result.push(p_metadata_path);
     p_result.push("'/>");
     
