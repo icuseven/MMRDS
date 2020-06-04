@@ -1,13 +1,14 @@
 # MMRIA
 
+
 ## Maternal Mortality Review Information Application
 
 The Maternal Mortality Review Information Application, or  **MMRIA**, is a software tool created, developed, and maintained by CDC to collect, store, analyze, surveillance and summarize information relevant to maternal deaths. The MMRIA system as it is now is a newer, more improved version of the older system known as Maternal Mortality Review and Data System (MMRDS).
 
 The MMRIA system serves 2 purposes:
 
-  1. First, to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths.
-  2. Second to provide a standardized cumulative database for future research and analysis on maternal mortality.
+1. First, to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths.
+2. Second to provide a standardized cumulative database for future research and analysis on maternal mortality.
 
 
 ## Texas A&M Geoservices Geocoding APIs
@@ -50,16 +51,16 @@ This application uses the Texas A&M Geoservices Geocoding APIs <a href='http://g
 9. If values prefill in form controls under *edit attachments*, then Done
 
 
-## Making changes and updating `ui_spefications` in Form Designer
+## Case Form Designing
 
-### Designing, Changing, Updating case forms
+### Changing/Updating case forms
 
 1. Log into user with **Form Designer** role (`sysadmin` is current one)
 2. On home page dashboard, under Form Designer Options, click on `Open form designer`
 3. Select `default_ui_specification` from dropdown on left sidebar
 4. Make necessary changes, once finished, click `Save Specification` on top navigation
 
-### Updating `ui_specifications`
+### Attaching `ui_specifications`
 
 To see your latest UI changes, this is required. See steps below:
 
