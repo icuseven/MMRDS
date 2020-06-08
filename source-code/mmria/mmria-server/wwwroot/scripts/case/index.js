@@ -259,6 +259,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
               //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
           break;
+
+          case 'list':
+            if(metadata.control_style != null && metadata.control_style == "radio")
+            {
+              //console("bubba");
+              post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)}${value}').focus()`);
+            }
+          break; 
       }
 
       if(post_html_call_back.length > 0)
