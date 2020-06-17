@@ -2531,7 +2531,7 @@ MPregRel5	(Blank)
 			{	
 
 				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if(val == null || (val != null && int.TryParse(val, out test_int) && test_int == 8888))
+				if(val != null && int.TryParse(val, out test_int) && test_int == 8888)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathSubAbuseEvi";

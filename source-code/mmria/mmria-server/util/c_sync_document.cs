@@ -90,7 +90,7 @@ namespace mmria.server.util
 			string de_identified_json = null;
 
 			de_identfied_url.Append(Program.config_couchdb_url);
-			de_identfied_url.Append("/{Program.db_prefix}de_id/");
+			de_identfied_url.Append($"/{Program.db_prefix}de_id/");
 			de_identfied_url.Append(this.document_id);
 
 			if(this.method == "DELETE")
