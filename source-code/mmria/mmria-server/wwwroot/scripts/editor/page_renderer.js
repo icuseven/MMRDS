@@ -808,11 +808,9 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
-
-	//hacky, needs some fixing
 	if(p_metadata.name == "case_opening_overview")
 	{
-		p_result.push("<textarea id='case_narrative_editor' name='");
+		p_result.push("<textarea  id='case_narrative_editor' name='");
 	}
 	else
 	{
@@ -880,114 +878,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(" >");
 	p_result.push(p_data);
 
-	if(p_metadata.name == "case_opening_overview")
-	{
-		p_result.push("</textarea> <!-- end rich text editor -->");
-	}
-	else
-	{
-		p_result.push("</textarea>");
-	}
-
-	if(p_metadata.name == "case_opening_overview")
-	{
-		init_case_narrative_editor();
-	}
-}
-
-
-// Inits rich text editor logic
-// TODO: Need to get with James about storing and retrieving HTML
-function init_case_narrative_editor()
-{
-	// Options to set up buttons in tool bar
-	let opts = {
-		btns: [
-			['viewHTML'],
-			['undo', 'redo'],
-			['strong', 'em', 'del'],
-			['fontsize'],
-			['foreColor', 'backColor'],
-			['formatting'],
-			['justifyLeft', 'justifyCenter', 'justifyRight'],
-			['unorderedList', 'orderedList'],
-			['horizontalRule'],
-			['removeformat'],
-			['fullscreen'],
-		],
-		plugins: {
-			// Add font sizes manually
-			fontsize: {
-				sizeList: [
-					'14px',
-					'16px',
-					'18px',
-					'24px',
-					'32px',
-					'48px'
-				],
-				allowCustomSize: false
-			},
-			// Add colors manually
-			// Currently utilizing all primary, secondary, tertiary colors in color wheel
-			colors: {
-				colorList: [
-					'FFFFFF',
-					'CCCCCC',
-					'777777',
-					'333333',
-					'000000',
-					'FF0000	',
-					'00FF00	',
-					'0000FF	',
-					'FFFF00	',
-					'FF00FF	',
-					'00FFFF	',
-					'FF7F00	',
-					'FF007F	',
-					'7FFF00	',
-					'7F00FF	',
-					'00FF7F	',
-					'007FFF'
-				]
-			}
-		}
-	}
-
-	// Interval to check dynamically created DOM element we want to isntantiate editor onto
-	// Runs every 25ms
-	let scan_interval_for_case_narrative = setInterval(convert_case_narrative_to_editor, 50);
-
-	// Fn the interval runs against to check for DOM element
-	function convert_case_narrative_to_editor()
-	{
-		let case_narrative = $('#case_narrative_editor');
-
-		// if the case narrative box exists
-		if (!isNullOrUndefined(case_narrative))
-		{
-			// console.log('looking...');
-			// Init the Trumbowyg plugin
-			$('#case_narrative_editor').trumbowyg(opts)
-				// Sometimes when interacting with editor, scroll jumps around
-				// This event detects when there is a change
-				.on('tbwchange', function() {
-					// Grab the box
-					let box = $('.trumbowyg-editor')[0];
-					// and the box's current scroll top
-					let top = box.scrollTop;
-					
-					// Place it into setTimeout method incase there are any async weirdness
-					setTimeout(function() {
-						// Set the current box to the scroll value we captured
-						box.scrollTop = top;
-					}, 0);
-				});
-			// console.log('done...');
-			
-			clearInterval(scan_interval_for_case_narrative);
-		}
-	}
+	p_result.push("</textarea>");
 }
 
 
