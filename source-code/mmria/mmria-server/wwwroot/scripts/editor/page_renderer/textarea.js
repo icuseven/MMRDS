@@ -13,7 +13,6 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
     else
     {
-
         p_result.push("<div class='textarea' id='");
         p_result.push(convert_object_path_to_jquery_id(p_object_path));
         p_result.push("'");
@@ -29,7 +28,9 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             p_result.push(p_metadata.description.replace(/'/g, "\\'"));
             p_result.push("'");
         }
+
         var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
         if(style_object && p_metadata.name != "case_opening_overview")
         {
             p_result.push(" style='");
@@ -41,7 +42,6 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         p_result.push("</label>");
 
         page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
-
 
         if(p_metadata.name == "case_opening_overview")
         {
@@ -81,26 +81,23 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                             '777777',
                             '333333',
                             '000000',
-                            'FF0000    ',
-                            '00FF00    ',
-                            '0000FF    ',
-                            'FFFF00    ',
-                            'FF00FF    ',
-                            '00FFFF    ',
-                            'FF7F00    ',
-                            'FF007F    ',
-                            '7FFF00    ',
-                            '7F00FF    ',
-                            '00FF7F    ',
+                            'FF0000',
+                            '00FF00',
+                            '0000FF',
+                            'FFFF00',
+                            'FF00FF',
+                            '00FFFF',
+                            'FF7F00',
+                            'FF007F',
+                            '7FFF00',
+                            '7F00FF',
+                            '00FF7F',
                             '007FFF'
                         ]
                     }
                 }
             }
 
-
-
-            
             p_post_html_render.push(`$('#case_narrative_editor').trumbowyg(${JSON.stringify(opts)});`);
             
             p_post_html_render.push(`$('#case_narrative_editor').trumbowyg().on('tbwchange',function (){ let data = $('.trumbowyg-editor').html(); g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data); } );`);
@@ -132,11 +129,8 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             code_array.push(", event.target);");
 */
 
-
-
         }
 
         p_result.push("</div>");
-
     }
 }
