@@ -103,7 +103,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             
             p_post_html_render.push(`$('#case_narrative_editor').trumbowyg(${JSON.stringify(opts)});`);
             
-            p_post_html_render.push(`$('#case_narrative_editor').trumbowyg().on('tbwchange',function (){ let data = $('.trumbowyg-editor').text(); g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data); } );`);
+            p_post_html_render.push(`$('#case_narrative_editor').trumbowyg().on('tbwchange',function (){ let data = $('.trumbowyg-editor').html(); g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data); } );`);
 
 /*
             code_array.push("g_set_data_object_from_path(\"");
