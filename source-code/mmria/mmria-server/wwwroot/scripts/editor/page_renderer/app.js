@@ -417,10 +417,11 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                             ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
                           <td class="td">
-                                <button type="button" id="id_for_record_${i}" class="btn btn-primary d-flex align-items-center" onclick="init_delete_dialog(${i})">
+                                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})">Click twice to delete</button>
+                                <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary d-flex align-items-center" onclick="init_delete_dialog(${i})">
                                     <span class="btn-icon x20 fill-w cdc-icon-trash mr-1"></span>
                                     <span>Delete</span>
-                                </button>
+                                </button>-->
                           </td>
                       </tr>
                   `);

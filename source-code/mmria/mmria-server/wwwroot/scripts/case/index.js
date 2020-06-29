@@ -259,6 +259,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
               //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
           break;
+
+          case 'list':
+            if(metadata.control_style != null && metadata.control_style == "radio")
+            {
+              //console("bubba");
+              post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)}${value}').focus()`);
+            }
+          break; 
       }
 
       if(post_html_call_back.length > 0)
@@ -1481,21 +1489,6 @@ function update_delete_dialog(p_index, callback)
 }
 
 
-// function delete_record_callback(p_index, callback) {
-//   // find any modal
-//   const modal = $('.modal');
-
-//   setTimeout(() => {
-//     callback();
-//     modal.modal('hide')
-//       .on('hidden.bs.modal', () => {
-//         $(this).data('bs.modal', null);
-//         dispose_all_modals();
-//       });
-//   }, 500);
-// }
-
-
 function build_delete_dialog(p_values, p_index)
 {
   const modal_ui = [];
@@ -1555,44 +1548,76 @@ function dispose_all_modals() {
 
 function delete_record(p_index)
 {
-  var data = g_ui.case_view_list[p_index];
-  console.log('delete');
+  if(p_index == g_selected_delete_index)
+  {
+    var data = g_ui.case_view_list[p_index];
 
-  g_selected_delete_index = null;
+    g_selected_delete_index = null;
 
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-  }).done(function(case_response) {
-    delete_case(case_response._id, case_response._rev);
-  });
-  // if(p_index == g_selected_delete_index)
-  // {
-  //   var data = g_ui.case_view_list[p_index];
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+    }).done(function(case_response) {
+      delete_case(case_response._id, case_response._rev);
+    });
+  }
+  else
+  {
+    if(g_selected_delete_index != null && g_selected_delete_index > -1)
+    {
+      var old_id = g_ui.case_view_list[g_selected_delete_index].id;
 
-  //   g_selected_delete_index = null;
+      $("tr[path='" + old_id + "']").css("background", "");
+    }
 
-  //   $.ajax({
-  //     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-  //   }).done(function(case_response) {
-  //     delete_case(case_response._id, case_response._rev);
-  //   });
-  // }
-  // else
-  // {
-  //   if(g_selected_delete_index != null && g_selected_delete_index > -1)
-  //   {
-  //     var old_id = g_ui.case_view_list[g_selected_delete_index].id;
-
-  //     $("tr[path='" + old_id + "']").css("background", "");
-  //   }
-
-  //   g_selected_delete_index = p_index;
+    g_selected_delete_index = p_index;
     
-  //   var id = g_ui.case_view_list[p_index].id;
+    var id = g_ui.case_view_list[p_index].id;
 
-  //   $("tr[path='" + id + "']").css("background", "#ffd54f");
-  // }
+    $("tr[path='" + id + "']").css("background", "#ffd54f");
+  }
 }
+
+
+// function delete_record(p_index)
+// {
+//   var data = g_ui.case_view_list[p_index];
+//   console.log('delete');
+
+//   g_selected_delete_index = null;
+
+//   $.ajax({
+//     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+//   }).done(function(case_response) {
+//     delete_case(case_response._id, case_response._rev);
+//   });
+//   // if(p_index == g_selected_delete_index)
+//   // {
+//   //   var data = g_ui.case_view_list[p_index];
+
+//   //   g_selected_delete_index = null;
+
+//   //   $.ajax({
+//   //     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+//   //   }).done(function(case_response) {
+//   //     delete_case(case_response._id, case_response._rev);
+//   //   });
+//   // }
+//   // else
+//   // {
+//   //   if(g_selected_delete_index != null && g_selected_delete_index > -1)
+//   //   {
+//   //     var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+
+//   //     $("tr[path='" + old_id + "']").css("background", "");
+//   //   }
+
+//   //   g_selected_delete_index = p_index;
+    
+//   //   var id = g_ui.case_view_list[p_index].id;
+
+//   //   $("tr[path='" + id + "']").css("background", "#ffd54f");
+//   // }
+// }
 
 
 var save_interval_id = null;

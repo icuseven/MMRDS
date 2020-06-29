@@ -1383,6 +1383,11 @@ button.link {
   width: 100%;
 }
 
+/* ~~~~~~~ Rich Text Editor ~~~~~~~ */
+#case_narrative_editor {
+  padding: 20px;
+}
+
 
 
 
@@ -1578,3 +1583,20 @@ button.link {
       font-weight: inherit;
     }  
   }
+
+
+
+
+/* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-box {
+  margin-top: 0 !important;
+}
+
+.trumbowyg-editor {
+  white-space: pre-wrap !important;
+}
+  /* Helps remove text content from jumping around when focusing on editor */
+  .trumbowyg-editor p:first-of-type {
+    margin-top: 0 !important;
+  }
+/* ~~~~~~~ END VENDER OVERRIDES ~~~~~~~ */
