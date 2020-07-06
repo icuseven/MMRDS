@@ -342,175 +342,174 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-	// Buttons will an outer div container
-	// Buttons will have UI styles from form designer applied to the parent container
-		// and not the actual input control
+	// Buttons will have an outer div container with styles assigned to it
+	// and not on the actual input control like everything else
 	if (p_metadata.type === 'button') {
-		p_result.push(`<div data-render-type="${p_metadata.type.toLowerCase()}" class='row no-gutters align-items-center' style="`);
-			p_result.push(get_style_string(style_object.control.style));
-		p_result.push(`">`);
+		p_result.push(`
+			<div data-render-type="${p_metadata.type.toLowerCase()}" class="row no-gutters align-items-center" style="${get_style_string(style_object.control.style)}">
+		`);
 	}
 
 	p_result.push("<input ");
-	if
-	(
-		p_metadata.is_read_only && 	
+		if
 		(
-			p_metadata.is_read_only == true ||
-			p_metadata.is_read_only == "true" ||
+			p_metadata.is_read_only && 	
 			(
-				p_metadata.mirror_reference &&
-				p_metadata.mirror_reference.length > 0
+				p_metadata.is_read_only == true ||
+				p_metadata.is_read_only == "true" ||
+				(
+					p_metadata.mirror_reference &&
+					p_metadata.mirror_reference.length > 0
+				)
 			)
 		)
-	)
-	{
-				p_result.push(" readonly='true' ");
-	}
-
-	p_result.push(" style='");
-
-	// Apply styles only to non button types
-	// Buttons have their styles applied to a outer wrapper container
-	if(style_object && p_metadata.type !== 'button')
-	{
-		p_result.push(get_style_string(style_object.control.style));
-	}
-
-	p_result.push("' ");
-	p_result.push(" class='");
-	p_result.push(p_metadata.type.toLowerCase());
-	
-	if
-	(
-		p_metadata.type.toLowerCase() == "number" && 	
-		p_metadata.decimal_precision && 
-		p_metadata.decimal_precision != ""
-	)
-	{
-		p_result.push(p_metadata.decimal_precision);
-	}
-
-	if(p_metadata.type=="date")
-	{
-		p_result.push(" date-control");
-	}
-	
-	if(p_metadata.type=="button")
-	{
-		p_result.push(" btn btn-secondary");
-	}
-	
-	p_result.push("' dpath='");
-	p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
-	
-
-	if(p_ctx!=null)
-	{
-		if(p_ctx.form_index != null)
 		{
-			p_result.push("' form_index='");
-			p_result.push(p_ctx.form_index);
+					p_result.push(" readonly='true' ");
 		}
 
-		if(p_ctx.grid_index != null)
-		{
-			p_result.push("' grid_index='");
-			p_result.push(p_ctx.grid_index);
-		}
-	}
+		p_result.push(" style='");
 
-	if(p_metadata.type=="button")
-	{
-		p_result.push("' type='button' name='");
-		p_result.push(p_metadata.name);
-		p_result.push("' value='");
-		p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
+		// Apply styles only to non button types
+		// Buttons have their styles applied to a outer wrapper container
+		if(style_object && p_metadata.type !== 'button')
+		{
+			p_result.push(get_style_string(style_object.control.style));
+		}
+
 		p_result.push("' ");
-
-		if(p_metadata.type == "")
+		p_result.push(" class='");
+		p_result.push(p_metadata.type.toLowerCase());
+		
+		if
+		(
+			p_metadata.type.toLowerCase() == "number" && 	
+			p_metadata.decimal_precision && 
+			p_metadata.decimal_precision != ""
+		)
 		{
-			p_result.push("placeholder='");
-			if(p_metadata.prompt.length > 25)
+			p_result.push(p_metadata.decimal_precision);
+		}
+
+		if(p_metadata.type=="date")
+		{
+			p_result.push(" date-control");
+		}
+		
+		if(p_metadata.type=="button")
+		{
+			p_result.push(" btn btn-secondary");
+		}
+		
+		p_result.push("' dpath='");
+		p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
+		
+
+		if(p_ctx!=null)
+		{
+			if(p_ctx.form_index != null)
 			{
-				p_result.push(p_metadata.prompt.substring(0, 25).replace(/'/g, "\\'"));
+				p_result.push("' form_index='");
+				p_result.push(p_ctx.form_index);
 			}
-			else
+
+			if(p_ctx.grid_index != null)
 			{
-				p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
+				p_result.push("' grid_index='");
+				p_result.push(p_ctx.grid_index);
 			}
-			
+		}
+
+		if(p_metadata.type=="button")
+		{
+			p_result.push("' type='button' name='");
+			p_result.push(p_metadata.name);
+			p_result.push("' value='");
+			p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
 			p_result.push("' ");
-		}
 
-		let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+			if(p_metadata.type == "")
+			{
+				p_result.push("placeholder='");
+				if(p_metadata.prompt.length > 25)
+				{
+					p_result.push(p_metadata.prompt.substring(0, 25).replace(/'/g, "\\'"));
+				}
+				else
+				{
+					p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
+				}
+				
+				p_result.push("' ");
+			}
 
-		if(path_to_onclick_map[p_metadata_path])
-		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
-		}
-	}
-	else
-	{
-		if(p_metadata.type.toLowerCase() == "hidden")
-		{
-			p_result.push("' type='hidden' name='");
-		}
-		else if (p_metadata.type.toLowerCase() == "date")
-		{
-			/* Required to make date control new html5 date input */
-			p_result.push("' type='date' min='1900-01-01' max='2100-12-31' name='");
+			let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+
+			if(path_to_onclick_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+			}
 		}
 		else
 		{
-			p_result.push("' type='text' name='");
-		}
-		
-		p_result.push(p_metadata.name);
-		p_result.push("' value='");
-		if(p_data || p_data == 0)
-		{ 
-			if (typeof p_data === 'string' || p_data instanceof String)
+			if(p_metadata.type.toLowerCase() == "hidden")
 			{
-				p_result.push(p_data.replace(/'/g, "&apos;"));
+				p_result.push("' type='hidden' name='");
+			}
+			else if (p_metadata.type.toLowerCase() == "date")
+			{
+				/* Required to make date control new html5 date input */
+				p_result.push("' type='date' min='1900-01-01' max='2100-12-31' name='");
 			}
 			else
 			{
-				p_result.push(p_data);
+				p_result.push("' type='text' name='");
 			}
-		}
-		p_result.push("' ");
+			
+			p_result.push(p_metadata.name);
+			p_result.push("' value='");
+			if(p_data || p_data == 0)
+			{ 
+				if (typeof p_data === 'string' || p_data instanceof String)
+				{
+					p_result.push(p_data.replace(/'/g, "&apos;"));
+				}
+				else
+				{
+					p_result.push(p_data);
+				}
+			}
+			p_result.push("' ");
 
-		if
-		(
-			!(
-				p_metadata.mirror_reference &&
-				p_metadata.mirror_reference.length > 0
+			if
+			(
+				!(
+					p_metadata.mirror_reference &&
+					p_metadata.mirror_reference.length > 0
+				)
 			)
-		)
-		{
-			let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+			{
+				let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 
-			if(path_to_onfocus_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-			}
+				if(path_to_onfocus_map[p_metadata_path])
+				{
+					page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				}
 
-			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-			if(path_to_onchange_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+				if(path_to_onchange_map[p_metadata_path])
+				{
+					page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				}
+				
+				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+				if(path_to_onclick_map[p_metadata_path])
+				{
+					page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				}
+				
+				page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 			}
-			
-			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-			if(path_to_onclick_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-			}
-			
-			page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 		}
-	}
 
 	p_result.push("/>");
 	
@@ -518,6 +517,17 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	{
 		p_result.push(`<span class="spinner-container spinner-small mt-2"><span class="spinner-body text-primary"><span class="spinner"></span><span class="spinnerinfo">Loading...</span></span></span>`);
 		p_result.push("</div>");
+	}
+
+	//~~~~ Validation Error Message
+	switch ( p_metadata.type )
+	{
+		case "date":
+			p_result.push(`<small class="text-danger">Validation message goes here (Ex: Opps! Please set year between 1900 and 2100)</small>`);
+			break;
+		default :
+			//do nothing, linting requires empty default case
+			break;
 	}
 }
 

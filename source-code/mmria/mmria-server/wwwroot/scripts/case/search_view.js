@@ -147,125 +147,146 @@ function render_search_text_input_control(p_ctx)
         console.log(p_ctx.mmria_path.substring(1));
     }*/
 
-    result.push("<div id='");
-    result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-    result.push("' class='form-group mb-5' metadata='");
-    result.push(p_ctx.mmria_path);
-    result.push("'>");
-    result.push("<p>");
-        //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
-        let path_items = p_ctx.mmria_path.split("/");
+    // result.push("<div id='");
+    //     result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
+    //     result.push("' class='form-group mb-5' metadata='");
+    //     result.push(p_ctx.mmria_path);
+    //     result.push("'>");
+    result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+        result.push("<p>");
+            //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            let path_items = p_ctx.mmria_path.split("/");
 
-        for(let i = 1; i < path_items.length; i++)
-        {
-            let item = path_items[i];
-
-            if(i == 1)
+            for(let i = 1; i < path_items.length; i++)
             {
-                let array = window.location.href.split("/field_search/");
-                //window.location.hash = "/" + record_index + "/field_search/" + search_text;
-                let link_url = array[0] + "/" + item;
+                let item = path_items[i];
 
-                result.push(`<a href='${link_url}'>${item}</a>`);
+                if(i === 1)
+                {
+                    let array = window.location.href.split("/field_search/");
+                    //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                    let link_url = array[0] + "/" + item;
+
+                    result.push(`<a href='${link_url}'>${item}</a>`);
+                }
+                else
+                {
+                    result.push(" > ");
+                    result.push(item);
+                }
+            }
+        result.push("</p>");
+
+        //style attr uses 'Short-Circuit Conditional' to clean up JS a bit
+        //https://codeburst.io/javascript-short-circuit-conditionals-bbc13ac3e9eb
+        result.push(`
+            <label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}" 
+                ${
+                    style_object && style_object.prompt && style_object.prompt.style && `style="${style_string}"`
+                }
+            >${p_ctx.metadata.prompt}</label>
+        `);
+        // result.push("<label class='row no-gutters w-auto h-auto' for='");
+        // result.push(p_ctx.mmria_path.replace(/\//g, "--"));
+        // result.push("' style='");
+        // if
+        // (
+        //     style_object &&
+        //     style_object.prompt &&
+        //     style_object.prompt.style
+        // )
+        // result.push(style_string); 
+        // result.push("'>");
+        // result.push(p_ctx.metadata.prompt);
+        // result.push("</label>");
+            
+        result.push("<input id='");
+            result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
+
+            result.push("_input' class='form-control is-invalid' ");
+
+            if (control_type === 'date')
+            {
+                result.push(`type="date" min="1900-01-01" max="2100-12-31"`);
             }
             else
             {
-                result.push(" > ");
-                result.push(item);
+                result.push("type='text'");
             }
+
+            result.push(" style='");
+
+            if
+            (
+                style_object &&
+                style_object.control &&
+                style_object.control.style
+            )
+            result.push(control_string);
+            result.push("' value='"); 
+            result.push(p_ctx.data); 
+            result.push("' "); 
+
+            switch (p_ctx.metadata.type.toLocaleLowerCase())
+            {
+                case "date":
+                    result.push(" class='date' ");
+                    break;
+                case "datetime":
+                    result.push(" class='datetime' ");
+                    break;
+                case "time":
+                    result.push(" class='time' ");
+                    break;
+            }
+
+            if
+            (
+                (
+                    p_ctx.metadata.is_read_only != null &&
+                    p_ctx.metadata.is_read_only == true
+                ) ||
+                p_ctx.metadata.mirror_reference
+            )
+            {
+                result.push(" readonly=true ");
+            }
+            else
+            {
+
+            let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
+
+            if(path_to_onfocus_map[p_ctx.metadata_path])
+            {
+                page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+            }
+
+            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
+            if(path_to_onchange_map[p_ctx.metadata_path])
+            {
+                page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+            }
+            
+            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
+            if(path_to_onclick_map[p_ctx.metadata_path])
+            {
+                page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+            }
+            
+            page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
-    result.push("</p>");
+        result.push(" />");
 
-    result.push("<label class='row no-gutters w-auto h-auto' for='");
-    result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-    result.push("' style='");
-    if
-    (
-        style_object &&
-        style_object.prompt &&
-        style_object.prompt.style
-    )
-    result.push(style_string); 
-    result.push("'>");
-    result.push(p_ctx.metadata.prompt);
-    result.push("</label class='row no-gutters w-auto h-auto'>");
-        
-    result.push("<input id='");
-    result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-
-    result.push("_input' class='form-control' ");
-
-    if (control_type === 'date')
-    {
-        // result.push("type='date' min='1900-01-01' max='2100-12-31'");
-    }
-    else
-    {
-        result.push("type='text'");
-    }
-
-    result.push(" style='");
-
-    if
-    (
-        style_object &&
-        style_object.control &&
-        style_object.control.style
-    )
-    result.push(control_string);
-    result.push("' value='"); 
-    result.push(p_ctx.data); 
-    result.push("' "); 
-
-    switch (p_ctx.metadata.type.toLocaleLowerCase())
-    {
-        case "date":
-            result.push(" class='date' ");
-            break;
-        case "datetime":
-            result.push(" class='datetime' ");
-            break;
-        case "time":
-            result.push(" class='time' ");
-            break;
-    }
-
-    if
-    (
-        (
-            p_ctx.metadata.is_read_only != null &&
-            p_ctx.metadata.is_read_only == true
-        ) ||
-        p_ctx.metadata.mirror_reference
-    )
-    {
-        result.push(" readonly=true ");
-    }
-    else
-    {
-
-        let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
-
-        if(path_to_onfocus_map[p_ctx.metadata_path])
+        //~~~~ Validation Error Message
+        switch (p_ctx.metadata.type.toLocaleLowerCase())
         {
-            page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+            case "date":
+                result.push(`<small class="text-danger">Validation message goes here (Ex: Opps! Please set year between 1900 and 2100)</small>`);
+                break;
+            default :
+                //do nothing, linting requires empty default case
+                break;
         }
-
-        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
-        if(path_to_onchange_map[p_ctx.metadata_path])
-        {
-            page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-        }
-        
-        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
-        if(path_to_onclick_map[p_ctx.metadata_path])
-        {
-            page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-        }
-        
-        page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-    }
-    result.push(" />"); 
 
     result.push("</div>");
 
@@ -295,21 +316,22 @@ function render_search_text_input_control(p_ctx)
             /*
                 START datetimepicker() init and options
                 TODO: Comment out when going to test
+                    ~ 7/6/20: Removed datepicker plugin, using browser supported 'type="date"' attribute
             */
-            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
-            p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
-            p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
-            p_ctx.post_html_render.push(`
-                icons: {
-                    time: "x24 fill-p cdc-icon-clock_01",
-                    date: "x24 fill-p cdc-icon-calendar_01",
-                    up: "x24 fill-p cdc-icon-chevron-circle-up",
-                    down: "x24 fill-p cdc-icon-chevron-circle-down",
-                    previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-                    next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-                }
-            `);
-            p_ctx.post_html_render.push('});');
+            // p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
+            // p_ctx.post_html_render.push(' format: "Y-MM-DD", ');
+            // p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
+            // p_ctx.post_html_render.push(`
+            //     icons: {
+            //         time: "x24 fill-p cdc-icon-clock_01",
+            //         date: "x24 fill-p cdc-icon-calendar_01",
+            //         up: "x24 fill-p cdc-icon-chevron-circle-up",
+            //         down: "x24 fill-p cdc-icon-chevron-circle-down",
+            //         previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+            //         next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            //     }
+            // `);
+            // p_ctx.post_html_render.push('});');
             /* END datetimepicker() */
 
             break;

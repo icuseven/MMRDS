@@ -36,21 +36,22 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         /*
             START datetimepicker() init and options
             TODO: Comment out when going to test
+                ~ 7/6/20: Removed datepicker plugin, using browser supported 'type="date"' attribute
         */
-        p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
-        p_post_html_render.push(' format: "Y-MM-DD", ');
-        p_post_html_render.push(' defaultDate: "' + p_data + '",');
-        p_post_html_render.push(`
-            icons: {
-                time: "x24 fill-p cdc-icon-clock_01",
-                date: "x24 fill-p cdc-icon-calendar_01",
-                up: "x24 fill-p cdc-icon-chevron-circle-up",
-                down: "x24 fill-p cdc-icon-chevron-circle-down",
-                previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-                next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-            }
-        `);
-        p_post_html_render.push('});');
+        // p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
+        // p_post_html_render.push(' format: "Y-MM-DD", ');
+        // p_post_html_render.push(' defaultDate: "' + p_data + '",');
+        // p_post_html_render.push(`
+        //     icons: {
+        //         time: "x24 fill-p cdc-icon-clock_01",
+        //         date: "x24 fill-p cdc-icon-calendar_01",
+        //         up: "x24 fill-p cdc-icon-chevron-circle-up",
+        //         down: "x24 fill-p cdc-icon-chevron-circle-down",
+        //         previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+        //         next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+        //     }
+        // `);
+        // p_post_html_render.push('});');
         /* END datetimepicker() */
 
     p_result.push("</div>");
