@@ -80,8 +80,8 @@ namespace mmria.common.Controllers
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
-            var sams_endpoint_token_validation = _configuration["sams:token_validation"];
-            var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
+            var sams_endpoint_token_validation = _configuration["sams:endpoint_token_validation"];
+            var sams_endpoint_user_info_sys = _configuration["sams:endpoint_user_info_sys"];
             var sams_client_id = _configuration["sams:client_id"];
             var sams_callback_url = _configuration["sams:callback_url"];        
 
@@ -107,7 +107,7 @@ namespace mmria.common.Controllers
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
-            var sams_endpoint_token_validation = _configuration["sams:token_validation"];
+            var sams_endpoint_token_validation = _configuration["sams:endpoint_token_validation"];
             var sams_endpoint_user_info_sys = _configuration["sams:endpoint_user_info_sys"];
             var sams_client_id = _configuration["sams:client_id"];
             var sams_client_secret = _configuration["sams:client_secret"];
