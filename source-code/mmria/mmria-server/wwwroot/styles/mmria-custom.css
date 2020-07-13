@@ -1241,11 +1241,24 @@ button.link {
   /* margin-bottom: -1px; */
   /* margin-left: -1px; */
   /* margin-right: -1px; */
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding-bottom: 15px;
+  padding-top: 15px;
   position: sticky;
   top: 0;
   z-index: 998; /* not sure why but this makes tooltips appear behind it when sticky */
+}
+
+.construct__header-alert {
+  background-color: rgba(220, 53, 69, .35);
+  border: none;
+  border-left: 5px solid #dc3545;
+}
+.construct__header-alert .cdc-icon-alert_02:before {
+  color: #dc3545 ;
+}
+
+.construct__header-alert + .construct__header-main {
+  margin-top: 1rem;
 }
 
 .construct__title {
