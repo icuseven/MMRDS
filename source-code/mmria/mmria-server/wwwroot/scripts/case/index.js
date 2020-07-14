@@ -960,6 +960,28 @@ function get_metadata()
     }
 
     //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+    function create_validator(p_metadata, p_path)
+    {
+      let result = null;
+      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+      switch(p_metadata.type.toLowerCase())
+      {
+          case "boolean":
+
+          case "string":
+          case "number":
+          case "hidden":
+          case "list":
+          case "textarea":
+          case "time":
+            case "date":
+              case "datetime":
+                
+            break;
+      }
+
+      return result;
+    }
 
     //window.location.href = location.protocol + '//' + location.host;
     
