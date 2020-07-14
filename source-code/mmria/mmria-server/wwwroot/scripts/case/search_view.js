@@ -281,7 +281,7 @@ function render_search_text_input_control(p_ctx)
         switch (p_ctx.metadata.type.toLocaleLowerCase())
         {
             case "date":
-                result.push(`<small class="text-danger">Validation message goes here (Ex: Opps! Please set year between 1900 and 2100)</small>`);
+                result.push(`<small class="text-danger">Invalid date</small>`);
                 break;
             default :
                 //do nothing, linting requires empty default case

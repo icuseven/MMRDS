@@ -438,58 +438,72 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata.name);
         p_result.push("_id' class='construct' ");
         p_result.push(" style='' class='construct'>");
-        p_result.push("<div class='construct__header row no-gutters'>");
-            p_result.push("<div class='col col-8'>");
-                if(g_data)
-                {
-                    p_result.push("<h1 class='construct__title text-primary h1 single-form-title' tabindex='-1'>");
-                    p_result.push(g_data.home_record.last_name);
-                    p_result.push(", ");
-                    p_result.push(g_data.home_record.first_name);
-                    p_result.push("</h1>");
-                }
-                if(g_data.home_record.record_id)
-                {
-                    p_result.push("<p class='construct__info mb-0'>");
-                    p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
+        p_result.push("<div class='construct__header'>");
+            p_result.push(`
+                <div class="construct__header-alert row no-gutters p-2">
+                    <span class="x32 fill-p cdc-icon-alert_02"></span>
+                    <div class="ml-2">
+                        <p>Please correct errors below:</p>
+                        <ul class="mb-0">
+                            <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
+                        </ul>
+                    </div>
+                </div>
+            `);
+
+            p_result.push("<div class='construct__header-main row no-gutter'>");
+                p_result.push("<div class='col col-8'>");
+                    if(g_data)
+                    {
+                        p_result.push("<h1 class='construct__title text-primary h1 single-form-title' tabindex='-1'>");
+                        p_result.push(g_data.home_record.last_name);
+                        p_result.push(", ");
+                        p_result.push(g_data.home_record.first_name);
+                        p_result.push("</h1>");
+                    }
+                    if(g_data.home_record.record_id)
+                    {
+                        p_result.push("<p class='construct__info mb-0'>");
+                        p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
+                        p_result.push("</p>");
+                    }
+
+                    p_result.push("<p class='construct__subtitle'");
+
+                    if(p_metadata.description && p_metadata.description.length > 0)
+                    {
+                        p_result.push("rel='tooltip' data-original-title='");
+                        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+                        p_result.push("'>");
+                    }
+                    else
+                    {
+                        p_result.push(">");
+                    }
+
+                    p_result.push(p_metadata.prompt);
                     p_result.push("</p>");
-                }
 
-                p_result.push("<p class='construct__subtitle'");
+                    if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
+                    {
+                        p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.date_created}</p>`);
+                    }
 
-                if(p_metadata.description && p_metadata.description.length > 0)
-                {
-                    p_result.push("rel='tooltip' data-original-title='");
-                    p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                    p_result.push("'>");
-                }
-                else
-                {
-                    p_result.push(">");
-                }
+                    if (g_data.created_by && !isNullOrUndefined(g_data.created_by))
+                    {
+                        p_result.push(`<p class='construct__info mb-0'>Created by: ${g_data.created_by}</p>`);
+                    }
 
-                p_result.push(p_metadata.prompt);
-                p_result.push("</p>");
-
-                if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
-                {
-                    p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.date_created}</p>`);
-                }
-
-                if (g_data.created_by && !isNullOrUndefined(g_data.created_by))
-                {
-                    p_result.push(`<p class='construct__info mb-0'>Created by: ${g_data.created_by}</p>`);
-                }
-
-            p_result.push("</div>");
-            p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
-                p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
-                    p_result.push("<div class='row no-gutters justify-content-end mb-1'>");
-                        p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
-                        p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' />");
-                        p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(function() { save_form_click() })' />");
+                p_result.push("</div>");
+                p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
+                    p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
+                        p_result.push("<div class='row no-gutters justify-content-end mb-1'>");
+                            p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
+                            p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' />");
+                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(function() { save_form_click() })' />");
+                        p_result.push("</div>");
+                        render_print_form_control(p_result, p_ui, p_metadata);
                     p_result.push("</div>");
-                    render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
             p_result.push("</div>");
         p_result.push("</div> <!-- end .construct__header -->");
@@ -910,40 +924,54 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
 function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
-    p_result.push("<div class='construct__header row no-gutters'>");
-        p_result.push("<div class='col col-8'>");
-            if(g_data)
-            {
-                p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
-                p_result.push(g_data.home_record.last_name);
-                p_result.push(", ");
-                p_result.push(g_data.home_record.first_name);
-                p_result.push("</h1>");
-            }
-            if(g_data.home_record.record_id)
-            {
-            p_result.push("<p class='construct__info mb-0'>");
-                p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
-            p_result.push("</p>");
-            }
-            p_result.push("<p class='construct__subtitle'");
-                if(p_metadata.description && p_metadata.description.length > 0)
+    p_result.push("<div class='construct__header'>");
+        p_result.push(`
+            <div class="construct__header-alert row no-gutters p-2">
+                <span class="x32 fill-p cdc-icon-alert_02"></span>
+                <div class="ml-2">
+                    <p>Please correct errors below:</p>
+                    <ul class="mb-0">
+                        <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
+                    </ul>
+                </div>
+            </div>
+        `);
+        
+        p_result.push("<div class='construct__header-main row no-gutter'>");
+            p_result.push("<div class='col col-8'>");
+                if(g_data)
                 {
-                    p_result.push("rel='tooltip' data-original-title='");
-                    p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                    p_result.push("'>");
+                    p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
+                    p_result.push(g_data.home_record.last_name);
+                    p_result.push(", ");
+                    p_result.push(g_data.home_record.first_name);
+                    p_result.push("</h1>");
                 }
-                else
+                if(g_data.home_record.record_id)
                 {
-                    p_result.push(">");
+                p_result.push("<p class='construct__info mb-0'>");
+                    p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
+                p_result.push("</p>");
                 }
+                p_result.push("<p class='construct__subtitle'");
+                    if(p_metadata.description && p_metadata.description.length > 0)
+                    {
+                        p_result.push("rel='tooltip' data-original-title='");
+                        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+                        p_result.push("'>");
+                    }
+                    else
+                    {
+                        p_result.push(">");
+                    }
 
-                p_result.push("Quick edit results for: <em>" + p_search_ctx.search_text + "</em><br/><br/>");
-            p_result.push("</p>");
-        p_result.push("</div>");
-        p_result.push("<div class='col col-4 text-right'>");
-            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                    p_result.push("Quick edit results for: <em>" + p_search_ctx.search_text + "</em><br/><br/>");
+                p_result.push("</p>");
+            p_result.push("</div>");
+            p_result.push("<div class='col col-4 text-right'>");
+                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+            p_result.push("</div>");
         p_result.push("</div>");
     p_result.push("</div> <!-- end .construct__header -->");
     p_result.push(`
