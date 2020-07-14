@@ -59,6 +59,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
+      g_data.date_last_checked_out = g_data.date_last_updated;
+      
       //g_data.last_updated_by = g_uid;
 		
       g_change_stack.push({
@@ -127,6 +129,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       });
 
       g_data.date_last_updated = new Date();
+      g_data.date_last_checked_out = g_data.date_last_updated;
       //g_data.last_updated_by = g_uid;
 
       set_local_case(g_data, function (){
@@ -959,7 +962,30 @@ function get_metadata()
         g_look_up["lookup/" + child.name] = child.values;
     }
 
+
     //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+    function create_validator(p_metadata, p_path)
+    {
+      let result = null;
+      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+      switch(p_metadata.type.toLowerCase())
+      {
+          case "boolean":
+
+          case "string":
+          case "number":
+          case "hidden":
+          case "list":
+          case "textarea":
+          case "time":
+            case "date":
+              case "datetime":
+                
+            break;
+      }
+
+      return result;
+    }
 
     //window.location.href = location.protocol + '//' + location.host;
     
