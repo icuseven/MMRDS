@@ -233,17 +233,24 @@
 /*
 ~~~ CUSTOM TIMEPICKER STYLES
 */
-.datetime-control #datetime-date:focus,
-.datetime-control #datetime-time:focus {
+.datetime-control {
+	z-index: 1;
+}
+
+.datetime-control .datetime-date:focus,
+.datetime-control .datetime-time:focus {
 	outline: auto 3px rgba(255,102,1,.9);
 }
 
-.datetime-control #datetime-date {
+.datetime-control .datetime-date {
 	border-right: none;
 	border-radius: 4px 0px 0px 4px;
 }
 
-.datetime-control #datetime-time {
+.datetime-control .datetime-time {
+	border-radius: 0px 4px 4px 0px
+}
+.datetime-control .input-group > .form-control:not(:last-child) {
 	border-radius: 0px 4px 4px 0px
 }
 
@@ -256,6 +263,11 @@
 	top: 50%;
 	transform: translate3d(0, -50%, 0);
 	z-index: 4;
+}
+
+.time-icon-btn,
+.datetime-time[disabled] + .time-icon-btn {
+	cursor: default;
 }
 
 .time-icon-btn:focus,
