@@ -49,6 +49,32 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
 					}`);
 			p_post_html_render.push('});');
+
+			// p_result.push(`
+			// 	<div class="form-inline datetime-control"
+			// 		style="${ style_object && get_style_string(style_object.prompt.style)}">
+			// 		<div class="form-group">
+			// 			<input type="date" id="datetime-date" class="form-control input-small" value="2000-03-24">
+			// 		</div>
+			// 		<div class="form-group input-group bootstrap-timepicker timepicker">
+			// 			<input type="text" id="datetime-time" class="form-control input-small" value="21:04:37">
+			// 			<button class="input-group-addon time-icon-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></button>
+			// 		</div>
+			// 	</div>
+			// `);
+
+			// p_post_html_render.push(`
+			// 	$('#datetime-time').timepicker({
+			// 		minuteStep: 1,
+			// 		secondStep: 1,
+			// 		showMeridian: false,
+			// 		showSeconds: true,
+			// 		icons: {
+			// 			up: 'x24 fill-p cdc-icon-arrow-down',
+			// 			down: 'x24 fill-p cdc-icon-arrow-down'
+			// 		}
+			// 	});
+			// `);
 			
 			p_result.push("</div>");	
 }
