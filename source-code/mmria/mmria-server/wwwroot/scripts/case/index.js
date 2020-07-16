@@ -60,6 +60,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
+
       //g_data.last_updated_by = g_uid;
 		
       g_change_stack.push({
@@ -2033,6 +2034,37 @@ function autosave()
   }
 }
 
+
+function is_case_checked_out(p_case)
+{
+  let is_checked_out = false;
+
+  let checked_out_html = '';
+
+  let current_date = new Date();
+  if(p_case.date_last_checked_out != null)
+
+  if(p_case.date_last_checked_out != null && p_case.date_last_checked_out != "")
+  {
+      let try_date = null;
+      let is_date = false;
+      if(!(p_case.date_last_checked_out instanceof Date))
+      {
+          try_date = new Date(p_case.date_last_checked_out);
+      }
+      
+      if
+      (
+          diff_minutes(try_date, current_date) <= 120 &&
+          p_case.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
+      )
+      {
+          is_checked_out = true;
+      }
+  }
+
+  return is_checked_out;
+}
 
 function diff_minutes(dt1, dt2) 
 {
