@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mmria.console.db
 {
-	public class Restore
+	public class Restore_From_Directory
 	{
 		private string auth_token = null;
 		private string user_name = null;
@@ -17,7 +17,7 @@ namespace mmria.console.db
 
 		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
 
-		public Restore()
+		public Restore_From_Directory()
 		{
 			
 
@@ -77,7 +77,7 @@ namespace mmria.console.db
  */
 
 
-			if (string.IsNullOrWhiteSpace(this.backup_file_path))
+			if (string.IsNullOrWhiteSpace(this.backup_file_path) && string.IsNullOrWhiteSpace(import_directory))
 			{
 				System.Console.WriteLine("missing backup_file_path");
 				System.Console.WriteLine(" form backup_file_path:[file path]");
@@ -114,7 +114,101 @@ namespace mmria.console.db
 				return;
 			}
 
-			if (System.IO.File.Exists (this.backup_file_path)) 
+
+			if(import_directory != null)
+			{
+				foreach (string file in System.IO.Directory.EnumerateFiles(import_directory, "*.json"))
+				{
+					string json_string = System.IO.File.ReadAllText(file);
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					var doc_Expando =
+					Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (json_string, settings);
+
+					var doc = doc_Expando as IDictionary<string,object>;
+
+					if (doc.ContainsKey ("_rev")) 
+					{
+						doc.Remove("_rev");
+					}
+
+					if (doc.ContainsKey ("_attachments")) 
+					{
+						doc.Remove("_attachments");
+					}
+
+
+					string _id = "";
+
+					if (doc.ContainsKey ("_id")) 
+					{
+						_id = doc ["_id"].ToString();
+					}
+					else
+					{
+						continue;
+					}
+
+					if (_id.IndexOf ("_design/") > -1)
+					{
+						continue;
+					}
+					else if(doc.ContainsKey("home_record"))
+					{
+						if(doc["home_record"] is IDictionary<string,object>)
+						{
+							var home_record = doc["home_record"] as IDictionary<string,object>;
+
+							if(!home_record.ContainsKey("jurisdiction_id"))
+							{
+								home_record.Add("jurisdiction_id", "/");
+							}
+							else if(home_record["jurisdiction_id"] == null)
+							{
+								home_record["jurisdiction_id"] = "/";
+							}
+							else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
+							{
+								home_record["jurisdiction_id"] = "/";
+							}/**/
+						}
+						else if(doc["home_record"] is Newtonsoft.Json.Linq.JObject)
+						{
+							var home_record = doc["home_record"] as Newtonsoft.Json.Linq.JObject;
+
+							if(!home_record.ContainsKey("jurisdiction_id"))
+							{
+								home_record.Add("jurisdiction_id", "/");
+							}
+							else if(home_record["jurisdiction_id"] == null)
+							{
+								home_record["jurisdiction_id"] = "/";
+							}
+							else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
+							{
+								home_record["jurisdiction_id"] = "/";
+							}/**/
+						}
+					}
+
+
+					try
+					{
+					
+						string put_result = await Put_Document (doc, _id);
+
+						Console.WriteLine (put_result);
+					}
+					catch(System.Exception ex)
+					{
+						Console.WriteLine ("Error: " + _id);
+						Console.WriteLine(ex);
+					}
+
+
+				}
+			}
+			else if (System.IO.File.Exists (this.backup_file_path)) 
 			{
 				string bulk_document_string = System.IO.File.ReadAllText (this.backup_file_path);
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();

@@ -121,6 +121,8 @@ by_state_of_death
                 case "by_created_by":
                 case "by_last_updated_by":
                 case "by_state_of_death":
+                case "by_date_last_checked_out":
+                case "by_last_checked_out_by":
                     break;
 
                 default:

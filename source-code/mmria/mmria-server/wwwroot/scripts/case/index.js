@@ -4,6 +4,7 @@
 //http://www.w3schools.com/css/css3_flexbox.asp
 
 var g_metadata = null;
+var g_user_name= null;
 var g_data = null;
 var g_source_db = null;
 var g_jurisdiction_list = [];
@@ -29,35 +30,10 @@ var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 
-function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value, p_form_index, p_grid_index, p_date_value, p_time_value)
+function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value, p_form_index, p_grid_index)
 {
   var is_search_result = false;
   var search_text = null;
-
-  // console.log('entered index.js', value);
-  // console.table([
-	// 	['p_object_path:', p_object_path],
-	// 	['p_metadata_path:', p_metadata_path],
-	// 	['p_dictionary_path:', p_dictionary_path],
-	// 	['value:', value],
-	// 	['p_form_index:', p_form_index],
-	// 	['p_grid_index:', p_grid_index],
-	// 	['metadata.type:', eval(p_metadata_path).type]
-  // ]);
-
-  if (eval(p_metadata_path).type === 'datetime')
-  {
-    if (p_date_value)
-    {
-      // console.log(p_date_value.value);
-      value = p_date_value.value + ' ' + value
-    }
-    else if (p_time_value)
-    {
-      // console.log(p_time_value.value);
-      value = value + ' ' + p_time_value.value
-    }
-  }
   
   if(g_ui.url_state.selected_id && g_ui.url_state.selected_id == "field_search")
   {
@@ -84,6 +60,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
+
       //g_data.last_updated_by = g_uid;
 		
       g_change_stack.push({
@@ -119,7 +96,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   }
   else
   {
-      // console.log('a');
       var metadata = eval(p_metadata_path);
       var current_value = eval(p_object_path);
 
@@ -142,7 +118,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       }
       else
       {
-        // console.log('b');
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
 
@@ -158,167 +133,152 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
       set_local_case(g_data, function (){
 
-        var post_html_call_back = [];
+      var post_html_call_back = [];
 
-        let ctx = {
-          "form_index": p_form_index, 
-          "grid_index": p_grid_index
-        };
+      let ctx = {
+        "form_index": p_form_index, 
+        "grid_index": p_grid_index
+      };
 
-        if(is_search_result)
+      if(is_search_result)
+      {
+        let new_context = get_seach_text_context([], post_html_call_back, metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text, ctx);
+        render_search_text(new_context);
+        var new_html = new_context.result.join("");
+        let result = $("#" + convert_object_path_to_jquery_id(p_object_path));
+
+        if(result.length)
         {
-          let new_context = get_seach_text_context([], post_html_call_back, metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text, ctx);
-          render_search_text(new_context);
-          var new_html = new_context.result.join("");
-          let result = $("#" + convert_object_path_to_jquery_id(p_object_path));
-
-          if(result.length)
-          {
-            result[0].outerHTML = new_html
-          }
-          else
-          {
-            result.replaceWith(new_html);
-          }
-          //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
-        }
-        else if(metadata.type.toLowerCase() == "textarea")
-        {
-          var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
-
-          $("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+          result[0].outerHTML = new_html
         }
         else
         {
-          var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
-          // console.log(new_html);
-          // console.log('c');
-          $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
-          //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+          result.replaceWith(new_html);
         }
+        //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+      }
+      else if(metadata.type.toLowerCase() == "textarea")
+      {
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
 
-        switch(metadata.type.toLowerCase())
-        {
-          case 'time':
-            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input" ).datetimepicker({
-              format: 'LT',
-              icons: {
-                time: 'x24 fill-p cdc-icon-clock_01',
-                date: 'x24 fill-p cdc-icon-calendar_01',
-                up: 'x24 fill-p cdc-icon-chevron-circle-up',
-                down: 'x24 fill-p cdc-icon-chevron-circle-down',
-                previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-                next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-              }
-            });
-            break;
+        $("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+      }
+      else
+      {
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back, null, ctx).join("");
 
-            /*
-            case 'date':
-            flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
-              utc: true,
-              enableTime: false,
-              defaultDate: value,
-              onChange: function(selectedDates, p_value, instance) {
-                  g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
-              }
-            });
+        $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
+        //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+      }
 
-            break;
-            */
-            case 'datetime':
-              // console.log('d');
-              // $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
-              //   {
-              //     format:"Y-MM-D H:mm:ss",  
-              //     defaultDate: value,
-              //     icons: {
-              //       time: "x24 fill-p cdc-icon-clock_01",
-              //       date: "x24 fill-p cdc-icon-calendar_01",
-              //       up: "x24 fill-p cdc-icon-chevron-circle-up",
-              //       down: "x24 fill-p cdc-icon-chevron-circle-down",
-              //       previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-              //       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-              //     } 
-              //   });
-              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime-time").timepicker({
-                defaultTime: '00:00:00',
-                minuteStep: 1,
-                secondStep: 1,
-                showMeridian: false,
-                showSeconds: true,
-                template: false,
-                icons: {
-                  up: 'x24 fill-p cdc-icon-arrow-down',
-                  down: 'x24 fill-p cdc-icon-arrow-down'
-                }
-              });
-              break;
+      switch(metadata.type.toLowerCase())
+      {
+        case 'time':
+          $("#" + convert_object_path_to_jquery_id(p_object_path) + " input" ).datetimepicker({
+            format: 'LT',
+            icons: {
+              time: 'x24 fill-p cdc-icon-clock_01',
+              date: 'x24 fill-p cdc-icon-calendar_01',
+              up: 'x24 fill-p cdc-icon-chevron-circle-up',
+              down: 'x24 fill-p cdc-icon-chevron-circle-down',
+              previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+              next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            }
+          });
+          break;
 
-            case 'date':
-              // $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
-              //   {
-              //     format:"Y-MM-DD",  
-              //     defaultDate: value,
-              //     icons: {
-              //       time: "x24 fill-p cdc-icon-clock_01",
-              //       date: "x24 fill-p cdc-icon-calendar_01",
-              //       up: "x24 fill-p cdc-icon-chevron-circle-up",
-              //       down: "x24 fill-p cdc-icon-chevron-circle-down",
-              //       previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-              //       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-              //     }
-              //   });
-              break;          
+          /*
+          case 'date':
+          flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
+            utc: true,
+            enableTime: false,
+            defaultDate: value,
+            onChange: function(selectedDates, p_value, instance) {
+                g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
+            }
+          });
 
-            case 'number':
-                //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number0").numeric({ decimal: false });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number1").numeric({ decimalPlaces: 1 });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number2").numeric({  decimalPlaces: 2 });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number3").numeric({  decimalPlaces: 3 });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number4").numeric({  decimalPlaces: 4 });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number5").numeric({  decimalPlaces: 5 });
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number0").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number1").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number2").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number3").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number4").attr("size", "15");
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number5").attr("size", "15");
-
-                /*
-                $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").TouchSpin({
-                                verticalbuttons: true,
-                                decimals: 3,
-                                min: 0,
-                                max: 10000,
-                                step: 1,
-                                maxboostedstep: 10
-                            });*/
-
-                //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
-            break;
-
-            case 'list':
-              if(metadata.control_style != null && metadata.control_style == "radio")
+          break;
+          */
+          case 'datetime':
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
               {
-                //console("bubba");
-                post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)}${value}').focus()`);
-              }
-            break; 
-        }
+                format:"Y-MM-D H:mm:ss",  
+                defaultDate: value,
+                icons: {
+                  time: "x24 fill-p cdc-icon-clock_01",
+                  date: "x24 fill-p cdc-icon-calendar_01",
+                  up: "x24 fill-p cdc-icon-chevron-circle-up",
+                  down: "x24 fill-p cdc-icon-chevron-circle-down",
+                  previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+                  next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+                } 
+              });
+            break;
 
-        if(post_html_call_back.length > 0)
-        {
-          console.log('e');
-          eval(post_html_call_back.join(""));
-        }
+          case 'date':
+            // $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
+            //   {
+            //     format:"Y-MM-DD",  
+            //     defaultDate: value,
+            //     icons: {
+            //       time: "x24 fill-p cdc-icon-clock_01",
+            //       date: "x24 fill-p cdc-icon-calendar_01",
+            //       up: "x24 fill-p cdc-icon-chevron-circle-up",
+            //       down: "x24 fill-p cdc-icon-chevron-circle-down",
+            //       previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+            //       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            //     }
+            //   });
+            break;          
 
-        apply_validation();
-        console.log('done');
-      });
+          case 'number':
+              //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number0").numeric({ decimal: false });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number1").numeric({ decimalPlaces: 1 });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number2").numeric({  decimalPlaces: 2 });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number3").numeric({  decimalPlaces: 3 });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number4").numeric({  decimalPlaces: 4 });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number5").numeric({  decimalPlaces: 5 });
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number0").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number1").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number2").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number3").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number4").attr("size", "15");
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number5").attr("size", "15");
+
+              /*
+              $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").TouchSpin({
+                              verticalbuttons: true,
+                              decimals: 3,
+                              min: 0,
+                              max: 10000,
+                              step: 1,
+                              maxboostedstep: 10
+                          });*/
+
+              //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
+          break;
+
+          case 'list':
+            if(metadata.control_style != null && metadata.control_style == "radio")
+            {
+              //console("bubba");
+              post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)}${value}').focus()`);
+            }
+          break; 
+      }
+
+      if(post_html_call_back.length > 0)
+      {
+        eval(post_html_call_back.join(""));
+      }
+
+      apply_validation();
+
+    });
   }
 }
 
@@ -774,11 +734,34 @@ function load_jurisdiction_tree()
 	{
     g_jurisdiction_tree = response;
 
-    load_user_role_jurisdiction()
+    load_my_user()
     //document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
 	});
 }
 
+
+
+function load_my_user()
+{
+
+  /*            int skip = 0,
+            int take = 25,
+            string sort = "by_date_created",
+            string search_key = null,
+            bool descending = false
+            */
+
+
+
+	$.ajax({
+    url: location.protocol + '//' + location.host + '/api/user/my-user',
+	}).done(function(response) {
+
+    g_user_name = response.name;
+
+    load_user_role_jurisdiction();
+	});
+}
 
 function load_user_role_jurisdiction()
 {
@@ -1002,6 +985,44 @@ function get_metadata()
     }
 
     //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+    function create_validator(p_metadata, p_path)
+    {
+      let result = null;
+      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+      /*
+
+        default_value
+        validation
+        validation_description
+        min_value
+        max_value
+        max_length
+        regex_pattern
+
+        is_required
+
+
+
+
+      */
+      switch(p_metadata.type.toLowerCase())
+      {
+          case "boolean":
+
+          case "string":
+          case "number":
+          case "hidden":
+          case "list":
+          case "textarea":
+          case "time":
+            case "date":
+              case "datetime":
+                
+            break;
+      }
+
+      return result;
+    }
 
     //window.location.href = location.protocol + '//' + location.host;
     
@@ -2013,6 +2034,37 @@ function autosave()
   }
 }
 
+
+function is_case_checked_out(p_case)
+{
+  let is_checked_out = false;
+
+  let checked_out_html = '';
+
+  let current_date = new Date();
+  if(p_case.date_last_checked_out != null)
+
+  if(p_case.date_last_checked_out != null && p_case.date_last_checked_out != "")
+  {
+      let try_date = null;
+      let is_date = false;
+      if(!(p_case.date_last_checked_out instanceof Date))
+      {
+          try_date = new Date(p_case.date_last_checked_out);
+      }
+      
+      if
+      (
+          diff_minutes(try_date, current_date) <= 120 &&
+          p_case.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
+      )
+      {
+          is_checked_out = true;
+      }
+  }
+
+  return is_checked_out;
+}
 
 function diff_minutes(dt1, dt2) 
 {

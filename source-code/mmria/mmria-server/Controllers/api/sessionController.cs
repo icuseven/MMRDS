@@ -233,7 +233,7 @@ namespace mmria.server
 			{
 
 				mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-				string request_string = Program.config_couchdb_url + $"/session/{Post_Request._id}";
+				string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{Post_Request._id}";
 
 				try 
 				{

@@ -49,7 +49,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 btns: [
                     ['viewHTML'],
                     ['undo', 'redo'],
-                    ['strong', 'em', 'del'],
+                    ['strong', 'em', 'underline', 'del'],
                     ['fontsize'],
                     ['foreColor', 'backColor'],
                     ['formatting'],

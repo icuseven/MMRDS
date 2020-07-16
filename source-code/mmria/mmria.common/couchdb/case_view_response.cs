@@ -57,6 +57,9 @@ reverse sort
         public DateTime? date_last_updated{ get; set; }
         public string last_updated_by{ get; set; }
 
+        public DateTime? date_last_checked_out{ get; set; }
+        public string last_checked_out_by{ get; set; }
+
         public string record_id{ get; set; }
         public string agency_case_id{ get; set; }
         public DateTime? date_of_committee_review{ get; set; }

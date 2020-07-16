@@ -401,6 +401,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
           </thead>
           <tbody class="tbody">
               ${p_ui.case_view_list.map((item, i) => {
+
+                let is_checked_out = is_case_checked_out(item.value);
+                let checked_out_html = ' [not checked out] ';
+
+                if(is_checked_out)
+                {
+                    checked_out_html = ' [checked out] ';
+                }
                   return (`
                       <tr class="tr" path="${item.id}">
                           <td class="td">
@@ -409,6 +417,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                                   ${item.value.record_id && ' - (' + item.value.record_id + ')'}
                                   ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
                               </a>
+                              ${checked_out_html}
                           </td>
                           <td class="td">
                             ${item.value.created_by} / ${item.value.date_created}
