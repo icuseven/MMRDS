@@ -30,7 +30,7 @@ var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 
-function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value, p_form_index, p_grid_index)
+function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value, p_form_index, p_grid_index, p_date_value, p_time_value)
 {
   var is_search_result = false;
   var search_text = null;
@@ -39,6 +39,20 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   {
     is_search_result = true;
     search_text = g_ui.url_state.path_array[2].replace(/%20/g, " ");
+  }
+
+  if (eval(p_metadata_path).type === 'datetime')
+  {
+    if (p_date_value)
+    {
+      // console.log(p_date_value.value);
+      value = p_date_value.value + ' ' + value
+    }
+    else if (p_time_value)
+    {
+      // console.log(p_time_value.value);
+      value = value + ' ' + p_time_value.value
+    }
   }
 
   var current_value = eval(p_object_path);
@@ -201,19 +215,31 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           break;
           */
           case 'datetime':
-            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
-              {
-                format:"Y-MM-D H:mm:ss",  
-                defaultDate: value,
-                icons: {
-                  time: "x24 fill-p cdc-icon-clock_01",
-                  date: "x24 fill-p cdc-icon-calendar_01",
-                  up: "x24 fill-p cdc-icon-chevron-circle-up",
-                  down: "x24 fill-p cdc-icon-chevron-circle-down",
-                  previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-                  next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-                } 
-              });
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime-time").timepicker({
+              defaultTime: '00:00:00',
+              minuteStep: 1,
+              secondStep: 1,
+              showMeridian: false,
+              showSeconds: true,
+              template: false,
+              icons: {
+                up: 'x24 fill-p cdc-icon-arrow-down',
+                down: 'x24 fill-p cdc-icon-arrow-down'
+              }
+            });
+            // $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
+            //   {
+            //     format:"Y-MM-D H:mm:ss",  
+            //     defaultDate: value,
+            //     icons: {
+            //       time: "x24 fill-p cdc-icon-clock_01",
+            //       date: "x24 fill-p cdc-icon-calendar_01",
+            //       up: "x24 fill-p cdc-icon-chevron-circle-up",
+            //       down: "x24 fill-p cdc-icon-chevron-circle-down",
+            //       previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+            //       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            //     } 
+            //   });
             break;
 
           case 'date':
