@@ -102,7 +102,7 @@ namespace mmria.server.model.actor
                     catch (Exception ex) 
                     {
                         // do nothing for now document doesn't exsist.
-                        System.Console.WriteLine ($"err caseController.Post\n{ex}");
+                        //System.Console.WriteLine ($"err caseController.Post\n{ex}");
                     }
 
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
