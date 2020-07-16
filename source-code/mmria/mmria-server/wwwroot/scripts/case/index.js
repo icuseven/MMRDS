@@ -4,6 +4,7 @@
 //http://www.w3schools.com/css/css3_flexbox.asp
 
 var g_metadata = null;
+var g_user_name= null;
 var g_data = null;
 var g_source_db = null;
 var g_jurisdiction_list = [];
@@ -732,11 +733,34 @@ function load_jurisdiction_tree()
 	{
     g_jurisdiction_tree = response;
 
-    load_user_role_jurisdiction()
+    load_my_user()
     //document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
 	});
 }
 
+
+
+function load_my_user()
+{
+
+  /*            int skip = 0,
+            int take = 25,
+            string sort = "by_date_created",
+            string search_key = null,
+            bool descending = false
+            */
+
+
+
+	$.ajax({
+    url: location.protocol + '//' + location.host + '/api/user/my-user',
+	}).done(function(response) {
+
+    g_user_name = response.name;
+
+    load_user_role_jurisdiction();
+	});
+}
 
 function load_user_role_jurisdiction()
 {
@@ -964,6 +988,22 @@ function get_metadata()
     {
       let result = null;
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+      /*
+
+        default_value
+        validation
+        validation_description
+        min_value
+        max_value
+        max_length
+        regex_pattern
+
+        is_required
+
+
+
+
+      */
       switch(p_metadata.type.toLowerCase())
       {
           case "boolean":
