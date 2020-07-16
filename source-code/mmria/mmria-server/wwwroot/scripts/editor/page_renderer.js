@@ -350,18 +350,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		`);
 	}
 
-	// //IF datetime, we want to create two inputs
-	// if(p_metadata.type === 'datetime')
-	// {
-	// 	p_result.push(`
-	// 		<div class="row no-gutters datetime-control" style="${style_object && get_style_string(style_object.control.style)}" dpath="${p_dictionary_path.substring(1, p_dictionary_path.length)}" name="${p_metadata.name}" form_index="${p_ctx !== null && p_ctx.form_index !== null ? p_ctx.form_index : ''}" grid_index="${p_ctx !== null && p_ctx.grid_index !== null ? p_ctx.grid_index : ''}">
-	// 			<input type="date" class="datetime-date form-control w-50 h-100" value="${p_data.split(' ')[0]}">
-	// 			<input type="text" class="datetime-time form-control w-50 h-100" value="${p_data && p_data.split(' ')[1] || '00:00:00'}">
-	// 			<button class="input-group-addon time-icon-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></button>
-	// 		</div>
-	// 	`);
-	// }
-
 	p_result.push("<input ");
 		if
 		(
@@ -376,13 +364,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			)
 		)
 		{
-			p_result.push(" readonly='true' ");
-		}
-
-		//IF datetime, hide it
-		if(p_metadata.type === 'datetime')
-		{
-			// p_result.push(`hidden aria-hidden="true"`);
+					p_result.push(" readonly='true' ");
 		}
 
 		p_result.push(" style='");

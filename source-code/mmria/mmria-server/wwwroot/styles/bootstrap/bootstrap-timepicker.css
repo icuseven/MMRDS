@@ -209,6 +209,11 @@
 	width: 40px;
 }
 
+.datetime-control .datetime-date:focus,
+.datetime-control .datetime-time:focus {
+	box-shadow: none;
+}
+
 .bootstrap-timepicker-widget table td.separator {
 	padding: 0;
 }
