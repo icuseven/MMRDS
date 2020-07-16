@@ -25,6 +25,10 @@ namespace mmria.console
 						var db_retore = new mmria.console.db.Restore ();
 						await db_retore.Execute (args);
 					break;
+					case "restore-from-directory":
+						var db_retore_from_directory = new mmria.console.db.Restore_From_Directory ();
+						await db_retore_from_directory.Execute (args);
+					break;
 					case "import":
 						var db_import = new mmria.console.import_mmria_format();
 						await db_import.Execute (args);
