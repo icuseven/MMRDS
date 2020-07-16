@@ -386,8 +386,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("</div>");
                     p_result.push("<div class='col col-4 text-right'>");
                         p_result.push("<div>");
+                        p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='' />");
                             p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='save_form_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='' />");
                             render_print_form_control(p_result, p_ui, p_metadata);
                         p_result.push("</div>");
                     p_result.push("</div>");
@@ -425,7 +427,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div>");
                 
                 p_result.push("<div class='construct__footer'>");
-                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(save_form_click)' />");
+                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' />");
+                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='' />");
                     p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
                     p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
                 p_result.push("</div>");
@@ -499,8 +502,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
                         p_result.push("<div class='row no-gutters justify-content-end mb-1'>");
                             p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
+                            p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='init_inline_loader(function() {  })' />");
                             p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' />");
-                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(function() { save_form_click() })' />");
+                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(function() { save_form_click() })' />");
+                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(function() {  })' />");
                         p_result.push("</div>");
                         render_print_form_control(p_result, p_ui, p_metadata);
                     p_result.push("</div>");
@@ -912,7 +917,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div> <!-- end .construct-output -->");     
             p_result.push("</div> <!-- end .construct__body -->");     
             p_result.push("<div class='construct__footer row no-gutters align-items-center justify-content-start'>");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(save_form_click)' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader()' />");
                 p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
                 p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
             p_result.push("</div> <!-- end .construct__footer -->"); 
