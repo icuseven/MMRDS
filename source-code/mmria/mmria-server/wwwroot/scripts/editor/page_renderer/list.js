@@ -236,6 +236,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
     }
 
+    let disabled_html = " disabled = 'disabled' ";
+	if(g_data_is_checked_out)
+	{
+		disabled_html = " ";
+	}
+    p_result.push(disabled_html);
+
     p_result.push(" dpath='")
     p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
     p_result.push("' ");
@@ -1001,6 +1008,12 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
             {
                 onclick_text = `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`;
             }
+
+            let disabled_html = " disabled = 'disabled' ";
+            if(g_data_is_checked_out)
+            {
+                disabled_html = " ";
+            }
             
             let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
             let input_html = 
@@ -1012,7 +1025,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                     ${onclick_text}
                     ${is_selected}
                     ${is_read_only}
-                    
+                    ${disabled_html}
                 />`;
 
             if (item.display) 
@@ -1166,6 +1179,13 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push(" value='");
     p_result.push(p_item.value);
     p_result.push("' ");
+
+    let disabled_html = " disabled = 'disabled' ";
+    if(g_data_is_checked_out)
+    {
+        disabled_html = " ";
+    }
+    p_result.push(disabled_html);
 
     if(p_is_read_only == null || p_is_read_only == "")
     {
