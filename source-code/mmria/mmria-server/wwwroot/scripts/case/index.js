@@ -42,17 +42,21 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
     search_text = g_ui.url_state.path_array[2].replace(/%20/g, " ");
   }
 
+  //With datetime control, the below logic concats the extra param value to the orginal value passed in
+  //the param value are either 'p_date_value' or 'p_time_value'
   if (eval(p_metadata_path).type === 'datetime')
   {
-    if (p_date_value)
+    if (!isNullOrUndefined(p_date_value))
     {
-      // console.log(p_date_value.value);
-      value = p_date_value.value + ' ' + value
+      // date value was passed in param
+      // console.log('a1', p_date_value.value);
+      value = p_date_value.value + ' ' + value; // param + ' ' + value
     }
-    else if (p_time_value)
+    else if (!isNullOrUndefined(p_time_value))
     {
-      // console.log(p_time_value.value);
-      value = value + ' ' + p_time_value.value
+      // time value was passed in param
+      // console.log('a2', p_time_value.value);
+      value = value + ' ' + p_time_value.value // value + ' ' + param
     }
   }
 
@@ -242,14 +246,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             //     } 
             //   });
 
-            if (p_date_value)
+            if (!isNullOrUndefined(p_date_value))
             {
-              // console.log('date val exists');
-              // post_html_call_back.push(`console.log( $('#${convert_object_path_to_jquery_id(p_object_path)}').next().children().find(':input') )`);
+              // console.log('a2', p_date_value.value);
+              // do stuff
             }
-            else if (p_time_value)
+            else if (!isNullOrUndefined(p_time_value))
             {
-              // console.log('time val exists');
+              // console.log('b2', p_time_value.value);
               post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time').focus()`);
             }
             break;

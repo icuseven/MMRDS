@@ -36,7 +36,12 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			<div class="row no-gutters datetime-control" style="${style_object && get_style_string(style_object.control.style)}" dpath="${p_object_path}" form_index="${p_ctx.form_index && p_ctx.form_index}" grid_index="${p_ctx.grid_index && p_ctx.grid_index}">
 		`);
 			p_result.push(`
-				<input class="datetime-date form-control w-50 h-100" dpath="${p_object_path}" ${p_ctx.form_index && p_ctx.form_index ? p_ctx.form_index : ''} grid_index="${p_ctx.grid_index && p_ctx.grid_index}" type="date" name="${p_metadata.name}" data-value="${p_data}" value="${p_data.split(' ')[0]}"`);
+				<input class="datetime-date form-control w-50 h-100"
+					   dpath="${p_object_path}" ${p_ctx.form_index && p_ctx.form_index ? p_ctx.form_index : ''}
+					   grid_index="${p_ctx.grid_index && p_ctx.grid_index}"
+					   type="date" name="${p_metadata.name}"
+					   data-value="${p_data}"
+					   value="${p_data.split(' ')[0]}"`);
 				if
 				(
 					!(
@@ -67,7 +72,12 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				}
 				p_result.push(` min="1900-01-01" max="2100-12-31">`);
 			p_result.push(`
-			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker" dpath="${p_object_path}" ${p_ctx.grid_index && p_ctx.grid_index ? p_ctx.grid_index : ''} grid_index="${p_ctx.grid_index && p_ctx.grid_index}" type="text" name="${p_metadata.name}" data-value="${p_data}" value="${p_data.split(' ')[1]}"`);
+			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+				   dpath="${p_object_path}" ${p_ctx.grid_index && p_ctx.grid_index ? p_ctx.grid_index : ''}
+				   grid_index="${p_ctx.grid_index && p_ctx.grid_index}"
+				   type="text" name="${p_metadata.name}"
+				   data-value="${p_data}"
+				   value="${p_data.split(' ')[1]}"`);
 				if
 				(
 					!(
@@ -99,12 +109,9 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				p_result.push(`>`);
 		p_result.push("</div>");
 
-		// Get path to traverse DOM later
-		let path_id = convert_object_path_to_jquery_id(p_object_path);
-
 		//Initialize the custom 'bootstrap timepicker'
 		p_post_html_render.push(`
-			$('#${path_id} .datetime-time').timepicker({
+			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
 				defaultTime: '00:00:00',
 				minuteStep: 1,
 				secondStep: 1,
@@ -131,30 +138,30 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			}
 		`);
 
-		//On load, we want to toggle disabled on time control incase date is already valid
-		//OR we disable it, if date is not valid
+		//On load, we want to toggle disabled attr on time incase date is valid/invalid
 		p_post_html_render.push(`
-			toggle_disabled($('#${path_id} .datetime-date'), $('#${path_id} .datetime-time'));
+			toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time'));
 		`);
 
-		//Disable/Enable timepicker if date valid on change
+		//Toggle disabled attr on time when changing date and value is valid/invalid
 		p_post_html_render.push(`
-			$('#${path_id} input.datetime-date').on('change', () => {
-				let date_value = $('#${path_id} .datetime-date').val();
+			$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').on('change', () => {
+				let date_value = $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date').val();
 				
 				//if date_value exists
 				if (!isNullOrUndefined(date_value))
 				{
-					toggle_disabled($('#${path_id} .datetime-date'), $('#${path_id} .datetime-time'));
+					toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time'));
 				}
 			});
 		`);
 
 		/*
-			ADDING NEW FUNCTIONALITY
-			COMMENTING OUT BUT LEAVING FOR LEGACY
+			Tou Lee (7/17/2020): Commenting out due to new functionality but leaving for legacy purposes
 		*/
-		page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+		//Rendering old datetime control
+		// page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+		//Init datetimepicker plugin on old datetimecontrol
 		// p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
 		// 	p_post_html_render.push(' format: "Y-MM-D H:mm:ss", ');
 		// 	p_post_html_render.push(' defaultDate: "' + p_data + '",');
@@ -172,29 +179,21 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 	p_result.push("</div>");
 }
 
+
+//Custom function to create onblur event ONLY on datetime control
 function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	/*
-	var path_to_int_map = [];
-	var path_to_onblur_map = [];
-	var path_to_onclick_map = [];
-	var path_to_onfocus_map = [];
-	var path_to_onchange_map = [];
-	var path_to_source_validation = [];
-	var path_to_derived_validation = [];
-	var path_to_validation_description = [];
+		var path_to_int_map = [];
+		var path_to_onblur_map = [];
+		var path_to_onclick_map = [];
+		var path_to_onfocus_map = [];
+		var path_to_onchange_map = [];
+		var path_to_source_validation = [];
+		var path_to_derived_validation = [];
+		var path_to_validation_description = [];
 	*/
 	var t_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
-
-	// console.log('datetime.js');
-	// console.table([
-	// 	['p_result', p_result],
-	// 	['p_metadata', p_metadata],
-	// 	['p_metadata_path', p_metadata_path],
-	// 	['p_object_path', p_object_path],
-	// 	['p_dictionary_path', p_dictionary_path],
-	// 	['p_ctx', p_ctx]
-	// ]);
 
 	if(path_to_onblur_map[p_metadata_path])
 	{
@@ -283,19 +282,22 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 	}
 }
 
+
+
+//Custom function to create events ONLY on datetime control
 function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var post_fix = null;
 
 	/*
-	var path_to_int_map = [];
-	var path_to_onblur_map = [];
-	var path_to_onclick_map = [];
-	var path_to_onfocus_map = [];
-	var path_to_onchange_map = [];
-	var path_to_source_validation = [];
-	var path_to_derived_validation = [];
-	var path_to_validation_description = [];
+		var path_to_int_map = [];
+		var path_to_onblur_map = [];
+		var path_to_onclick_map = [];
+		var path_to_onfocus_map = [];
+		var path_to_onchange_map = [];
+		var path_to_source_validation = [];
+		var path_to_derived_validation = [];
+		var path_to_validation_description = [];
 	*/
 
 	switch(p_event_name)
