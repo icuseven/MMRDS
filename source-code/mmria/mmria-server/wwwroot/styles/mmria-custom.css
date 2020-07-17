@@ -1328,6 +1328,13 @@ button.link {
     background-color: var(--neutral-light);
 }
 
+/* When an conotrl is read only */
+.construct-output input[disabled],
+.construct-output textarea[disabled],
+.construct-output select[disabled] {
+    background-color: var(--neutral-light);
+}
+
 .construct-output textarea {
     line-height: 1.75;
 }
