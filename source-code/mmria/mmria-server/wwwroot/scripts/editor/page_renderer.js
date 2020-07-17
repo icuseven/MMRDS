@@ -350,7 +350,15 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		`);
 	}
 
+	let disabled_html = " disabled = 'disabled' ";
+
+	if(g_data_is_checked_out)
+	{
+		disabled_html = " ";
+	}
+
 	p_result.push("<input ");
+	p_result.push(disabled_html);
 		if
 		(
 			p_metadata.is_read_only && 	

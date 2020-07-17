@@ -52,7 +52,6 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                     ['strong', 'em', 'underline', 'del'],
                     ['fontsize'],
                     ['foreColor', 'backColor'],
-                    ['formatting'],
                     ['justifyLeft', 'justifyCenter', 'justifyRight'],
                     ['unorderedList', 'orderedList'],
                     ['horizontalRule'],

@@ -5,6 +5,7 @@
 
 var g_metadata = null;
 var g_user_name= null;
+var g_data_is_checked_out = false;
 var g_data = null;
 var g_source_db = null;
 var g_jurisdiction_list = [];
@@ -432,9 +433,11 @@ var g_ui = {
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
-    result.created_by = "";
+    result.created_by = g_user_name;
     result.date_last_updated = new Date();
-    result.last_updated_by = "";
+    result.last_updated_by = g_user_name;
+    result.date_last_checked_out = new Date();
+    result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
 
     if(g_jurisdiction_list.length > 0)
@@ -484,6 +487,7 @@ var g_ui = {
 
 		g_ui.case_view_list = new_data;
     g_data = result;
+    g_data_is_checked_out = true;
     g_change_stack = [];
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
@@ -1185,6 +1189,7 @@ function get_specific_case(p_id)
           if(local_data._rev && local_data._rev == case_response._rev)
           {
               g_data = local_data;
+              g_data_is_checked_out = is_case_checked_out(g_data);
           }
           else
           {
@@ -1203,6 +1208,7 @@ function get_specific_case(p_id)
             
             set_local_case(local_data);
             g_data = local_data;
+            g_data_is_checked_out = is_case_checked_out(g_data);
           }
 
           g_render();
@@ -1210,6 +1216,7 @@ function get_specific_case(p_id)
       else
       {
         g_data = case_response;
+        g_data_is_checked_out = is_case_checked_out(g_data);
       }
       g_render();
     }
@@ -1221,6 +1228,7 @@ function get_specific_case(p_id)
   .fail(function(jqXHR, textStatus, errorThrown) {
     console.log( "get_specific_case:",  textStatus, errorThrown);
     g_data = get_local_case(p_id);
+    g_data_is_checked_out = is_case_checked_out(g_data);
   });
 }
 
@@ -1248,6 +1256,7 @@ function save_case(p_data, p_call_back)
     if(g_data && g_data._id == case_response.id)
     {
       g_data._rev = case_response.rev;
+      g_data_is_checked_out = is_case_checked_out(g_data);
       set_local_case(g_data);
       //console.log('set_value save finished');
     }
