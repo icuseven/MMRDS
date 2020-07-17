@@ -241,6 +241,17 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             //       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
             //     } 
             //   });
+
+            if (p_date_value)
+            {
+              // console.log('date val exists');
+              // post_html_call_back.push(`console.log( $('#${convert_object_path_to_jquery_id(p_object_path)}').next().children().find(':input') )`);
+            }
+            else if (p_time_value)
+            {
+              // console.log('time val exists');
+              post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time').focus()`);
+            }
             break;
 
           case 'date':
