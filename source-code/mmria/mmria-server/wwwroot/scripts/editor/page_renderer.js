@@ -533,6 +533,9 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		case "date":
 			p_result.push(`<small class="text-danger">Invalid date</small>`);
 			break;
+		case "datetime":
+			p_result.push(`<small class="text-danger">Invalid date</small>`);
+			break;
 		default :
 			//do nothing, linting requires empty default case
 			break;
