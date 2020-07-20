@@ -1,5 +1,22 @@
 function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+
+
+
+    let enable_edit_disable_attribute = "";
+    let undo_disable_attribute = " disabled='disabled' ";
+    let save_and_continue_disable_attribute = " disabled='disabled' ";
+    let save_and_finish_disable_attribute = " disabled='disabled' ";
+    if(g_data_is_checked_out)
+    {
+        enable_edit_disable_attribute = " disabled='disabled' ";
+        undo_disable_attribute = "";
+        save_and_continue_disable_attribute = "";
+        save_and_finish_disable_attribute = "";
+    }
+
+
+
     if(
         p_metadata.cardinality == "+" ||
         p_metadata.cardinality == "*"
@@ -386,10 +403,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("</div>");
                     p_result.push("<div class='col col-4 text-right'>");
                         p_result.push("<div>");
-                        p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='save_form_click()' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='' />");
+                        p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='enable_edit_click()' ${enable_edit_disable_attribute}/>
+                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' ${undo_disable_attribute}/>
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='save_and_finish_click()' ${save_and_finish_disable_attribute}/>`);
                             render_print_form_control(p_result, p_ui, p_metadata);
                         p_result.push("</div>");
                     p_result.push("</div>");
@@ -427,9 +444,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div>");
                 
                 p_result.push("<div class='construct__footer'>");
-                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' />");
-                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='' />");
-                    p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
+                    p_result.push(` <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>");
+                    <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>");
+                    <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>`);
                     p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
                 p_result.push("</div>");
             p_result.push("</section>");
@@ -497,15 +514,18 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push(`<p class='construct__info mb-0'>Created by: ${g_data.created_by}</p>`);
                     }
 
+
+
+
                 p_result.push("</div>");
                 p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
                     p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
                         p_result.push("<div class='row no-gutters justify-content-end mb-1'>");
                             p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
-                            p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='init_inline_loader(function() {  })' />");
-                            p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' />");
-                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(function() { save_form_click() })' />");
-                            p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(function() {  })' />");
+                            p_result.push(`<input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='init_inline_loader(function() { enable_edit_click() })' ${enable_edit_disable_attribute}/>
+                            <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>
+                            <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(function() { save_form_click() })' ${save_and_continue_disable_attribute}/>
+                            <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(function() { save_and_finish_click() })' ${save_and_finish_disable_attribute}/>`);
                         p_result.push("</div>");
                         render_print_form_control(p_result, p_ui, p_metadata);
                     p_result.push("</div>");
@@ -917,9 +937,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div> <!-- end .construct-output -->");     
             p_result.push("</div> <!-- end .construct__body -->");     
             p_result.push("<div class='construct__footer row no-gutters align-items-center justify-content-start'>");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' />");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader()' />");
-                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
+                p_result.push(` <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>"
+                <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>`);
                 p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
             p_result.push("</div> <!-- end .construct__footer -->"); 
         
@@ -975,8 +995,8 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
                 p_result.push("</p>");
             p_result.push("</div>");
             p_result.push("<div class='col col-4 text-right'>");
-                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' ${undo_disable_attribute}/>
+                 <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
             p_result.push("</div>");
         p_result.push("</div>");
     p_result.push("</div> <!-- end .construct__header -->");

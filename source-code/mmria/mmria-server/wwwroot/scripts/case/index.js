@@ -445,6 +445,15 @@ var g_ui = {
 
   add_new_case: function()
 	{
+
+    if(g_autosave_interval != null)
+    {
+      window.clearInterval(g_autosave_interval);
+    }
+
+
+    g_autosave_interval = window.setInterval(autosave, 10000);
+
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
@@ -1085,7 +1094,7 @@ function get_metadata()
       window.onhashchange ({ isTrusted: true, newURL : window.location.href });
     }
 
-    g_autosave_interval = window.setInterval(autosave, 10000);
+    
 
 	});
 }
@@ -1226,12 +1235,24 @@ function get_specific_case(p_id)
             g_data_is_checked_out = is_case_checked_out(g_data);
           }
 
+          if(g_autosave_interval != null && g_data_is_checked_out == false)
+          {
+            window.clearInterval(g_autosave_interval);
+            g_autosave_interval = null;
+          }
+
           g_render();
       }
       else
       {
         g_data = case_response;
         g_data_is_checked_out = is_case_checked_out(g_data);
+
+        if(g_autosave_interval != null && g_data_is_checked_out == false)
+        {
+          window.clearInterval(g_autosave_interval);
+          g_autosave_interval = null;
+        }
       }
       g_render();
     }
@@ -1844,11 +1865,25 @@ function add_new_form_click(p_metadata_path, p_object_path)
   });
 }
 
+function enable_edit_click()
+{
+  g_autosave_interval = window.setInterval(autosave, 10000);
+
+}
+
 
 function save_form_click()
 {
   save_case(g_data, create_save_message);
 }
+
+function save_and_finish_click()
+{
+  save_case(g_data, create_save_message);
+
+  window.clearInterval(refreshIntervalId, g_autosave_interval);
+}
+
 
 
 function create_save_message()
@@ -2101,6 +2136,10 @@ function is_case_checked_out(p_case)
       if(!(p_case.date_last_checked_out instanceof Date))
       {
           try_date = new Date(p_case.date_last_checked_out);
+      }
+      else
+      {
+        try_date = p_case.date_last_checked_out;
       }
       
       if
