@@ -37,8 +37,9 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		`);
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"
-					   dpath="${p_object_path}" ${p_ctx.form_index && p_ctx.form_index ? p_ctx.form_index : ''}
-					   grid_index="${p_ctx.grid_index && p_ctx.grid_index}"
+					   dpath="${p_object_path}"
+					   form_index="${p_ctx.form_index && p_ctx.form_index || ''}"
+					   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 					   type="date" name="${p_metadata.name}"
 					   data-value="${p_data}"
 					   value="${p_data.split(' ')[0]}"`);
@@ -73,8 +74,9 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				p_result.push(` min="1900-01-01" max="2100-12-31">`);
 			p_result.push(`
 			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
-				   dpath="${p_object_path}" ${p_ctx.grid_index && p_ctx.grid_index ? p_ctx.grid_index : ''}
-				   grid_index="${p_ctx.grid_index && p_ctx.grid_index}"
+				   dpath="${p_object_path}"
+				   form_index="${p_ctx.form_index && p_ctx.form_index || ''}"
+				   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
 				   value="${p_data.split(' ')[1]}"`);
