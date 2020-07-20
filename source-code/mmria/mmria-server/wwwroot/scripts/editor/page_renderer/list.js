@@ -236,13 +236,14 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
     }
 
-    let disabled_html = " disabled = 'disabled' ";
+    
+    let disabled_html = "  readonly=true  ";
 	if(g_data_is_checked_out)
 	{
 		disabled_html = " ";
 	}
     p_result.push(disabled_html);
-
+    
     p_result.push(" dpath='")
     p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
     p_result.push("' ");
