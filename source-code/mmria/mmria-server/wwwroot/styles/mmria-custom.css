@@ -1635,9 +1635,4 @@ button.link {
   .trumbowyg-editor p:first-of-type {
     margin-top: 0 !important;
   }
-
-.trumbowyg-foreColor-button svg,
-.trumbowyg-backColor-button svg {
-  fill: var(--grape) !important;
-}
 /* ~~~~~~~ END VENDER OVERRIDES ~~~~~~~ */

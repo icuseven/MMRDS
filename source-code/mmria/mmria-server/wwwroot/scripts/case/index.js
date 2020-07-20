@@ -175,7 +175,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         let new_context = get_seach_text_context([], post_html_call_back, metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text, ctx);
 
         render_search_text(new_context);
-        
+
         var new_html = new_context.result.join("");
         let result = $("#" + convert_object_path_to_jquery_id(p_object_path));
 
@@ -266,7 +266,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             }
             else if (!isNullOrUndefined(p_time_object))
             {
-              console.log('b2', p_time_object.value);
+              // console.log('b2', p_time_object.value);
               post_html_call_back.push(`$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time').focus()`);
             }
             break;
