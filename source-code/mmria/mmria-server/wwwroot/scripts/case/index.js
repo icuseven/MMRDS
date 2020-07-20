@@ -1867,7 +1867,16 @@ function add_new_form_click(p_metadata_path, p_object_path)
 
 function enable_edit_click()
 {
-  g_autosave_interval = window.setInterval(autosave, 10000);
+  if(g_data)
+  {
+    g_data.date_last_updated = new Date();
+    g_data.date_last_checked_out = new Date();
+    g_data.last_checked_out_by = g_user_name;
+    g_data_is_checked_out = true;
+    save_case(g_data, create_save_message);
+    g_autosave_interval = window.setInterval(autosave, 10000);
+    g_render();
+  }
 
 }
 
@@ -1879,9 +1888,14 @@ function save_form_click()
 
 function save_and_finish_click()
 {
+  g_data.date_last_updated = new Date();
+  g_data.date_last_checked_out = null;
+  g_data.last_checked_out_by = null;
+  g_data_is_checked_out = false;
   save_case(g_data, create_save_message);
-
-  window.clearInterval(refreshIntervalId, g_autosave_interval);
+  g_render()
+  window.clearInterval(g_autosave_interval);
+  g_autosave_interval = null;
 }
 
 
