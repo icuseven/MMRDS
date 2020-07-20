@@ -186,8 +186,23 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				else
 				{
 					result.push(p_data);
-					result.push(" - ");
-					result.push(list_lookup[p_data]);
+					// result.push(" - ");
+					// result.push(list_lookup[p_data]);
+
+					//IF data_type is not number
+					//we will want to have the trailing dash with value attribute
+					if (p_metadata.data_type !== 'number')
+					{
+						result.push(" - ");
+						result.push(list_lookup[p_data]);
+					}
+					//ELSE IF data_type is number AND p_data equal to '9999'
+					//we will want to have the trailing dash with value attribute
+					else if (p_metadata.data_type === 'number' && p_data === '9999')
+					{
+						result.push(" - ");
+						result.push(list_lookup[p_data]);
+					}
 				}
 				result.push('</h9>');
 				result.push('</p>');
