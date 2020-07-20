@@ -35,6 +35,14 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		p_result.push(`
 			<div class="row no-gutters datetime-control" style="${style_object && get_style_string(style_object.control.style)}" dpath="${p_object_path}" form_index="${p_ctx.form_index && p_ctx.form_index}" grid_index="${p_ctx.grid_index && p_ctx.grid_index}">
 		`);
+
+			let disabled_html = " disabled = 'disabled' ";
+			if(g_data_is_checked_out)
+			{
+				disabled_html = " ";
+			}
+			// console.log(g_data_is_checked_out);
+
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"
 					   dpath="${p_object_path}"
@@ -42,7 +50,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 					   type="date" name="${p_metadata.name}"
 					   data-value="${p_data}"
-					   value="${p_data.split(' ')[0]}"`);
+					   value="${p_data.split(' ')[0]}"
+					   ${disabled_html}`);
 				if
 				(
 					!(
@@ -79,7 +88,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split(' ')[1]}"`);
+				   value="${p_data.split(' ')[1]}"
+				   ${disabled_html}`);
 				if
 				(
 					!(
@@ -129,7 +139,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 		//helper fn to toggle disabled attr
 		p_post_html_render.push(`
-			function toggle_disabled(el, tar) {
+			function toggle_disabled(el, tar) {				
 				if (isNullOrUndefined(el.val())) {
 					tar.attr('disabled', true);
 				}
@@ -140,23 +150,27 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			}
 		`);
 
-		//On load, we want to toggle disabled attr on time incase date is valid/invalid
-		p_post_html_render.push(`
-			toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time'));
-		`);
+		//On load, IF case has been checked out
+		//we want to toggle disabled attr on time incase date is valid/invalid
+		if (g_data_is_checked_out)
+		{
+			p_post_html_render.push(`
+				toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time'));
+			`);
+		}
 
-		//Toggle disabled attr on time when changing date and value is valid/invalid
-		p_post_html_render.push(`
-			$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').on('change', () => {
-				let date_value = $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date').val();
+		// //Toggle disabled attr on time when changing date and value is valid/invalid
+		// p_post_html_render.push(`
+		// 	$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').on('change', () => {
+		// 		let date_value = $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date').val();
 				
-				//if date_value exists
-				if (!isNullOrUndefined(date_value))
-				{
-					toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time'));
-				}
-			});
-		`);
+		// 		//if date_value exists
+		// 		if (!isNullOrUndefined(date_value))
+		// 		{
+		// 			toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-time'));
+		// 		}
+		// 	});
+		// `);
 
 		/*
 			Tou Lee (7/17/2020): Commenting out due to new functionality but leaving for legacy purposes
