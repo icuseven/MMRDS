@@ -1411,6 +1411,22 @@ button.link {
 
 
 
+/* ~~~~~~~ Rich Text Editor ~~~~~~~ */
+.search-group input.datetime-date {
+  border-radius: var(--radius) 0px 0px var(--radius);
+}
+
+.search-group input.datetime-time {
+  border-radius: 0px var(--radius) var(--radius) 0px;
+}
+
+.search-group input.datetime-date + input.datetime-time {
+  margin-left: -1px;
+}
+
+
+
+
 
 .statement {
   background-color: var(--white);
