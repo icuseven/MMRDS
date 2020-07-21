@@ -408,7 +408,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
                 if(is_checked_out)
                 {
-                    checked_out_html = ' [checked out] ';
+                    if(item.value.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase())
+                    {
+                        checked_out_html = ' [checked out by you] ';
+                    }
+                    else
+                    {
+                        checked_out_html = ` [checked out by ${g_user_name}] `;
+                    }
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
                   return (`

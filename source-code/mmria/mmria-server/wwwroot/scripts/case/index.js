@@ -2154,8 +2154,7 @@ function is_case_checked_out(p_case)
   let checked_out_html = '';
 
   let current_date = new Date();
-  if(p_case.date_last_checked_out != null)
-
+  
   if(p_case.date_last_checked_out != null && p_case.date_last_checked_out != "")
   {
       let try_date = null;
