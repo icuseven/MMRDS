@@ -408,16 +408,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
                 if(is_checked_out)
                 {
-                    if(item.value.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase())
-                    {
-                        checked_out_html = ' [checked out by you] ';
-                    }
-                    else
-                    {
-                        checked_out_html = ` [checked out by ${g_user_name}] `;
-                    }
+                    checked_out_html = ' [checked out by you] ';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
+                else  if(item.value.date_last_checked_out != null && item.value.last_checked_out_by != null)
+                {
+                    checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                    delete_enabled_html = ' disabled = "disabled" ';
+                }
+
+
                   return (`
                       <tr class="tr" path="${item.id}">
                           <td class="td">
