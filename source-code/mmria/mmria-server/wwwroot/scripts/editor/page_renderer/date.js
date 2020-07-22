@@ -1,5 +1,19 @@
 function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+/*
+    if(g_validator_map[p_metadata_path])
+    {
+      if(g_validator_map[p_metadata_path](value))
+      {
+        var metadata = eval(p_metadata_path);
+  
+        if(metadata.type.toLowerCase() == "boolean")
+        {
+          eval(p_object_path + ' = ' + value);
+        }
+    }
+*/
+    
     p_result.push("<div id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
@@ -30,6 +44,15 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata.prompt);
 
         p_result.push("</label> ");
+
+        if(p_data == null  || is_valid_date_or_datetime(p_data))
+        {
+
+        }
+        else
+        {
+            // show validation message
+        }
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
         

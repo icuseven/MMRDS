@@ -2228,7 +2228,7 @@ function is_case_checked_out(p_case)
 
 function is_checked_out_expired(p_case)
 {
-  let is_expired = false;
+  let is_expired = true;
 
   let current_date = new Date();
   
@@ -2246,10 +2246,10 @@ function is_checked_out_expired(p_case)
       
       if
       (
-          diff_minutes(try_date, current_date) > 120
+          diff_minutes(try_date, current_date) < 120
       )
       {
-        is_expired = true;
+        is_expired = false;
       }
   }
 
