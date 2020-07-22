@@ -417,31 +417,30 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
 
-
-                  return (`
-                      <tr class="tr" path="${item.id}">
-                          <td class="td">
-                              <a href="#/${i}/home_record">
-                                  / :${item.value.last_name}, ${item.value.first_name}
-                                  ${item.value.record_id && ' - (' + item.value.record_id + ')'}
-                                  ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
-                              </a>
-                              ${checked_out_html}
-                          </td>
-                          <td class="td">
-                            ${item.value.last_updated_by} / ${item.value.date_last_updated}
-                          </td>
-                          <td class="td">
-                            <span class="row no-gutters align-items-center">
-                                <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
-                                <span class="icn-info">${item.value.last_checked_out_by}</span>
-                            </span>
-                          </td>
-                          <td class="td">
-                                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
-                          </td>
-                      </tr>
-                  `);
+                return (`
+                    <tr class="tr" path="${item.id}">
+                        <td class="td">
+                            <a href="#/${i}/home_record">
+                                / :${item.value.last_name}, ${item.value.first_name}
+                                ${item.value.record_id && ' - (' + item.value.record_id + ')'}
+                                ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
+                            </a>
+                            ${checked_out_html}
+                        </td>
+                        <td class="td">
+                        ${item.value.last_updated_by} / ${item.value.date_last_updated}
+                        </td>
+                        <td class="td">
+                        <span class="row no-gutters align-items-center">
+                            <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                            <span class="icn-info">${item.value.last_checked_out_by}</span>
+                        </span>
+                        </td>
+                        <td class="td">
+                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                        </td>
+                    </tr>
+                `);
               }).join('')}
           </tbody>
       </table>
