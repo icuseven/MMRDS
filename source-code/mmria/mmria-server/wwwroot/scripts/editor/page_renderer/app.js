@@ -431,13 +431,18 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         ${item.value.last_updated_by} / ${item.value.date_last_updated}
                         </td>
                         <td class="td">
-                        <span class="row no-gutters align-items-center">
-                            <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                        ${is_checked_out ? (`
                             <span class="icn-info">${item.value.last_checked_out_by}</span>
-                        </span>
+                        `) : ''}
+                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
+                            <span class="row no-gutters align-items-center">
+                                <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                                <span class="icn-info">${item.value.last_checked_out_by}</span>
+                            </span>
+                        `) : ''}
                         </td>
                         <td class="td">
-                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                            <button type="button" id="id_for_record_${i}" class="table-btn btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
                         </td>
                     </tr>
                 `);
