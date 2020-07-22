@@ -394,8 +394,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
           <thead class='thead'>
               <tr class='tr'>
                   <th class='th' scope='col'>Case Information</th>
-                  <th class='th' scope='col'>Created By / Date Created</th>
-                  <th class='th' scope='col'>Last Updated By / Last Updated</th>
+                  <th class='th' scope='col'>Last Updated</th>
+                  <th class='th' scope='col'>Currently Locked By</th>
                   <th class='th' scope='col' width='1'>Actions</th>
               </tr>
           </thead>
@@ -429,10 +429,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                               ${checked_out_html}
                           </td>
                           <td class="td">
-                            ${item.value.created_by} / ${item.value.date_created}
+                            ${item.value.last_updated_by} / ${item.value.date_last_updated}
                           </td>
                           <td class="td">
-                            ${item.value.last_updated_by} / ${item.value.date_last_updated}
+                            <span class="row no-gutters align-items-center">
+                                <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                                <span class="icn-info">${item.value.last_checked_out_by}</span>
+                            </span>
                           </td>
                           <td class="td">
                                 <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>

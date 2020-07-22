@@ -517,6 +517,35 @@ button.link {
   display: block;
 }
 
+.icn {
+  align-items: center;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+.icn--round {
+  border-radius: 100%;
+}
+.icn--border {
+  position: relative;
+}
+.icn--border:before {
+  background-color: transparent;
+  border: 1px solid var(--white);
+  content: '';
+  position: absolute;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+}
+.icn--round.icn--border:before {
+  border-radius: 100%;
+}
+
+.icn + .icn-info {
+  margin-left: 10px;
+}
+
 
 .smooth-list {
   padding-left: 0;
@@ -1267,12 +1296,17 @@ button.link {
 }
 
 .construct__subtitle {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 0;
 }
 .construct__subtitle span {
   font-weight: 400;
+}
+
+.construct__btn:hover[disabled] {
+  cursor: not-allowed;
+  text-decoration: none;
 }
 
 .construct__btn + .construct__btn {
@@ -1296,6 +1330,10 @@ button.link {
 
 .construct__controller {
   flex-direction: column;
+}
+
+.construct__info {
+  font-size: 14px;
 }
 
 /*
@@ -1483,6 +1521,10 @@ button.link {
   left: 16px;
   position: absolute;
 }
+.grid-control-btn:hover[disabled] {
+  cursor: not-allowed;
+  text-decoration: none;
+}
 
 .grid-control-action-btn {
   background-color: transparent;
@@ -1575,6 +1617,13 @@ button.link {
 */
 .pointer-none {
   pointer-events: none !important;
+}
+
+/*
+  14px on icons
+*/
+.x14 {
+  font-size: 14px;
 }
 
 /*
