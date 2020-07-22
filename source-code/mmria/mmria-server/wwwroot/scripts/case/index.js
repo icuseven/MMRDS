@@ -146,6 +146,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       {
         eval(p_object_path + ' = ' + value);
       }
+      
+      else if(metadata.type.toLowerCase() == "date" || metadata.type.toLowerCase() == "datetime")
+      {
+        if(is_valid_date_or_datetime(value))
+        {
+          eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+        }
+      }
       else
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
@@ -338,7 +346,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 }
 
 
-function validate_basic_date_or_datetime(p_metadata, value)
+function is_valid_date_or_datetime(p_metadata, value)
 {
   let result = false;
   switch(metadata.type.toLowerCase())
@@ -355,14 +363,16 @@ function validate_basic_date_or_datetime(p_metadata, value)
       {
         try_date = value;
       }
-      
+      //1900-2100
+      let year_check = try_date.getFullYear();
       if
       (
-          diff_minutes(try_date, current_date) <= 120 &&
-          p_case.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
+          year_check >= 1900 ||
+          year_check <= 2100
       )
       {
-          is_checked_out = true;
+        result = true;
+          
       }
       break;
 
