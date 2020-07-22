@@ -395,7 +395,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               <tr class='tr'>
                   <th class='th' scope='col'>Case Information</th>
                   <th class='th' scope='col'>Last Updated</th>
-                  <th class='th' scope='col'>Currently Locked By</th>
+                  <th class='th' scope='col'>Currently Edited By</th>
                   <th class='th' scope='col' width='1'>Actions</th>
               </tr>
           </thead>
@@ -434,7 +434,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         ${is_checked_out ? (`
                             <span class="icn-info">${item.value.last_checked_out_by}</span>
                         `) : ''}
-                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
+                        ${!is_checked_out_expired(item.value) ? (`
                             <span class="row no-gutters align-items-center">
                                 <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
                                 <span class="icn-info">${item.value.last_checked_out_by}</span>
