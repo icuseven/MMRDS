@@ -660,6 +660,11 @@ button.link {
   margin-top: .5rem;
 }
 
+.table-btn {
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .table-btn-link {
   padding: 0;
 }
