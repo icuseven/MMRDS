@@ -338,6 +338,40 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 }
 
 
+function validate_basic_date_or_datetime(p_metadata, value)
+{
+  let result = false;
+  switch(metadata.type.toLowerCase())
+  {
+    case 'datetime':
+    case 'date':
+      let try_date = null;
+
+      if(!(value instanceof Date))
+      {
+          try_date = new Date(p_case.date_last_checked_out);
+      }
+      else
+      {
+        try_date = value;
+      }
+      
+      if
+      (
+          diff_minutes(try_date, current_date) <= 120 &&
+          p_case.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
+      )
+      {
+          is_checked_out = true;
+      }
+      break;
+
+  }
+   
+  
+  return result;
+}
+
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 {
   var metadata = eval(p_metadata_path);
@@ -2179,6 +2213,37 @@ function is_case_checked_out(p_case)
   }
 
   return is_checked_out;
+}
+
+
+function is_checked_out_expired(p_case)
+{
+  let is_expired = false;
+
+  let current_date = new Date();
+  
+  if(p_case.date_last_checked_out != null && p_case.date_last_checked_out != "")
+  {
+      let try_date = null;
+      if(!(p_case.date_last_checked_out instanceof Date))
+      {
+          try_date = new Date(p_case.date_last_checked_out);
+      }
+      else
+      {
+        try_date = p_case.date_last_checked_out;
+      }
+      
+      if
+      (
+          diff_minutes(try_date, current_date) > 120
+      )
+      {
+        is_expired = true;
+      }
+  }
+
+  return is_expired;
 }
 
 function diff_minutes(dt1, dt2) 

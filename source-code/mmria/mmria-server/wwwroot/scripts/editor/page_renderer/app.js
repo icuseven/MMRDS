@@ -411,7 +411,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     checked_out_html = ' [checked out by you] ';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
-                else  if(item.value.date_last_checked_out != null && item.value.last_checked_out_by != null)
+                else  if(!is_checked_out_expired(item.value))
                 {
                     checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
                     delete_enabled_html = ' disabled = "disabled" ';
