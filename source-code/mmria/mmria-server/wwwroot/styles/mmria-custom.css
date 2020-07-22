@@ -660,7 +660,7 @@ button.link {
   margin-top: .5rem;
 }
 
-.table-btn {
+.table-btn[disabled] {
   cursor: not-allowed;
   text-decoration: none;
 }
