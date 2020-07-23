@@ -43,7 +43,18 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			}
 			// console.log(g_data_is_checked_out);
 
-			let is_valid = null;
+			/*
+        "is_valid_date_or_datetime": valid_date_or_datetime,
+		"entered_date_or_datetime_value":entered_date_or_datetime_value
+		*/
+
+			let is_valid = true;
+
+			if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+			{
+				is_valid = p_ctx.is_valid_date_or_datetime;
+			}
+			/*
 			if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
 			{
 				//validation passed
@@ -55,7 +66,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				//validation failed, show validation message
 				// console.log('~~~~~ invalid');
 				is_valid = false;
-			}
+			}*/
 
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"

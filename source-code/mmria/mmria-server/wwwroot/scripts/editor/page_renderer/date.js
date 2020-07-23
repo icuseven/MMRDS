@@ -45,7 +45,13 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push("</label> ");
 
-        let is_valid = null;
+        let is_valid = true;
+
+        if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+        {
+            is_valid = p_ctx.is_valid_date_or_datetime;
+        }
+        /*
         if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
         {
             //validation passed
@@ -57,7 +63,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             //validation failed, show validation message
             // console.log('~~~~~ invalid');
             is_valid = false;
-        }
+        }*/
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 

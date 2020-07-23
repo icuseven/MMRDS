@@ -128,6 +128,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   {
       var metadata = eval(p_metadata_path);
       var current_value = eval(p_object_path);
+      var valid_date_or_datetime = true;
+      var entered_date_or_datetime_value = value;
 
       if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
       {
@@ -153,6 +155,10 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         {
           eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
         }
+        else
+        {
+          valid_date_or_datetime = false;
+        }
       }
       else
       {
@@ -175,7 +181,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
       let ctx = {
         "form_index": p_form_index, 
-        "grid_index": p_grid_index
+        "grid_index": p_grid_index,
+        "is_valid_date_or_datetime": valid_date_or_datetime,
+        "entered_date_or_datetime_value":entered_date_or_datetime_value
       };
 
       if(is_search_result)
