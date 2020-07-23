@@ -47,11 +47,11 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         if(p_data == null  || is_valid_date_or_datetime(p_data))
         {
-
+            //validation passed
         }
         else
         {
-            // show validation message
+            //validation failed, show validation message
         }
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);

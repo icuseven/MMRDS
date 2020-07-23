@@ -203,7 +203,7 @@ function render_search_text_input_control(p_ctx)
         result.push("<input id='");
             result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
 
-            result.push("_input' class='form-control is-invalid' ");
+            result.push("_input' class='form-control' ");
 
             if (control_type === 'date')
             {
@@ -278,15 +278,15 @@ function render_search_text_input_control(p_ctx)
         result.push(" />");
 
         //~~~~ Validation Error Message
-        switch (p_ctx.metadata.type.toLocaleLowerCase())
-        {
-            case "date":
-                result.push(`<small class="text-danger">Invalid date</small>`);
-                break;
-            default :
-                //do nothing, linting requires empty default case
-                break;
-        }
+        // switch (p_ctx.metadata.type.toLocaleLowerCase())
+        // {
+        //     case "date":
+        //         result.push(`<small class="text-danger">Invalid date</small>`);
+        //         break;
+        //     default :
+        //         //do nothing, linting requires empty default case
+        //         break;
+        // }
 
     result.push("</div>");
 

@@ -528,18 +528,18 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 
 	//~~~~ Validation Error Message
-	switch ( p_metadata.type )
-	{
-		case "date":
-			p_result.push(`<small class="text-danger">Invalid date</small>`);
-			break;
-		case "datetime":
-			p_result.push(`<small class="text-danger">Invalid date</small>`);
-			break;
-		default :
-			//do nothing, linting requires empty default case
-			break;
-	}
+	// switch ( p_metadata.type )
+	// {
+	// 	case "date":
+	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
+	// 		break;
+	// 	case "datetime":
+	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
+	// 		break;
+	// 	default :
+	// 		//do nothing, linting requires empty default case
+	// 		break;
+	// }
 }
 
 
