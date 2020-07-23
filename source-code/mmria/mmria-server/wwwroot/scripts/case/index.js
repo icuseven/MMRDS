@@ -346,41 +346,70 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 }
 
 
-function is_valid_date_or_datetime(p_metadata, value)
+function is_valid_date_or_datetime(p_value)
 {
   let result = false;
-  switch(metadata.type.toLowerCase())
+  let try_date = null;
+
+  if (p_value.charAt(0) == ' ')
   {
-    case 'datetime':
-    case 'date':
-      let try_date = null;
-
-      if(!(value instanceof Date))
-      {
-          try_date = new Date(p_case.date_last_checked_out);
-      }
-      else
-      {
-        try_date = value;
-      }
-      //1900-2100
-      let year_check = try_date.getFullYear();
-      if
-      (
-          year_check >= 1900 ||
-          year_check <= 2100
-      )
-      {
-        result = true;
-          
-      }
-      break;
-
+    result = true;
   }
-   
-  
+
+  p_value = new Date(p_value);
+
+  if (p_value instanceof Date === false)
+  {
+    try_date = new Date(g_data.date_last_checked_out)
+  }
+  else
+  {
+    try_date = p_value
+  }
+
+  //1900-2100
+  let year_check = try_date.getFullYear() + 1;
+  if (year_check >= 1900 && year_check <= 2100)
+  {
+    result = true;
+  }
+
   return result;
 }
+// function is_valid_date_or_datetime(p_metadata, p_value)
+// {
+//   let result = false;
+//   // switch(metadata.type.toLowerCase())
+//   // {
+//   //   case 'datetime':
+//   //   case 'date':
+//       let try_date = null;
+
+//       if(!(p_value instanceof Date))
+//       {
+//           try_date = new Date(g_data.date_last_checked_out);
+//       }
+//       else
+//       {
+//         try_date = p_value;
+//       }
+//       //1900-2100
+//       let year_check = try_date.getFullYear();
+//       if
+//       (
+//           year_check >= 1900 ||
+//           year_check <= 2100
+//       )
+//       {
+//         result = true;
+          
+//       }
+//   //     break;
+
+//   // }
+   
+//   return result;
+// }
 
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 {

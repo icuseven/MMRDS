@@ -45,16 +45,42 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push("</label> ");
 
-        if(p_data == null  || is_valid_date_or_datetime(p_data))
+        let is_valid = null;
+        if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
         {
             //validation passed
+            // console.log('~~~~~ valid');
+            is_valid = true;
         }
-        else
+        else if (!is_valid_date_or_datetime(p_data))
         {
             //validation failed, show validation message
+            // console.log('~~~~~ invalid');
+            is_valid = false;
         }
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
+        let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+        let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+        let validation_position = parseInt(validation_top) + parseInt(validation_height);
+
+        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:auto; top:${validation_position + 8}px">Invalid date</small>`);
+
+        p_post_html_render.push(`
+            if (${is_valid})
+            {
+                $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid');
+                $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
+                $(".construct__header-alert").hide();
+            }
+            else
+            {
+                $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid');
+                $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show();
+                $(".construct__header-alert").show();
+            }
+        `);
         
         /*
             START datetimepicker() init and options

@@ -43,6 +43,20 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			}
 			// console.log(g_data_is_checked_out);
 
+			let is_valid = null;
+			if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
+			{
+				//validation passed
+				// console.log('~~~~~ valid');
+				is_valid = true;
+			}
+			else if (!is_valid_date_or_datetime(p_data))
+			{
+				//validation failed, show validation message
+				// console.log('~~~~~ invalid');
+				is_valid = false;
+			}
+
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"
 					   dpath="${p_object_path}"
@@ -119,12 +133,30 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(`>`);
+
+				// let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+				// let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+				// let validation_position = parseInt(validation_top) + parseInt(validation_height);
+				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:auto; top: auto; bottom: -22px; left: auto;">Invalid date</small>`);
+
+				p_post_html_render.push(`
+					if (${is_valid})
+					{
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").removeClass('is-invalid');
+						$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
+						$(".construct__header-alert").hide();
+					}
+					else
+					{
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
+						$(".construct__header-alert").show();
+					}
+				`);
 		p_result.push("</div>");
 
 		//Initialize the custom 'bootstrap timepicker'
 		p_post_html_render.push(`
 			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
-				defaultTime: '00:00:00',
 				minuteStep: 1,
 				secondStep: 1,
 				showMeridian: false,
