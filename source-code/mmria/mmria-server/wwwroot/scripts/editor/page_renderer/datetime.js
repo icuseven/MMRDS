@@ -113,7 +113,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split(' ')[1]}"
+				   value="${!isNullOrUndefined(p_data.split(' ')[0]) ? p_data.split(' ')[1] : '00:00:00'}"
 				   ${disabled_html}`);
 				if
 				(
