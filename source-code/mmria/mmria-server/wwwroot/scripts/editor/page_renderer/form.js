@@ -1113,7 +1113,7 @@ function render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_m
             <div class="ml-2">
                 <p>Please correct errors below:</p>
                 <ul id="validation_summary_list" class="mb-0">
-                    <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
+                    <li><strong>Invalid date (Prompt):</strong> Date must be between 1900-2100</li>
                 </ul>
             </div>
         </div>

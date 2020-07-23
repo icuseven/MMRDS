@@ -79,12 +79,14 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
                 $("#validation_summary").hide();
+                $("#validation_summary").find('ul').html('');
             }
             else
             {
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show();
                 $("#validation_summary").show();
+                $("#validation_summary").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be between 1900-2100</li>');
             }
         `);
         
