@@ -78,13 +78,13 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             {
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
-                $(".construct__header-alert").hide();
+                $("#validation_summary").hide();
             }
             else
             {
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show();
-                $(".construct__header-alert").show();
+                $("#validation_summary").show();
             }
         `);
         
