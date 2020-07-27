@@ -513,6 +513,7 @@ namespace mmria.server
             {
                 //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
                 options.AddPolicy("abstractor", policy => policy.RequireRole("abstractor"));
+                options.AddPolicy("data_analyst", policy => policy.RequireRole("data_analyst"));
                 options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
                 options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
                 options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
