@@ -1679,6 +1679,11 @@ button.link {
 
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-editor,
+.trumbowyg-textarea {
+  min-height: 500px !important;
+}
+
 .trumbowyg-editor blockquote,
 .trumbowyg-editor div,
 .trumbowyg-editor ol,
