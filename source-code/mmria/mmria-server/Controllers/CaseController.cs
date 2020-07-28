@@ -18,10 +18,11 @@ namespace mmria.server.Controllers
             _authorizationService = authorizationService;
             configuration = p_configuration;
         }
-        public IActionResult Index()
+        public IActionResult Index(string r = "da")
         {
 
             TempData["metadata_version"] = configuration["mmria_settings:metadata_version"];
+            TempData["ui_role_mode"] = r;
             return View();
         }
     }

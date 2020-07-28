@@ -5,6 +5,7 @@
 
 var g_metadata = null;
 var g_user_name= null;
+var g_ui_role_mode = null;
 var g_data_is_checked_out = false;
 var g_data = null;
 var g_source_db = null;
@@ -714,6 +715,12 @@ $(function ()
       window.localStorage.setItem('case_index', JSON.stringify(case_index));
     }
   }
+
+
+    let urlParams = new URLSearchParams(window.location.search);
+    g_ui_role_mode = urlParams.get('r');
+
+
 
   /*
         // Get the modal
