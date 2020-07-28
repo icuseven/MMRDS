@@ -1,5 +1,19 @@
 function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+/*
+    if(g_validator_map[p_metadata_path])
+    {
+      if(g_validator_map[p_metadata_path](value))
+      {
+        var metadata = eval(p_metadata_path);
+  
+        if(metadata.type.toLowerCase() == "boolean")
+        {
+          eval(p_object_path + ' = ' + value);
+        }
+    }
+*/
+    
     p_result.push("<div id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
@@ -30,8 +44,51 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata.prompt);
 
         p_result.push("</label> ");
+
+        let is_valid = true;
+
+        if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+        {
+            is_valid = p_ctx.is_valid_date_or_datetime;
+        }
+        /*
+        if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
+        {
+            //validation passed
+            // console.log('~~~~~ valid');
+            is_valid = true;
+        }
+        else if (!is_valid_date_or_datetime(p_data))
+        {
+            //validation failed, show validation message
+            // console.log('~~~~~ invalid');
+            is_valid = false;
+        }*/
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
+        let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+        let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+        let validation_position = parseInt(validation_top) + parseInt(validation_height);
+
+        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:auto; top:${validation_position + 8}px">Invalid date</small>`);
+
+        p_post_html_render.push(`
+            if (${is_valid})
+            {
+                $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid');
+                $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
+                $("#validation_summary").hide();
+                $("#validation_summary").find('ul').html('');
+            }
+            else
+            {
+                $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid');
+                $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show();
+                $("#validation_summary").show();
+                $("#validation_summary").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be between 1900-2100</li>');
+            }
+        `);
         
         /*
             START datetimepicker() init and options

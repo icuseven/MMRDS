@@ -338,9 +338,15 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx, p_valid)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+	
+	if (!isNullOrUndefined(p_valid))
+	{
+		p_valid = p_valid;
+		console.log('valid? ', p_valid)
+	}
 
 	// Buttons will have an outer div container with styles assigned to it
 	// and not on the actual input control like everything else
@@ -400,7 +406,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 		if(p_metadata.type=="date")
 		{
-			p_result.push(" date-control");
+			p_result.push(" form-control date-control");
 		}
 		
 		if(p_metadata.type=="button")
@@ -528,18 +534,18 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 
 	//~~~~ Validation Error Message
-	switch ( p_metadata.type )
-	{
-		case "date":
-			p_result.push(`<small class="text-danger">Invalid date</small>`);
-			break;
-		case "datetime":
-			p_result.push(`<small class="text-danger">Invalid date</small>`);
-			break;
-		default :
-			//do nothing, linting requires empty default case
-			break;
-	}
+	// switch ( p_metadata.type )
+	// {
+	// 	case "date":
+	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
+	// 		break;
+	// 	case "datetime":
+	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
+	// 		break;
+	// 	default :
+	// 		//do nothing, linting requires empty default case
+	// 		break;
+	// }
 }
 
 

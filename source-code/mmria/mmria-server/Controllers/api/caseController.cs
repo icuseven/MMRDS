@@ -28,7 +28,8 @@ namespace mmria.server
 		    _actorSystem = actorSystem;
 			_authorizationService = authorizationService;
     	}
-		// GET api/values 
+		
+		[Authorize(Roles  = "abstractor, data_analyst")]
 		[HttpGet]
 		public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
 		{ 

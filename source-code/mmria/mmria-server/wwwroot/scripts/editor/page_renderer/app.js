@@ -8,8 +8,17 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div tabindex='-1'>");
     p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
     p_result.push("<div class='row no-gutters align-items-center'>");
-        p_result.push("<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)'>Add New Case</button>");
-        p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
+    
+    
+    let is_read_only_html = '';
+    if(g_is_data_analyst_mode)
+    {
+        is_read_only_html = "disabled='disabled'";
+    }
+
+    p_result.push(`<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)' ${is_read_only_html}>Add New Case</button>`);
+
+    p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
     p_result.push("</div>");
     p_result.push("</div> <!-- end .content-intro -->");
 
@@ -395,7 +404,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               <tr class='tr'>
                   <th class='th' scope='col'>Case Information</th>
                   <th class='th' scope='col'>Last Updated</th>
-                  <th class='th' scope='col'>Currently Locked By</th>
+                  <th class='th' scope='col'>Currently Edited By</th>
                   <th class='th' scope='col' width='1'>Actions</th>
               </tr>
           </thead>
@@ -403,45 +412,57 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               ${p_ui.case_view_list.map((item, i) => {
 
                 let is_checked_out = is_case_checked_out(item.value);
-                let checked_out_html = ' [not checked out] ';
+                // let checked_out_html = ' [not checked out] ';
+                let checked_out_html = '';
                 let delete_enabled_html = ''; 
 
-                if(is_checked_out)
+                if(g_is_data_analyst_mode)
                 {
-                    checked_out_html = ' [checked out by you] ';
+                    checked_out_html = ' [ read only ] ';
+                    delete_enabled_html = ' disabled = "disabled" ';
+                }
+                else if(is_checked_out)
+                {
+                    // checked_out_html = ' [checked out by you] ';
+                    checked_out_html = '';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
                 else  if(!is_checked_out_expired(item.value))
                 {
-                    checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                    // checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                    checked_out_html = '';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
 
-
-                  return (`
-                      <tr class="tr" path="${item.id}">
-                          <td class="td">
-                              <a href="#/${i}/home_record">
-                                  / :${item.value.last_name}, ${item.value.first_name}
-                                  ${item.value.record_id && ' - (' + item.value.record_id + ')'}
-                                  ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
-                              </a>
-                              ${checked_out_html}
-                          </td>
-                          <td class="td">
-                            ${item.value.last_updated_by} / ${item.value.date_last_updated}
-                          </td>
-                          <td class="td">
+                return (`
+                    <tr class="tr" path="${item.id}">
+                        <td class="td">
+                            <a href="#/${i}/home_record">
+                                / :${item.value.last_name}, ${item.value.first_name}
+                                ${item.value.record_id && ' - (' + item.value.record_id + ')'}
+                                ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
+                            </a>
+                            ${checked_out_html}
+                        </td>
+                        <td class="td">
+                        ${item.value.last_updated_by} / ${item.value.date_last_updated}
+                        </td>
+                        <td class="td">
+                        ${is_checked_out ? (`
+                            <span class="icn-info">${item.value.last_checked_out_by}</span>
+                        `) : ''}
+                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
                             <span class="row no-gutters align-items-center">
                                 <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
                                 <span class="icn-info">${item.value.last_checked_out_by}</span>
                             </span>
-                          </td>
-                          <td class="td">
-                                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
-                          </td>
-                      </tr>
-                  `);
+                        `) : ''}
+                        </td>
+                        <td class="td">
+                            <button type="button" id="id_for_record_${i}" class="table-btn btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                        </td>
+                    </tr>
+                `);
               }).join('')}
           </tbody>
       </table>

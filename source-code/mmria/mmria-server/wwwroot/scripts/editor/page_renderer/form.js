@@ -18,6 +18,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>";
     }
 
+    //don't allow "Enable Edit" if checked out by someone else
+    if(!is_checked_out_expired(g_data))
+    {
+        enable_edit_disable_attribute = " disabled ";
+    }
+
     if(
         p_metadata.cardinality == "+" ||
         p_metadata.cardinality == "*"
@@ -29,17 +35,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("<header data-header='multi-form' class='construct__header content-intro' tabindex='-1'>");
                 if(g_data)
                 {
-                    p_result.push(`
-                        <div class="construct__header-alert row no-gutters p-2">
-                            <span class="x32 fill-p cdc-icon-alert_02"></span>
-                            <div class="ml-2">
-                                <p>Please correct errors below:</p>
-                                <ul class="mb-0">
-                                    <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
-                                </ul>
-                            </div>
-                        </div>
-                    `);
+                    render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
                     p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
                         p_result.push("<div class='col-4'>");
@@ -90,9 +86,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 add_button_disable_attribute = '';
                             }
                             p_result.push('<div class="row no-gutters align-items-center mt-3">');
+                            if(!g_is_data_analyst_mode)
+                            {
                                 p_result.push('<input path="" type="button" class="construct__btn btn btn-primary" value="Add A New Record"');
                                 p_result.push(add_button_disable_attribute)
                                 p_result.push(' onclick="init_inline_loader(function(){ add_new_form_click(\' ' + p_metadata_path + '\',\'' + p_object_path + ' \') })" />');
+                            }
                                 // p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
                                 // p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
                                 // p_result.push(' form" ');
@@ -105,12 +104,15 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push("<div class='construct__controller col-8 row no-gutters justify-content-end'>");
                             p_result.push("<div class='row no-gutters align-items-center justify-content-end'>");
                                 p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
+                                if(!g_is_data_analyst_mode)
+                                {
                                 p_result.push(`
                                     ${currently_locked_by_html}
                                     <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
                                     <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
                                     <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                                 `);
+                                }
                             p_result.push("</div>");
                             p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
                                 p_result.push("<span style='width: 280px'>");
@@ -467,17 +469,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 
                 p_result.push("<header data-header='multi-single-form' class='construct__header'>");
 
-                    p_result.push(`
-                        <div class="construct__header-alert row no-gutters p-2">
-                            <span class="x32 fill-p cdc-icon-alert_02"></span>
-                            <div class="ml-2">
-                                <p>Please correct errors below:</p>
-                                <ul class="mb-0">
-                                    <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
-                                </ul>
-                            </div>
-                        </div>
-                    `);
+                    render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
                     p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
                         p_result.push("<div class='col-4'>");
@@ -527,12 +519,16 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push("<div class='construct__controller col-8 row no-gutters justify-content-end'>");
                             p_result.push("<div class='row no-gutters align-items-center justify-content-end'>");
                                 p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
+                                
+                                if(!g_is_data_analyst_mode)
+                                {
                                 p_result.push(`
                                     ${currently_locked_by_html}
                                     <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
                                     <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
                                     <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                                 `);
+                                }
                             p_result.push("</div>");
                             p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
                                 p_result.push("<span style='width: 280px'>");
@@ -540,7 +536,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 p_result.push("</span>");
                             p_result.push("</div>");
                             p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
+                            if(!g_is_data_analyst_mode)
+                            {
                                 p_result.push(`<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`);
+                            }
                                 p_result.push("</div>");
                             p_result.push("</div>");
                         p_result.push("</div> <!-- end .construct__controller -->");
@@ -621,11 +620,14 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div>");
                 
                 p_result.push("<div class='construct__footer'>");
+                if(!g_is_data_analyst_mode)
+                {
                     p_result.push(`
                         <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
                          <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
                         <input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                     `);
+                }
                     p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
                 p_result.push("</div>");
             p_result.push("</section>");
@@ -638,17 +640,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("_id' class='construct' ");
         p_result.push(" style='' class='construct'>");
         p_result.push("<div data-header='single-form' class='construct__header'>");
-            p_result.push(`
-                <div class="construct__header-alert row no-gutters p-2">
-                    <span class="x32 fill-p cdc-icon-alert_02"></span>
-                    <div class="ml-2">
-                        <p>Please correct errors below:</p>
-                        <ul class="mb-0">
-                            <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
-                        </ul>
-                    </div>
-                </div>
-            `);
+            
+        render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
             p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
                 p_result.push("<div class='col-4'>");
@@ -697,12 +690,15 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<div class='construct__controller col-8 row no-gutters justify-content-end'>");
                     p_result.push("<div class='row no-gutters align-items-center justify-content-end'>");
                         p_result.push("<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
+                        if(!g_is_data_analyst_mode)
+                        {
                         p_result.push(`
                             ${currently_locked_by_html}
                             <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
                             <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
                             <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                         `);
+                        }
                     p_result.push("</div>");
                     p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
                         p_result.push("<span style='width: 280px'>");
@@ -710,7 +706,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push("</span>");
                     p_result.push("</div>");
                     p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
+                    if(!g_is_data_analyst_mode)
+                    {
                         p_result.push(`<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`);
+                    }
                         p_result.push("</div>");
                     p_result.push("</div>");
                 p_result.push("</div> <!-- end .construct__controller -->");
@@ -1121,11 +1120,14 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div> <!-- end .construct-output -->");     
             p_result.push("</div> <!-- end .construct__body -->");     
             p_result.push("<div class='construct__footer row no-gutters align-items-center justify-content-start'>");
+            if(!g_is_data_analyst_mode)
+            {
                 p_result.push(`
                     <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
                     <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
                     <input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                 `);
+            }
                 p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
             p_result.push("</div> <!-- end .construct__footer -->"); 
         
@@ -1134,20 +1136,27 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 }
 
 
+function render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
+{
+    p_result.push(`
+        <div id="validation_summary" class="construct__header-alert row no-gutters p-2" style="display: none">
+            <span class="x32 fill-p cdc-icon-alert_02"></span>
+            <div class="ml-2">
+                <p>Please correct errors below:</p>
+                <ul id="validation_summary_list" class="mb-0">
+                    <li><strong>Invalid date (Prompt):</strong> Date must be between 1900-2100</li>
+                </ul>
+            </div>
+        </div>
+    `);
+}
+
+
 function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     p_result.push("<div data-header='quick-edit' class='construct__header'>");
-        p_result.push(`
-            <div class="construct__header-alert row no-gutters p-2">
-                <span class="x32 fill-p cdc-icon-alert_02"></span>
-                <div class="ml-2">
-                    <p>Please correct errors below:</p>
-                    <ul class="mb-0">
-                        <li><strong>Invalid date (Date of Delivery):</strong> Date must be between 1900-2100</li>
-                    </ul>
-                </div>
-            </div>
-        `);
+
+        render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
         
         p_result.push("<div class='construct__header-main row no-gutters'>");
             p_result.push("<div class='col col-8'>");
@@ -1181,8 +1190,11 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
                 p_result.push("</p>");
             p_result.push("</div>");
             p_result.push("<div class='col col-4 text-right'>");
-                p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' ${undo_disable_attribute}/>
+            if(!g_is_data_analyst_mode)
+            {
+                p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()'/>
                  <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
+            }
             p_result.push("</div>");
         p_result.push("</div>");
     p_result.push("</div> <!-- end .construct__header -->");

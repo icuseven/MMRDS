@@ -43,6 +43,31 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			}
 			// console.log(g_data_is_checked_out);
 
+			/*
+        "is_valid_date_or_datetime": valid_date_or_datetime,
+		"entered_date_or_datetime_value":entered_date_or_datetime_value
+		*/
+
+			let is_valid = true;
+
+			if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+			{
+				is_valid = p_ctx.is_valid_date_or_datetime;
+			}
+			/*
+			if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
+			{
+				//validation passed
+				// console.log('~~~~~ valid');
+				is_valid = true;
+			}
+			else if (!is_valid_date_or_datetime(p_data))
+			{
+				//validation failed, show validation message
+				// console.log('~~~~~ invalid');
+				is_valid = false;
+			}*/
+
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"
 					   dpath="${p_object_path}"
@@ -88,7 +113,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split(' ')[1]}"
+				   value="${!isNullOrUndefined(p_data.split(' ')[0]) ? p_data.split(' ')[1] : '00:00:00'}"
 				   ${disabled_html}`);
 				if
 				(
@@ -119,12 +144,32 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(`>`);
+
+				// let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+				// let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+				// let validation_position = parseInt(validation_top) + parseInt(validation_height);
+				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:auto; top: auto; bottom: -22px; left: auto;">Invalid date</small>`);
+
+				p_post_html_render.push(`
+					if (${is_valid})
+					{
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").removeClass('is-invalid');
+						$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
+						$(".construct__header-alert").hide();
+						$(".construct__header-alert").find('ul').html('');
+					}
+					else
+					{
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
+						$(".construct__header-alert").show();
+						$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be between 1900-2100</li>');
+					}
+				`);
 		p_result.push("</div>");
 
 		//Initialize the custom 'bootstrap timepicker'
 		p_post_html_render.push(`
 			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
-				defaultTime: '00:00:00',
 				minuteStep: 1,
 				secondStep: 1,
 				showMeridian: false,

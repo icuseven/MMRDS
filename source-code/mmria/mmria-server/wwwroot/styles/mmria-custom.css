@@ -387,6 +387,7 @@ template {
 }
 
 html {
+  font-size: 1rem;
   height: 100%;
 }
 
@@ -658,6 +659,11 @@ button.link {
 .table-pagination + .table,
 .table + .table-pagination {
   margin-top: .5rem;
+}
+
+.table-btn[disabled] {
+  cursor: not-allowed;
+  text-decoration: none;
 }
 
 .table-btn-link {
@@ -1673,6 +1679,11 @@ button.link {
 
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-editor,
+.trumbowyg-textarea {
+  min-height: 500px !important;
+}
+
 .trumbowyg-editor blockquote,
 .trumbowyg-editor div,
 .trumbowyg-editor ol,
