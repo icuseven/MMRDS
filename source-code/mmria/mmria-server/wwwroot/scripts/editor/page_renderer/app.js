@@ -412,7 +412,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               ${p_ui.case_view_list.map((item, i) => {
 
                 let is_checked_out = is_case_checked_out(item.value);
-                let checked_out_html = ' [not checked out] ';
+                // let checked_out_html = ' [not checked out] ';
+                let checked_out_html = '';
                 let delete_enabled_html = ''; 
 
                 if(g_is_data_analyst_mode)
@@ -422,12 +423,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 }
                 else if(is_checked_out)
                 {
-                    checked_out_html = ' [checked out by you] ';
+                    // checked_out_html = ' [checked out by you] ';
+                    checked_out_html = '';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
                 else  if(!is_checked_out_expired(item.value))
                 {
-                    checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                    // checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                    checked_out_html = '';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
 
