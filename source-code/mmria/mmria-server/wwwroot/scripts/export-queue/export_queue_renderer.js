@@ -14,20 +14,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
     p_answer_summary
   );
 
-  let selected_case_list = [];
-  render_selected_case_list(selected_case_list, p_answer_summary);
-
-  let pagination_html = [];
-  render_pagination(pagination_html, g_case_view_request);
-
-  let filter_decending = '';
-
-  if (g_case_view_request.descending) {
-    filter_decending = 'checked=true';
-  }
-
-  // console.log(g_case_view_request);
-
   result.push(`
 		<div class="row">
 			<div class="col">
@@ -225,167 +211,12 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 						</div>
 					</li>
 
-					<li class="mb-4">
-						<p class="mb-3">Please select which cases you want to include in the export?</p>
-						<label for="case_filter_type_all" class="font-weight-normal mr-2">
-							<input id="case_filter_type_all"
-										 type="radio"
-										 name="case_filter_type"
-										 value="all"
-										 data-prop="case_filter_type"
-										 ${p_answer_summary['case_filter_type'] == 'all' ? 'checked=true' : ''}
-										 onclick="case_filter_type_click(this)" /> All
-						</label>
-						<label for="case_filter_type_custom" class="font-weight-normal">
-							<input id="case_filter_type_custom"
-										 type="radio"
-										 name="case_filter_type"
-										 value="custom"
-										 data-prop="case_filter_type"
-										 ${p_answer_summary['case_filter_type'] == 'custom' ? 'checked=true' : ''}
-										 onclick="case_filter_type_click(this)" /> Custom
-						</label>
-						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:${
-              p_answer_summary['case_filter_type'] == 'custom'
-                ? 'block'
-                : 'none'
-            }">
-							<li class="mb-4" >
-								<div class="form-inline mb-2">
-									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text"
-												 class="form-control mr-2"
-												 id="filter_search_text"
-												 value=""
-												 onchange="filter_serach_text_change(this.value)">
-									<button type="button" class="btn btn-secondary" alt="search" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
-									<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-								</div>
-
-								<div class="form-inline mb-2">
-									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
-									<select id="filter_sort_by" class="custom-select" >
-										${render_sort_by_include_in_export(g_case_view_request)}
-									</select>
-								</div>
-
-								<div class="form-inline mb-2">
-									<label for="filter_records_perPage" class="font-weight-normal mr-2">Records per page:</label>
-									<select id="filter_records_perPage" class="custom-select" ><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
-								</div>
-
-								<div class="form-inline mb-2">
-									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
-									<input id="filter_decending" type="checkbox" ${filter_decending}/>
-								</div>
-							</li>
-
-							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
-								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters pt-1 pb-1 pl-2 pr-2'>
-									${pagination_html.join('')}
-								</div>
-								<table class="table rounded-0 m-0">
-									<thead class="thead">
-										<tr class="tr bg-tertiary">
-											<th class="th" colspan="14" scope="colgroup">
-												<span class="row no-gutters justify-content-between">
-													<span>Filtered Cases</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Select All</button-->
-												</span>
-											</th>
-										</tr>
-									</thead>
-									<thead class="thead">
-										<tr class="tr">
-											<th class="th" width="38" scope="col"></th>
-											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
-											<th class="th" scope="col">Name [Jurisdiction ID]</th>
-											<th class="th" scope="col">Record ID</th>
-											<th class="th" scope="col">Date of death</th>
-											<th class="th" scope="col">Committee review date</th>
-											<th class="th" scope="col">Agency case ID</th>
-											<th class="th" scope="col">Date created<br/>Created by</th>
-										</tr>
-									</thead>
-									<tbody id="search_result_list" class="tbody">
-										<!-- items get dynamically generated -->
-									</tbody>
-								</table>
-							</li>
-
-							<li class="" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
-								<table class="table rounded-0 mb-0">
-									<thead class="thead">
-										<tr class="tr bg-tertiary">
-											<th class="th" colspan="14" scope="colgroup">
-												<span class="row no-gutters justify-content-between">
-													<span id="exported_cases_count">Cases to be included in export (${
-                            p_answer_summary.case_set.length
-                          }):</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button-->
-												</span>
-											</th>
-										</tr>
-									</thead>
-									<thead class="thead">
-										<tr class="tr">
-											<th class="th" width="38" scope="col"></th>
-											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
-											<th class="th" scope="col">Name [Jurisdiction ID]</th>
-											<th class="th" scope="col">Record ID</th>
-											<th class="th" scope="col">Date of death</th>
-											<th class="th" scope="col">Committee review date</th>
-											<th class="th" scope="col">Agency case ID</th>
-											<th class="th" scope="col">Date created<br/>Created by</th>
-										</tr>
-									</thead>
-									<tbody id="selected_case_list" class="tbody">
-										${selected_case_list.join('')}
-									</tbody>
-								</table>
-							</li>
-						</ul>
+					<li class="mb-4" id="react-content">
 					</li>
 				</ol>
 			</div>
 		</div>
 	`);
-  /*
-	result.push("<hr/>");
-
-	result.push('<p>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
-	result.push('<p class="mb-0"><strong>Contains 2 Files:</strong></p>');
-	result.push('<ul>');
-		result.push('<li>core_export.csv</li>');
-		result.push('<li>data-dictionary.csv</li>');
-	result.push('</ul>');
-	result.push('<button type="button" class="btn btn-secondary mb-2" onclick="add_new_core_export_item()">Export Core Data to CSV format</button>');
-	result.push('<p>Details of the data dictionary format can be found here: <a target="_data_dictionary" href="/data-dictionary">data-dictionary-format</a></p>');
-	
-	result.push('<hr />');
-
-
-	
-
-	result.push('<p>Click on Export All Data to CSV format to produce a zip file that contains 59 case data files plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
-	result.push('<p class="mb-0"><strong>Contains a total of 60 files:</strong></p>');
-	result.push('<ul>');
-		result.push('<li>59 *.csv</li>');
-		result.push('<li>data-dictionary.csv</li>');
-	result.push('</ul>');
-	result.push('<button type="button" class="btn btn-secondary mb-2" onclick="add_new_all_export_item()">Export All Data to  CSV format</button>');
-	result.push('<p>Details of the data dictionary format can be found here: <a target="_data_dictionary" href="/data-dictionary">data-dictionary-format</a></p>');
-
-*/
-
-  // result.push("<ul>");
-  // 	result.push("<li><input type='button' value='Export Core Data to CSV format.' onclick='add_new_core_export_item()'/>");
-  // 	result.push("<br/>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.<br/>Contains 2 Files<ul><li>core_export.csv</li><li>data-dictionary.csv <p>Details of the data dictionary format can be found here: <a target='_data_dictionary' href='/data-dictionary'>data-dictionary-format</a></p></li></ul></li>");
-  // 	result.push("<li><input type='button' value='Export All Data to  CSV format.' onclick='add_new_all_export_item()'/>");
-  // 	result.push("<br/>Click on Export All Data to CSV format to produce a zip file that contains 59 case data files plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.<br/>Contains a total of 60 files:<ul><li>59 *.csv</li><li>data-dictionary.csv <p>Details of the data dictionary format can be found here: <a target='_data_dictionary' href='/data-dictionary'>data-dictionary-format</a></p></li></ul></li>");
-  // 	//result.push("<li><input type='button' value='Export All Data to  Deidentified CDC CSV format.' onclick='add_new_cdc_export_item()'/></li>");
-  // 	//result.push("<li><input type='button' value='All Data to MMRIA JSON format.' onclick='add_new_json_export_item()'/></li>");
-  // result.push("</ul>");
 
   result.push(`
 		<div class="row">
@@ -550,7 +381,7 @@ function export_queue_comfirm_render(p_answer_summary) {
 						</div>
 					</li>
 				</ul>
-			</div>
+      </div>
 			<div class="card-footer bg-gray-l3">
 				<button class="btn btn-primary btn-lg w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
 			</div>
@@ -632,17 +463,6 @@ function handleElementDisplay(event, str) {
       reject('Target(s) do not exist');
     }
   });
-
-  // tars.forEach((el) =>
-  // {
-  // 	if (el.style.display == 'none') {
-  // 		el.style.display == str;
-  // 		console.log('a');
-  // 	} else {
-  // 		el.style.display == 'none';
-  // 		console.log('b');
-  // 	}
-  // });
 }
 
 // Class to dynamically create a new 'numeric' dropdown
@@ -679,273 +499,6 @@ class NumericDropdown {
       this.opts += '</option>';
     }
     return this.opts;
-  }
-}
-
-function apply_filter_button_click() {
-  var filter_search_text = document.getElementById('filter_search_text');
-  var filter_sort_by = document.getElementById('filter_sort_by');
-  var filter_records_perPage = document.getElementById(
-    'filter_records_perPage'
-  );
-  var filter_decending = document.getElementById('filter_decending');
-
-  /*
-	g_case_view_request.total_rows = 0,
-	g_case_view_request.page = 1,
-	g_case_view_request.skip = 0,
-	*/
-
-  g_case_view_request.take = filter_records_perPage.value;
-  g_case_view_request.sort = filter_sort_by.value;
-  g_case_view_request.search_key = filter_search_text.value;
-  g_case_view_request.descending = filter_decending.checked;
-
-  get_case_set();
-}
-
-function result_checkbox_click(p_checkbox) {
-  let value = p_checkbox.value;
-
-  if (p_checkbox.checked) {
-    if (answer_summary.case_set.indexOf(value) < 0) {
-      answer_summary.case_set.push(value);
-    }
-  } else {
-    let index = answer_summary.case_set.indexOf(value);
-
-    if (index > -1) {
-      answer_summary.case_set.splice(index, 1);
-    }
-  }
-
-  let el = document.getElementById('selected_case_list');
-  let result = [];
-
-  render_selected_case_list(result, answer_summary);
-  el.innerHTML = result.join('');
-
-  el = document.getElementById('exported_cases_count');
-  el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
-
-  el = document.getElementById('case_result_pagination');
-  result = [];
-  render_pagination(result, g_case_view_request);
-  el.innerHTML = result.join('');
-
-  var summary_of_selected_cases = document.getElementById(
-    'summary_of_selected_cases'
-  );
-  summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
-    answer_summary
-  );
-}
-
-var g_case_view_request = {
-  total_rows: 0,
-  page: 1,
-  skip: 0,
-  take: 100,
-  sort: 'date_last_updated',
-  search_key: null,
-  descending: true,
-  get_query_string: function () {
-    var result = [];
-    result.push('?skip=' + (this.page - 1) * this.take);
-    result.push('take=' + this.take);
-    result.push('sort=' + this.sort);
-
-    if (this.search_key) {
-      result.push(
-        'search_key="' +
-          this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-          '"'
-      );
-    }
-
-    result.push('descending=' + this.descending);
-
-    // console.log(this);
-
-    return result.join('&');
-  },
-};
-
-function get_case_set() {
-  var case_view_url =
-    location.protocol +
-    '//' +
-    location.host +
-    '/api/case_view' +
-    g_case_view_request.get_query_string();
-
-  $.ajax({
-    url: case_view_url,
-  }).done(function (case_view_response) {
-    let el = document.getElementById('search_result_list');
-    let html = [];
-    //html.push("<li><input type='checkbox' /> select all</li>");
-    g_case_view_request.total_rows = case_view_response.total_rows;
-    g_case_view_request.respone_rows = case_view_response.rows;
-    //g_case_view_request.page = case_view_response.page;
-
-    for (let i = 0; i < case_view_response.rows.length; i++) {
-      let item = case_view_response.rows[i];
-      let value_list = item.value;
-
-      selected_dictionary[item.id] = value_list;
-
-      let checked = '';
-      let index = answer_summary.case_set.indexOf(item.id);
-
-      if (index > -1) {
-        checked = 'checked=true';
-      }
-
-      // Items generated after user applies filters
-      html.push(`
-					<tr class="tr font-weight-normal">
-						<td class="td" data-type="date_created" width="38" align="center">
-							<input id=${escape(item.id)}
-										 type="checkbox"
-										 value=${escape(item.id)}
-										 type="checkbox"
-										 onclick="result_checkbox_click(this)" ${checked} />
-							<label for="" class="sr-only">${escape(item.id)}</label>
-						</td>
-						<td class="td" data-type="date_last_updated">
-							${escape(value_list.date_last_updated)
-                .replace(/%20/g, ' ')
-                .replace(/%3A/g, '-')} <br/> ${escape(
-        value_list.last_updated_by
-      )}
-						</td>
-						<td class="td" data-type="jurisdiction_id">
-							${escape(value_list.last_name)
-                .replace(/%20/g, ' ')
-                .replace(/%3A/g, '-')}, ${escape(value_list.first_name)
-        .replace(/%20/g, ' ')
-        .replace(/%3A/g, '-')} ${escape(value_list.middle_name)
-        .replace(/%20/g, ' ')
-        .replace(/%3A/g, '-')} [${escape(value_list.jurisdiction_id)}]  
-						</td>
-						<td class="td" data-type="record_id">
-							${escape(value_list.record_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-						</td>
-						<td class="td" data-type="date_of_death">
-						${
-              value_list.date_of_death_year != null
-                ? escape(value_list.date_of_death_year)
-                : ''
-            }-${
-        value_list.date_of_death_month != null
-          ? escape(value_list.date_of_death_month)
-          : ''
-      }
-						</td>
-						<td class="td" data-type="committee_review_date">
-						${
-              value_list.committee_review_date != null
-                ? escape(value_list.committee_review_date)
-                : 'N/A'
-            }
-						</td>
-						<td class="td" data-type="agency_case_id">
-							${escape(value_list.agency_case_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-						</td>
-						<td class="td" data-type="date_last_updated">
-							${escape(value_list.date_last_updated)
-                .replace(/%20/g, ' ')
-                .replace(/%3A/g, '-')}<br/>
-							${escape(value_list.created_by).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-						</td>
-					</tr>
-				`);
-      // html.push(`<li class="foo"><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
-    }
-
-    el.innerHTML = html.join('');
-
-    el = document.getElementById('case_result_pagination');
-    html = [];
-    render_pagination(html, g_case_view_request);
-    el.innerHTML = html.join('');
-  });
-}
-
-function render_selected_case_list(p_result, p_answer_summary) {
-  //html.push("<li><input type='checkbox' /> select all</li>");
-  for (let i = 0; i < p_answer_summary.case_set.length; i++) {
-    let item_id = p_answer_summary.case_set[i];
-    let value_list = selected_dictionary[item_id];
-
-    // Items generated after user ADDS applied filters
-    //html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
-
-    let checked = '';
-    let index = p_answer_summary.case_set.indexOf(item_id);
-
-    if (index > -1) {
-      checked = 'checked=true';
-    }
-
-    // Items generated after user applies filters
-    p_result.push(`
-			<tr class="tr font-weight-normal">
-				<td class="td" data-type="date_created" width="38" align="center">
-					<input id=${escape(item_id)}
-								 type="checkbox"
-								 value=${escape(item_id)}
-								 type="checkbox"
-								 onclick="result_checkbox_click(this)" ${checked} />
-					<label for="" class="sr-only">${escape(item_id)}</label>
-				</td>
-				<td class="td" data-type="date_last_updated">
-					${escape(value_list.date_last_updated)
-            .replace(/%20/g, ' ')
-            .replace(/%3A/g, '-')} <br/> ${escape(value_list.last_updated_by)}
-				</td>
-				<td class="td" data-type="jurisdiction_id">
-					${escape(value_list.last_name)
-            .replace(/%20/g, ' ')
-            .replace(/%3A/g, '-')}, ${escape(value_list.first_name)
-      .replace(/%20/g, ' ')
-      .replace(/%3A/g, '-')} ${escape(value_list.middle_name)
-      .replace(/%20/g, ' ')
-      .replace(/%3A/g, '-')} [${escape(value_list.jurisdiction_id)}]  
-				</td>
-				<td class="td" data-type="record_id">
-					${escape(value_list.record_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-				</td>
-				<td class="td" data-type="date_of_death">
-				${
-          value_list.date_of_death_year != null
-            ? escape(value_list.date_of_death_year)
-            : ''
-        }-${
-      value_list.date_of_death_month != null
-        ? escape(value_list.date_of_death_month)
-        : ''
-    }
-				</td>
-				<td class="td" data-type="committee_review_date">
-				${
-          value_list.committee_review_date != null
-            ? escape(value_list.committee_review_date)
-            : 'N/A'
-        }
-				</td>
-				<td class="td" data-type="agency_case_id">
-					${escape(value_list.agency_case_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-				</td>
-				<td class="td" data-type="date_last_updated">
-					${escape(value_list.date_last_updated)
-            .replace(/%20/g, ' ')
-            .replace(/%3A/g, '-')}<br/>
-					${escape(value_list.created_by).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-				</td>
-			</tr>
-		`);
   }
 }
 
@@ -1237,8 +790,6 @@ function render_selected_de_identified_list(p_result, p_answer_summary) {
 			</tr>
 		`);
   }
-
-  //el.innerHTML = html.join("");
 }
 
 function render_sort_by_include_in_export(p_case_view_request) {
@@ -1319,25 +870,6 @@ function de_identify_filter_type_click(p_value) {
     } else {
       reject();
     }
-
-    // if (!isNullOrUndefined(de_identify_filter)) {
-    // 	if(p_value.value.toLowerCase() == "custom")
-    // 	{
-    // 		de_identify_filter.style.display = "block";
-    // 	}
-    // 	else
-    // 	{
-    // 		de_identify_filter.style.display = "none";
-    // 	}
-
-    // 	answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
-
-    // 	resolve();
-    // }
-    // else
-    // {
-    // 	reject();
-    // }
   });
 }
 
@@ -1345,55 +877,8 @@ function de_identify_search_text_change(p_value) {
   g_filter.search_text = p_value;
 }
 
-function filter_serach_text_change(p_value) {
-  g_case_view_request.search_key = p_value;
-}
-
 function de_identify_standard_fields_change(p_value) {
   answer_summary.is_de_identify_standard_fields = p_value;
-}
-
-function render_pagination(p_result, p_case_view_request) {
-  //p_result.push("<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>");
-  p_result.push("<div class='col'>");
-  p_result.push("<div class='row no-gutters'>");
-  p_result.push("<p class='mb-0'>Total Records: ");
-  p_result.push('<strong>' + p_case_view_request.total_rows + '</strong>');
-  p_result.push('</p>');
-  p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
-  p_result.push("<p class='mb-0'>Viewing Page(s): ");
-  p_result.push('<strong>' + p_case_view_request.page + '</strong> ');
-  p_result.push('of ');
-  p_result.push(
-    '<strong>' +
-      Math.ceil(p_case_view_request.total_rows / p_case_view_request.take) +
-      '</strong>'
-  );
-  p_result.push('</p>');
-  p_result.push('</div>');
-  p_result.push('</div>');
-  p_result.push(
-    "<div class='col row no-gutters align-items-center justify-content-end'>"
-  );
-  p_result.push("<p class='mb-0'>Select by page:</p>");
-  for (
-    let current_page = 1;
-    (current_page - 1) * p_case_view_request.take <
-    p_case_view_request.total_rows;
-    current_page++
-  ) {
-    p_result.push(
-      "<button type='button' class='table-btn-link btn btn-link' alt='select page " +
-        current_page +
-        "' onclick='g_ui.case_view_request.page="
-    );
-    p_result.push(current_page);
-    p_result.push(";get_case_set();'>");
-    p_result.push(current_page);
-    p_result.push('</button>');
-  }
-  p_result.push('</div>');
-  //p_result.push("</div>");
 }
 
 function render_summary_de_identified_fields(p_answer_summary) {

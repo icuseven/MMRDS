@@ -3,56 +3,56 @@ class ResponseTableRow extends React.Component {
     return escape(text).replace(/%20/g, ' ').replace(/%3A/g, '-');
   }
   render() {
-    const { rowData, selectRow, checked } = this.props;
+    const { rowData, selectRow, checked, rowId } = this.props;
     return (
       <tr class="tr font-weight-normal">
         <td class="td" data-type="date_created" width="38" align="center">
           <input
-            id={escape(rowData.id)}
+            id={escape(rowId)}
             type="checkbox"
-            value={escape(rowData.id)}
+            value={escape(rowId)}
             type="checkbox"
             onClick={selectRow}
             checked={checked}
           />
           <label for="" class="sr-only">
-            {escape(rowData.id)}
+            {escape(rowId)}
           </label>
         </td>
         <td class="td" data-type="date_last_updated">
-          {this.escapeText(rowData.value.date_last_updated)} <br />{' '}
-          {escape(rowData.value.last_updated_by)}
+          {this.escapeText(rowData.date_last_updated)} <br />{' '}
+          {escape(rowData.last_updated_by)}
         </td>
         <td class="td" data-type="jurisdiction_id">
-          {this.escapeText(rowData.value.last_name)},{' '}
-          {this.escapeText(rowData.value.first_name)}{' '}
-          {this.escapeText(rowData.value.middle_name)} [
-          {escape(rowData.value.jurisdiction_id)}]
+          {this.escapeText(rowData.last_name)},{' '}
+          {this.escapeText(rowData.first_name)}{' '}
+          {this.escapeText(rowData.middle_name)} [
+          {escape(rowData.jurisdiction_id)}]
         </td>
         <td class="td" data-type="record_id">
-          {this.escapeText(rowData.value.record_id)}
+          {this.escapeText(rowData.record_id)}
         </td>
         <td class="td" data-type="date_of_death">
-          {rowData.value.date_of_death_year != null
-            ? escape(rowData.value.date_of_death_year)
+          {rowData.date_of_death_year != null
+            ? escape(rowData.date_of_death_year)
             : ''}
           -
-          {rowData.value.date_of_death_month != null
-            ? escape(rowData.value.date_of_death_month)
+          {rowData.date_of_death_month != null
+            ? escape(rowData.date_of_death_month)
             : ''}
         </td>
         <td class="td" data-type="committee_review_date">
-          {rowData.value.committee_review_date != null
-            ? escape(rowData.value.committee_review_date)
+          {rowData.committee_review_date != null
+            ? escape(rowData.committee_review_date)
             : 'N/A'}
         </td>
         <td class="td" data-type="agency_case_id">
-          {this.escapeText(rowData.value.agency_case_id)}
+          {this.escapeText(rowData.agency_case_id)}
         </td>
         <td class="td" data-type="date_last_updated">
-          {this.escapeText(rowData.value.date_last_updated)}
+          {this.escapeText(rowData.date_last_updated)}
           <br />
-          {this.escapeText(rowData.value.created_by)}
+          {this.escapeText(rowData.created_by)}
         </td>
       </tr>
     );
@@ -192,44 +192,47 @@ function getQueryString({ page, take, sort, searchText, descending }) {
 }
 
 class ExportQueue extends React.Component {
-  state = {
-    filterSortBy: [
-      { value: 'first_name', text: 'First name' },
-      { value: 'middle_name', text: 'Middle name' },
-      { value: 'last_name', text: 'Last name' },
-      { value: 'date_of_death_year', text: 'Date of death year' },
-      { value: 'date_of_death_month', text: 'Date of death month' },
-      { value: 'date_created', text: 'Date created' },
-      { value: 'created_by', text: 'Created by' },
-      {
-        value: 'date_last_updated',
-        selected: true,
-        text: 'Date last updated',
-      },
-      { value: 'last_updated_by', text: 'Last updated by' },
-      { value: 'record_id', text: 'Record id' },
-      { value: 'agency_case_id', text: 'Agency case id' },
-      { value: 'date_of_committee_review', text: 'Date of committee review' },
-      { value: 'jurisdiction_id', text: 'Jurisdiction id' },
-    ],
-    filterRecordsPerPage: [
-      { text: '25' },
-      { text: '50' },
-      { text: '100', selected: true },
-      { text: '250' },
-      { text: '500' },
-    ],
-    showCustomCaseFilter: false,
-    caseViewResponse: [],
-    caseViewResponseTotalRows: 0,
-    selectedRows: {},
-    searchText: '',
-    page: 1,
-    skip: 0,
-    take: 100,
-    sort: 'date_last_updated',
-    descending: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterSortBy: [
+        { value: 'first_name', text: 'First name' },
+        { value: 'middle_name', text: 'Middle name' },
+        { value: 'last_name', text: 'Last name' },
+        { value: 'date_of_death_year', text: 'Date of death year' },
+        { value: 'date_of_death_month', text: 'Date of death month' },
+        { value: 'date_created', text: 'Date created' },
+        { value: 'created_by', text: 'Created by' },
+        {
+          value: 'date_last_updated',
+          selected: true,
+          text: 'Date last updated',
+        },
+        { value: 'last_updated_by', text: 'Last updated by' },
+        { value: 'record_id', text: 'Record id' },
+        { value: 'agency_case_id', text: 'Agency case id' },
+        { value: 'date_of_committee_review', text: 'Date of committee review' },
+        { value: 'jurisdiction_id', text: 'Jurisdiction id' },
+      ],
+      filterRecordsPerPage: [
+        { text: '25' },
+        { text: '50' },
+        { text: '100', selected: true },
+        { text: '250' },
+        { text: '500' },
+      ],
+      showCustomCaseFilter: this.props.showCustomCaseFilter,
+      caseViewResponse: [],
+      caseViewResponseTotalRows: 0,
+      selectedRows: this.props.caseSet,
+      searchText: '',
+      page: 1,
+      skip: 0,
+      take: 100,
+      sort: 'date_last_updated',
+      descending: true,
+    };
+  }
 
   caseFilterTypeClick = (e) => {
     const p_value = e.target.value;
@@ -277,7 +280,12 @@ class ExportQueue extends React.Component {
           caseViewResponse: resp.rows,
           caseViewResponseTotalRows: resp.total_rows,
         });
-
+        for (let i = 0; i < resp.rows.length; i++) {
+          // cache the response
+          let item = resp.rows[i];
+          let value_list = item.value;
+          selected_dictionary[item.id] = value_list;
+        }
         // el = document.getElementById('case_result_pagination');
         // html = [];
         // render_pagination(html, g_case_view_request);
@@ -307,6 +315,16 @@ class ExportQueue extends React.Component {
   result_checkbox_click() {}
   selectRow = (e) => {
     const rowId = e.target.value;
+    if (e.target.checked) {
+      if (answer_summary.case_set.indexOf(rowId) < 0) {
+        answer_summary.case_set.push(rowId);
+      }
+    } else {
+      let index = answer_summary.case_set.indexOf(rowId);
+      if (index > -1) {
+        answer_summary.case_set.splice(index, 1);
+      }
+    }
     const selectedRowId = this.state.selectedRows[rowId];
     // by default it will be selected if it is not already in the selectedRows memo
     const selected = selectedRowId !== undefined ? !selectedRowId : false;
@@ -324,27 +342,36 @@ class ExportQueue extends React.Component {
       border: '1px solid #ced4da',
     };
     const INCLUDED_CASE_ROWS = [];
-    const CASE_ROWS = this.state.caseViewResponse.map((rowData) => {
-      const selectedIdValue = this.state.selectedRows[rowData.id];
-      const checked = selectedIdValue === undefined ? true : selectedIdValue;
-      if (selectedIdValue === undefined || selectedIdValue === true) {
-        INCLUDED_CASE_ROWS.push(
-          <ResponseTableRow
-            key={'inc' + rowData.id}
-            {...{ rowData, checked: true, selectRow: () => {} }}
-          />
-        );
-      }
+    const CASE_ROWS = this.state.caseViewResponse.map((respData) => {
+      const selectedIdValue = this.state.selectedRows[respData.id];
+      const checked = !!selectedIdValue;
       const { selectRow } = this;
       return (
         <ResponseTableRow
-          key={rowData.id}
-          {...{ rowData, checked, selectRow }}
+          key={respData.id}
+          {...{
+            rowData: respData.value,
+            checked,
+            selectRow,
+            rowId: respData.id,
+          }}
         />
       );
     });
+    Object.keys(this.state.selectedRows).forEach((rowId) => {
+      const selected = this.state.selectedRows[rowId];
+      if (selected) {
+        let rowData = selected_dictionary[rowId];
+        INCLUDED_CASE_ROWS.push(
+          <ResponseTableRow
+            key={'inc' + rowId}
+            {...{ rowData, checked: true, selectRow: () => {}, rowId }}
+          />
+        );
+      }
+    });
     return (
-      <li className="mb-4">
+      <React.Fragment>
         <p className="mb-3">
           Please select which cases you want to include in the export?
         </p>
@@ -471,7 +498,20 @@ class ExportQueue extends React.Component {
             </React.Fragment>
           )}
         </ul>
-      </li>
+      </React.Fragment>
     );
   }
+}
+
+function renderReactExportQueue(p_answer_summary) {
+  const showCustomCaseFilter =
+    p_answer_summary['case_filter_type'] == 'custom' ? true : false;
+  const caseSet = {};
+  p_answer_summary.case_set.forEach((caseId) => {
+    caseSet[caseId] = true;
+  });
+  ReactDOM.render(
+    <ExportQueue {...{ showCustomCaseFilter, caseSet }} />,
+    document.getElementById('react-content')
+  );
 }

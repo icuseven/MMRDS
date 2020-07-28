@@ -86,6 +86,7 @@ function render() {
     answer_summary,
     g_filter
   ).join('');
+  renderReactExportQueue(answer_summary);
   // render_answer_summary();
 }
 
@@ -163,8 +164,6 @@ function add_new_all_export_item() {
   g_data.push(queue_item);
 
   confirm_export_item(queue_item._id);
-
-  //render();
 }
 
 function find_export_item(p_id) {
@@ -427,7 +426,6 @@ function get_metadata() {
     }
 
     render();
-
     update_queue_task();
   });
 }

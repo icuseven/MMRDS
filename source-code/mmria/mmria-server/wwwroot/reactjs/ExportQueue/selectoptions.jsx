@@ -7,7 +7,7 @@ class SelectOptions extends React.Component {
       </option>
     ));
     return (
-      <select id={id} className="custom-select">
+      <select key={id} id={id} className="custom-select">
         {OPTS}
       </select>
     );
