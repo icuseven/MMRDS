@@ -18,6 +18,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>";
     }
 
+    //don't allow "Enable Edit" if checked out by someone else
+    if(!is_checked_out_expired(g_data))
+    {
+        enable_edit_disable_attribute = " disabled ";
+    }
+
     if(
         p_metadata.cardinality == "+" ||
         p_metadata.cardinality == "*"
