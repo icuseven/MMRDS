@@ -28,3 +28,15 @@
 
 <h1 class="h2 mb-4">Export Data</h1>
 <div id='form_content_id'></div>
+<br/>
+---------------------REACT VERSION---------------------
+<br/>
+
+@section Scripts {
+  @* <script src="~/js/test.jsx"></script> *@
+  <script src="@Url.Content("~/reactjs/sharedmodules/Spinner.jsx")"></script>
+  <script src="@Url.Content("~/reactjs/ExportQueue/SelectOptions.jsx")"></script>
+  <script src="@Url.Content("~/reactjs/ExportQueue/ExportQueue.jsx")"></script>
+}
+
+@Html.React("ExportQueue", new {})
