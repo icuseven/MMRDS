@@ -145,10 +145,14 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				}
 				p_result.push(`>`);
 
-				// let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
-				// let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
-				// let validation_position = parseInt(validation_top) + parseInt(validation_height);
-				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:auto; top: auto; bottom: -22px; left: auto;">Invalid date</small>`);
+				let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+				let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+				let validation_height_new = 'auto';
+				let validation_top_new = 'auto';
+				let validation_bottom_new = '-22px';
+				let validation_left_new = 'auto';
+
+				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date</small>`);
 
 				p_post_html_render.push(`
 					if (${is_valid})
@@ -162,7 +166,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					{
 						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
 						$(".construct__header-alert").show();
-						$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be between 1900-2100</li>');
+						$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date</li>');
 					}
 				`);
 		p_result.push("</div>");
