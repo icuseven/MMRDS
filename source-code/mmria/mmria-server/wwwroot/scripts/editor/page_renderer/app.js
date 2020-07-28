@@ -8,8 +8,17 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div tabindex='-1'>");
     p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
     p_result.push("<div class='row no-gutters align-items-center'>");
-        p_result.push("<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)'>Add New Case</button>");
-        p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
+    
+    
+    let is_read_only_html = '';
+    if(g_is_data_analyst_mode)
+    {
+        is_read_only_html = "disabled='disabled'";
+    }
+
+    p_result.push(`<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)' ${is_read_only_html}>Add New Case</button>`);
+
+    p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
     p_result.push("</div>");
     p_result.push("</div> <!-- end .content-intro -->");
 
@@ -406,7 +415,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 let checked_out_html = ' [not checked out] ';
                 let delete_enabled_html = ''; 
 
-                if(is_checked_out)
+                if(g_is_data_analyst_mode)
+                {
+                    checked_out_html = ' [ read only ] ';
+                    delete_enabled_html = ' disabled = "disabled" ';
+                }
+                else if(is_checked_out)
                 {
                     checked_out_html = ' [checked out by you] ';
                     delete_enabled_html = ' disabled = "disabled" ';
