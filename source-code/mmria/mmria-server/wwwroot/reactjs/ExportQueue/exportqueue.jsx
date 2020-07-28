@@ -5,34 +5,34 @@ class ResponseTableRow extends React.Component {
   render() {
     const { rowData, selectRow, checked, rowId } = this.props;
     return (
-      <tr class="tr font-weight-normal">
-        <td class="td" data-type="date_created" width="38" align="center">
+      <tr className="tr font-weight-normal">
+        <td className="td" data-type="date_created" width="38" align="center">
           <input
             id={escape(rowId)}
             type="checkbox"
             value={escape(rowId)}
             type="checkbox"
-            onClick={selectRow}
+            onChange={selectRow}
             checked={checked}
           />
-          <label for="" class="sr-only">
+          <label htmlFor="" className="sr-only">
             {escape(rowId)}
           </label>
         </td>
-        <td class="td" data-type="date_last_updated">
+        <td className="td" data-type="date_last_updated">
           {this.escapeText(rowData.date_last_updated)} <br />{' '}
           {escape(rowData.last_updated_by)}
         </td>
-        <td class="td" data-type="jurisdiction_id">
+        <td className="td" data-type="jurisdiction_id">
           {this.escapeText(rowData.last_name)},{' '}
           {this.escapeText(rowData.first_name)}{' '}
           {this.escapeText(rowData.middle_name)} [
           {escape(rowData.jurisdiction_id)}]
         </td>
-        <td class="td" data-type="record_id">
+        <td className="td" data-type="record_id">
           {this.escapeText(rowData.record_id)}
         </td>
-        <td class="td" data-type="date_of_death">
+        <td className="td" data-type="date_of_death">
           {rowData.date_of_death_year != null
             ? escape(rowData.date_of_death_year)
             : ''}
@@ -41,15 +41,15 @@ class ResponseTableRow extends React.Component {
             ? escape(rowData.date_of_death_month)
             : ''}
         </td>
-        <td class="td" data-type="committee_review_date">
+        <td className="td" data-type="committee_review_date">
           {rowData.committee_review_date != null
             ? escape(rowData.committee_review_date)
             : 'N/A'}
         </td>
-        <td class="td" data-type="agency_case_id">
+        <td className="td" data-type="agency_case_id">
           {this.escapeText(rowData.agency_case_id)}
         </td>
-        <td class="td" data-type="date_last_updated">
+        <td className="td" data-type="date_last_updated">
           {this.escapeText(rowData.date_last_updated)}
           <br />
           {this.escapeText(rowData.created_by)}
@@ -73,7 +73,7 @@ class ResponseTableRow extends React.Component {
   // html.push(`
 
   // `);
-  // html.push(`<li class="foo"><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
+  // html.push(`<li className="foo"><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
 }
 
 class ExportTable extends React.Component {
@@ -237,27 +237,14 @@ class ExportQueue extends React.Component {
   caseFilterTypeClick = (e) => {
     const p_value = e.target.value;
     answer_summary.case_filter_type = p_value.toLowerCase();
-
-    // var custom_case_filter = document.getElementById("custom_case_filter");
-    // if(p_value.value.toLowerCase() == "custom")
-    // {
-    //   custom_case_filter.style.display = "block";
-    // }
-    // else
-    // {
-    //   custom_case_filter.style.display = "none";
-    // }
     this.setState({
       showCustomCaseFilter: !!(p_value.toLowerCase() === 'custom'),
     });
-
-    //renderSummarySection(p_value);
   };
 
   filterSearchTextChange = (e) => {
     const { value } = e.target;
     this.setState({ searchText: value });
-    //g_case_view_request.search_key = value;
   };
 
   getCaseSet = ({ page }) => {
@@ -273,8 +260,6 @@ class ExportQueue extends React.Component {
     fetch(caseViewUrl)
       .then((response) => response.json())
       .then((resp) => {
-        // g_case_view_request.total_rows = resp.total_rows;
-        // g_case_view_request.respone_rows = resp.rows;
         this.setState({
           loading: false,
           caseViewResponse: resp.rows,
@@ -286,15 +271,9 @@ class ExportQueue extends React.Component {
           let value_list = item.value;
           selected_dictionary[item.id] = value_list;
         }
-        // el = document.getElementById('case_result_pagination');
-        // html = [];
-        // render_pagination(html, g_case_view_request);
-        // el.innerHTML = html.join('');
       });
   };
-  setPage = (page) => {
-    this.setState({ page });
-  };
+
   applyFilterButtonClick = () => {
     this.setState({ loading: true });
     const searchText = document.getElementById('filter_search_text').value;
@@ -327,7 +306,7 @@ class ExportQueue extends React.Component {
     }
     const selectedRowId = this.state.selectedRows[rowId];
     // by default it will be selected if it is not already in the selectedRows memo
-    const selected = selectedRowId !== undefined ? !selectedRowId : false;
+    const selected = !selectedRowId;
     // create a new memo
     const newSelectedRows = { ...this.state.selectedRows, [rowId]: selected };
     this.setState({

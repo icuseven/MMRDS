@@ -9,10 +9,10 @@ class SelectOptions extends React.Component {
       return selectedOpt.value || selectedOpt.text;
     }
   }
-  handleChange(e) {
+  handleChange = (e) => {
     const value = e.target;
     this.setState({ selected: value });
-  }
+  };
 
   render() {
     const { options, id } = this.props;
@@ -26,7 +26,12 @@ class SelectOptions extends React.Component {
       );
     });
     return (
-      <select id={id} className="custom-select" value={this.state.selected}>
+      <select
+        id={id}
+        className="custom-select"
+        value={this.state.selected}
+        onChange={this.handleChange}
+      >
         {OPTS}
       </select>
     );
