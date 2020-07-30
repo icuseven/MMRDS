@@ -1341,6 +1341,11 @@ button.link {
 .construct__info {
   font-size: 14px;
 }
+.construct__info span {
+  padding-left: 5px;
+  position: absolute;
+  width: 100%;
+}
 
 /*
     Form styles for anything inside of data-collector output

@@ -418,7 +418,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
                 if(g_is_data_analyst_mode)
                 {
-                    checked_out_html = ' [ read only ] ';
+                    // checked_out_html = ' [ read only ] ';
+                    checked_out_html = '';
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
                 else if(is_checked_out)
