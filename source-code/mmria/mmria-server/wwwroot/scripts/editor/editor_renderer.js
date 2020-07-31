@@ -115,7 +115,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path) {
       result.push(
         `<div style="margin-top:10px" path="/" > ${p_metadata.name}
 					<ul tag="attribute_list" style="display:${
-            p_ui.is_collaped['/'] ? 'none' : 'block'
+            p_ui.is_collapsed['/'] ? 'none' : 'block'
           }">`
       );
       Array.prototype.push.apply(result, attribute_renderer(p_metadata, '/'));
@@ -242,7 +242,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path) {
       result.push(
         `<input type="button" value="ps" onclick="editor_paste_to_children('${p_path}', true)" />
 					<input type="button" value="kp" onclick="editor_cut_to_children('${p_path}', true)" />
-					${object_path}
+					${p_object_path}
 					<br/>
 					<ul tag="attribute_list">`
       );
@@ -360,23 +360,28 @@ function attribute_renderer(p_metadata, p_path) {
     var name_check = prop.toLowerCase();
     switch (name_check) {
       case 'tags':
-        result.push('<li>tags: <input type="text" value="');
-        result.push(p_metadata[prop].join(' '));
-        result.push('" onBlur="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
-        result.push('" /> </li>');
+        result.push(
+          `<li>
+						tags: <input type="text" value="${p_metadata[prop].join(
+              ' '
+            )}" onBlur="editor_set_value(this, g_ui)" path="${
+            p_path + '/' + prop
+          }" />
+					</li>`
+        );
         break;
       case 'children':
       case 'values':
         break;
 
       case 'data_type':
-        result.push('<li>data_type: ');
-        result.push('<select onChange="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
-        result.push('" /> ');
-
-        result.push('<option>select item datatype</option>');
+        result.push(
+          `<li>
+						data_type: <select onChange="editor_set_value(this, g_ui)" path="${
+              p_path + '/' + prop
+            }" />
+							<option>select item datatype</option>`
+        );
 
         if (p_metadata[prop].toLowerCase() == 'number') {
           result.push('<option selected>number</option>');
