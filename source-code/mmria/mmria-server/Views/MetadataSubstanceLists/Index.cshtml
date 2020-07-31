@@ -1,0 +1,21 @@
+@using System.Security.Claims;
+@{
+  Layout = "_LayoutBase"; // _cdc_no_footer used to be the template file
+  var userName = "";
+
+  ViewBag.BreadCrumbs = true;
+  ViewBag.Sidebar = false;
+
+  if (User.Identities.Any(u => u.IsAuthenticated))
+  {
+    userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  }
+}
+
+@section Scripts {
+  <script src="@Url.Content("~/reactjs/sharedmodules/SelectOptions.jsx")"></script>
+  <script src="@Url.Content("~/reactjs/MetadataSubstanceLists/MetadataSubstanceLists.jsx")"></script>
+}
+@Html.React("MetadataSubstanceLists", new {})

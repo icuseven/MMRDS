@@ -847,7 +847,7 @@ namespace mmria.server
         // See http://reactjs.net/ for more information. Example:
         config
           .AddScript("~/reactjs/sharedmodules/*")
-          .AddScript("~/reactjs/ExportQueue/*");
+          .AddScript("~/reactjs/MetadataSubstanceLists/*");
         //    .AddScript("~/js/Second.jsx");
 
         // If you use an external build too (for example, Babel, Webpack,
