@@ -22,18 +22,9 @@
   <script src="../scripts/export-queue/export_queue_renderer.js" type="text/javascript"></script>
   <script src="../scripts/url_monitor.js" type="text/javascript"></script>
   <script src="../scripts/mmria.js" type="text/javascript"></script>
-  
+  <script src="../scripts/export-queue/index.js" type="text/javascript"></script>
 
 }
 
 <h1 class="h2 mb-4">Export Data</h1>
 <div id='form_content_id'></div>
-
-@section Scripts {
-  <script src="@Url.Content("~/reactjs/sharedmodules/Spinner.jsx")"></script>
-  <script src="@Url.Content("~/reactjs/ExportQueue/SelectOptions.jsx")"></script>
-  <script src="@Url.Content("~/reactjs/ExportQueue/ExportQueue.jsx")"></script>
-  <script src="../scripts/export-queue/index.js" type="text/javascript"></script>
-}
-
-@* @Html.React("ExportQueue", new {}) *@
