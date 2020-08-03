@@ -15,7 +15,6 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push("' ");
     p_result.push(">Jurisdiction ID </label>");
 
-
     p_result.push("<select name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
     p_result.push(p_object_path);
     p_result.push("\",\"");
@@ -32,6 +31,13 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         p_result.push(get_style_string(style_object.control.style));
     }
     p_result.push("' ");
+
+    let disabled_html = " readonly=true ";
+	if(g_data_is_checked_out)
+	{
+		disabled_html = " ";
+	}
+    p_result.push(disabled_html);
 
     p_result.push(">");
 
@@ -50,7 +56,14 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         {
             p_result.push("<option value='");
             p_result.push(child.replace(/'/g, "&#39;"));
-            p_result.push("' selected>");
+            p_result.push("' selected ");
+            let disabled_option_html = "disabled";
+            if(g_data_is_checked_out || g_is_data_analyst_mode)
+            {
+                disabled_option_html = "";
+            }
+            p_result.push(disabled_option_html);
+            p_result.push(">");
             p_result.push(child);
             p_result.push("</option>");
         }
@@ -58,7 +71,14 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         {
             p_result.push("<option value='");
             p_result.push(child.replace(/'/g, "&#39;"));
-            p_result.push("' >");
+            p_result.push("' ");
+            let disabled_option_html = "disabled";
+            if(g_data_is_checked_out || g_is_data_analyst_mode)
+            {
+                disabled_option_html = "";
+            }
+            p_result.push(disabled_option_html);
+            p_result.push(">");
             p_result.push(child);
             p_result.push("</option>");
         }

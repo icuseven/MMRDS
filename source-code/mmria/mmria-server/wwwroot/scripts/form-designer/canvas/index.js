@@ -735,7 +735,23 @@ function execute_command_click()
         case "stack":
           message += "\n\nstack selected fields";
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += stack_selected_fields();
+
+          if(cmd_text.length > 1)
+          {
+            if(cmd_text.length > 2)
+            {
+              message += stack_selected_fields(cmd_text[1], cmd_text[2]);
+            }
+            else
+            {
+              message += stack_selected_fields(cmd_text[1]);
+            }
+          }
+          else
+          {
+            message += stack_selected_fields();
+          }
+          
           break;          
 
         case "ro":
@@ -1240,7 +1256,7 @@ function prompt_and_control_compare(a, b)
 }
 
 
-function stack_selected_fields()
+function stack_selected_fields(p_pixels)
 {
 
   var result = "";
@@ -1280,7 +1296,11 @@ function stack_selected_fields()
       )
       {
         //previous_item[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_field_pixels))  + "px";
-        current_item.style.top = (previous_item.offsetTop + previous_item.offsetHeight + 15)  + "px";
+        if(p_pixels == null)
+        {
+          p_pixels = 15;
+        }
+        current_item.style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_pixels))  + "px";
         current_item.style.left = previous_item.offsetLeft + "px";
       }      
     }

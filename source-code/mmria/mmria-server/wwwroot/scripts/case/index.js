@@ -158,6 +158,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         }
         else
         {
+          eval(p_object_path + ' = ""');
           valid_date_or_datetime = false;
         }
       }

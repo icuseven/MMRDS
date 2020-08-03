@@ -22,6 +22,14 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     if(!is_checked_out_expired(g_data))
     {
         enable_edit_disable_attribute = " disabled ";
+        currently_locked_by_html = "";
+    }
+
+    //don't show "Currently Locked" message if checked out by you
+    if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by !== g_user_name)
+    {
+        enable_edit_disable_attribute = " disabled ";
+        currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_data.last_checked_out_by + "</b>)</i>";
     }
 
     if(
@@ -37,8 +45,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
-                    p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
-                        p_result.push("<div class='col-4'>");
+                    p_result.push("<div class='construct__header-main position-relative row no-gutters align-items-start'>");
+                        p_result.push("<div class='col-4 position-static'>");
                             if(g_data)
                             {
                                 p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
@@ -72,12 +80,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                             if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
                             {
-                                p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.created_by && g_data.created_by} ${g_data.date_created}</p>`);
+                                p_result.push(`<p class='construct__info mb-0'>Date created: <span>${g_data.created_by && g_data.created_by} ${g_data.date_created}</span></p>`);
                             }
 
                             if (g_data.date_last_updated && !isNullOrUndefined(g_data.date_last_updated))
                             {
-                                p_result.push(`<p class='construct__info mb-0'>Last updated: ${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</p>`);
+                                p_result.push(`<p class='construct__info mb-0'>Last updated: <span>${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</span></p>`);
                             }
 
                             let add_button_disable_attribute = ' disabled="disabled" ';
@@ -471,8 +479,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                     render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
-                    p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
-                        p_result.push("<div class='col-4'>");
+                    p_result.push("<div class='construct__header-main position-relative row no-gutters align-items-start'>");
+                        p_result.push("<div class='col-4 position-static'>");
                             if(g_data)
                             {
                                 p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
@@ -507,12 +515,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                             if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
                             {
-                                p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.created_by && g_data.created_by} ${g_data.date_created}</p>`);
+                                p_result.push(`<p class='construct__info mb-0'>Date created: <span>${g_data.created_by && g_data.created_by} ${g_data.date_created}</span></p>`);
                             }
 
                             if (g_data.date_last_updated && !isNullOrUndefined(g_data.date_last_updated))
                             {
-                                p_result.push(`<p class='construct__info mb-0'>Last updated: ${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</p>`);
+                                p_result.push(`<p class='construct__info mb-0'>Last updated: <span>${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</span></p>`);
                             }
 
                         p_result.push("</div>");
@@ -643,8 +651,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             
         render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
 
-            p_result.push("<div class='construct__header-main row no-gutters align-items-start'>");
-                p_result.push("<div class='col-4'>");
+            p_result.push("<div class='construct__header-main position-relative row no-gutters align-items-start'>");
+                p_result.push("<div class='col-4 position-static'>");
                     if(g_data)
                     {
                         p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
@@ -678,12 +686,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                     if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
                     {
-                        p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.created_by && g_data.created_by} ${g_data.date_created}</p>`);
+                        p_result.push(`<p class='construct__info mb-0'>Date created: <span>${g_data.created_by && g_data.created_by} ${g_data.date_created}</span></p>`);
                     }
 
                     if (g_data.date_last_updated && !isNullOrUndefined(g_data.date_last_updated))
                     {
-                        p_result.push(`<p class='construct__info mb-0'>Last updated: ${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</p>`);
+                        p_result.push(`<p class='construct__info mb-0'>Last updated: <span>${g_data.last_updated_by && g_data.last_updated_by} ${g_data.date_last_updated}</span></p>`);
                     }
 
                 p_result.push("</div>");
@@ -1144,7 +1152,7 @@ function render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_m
             <div class="ml-2">
                 <p>Please correct errors below:</p>
                 <ul id="validation_summary_list" class="mb-0">
-                    <li><strong>Invalid date (Prompt):</strong> Date must be between 1900-2100</li>
+                    <li><strong>Invalid date (Prompt):</strong> Date must be a valid calendar date</li>
                 </ul>
             </div>
         </div>
