@@ -351,8 +351,8 @@ var valid_types = [
 
 function attribute_renderer(p_metadata, p_path) {
   var result = [];
-
-  if (p_metadata.type.toLowerCase() != 'app' && p_metadata.tags == null) {
+  const metaType = p_metadata.type.toLowerCase();
+  if (metaType != 'app' && p_metadata.tags == null) {
     p_metadata.tags = [];
   }
 
@@ -375,53 +375,40 @@ function attribute_renderer(p_metadata, p_path) {
         break;
 
       case 'data_type':
+        const dataType = p_metadata[prop].toLowerCase();
         result.push(
           `<li>
 						data_type: <select onChange="editor_set_value(this, g_ui)" path="${
               p_path + '/' + prop
             }" />
-							<option>select item datatype</option>`
+							<option>select item datatype</option>
+							<option${dataType === 'number' ? ' selected' : ''}>number</option>
+							<option${dataType === 'string' ? ' selected' : ''}>string</option>
+						</select>
+						</li>`
         );
-
-        if (p_metadata[prop].toLowerCase() == 'number') {
-          result.push('<option selected>number</option>');
-        } else {
-          result.push('<option>number</option>');
-        }
-
-        if (p_metadata[prop].toLowerCase() == 'string') {
-          result.push('<option selected>string</option>');
-        } else {
-          result.push('<option>string</option>');
-        }
-
-        result.push('</select>');
         break;
       case 'type':
-        if (p_metadata.type.toLowerCase() == 'app') {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : ');
-          result.push(p_metadata[prop]);
-          result.push('</li>');
+        if (metaType == 'app') {
+          result.push(`<li>${prop} : ${p_metadata[prop]}</li>`);
         } else {
+          const type = p_metadata[prop].toLowerCase();
           result.push('<li>type: ');
           if (
-            p_metadata[prop].toLowerCase() == 'app' ||
-            p_metadata[prop].toLowerCase() == 'list' ||
-            p_metadata[prop].toLowerCase() == 'group' ||
-            p_metadata[prop].toLowerCase() == 'form' ||
-            p_metadata[prop].toLowerCase() == 'chart'
+            type == 'app' ||
+            type == 'list' ||
+            type == 'group' ||
+            type == 'form' ||
+            type == 'chart'
           ) {
             result.push(p_metadata[prop]);
           } else {
             result.push(
-              '<select onChange="editor_set_value(this, g_ui)" path="'
+              `<select onChange="editor_set_value(this, g_ui)" path="${
+                p_path + '/' + prop
+              }" />`
             );
-            result.push(p_path + '/' + prop);
-            result.push('" /> ');
-            for (var i = 0; i < valid_types.length; i++) {
-              var item = valid_types[i];
+            valid_types.forEach((item) => {
               switch (item.toLowerCase()) {
                 case 'app':
                 case 'list':
@@ -429,98 +416,74 @@ function attribute_renderer(p_metadata, p_path) {
                 case 'form':
                   break;
                 default:
-                  if (
+                  const isSelected =
                     p_metadata[prop] &&
-                    item.toLowerCase() == p_metadata[prop].toLowerCase()
-                  ) {
-                    result.push('<option selected>');
-                  } else {
-                    result.push('<option>');
-                  }
-                  result.push(valid_types[i]);
-                  result.push('</option>');
+                    item.toLowerCase() == p_metadata[prop].toLowerCase();
+                  result.push(
+                    `<option${isSelected ? ' selected' : ''}>${item}</option>`
+                  );
                   break;
               }
-            }
+            });
             result.push('</select>');
           }
         }
         break;
       case 'name':
       case 'prompt':
-        if (p_metadata.type.toLowerCase() == 'app') {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : ');
-          result.push(p_metadata[prop]);
-          result.push('</li>');
-        } else if (
-          p_metadata.type.toLowerCase() == 'label' &&
-          prop == 'prompt'
-        ) {
-          result.push('<li>');
-          result.push(prop);
-          result.push('<br/><textarea rows=3 cols=35');
-          result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-          result.push(p_path + '/' + prop);
-          result.push('" /> ');
-          result.push(p_metadata[prop]);
-          result.push('</textarea>');
-          //result.push(p_path + "/" + prop);
-          result.push('</li>');
+        if (metaType == 'app') {
+          result.push(`<li>${prop} : ${p_metadata[prop]}</li>`);
+        } else if (metaType == 'label' && prop == 'prompt') {
+          result.push(
+            `<li>${prop}
+							<br/>
+							<textarea rows=3 cols=35 onBlur="editor_set_value(this, g_ui)" path="${
+                p_path + '/' + prop
+              }" /> ${p_metadata[prop]}
+							</textarea>
+							</li>`
+          );
         } else {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : <input type="text" value="');
-          result.push(p_metadata[prop]);
-          result.push('" size=');
-          if (p_metadata[prop]) {
-            result.push(
-              p_metadata[prop].length ? p_metadata[prop].length + 5 : 5
-            );
-          } else {
-            result.push(15);
-          }
-
-          result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-          result.push(p_path + '/' + prop);
-          result.push('" /> ');
-          //result.push(p_path + "/" + prop);
-          result.push('</li>');
+          result.push(
+            `<li>${prop} : <input type="text" value="${
+              p_metadata[prop]
+            }" size=${
+              p_metadata[prop]
+                ? p_metadata[prop].length
+                  ? p_metadata[prop].length + 5
+                  : 5
+                : 15
+            } onBlur="editor_set_value(this, g_ui)" path="${
+              p_path + '/' + prop
+            }" />
+						</li>`
+          );
         }
 
         break;
       case 'cardinality':
-        if (p_metadata.type.toLowerCase() == 'app') {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : ');
-          result.push(p_metadata[prop]);
-          result.push('</li>');
+        if (metaType == 'app') {
+          result.push(
+            `<li>
+						${prop} : ${p_metadata[prop]}
+						</li>`
+          );
         } else {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : ');
+          result.push(`<li> ${prop} : `);
           Array.prototype.push.apply(
             result,
             render_cardinality_control(p_path + '/' + prop, p_metadata[prop])
           );
-          result.push(' ');
-          //result.push(p_path + "/" + prop);
-          result.push('</li>');
+          result.push(' </li>');
         }
         break;
       case 'path_reference':
-        result.push('<li>');
-        result.push(prop);
-        result.push(' : ');
+        result.push(`<li>${prop} : `);
         Array.prototype.push.apply(
           result,
           render_path_reference_control(p_path + '/' + prop, p_metadata[prop])
         );
-        result.push(' ');
-        //result.push(p_path + "/" + prop);
-        result.push('</li>');
+        result.push(' </li>');
         break;
       case 'is_core_summary':
       case 'is_required':
@@ -528,29 +491,20 @@ function attribute_renderer(p_metadata, p_path) {
       case 'is_read_only':
       case 'is_save_value_display_description':
         if (p_metadata[prop]) {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : <input type="checkbox" ');
-          if (p_metadata[prop] == true) {
-            result.push(' checked="true" value="true" ');
-          } else {
-            result.push(' value="false" ');
-          }
-          result.push('" onblur="editor_set_value(this, g_ui)" path="');
-          result.push(p_path + '/' + prop);
-          result.push('" /> ');
-          //result.push(p_path + "/" + prop);
-
           result.push(
-            ' <input type="button" value="d"  path="' +
-              p_path +
-              '/' +
-              prop +
-              '" onclick="editor_delete_attribute(this,\'' +
-              p_path +
-              '/' +
-              prop +
-              '\')" /> </li>'
+            `<li>
+							${prop} : <input type="checkbox" ${
+              p_metadata[prop] == true
+                ? ' checked="true" value="true" '
+                : ' value="false" '
+            }" onblur="editor_set_value(this, g_ui)" path="${
+              p_path + '/' + prop
+            }" />
+							<input type="button" value="d"  path="${
+                p_path + '/' + 'prop'
+              }" onclick="editor_delete_attribute(this,'${p_path + '/' + prop}
+								')" />
+						</li>`
           );
         }
         break;
@@ -561,32 +515,26 @@ function attribute_renderer(p_metadata, p_path) {
       case 'onfocus':
       case 'onchange':
       case 'global':
-        result.push('<li>');
-        result.push(prop);
+        result.push(
+          `<li>${prop}${
+            metaType === 'app'
+              ? ' : <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="/'
+              : ' : <input type="button" value="d" path="\'' +
+                p_path +
+                '/' +
+                prop +
+                '\'" onclick="editor_delete_attribute(this,\'' +
+                p_path +
+                '/' +
+                prop +
+                '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="' +
+                p_path +
+                '/' +
+                prop
+          }">`
+        );
 
-        if (p_metadata.type.toLowerCase() == 'app') {
-          result.push(
-            ' : <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="/'
-          );
-          result.push(prop);
-        } else {
-          result.push(
-            ' : <input type="button" value="d" path="' +
-              p_path +
-              '/' +
-              prop +
-              '" onclick="editor_delete_attribute(this,\'' +
-              p_path +
-              '/' +
-              prop +
-              '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="'
-          );
-          result.push(p_path + '/' + prop);
-        }
-
-        result.push('">');
-
-        if (p_metadata[prop] && p_metadata[prop] != '') {
+        if (p_metadata[prop]) {
           try {
             if (p_metadata[prop].comments) {
               var temp_ast = escodegen.attachComments(
@@ -595,7 +543,6 @@ function attribute_renderer(p_metadata, p_path) {
                 p_metadata[prop].tokens
               );
               result.push(escodegen.generate(temp_ast, { comment: true }));
-              //result.push(escodegen.generate(p_metadata[prop], { comment: true }));
             } else {
               result.push(escodegen.generate(p_metadata[prop]));
             }
@@ -612,191 +559,130 @@ function attribute_renderer(p_metadata, p_path) {
       case 'description':
       case 'grid_template_areas':
       case 'pre_fill':
-        result.push('<li>');
-        result.push(prop);
         result.push(
-          ' : <input type="button" value="d" path="' +
-            p_path +
-            '/' +
-            prop +
-            '" onclick="editor_delete_attribute(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="'
+          `<li>${prop} : <input type="button" value="d" path="${
+            p_path + '/' + prop
+          }" onclick="editor_delete_attribute(this,'${p_path + '/' + prop}')" />
+            <br/>
+            <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="${
+              p_path + '/' + prop
+            }">${p_metadata[prop]}
+            </textarea>
+          </li>`
         );
-        result.push(p_path + '/' + prop);
-        result.push('">');
-        result.push(p_metadata[prop]);
-        result.push('</textarea> </li>');
         break;
       case 'regex_pattern':
-        result.push('<li>');
-        result.push(prop);
-        result.push(' : <input type="text" value="');
-        result.push(p_metadata[prop]);
-        result.push('" size=');
-        if (p_metadata[prop]) {
-          result.push(
-            p_metadata[prop].length ? p_metadata[prop].length + 7 : 20
-          );
-        } else {
-          result.push(20);
-        }
-        result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
         result.push(
-          '" reg_ex_path="' +
-            p_path +
-            '/' +
-            prop +
-            '" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')" />  </li>'
+          `<li>
+            ${prop}: <input type="text" value="${p_metadata[prop]}" size=${
+            p_metadata[prop]
+              ? p_metadata[prop].length
+                ? p_metadata[prop].length + 7
+                : 20
+              : 20
+          } onBlur="editor_set_value(this, g_ui)" path="${
+            p_path + '/' + prop
+          }" reg_ex_path="${
+            p_path + '/' + prop
+          }" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,'${
+            p_path + '/' + prop
+          }')" />
+          </li>
+          test pattern: <input type="text" value="" onchange="check_reg_ex(this,'${
+            p_path + '/' + prop
+          }')"  onblur="check_reg_ex(this,'${p_path + '/' + prop}')"/>
+          syntax example: ^\\d\\d$ 2 digit number <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>`
         );
-        result.push(
-          ' test pattern: <input type="text" value="" onchange="check_reg_ex(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')"  onblur="check_reg_ex(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')"/>'
-        );
-        result.push(
-          ' syntax example: ^\\d\\d$ 2 digit number <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>'
-        );
-
         break;
 
       case 'list_display_size':
-        result.push('<li>');
-        result.push(prop);
-        result.push(' : <input type="number" value="');
-        result.push(p_metadata[prop]);
-        result.push('" size=');
-        if (p_metadata[prop]) {
-          result.push(
-            p_metadata[prop].length ? p_metadata[prop].length + 5 : 5
-          );
-        } else {
-          result.push(5);
-        }
-        result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
-        result.push('" /> ');
-        //result.push(p_path + "/" + prop);
-
         result.push(
-          ' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')"/> </li>'
+          `<li>
+            ${prop} : <input type="number" value="${p_metadata[prop]}" size=${
+            p_metadata[prop]
+              ? p_metadata[prop].length
+                ? p_metadata[prop].length + 5
+                : 5
+              : 5
+          } onBlur="editor_set_value(this, g_ui)" path="${
+            p_path + '/' + prop
+          }" />
+            <input type="button" value="d"  onclick="editor_delete_attribute(this,'${
+              p_path + '/' + prop
+            }')"/>
+          </li>`
         );
         break;
       case 'decimal_precision':
-        result.push('<li>');
-        result.push(prop);
-        result.push(' : <select ');
-        result.push(' onchange="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
-        result.push('" > ');
-
-        if (p_metadata[prop] && p_metadata[prop] == '') {
-          result.push('<option selected></option>');
-        } else {
-          result.push('<option></option>');
-        }
+        result.push(
+          `<li>
+            ${prop} : <select onchange="editor_set_value(this, g_ui)" path="${
+            p_path + '/' + prop
+          }" >
+              <option ${
+                p_metadata[prop] && p_metadata[prop] === '' ? 'selected' : ''
+              }></option>`
+        );
 
         for (var i = 0; i < 6; i++) {
-          result.push('<option ');
-          if (p_metadata[prop] && p_metadata[prop] == i) {
-            result.push('selected');
-          }
-          result.push('> ');
-
-          result.push(i);
-          result.push('</option>');
+          const isSelected =
+            p_metadata[prop] && +p_metadata[prop] === i ? ' selected' : '';
+          result.push(`<option${isSelected}>${i}</option>`);
         }
-        result.push('</select>');
-        //result.push(p_path + "/" + prop);
-
         result.push(
-          ' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')"/> </li>'
+          `</select>
+          <input type="button" value="d"  onclick="editor_delete_attribute(this,'${
+            p_path + '/' + prop
+          }')"/>
+        </li>`
         );
         break;
 
       case 'chart':
-        result.push('<li>');
-        result.push(prop);
-        result.push(' : <input type="text" value="');
-        result.push(p_metadata[prop]);
-        result.push('" size=');
-        if (p_metadata[prop]) {
-          result.push(
-            p_metadata[prop].length ? p_metadata[prop].length + 5 : 5
-          );
-        } else {
-          result.push(15);
-        }
-        result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-        result.push(p_path + '/' + prop);
-        result.push('" /> ');
-        //result.push(p_path + "/" + prop);
-
         result.push(
-          ' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' +
-            p_path +
-            '/' +
-            prop +
-            '\')"/> </li>'
+          `<li>
+            ${prop} : <input type="text" value="${p_metadata[prop]}" size=${
+            p_metadata[prop]
+              ? p_metadata[prop].length
+                ? p_metadata[prop].length + 5
+                : 5
+              : 15
+          } onBlur="editor_set_value(this, g_ui)" path="${
+            p_path + '/' + prop
+          }" />
+            <input type="button" value="d"  onclick="editor_delete_attribute(this,'${
+              p_path + '/' + prop
+            }')"/>
+          </li>`
         );
         break;
       default:
-        if (p_metadata.type.toLowerCase() == 'app') {
+        if (metaType == 'app') {
           if (prop != 'lookup') {
-            result.push('<li>');
-            result.push(prop);
-            result.push(' : ');
-            result.push(p_metadata[prop]);
-            result.push('</li>');
+            result.push(
+              `<li>
+                ${prop} : ${p_metadata[prop]}
+              </li>`
+            );
           }
         } else {
-          result.push('<li>');
-          result.push(prop);
-          result.push(' : <input type="text" value="');
-          result.push(p_metadata[prop]);
-          result.push('" size=');
-          if (p_metadata[prop]) {
-            result.push(
-              p_metadata[prop].length ? p_metadata[prop].length + 5 : 5
-            );
-          } else {
-            result.push(15);
-          }
-          result.push(' onBlur="editor_set_value(this, g_ui)" path="');
-          result.push(p_path + '/' + prop);
-          result.push('" /> ');
-          //result.push(p_path + "/" + prop);
-
           result.push(
-            ' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' +
-              p_path +
-              '/' +
-              prop +
-              '\')"/> </li>'
+            `<li>
+              ${prop} : <input type="text" value="${p_metadata[prop]}" size=${
+              p_metadata[prop]
+                ? p_metadata[prop].length
+                  ? p_metadata[prop].length + 5
+                  : 5
+                : 15
+            } onBlur="editor_set_value(this, g_ui)" path="${
+              p_path + '/' + prop
+            }" />
+              <input type="button" value="d"  onclick="editor_delete_attribute(this,'${
+                p_path + '/' + prop
+              }')"/>
+            </li>`
           );
         }
-
         break;
     }
   }
@@ -805,60 +691,33 @@ function attribute_renderer(p_metadata, p_path) {
 
 function render_cardinality_control(p_path, p_value) {
   var result = [];
-
-  result.push('<select onChange="editor_set_value(this, g_ui)" path="');
-  result.push(p_path);
-  result.push('">');
-  if (p_value == '?') {
-    result.push('<option selected>?</option>');
-  } else {
-    result.push('<option>?</option>');
+  function createOpt(val) {
+    return `<option${p_value == val ? ' selected' : ''}>${val}</option>`;
   }
-
-  if (p_value == '1') {
-    result.push('<option selected>1</option>');
-  } else {
-    result.push('<option>1</option>');
-  }
-
-  if (p_value == '*') {
-    result.push('<option selected>*</option>');
-  } else {
-    result.push('<option>*</option>');
-  }
-
-  if (p_value == '+') {
-    result.push('<option selected>+</option>');
-  } else {
-    result.push('<option>+</option>');
-  }
-
-  result.push('</select>');
-
+  result.push(
+    `<select onChange="editor_set_value(this, g_ui)" path="${p_path}">
+      ${createOpt('?')}
+      ${createOpt('1')}
+      ${createOpt('*')}
+      ${createOpt('+')}
+    </select>`
+  );
   return result;
 }
 
 function render_path_reference_control(p_path, p_value) {
   var result = [];
-
-  result.push('<select onChange="editor_set_value(this, g_ui)" path="');
-  result.push(p_path);
-  result.push('">');
-  result.push('<option></option>');
-  for (var i = 0; i < g_metadata.lookup.length; i++) {
-    var lookup_path = 'lookup/' + g_metadata.lookup[i].name;
-
-    if (p_value == lookup_path) {
-      result.push('<option selected>');
-    } else {
-      result.push('<option>');
-    }
-    result.push(lookup_path);
-    result.push('</option>');
-  }
-
+  result.push(
+    `<select onChange="editor_set_value(this, g_ui)" path="${p_path}">
+      <option></option>`
+  );
+  g_metadata.lookup.forEach((item) => {
+    const lookup_path = item.name;
+    return `<option${
+      p_value == lookup_path ? ' selected' : ''
+    }>${lookup_path}</option>`;
+  });
   result.push('</select>');
-
   return result;
 }
 
@@ -897,33 +756,31 @@ function render_attribute_add_control(p_path, node_type) {
       break;
   }
 
-  result.push(' <select path="');
-  result.push(p_path);
-  result.push('">');
-  result.push('<option></option>');
-  result.push('<option>description</option>');
+  result.push(
+    ` <select path="${p_path}">
+    <option></option>
+    <option>description</option>`
+  );
 
   if (node_type.toLowerCase() == 'chart') {
-    result.push('<option>x_start</option>');
-    result.push('<option>control_style</option>');
-    result.push('</select>');
     result.push(
-      ' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="'
+      `<option>x_start</option>
+      <option>control_style</option>
+      </select>
+      <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="${p_path}" />`
     );
-    result.push(p_path);
-    result.push('" /> ');
     return result;
   }
 
   if (!is_collection_node) {
-    result.push('<option>is_core_summary</option>');
-    result.push('<option>is_required</option>');
-    result.push('<option>is_read_only</option>');
-
+    result.push(
+      `<option>is_core_summary</option>
+      <option>is_required</option>
+      <option>is_read_only</option>`
+    );
     if (node_type.toLowerCase() == 'number') {
       result.push('<option>decimal_precision</option>');
     }
-
     if (
       node_type.toLowerCase() == 'string' ||
       node_type.toLowerCase() == 'textarea'
@@ -932,126 +789,125 @@ function render_attribute_add_control(p_path, node_type) {
     }
 
     if (is_list) {
-      result.push('<option>is_multiselect</option>');
-      result.push('<option>list_display_size</option>');
-      result.push('<option>is_save_value_display_description</option>');
+      result.push(
+        `<option>is_multiselect</option>
+        <option>list_display_size</option>
+        <option>is_save_value_display_description</option>`
+      );
     }
 
-    result.push('<option>default_value</option>');
-    result.push('<option>regex_pattern</option>');
+    result.push(
+      `<option>default_value</option>
+      <option>regex_pattern</option>`
+    );
   } else if (
     node_type.toLowerCase() == 'grid' ||
     node_type.toLowerCase() == 'group'
   ) {
-    result.push('<option>is_core_summary</option>');
-    result.push('<option>is_read_only</option>');
+    result.push(
+      `<option>is_core_summary</option>
+      <option>is_read_only</option>`
+    );
   }
 
   if (node_type.toLowerCase() == 'group') {
-    result.push('<option>grid_template</option>');
-    result.push('<option>grid_gap</option>');
-    result.push('<option>grid_auto_flow</option>');
-    result.push('<option>grid_template_areas</option>');
-    result.push('<option>grid_area</option>');
-    result.push('<option>grid_row</option>');
-    result.push('<option>grid_column</option>');
+    result.push(
+      `<option>grid_template</option>
+      <option>grid_gap</option>
+      <option>grid_auto_flow</option>
+      <option>grid_template_areas</option>
+      <option>grid_area</option>
+      <option>grid_row</option>
+      <option>grid_column</option>`
+    );
   } else if (is_collection_node) {
     // do nothing
   } else {
-    result.push('<option>grid_area</option>');
-    result.push('<option>grid_row</option>');
-    result.push('<option>grid_column</option>');
+    result.push(
+      `<option>grid_area</option>
+      <option>grid_row</option>
+      <option>grid_column</option>`
+    );
   }
-
   if (node_type.toLowerCase() == 'app') {
     result.push('<option>global</option>');
   }
-
-  result.push('<option>validation</option>');
-  result.push('<option>validation_description</option>');
-  result.push('<option>onfocus</option>');
-  result.push('<option>onchange</option>');
-  result.push('<option>onblur</option>');
-  result.push('<option>onclick</option>');
-  result.push('<option>mirror_reference</option>');
-  result.push('<option>pre_populate_reference</option>');
+  result.push(
+    `<option>validation</option>
+    <option>validation_description</option>
+    <option>onfocus</option>
+    <option>onchange</option>
+    <option>onblur</option>
+    <option>onclick</option>
+    <option>mirror_reference</option>
+    <option>pre_populate_reference</option>`
+  );
 
   if (!is_collection_node) {
     if (is_pre_fillable) {
       result.push('<option>pre_fill</option>');
     }
-
     if (is_range) {
-      result.push('<option>max_value</option>');
-      result.push('<option>min_value</option>');
+      result.push(
+        `<option>max_value</option>
+        <option>min_value</option>`
+      );
     }
-
     if (is_list) {
-      result.push('<option>control_style</option>');
-      result.push('<option>path_reference</option>');
+      result.push(
+        `<option>control_style</option>
+        <option>path_reference</option>`
+      );
     }
   }
-  result.push('</select>');
-
   result.push(
-    ' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="'
+    `</select>
+    <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="${p_path}" />`
   );
-  result.push(p_path);
-  result.push('" /> ');
-
   return result;
 }
 
-function editor_set_value(e, p_ui) {
-  var path = e.attributes['path'].value;
+function editor_set_value(node) {
+  var path = node.attributes['path'].value;
   var path_array = path.split('/');
   var attribute_name = path_array[path_array.length - 1];
   var item_path = get_eval_string(path);
 
   switch (attribute_name.toLowerCase()) {
     case 'tags':
-      let tag_array = e.value.split(' ');
+      let tag_array = node.value.split(' ');
       let new_value = [];
-
-      for (let i = 0; i < tag_array.length; i++) {
-        if (tag_array[i]) {
-          new_value[i] =
-            '"' +
-            tag_array[i]
+      tag_array.forEach((tag) => {
+        if (tag) {
+          new_value.push(
+            `"${tag
               .trim()
               .replace(/"/g, '\\"')
               .replace(/\n/g, '\\n')
               .replace(/,/g, '')
-              .toUpperCase() +
-            '"';
+              .toUpperCase()}"`
+          );
         }
-      }
-
+      });
       eval(item_path + ' = [' + new_value.join(', ') + '] ');
       window.dispatchEvent(metadata_changed_event);
       break;
     case 'name':
-      if (eval(item_path) != e.value) {
-        if (e.value) {
-          var test = e.value.trim().match(/^[a-zA-z][a-zA-z0-9_]*$/);
+      if (eval(item_path) != node.value) {
+        if (node.value) {
+          var test = node.value.trim().match(/^[a-zA-z][a-zA-z0-9_]*$/);
           if (test) {
-            //var item = eval(item_path);
-            eval(item_path + ' = "' + e.value.trim() + '"');
-            //var after = eval(item_path);
+            eval(item_path + ' = "' + node.value.trim() + '"');
             window.dispatchEvent(metadata_changed_event);
-            e.style.color = 'black';
+            node.style.color = 'black';
           } else {
-            e.style.color = 'red';
+            node.style.color = 'red';
           }
         } else {
-          //var item = eval(item_path);
-          //eval(item_path + ' = "' + e.value + '"');
-          //e.dispatchEvent(metadata_changed_event);
-          //var after = eval(item_path);
-          e.style.color = 'red';
+          node.style.color = 'red';
         }
-      } else if (e.style.color != 'black') {
-        e.style.color = 'black';
+      } else if (node.style.color != 'black') {
+        node.style.color = 'black';
       }
 
       break;
@@ -1062,7 +918,7 @@ function editor_set_value(e, p_ui) {
     case 'onchange':
     case 'global':
       try {
-        var valid_code = esprima.parse(e.value, {
+        var valid_code = esprima.parse(node.value, {
           comment: true,
           tokens: true,
           range: true,
@@ -1072,9 +928,9 @@ function editor_set_value(e, p_ui) {
         var node_to_update = eval(object_array[0]);
         var attribute_text = object_array[1];
         node_to_update[attribute_text] = valid_code;
-        e.style.color = 'black';
+        node.style.color = 'black';
       } catch (err) {
-        e.style.color = 'red';
+        node.style.color = 'red';
         console.log('set from esprima code: ', err);
       }
       break;
@@ -1083,26 +939,25 @@ function editor_set_value(e, p_ui) {
     case 'is_multiselect':
     case 'is_read_only':
     case 'is_save_value_display_description':
-      eval(item_path + ' = !' + e.value);
+      eval(item_path + ' = !' + node.value);
       window.dispatchEvent(metadata_changed_event);
       break;
     case 'regex_pattern':
       try {
-        if (e.value && e.value != '') {
-          var reg_ex = new RegExp(e.value.trim());
+        if (node.value && node.value != '') {
           eval(
             item_path +
               ' ="' +
-              e.value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') +
+              node.value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') +
               '"'
           );
         } else {
           eval(item_path + ' = ""');
         }
-        e.style.color = 'black';
+        node.style.color = 'black';
       } catch (err) {
-        e.style.color = 'red';
-        console.log('invalid regex_pattern: ', e.value);
+        node.style.color = 'red';
+        console.log('invalid regex_pattern: ', node.value);
       }
 
       break;
@@ -1110,11 +965,10 @@ function editor_set_value(e, p_ui) {
       eval(
         item_path +
           ' = "' +
-          e.value.trim().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+          node.value.trim().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
           '"'
       );
       window.dispatchEvent(metadata_changed_event);
-      //var after = eval(item_path);
       break;
   }
 }
@@ -1124,23 +978,16 @@ function editor_paste_to_children(p_ui, p_is_index_paste) {
     if (p_is_index_paste) {
       var path_array = p_ui.split('/');
       var target_index = path_array[path_array.length - 1];
-
       if (path_array[1] != 'lookup') {
         path_array.splice(path_array.length - 2, 2);
       } else {
         path_array.splice(path_array.length - 1, 1);
       }
-
       var collection_path = path_array.join('/');
-
       var item_path = get_eval_string(collection_path);
-
       var clone_path = get_eval_string(g_copy_clip_board);
-
       var clone = editor_clone(eval(clone_path));
-
       var paste_target = eval(item_path);
-
       if (paste_target.children) {
         for (var i = 0; i < paste_target.children.length; i++) {
           if (clone.name == paste_target.children[i].name) {
@@ -1148,7 +995,6 @@ function editor_paste_to_children(p_ui, p_is_index_paste) {
             break;
           }
         }
-
         paste_target.children.splice(target_index, 0, clone);
       } else {
         for (var i = 0; i < paste_target.length; i++) {
@@ -1157,22 +1003,18 @@ function editor_paste_to_children(p_ui, p_is_index_paste) {
             break;
           }
         }
-
         paste_target.splice(target_index, 0, clone);
       }
-
       if (collection_path == '' || collection_path == '/lookup') {
         if (collection_path == '/lookup') {
           paste_target = g_metadata;
         }
         var node = editor_render(paste_target, '/', g_ui);
-
         var node_to_render = document.querySelector("div[path='/']");
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
       } else {
         var node = editor_render(paste_target, collection_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + collection_path + "']"
         );
@@ -1181,26 +1023,18 @@ function editor_paste_to_children(p_ui, p_is_index_paste) {
       }
     } else {
       var path_array = p_ui.split('/');
-      var attribute_name = p_ui[path_array.length - 1];
       var item_path = get_eval_string(p_ui);
-
       var clone_path = get_eval_string(g_copy_clip_board);
-
       var clone = editor_clone(eval(clone_path));
-
       var paste_target = eval(item_path);
-
       for (var i = 0; i < paste_target.children.length; i++) {
         if (clone.name == paste_target.children[i].name) {
           clone.name = 'new_clone_name_' + paste_target.children.length;
           break;
         }
       }
-
       paste_target.children.push(clone);
-
       var node = editor_render(paste_target, p_ui, g_ui);
-
       var node_to_render = document.querySelector("li[path='" + p_ui + "']");
       node_to_render.innerHTML = node.join('');
       window.dispatchEvent(metadata_changed_event);
@@ -1213,23 +1047,16 @@ function editor_cut_to_children(p_ui, p_is_index_paste) {
     if (p_is_index_paste) {
       var path_array = p_ui.split('/');
       var target_index = path_array[path_array.length - 1];
-
       if (path_array[1] != 'lookup') {
         path_array.splice(path_array.length - 2, 2);
       } else {
         path_array.splice(path_array.length - 1, 1);
       }
-
       var collection_path = path_array.join('/');
-
       var item_path = get_eval_string(collection_path);
-
       var clone_path = get_eval_string(g_copy_clip_board);
-
       var clone = editor_clone(eval(clone_path));
-
       var paste_target = eval(item_path);
-
       if (paste_target.children) {
         for (var i = 0; i < paste_target.children.length; i++) {
           if (clone.name == paste_target.children[i].name) {
@@ -1237,7 +1064,6 @@ function editor_cut_to_children(p_ui, p_is_index_paste) {
             break;
           }
         }
-
         paste_target.children.splice(target_index, 0, clone);
       } else {
         for (var i = 0; i < paste_target.length; i++) {
@@ -1246,30 +1072,24 @@ function editor_cut_to_children(p_ui, p_is_index_paste) {
             break;
           }
         }
-
         paste_target.splice(target_index, 0, clone);
       }
-
       if (collection_path == '' || collection_path == '/lookup') {
         if (collection_path == '/lookup') {
           paste_target = g_metadata;
         }
-
         var node = editor_render(paste_target, '/', g_ui);
-
         var node_to_render = document.querySelector("div[path='/']");
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
       } else {
         var node = editor_render(paste_target, collection_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + collection_path + "']"
         );
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
       }
-
       if (g_copy_clip_board.indexOf(collection_path) == 0) {
         g_delete_node_clip_board = g_delete_node_clip_board =
           collection_path +
@@ -1287,30 +1107,21 @@ function editor_cut_to_children(p_ui, p_is_index_paste) {
       }
     } else {
       var path_array = p_ui.split('/');
-      var attribute_name = p_ui[path_array.length - 1];
       var item_path = get_eval_string(p_ui);
-
       var clone_path = get_eval_string(g_copy_clip_board);
-
       var clone = editor_clone(eval(clone_path));
-
       var paste_target = eval(item_path);
-
       for (var i = 0; i < paste_target.children.length; i++) {
         if (clone.name == paste_target.children[i].name) {
           clone.name = 'new_clone_name_' + paste_target.children.length;
           break;
         }
       }
-
       paste_target.children.push(clone);
-
       var node = editor_render(paste_target, p_ui, g_ui);
-
       var node_to_render = document.querySelector("li[path='" + p_ui + "']");
       node_to_render.innerHTML = node.join('');
       window.dispatchEvent(metadata_changed_event);
-
       if (g_copy_clip_board.indexOf(collection_path) == 0) {
         g_delete_node_clip_board =
           collection_path +
@@ -1332,7 +1143,6 @@ function editor_cut_to_children(p_ui, p_is_index_paste) {
 
 function editor_clone(obj) {
   if (null == obj || 'object' != typeof obj) return obj;
-
   var copy = obj.constructor();
   for (var attr in obj) {
     if (obj.hasOwnProperty(attr)) {
@@ -1366,12 +1176,10 @@ function editor_add_to_children(e, p_ui) {
       break;
     }
   }
-
   if (element_value) {
     var parent_path = e.attributes['path'].value;
     var parent_eval_path = get_eval_string(parent_path);
     var item_path = parent_eval_path + '.children';
-
     switch (element_value.toLowerCase()) {
       //"app":
       //"form":
@@ -1392,29 +1200,24 @@ function editor_add_to_children(e, p_ui) {
             element_value
           )
         );
-
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
-
         break;
       case 'chart':
         eval(item_path).push(
           md.create_chart('new_' + element_value, 'new ' + element_value)
         );
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
         break;
-
       case 'list':
         eval(item_path).push(
           md.create_value_list(
@@ -1425,7 +1228,6 @@ function editor_add_to_children(e, p_ui) {
           )
         );
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
@@ -1437,7 +1239,6 @@ function editor_add_to_children(e, p_ui) {
           md.create_grid('new_' + element_value, 'new ' + element_value)
         );
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
@@ -1453,7 +1254,6 @@ function editor_add_to_children(e, p_ui) {
           )
         );
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
@@ -1469,7 +1269,6 @@ function editor_add_to_children(e, p_ui) {
           )
         );
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
@@ -1479,7 +1278,6 @@ function editor_add_to_children(e, p_ui) {
       case 'form':
         eval(item_path).push(md.create_form('new_form', 'new form', '?'));
         var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
-
         var node_to_render = document.querySelector(
           "li[path='" + parent_path + "']"
         );
@@ -1508,9 +1306,7 @@ function editor_add_to_attributes(e, p_ui) {
         var path = e.attributes['path'].value;
         var item = get_eval_string(path);
         eval(item)[attribute] = true;
-
         var node = editor_render(eval(item), path, g_ui);
-
         var node_to_render = document.querySelector("li[path='" + path + "']");
         node_to_render.innerHTML = node.join('');
         window.dispatchEvent(metadata_changed_event);
@@ -1543,36 +1339,27 @@ function editor_add_to_attributes(e, p_ui) {
         var path = e.attributes['path'].value;
         var item = get_eval_string(path);
         eval(item)[attribute] = new String();
-
         var node = editor_render(eval(item), path, g_ui);
-
         var node_to_render = document.querySelector("li[path='" + path + "']");
         node_to_render.innerHTML = node.join('');
-
         window.dispatchEvent(metadata_changed_event);
         break;
       case 'list_display_size':
         var path = e.attributes['path'].value;
         var item = get_eval_string(path);
         eval(item)[attribute] = new Number(1);
-
         var node = editor_render(eval(item), path, g_ui);
-
         var node_to_render = document.querySelector("li[path='" + path + "']");
         node_to_render.innerHTML = node.join('');
-
         window.dispatchEvent(metadata_changed_event);
         break;
       case 'decimal_precision':
         var path = e.attributes['path'].value;
         var item = get_eval_string(path);
         eval(item)[attribute] = new Number(1);
-
         var node = editor_render(eval(item), path, g_ui);
-
         var node_to_render = document.querySelector("li[path='" + path + "']");
         node_to_render.innerHTML = node.join('');
-
         window.dispatchEvent(metadata_changed_event);
         break;
       default:
@@ -1585,19 +1372,14 @@ function editor_add_to_attributes(e, p_ui) {
 function editor_delete_attribute(e, p_path) {
   if (p_path == g_delete_attribute_clip_board) {
     g_delete_attribute_clip_board = null;
-
     var item = get_eval_string(p_path);
     var index = item.lastIndexOf('.');
     var attribute = item.slice(index + 1, item.length);
     var begin = item.slice(0, index);
-
     var path_index = p_path.lastIndexOf('/');
     var parent_path = p_path.slice(0, path_index);
-
     delete eval(begin)[attribute];
-
     var node = editor_render(eval(begin), parent_path, g_ui);
-
     var node_to_render = document.querySelector(
       "li[path='" + parent_path + "'], li select[path='" + parent_path + "']"
     );
@@ -1605,7 +1387,6 @@ function editor_delete_attribute(e, p_path) {
     window.dispatchEvent(metadata_changed_event);
   } else {
     var node_to_render = null;
-
     if (g_delete_attribute_clip_board) {
       node_to_render = document.querySelector(
         "li input[path='" +
@@ -1614,12 +1395,10 @@ function editor_delete_attribute(e, p_path) {
           g_delete_attribute_clip_board +
           "']"
       ).parentElement;
-
       if (node_to_render) {
         node_to_render.style.background = '#FFFFFF';
       }
     }
-
     node_to_render = document.querySelector(
       "li input[path='" + p_path + "'], li select[path='" + p_path + "']"
     ).parentElement;
@@ -1631,16 +1410,13 @@ function editor_delete_attribute(e, p_path) {
 function editor_add_value(p_path) {
   var item_path = get_eval_string(p_path);
   eval(item_path).push({ value: 'new value', description: '', display: '' });
-
   var path_index = p_path.lastIndexOf('/');
   var parent_path = p_path.slice(0, path_index);
-
   var node = editor_render(
     eval(get_eval_string(parent_path)),
     parent_path,
     g_ui
   );
-
   var node_to_render = document.querySelector("li[path='" + parent_path + "']");
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1649,8 +1425,6 @@ function editor_add_value(p_path) {
 function editor_upgrade_numeric_and_display(p_path) {
   var item_path = get_eval_string(p_path);
   var value_list = eval(item_path);
-
-  let current_index = 0;
   for (let i = 0; i < value_list.length; i++) {
     if (value_list[i].value == -9) {
       value_list[i].value = 9999;
@@ -1660,16 +1434,13 @@ function editor_upgrade_numeric_and_display(p_path) {
       value_list[i].value = 7777;
     }
   }
-
   var path_index = p_path.lastIndexOf('/');
   var parent_path = p_path.slice(0, path_index);
-
   var node = editor_render(
     eval(get_eval_string(parent_path)),
     parent_path,
     g_ui
   );
-
   var node_to_render = document.querySelector("li[path='" + parent_path + "']");
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1678,15 +1449,12 @@ function editor_upgrade_numeric_and_display(p_path) {
 function editor_add_30K(p_path) {
   let item_path = get_eval_string(p_path);
   let item = eval(item_path);
-
   if (item.max_length == null) {
     item.max_length = '31000';
   } else if (item.max_length == '') {
     item.max_length = '31000';
   }
-
   let node = editor_render(eval(get_eval_string(p_path)), p_path, g_ui);
-
   let node_to_render = document.querySelector("li[path='" + p_path + "']");
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1695,15 +1463,12 @@ function editor_add_30K(p_path) {
 function editor_add_500Limit(p_path) {
   let item_path = get_eval_string(p_path);
   let item = eval(item_path);
-
   if (item.max_length == null) {
     item.max_length = '500';
   } else if (item.max_length == '') {
     item.max_length = '500';
   }
-
   let node = editor_render(eval(get_eval_string(p_path)), p_path, g_ui);
-
   let node_to_render = document.querySelector("li[path='" + p_path + "']");
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1712,30 +1477,25 @@ function editor_add_500Limit(p_path) {
 function editor_upgrade_pmss_and_display(p_path) {
   var item_path = get_eval_string(p_path);
   var value_list = eval(item_path);
-
   for (let i = 0; i < value_list.length; i++) {
     if (value_list[i].value == null || value_list[i].value == '') {
       value_list[i].display = '';
       value_list[i].value = -9;
     } else {
       let split_index = value_list[i].value.indexOf(' ');
-
       value_list[i].display = value_list[i].value;
       value_list[i].value = value_list[i].value
         .substring(0, split_index)
         .trim();
     }
   }
-
   var path_index = p_path.lastIndexOf('/');
   var parent_path = p_path.slice(0, path_index);
-
   var node = editor_render(
     eval(get_eval_string(parent_path)),
     parent_path,
     g_ui
   );
-
   var node_to_render = document.querySelector("li[path='" + parent_path + "']");
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1744,46 +1504,31 @@ function editor_upgrade_pmss_and_display(p_path) {
 function editor_delete_value(e, p_path) {
   if (p_path == g_delete_value_clip_board) {
     var item = get_eval_string(p_path);
-
     var item_index = p_path.match(new RegExp('\\d+$', 'g'));
     var index = item.lastIndexOf('.');
-    var attribute = item.slice(index + 1, item.length);
     var begin = item.slice(0, index);
-    //index = begin.lastIndexOf(".");
-    //begin = begin.slice(0, index);
-
     var path_index = p_path.lastIndexOf('/');
     var temp_path = p_path.slice(0, path_index);
     path_index = temp_path.lastIndexOf('/');
     var parent_path = temp_path.slice(0, path_index);
-
-    //path_index = parent_path.lastIndexOf("/");
-    //parent_path = parent_path.slice(0, path_index);
-
     eval(begin).values.splice(item_index[0], 1);
-
     var node = editor_render(eval(begin), parent_path, g_ui);
-
     var node_to_render = document.querySelector(
       "li[path='" + parent_path + "']"
     );
     node_to_render.innerHTML = node.join('');
     window.dispatchEvent(metadata_changed_event);
-
     g_delete_value_clip_board = null;
   } else {
     var node_to_render = null;
-
     if (g_delete_value_clip_board) {
       node_to_render = document.querySelector(
         "li [path='" + g_delete_value_clip_board + "']"
       );
-
       if (node_to_render) {
         node_to_render.style.background = '#FFFFFF';
       }
     }
-
     node_to_render = document.querySelector("li [path='" + p_path + "']");
     g_delete_value_clip_board = p_path;
     node_to_render.style.background = '#999999';
@@ -1797,37 +1542,28 @@ function editor_set_copy_clip_board(e, p_path) {
 function editor_delete_node(e, p_path) {
   if (p_path == g_delete_node_clip_board) {
     g_delete_node_clip_board = null;
-
     var path_index = p_path.lastIndexOf('/');
     var collection_path = p_path.slice(0, path_index);
     var object_path = get_eval_string(collection_path);
     var index = p_path.match(/\d*$/)[0];
-
-    //delete eval(parent_path)[index];
     eval(object_path).splice(index, 1);
-
     path_index = collection_path.lastIndexOf('/');
     var parent_path = collection_path.slice(0, path_index);
-
     var node = editor_render(
       eval(get_eval_string(parent_path)),
       parent_path,
       g_ui
     );
-
     var node_to_render = null;
-
     if (parent_path != '') {
       node_to_render = document.querySelector("li[path='" + parent_path + "']");
     } else {
       node_to_render = document.querySelector("div[path='/']");
     }
-
     node_to_render.innerHTML = node.join('');
     window.dispatchEvent(metadata_changed_event);
   } else {
     var node_to_render = null;
-
     if (g_delete_node_clip_board) {
       node_to_render = document.querySelector(
         "li[path='" + g_delete_node_clip_board + "']"
@@ -1836,7 +1572,6 @@ function editor_delete_node(e, p_path) {
         node_to_render.style.background = '#FFFFFF';
       }
     }
-
     node_to_render = document.querySelector("li[path='" + p_path + "']");
     g_delete_node_clip_board = p_path;
     node_to_render.style.background = '#999999';
@@ -1847,7 +1582,6 @@ function editor_add_form(e) {
   var form = md.create_form('new_form_name', 'form prompt', '?');
   g_metadata.children.push(form);
   var node = editor_render(g_metadata, '', g_ui);
-
   var node_to_render = document.getElementById('form_content_id');
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1857,7 +1591,6 @@ function editor_add_list(e) {
   var list = md.create_value_list('new_list_name', 'list prompt', 'list');
   g_metadata.lookup.push(list);
   var node = editor_render(g_metadata, '', g_ui);
-
   var node_to_render = document.getElementById('form_content_id');
   node_to_render.innerHTML = node.join('');
   window.dispatchEvent(metadata_changed_event);
@@ -1867,7 +1600,6 @@ function editor_toggle(e, p_ui) {
   var element = document.querySelector(
     'li[path="' + e.parentElement.attributes['path'].value + '"] ul'
   );
-
   if (element.style.display == 'none') {
     element.style.display = 'block';
     e.value = '-';
@@ -1882,31 +1614,23 @@ function editor_toggle(e, p_ui) {
 
 function editor_move_up(e, p_ui) {
   var current_li = e.parentElement;
-  var parent = current_li.parentElement;
   var path = current_li.attributes['path'].value;
-
-  var item = get_eval_string(path);
-
   var node_path = get_eval_string(remove_last_digit_in_path(path));
   var list = eval(node_path);
   var y = path.match(/\d*$/)[0];
   var x = y - 1;
-
   //swap toggle state
   var temp = p_ui.is_collapsed[node_path + y];
   p_ui.is_collapsed[node_path + y] = p_ui.is_collapsed[node_path + x];
   p_ui.is_collapsed[node_path + x] = temp;
-
   if (x >= 0) {
     var b = list[y];
     list[y] = list[x];
     list[x] = b;
-
     var parent_path = get_parent_path(path);
     var metadata_path = get_eval_string(parent_path);
     var metadata = eval(metadata_path);
     var node = editor_render(metadata, parent_path, p_ui);
-
     var node_to_render = null;
     if (parent_path == '') {
       node_to_render = document.querySelector("div[path='/']");
@@ -1931,7 +1655,6 @@ function get_eval_string(p_path) {
       .replace(new RegExp('/', 'gm'), '.')
       .replace(new RegExp('\\.(\\d+)\\.', 'gm'), '[$1].')
       .replace(new RegExp('\\.(\\d+)$', 'g'), '[$1]');
-
   return result;
 }
 
@@ -1942,7 +1665,6 @@ function get_parent_path(p_path) {
   } else {
     result = p_path.replace(new RegExp('/children/(\\d+)$', 'g'), '');
   }
-
   return result;
 }
 
@@ -1951,9 +1673,7 @@ function convert_to_indexed_path(p_path) {
   var result = [];
   var temp = p_path.split('.');
   var last = temp[temp.length - 1];
-
   temp.pop();
-
   result.push(temp.join('.'));
   result.push(last);
   return result;
