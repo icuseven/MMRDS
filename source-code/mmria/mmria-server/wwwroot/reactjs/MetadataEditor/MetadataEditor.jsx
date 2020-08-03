@@ -1,56 +1,55 @@
 function editor_render(p_metadata, p_path, p_ui, p_object_path) {
   var result = [];
-
   switch (p_metadata.type.toLowerCase()) {
     case 'grid':
     case 'group':
     case 'form':
-      result.push(
-        `<li path="${p_path}">
-					<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/>
-					<input type="button" value="^" onclick="editor_move_up(this, g_ui)" />`
-      );
-      if (p_metadata.type.toLowerCase() != 'form') {
-        result.push(
-          `<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,'${p_path}')" />`
-        );
-      }
-      result.push(
-        `<input type="button" value="d" onclick="editor_delete_node(this,'${p_path}')"/> ${p_metadata.name}`
-      );
-      Array.prototype.push.apply(
-        result,
-        render_attribute_add_control(p_path, p_metadata.type)
-      );
-      result.push(
-        `<input type="button" value="ps" onclick="editor_paste_to_children('${p_path}', true)" />
-				<input type="button" value="kp" onclick="editor_cut_to_children('${p_path}', true)" />
-				<br/>
-				<ul tag="attribute_list" style="display:${
-          p_ui.is_collapsed[p_path] ? 'none' : 'block'
-        }">`
-      );
-      Array.prototype.push.apply(
-        result,
-        attribute_renderer(p_metadata, p_path)
-      );
-      result.push(
-        `<li path="${p_path}'/children">
-					<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/>
-					children: <select path="${p_path}" />
-											<option></option>`
-      );
-      valid_types.forEach((item) => {
-        if (item.toLowerCase() != 'app')
-          result.push(`<option>${item}</option>`);
-      });
-      result.push(
-        `</select>
-				<input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="${p_path}: />
-				<input type="button" value="p" onclick="editor_paste_to_children('${p_path}')" />
-				<input type="button" value="k" onclick="editor_cut_to_children('${p_path}')" /> ${p_object_path}
-				<ul>`
-      );
+      // result.push(
+      //   `<li path="${p_path}">
+			// 		<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/>
+			// 		<input type="button" value="^" onclick="editor_move_up(this, g_ui)" />`
+      // );
+      // if (p_metadata.type.toLowerCase() != 'form') {
+      //   result.push(
+      //     `<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,'${p_path}')" />`
+      //   );
+      // }
+      // result.push(
+      //   `<input type="button" value="d" onclick="editor_delete_node(this,'${p_path}')"/> ${p_metadata.name}`
+      // );
+      // Array.prototype.push.apply(
+      //   result,
+      //   render_attribute_add_control(p_path, p_metadata.type)
+      // );
+      // result.push(
+      //   `<input type="button" value="ps" onclick="editor_paste_to_children('${p_path}', true)" />
+			// 	<input type="button" value="kp" onclick="editor_cut_to_children('${p_path}', true)" />
+			// 	<br/>
+			// 	<ul tag="attribute_list" style="display:${
+      //     p_ui.is_collapsed[p_path] ? 'none' : 'block'
+      //   }">`
+      // );
+      // Array.prototype.push.apply(
+      //   result,
+      //   attribute_renderer(p_metadata, p_path)
+      // );
+      // result.push(
+      //   `<li path="${p_path}'/children">
+			// 		<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/>
+			// 		children: <select path="${p_path}" />
+			// 								<option></option>`
+      // );
+      // valid_types.forEach((item) => {
+      //   if (item.toLowerCase() != 'app')
+      //     result.push(`<option>${item}</option>`);
+      // });
+      // result.push(
+      //   `</select>
+			// 	<input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="${p_path}" />
+			// 	<input type="button" value="p" onclick="editor_paste_to_children('${p_path}')" />
+			// 	<input type="button" value="k" onclick="editor_cut_to_children('${p_path}')" /> ${p_object_path}
+			// 	<ul>`
+      // );
       p_metadata.children.forEach((child, index) => {
         Array.prototype.push.apply(
           result,
@@ -298,11 +297,44 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path) {
   return result;
 }
 
+// case 'grid':
+// case 'group':
+// case 'form':
 class MetadataEditor extends React.Component {
   render() {
-    const {p_metadata, p_path, p_ui, p_object_path} = this.props;
+    const { p_metadata, p_path, p_ui, p_object_path } = this.props;
+    const metaType = p_metadata.type.toLowerCase();
+    const OPTS = [];
+    valid_types.forEach((item) => {
+      if (item.toLowerCase() != 'app')
+        OPTS.push(<option>{item}</option>);
+    });
     return (
-
+      <li path={p_path}>
+					<input type="button" value="-" onClick="editor_toggle(this, g_ui)"/>
+					<input type="button" value="^" onClick="editor_move_up(this, g_ui)" />
+          {metaType !== 'form' && <input type="button" value="c"  onclick="editor_set_copy_clip_board(this,'${p_path}')" />}
+          <input type="button" value="d" onClick="editor_delete_node(this,'${p_path}')"/>
+          {p_metadata.name}
+          {/* render_attribute_add_control(p_path, p_metadata.type) */}
+          <input type="button" value="ps" onclick="editor_paste_to_children('${p_path}', true)" />
+				<input type="button" value="kp" onclick="editor_cut_to_children('${p_path}', true)" />
+				<br/>
+				<ul tag="attribute_list" style={{display: 
+          p_ui.is_collapsed[p_path] ? 'none' : 'block'
+        }}>
+          {/* attribute_renderer(p_metadata, p_path) */}
+          <li path={p_path +'/children'}>
+					<input type="button" value="-" onClick="editor_toggle(this, g_ui)"/>
+					children: <select path={p_path} />
+											<option></option>
+                      {OPTS}
+                      </select>
+				<input type="button" value="add" onClick="editor_add_to_children(this, g_ui)" path={p_path} />
+				<input type="button" value="p" onClick="editor_paste_to_children('${p_path}')" />
+				<input type="button" value="k" onClick="editor_cut_to_children('${p_path}')" />
+        {p_object_path}
+				<ul>
     );
   }
 }
