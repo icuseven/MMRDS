@@ -150,9 +150,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         eval(p_object_path + ' = ' + value);
       }
       
-      else if(metadata.type.toLowerCase() == "date" || metadata.type.toLowerCase() == "datetime")
+      else if(metadata.type.toLowerCase() == "date")
       {
-        if(is_valid_date_or_datetime(value))
+        if(is_valid_date(value))
         {
           eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
         }
@@ -162,6 +162,19 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           valid_date_or_datetime = false;
         }
       }
+      else if(metadata.type.toLowerCase() == "datetime")
+      {
+        if(is_valid_datetime(value))
+        {
+          eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+        }
+        else
+        {
+          eval(p_object_path + ' = ""');
+          valid_date_or_datetime = false;
+        }
+      }
+
       else
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
@@ -356,36 +369,103 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 }
 
 
-function is_valid_date_or_datetime(p_value)
+function is_valid_date(p_value)
 {
   let result = false;
-  let try_date = null;
+  let year_check = null;
 
-  if (p_value.charAt(0) == ' ')
+  if (p_value.length === 0)
   {
     result = true;
-  }
-
-  p_value = new Date(p_value);
-
-  if (p_value instanceof Date === false)
-  {
-    try_date = new Date(g_data.date_last_checked_out)
   }
   else
   {
-    try_date = p_value
-  }
+    p_value = new Date(p_value.toString() + 'T00:00:00');
+    year_check = p_value.getFullYear();
 
-  //1900-2100
-  let year_check = try_date.getFullYear() + 1;
-  if (year_check >= 1900 && year_check <= 2100)
-  {
-    result = true;
+    if (year_check >= 1900 && year_check <= 2100)
+    {
+      result = true;
+    }
   }
 
   return result;
 }
+
+
+function is_valid_datetime(p_value)
+{
+  let result = false;
+  let year_check = null;
+
+  if (p_value.charAt(0) == ' ' || p_value.length === 0)
+  {
+    result = true;
+  }
+  else
+  {
+    let p_date = p_value.split(' ')[0],
+        p_time = p_value.split(' ')[1],
+        p_hour = p_time.split(':')[0];
+    
+    if (parseInt(p_hour) < 10)
+    {
+      p_time = '0' + p_time
+    }
+
+    p_value = p_date + 'T' + p_time;
+    p_value = new Date(p_value.toString());
+    year_check = p_value.getFullYear();
+
+    if (year_check >= 1900 && year_check <= 2100)
+    {
+      result = true;
+    }
+  }
+
+  return result;
+}
+
+// function is_valid_date_or_datetime(p_value, p_metadata)
+// {
+//   let result = false;
+//   let try_date = null;
+//   let year_check = null;
+
+//   if (p_value.charAt(0) == ' ')
+//   {
+//     result = true;
+//     return result;
+//   }
+
+//   p_value = new Date(p_value);
+
+//   if (p_value instanceof Date === false)
+//   {
+//     try_date = new Date(g_data.date_last_checked_out)
+//   }
+//   else
+//   {
+//     try_date = p_value
+//   }
+
+//   //1900-2100
+//   if (p_metadata.type == 'date')
+//   {
+//     year_check = try_date.getFullYear() + 1;
+//   }
+//   else
+//   {
+//     year_check = try_date.getFullYear();
+//   }
+
+//   if (year_check >= 1900 && year_check <= 2100)
+//   {
+//     result = true;
+//   }
+
+//   return result;
+// }
 // function is_valid_date_or_datetime(p_metadata, p_value)
 // {
 //   let result = false;

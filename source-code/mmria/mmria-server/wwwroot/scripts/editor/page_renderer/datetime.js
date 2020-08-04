@@ -54,7 +54,6 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		*/
 
 			let is_valid = true;
-
 			if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
 			{
 				is_valid = p_ctx.is_valid_date_or_datetime;
@@ -152,12 +151,13 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 				let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
 				let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+				let validation_fontsize_new = '12px';
 				let validation_height_new = 'auto';
 				let validation_top_new = 'auto';
-				let validation_bottom_new = '-22px';
+				let validation_bottom_new = '-18px';
 				let validation_left_new = 'auto';
 
-				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date</small>`);
+				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; font-size: ${validation_fontsize_new}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date</small>`);
 
 				p_post_html_render.push(`
 					if (${is_valid})
@@ -171,7 +171,20 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					{
 						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
 						$(".construct__header-alert").show();
-						$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date</li>');
+						
+						//if grid item
+						if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
+						{
+							let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
+							let grid_label = parseInt($('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').attr('grid_index')) + 1;
+		
+							$(".construct__header-alert").find('ul').html('<li><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(grid_label)+'):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>')
+						}
+						//if NOT grid item
+						else
+						{
+							$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>');
+						}
 					}
 				`);
 		p_result.push("</div>");

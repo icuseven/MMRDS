@@ -46,7 +46,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("</label> ");
 
         let is_valid = true;
-
         if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
         {
             is_valid = p_ctx.is_valid_date_or_datetime;
@@ -69,10 +68,11 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
         let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+        let validation_fontsize_new = '12px';
         let validation_height_new = 'auto';
         let validation_top_new = parseInt(validation_top) + parseInt(validation_height) + 8;
 
-        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top:${validation_top_new}px">Invalid date</small>`);
+        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; font-size: ${validation_fontsize_new}; height:${validation_height_new}; top:${validation_top_new}px">Invalid date</small>`);
 
         p_post_html_render.push(`
             if (${is_valid})
