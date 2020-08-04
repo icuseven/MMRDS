@@ -149,7 +149,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       {
         eval(p_object_path + ' = ' + value);
       }
-      
       else if(metadata.type.toLowerCase() == "date")
       {
         if(is_valid_date(value))
@@ -174,7 +173,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           valid_date_or_datetime = false;
         }
       }
-
       else
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
@@ -369,20 +367,24 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 }
 
 
+//fn to validate date controls
 function is_valid_date(p_value)
 {
-  let result = false;
-  let year_check = null;
+  let result = false; //flagged as false by default
+  let year_check = null; //var to set year that will be validated
 
+  //return true if blank
   if (p_value.length === 0)
   {
     result = true;
   }
   else
   {
-    p_value = new Date(p_value.toString() + 'T00:00:00');
-    year_check = p_value.getFullYear();
+    p_value = new Date(p_value.toString() + 'T00:00:00'); //concat date based on ISO 8601 format, also add time
+    year_check = p_value.getFullYear(); //get the year
 
+    //only validating year
+    //check if between 1900 or 2100
     if (year_check >= 1900 && year_check <= 2100)
     {
       result = true;
@@ -393,30 +395,37 @@ function is_valid_date(p_value)
 }
 
 
+//fn to validate datetime controls
 function is_valid_datetime(p_value)
 {
-  let result = false;
-  let year_check = null;
+  let result = false; //flagged as false by default
+  let year_check = null; //var to set year that will be validated
 
+  //if date is missing OR blank
   if (p_value.charAt(0) == ' ' || p_value.length === 0)
   {
     result = true;
   }
   else
   {
-    let p_date = p_value.split(' ')[0],
-        p_time = p_value.split(' ')[1],
-        p_hour = p_time.split(':')[0];
+    let p_date = p_value.split(' ')[0]; //get date from param
+    let p_time = p_value.split(' ')[1]; //get time from param
+    let p_hour = p_time.split(':')[0]; //get hour from time
     
+    //check if hour is singular integer, then manually add a zero in front
+    //we have an issue where singular hour returns with no leading zero
+    //this will make it a valid time
     if (parseInt(p_hour) < 10)
     {
-      p_time = '0' + p_time
+      p_time = '0' + p_time;
     }
 
-    p_value = p_date + 'T' + p_time;
-    p_value = new Date(p_value.toString());
-    year_check = p_value.getFullYear();
+    p_value = p_date + 'T' + p_time; //concat date and time based on ISO 8601 format for datetime 
+    p_value = new Date(p_value.toString()); //convert to browser datetime
+    year_check = p_value.getFullYear(); //get the year
 
+    //only validating year
+    //check if between 1900 or 2100
     if (year_check >= 1900 && year_check <= 2100)
     {
       result = true;
@@ -2380,6 +2389,7 @@ function is_checked_out_expired(p_case)
 
   return is_expired;
 }
+
 
 function diff_minutes(dt1, dt2) 
 {
