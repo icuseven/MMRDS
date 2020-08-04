@@ -1,36 +1,45 @@
 function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+    //~~~~~ START SETUP Concurrent Edit
+        /*
+            Concurrent Edit for Abstractors
+            - By default, cases are read only
+            - Cases becomes editable once a user checks out the case
+            - Once a case is checked out by a user, that particular case is locked for 'other' users
+        */
+       let currently_locked_by_html = "";
+       let enable_edit_disable_attribute = "";
+       let undo_disable_attribute = " disabled='disabled' ";
+       let save_and_continue_disable_attribute = " disabled='disabled' ";
+       let save_and_finish_disable_attribute = " disabled='disabled' ";
+       
+       //if case is checked out by ANYONE
+       if(g_data_is_checked_out)
+       {
+           // console.log('anyone has locked it out')
+           enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
+           undo_disable_attribute = ""; //enable undo btn
+           save_and_continue_disable_attribute = ""; //enable save and continue btn
+           save_and_finish_disable_attribute = ""; //enable save and finish btn
+           currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>"; //show user locked info
+       }
 
+       //if case is checked out by YOU
+       if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by === g_user_name)
+       {
+           // console.log('you')
+           enable_edit_disable_attribute = " disabled "; //disable enable edit btn
+           currently_locked_by_html = ""; //hide user locked info
+       }
 
-
-    let currently_locked_by_html = "";
-    let enable_edit_disable_attribute = "";
-    let undo_disable_attribute = " disabled='disabled' ";
-    let save_and_continue_disable_attribute = " disabled='disabled' ";
-    let save_and_finish_disable_attribute = " disabled='disabled' ";
-    
-    if(g_data_is_checked_out)
-    {
-        enable_edit_disable_attribute = " disabled='disabled' ";
-        undo_disable_attribute = "";
-        save_and_continue_disable_attribute = "";
-        save_and_finish_disable_attribute = "";
-        currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>";
-    }
-
-    //don't allow "Enable Edit" if checked out by someone else
-    if(!is_checked_out_expired(g_data))
-    {
-        enable_edit_disable_attribute = " disabled ";
-        currently_locked_by_html = "";
-    }
-
-    //don't show "Currently Locked" message if checked out by you
-    if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by !== g_user_name)
-    {
-        enable_edit_disable_attribute = " disabled ";
-        currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_data.last_checked_out_by + "</b>)</i>";
-    }
+       //if case is checked out by SOMEONE ELSE
+       if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by !== g_user_name)
+       {
+           // console.log('someone else')
+           enable_edit_disable_attribute = " disabled "; //disable enable edit btn
+           currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_data.last_checked_out_by + "</b>)</i>"; //show user locked info
+       }
+   //~~~~~ END SETUP Concurrent Edit
 
     if(
         p_metadata.cardinality == "+" ||
