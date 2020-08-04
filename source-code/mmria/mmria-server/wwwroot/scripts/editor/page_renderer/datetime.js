@@ -33,7 +33,12 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		p_result.push("</label>");
 
 		p_result.push(`
-			<div class="row no-gutters datetime-control" style="${style_object && get_style_string(style_object.control.style)}" dpath="${p_object_path}" form_index="${p_ctx.form_index && p_ctx.form_index}" grid_index="${p_ctx.grid_index && p_ctx.grid_index}">
+			<div class="row no-gutters datetime-control"
+				 style="${style_object && get_style_string(style_object.control.style)}"
+				 dpath="${p_object_path}"
+				 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+				 ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+			>
 		`);
 
 			let disabled_html = " disabled = 'disabled' ";
@@ -71,8 +76,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push(`
 				<input class="datetime-date form-control w-50 h-100"
 					   dpath="${p_object_path}"
-					   form_index="${p_ctx.form_index && p_ctx.form_index || ''}"
-					   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
+					   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+					   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 					   type="date" name="${p_metadata.name}"
 					   data-value="${p_data}"
 					   value="${p_data.split(' ')[0]}"
@@ -109,8 +114,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push(`
 			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
 				   dpath="${p_object_path}"
-				   form_index="${p_ctx.form_index && p_ctx.form_index || ''}"
-				   grid_index="${p_ctx.grid_index && p_ctx.grid_index || ''}"
+				   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
 				   value="${!isNullOrUndefined(p_data.split(' ')[0]) ? p_data.split(' ')[1] : '00:00:00'}"

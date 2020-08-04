@@ -11,13 +11,22 @@ function capitalizeFirstLetter(str) {
 
 
 // Helper func to help if a value is null, undefined, 0, ''(empty str), false or NaN
-const isNullOrUndefined = (value) => {
+function isNullOrUndefined (value) {
   if (typeof value !== 'undefined' && value) {
       return false;
   } else {
       return true;
   }
 }
+
+// Helper func to help if a target is null or undefined
+function isTargetNullOrUndefined(tar) {
+	if (tar == null) {
+		return true;
+	} else {
+		return false;
+	}
+  }
 
 // Object Oriented approach on adding classes dynamically on load
 function ClassNameOnDomLoad(element, className, delay)

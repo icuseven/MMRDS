@@ -79,15 +79,28 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             {
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
-                $("#validation_summary").hide();
-                $("#validation_summary").find('ul').html('');
+                $(".construct__header-alert").hide();
+                $(".construct__header-alert").find('ul').html('');
             }
             else
             {
                 $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid');
                 $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show();
-                $("#validation_summary").show();
-                $("#validation_summary").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date</li>');
+                $(".construct__header-alert").show();
+
+                //if grid item
+                if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
+                {
+                    let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
+                    let grid_label = parseInt($('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index')) + 1;
+
+                    $(".construct__header-alert").find('ul').html('<li><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(grid_label)+'):</strong> Date must be a valid calendar date between 1900-2100</li>')
+                }
+                //if NOT grid item
+                else
+                {
+                    $(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date between 1900-2100</li>')
+                }
             }
         `);
         
