@@ -14,32 +14,26 @@ namespace mmria.server.Controllers
 	{ 
 
 		[AllowAnonymous] 
+		//[Route("list")]
 		[HttpGet]
 		public async Task<System.Dynamic.ExpandoObject> Get() 
 		{ 
+			System.Dynamic.ExpandoObject result = null;
 			try
 			{
                 string request_string = $"{Program.config_couchdb_url}/metadata/substance-mapping";
 				var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 
-				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-				if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadCase, result))
-				{
-					return result;
-				}
-				else
-				{
-					return null;
-				}
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine (ex);
 			} 
 
-			return null;
+			return result;
 		} 
 
 		[Authorize(Roles  = "form_designer")]
