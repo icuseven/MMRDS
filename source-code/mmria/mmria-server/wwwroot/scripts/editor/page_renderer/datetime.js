@@ -157,7 +157,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				let validation_bottom_new = '-18px';
 				let validation_left_new = 'auto';
 
-				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; font-size: ${validation_fontsize_new}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date</small>`);
+				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; font-size: ${validation_fontsize_new}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
 
 				p_post_html_render.push(`
 					//if validation passed

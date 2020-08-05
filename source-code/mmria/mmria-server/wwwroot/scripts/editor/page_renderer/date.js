@@ -87,7 +87,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     let grid_number = $('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index');
 
                     //remove specific grid item error
-                    $('.construct__header-alert ul').find('li[data-grid="'+grid_number+'"]').remove();
+                    $('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"][data-grid="'+grid_number+'"]').remove();
                 }
                 else
                 {
@@ -114,7 +114,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     let grid_number = $('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index');
 
                     //check if item error doesnt exist
-                    if ($('.construct__header-alert ul').find('li[data-grid="'+grid_number+'"]').length < 1)
+                    if ($('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"][data-grid="'+grid_number+'"]').length < 1)
                     {
                         $('.construct__header-alert ul').append('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+grid_number+'"><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(parseInt(grid_number)+1)+'):</strong> Date must be a valid calendar date between 1900-2100</li>');
                     }
