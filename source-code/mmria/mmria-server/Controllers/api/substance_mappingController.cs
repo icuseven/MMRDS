@@ -12,6 +12,36 @@ namespace mmria.server.Controllers
 	[Route("api/[controller]")]
 	public class substance_mappingController: ControllerBase
 	{ 
+
+		[AllowAnonymous] 
+		[HttpGet]
+		public async Task<System.Dynamic.ExpandoObject> Get() 
+		{ 
+			try
+			{
+                string request_string = $"{Program.config_couchdb_url}/metadata/substance-mapping";
+				var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				string responseFromServer = await case_curl.executeAsync();
+
+				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+				if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadCase, result))
+				{
+					return result;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+			} 
+
+			return null;
+		} 
+
 		[Authorize(Roles  = "form_designer")]
 		//[Route("{id}")]
 		[HttpPost]
@@ -41,7 +71,7 @@ namespace mmria.server.Controllers
 					result_dictionary["_id"].ToString() == "substance-mapping"
 				) 
 				{
-					string url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/substance-mapping";
+					string url = $"{Program.config_couchdb_url}/metadata/substance-mapping";
 					//System.Console.WriteLine ("json\n{0}", object_string);
 			
 					cURL put_document_curl = new cURL ("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
