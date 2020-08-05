@@ -1157,11 +1157,11 @@ function render_validation_error_summary(p_result, p_metadata, p_data, p_ui, p_m
 {
     p_result.push(`
         <div id="validation_summary" class="construct__header-alert row no-gutters p-2" style="display: none">
-            <span class="x32 fill-p cdc-icon-alert_02"></span>
-            <div class="ml-2">
-                <p>Please correct errors below:</p>
+            <span class="left-col x32 fill-p cdc-icon-alert_02"></span>
+            <div class="right-col pl-3">
+                <p class="mb-1">Please correct errors below:</p>
                 <ul id="validation_summary_list" class="mb-0">
-                    <li><strong>Invalid date (Prompt):</strong> Date must be a valid calendar date</li>
+                    <!-- place alerts here -->
                 </ul>
             </div>
         </div>

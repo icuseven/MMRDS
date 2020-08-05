@@ -1291,10 +1291,16 @@ button.link {
 .construct__header-alert .cdc-icon-alert_02:before {
   color: #dc3545 ;
 }
-
+.construct__header-alert > .left-col {
+  width: 32px;
+}
+.construct__header-alert > .right-col {
+  width: calc(100% - 32px);
+}
 .construct__header-alert + .construct__header-main {
   margin-top: 1rem;
 }
+
 
 .construct__title {
   font-weight: 700;

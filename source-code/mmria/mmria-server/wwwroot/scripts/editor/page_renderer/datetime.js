@@ -160,32 +160,80 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; font-size: ${validation_fontsize_new}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date</small>`);
 
 				p_post_html_render.push(`
+					//if validation passed
 					if (${is_valid})
 					{
-						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").removeClass('is-invalid');
-						$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
-						$(".construct__header-alert").hide();
-						$(".construct__header-alert").find('ul').html('');
+						$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').removeClass('is-invalid'); //remove css error class
+						$('#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg').hide(); //hide message
+						
+						//remove specific error
+						$('.construct__header-alert ul').find('li[data-path="+${p_dictionary_path.substring(1, p_dictionary_path.length)}+"]').remove();
+		
+						let error_items = $('.construct__header-alert ul').find('li');
+						//if no error items left
+						if (error_items.length < 1)
+						{
+							$('.construct__header-alert').find('ul').html(''); //clear the html
+							$('.construct__header-alert').slideUp(); //hide alert box
+						}
 					}
 					else
 					{
-						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
-						$(".construct__header-alert").show();
-						
-						//if grid item
-						if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
-						{
-							let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
-							let grid_label = parseInt($('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').attr('grid_index')) + 1;
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid'); //add css error class
+						$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").slideDown(); //show message
+						$('.construct__header-alert').show(); //show alert box
 		
-							$(".construct__header-alert").find('ul').html('<li><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(grid_label)+'):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>')
-						}
-						//if NOT grid item
-						else
+						//if error doesnt exist
+						if ($('.construct__header-alert ul').find('li[data-path="+${p_dictionary_path.substring(1, p_dictionary_path.length)}+"]').length < 1)
 						{
-							$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>');
+							//if grid item
+							if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
+							{
+								let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
+								let grid_label = parseInt($('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index')) + 1;
+		
+								$('.construct__header-alert').find('ul').prepend('<li data-path="+${p_dictionary_path.substring(1, p_dictionary_path.length)}+"><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(grid_label)+'):</strong> Date must be a valid calendar date between 1900-2100</li>')
+		
+							}
+							//if NOT grid item
+							else
+							{
+								$('.construct__header-alert').find('ul').prepend('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date between 1900-2100</li>')
+							}
 						}
 					}
+
+
+
+
+
+
+					// if (${is_valid})
+					// {
+					// 	$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").removeClass('is-invalid');
+					// 	$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").hide();
+					// 	$(".construct__header-alert").hide();
+					// 	$(".construct__header-alert").find('ul').html('');
+					// }
+					// else
+					// {
+					// 	$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid');
+					// 	$(".construct__header-alert").show();
+						
+					// 	//if grid item
+					// 	if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
+					// 	{
+					// 		let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
+					// 		let grid_label = parseInt($('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').attr('grid_index')) + 1;
+		
+					// 		$(".construct__header-alert").find('ul').html('<li><strong>Invalid date ('+legend_label+': ${p_metadata.prompt}, item '+(grid_label)+'):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>')
+					// 	}
+					// 	//if NOT grid item
+					// 	else
+					// 	{
+					// 		$(".construct__header-alert").find('ul').html('<li><strong>Invalid date (${p_metadata.prompt}):</strong> Date must be a valid calendar date between 1900-2100 & Time must be valid (in 24-hour format)</li>');
+					// 	}
+					// }
 				`);
 		p_result.push("</div>");
 
