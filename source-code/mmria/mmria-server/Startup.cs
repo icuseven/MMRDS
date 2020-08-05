@@ -31,7 +31,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using React.AspNet;
+//using React.AspNet;
 
 
 namespace mmria.server
@@ -530,11 +530,11 @@ namespace mmria.server
                 //options.AddPolicy("BuildingEntry", policy => policy.Requirements.Add(new OfficeEntryRequirement()));
                 
             });            
-            services.AddReact();
 
-      // Make sure a JS engine is registered, or you will get an error!
-      services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
-        .AddChakraCore();
+        //services.AddReact();
+      //services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
+
+
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -816,7 +816,7 @@ namespace mmria.server
             }
             app.UseHttpsRedirection();
             */
-            app.UseAuthentication();
+            
 
 
             //app.UseMvc();
@@ -830,6 +830,7 @@ namespace mmria.server
             });
             */
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -838,8 +839,10 @@ namespace mmria.server
 
             //app.UseHttpsRedirection();
             app.UseDefaultFiles();
+
+            
             // Initialise ReactJS.NET. Must be before static files.
-      app.UseReact(config =>
+      /*app.UseReact(config =>
       {
         // If you want to use server-side rendering of React components,
         // add all the necessary JavaScript files here. This includes
@@ -857,7 +860,7 @@ namespace mmria.server
         //config
         //    .SetLoadBabel(false)
         //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
-      });
+      });*/
             app.UseStaticFiles();
 
             //http://localhost:5000/swagger/v1/swagger.json
