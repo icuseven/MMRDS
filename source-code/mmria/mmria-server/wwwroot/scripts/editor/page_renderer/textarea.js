@@ -106,7 +106,8 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 .on('tbwchange', function ()
                 {
                     let data = $('.trumbowyg-editor').html();
-                    data = data.split('&quot').join('&apos');
+                    data = data.split('&quot;').join('\\'');
+                    data = data.split('Â').join('');
                     $('.trumbowyg-textarea').val(data);
                     
                     g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data);
@@ -114,7 +115,8 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 .on('tbwpaste', function ()
                 {
                     let data = $('.trumbowyg-editor').html();
-                    data = data.split('&quot').join('&apos');
+                    data = data.split('&quot;').join('\\'');
+                    data = data.split('Â').join('');
                     $('.trumbowyg-textarea').val(data);
                     
                     g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data);
