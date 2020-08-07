@@ -16,16 +16,16 @@ namespace mmria.server.Controllers
 		[AllowAnonymous] 
 		//[Route("list")]
 		[HttpGet]
-		public async Task<System.Dynamic.ExpandoObject> Get() 
+		public async Task<mmria.common.metadata.Substance_Mapping> Get() 
 		{ 
-			System.Dynamic.ExpandoObject result = null;
+			mmria.common.metadata.Substance_Mapping result = null;
 			try
 			{
                 string request_string = $"{Program.config_couchdb_url}/metadata/substance-mapping";
 				var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Substance_Mapping> (responseFromServer);
 
 			}
 			catch(Exception ex)
@@ -56,7 +56,7 @@ namespace mmria.server.Controllers
 
 				document_content = await reader0.ReadToEndAsync ();
 
-				System.Dynamic.ExpandoObject substance_mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_content);
+				mmria.common.metadata.Substance_Mapping substance_mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Substance_Mapping>(document_content);
 
 				IDictionary<string, object> result_dictionary = substance_mapping as IDictionary<string, object>;
 				if 
