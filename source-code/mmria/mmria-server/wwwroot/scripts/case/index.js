@@ -648,6 +648,9 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
+    result.home_record.case_progress_report.case_status.overall_case_status = 1;
+    result.home_record.case_progress_report.case_status.abstraction_begin_date = new Date();
+
 
     if(g_jurisdiction_list.length > 0)
     {
