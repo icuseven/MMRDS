@@ -380,12 +380,13 @@ function is_valid_date(p_value)
   }
   else
   {
-    p_value = new Date(p_value.toString() + 'T00:00:00'); //concat date based on ISO 8601 format, also add time
+    p_value = new Date(p_value.toString() + 'T00:00:00Z'); //concat date based on ISO 8601 format, also add time
     year_check = p_value.getFullYear(); //get the year
+    console.log(year_check);
 
     //only validating year
     //check if between 1900 or 2100
-    if (year_check >= 1900 && year_check <= 2100)
+    if ((year_check + 1) >= 1900 && year_check <= 2100)
     {
       result = true;
     }

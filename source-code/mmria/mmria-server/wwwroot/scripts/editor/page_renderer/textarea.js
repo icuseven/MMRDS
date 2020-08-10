@@ -122,7 +122,6 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                     g_textarea_oninput("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", data);
                 });
             `);
-            
 
 /*
             code_array.push("g_set_data_object_from_path(\"");

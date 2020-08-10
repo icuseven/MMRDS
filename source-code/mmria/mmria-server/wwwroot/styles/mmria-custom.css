@@ -1694,6 +1694,10 @@ button.link {
 .trumbowyg-textarea {
   min-height: 500px !important;
 }
+.trumbowyg-editor[contenteditable="false"],
+.trumbowyg-textarea[contenteditable="false"] {
+  background-color: var(--neutral-light);
+}
 
 .trumbowyg-editor blockquote,
 .trumbowyg-editor div,
