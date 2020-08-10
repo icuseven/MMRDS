@@ -118,16 +118,34 @@ return {
 			"prompt": p_prompt,
 			"type": p_type,
 			"data_type": p_data_type,
+			"sass_export_name": "",
 			"values": []
 		}
 	},
 	create_value: function(p_name, p_prompt, p_type)
-	{
-		return {
-			"name": p_name,
-			"prompt": p_prompt,
-			"type": p_type
+	{ 
+		let result = null;
+		switch(p_type.toLowerCase())
+		{
+			case "button":
+			case "label":
+				result = {
+					"name": p_name,
+					"prompt": p_prompt,
+					"type": p_type,
+				}
+				break;
+		
+			default:
+				result = {
+					"name": p_name,
+					"prompt": p_prompt,
+					"type": p_type,
+					"sass_export_name": ""
+				}
+				break;
 		}
+
 	}
 
 };
@@ -135,7 +153,8 @@ return {
 var $$ = {
 
 
- is_id: function(value){
+ is_id: function(value)
+ {
    // 2016-06-12T13:49:24.759Z
     if(value)
     {
@@ -191,9 +210,6 @@ function open_preview_window()
 			preview_window.metadata_changed(g_metadata);
 			last_preview_update = new Date();
 		}, 3000);
-
-
-
 	}
 	else
 	{
@@ -217,8 +233,6 @@ $(function ()
 
   	profile.initialize_profile();
 */
-	  
-
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
 			evt.preventDefault();
