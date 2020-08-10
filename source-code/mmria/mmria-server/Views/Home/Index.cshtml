@@ -154,6 +154,11 @@ else
         <div class="card-body">
           <ul>
             <li><a href="/case?r=da">View case data</a></li>
+            <li><a href="/export-queue">Export data</a></li>
+            @if(ViewBag.is_power_bi_user)
+            {
+              <li><a href="/overdose-data-summary" >Reports</a></li>
+            }
           </ul>
         </div>
       </li>
