@@ -1690,6 +1690,11 @@ button.link {
 
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-box,
+.trumbowyg-editor {
+  border-color: var(--neutral);
+}
+
 .trumbowyg-editor,
 .trumbowyg-textarea {
   min-height: 500px !important;
