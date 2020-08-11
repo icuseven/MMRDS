@@ -121,7 +121,11 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 //if NOT grid item
                 else
                 {
-                    $('.construct__header-alert ul').append('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"><strong>${p_metadata.prompt}:</strong> Date must be a valid calendar date between 1900-2100</li>')
+                    //check if item error doesnt exist
+                    if ($('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"]').length < 1)
+                    {
+                        $('.construct__header-alert ul').append('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"><strong>${p_metadata.prompt}:</strong> Date must be a valid calendar date between 1900-2100</li>')
+                    }
                 }
 
                 $('.construct__header-alert').show(); //show alert box

@@ -376,6 +376,7 @@ template {
   
   /* grays */
   --neutral: #cccccc;
+  --neutral-xlight: #f6f6f6;
   --neutral-light: #f0f0f0;
   --neutral-mid: #7a7a7a;
   --neutral-dark: #333333;
@@ -395,11 +396,6 @@ body {
   color: var(--neutral-dark);
   font-size: 1rem;
   min-height: 100%;
-}
-
-button,
-select {
-  cursor: pointer;
 }
 
 button  {
@@ -1350,7 +1346,7 @@ button.link {
 .construct__info span {
   padding-left: 5px;
   position: absolute;
-  width: 50%;
+  width: 75%;
 }
 
 /*
@@ -1380,18 +1376,23 @@ button.link {
 .construct-output input[readonly="true"],
 .construct-output textarea[readonly="true"],
 .construct-output select[readonly="true"] {
-    background-color: var(--neutral-light);
+    background-color: var(--neutral-xlight);
 }
 
 /* When an conotrl is read only */
 .construct-output input[disabled],
 .construct-output textarea[disabled],
 .construct-output select[disabled] {
-    background-color: var(--neutral-light);
+    background-color: var(--neutral-xlight);
+    color: #545454 !important;
 }
 
 .construct-output textarea {
     line-height: 1.75;
+}
+
+.construct-output select:disabled {
+  color: var(--black) !important;
 }
 
 .construct-output .btn {
@@ -1690,9 +1691,18 @@ button.link {
 
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
+.trumbowyg-box,
+.trumbowyg-editor {
+  border-color: var(--neutral);
+}
+
 .trumbowyg-editor,
 .trumbowyg-textarea {
   min-height: 500px !important;
+}
+.trumbowyg-editor[contenteditable="false"],
+.trumbowyg-textarea[contenteditable="false"] {
+  background-color: var(--neutral-light);
 }
 
 .trumbowyg-editor blockquote,

@@ -376,12 +376,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -402,12 +402,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -572,12 +572,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.display.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                     if(item.display)
                     {
@@ -598,12 +598,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.display.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                     if(item.display)
                     {
@@ -682,12 +682,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -708,12 +708,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
