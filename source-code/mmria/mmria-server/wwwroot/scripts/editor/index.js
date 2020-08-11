@@ -8,6 +8,8 @@ var g_delete_node_clip_board = null;
 
 var g_ui = { is_collapsed : [] };
 
+var g_path_to_csv_all = {};
+
 
 var md = {
 /*
@@ -224,8 +226,8 @@ function open_preview_window()
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
+  get_name_map_click();
 
-  load_metadata();
 /*
 	profile.on_login_call_back = function (){
 			load_metadata();
@@ -258,6 +260,34 @@ $(function ()
 });
 
 
+function get_name_map_click()
+{
+    $.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + `/api/version/export-names/version_specification-20.07.13/all`
+	}).done(function(response) {
+            let file_map = eval("(" + response + ")");
+            g_path_to_csv_all = {};
+            //g_data.path_to_csv_all_field = {};
+
+            for(let file_name in file_map)
+            {
+                let path_to_field = file_map[file_name];
+                for(let path in path_to_field)
+                {
+                    let field_name = path_to_field[path];
+
+                    g_path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
+                }
+            }
+
+			load_metadata();
+
+	});
+}
+
+
+
 
 
 function load_metadata()
@@ -280,6 +310,9 @@ function load_metadata()
 
 	});
 }
+
+
+
 
 
 function convert_value_to_object(p_metadata)
