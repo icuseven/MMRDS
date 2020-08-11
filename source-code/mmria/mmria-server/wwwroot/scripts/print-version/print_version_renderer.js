@@ -34,8 +34,8 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				for(var i = 0; i < p_metadata.children.length; i++)
 				{
 					var child = p_metadata.children[i];
-					result.push("<td>");
-					result.push(child.prompt);
+					result.push("<td data-child='td-1'>");
+						result.push(child.prompt);
 					result.push("</td>");
 				}
 				result.push("</tr>");
@@ -45,33 +45,33 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 					result.push("<tr>");
 					for(var j = 0; j < p_metadata.children.length; j++)
 					{
-						result.push("<td>");
-						var child = p_metadata.children[j];
+						result.push("<td data-child='td-2'>");
+							var child = p_metadata.children[j];
 
-						if(p_data[i][child.name] == null)
-						{
-							result.push("&nbsp;");
-						}
-						else
-						{
-							var data = p_data[i][child.name];
-
-							if(Array.isArray(data))
+							if(p_data[i][child.name] == null)
 							{
-								result.push("<ul>");
-								for(var k = 0; k < data.length; k++)
-								{
-									result.push("<li>");
-									result.push(data[k]);
-									result.push("</li>");
-								}
-								result.push("</ul>");
+								result.push("&nbsp;");
 							}
 							else
 							{
-								result.push(data);
+								var data = p_data[i][child.name];
+
+								if(Array.isArray(data))
+								{
+									result.push("<ul>");
+									for(var k = 0; k < data.length; k++)
+									{
+										result.push("<li>");
+											result.push(data[k]);
+										result.push("</li>");
+									}
+									result.push("</ul>");
+								}
+								else
+								{
+									result.push(data);
+								}
 							}
-						}
 						result.push("</td>");
 					}
 					result.push("</tr>");
