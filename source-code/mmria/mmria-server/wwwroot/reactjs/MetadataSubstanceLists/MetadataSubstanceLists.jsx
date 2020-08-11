@@ -1,114 +1,8 @@
-const api = {
-  toJSON(response) {
-    // why do this: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-    if (!response.ok) {
-      const { statusText, status } = response;
-      throw Error(statusText || status);
-    }
-    return response.json();
-  },
-  getSubstanceMetadata() {
-    return fetch(
-      window.location.origin + '/api/version/20.07.13/metadata'
-    ).then(this.toJSON);
-  },
-  getSubstanceMapping() {
-    return fetch(window.location.origin + '/api/substance-mapping').then(
-      this.toJSON
-    );
-  },
-  saveSubstanceMapping(bodyContent) {
-    const url = window.location.origin + '/api/substance_mapping';
-    const method = 'POST';
-    const headers = { 'Content-Type': 'application/json' };
-    const body = JSON.stringify(bodyContent);
-    return fetch(url, { method, headers, body }).then(this.toJSON);
-  },
-};
+// @TODO use module imports in the future
+// import SubstanceRow from './SubstanceRow.jsx';
+// import AddNewMapping from './AddNewMapping.jsx';
+// import { getValidTarget, substanceMappingAPI } from './helpers.jsx';
 
-class SubstanceRow extends React.Component {
-  state = {
-    canDelete: false,
-    canUpdate: false,
-    sourceValueText: this.props.substance.source_value,
-  };
-
-  handleTargetChange = (e) => {
-    const { source_value, id } = this.props.substance;
-    const { value } = e.target;
-    this.props.setSubstanceLists({ source_value, target_value: value, id }, id);
-  };
-
-  handleSourceChange = (e) => {
-    if (!this.state.canUpdate) return;
-    const { value } = e.target;
-    this.setState({ sourceValueText: value });
-  };
-
-  handleSourceEdit = (e) => {
-    if (!this.state.canUpdate) {
-      this.setState({ canUpdate: true });
-    } else {
-      const value = this.state.sourceValueText;
-      this.setState({ canUpdate: false });
-      this.props.setSubstanceLists(
-        { ...this.props.substance, source_value: value },
-        this.props.substance.id
-      );
-    }
-  };
-
-  handleDelete = (e) => {
-    if (this.state.canDelete) {
-      // pass it a falsy value and it will remove the element from the array
-      this.props.setSubstanceLists(undefined, this.props.substance.id);
-    } else {
-      this.setState({ canDelete: true });
-    }
-  };
-  cancelDelete = (e) => {
-    this.setState({ canDelete: false });
-  };
-  render() {
-    const { substance, targetSubstanceList, duplicatesMemo } = this.props;
-    const options = targetSubstanceList.map(({ value, display }) => ({
-      display,
-      value,
-    }));
-    const isDuplicate = duplicatesMemo[substance.source_value];
-    return (
-      <div className="row border-bottom p-1">
-        <div className="col-4">
-          <input
-            className={`${isDuplicate ? ' bg-warning' : ''}`}
-            onChange={this.handleSourceChange}
-            value={this.state.sourceValueText}
-          />
-          <button onClick={this.handleSourceEdit}>
-            {this.state.canUpdate ? 'Save' : 'Edit'}
-          </button>
-        </div>
-        <div className="col-4">
-          <SelectOptions
-            {...{
-              options,
-              selected: substance.target_value,
-              handleChange: this.handleTargetChange,
-            }}
-          />
-        </div>
-        <div className="col-4">
-          <button onClick={this.handleDelete}>
-            {this.state.canDelete ? 'Confirm ' : ''}Delete
-          </button>
-          {this.state.canDelete && (
-            <button onClick={this.cancelDelete}>Cancel</button>
-          )}
-        </div>
-      </div>
-    );
-  }
-}
 class MetadataSubstanceLists extends React.Component {
   state = {
     targetSubstanceList: [],
@@ -117,12 +11,15 @@ class MetadataSubstanceLists extends React.Component {
     substanceLists: {},
     duplicatesMemo: {},
     selected: '',
-    sortAscending: undefined,
+    sortSourceAscending: undefined,
+    sortTargetAscending: undefined,
     loading: true,
+    addNew: false,
+    saved: undefined,
   };
   componentDidMount() {
-    const metaPromise = api.getSubstanceMetadata();
-    const mappingPromise = api.getSubstanceMapping();
+    const metaPromise = substanceMappingAPI.getSubstanceMetadata();
+    const mappingPromise = substanceMappingAPI.getSubstanceMapping();
     Promise.all([metaPromise, mappingPromise]).then(
       ([metaResp, mappingResp]) => {
         const targetSubstanceList = metaResp.lookup.find(
@@ -141,7 +38,11 @@ class MetadataSubstanceLists extends React.Component {
               duplicatesMemo[listName][value.source_value] = true;
             }
             return {
-              ...value,
+              source_value: value.source_value,
+              target_value: getValidTarget(
+                targetSubstanceList,
+                value.target_value
+              ),
               id: value.source_value + index,
             };
           });
@@ -161,51 +62,56 @@ class MetadataSubstanceLists extends React.Component {
   }
   setSubstanceLists = (newValue, id) => {
     const { substanceLists, selected } = this.state;
-    const updatedList = [];
-    const newDuplicatesMemo = {};
-    let finalIndex = 0;
-    substanceLists[selected].forEach((val, currentIndex) => {
-      finalIndex = currentIndex;
-      // Update or Delete
-      if (id && val.id === id) {
-        if (newValue) {
-          // if the newValue is falsy the val with the matching id is deleted is a delete
-          updatedList.push(newValue);
-          // check if the new source_value is a duplicate
-          const sourceValue = newValue.source_value;
-          const isDuplicate = newDuplicatesMemo[sourceValue];
-          // recreate the duplicates memo for the list
-          if (isDuplicate === undefined) {
-            newDuplicatesMemo[sourceValue] = false;
-          } else if (isDuplicate === false) {
-            newDuplicatesMemo[sourceValue] = true;
-          }
-        }
-      } else {
-        updatedList.push(val);
-        const sourceValue = val.source_value;
-        const isDuplicate = newDuplicatesMemo[sourceValue];
-        // recreate the duplicates memo for the list
-        if (isDuplicate === undefined) {
-          newDuplicatesMemo[sourceValue] = false;
-        } else if (isDuplicate === false) {
-          newDuplicatesMemo[sourceValue] = true;
-        }
+    let updatedList = [];
+    let newDuplicatesMemo = {};
+    function setDuplicate(value) {
+      const isDuplicate = newDuplicatesMemo[value];
+      // recreate the duplicates memo for the list
+      if (isDuplicate === undefined) {
+        newDuplicatesMemo[value] = false;
+      } else if (isDuplicate === false) {
+        newDuplicatesMemo[value] = true;
       }
-    });
-    // Create New
-    if (!id && !newValue)
-      updatedList.push({
-        source_value: '',
-        target_value: '9999',
-        id: finalIndex,
+    }
+    if (id) {
+      substanceLists[selected].forEach((val, currentIndex) => {
+        // Update or Delete
+        if (id && val.id === id) {
+          if (newValue) {
+            // if the newValue is falsy the val with the matching id is deleted is a delete
+            updatedList.push(newValue);
+            // check if the new source_value is a duplicate
+            const sourceValue = newValue.source_value;
+            setDuplicate(sourceValue);
+          }
+        } else {
+          updatedList.push(val);
+          const sourceValue = val.source_value;
+          setDuplicate(sourceValue);
+        }
       });
+    } else {
+      // Create New
+      newDuplicatesMemo = this.state.duplicatesMemo;
+      updatedList = substanceLists[selected];
+      updatedList.push({
+        ...newValue,
+        id: updatedList.length, // equals the last index + 1
+      });
+      const sourceValue = newValue.source_value;
+      setDuplicate(sourceValue);
+    }
     const duplicatesMemo = {
       ...this.state.duplicatesMemo,
       [selected]: newDuplicatesMemo,
     };
     const newSubstanceLists = { ...substanceLists, [selected]: updatedList };
-    this.setState({ substanceLists: newSubstanceLists, duplicatesMemo });
+    this.setState({
+      substanceLists: newSubstanceLists,
+      duplicatesMemo,
+      addNew: false,
+      saved: undefined,
+    });
   };
 
   handleListChange = (e) => {
@@ -222,27 +128,42 @@ class MetadataSubstanceLists extends React.Component {
         target_value: substance.target_value,
       }));
     });
-    api
+    substanceMappingAPI
       .saveSubstanceMapping({ _id, _rev, substance_lists })
       .then((response) => {
-        if (!response.ok) {
-          debugger;
+        if (response.ok) {
+          this.setState({ _rev: response.rev, saved: true });
+        } else {
+          this.setState({ saved: false });
         }
-        console.log(response._rev);
-        this.setState({ _rev: response._rev });
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        this.setState({ saved: false });
+      });
   };
   sortSubstanceList(substanceList) {
     // only compairs first letter
-    const { sortAscending } = this.state;
+    const { sortSourceAscending, sortTargetAscending } = this.state;
+    let sortAscending = undefined;
+    let target = '';
+    if (sortSourceAscending !== undefined) {
+      sortAscending = sortSourceAscending;
+      target = 'source_value';
+    } else {
+      sortAscending = sortTargetAscending;
+      target = 'target_value';
+    }
     // if undefined do no sort
     if (sortAscending === undefined) return substanceList;
+    function getValue(source) {
+      return source[target].charAt(0).toLowerCase();
+    }
     // if true sort ascending
     if (sortAscending === true) {
       return [...substanceList].sort((a, b) => {
-        const first = a.source_value.charAt(0);
-        const second = b.source_value.charAt(0);
+        const first = getValue(a);
+        const second = getValue(b);
         if (first > second) return 1;
         if (second > first) return -1;
         return 0;
@@ -251,16 +172,31 @@ class MetadataSubstanceLists extends React.Component {
     // if false sort descending
     if (sortAscending === false) {
       return [...substanceList].sort((a, b) => {
-        const first = a.source_value.charAt(0);
-        const second = b.source_value.charAt(0);
+        const first = getValue(a);
+        const second = getValue(b);
         if (first < second) return 1;
         if (second < first) return -1;
         return 0;
       });
     }
   }
-  setSort = (value) => {
-    this.setState({ sortAscending: value });
+  setSort = (target, value) => {
+    if (target === 'source_value') {
+      this.setState({
+        sortSourceAscending: value,
+        sortTargetAscending: undefined,
+      });
+    }
+    if (target === 'target_value') {
+      this.setState({
+        sortSourceAscending: undefined,
+        sortTargetAscending: value,
+      });
+    }
+  };
+
+  addNew = () => {
+    this.setState({ addNew: true });
   };
   render() {
     const {
@@ -268,7 +204,11 @@ class MetadataSubstanceLists extends React.Component {
       selected,
       targetSubstanceList,
       duplicatesMemo,
+      saved,
     } = this.state;
+    const hasDuplicates = selected
+      ? Object.values(duplicatesMemo[selected]).includes(true)
+      : false;
     const substanceList = substanceLists[selected];
     const ROWS = substanceList
       ? this.sortSubstanceList(substanceList).map((substance) => {
@@ -289,26 +229,78 @@ class MetadataSubstanceLists extends React.Component {
       <div>Loading...</div>
     ) : (
       <div className="container">
-        <div className="row">
-          <SelectOptions
-            {...{
-              options: Object.keys(substanceLists).map((value) => ({ value })),
-              selected,
-              handleChange: this.handleListChange,
-            }}
-          />
-          <button onClick={this.handleSave}>Save Changes</button>
+        <div className="row position-sticky substance-lists__sticky-controls">
+          {saved !== undefined ? (
+            saved ? (
+              <div
+                className="alert alert-success text-right"
+                style={{ width: '100%' }}
+                role="alert"
+              >
+                Saved!
+              </div>
+            ) : (
+              <div
+                className="alert alert-danger text-right"
+                style={{ width: '100%' }}
+                role="alert"
+              >
+                Error Saving Changes
+              </div>
+            )
+          ) : null}
+          <div className="container">
+            <div className="row justify-content-between">
+              <div>
+                <label htmlFor="substance-lists">Select Substance List: </label>
+                <SelectOptions
+                  {...{
+                    id: 'substance-lists',
+                    options: Object.keys(substanceLists).map((value) => ({
+                      value,
+                    })),
+                    selected,
+                    handleChange: this.handleListChange,
+                  }}
+                />
+              </div>
+              <button onClick={this.handleSave}>Save Changes</button>
+            </div>
+            <div className="row">
+              {this.state.addNew ? (
+                <AddNewMapping
+                  {...{ targetSubstanceList, onSave: this.setSubstanceLists }}
+                />
+              ) : (
+                <button onClick={this.addNew}>Add New Mapping</button>
+              )}
+            </div>
+            {hasDuplicates && (
+              <div className="row">
+                <span className="text-danger">Duplicates Detected Below</span>
+              </div>
+            )}
+          </div>
         </div>
         <div className="row pt-2">
-          <button onClick={() => this.setSort(true)}>Sort A to Z</button>
-          <button onClick={() => this.setSort(false)}>Sort Z to A</button>
+          <div className="col-4">
+            <button onClick={() => this.setSort('source_value', true)}>
+              Sort A to Z
+            </button>
+            <button onClick={() => this.setSort('source_value', false)}>
+              Sort Z to A
+            </button>
+          </div>
+          <div className="col-4">
+            <button onClick={() => this.setSort('target_value', true)}>
+              Sort A to Z
+            </button>
+            <button onClick={() => this.setSort('target_value', false)}>
+              Sort Z to A
+            </button>
+          </div>
         </div>
         {ROWS}
-        <div className="row">
-          <button onClick={() => this.setSubstanceLists()}>
-            Add New Mapping
-          </button>
-        </div>
       </div>
     );
   }
