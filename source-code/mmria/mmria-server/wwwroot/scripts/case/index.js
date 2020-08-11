@@ -1923,111 +1923,46 @@ function delete_record(p_index) {
   }
 }
 
-// function delete_record(p_index)
-// {
-//   var data = g_ui.case_view_list[p_index];
-//   console.log('delete');
-
-//   g_selected_delete_index = null;
-
-//   $.ajax({
-//     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-//   }).done(function(case_response) {
-//     delete_case(case_response._id, case_response._rev);
-//   });
-//   // if(p_index == g_selected_delete_index)
-//   // {
-//   //   var data = g_ui.case_view_list[p_index];
-
-//   //   g_selected_delete_index = null;
-
-//   //   $.ajax({
-//   //     url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-//   //   }).done(function(case_response) {
-//   //     delete_case(case_response._id, case_response._rev);
-//   //   });
-//   // }
-//   // else
-//   // {
-//   //   if(g_selected_delete_index != null && g_selected_delete_index > -1)
-//   //   {
-//   //     var old_id = g_ui.case_view_list[g_selected_delete_index].id;
-
-//   //     $("tr[path='" + old_id + "']").css("background", "");
-//   //   }
-
-//   //   g_selected_delete_index = p_index;
-
-//   //   var id = g_ui.case_view_list[p_index].id;
-
-//   //   $("tr[path='" + id + "']").css("background", "#ffd54f");
-//   // }
-// }
-
 var save_interval_id = null;
 var save_queue = [];
 
 function print_case_onchange(event) {
-  var section_name =
-    event.target.options[event.target.options.selectedIndex].value; // get value of selected option
-  var record_number =
-    event.target.options[event.target.options.selectedIndex].dataset.record; // data-record of selected option
-
-  // console.log('a. Start print onchange...');
-
-  // IF section_name exists
-  if (section_name && section_name.length > 0) {
+  const { options } = event.target;
+  const selectedOption = options[options.selectedIndex];
+  // get value of selected option
+  const section_name = selectedOption.value;
+  // data-record of selected option
+  const record_number = selectedOption.dataset.record;
+  if (section_name) {
     if (section_name == 'core-summary') {
-      open_core_summary('all');
+      openTab('./core-elements', '_core_summary', 'all');
     } else {
-      if (isNullOrUndefined(record_number)) {
-        // Singular form
-        open_print_version(section_name);
-      } else {
-        // Multi-record form
-        // Also pass the record number (record_number)
-        open_print_version(section_name, record_number);
-      }
+      openTab('./print-version', '_print_version', section_name, record_number);
     }
   }
 }
 
-var printWindow;
-function open_print_version(p_section, p_number) {
-  if (!printWindow) {
-    printWindow = window.open('./print-version', '_print_version', null, false);
-    printWindow.addEventListener('load', () => {
-      printWindow.create_print_version(g_metadata, g_data, p_section, p_number);
+function openTab(pageRoute, tabName, p_section, p_number) {
+  // check if a WindowProxy object has already been created.
+  if (!window[tabName] || window[tabName].closed) {
+    window[tabName] = window.open(pageRoute, tabName, null, false);
+    window[tabName].addEventListener('load', () => {
+      window[tabName].create_print_version(
+        g_metadata,
+        g_data,
+        p_section,
+        p_number
+      );
     });
   } else {
-    printWindow.create_print_version(g_metadata, g_data, p_section, p_number);
+    // if the WindowProxy Object already exists then just call the function on it
+    window[tabName].create_print_version(
+      g_metadata,
+      g_data,
+      p_section,
+      p_number
+    );
   }
-}
-
-function open_core_summary(p_section) {
-  var print_window = window.open(
-    './core-elements',
-    '_core_summary',
-    null,
-    false
-  );
-
-  window.setTimeout(function () {
-    print_window.create_print_version(g_metadata, g_data, p_section);
-  }, 1000);
-}
-
-function open_blank_version(p_section) {
-  var blank_window = window.open(
-    './print-version',
-    '_blank_version',
-    null,
-    false
-  );
-
-  window.setTimeout(function () {
-    blank_window.create_print_version(g_metadata, default_object, p_section);
-  }, 1000);
 }
 
 function add_new_form_click(p_metadata_path, p_object_path) {
