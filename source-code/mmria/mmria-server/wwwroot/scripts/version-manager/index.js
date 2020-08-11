@@ -3,6 +3,8 @@ var mmria_path_to_definition_name = null;
 var g_data = null;
 var base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
 var g_available_version_list = null;
+var g_path_to_csv_all = {};
+
 
 
 var g_MMRIA_Calculations = null;
@@ -76,8 +78,9 @@ function get_name_map_click()
                 let path_to_field = file_map[file_name];
                 for(let path in path_to_field)
                 {
-                    let field_name = path_to_field[path];
-
+                    //let field_name = path_to_field[path];
+                    let field_name = get_sass_name(g_metadata, path);
+                    
                     g_data.path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
                 }
             }
@@ -100,10 +103,11 @@ function get_core_name_map()
             for(let file_name in file_map)
             {
                 let path_to_field = file_map[file_name];
+                
                 for(let path in path_to_field)
                 {
-                    let field_name = path_to_field[path];
-
+                    //let field_name = path_to_field[path];
+                    let field_name = get_sass_name(g_metadata, path);
                     g_data.path_to_csv_core[path] = { "file_name": file_name, "field_name": field_name };
                     
                 }
@@ -304,6 +308,38 @@ function generate_code_click()
 }
 */
 
+
+function get_sass_name(p_metadata, p_path)
+{
+    let result = null;
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                result = get_sass_name(child, p_path + "/");
+                if(result != null)
+                {
+                    break;
+                }
+            }
+        default:
+            if
+            (
+                p_metadata.sass_export_name != null &&
+                p_metadata.sass_export_name != ""
+            )
+            {
+                result = p_metadata.sass_export_name;
+            }
+    }
+    return result;
+    
+}
 
 function create_new_version_click()
 {
