@@ -104,9 +104,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
-				   placeholder="hh:mm:ss"
 				   data-value="${p_data}"
-				   ${p_data.split(' ')[1] ? `value="${p_data.split(' ')[1]}"` : ''}
+				   value="${p_data.split(' ')[1]}"
 				   ${disabled_html}`
 			);
 				if
@@ -138,6 +137,16 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(`>`);
+
+				//TODO: Future route to implement a fake time control for easier 'hh:mm:ss' placeholder
+				//at the moment our plugin is not playing nicely with the time control
+				// p_result.push(
+				// 	`<input class="datetime-fauxtime form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+				// 					placeholder="hh:mm:ss"
+				// 					${disabled_html}
+				// 					aria-hidden="true"
+				// 					focusable="false">`
+				// );
 
 				let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
 				let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];

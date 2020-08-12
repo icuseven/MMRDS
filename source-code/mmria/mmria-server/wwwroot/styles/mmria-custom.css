@@ -1472,11 +1472,13 @@ button.link {
   border-radius: var(--radius) 0px 0px var(--radius);
 }
 
-.search-group input.datetime-time {
+.search-group input.datetime-time,
+.search-group input.datetime-fauxtime {
   border-radius: 0px var(--radius) var(--radius) 0px;
 }
 
-.search-group input.datetime-date + input.datetime-time {
+.search-group input.datetime-date + input.datetime-time,
+.search-group input.datetime-date + input.datetime-fauxtime {
   margin-left: -1px;
 }
 
