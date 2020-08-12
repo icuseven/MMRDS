@@ -15,7 +15,7 @@ using System.Security.Claims;
 
 namespace mmria.server
 {
-	[Authorize(Roles  = "abstractor")]
+	[Authorize(Roles  = "abstractor, data_analyst")]
 	[Route("api/[controller]")]
 	public class export_queueController: ControllerBase
 	{ 

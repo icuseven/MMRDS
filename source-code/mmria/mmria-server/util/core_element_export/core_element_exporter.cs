@@ -35,7 +35,9 @@ namespace mmria.server.util
 
 		private HashSet<string> de_identified_set;
 
-System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+		System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+
+		common.metadata.app current_metadata;
 
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
@@ -117,7 +119,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
-			
+			current_metadata = metadata;
 
 
 			/*
@@ -1048,6 +1050,13 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			}
 
 			result_value = result.ToString();
+
+			var test_result = get_sass_name(this.current_metadata, "/" + p_path, "" );
+			if (test_result != null)
+			{
+				result_value = test_result;
+			}
+
 			if(path_to_field_name_map.ContainsValue(result_value))
 			{
 				//path_to_field_name_map[p_path] = result_value;
@@ -1057,6 +1066,56 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 			path_to_field_name_map.Add(p_path, result_value);
             return result_value;
+		}
+
+		private string get_sass_name(mmria.common.metadata.app p_metadata, string p_search_path, string p_path)
+		{
+			string result = null;
+			for (var i = 0; i < p_metadata.children.Length; i++)
+			{
+				var child = p_metadata.children[i];
+				result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
+				if(result != null)
+				{
+					break;
+				}
+			}
+
+			return result;
+		}
+		private string get_sass_name(mmria.common.metadata.node p_metadata, string p_search_path, string p_path)
+		{
+			string result = null;
+			switch(p_metadata.type.ToLower())
+			{
+				case "app":
+				case "form":
+				case "group":
+				case "grid":
+					for(var i = 0; i < p_metadata.children.Length; i++)
+					{
+						var child = p_metadata.children[i];
+						result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
+						if(result != null)
+						{
+							break;
+						}
+					}
+					break;
+				default:
+					if
+					(
+						p_metadata.sass_export_name != null &&
+						p_metadata.sass_export_name != "" &&
+						p_search_path == p_path
+					)
+					{
+						result = p_metadata.sass_export_name;
+					}
+					break;
+			}
+			return result;
+			
 		}
 
 
