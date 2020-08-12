@@ -15,13 +15,13 @@ using System.Security.Claims;
 
 namespace mmria.server
 {
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/[controller]")]
 	public class case_viewController: ControllerBase 
 	{
 
 
-        // GET api/values 
+        //[Authorize(Roles  = "abstractor, data_analyst")]
         [HttpGet]
         public async Task<mmria.common.model.couchdb.case_view_response> Get
         (

@@ -26,7 +26,6 @@ namespace mmria.server.Controllers
             _config = p_config;
         }
 
-        //[AllowAnonymous] 
         public async Task<IActionResult> Index()
         {
 
@@ -116,12 +115,7 @@ namespace mmria.server.Controllers
 
 
             return View();
-        }
+		}
 
-
-        [Authorize]
-        public IActionResult Members() {
-            return View();
-        }
     }
 }
