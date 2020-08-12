@@ -1385,15 +1385,16 @@ button.link {
 .construct-output select[disabled] {
     background-color: var(--neutral-xlight);
     color: #545454 !important;
+    opacity: 1;
 }
 
 .construct-output textarea {
     line-height: 1.75;
 }
 
-.construct-output select:disabled {
+/* .construct-output select:disabled {
   color: var(--black) !important;
-}
+} */
 
 .construct-output .btn {
     max-height: 39.75px;

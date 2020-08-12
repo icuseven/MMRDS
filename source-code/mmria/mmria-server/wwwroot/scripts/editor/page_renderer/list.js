@@ -237,7 +237,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
 
     
-    let disabled_html = "  readonly=true  ";
+    let disabled_html = "  disabled=true  ";
 	if(g_data_is_checked_out)
 	{
 		disabled_html = " ";
@@ -257,7 +257,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_metadata.mirror_reference
     )
     {
-        p_result.push(" readonly=true ");
+        p_result.push(" disabled=true ");
     }
     else
     {
@@ -525,7 +525,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_metadata.mirror_reference
     )
     {
-        p_result.push(" readonly=true ");
+        p_result.push(" disabled=true ");
     }
     else
     {
@@ -1062,7 +1062,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                 p_metadata.mirror_reference
             )
             {
-                is_read_only= " readonly=true ";
+                is_read_only= " disabled=true ";
             }
             else
             {
@@ -1201,7 +1201,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             p_metadata.mirror_reference
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
         }
 
         //let object_id = ;
