@@ -44,21 +44,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_post_html_render.push("	}");
     p_post_html_render.push("});");
     
-    // p_result.push(`
-    //     <button type="button"
-    //             class="btn btn-secondary mr-1"
-    //             alt="search"
-    //             onclick="init_inline_loader(() => { get_case_set(render_sort_by_include_in_export(p_ui.case_view_request)) })">
-    //         Apply Filters
-    //     </button>
-    //     <button type="button"
-    //             class="btn btn-secondary"
-    //             alt="search"
-    //             id="search_command_button"
-    //             onclick="init_inline_loader(() => { clear_case_search() })">
-    //         Clear
-    //     </button>
-    // `);
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mb-2'>");
@@ -67,131 +52,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             p_result.push(`
                 ${render_sort_by_include_in_export(p_ui.case_view_request)}
             `);
-            // if (p_ui.case_view_request.sort == "by_date_created") 
-            // {
-            //     p_result.push("<option selected>date_created</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option selected>date_created</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_jurisdiction_id") 
-            // {
-            //     p_result.push("<option>jurisdiction_id</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>jurisdiction_id</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_last_name") 
-            // {
-            //     p_result.push("<option>last_name</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>last_name</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_first_name") 
-            // {
-            //     p_result.push("<option>first_name</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>first_name</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_middle_name") 
-            // {
-            //     p_result.push("<option>middle_name</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>middle_name</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_state_of_death") 
-            // {
-            //     p_result.push("<option>state_of_death</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>state_of_death</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_record_id") 
-            // {
-            //     p_result.push("<option>record_id</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>record_id</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_year_of_death") 
-            // {
-            //     p_result.push("<option>year_of_death</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>year_of_death</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_month_of_death") 
-            // {
-            //     p_result.push("<option>month_of_death</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>month_of_death</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_committee_review_date") 
-            // {
-            //     p_result.push("<option>committee_review_date</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>committee_review_date</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_agency_case_id") 
-            // {
-            //     p_result.push("<option>agency_case_id</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>agency_case_id</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_created_by") 
-            // {
-            //     p_result.push("<option>created_by</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>created_by</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_last_updated_by") 
-            // {
-            //     p_result.push("<option>last_updated_by</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>last_updated_by</option>");
-            // }
-
-            // if (p_ui.case_view_request.sort == "by_date_last_updated") 
-            // {
-            //     p_result.push("<option>date_last_updated</option>");
-            // }
-            // else 
-            // {
-            //     p_result.push("<option>date_last_updated</option>");
-            // }
         p_result.push("</select>");
     p_result.push("</div>");
 
@@ -205,52 +65,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 ${render_filter_records_per_page(p_ui.case_view_request)}
             </select>
         `);
-        // p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
-        //     if (p_ui.case_view_request.take == 25) 
-        //     {
-        //         p_result.push("<option selected>25</option>");
-        //     }
-        //     else 
-        //     {
-        //         p_result.push("<option>25</option>");
-        //     }
-
-        //     if (p_ui.case_view_request.take == 50) 
-        //     {
-        //         p_result.push("<option selected>50</option>");
-        //     }
-        //     else 
-        //     {
-        //         p_result.push("<option>50</option>");
-        //     }
-
-        //     if (p_ui.case_view_request.take == 100) 
-        //     {
-        //         p_result.push("<option selected>100</option>");
-        //     }
-        //     else 
-        //     {
-        //         p_result.push("<option>100</option>");
-        //     }
-
-        //     if (p_ui.case_view_request.take == 250) 
-        //     {
-        //         p_result.push("<option selected>250</option>");
-        //     }
-        //     else 
-        //     {
-        //         p_result.push("<option>250</option>");
-        //     }
-
-        //     if (p_ui.case_view_request.take == 500) 
-        //     {
-        //         p_result.push("<option selected>500</option>");
-        //     }
-        //     else 
-        //     {
-        //         p_result.push("<option>500</option>");
-        //     }
-        // p_result.push("</select>");
     p_result.push("</div>");
 
     /* Descending Order */
@@ -259,12 +73,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(`
             <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
         `);
-        // p_result.push("<input id='sort_descending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
-        // if (p_ui.case_view_request.descending) 
-        // {
-        //     p_result.push(" checked='true' ");
-        // }
-        // p_result.push(" />");
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline'>");
@@ -301,98 +109,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             }
         p_result.push("</div>");
     p_result.push("</div>");
-
-    // p_result.push("<table class='table mb-0'>");
-    // p_result.push("<thead class='thead'>");
-    // p_result.push("<tr class='tr bg-tertiary'>");
-    // p_result.push("<th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>");
-    // p_result.push("</tr>");
-    // p_result.push("</thead>");
-    // p_result.push("<thead class='thead'>");
-    // p_result.push("<tr class='tr'>");
-    // p_result.push("<th class='th' scope='col'>Case Information</th>");
-    // p_result.push("<th class='th' scope='col'>Date Created</th>");
-    // p_result.push("<th class='th' scope='col'>Last Updated</th>");
-    // p_result.push("<th class='th' scope='col'>Actions</th>");
-    // p_result.push("</tr>");
-    // p_result.push("</thead>");
-
-    // /*
-    //     by_date_created
-    //     by_date_last_updated
-    //     by_last_name
-    //     by_first_name
-    //     by_middle_name
-    //     by_year_of_death
-    //     by_month_of_death
-    //     by_committee_review_date
-    //     by_created_by
-    //     by_last_updated_by
-    //     by_state_of_death
-
-    // */
-    // p_result.push("<tbody class='tbody'>");
-    // for (var i = 0; i < p_ui.case_view_list.length; i++) 
-    // {
-    //     var item = p_ui.case_view_list[i];
-
-    //     if (i % 2) 
-    //     {
-    //         p_result.push('<tr class="tr" path="');
-    //     }
-    //     else 
-    //     {
-    //         p_result.push('<tr class="tr" path="');
-    //     }
-    //     p_result.push(item.id);
-    //     p_result.push('">');
-
-    //     p_result.push("<td class='td'>");
-    //     p_result.push("<a href='#/")
-    //     p_result.push(i);
-    //     p_result.push("/home_record' role='button' class='btn-purple'>");
-    //     p_result.push(item.value.jurisdiction_id); p_result.push("  :");
-    //     p_result.push(item.value.last_name); p_result.push(", ");
-    //     p_result.push(item.value.first_name); p_result.push(" ");
-    //     p_result.push(item.value.middle_name);
-    //     if (item.value.record_id)
-    //     {
-    //         p_result.push(" - (");
-    //         p_result.push(item.value.record_id);
-    //         p_result.push(" )");
-    //     }
-    //     if (item.value.agency_case_id) 
-    //     {
-    //         p_result.push("  ac_id: ");
-    //         p_result.push(item.value.agency_case_id)
-    //     }
-    //     p_result.push("</a>");
-    //     p_result.push("</td>");
-
-    //     p_result.push("<td class='td'>");
-    //     p_result.push(item.value.date_created);
-    //     p_result.push("</td>");
-        
-    //     p_result.push("<td class='td'>");
-    //     p_result.push(item.value.last_updated_by);
-    //     p_result.push(" ");
-    //     p_result.push(item.value.date_last_updated);
-    //     p_result.push("</td>");
-
-    //     p_result.push("<td class='td' width='200'>");
-    //         // p_result.push("&nbsp;");
-    //         // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
-    //         // p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
-    //         p_result.push("<button type='button' id='id_for_record_" + i + "' class='btn btn-primary' onclick='delete_record(" + i + ")'>Click twice to delete</button>");
-    //         // p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
-    //     p_result.push("</td>");
-
-
-    //     p_result.push('</tr>');
-
-    // }
-    // p_result.push("</tbody>");
-    // p_result.push('</table>');
     p_result.push(`
       <table class="table mb-0">
           <thead class='thead'>
@@ -578,6 +294,7 @@ function render_sort_by_include_in_export(p_sort)
 	// Empty string to push dynamically created options into
     const f_result = [];
 
+    //The below commented out code is used as reference
 	// <option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option>
 
 	// Using the trusty ole' .map method instead of for loop
