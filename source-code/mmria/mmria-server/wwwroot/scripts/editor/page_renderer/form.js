@@ -87,6 +87,24 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push(p_metadata.prompt);
                             p_result.push("</p>");
 
+                            if (!isNullOrUndefined(g_data.home_record.case_progress_report.case_status.overall_case_status))
+                            {
+                                let current_value = g_data.home_record.case_progress_report.case_status.overall_case_status;
+                                let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_progress_report/case_status/overall_case_status", "");
+                                let label = current_value;
+                                for (let i = 0; i < look_up.values.length; i++)
+                                {
+                                    let item = look_up.values[i];
+                                    if (item.value == current_value)
+                                    {
+                                        label = item.display;
+                                        break;
+                                    }
+                                }
+        
+                                p_result.push(`<p class='construct__info mb-0'>Case Status: <span>${label}</span></p>`);
+                            }
+
                             if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
                             {
                                 p_result.push(`<p class='construct__info mb-0'>Date created: <span>${g_data.created_by && g_data.created_by} ${g_data.date_created}</span></p>`);
@@ -693,6 +711,24 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(p_metadata.prompt);
                     p_result.push("</p>");
 
+                    if (!isNullOrUndefined(g_data.home_record.case_progress_report.case_status.overall_case_status))
+                    {
+                        let current_value = g_data.home_record.case_progress_report.case_status.overall_case_status;
+                        let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_progress_report/case_status/overall_case_status", "");
+                        let label = current_value;
+                        for (let i = 0; i < look_up.values.length; i++)
+                        {
+                            let item = look_up.values[i];
+                            if (item.value == current_value)
+                            {
+                                label = item.display;
+                                break;
+                            }
+                        }
+
+                        p_result.push(`<p class='construct__info mb-0'>Case Status: <span>${label}</span></p>`);
+                    }
+
                     if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
                     {
                         p_result.push(`<p class='construct__info mb-0'>Date created: <span>${g_data.created_by && g_data.created_by} ${g_data.date_created}</span></p>`);
@@ -1268,4 +1304,35 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data)
 
         p_result.push('</select>');
     }
+}
+
+
+function get_metadata_value_node_by_mmria_path(p_metadata, p_search_path, p_path)
+{
+    let result = null;
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                result = get_metadata_value_node_by_mmria_path(child, p_search_path, p_path + "/" + child.name);
+                if(result != null)
+                {
+                    break;
+                }
+            }
+            break;
+        default:
+            if(p_search_path == p_path)
+            {
+                result = p_metadata;
+            }
+            break;
+    }
+    return result;
+    
 }
