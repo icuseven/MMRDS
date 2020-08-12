@@ -50,19 +50,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             is_valid = p_ctx.is_valid_date_or_datetime;
         }
-        /*
-        if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
-        {
-            //validation passed
-            // console.log('~~~~~ valid');
-            is_valid = true;
-        }
-        else if (!is_valid_date_or_datetime(p_data))
-        {
-            //validation failed, show validation message
-            // console.log('~~~~~ invalid');
-            is_valid = false;
-        }*/
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
