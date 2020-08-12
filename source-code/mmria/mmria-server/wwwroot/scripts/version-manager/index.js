@@ -79,7 +79,7 @@ function get_name_map_click()
                 for(let path in path_to_field)
                 {
                     //let field_name = path_to_field[path];
-                    let field_name = get_sass_name(g_metadata, path);
+                    let field_name = get_sass_name(g_metadata, path, "");
                     
                     g_data.path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
                 }
@@ -107,7 +107,7 @@ function get_core_name_map()
                 for(let path in path_to_field)
                 {
                     //let field_name = path_to_field[path];
-                    let field_name = get_sass_name(g_metadata, path);
+                    let field_name = get_sass_name(g_metadata, path, "");
                     g_data.path_to_csv_core[path] = { "file_name": file_name, "field_name": field_name };
                     
                 }
@@ -309,7 +309,7 @@ function generate_code_click()
 */
 
 
-function get_sass_name(p_metadata, p_path)
+function get_sass_name(p_metadata, p_search_path, p_path)
 {
     let result = null;
     switch(p_metadata.type.toLowerCase())
@@ -321,21 +321,25 @@ function get_sass_name(p_metadata, p_path)
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                result = get_sass_name(child, p_path + "/");
+                result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
                 if(result != null)
                 {
                     break;
                 }
             }
+            break;
         default:
             if
             (
                 p_metadata.sass_export_name != null &&
-                p_metadata.sass_export_name != ""
+                p_metadata.sass_export_name != "" && 
+                p_search_path == p_path
+
             )
             {
                 result = p_metadata.sass_export_name;
             }
+            break;
     }
     return result;
     
