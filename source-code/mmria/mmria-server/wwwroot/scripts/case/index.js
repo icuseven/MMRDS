@@ -36,17 +36,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 {
   var is_search_result = false;
   var search_text = null;
-
-  // console.table([
-  //   ['p_object_path', p_object_path],
-  //   ['p_metadata_path', p_metadata_path],
-  //   ['p_dictionary_path', p_dictionary_path],
-  //   ['value', value],
-  //   ['p_form_index', p_form_index],
-  //   ['p_grid_index', p_grid_index],
-  //   ['p_date_object', p_date_object],
-  //   ['p_time_object', p_time_object]
-  // ]);
   
   if(g_ui.url_state.selected_id && g_ui.url_state.selected_id == "field_search")
   {
@@ -61,13 +50,11 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
     if (!isNullOrUndefined(p_date_object))
     {
       // date value was passed in param
-      // console.log('a1', p_date_object.value);
       value = p_date_object.value + ' ' + value; // param + ' ' + value
     }
     else if (!isNullOrUndefined(p_time_object))
     {
       // time value was passed in param
-      // console.log('a2', p_time_object.value);
       value = value + ' ' + p_time_object.value // value + ' ' + param
     }
   }
@@ -371,7 +358,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 function is_valid_date(p_value)
 {
   let result = false; //flagged as false by default
-  let year_check = null; //var to set year that will be validated
+  let year = null;
 
   //return true if blank
   if (p_value.length === 0)
@@ -380,13 +367,12 @@ function is_valid_date(p_value)
   }
   else
   {
-    p_value = new Date(p_value.toString() + 'T00:00:00'); //concat date based on ISO 8601 format, also add time
-    year_check = p_value.getFullYear(); //get the year
-    console.log(year_check); 
+    year = p_value.split('-')[0]; //get year
+    year = parseInt(year); //convert year to a number
 
     //only validating year
     //check if between 1900 or 2100
-    if ((year_check + 1) >= 1900 && year_check <= 2100)
+    if (year >= 1900 && year <= 2100)
     {
       result = true;
     }
@@ -400,7 +386,7 @@ function is_valid_date(p_value)
 function is_valid_datetime(p_value)
 {
   let result = false; //flagged as false by default
-  let year_check = null; //var to set year that will be validated
+  let year = null;
 
   //if date is missing OR blank
   if (p_value.charAt(0) == ' ' || p_value.length === 0)
@@ -409,25 +395,13 @@ function is_valid_datetime(p_value)
   }
   else
   {
-    let p_date = p_value.split(' ')[0]; //get date from param
-    let p_time = p_value.split(' ')[1]; //get time from param
-    let p_hour = p_time.split(':')[0]; //get hour from time
-    
-    //check if hour is singular integer, then manually add a zero in front
-    //we have an issue where singular hour returns with no leading zero
-    //this will make it a valid time
-    if (parseInt(p_hour) < 10)
-    {
-      p_time = '0' + p_time;
-    }
-
-    p_value = p_date + 'T' + p_time; //concat date and time based on ISO 8601 format for datetime 
-    p_value = new Date(p_value.toString()); //convert to browser datetime
-    year_check = p_value.getFullYear(); //get the year
+    p_value = p_value.split(' ')[0]; //strip the time if it is available
+    year = p_value.split('-')[0]; //get year
+    year = parseInt(year); //convert year to a number
 
     //only validating year
     //check if between 1900 or 2100
-    if (year_check >= 1900 && year_check <= 2100)
+    if (year >= 1900 && year <= 2100)
     {
       result = true;
     }
