@@ -58,29 +58,17 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			{
 				is_valid = p_ctx.is_valid_date_or_datetime;
 			}
-			/*
-			if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
-			{
-				//validation passed
-				// console.log('~~~~~ valid');
-				is_valid = true;
-			}
-			else if (!is_valid_date_or_datetime(p_data))
-			{
-				//validation failed, show validation message
-				// console.log('~~~~~ invalid');
-				is_valid = false;
-			}*/
 
-			p_result.push(`
-				<input class="datetime-date form-control w-50 h-100"
-					   dpath="${p_object_path}"
-					   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-					   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-					   type="date" name="${p_metadata.name}"
-					   data-value="${p_data}"
-					   value="${p_data.split(' ')[0]}"
-					   ${disabled_html}`);
+			p_result.push(
+				`<input class="datetime-date form-control w-50 h-100"
+					    dpath="${p_object_path}"
+					    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+					    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+					    type="date" name="${p_metadata.name}"
+					    data-value="${p_data}"
+					    value="${p_data.split(' ')[0]}"
+						${disabled_html}`
+			);
 				if
 				(
 					!(
@@ -110,15 +98,17 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(` min="1900-01-01" max="2100-12-31">`);
-			p_result.push(`
-			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+			p_result.push(
+				`<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
 				   dpath="${p_object_path}"
 				   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
+				   placeholder="hh:mm:ss"
 				   data-value="${p_data}"
-				   value="${!isNullOrUndefined(p_data.split(' ')[0]) ? p_data.split(' ')[1] : '00:00:00'}"
-				   ${disabled_html}`);
+				   ${p_data.split(' ')[1] ? `value="${p_data.split(' ')[1]}"` : ''}
+				   ${disabled_html}`
+			);
 				if
 				(
 					!(
@@ -221,6 +211,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		//Initialize the custom 'bootstrap timepicker'
 		p_post_html_render.push(`
 			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
+				defaultTime: false,
 				minuteStep: 1,
 				secondStep: 1,
 				showMeridian: false,
