@@ -623,8 +623,8 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
-    result.home_record.case_progress_report.case_status.overall_case_status = 1;
-    result.home_record.case_progress_report.case_status.abstraction_begin_date = new Date().toISOString().split("T")[0];
+    result.home_record.case_status.overall_case_status = 1;
+    result.home_record.case_status.abstraction_begin_date = new Date().toISOString().split("T")[0];
 
 
     if(g_jurisdiction_list.length > 0)
@@ -698,7 +698,7 @@ var g_ui = {
     page :1,
     skip : 0,
     take : 100,
-    sort : "by_date_created",
+    sort : "by_date_last_updated",
     search_key : null,
     descending : true,
     get_query_string : function(){
@@ -785,8 +785,10 @@ $(function ()
   }
 
 
-    let urlParams = new URLSearchParams(window.location.search);
-    g_is_data_analyst_mode = urlParams.get('r');
+    if(window.location.pathname == "/analyst-case")
+    {
+      g_is_data_analyst_mode = "da";
+    }
 
 
 

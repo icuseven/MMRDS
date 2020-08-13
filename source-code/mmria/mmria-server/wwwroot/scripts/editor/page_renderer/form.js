@@ -1,44 +1,50 @@
 function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
     //~~~~~ START SETUP Concurrent Edit
-        /*
-            Concurrent Edit for Abstractors
-            - By default, cases are read only
-            - Cases becomes editable once a user checks out the case
-            - Once a case is checked out by a user, that particular case is locked for 'other' users
-        */
-       let currently_locked_by_html = "";
-       let enable_edit_disable_attribute = "";
-       let undo_disable_attribute = " disabled='disabled' ";
-       let save_and_continue_disable_attribute = " disabled='disabled' ";
-       let save_and_finish_disable_attribute = " disabled='disabled' ";
-       
-       //if case is checked out by ANYONE
-       if(g_data_is_checked_out)
-       {
-           // console.log('anyone has locked it out')
-           enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
-           undo_disable_attribute = ""; //enable undo btn
-           save_and_continue_disable_attribute = ""; //enable save and continue btn
-           save_and_finish_disable_attribute = ""; //enable save and finish btn
-           currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>"; //show user locked info
-       }
+    /*
+        Concurrent Edit for Abstractors
+        - By default, cases are read only
+        - Cases becomes editable once a user checks out the case
+        - Once a case is checked out by a user, that particular case is locked for 'other' users
+    */
+    let currently_locked_by_html = "";
+    let enable_edit_disable_attribute = "";
+    let undo_disable_attribute = " disabled='disabled' ";
+    let save_and_continue_disable_attribute = " disabled='disabled' ";
+    let save_and_finish_disable_attribute = " disabled='disabled' ";
+    let delete_disable_attribute = " disabled='disabled' ";
+    
+    if(g_is_data_analyst_mode == null)
+    {
+        //if case is checked out by ANYONE
+        if(g_data_is_checked_out)
+        {
+            // console.log('anyone has locked it out')
+            enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
+            undo_disable_attribute = ""; //enable undo btn
+            save_and_continue_disable_attribute = ""; //enable save and continue btn
+            save_and_finish_disable_attribute = ""; //enable save and finish btn
+            delete_disable_attribute = "";
+            currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_user_name + "</b>)</i>"; //show user locked info
+        }
 
-       //if case is checked out by YOU
-       if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by === g_user_name)
-       {
-           // console.log('you')
-           enable_edit_disable_attribute = " disabled "; //disable enable edit btn
-           currently_locked_by_html = ""; //hide user locked info
-       }
+        //if case is checked out by YOU
+        if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by === g_user_name)
+        {
+            // console.log('you')
+            enable_edit_disable_attribute = " disabled "; //disable enable edit btn
+            currently_locked_by_html = ""; //hide user locked info
+            delete_disable_attribute = "";
+        }
 
-       //if case is checked out by SOMEONE ELSE
-       if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by !== g_user_name)
-       {
-           // console.log('someone else')
-           enable_edit_disable_attribute = " disabled "; //disable enable edit btn
-           currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_data.last_checked_out_by + "</b>)</i>"; //show user locked info
-       }
+        //if case is checked out by SOMEONE ELSE
+        if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by !== g_user_name)
+        {
+            // console.log('someone else')
+            enable_edit_disable_attribute = " disabled "; //disable enable edit btn
+            currently_locked_by_html = "<i>(Currently Locked By: <b>" + g_data.last_checked_out_by + "</b>)</i>"; //show user locked info
+        }
+    }
    //~~~~~ END SETUP Concurrent Edit
 
     if(
@@ -156,58 +162,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push("</div>");
                         p_result.push("</div> <!-- end .construct__controller -->");
                     p_result.push("</div>");
-                    // p_result.push("<div class='row no-gutters'>");
-                    //     p_result.push("<div class='col col-8'>");
-                    //         p_result.push("<h1 class='construct__title text-primary h1 multi-form-title' tabindex='-1'>");
-                    //         p_result.push(g_data.home_record.last_name);
-                    //         p_result.push(", ");
-                    //         p_result.push(g_data.home_record.first_name);
-                    //         p_result.push("</h1>");
-                    //         if(g_data.home_record.record_id)
-                    //         {
-                    //             p_result.push("<p class='construct__info mb-0'>");
-                    //             p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
-                    //             p_result.push("</p>");
-                    //         }
-
-                    //         p_result.push("<p class='construct__subtitle' ");
-                    //         if(p_metadata.description && p_metadata.description.length > 0)
-                    //         {
-                    //             p_result.push("rel='tooltip' data-original-title='");
-                    //             p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                    //             p_result.push("'>");
-                    //         }
-                    //         else
-                    //         {
-                    //             p_result.push(">");
-                    //         }
-                    //         p_result.push(p_metadata.prompt);
-                    //         p_result.push("</p>");
-
-                    //         if (g_data.date_created && !isNullOrUndefined(g_data.date_created))
-                    //         {
-                    //             p_result.push(`<p class='construct__info mb-0'>Date created: ${g_data.date_created}</p>`);
-                    //         }
-                        
-                            
-                    //         let add_button_disable_attribute = ' disabled="disabled" ';
-                    //         if(g_data_is_checked_out)
-                    //         {
-                    //             add_button_disable_attribute = '';
-                    //         }
-                    //         p_result.push('<div class="row no-gutters align-items-center mt-3">');
-                    //             p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
-                    //             p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
-                    //             p_result.push(' form" ');
-                    //             p_result.push(add_button_disable_attribute)
-                    //             p_result.push(' onclick="init_inline_loader(function(){ add_new_form_click(\' ' + p_metadata_path + '\',\'' + p_object_path + ' \') })" />');
-                    //             p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
-                    //         p_result.push("</div>");
-                    //     p_result.push("</div>");
-                    //     p_result.push("<div class='col col-4 row no-gutters align-items-end'>");
-                    //         render_print_form_control(p_result, p_ui, p_metadata, p_data);
-                    //     p_result.push("</div>");
-                    // p_result.push("</div>");
+                    
                 }
             p_result.push("</header> <!-- end .construct__header -->");
             
@@ -260,7 +215,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                     <td class="td">${recordType}</td>
                                     <td class="td">${item.birth_order}</td>
                                     <td class="td">${item.record_identification.time_of_delivery}</td>
-                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
+                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
                                 </tr>
                             `);
                         }
@@ -303,7 +258,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                         }
                                     </td>
                                     <td class="td">${pregStatus}</td>
-                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
+                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
                                 </tr>
                             `);
                         }
@@ -352,7 +307,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                     <td class="td">${visitType}</td>
                                     <td class="td">${providerType}</td>
                                     <td class="td">${pregnancyStatus}</td>
-                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
+                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
                                 </tr>
                             `);
                         }
@@ -403,7 +358,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                         }
                                     </td>
                                     <td class="td">${transportReason}</td>
-                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
+                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
                                 </tr>
                             `);
                         }
@@ -449,45 +404,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                     </td>
                                     <td class="td">${interviewType}</td>
                                     <td class="td">${relationshipToDeceased}</td>
-                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
+                                    <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
                                 </tr>
                             `);
                         }
                     }
 
-                    // for(let i = 0; i < p_data.length; i++)
-                    // {
-                    //     if(item)
-                    //     {
-                    //         // if(i % 2)
-                    //         // {
-                    //         //     p_result.push('<tr class=tr"><td class="td"><a href="#/');
-                    //         // }
-                    //         // else
-                    //         // {
-                    //         //     p_result.push('<tr class="tr"><td class="td"><a href="#/');
-                    //         // }
-                    //         p_result.push('<tr class="tr">');
-                    //             p_result.push('<td class="td">');
-                    //             p_result.push('<a href="#/');
-                    //             p_result.push(p_ui.url_state.path_array.join("/"));
-                    //             p_result.push("/");
-                    //             p_result.push(i);
-                    //             p_result.push("\">");
-                    //                 p_result.push('View Record ');
-                    //                 p_result.push(i + 1);
-                    //             p_result.push('</a>');
-                    //             p_result.push('</td>');
-                            
-                    //             p_result.push('<td class="td">');
-                    //                 p_result.push('<button class="btn btn-primary" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\',\'' + i + '\')');
-                    //                 p_result.push("\">");
-                    //                     p_result.push('Delete Record');
-                    //                 p_result.push('</button>');
-                    //             p_result.push('</td>');
-                    //         p_result.push('</tr>');
-                    //     }
-                    // }
                     p_result.push('</tbody>');
                 p_result.push('</table>');
             p_result.push('</div>');
@@ -579,48 +501,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push("</div>");
                         p_result.push("</div> <!-- end .construct__controller -->");
                     p_result.push("</div>");
-                
-                    // p_result.push("<div class='col col-8'>");
-                    //     if(g_data)
-                    //     {
-                    //         p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
-                    //         p_result.push(g_data.home_record.last_name);
-                    //         p_result.push(", ");
-                    //         p_result.push(g_data.home_record.first_name);
-                    //         p_result.push("</h1>");
-                    //     }
-                    //     if(g_data.home_record.record_id)
-                    //     {
-                    //         p_result.push("<p class='construct__info mb-0'>");
-                    //             p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
-                    //         p_result.push("</p>");
-                    //     }
-                    //     p_result.push("<p class='construct__subtitle'");
-                    //         if(p_metadata.description && p_metadata.description.length > 0)
-                    //         {
-                    //             p_result.push("rel='tooltip'  data-original-title='");
-                    //             p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                    //             p_result.push("'>");
-                    //         }
-                    //         else
-                    //         {
-                    //             p_result.push(">");
-                    //         }
-
-                    //         p_result.push(p_metadata.prompt);
-                    //         p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
-                    //     p_result.push("</p>");
-
-                    // p_result.push("</div>");
-                    // p_result.push("<div class='col col-4 text-right'>");
-                    //     p_result.push("<div>");
-                    //     p_result.push(`${currently_locked_by_html} <input type='button' class='construct__btn btn btn-secondary' value='Enable Edit' onclick='enable_edit_click()' ${enable_edit_disable_attribute}/>
-                    //         p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' ${undo_disable_attribute}/>
-                    //         p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>
-                    //         p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='save_and_finish_click()' ${save_and_finish_disable_attribute}/>`);
-                    //         render_print_form_control(p_result, p_ui, p_metadata);
-                    //     p_result.push("</div>");
-                    // p_result.push("</div>");
 
                 p_result.push("</header>");
                 
@@ -711,6 +591,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(p_metadata.prompt);
                     p_result.push("</p>");
 
+ 
                     if (!isNullOrUndefined(g_data.home_record.case_status.overall_case_status))
                     {
                         let current_value = g_data.home_record.case_status.overall_case_status;
