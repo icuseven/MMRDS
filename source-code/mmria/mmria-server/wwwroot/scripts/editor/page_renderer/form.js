@@ -87,10 +87,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push(p_metadata.prompt);
                             p_result.push("</p>");
 
-                            if (!isNullOrUndefined(g_data.home_record.case_progress_report.case_status.overall_case_status))
+                            if (!isNullOrUndefined(g_data.home_record.case_status.overall_case_status))
                             {
-                                let current_value = g_data.home_record.case_progress_report.case_status.overall_case_status;
-                                let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_progress_report/case_status/overall_case_status", "");
+                                let current_value = g_data.home_record.case_status.overall_case_status;
+                                let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_status/overall_case_status", "");
                                 let label = current_value;
                                 for (let i = 0; i < look_up.values.length; i++)
                                 {
@@ -711,10 +711,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(p_metadata.prompt);
                     p_result.push("</p>");
 
-                    if (!isNullOrUndefined(g_data.home_record.case_progress_report.case_status.overall_case_status))
+                    if (!isNullOrUndefined(g_data.home_record.case_status.overall_case_status))
                     {
-                        let current_value = g_data.home_record.case_progress_report.case_status.overall_case_status;
-                        let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_progress_report/case_status/overall_case_status", "");
+                        let current_value = g_data.home_record.case_status.overall_case_status;
+                        let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_status/overall_case_status", "");
                         let label = current_value;
                         for (let i = 0; i < look_up.values.length; i++)
                         {
