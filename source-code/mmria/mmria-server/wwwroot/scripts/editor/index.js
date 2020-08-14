@@ -147,7 +147,7 @@ return {
 				}
 				break;
 		}
-
+		return result;
 	}
 
 };
