@@ -10,6 +10,7 @@ rm -rf /tmp/src/Vagrantfile
 rm -rf /tmp/src/provision-script-set
 rm -rf /tmp/src/provision-script-set
 rm -rf /tmp/src/source-code/scratch
+rm -rf /tmp/src/source-code/mmria/data-migration
 rm -rf /tmp/src/source-code/mmria/install-setup
 rm -rf /tmp/src/source-code/mmria/mmria-console
 rm -rf /tmp/src/source-code/mmria/mmria-identity
