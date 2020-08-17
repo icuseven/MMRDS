@@ -155,7 +155,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     <tr class="tr" path="${item.id}">
                         <td class="td">
                             <a href="#/${i}/home_record">
-                                / :${item.value.last_name}, ${item.value.first_name}
+                                ${item.value.jurisdiction_id} :${item.value.last_name}, ${item.value.first_name}
                                 ${item.value.record_id && ' - (' + item.value.record_id + ')'}
                                 ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
                             </a>

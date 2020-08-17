@@ -373,6 +373,8 @@ template {
   --grape: #712177;
   --grape-light: #b890bb;
   --grape-dark: #351147;
+
+  --link: #075290;
   
   /* grays */
   --neutral: #cccccc;
@@ -479,11 +481,13 @@ ul {
   COMPONENTS
 */
 .link {
-  color: inherit;
+  color: var(--link);
+  cursor: pointer;
 }
 .link:focus,
 .link:hover {
-  color: inherit;
+  color: var(--link);
+  text-decoration: underline;
 }
 /* links that are buttons, yar! */
 button.link {
