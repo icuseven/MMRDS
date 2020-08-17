@@ -101,6 +101,37 @@ function getCaseSet()
   });
 }
 
+function isCaseCheckedOut(p_case)
+{
+	let is_checked_out = false;
+  let current_date = new Date();
+  
+  if(p_case.value.date_last_checked_out != null && p_case.value.date_last_checked_out != "")
+  {
+		let try_date = null;
+		let is_date = false;
+
+		if(!(p_case.value.date_last_checked_out instanceof Date))
+		{
+				try_date = new Date(p_case.value.date_last_checked_out);
+		}
+		else
+		{
+			try_date = p_case.value.date_last_checked_out;
+		}
+		
+		if
+		(
+				getMinuteDifference(try_date, current_date) <= 120
+				// p_case.value.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase() //commented out but leaving for reference as Im not exactly sure what this is doing
+		)
+		{
+			is_checked_out = true;
+		}
+	}
+
+  return is_checked_out;
+}
 
 function renderCheckedOutCases(p_cases, p_time)
 {
@@ -179,38 +210,6 @@ function renderCheckedOutCases(p_cases, p_time)
 	return result;
 }
 
-function isCaseCheckedOut(p_case)
-{
-	let is_checked_out = false;
-  let current_date = new Date();
-  
-  if(p_case.value.date_last_checked_out != null && p_case.value.date_last_checked_out != "")
-  {
-		let try_date = null;
-		let is_date = false;
-
-		if(!(p_case.value.date_last_checked_out instanceof Date))
-		{
-				try_date = new Date(p_case.value.date_last_checked_out);
-		}
-		else
-		{
-			try_date = p_case.value.date_last_checked_out;
-		}
-		
-		if
-		(
-				getMinuteDifference(try_date, current_date) <= 120
-				// p_case.value.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
-		)
-		{
-			is_checked_out = true;
-		}
-	}
-
-  return is_checked_out;
-}
-
 function handleCaseRelease(p_id) {
 	$.ajax({
 		url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id //call the API and get current case
@@ -265,264 +264,3 @@ function convertToReadableTime(millis) {
 	
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function update_item(p_index, p_value)
-// {
-// 	g_power_bi_user_list.rows[p_index].doc.alternate_email = p_value;
-
-
-// }
-
-// function server_save(p_index)
-// {
-// 	return;
-// 	let user = g_power_bi_user_list.rows[p_index].doc;
-
-// 	$.ajax({
-// 				url: location.protocol + '//' + location.host + '/api/user',
-// 				contentType: 'application/json; charset=utf-8',
-// 				dataType: 'json',
-// 				data: JSON.stringify(user),
-// 				type: "POST"
-// 		}).done(function(response) 
-// 		{
-
-// 			let response_obj = eval(response);
-// 			if(response_obj.ok)
-// 			{
-// 				user._rev = user.rev; 
-
-// 				render();
-// 			}
-// 		});
-		
-// }
-
-
-// function render()
-// {
-// 	document.getElementById('output').innerHTML = render_case_list().join("");
-// }
-
-// function encodeHTML(s) 
-// {
-// 	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-//     return result;
-// }
-
-
-
-
-// function get_specific_case(p_id)
-// {
-//   var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
-
-//   $.ajax({
-//     url: case_url,
-//   }).done(function(case_response) 
-//   {
-//     if(case_response)
-//     {
-//       var local_data = get_local_case(p_id);
-
-//       if(local_data)
-//       {
-//           if(local_data._rev && local_data._rev == case_response._rev)
-//           {
-//               g_data = local_data;
-//               g_data_is_checked_out = is_case_checked_out(g_data);
-//           }
-//           else
-//           {
-//             /*
-//             console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
-//             var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
-//             if(date_difference.days > 3)
-//             {*/
-
-//               local_data = case_response;
-//             /*}
-//             else
-//             {
-//               local_data._rev = case_response._rev;
-//             }*/
-            
-//             set_local_case(local_data);
-//             g_data = local_data;
-//             g_data_is_checked_out = is_case_checked_out(g_data);
-//           }
-
-//           if(g_autosave_interval != null && g_data_is_checked_out == false)
-//           {
-//             window.clearInterval(g_autosave_interval);
-//             g_autosave_interval = null;
-//           }
-
-//           g_render();
-//       }
-//       else
-//       {
-//         g_data = case_response;
-//         g_data_is_checked_out = is_case_checked_out(g_data);
-
-//         if(g_autosave_interval != null && g_data_is_checked_out == false)
-//         {
-//           window.clearInterval(g_autosave_interval);
-//           g_autosave_interval = null;
-//         }
-//       }
-//       g_render();
-//     }
-//     else
-//     {
-//       g_render();
-//     }
-//   })
-//   .fail(function(jqXHR, textStatus, errorThrown) {
-//     console.log( "get_specific_case:",  textStatus, errorThrown);
-//     g_data = get_local_case(p_id);
-//     g_data_is_checked_out = is_case_checked_out(g_data);
-//   });
-// }
-
-// function save_case(p_data, p_call_back)
-// {
-
-//   if(p_data.host_state == null || p_data.host_state == "")
-//   {
-//     p_data.host_state = window.location.host.split("-")[0];
-//   }
-
-//   $.ajax({
-//     url: location.protocol + '//' + location.host + '/api/case',
-//     contentType: 'application/json; charset=utf-8',
-//     dataType: 'json',
-//     data: JSON.stringify(p_data),
-//     type: "POST"
-//   }).done(function(case_response) {
-
-//     console.log("save_case: success");
-
-//     g_change_stack = [];
-
-//     if(g_data && g_data._id == case_response.id)
-//     {
-//       g_data._rev = case_response.rev;
-//       g_data_is_checked_out = is_case_checked_out(g_data);
-//       set_local_case(g_data);
-//       //console.log('set_value save finished');
-//     }
-    
-//     if(p_call_back)
-//     {
-//       p_call_back();
-//     }
-//   })
-//   .fail
-//   (
-//     function(xhr, err) 
-//     { 
-//       console.log("server save_case: failed", err); 
-//       if(xhr.status == 401)
-//       {
-//         let redirect_url = location.protocol + '//' + location.host;
-//         window.location = redirect_url;
-//       }
-  
-//     }
-//   );
-// }
-
-// function save_and_finish_click()
-// {
-//   g_data.date_last_updated = new Date();
-//   g_data.date_last_checked_out = null;
-//   g_data.last_checked_out_by = null;
-	
-// 	save_case(g_data, create_save_message);
-	
-//   // g_render()
-//   // window.clearInterval(g_autosave_interval);
-//   // g_autosave_interval = null;
-// }
-
-// function get_metadata_value_node_by_mmria_path(p_metadata, p_search_path, p_path)
-// {
-// 		let result = null;
-		
-//     switch(p_metadata.type.toLowerCase())
-//     {
-//         case "app":
-//         case "form":
-//         case "group":
-//         case "grid":
-//             for(let i = 0; i < p_metadata.children.length; i++)
-//             {
-//                 let child = p_metadata.children[i];
-//                 result = get_metadata_value_node_by_mmria_path(child, p_search_path, p_path + "/" + child.name);
-//                 if(result != null)
-//                 {
-//                     break;
-//                 }
-//             }
-//             break;
-//         default:
-//             if(p_search_path == p_path)
-//             {
-//                 result = p_metadata;
-//             }
-//             break;
-// 		}
-		
-//     return result;
-// }
-
-// if (g_data.home_record.case_status && !isNullOrUndefined(g_data.home_record.case_status.overall_case_status))
-// {
-// 		let current_value = g_data.home_record.case_status.overall_case_status;
-// 		let look_up = get_metadata_value_node_by_mmria_path(g_metadata, "/home_record/case_status/overall_case_status", "");
-// 		let label = current_value;
-// 		for (let i = 0; i < look_up.values.length; i++)
-// 		{
-// 				let item = look_up.values[i];
-// 				if (item.value == current_value)
-// 				{
-// 						label = item.display;
-// 						break;
-// 				}
-// 		}
-
-// 		p_result.push(`<p class='construct__info mb-0'>Case Status: <span>${label}</span></p>`);
-// }
