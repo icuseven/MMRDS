@@ -38,23 +38,6 @@ $(function ()
 
 	loadUser();
 	getCaseSet();
-
-	// $(document).keydown(function(evt){
-	// 	if (evt.keyCode==83 && (evt.ctrlKey)){
-	// 		evt.preventDefault();
-	// 		//metadata_save();
-	// 	}
-	// });
-
-	// window.onhashchange = function(e)
-	// {
-	// 	if(e.isTrusted)
-	// 	{
-	// 		var new_url = e.newURL || window.location.href;
-
-	// 		g_ui.url_state = url_monitor.get_url_state(new_url);
-	// 	}
-	// };
 });
 
 function loadUser()
