@@ -324,12 +324,12 @@ function create_ID(p_control)
 //5.	Out of Scope and decision entered, with associated Case Locked Date
 //6.	False Positive and death certificate entered, with associated Case Locked Date 
 /*
-path=home_record/case_progress_report/case_status/overall_case_status
+path=home_record/case_status/overall_case_status
 event=onblur
 */
 function case_status_value_change(p_control) 
 {
-    //home_record/case_progress_report/case_status/case_locked_date
+    //home_record/case_status/case_locked_date
     if 
     (
         (
@@ -346,7 +346,7 @@ function case_status_value_change(p_control)
     {
         this.case_locked_date = new Date().toISOString().split("T")[0];
         $mmria.save_current_record();
-        $mmria.set_control_value('home_record/case_progress_report/case_status/case_locked_date', this.case_locked_date);
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
  
     }
 }

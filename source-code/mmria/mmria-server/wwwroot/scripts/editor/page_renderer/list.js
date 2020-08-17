@@ -262,15 +262,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     else
     {
 
-        if(g_data_is_checked_out)
+        if (g_data_is_checked_out)
         {
-            p_result.push("  onblur='g_set_data_object_from_path(\"");
-            p_result.push(p_object_path);
-            p_result.push("\",\"");
-            p_result.push(p_metadata_path);
-            p_result.push("\",\"");
-            p_result.push(p_dictionary_path);
-            p_result.push("\",this.value)'  ");
+            if (path_to_int_map[p_metadata_path])
+            {
+                page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+            }
         }
     }
 
