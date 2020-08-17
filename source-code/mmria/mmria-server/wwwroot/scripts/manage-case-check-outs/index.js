@@ -1,5 +1,7 @@
 var g_data = null;
 var g_user_name = null;
+var g_value_to_display_lookup = {};
+var g_display_to_value_lookup = {};
 var case_view_list = [];
 var case_view_request = {
     total_rows: 0,
@@ -36,11 +38,11 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	loadUser();
+	loadUserParam();
 	getCaseSet();
 });
 
-function loadUser()
+function loadUserParam()
 {
 	$.ajax({
     url: location.protocol + '//' + location.host + '/api/user/my-user',
@@ -116,7 +118,7 @@ function isCaseCheckedOut(p_case)
   return is_checked_out;
 }
 
-function renderCheckedOutCases(p_cases, p_time)
+function renderCheckedOutCases(p_cases)
 {
 	const result = [];
 
@@ -147,27 +149,34 @@ function renderCheckedOutCases(p_cases, p_time)
 				</thead>
 				<tbody class="tbody">
 					<!-- START loop through checked out cases -->
-					${p_cases.map((el, i) => {
-						let caseID = el.id;
-						let jurisdictionID = el.value.jurisdiction_id;
-						let firstName = el.value.first_name;
-						let lastName = el.value.last_name;
-						let recordID = el.value.record_id;
-						let agencyCaseID = el.value.agency_case_id;
+					${p_cases.map((item) => {
+						const caseID = item.id;
+						const jurisdictionID = item.value.jurisdiction_id;
+						const firstName = item.value.first_name;
+						const lastName = item.value.last_name;
+						const recordID = item.value.record_id;
+						const agencyCaseID = item.value.agency_case_id;
 
-						let lastUpdatedDate = el.value.date_last_updated;
-						// lastUpdatedDate = lastUpdatedDate.split('T')[0];
-						// lastUpdatedDate = lastUpdatedDate.split('-');
-						lastUpdatedDate = new Date(lastUpdatedDate);
-						//convert ISO format to MM/DD/YYYY
+						let lastUpdatedDate = item.value.date_last_updated;
+						lastUpdatedDate = new Date(lastUpdatedDate); //convert ISO format to MM/DD/YYYY
 						lastUpdatedDate = lastUpdatedDate.toLocaleDateString('en-US');
 						
-						let lastCheckedOutDate = el.value.date_last_updated;
+						const lastCheckedOutDate = item.value.date_last_updated;
 						let timeLocked = Math.abs(new Date(lastCheckedOutDate) - new Date());
 						timeLocked = convertToReadableTime(timeLocked);
 
-						let lockedBy = el.value.last_checked_out_by;
-						let caseStatus = ''; //TODO: Need to wire in Case Status
+						const lockedBy = item.value.last_checked_out_by;
+						const currentCaseStatus = item.value.case_status.overall_case_status;
+						//TODO: Load the below dynamically
+						const caseStatuses = [
+							'Abstracting (incomplete)',
+							'Abstraction Complete',
+							'Ready For Review',
+							'Review complete and decision entered',
+							'Out of Scope and death certificate entered',
+							'False Positive and death certificate entered',
+							'(blank)'
+						];
 
 						return (
 							`<tr class="tr" data-id="${caseID}">
@@ -180,7 +189,7 @@ function renderCheckedOutCases(p_cases, p_time)
 								<td class="td" scope="col">${lastUpdatedDate && lastUpdatedDate || ''}</td>
 								<td class="td" scope="col">${timeLocked && `${timeLocked} minutes` || ''}</td>
 								<td class="td" scope="col">${lockedBy && lockedBy || ''}</td>
-								<td class="td" scope="col">${caseStatus && caseStatus || ''}</td>
+								<td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus === '9999' ? '(blank)' : caseStatuses[parseInt(currentCaseStatus)-1]}</td>
 								<td class="td text-center" scope="col"><button class="anti-btn link" onclick="handleCaseRelease('${caseID}')">Release</button></td>
 							</tr>`
 						)
@@ -205,7 +214,6 @@ function handleCaseRelease(p_id) {
 		//save and release case with a callback to rerender the table
 		saveCaseAndRelease(g_data, getCaseSet);
 	});
-
 }
 
 function saveCaseAndRelease(p_data, p_call_back) {
