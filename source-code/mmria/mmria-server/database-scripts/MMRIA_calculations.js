@@ -327,9 +327,9 @@ function create_ID(p_control)
 path=home_record/case_status/overall_case_status
 event=onblur
 */
-function case_status_value_change(p_control) 
+function case_status_value_blur(p_control) 
 {
-    //home_record/case_status/case_locked_date
+
     if 
     (
         (
@@ -345,13 +345,73 @@ function case_status_value_change(p_control)
     ) 
     {
         this.case_locked_date = new Date().toISOString().split("T")[0];
-        $mmria.save_current_record();
+        //$mmria.save_current_record();
         $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
  
     }
+    else if
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) && 
+        this.overall_case_status!= null &&
+        ! (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    )
+    {
+        this.case_locked_date = null;
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+    }
 }
 
+/*
+path=home_record/case_status/overall_case_status
+event=onchange
+*/
+function case_status_value_change(p_control) 
+{
 
+    if 
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) &&
+        this.overall_case_status!= null &&
+        (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    ) 
+    {
+        this.case_locked_date = new Date().toISOString().split("T")[0];
+        //$mmria.save_current_record();
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+ 
+    }
+    else if
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) && 
+        this.overall_case_status!= null &&
+        ! (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    )
+    {
+        this.case_locked_date = null;
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+    }
+}
 
 
 

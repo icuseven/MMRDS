@@ -266,6 +266,14 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             if (path_to_int_map[p_metadata_path])
             {
+
+				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+				if(path_to_onchange_map[p_metadata_path])
+				{
+					page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				}
+				
+
                 page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
             }
         }
