@@ -105,7 +105,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split(' ')[1]}"
+				   value="${p_data.split(' ')[0] ? p_data.split(' ')[1] : '00:00:00'}"
 				   ${disabled_html}`
 			);
 				if
@@ -351,46 +351,69 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 	}
 	else //if(p_metadata.type!="number")
 	{
-		p_result.push(" onblur='g_set_data_object_from_path(\"");
-		p_result.push(p_object_path);
-		p_result.push("\",\"");
-		p_result.push(p_metadata_path);
-		p_result.push("\",\"");
-		p_result.push(p_dictionary_path);
-		if(p_metadata.type=="boolean")
+		//TODO: Refactor the below condition once we figure how to write 'nested' ternary operators
+		if (p_ctx)
 		{
-			p_result.push("\",this.checked");
+			//p_ctx exits, setting form_index and grid_index value
+			p_result.push(
+				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, ${p_ctx.form_index != null ? p_ctx.form_index : 'null'}, ${p_ctx.grid_index != null ? p_ctx.grid_index : 'null'}, this.previousElementSibling, this.nextElementSibling)"`
+			);
 		}
 		else
 		{
-			p_result.push("\",this.value");
+			//no p_ctx arguments, setting form_index and grid_index value to 'null'
+			p_result.push(
+				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, null, null, this.previousElementSibling, this.nextElementSibling)"`
+			);
 		}
 
-		if(p_ctx!=null)
-		{
-			if(p_ctx.form_index != null)
-			{
-				p_result.push(", ");
-				p_result.push(p_ctx.form_index);
-			}
-			else
-			{
-				p_result.push(", null");
-			}
+		//Rewrite to string interpolation for less jumble
+		//Keeping commented out for reference
+		//TODO: REMOVE once we confirm it's working
+		// p_result.push(" onblur='g_set_data_object_from_path(\"");
+		// p_result.push(p_object_path);
+		// p_result.push("\",\"");
+		// p_result.push(p_metadata_path);
+		// p_result.push("\",\"");
+		// p_result.push(p_dictionary_path);
+		// if(p_metadata.type=="boolean")
+		// {
+		// 	p_result.push("\",this.checked");
+		// }
+		// else
+		// {
+		// 	p_result.push("\",this.value");
+		// }
+
+		// if(p_ctx!=null)
+		// {
+		// 	if(p_ctx.form_index != null)
+		// 	{
+		// 		p_result.push(", ");
+		// 		p_result.push(p_ctx.form_index);
+		// 	}
+		// 	else
+		// 	{
+		// 		p_result.push(", null");
+		// 	}
 	
-			if(p_ctx.grid_index != null)
-			{
-				p_result.push(", ");
-				p_result.push(p_ctx.grid_index);
-			}
-			else
-			{
-				p_result.push(", null");
-			}
-		}
-		p_result.push(", this.previousElementSibling");
-		p_result.push(", this.nextElementSibling");
-		p_result.push(")'");
+		// 	if(p_ctx.grid_index != null)
+		// 	{
+		// 		p_result.push(", ");
+		// 		p_result.push(p_ctx.grid_index);
+		// 	}
+		// 	else
+		// 	{
+		// 		p_result.push(", null");
+		// 	}
+		// }
+		// else
+		// {
+		// 	p_result.push(", null, null");
+		// }
+		// p_result.push(", this.previousElementSibling");
+		// p_result.push(", this.nextElementSibling");
+		// p_result.push(")'");
 	}
 }
 
