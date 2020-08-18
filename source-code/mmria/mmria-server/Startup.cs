@@ -87,6 +87,19 @@ namespace mmria.server
         Program.db_prefix = Configuration["mmria_settings:db_prefix"];
       }
 
+      if (!string.IsNullOrEmpty(Configuration["mmria_settings:cdc_instance_pull_list"]))
+      {
+        Program.config_cdc_instance_pull_list = Configuration["mmria_settings:cdc_instance_pull_list"];
+      }
+
+      if (!string.IsNullOrEmpty(Configuration["mmria_settings:cdc_instance_pull_db_url"]))
+      {
+        Program.config_cdc_instance_pull_db_url = Configuration["mmria_settings:cdc_instance_pull_db_url"];
+      }
+
+      
+      
+
 
       var test_int = 0;
       //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
@@ -253,6 +266,19 @@ namespace mmria.server
         {
           Configuration["mmria_settings:db_prefix"] = System.Environment.GetEnvironmentVariable("db_prefix");
           Program.db_prefix = Configuration["mmria_settings:db_prefix"];
+        }
+
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("cdc_instance_pull_list")))
+        {
+          Configuration["mmria_settings:cdc_instance_pull_list"] = System.Environment.GetEnvironmentVariable("cdc_instance_pull_list");
+          Program.config_cdc_instance_pull_list = Configuration["mmria_settings:cdc_instance_pull_list"];
+        }
+
+
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url")))
+        {
+          Configuration["mmria_settings:cdc_instance_pull_db_url"] = System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url");
+          Program.config_cdc_instance_pull_db_url = Configuration["mmria_settings:cdc_instance_pull_db_url"];
         }
 
         /*
