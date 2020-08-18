@@ -1448,44 +1448,54 @@ function save_case(p_data, p_call_back)
     p_data.host_state = window.location.host.split("-")[0];
   }
 
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(p_data),
-    type: "POST"
-  }).done(function(case_response) {
+  if(g_is_data_analyst_mode == null)
+  {
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(p_data),
+      type: "POST"
+    }).done(function(case_response) {
 
-    console.log("save_case: success");
+      console.log("save_case: success");
 
-    g_change_stack = [];
+      g_change_stack = [];
 
-    if(g_data && g_data._id == case_response.id)
-    {
-      g_data._rev = case_response.rev;
-      g_data_is_checked_out = is_case_checked_out(g_data);
-      set_local_case(g_data);
-      //console.log('set_value save finished');
-    }
-    
-    if(p_call_back)
-    {
-      p_call_back();
-    }
-  })
-  .fail
-  (
-    function(xhr, err) 
-    { 
-      console.log("server save_case: failed", err); 
-      if(xhr.status == 401)
+      if(g_data && g_data._id == case_response.id)
       {
-        let redirect_url = location.protocol + '//' + location.host;
-        window.location = redirect_url;
+        g_data._rev = case_response.rev;
+        g_data_is_checked_out = is_case_checked_out(g_data);
+        set_local_case(g_data);
+        //console.log('set_value save finished');
       }
-  
-    }
-  );
+      
+      if(p_call_back)
+      {
+        p_call_back();
+      }
+    })
+    .fail
+    (
+      function(xhr, err) 
+      { 
+        console.log("server save_case: failed", err); 
+        if(xhr.status == 401)
+        {
+          let redirect_url = location.protocol + '//' + location.host;
+          window.location = redirect_url;
+        }
+    
+      }
+    );
+  }
+  else
+  {
+    if(p_call_back)
+      {
+        p_call_back();
+      }
+  }
 }
 
 
