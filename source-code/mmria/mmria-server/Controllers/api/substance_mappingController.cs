@@ -57,11 +57,7 @@ namespace mmria.server.Controllers
         mmria.common.metadata.Substance_Mapping substance_mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Substance_Mapping>(document_content);
 
         IDictionary<string, object> result_dictionary = substance_mapping as IDictionary<string, object>;
-        if
-        (
-          result_dictionary.ContainsKey("_id") &&
-          result_dictionary["_id"].ToString() == "substance-mapping"
-        )
+        if(substance_mapping._id == "substance-mapping")
         {
           string url = $"{Program.config_couchdb_url}/metadata/substance-mapping";
           //System.Console.WriteLine ("json\n{0}", object_string);
