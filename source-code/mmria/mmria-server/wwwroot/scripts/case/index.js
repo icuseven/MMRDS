@@ -47,12 +47,12 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   //the param value are either 'p_date_object' or 'p_time_object'
   if (eval(p_metadata_path).type === 'datetime')
   {
-    if (!isNullOrUndefined(p_date_object))
+    if (p_date_object)
     {
       // date value was passed in param
       value = p_date_object.value + ' ' + value; // param + ' ' + value
     }
-    else if (!isNullOrUndefined(p_time_object))
+    else if (p_time_object)
     {
       // time value was passed in param
       value = value + ' ' + p_time_object.value // value + ' ' + param

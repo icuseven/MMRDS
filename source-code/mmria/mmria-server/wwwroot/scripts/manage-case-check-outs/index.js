@@ -122,7 +122,7 @@ function renderCheckedOutCases(p_cases)
 {
 	const result = [];
 
-	if (p_cases.length === 0)
+	if (p_cases.length < 1)
 	{
 		result.push(
 			`<p>No cases currently checked out</p>`
@@ -193,7 +193,7 @@ function renderCheckedOutCases(p_cases)
 								<td class="td text-center" scope="col"><button class="anti-btn link" onclick="handleCaseRelease('${caseID}')">Release</button></td>
 							</tr>`
 						)
-					})}
+					}).join('')}
 				</tbody>
 			</table>`
 		);
