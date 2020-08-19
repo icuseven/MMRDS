@@ -24,7 +24,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfo:
 
-/* */
+/*  */  
 
                     var midnight_timespan = new TimeSpan(0, 0, 0);
                     var difference = DateTime.Now - midnight_timespan;
@@ -32,7 +32,7 @@ namespace mmria.server.model.actor.quartz
                     {
                         break;
                     }
-                   
+                
 
                     if 
                     (
@@ -87,16 +87,37 @@ namespace mmria.server.model.actor.quartz
                                     }
 
                                     var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
-                                    var revision = get_revision(target_url).GetAwaiter().GetResult();
-
-                                    if(!string.IsNullOrWhiteSpace(revision))
-                                    {
-                                        case_item["_rev"] = revision;
-                                    }
 
                                     var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
                                     var de_identified_json = new mmria.server.util.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
-                                    var put_result = Put_Document(de_identified_json, _id, target_url, Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                                    
+                                    var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
+
+                                    var de_identified_dictionary = de_identified_case as IDictionary<string,object>;
+
+                                    var revision = get_revision(target_url).GetAwaiter().GetResult();
+                                    if(!string.IsNullOrWhiteSpace(revision))
+                                    {
+                                        de_identified_dictionary["_rev"] = revision;
+                                    }                                    
+                                    
+                                    var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
+
+                                    var put_result_string = Put_Document(save_json, _id, target_url, Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+
+                                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
+
+                                    if(result.ok)
+                                    {
+                                        var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+                                        (
+                                            _id,
+                                            de_identified_json
+                                        );
+
+                                        Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                    }
+
                                 }
                             }
                         }

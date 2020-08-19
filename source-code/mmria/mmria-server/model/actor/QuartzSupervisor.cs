@@ -107,7 +107,7 @@ namespace mmria.server.model.actor
                     else
                     {
                         Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
-                        
+                        //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
                         
                         //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
