@@ -1436,7 +1436,8 @@ button.link {
     transform: translateY(-50%);
 }
 
-.construct-output label {
+.construct-output label,
+.construct-output .faux-label {
     line-height: 16px;
     margin-bottom: 10px;
     margin-right: 10px;
