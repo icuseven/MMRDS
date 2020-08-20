@@ -1260,7 +1260,7 @@ namespace mmria.server.util
             }
             else
             {
-
+              mapping_row["deidentified"] = "no";
               switch (table_column.ColumnName)
               {
                 case "_record_index":
