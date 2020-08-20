@@ -1835,18 +1835,19 @@ function delete_record(p_index) {
 var save_interval_id = null;
 var save_queue = [];
 
-function print_case_onchange(event) {
-  const { options } = event.target;
-  const selectedOption = options[options.selectedIndex];
+function print_case_onclick() {
+  const dropdown = document.getElementById('print_case_id');
   // get value of selected option
-  const section_name = selectedOption.value;
-  // data-record of selected option
-  const record_number = selectedOption.dataset.record;
+  const section_name = dropdown.value;
   if (section_name) {
     if (section_name == 'core-summary') {
       openTab('./core-elements', '_core_summary', 'all');
     } else {
-      openTab('./print-version', '_print_version', section_name, record_number);
+      // data-record of selected option
+      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
+      const record_number = selectedOption.dataset.record;
+      const tabName = section_name === 'all' ? '_all' : '_print_version';
+      openTab('./print-version', tabName, section_name, record_number);
     }
   }
 }
