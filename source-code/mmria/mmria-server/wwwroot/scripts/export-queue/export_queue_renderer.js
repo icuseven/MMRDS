@@ -396,31 +396,32 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
         `<span class="spinner-container spinner-small spinner-active">
 						<span class="spinner-body text-primary">
 							<span class="spinner"></span>
-							<span class="spinner-info">In ${
-                inQueue ? 'In Queue' : 'Creating Export'
-              }...</span>
+							<span class="spinner-info">${inQueue ? 'In Queue' : 'Creating Export'}...</span>
 						</span>
 					</span>`
       );
     } else {
       td(item.status);
     }
-
-    if (item.status == 'Confirmation Required') {
-      td(
-        `<input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' />`
-      );
-    } else if (item.status == 'Download') {
-      td(
-        `<input type='button' value='Download' onclick='download_export_item("${item._id}")' />`
-      );
-    } else if (item.status == 'Downloaded') {
-      td(
-        `<input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' />`
-      );
-    } else {
-      td(`&nbps;`);
+    function getButtons() {
+      function buttonEl(value) {
+        if (!['Confirm', 'Cancel', 'Download', 'Delete'].includes(value)) {
+          console.error('Unknown button type: ' + value);
+        }
+        const clickType = value.toLowerCase();
+        return `<input type="button" value='${value}' onclick="${clickType}_export_item('${item._id}')" />`;
+      }
+      if (item.status == 'Confirmation Required') {
+        return buttonEl('Confirm') + '|' + buttonEl('Cancel');
+      } else if (item.status == 'Download') {
+        return buttonEl('Download');
+      } else if (item.status == 'Downloaded') {
+        return buttonEl('Download') + '|' + buttonEl('Delete');
+      } else {
+        return '';
+      }
     }
+    td(getButtons());
     result.push('</tr>');
   }
   result.push('</tbody>');
