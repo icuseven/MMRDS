@@ -1,7 +1,5 @@
 function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx) 
 {
-
-
     p_result.push("<section id='app_summary'>");
 
     /* The Intro */
@@ -9,8 +7,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
     p_result.push("<div class='row no-gutters align-items-center'>");
     
-    
     let is_read_only_html = '';
+    
     if(g_is_data_analyst_mode)
     {
         is_read_only_html = "disabled='disabled'";
@@ -46,40 +44,52 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     
     p_result.push("</div>");
 
-    p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_sort_by' class='mr-2'>Sort:</label>");
-        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = this.options[this.selectedIndex].value;'>");
-            p_result.push(`
+    /* Case Status */
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_case_status" class="mr-2">Case Status:</label>
+            <select id="search_case_status" class="custom-select" onchange="">
+                ${renderSortCaseStatus(p_ui.case_view_request)}
+            </select>
+        </div>`
+    );
+
+    /* Sort By: */
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_sort_by" class="mr-2">Sort:</label>
+            <select id="search_sort_by" class="custom-select" onchange="g_ui.case_view_request.sort = this.options[this.selectedIndex].value;">
                 ${render_sort_by_include_in_export(p_ui.case_view_request)}
-            `);
-        p_result.push("</select>");
-    p_result.push("</div>");
+            </select>
+        </div>`
+    );
 
     /* Records per page */
-    p_result.push("<div class='form-inline mb-2'>");
-        p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
-        p_result.push(`
-            <select id="search_records_per_page"
-                    class="custom-select"
-                    onchange="g_ui.case_view_request.take = this.value;">
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_records_per_page" class="mr-2">Records per page:</label>
+            <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
                 ${render_filter_records_per_page(p_ui.case_view_request)}
             </select>
-        `);
-    p_result.push("</div>");
+        </div>`
+    );
 
     /* Descending Order */
-    p_result.push("<div class='form-inline mb-3'>");
-        p_result.push("<label for='sort_descending' class='mr-2'>Descending order:</label>");
-        p_result.push(`
-            <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
-        `);
-    p_result.push("</div>");
+    p_result.push(
+        `<div class="form-inline mb-3">
+            <label for="sort_descending" class="mr-2">Descending order:</label>
+            <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked' || ''} />
+        </div>`
+    );
 
-    p_result.push("<div class='form-inline'>");
-        p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='init_inline_loader(function(){ get_case_set() })'>Apply Filters</button>&nbsp;");
-        p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(function(){ clear_case_search() })'>Clear</button>");
-        p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>");
-    p_result.push("</div>");
+    /* Apply Filters Btn */
+    p_result.push(
+        `<div class="form-inline">
+            <button type="button" class="btn btn-secondary mr-2" alt="search" onclick="init_inline_loader(function(){ get_case_set() })">Apply Filters</button>
+            <button type="button" class="btn btn-secondary" alt="search" id="search_command_button" onclick="init_inline_loader(function(){ clear_case_search() })">Clear</button>
+            <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+        </div>`
+    );
 
     p_result.push("</div> <!-- end .content-intro -->");
 
@@ -113,12 +123,15 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
       <table class="table mb-0">
           <thead class='thead'>
               <tr class='tr bg-tertiary'>
-                  <th class='th h4' colspan='4' scope='colgroup'>Case Listing</th>
+                  <th class='th h4' colspan='7' scope='colgroup'>Case Listing</th>
               </tr>
           </thead>
           <thead class='thead'>
               <tr class='tr'>
                   <th class='th' scope='col'>Case Information</th>
+                  <th class='th' scope='col'>Case Status</th>
+                  <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
+                  <th class='th' scope='col'>Created</th>
                   <th class='th' scope='col'>Last Updated</th>
                   <th class='th' scope='col'>Currently Edited By</th>
                   <th class='th' scope='col' width='1'>Actions</th>
@@ -151,29 +164,51 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
 
+                const caseID = item.id;
+                const hostState = item.value.host_state;
+                const jurisdictionID = item.value.jurisdiction_id;
+                const firstName = item.value.first_name;
+                const lastName = item.value.last_name;
+                const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
+                const agencyCaseID = item.value.agency_case_id;
+                const createdBy = item.value.created_by;
+                const lastUpdatedBy = item.value.last_updated_by;
+                const lockedBy = item.value.last_checked_out_by;
+                const currentCaseStatus = item.value.case_status;
+                const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
+                const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
+                const projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+                const actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+
+                //TODO: Get/Set dynamically
+                const caseStatuses = [
+                    'Abstracting (incomplete)',
+                    'Abstraction Complete',
+                    'Ready For Review',
+                    'Review complete and decision entered',
+                    'Out of Scope and death certificate entered',
+                    'False Positive and death certificate entered',
+                    '(blank)'
+                ];                
+
                 return (`
-                    <tr class="tr" path="${item.id}">
+                    <tr class="tr" path="${caseID}">
+                        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+                            ${checked_out_html}</td>
+                        <td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus === '9999' ? '(blank)' : caseStatuses[parseInt(currentCaseStatus)-1]}</td>
+                        <td class="td">${projectedReviewDate} ${projectedReviewDate && actualReviewDate ? `, ${actualReviewDate}` : actualReviewDate}</td>
+                        <td class="td">${createdBy} - ${dateCreated}</td>
+                        <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
                         <td class="td">
-                            <a href="#/${i}/home_record">
-                                ${item.value.jurisdiction_id} :${item.value.last_name}, ${item.value.first_name}
-                                ${item.value.record_id && ' - (' + item.value.record_id + ')'}
-                                ${item.value.agency_case_id && ' ac_id: ' + item.value.agency_case_id}
-                            </a>
-                            ${checked_out_html}
-                        </td>
-                        <td class="td">
-                        ${item.value.last_updated_by} / ${item.value.date_last_updated}
-                        </td>
-                        <td class="td">
-                        ${is_checked_out ? (`
-                            <span class="icn-info">${item.value.last_checked_out_by}</span>
-                        `) : ''}
-                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
-                            <span class="row no-gutters align-items-center">
-                                <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
-                                <span class="icn-info">${item.value.last_checked_out_by}</span>
-                            </span>
-                        `) : ''}
+                            ${is_checked_out ? (`
+                                <span class="icn-info">${lockedBy}</span>
+                            `) : ''}
+                            ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
+                                <span class="row no-gutters align-items-center">
+                                    <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                                    <span class="icn-info">${lockedBy}</span>
+                                </span>
+                            `) : ''}
                         </td>
                         <td class="td">
                             <button type="button" id="id_for_record_${i}" class="table-btn btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
@@ -273,23 +308,55 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
 }
 
-
 function render_sort_by_include_in_export(p_sort)
 {
 	// Not sure how to retrieve these keys so creating them statically
 	// TODO: Get with James to make this more dynamic
 	const sort_list = [
-		'by_date_created',
-        'by_date_last_updated',
-        'by_last_name',
-        'by_first_name',
-        'by_middle_name',
-        'by_year_of_death',
-        'by_month_of_death',
-        'by_committee_review_date',
-        'by_created_by',
-        'by_last_updated_by',
-        'by_state_of_death'
+        {
+            value : 'by_date_created',
+            display : 'By date created'
+        },
+        {
+            value : 'by_date_last_updated',
+            display : 'By date last updated'
+        },
+        {
+            value : 'by_last_name',
+            display : 'By last name'
+        },
+        {
+            value : 'by_first_name',
+            display : 'By first name'
+        },
+        {
+            value : 'by_middle_name',
+            display : 'By middle name'
+        },
+        {
+            value : 'by_year_of_death',
+            display : 'By year of death'
+        },
+        {
+            value : 'by_month_of_death',
+            display : 'By month of death'
+        },
+        {
+            value : 'by_committee_review_date',
+            display : 'By committee review date'
+        },
+        {
+            value : 'by_created_by',
+            display : 'By created by'
+        },
+        {
+            value : 'by_last_updated_by',
+            display : 'By last updated by'
+        },
+        {
+            value : 'by_state_of_death',
+            display : 'By state of death'
+        }
 	];
 	// Empty string to push dynamically created options into
     const f_result = [];
@@ -301,12 +368,57 @@ function render_sort_by_include_in_export(p_sort)
 	sort_list.map((item) => {
 		// Ternary: if sort = current item, add selected attr
 		// Also remove underscores then capitalize first letter in UI, but not value as that it important for sort
-        f_result.push(`<option value="${item}" ${item === p_sort.sort ? 'selected' : ''}>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`);
+        f_result.push(`<option value="${item.value}" ${item.value === p_sort.sort ? 'selected' : ''}>${item.display}</option>`);
     });
 
 	return f_result.join(''); // .join('') removes trailing comma in array interation
 }
 
+function renderSortCaseStatus(p_sort)
+{
+	const sortCaseStatuses = [
+        {
+            value : '',
+            display : 'All'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        {
+            value : '1',
+            display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '2',
+            display : 'Abstraction Complete'
+        },
+        {
+            value : '3',
+            display : 'Ready For Review'
+        },
+        {
+            value : '4',
+            display : 'Review complete and decision entered'
+        },
+        {
+            value : '5',
+            display : 'Out of Scope and death certificate entered'
+        },
+        {
+            value : '6',
+            display : 'False Positive and death certificate entered'
+        },
+    ];
+    const sortCaseStatusList = [];
+
+	// Using the trusty ole' .map method instead of for loop
+	sortCaseStatuses.map((status, i) => {
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value === p_sort.sort ? 'selected' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join(''); // .join('') removes trailing comma in array interation
+}
 
 function render_filter_records_per_page(p_sort)
 {
@@ -319,7 +431,6 @@ function render_filter_records_per_page(p_sort)
 
     return f_result.join('');
 }
-
 
 function clear_case_search() {
     g_ui.case_view_request.search_key = '';

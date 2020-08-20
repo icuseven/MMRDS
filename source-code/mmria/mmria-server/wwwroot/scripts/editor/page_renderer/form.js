@@ -120,6 +120,11 @@ function form_render(
       p_result.push(p_metadata.prompt);
       p_result.push('</p>');
 
+      if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
+      {
+          p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+      }
+
       if (
         g_data.home_record.case_status &&
         !isNullOrUndefined(g_data.home_record.case_status.overall_case_status)
@@ -440,7 +445,7 @@ function form_render(
                                 <tr class="tr">
                                     <th class="th" scope="col">Record #</th>
                                     <th class="th" scope="col">Date of Transport</th>
-                                    <th class="th" scope="col" width="600">Reason for Transport</th>
+                                    <th class="th" scope="col" width="360">Reason for Transport</th>
                                     <th class="th" width="120" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -631,6 +636,11 @@ function form_render(
       p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
       p_result.push('</p>');
 
+      if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
+      {
+          p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+      }
+
       if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
         p_result.push(
           `<p class='construct__info mb-0'>Date created: <span>${
@@ -802,17 +812,20 @@ function form_render(
     }
 
     p_result.push("<p class='construct__subtitle'");
-
-    if (p_metadata.description && p_metadata.description.length > 0) {
-      p_result.push("rel='tooltip' data-original-title='");
-      p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-      p_result.push("'>");
-    } else {
-      p_result.push('>');
-    }
-
-    p_result.push(p_metadata.prompt);
+      if (p_metadata.description && p_metadata.description.length > 0) {
+        p_result.push("rel='tooltip' data-original-title='");
+        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+        p_result.push("'>");
+      } else {
+        p_result.push('>');
+      }
+      p_result.push(p_metadata.prompt);
     p_result.push('</p>');
+
+    if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
+    {
+        p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+    }
 
     if (
       g_data.home_record.case_status &&
@@ -1578,6 +1591,11 @@ function quick_edit_header_render(
     p_result.push("'>");
   } else {
     p_result.push('>');
+  }
+
+  if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
+  {
+      p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
   }
 
   p_result.push(

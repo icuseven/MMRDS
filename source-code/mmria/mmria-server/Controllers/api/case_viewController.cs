@@ -123,6 +123,8 @@ by_state_of_death
                 case "by_state_of_death":
                 case "by_date_last_checked_out":
                 case "by_last_checked_out_by":
+                
+                case "by_case_status":
                     break;
 
                 default:

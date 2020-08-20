@@ -192,7 +192,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 <tr class="tr">
                                     <th class="th" scope="col">Record #</th>
                                     <th class="th" scope="col">Date of Transport</th>
-                                    <th class="th" scope="col" width="600">Reason for Transport</th>
+                                    <th class="th" scope="col" width="360">Reason for Transport</th>
                                     <th class="th" width="120" scope="col">Actions</th>
                                 </tr>
                             </thead>

@@ -42,15 +42,6 @@ reverse sort
     also endkey=1&descending=true: 
 */
 
-    public struct case_status
-    {
-        public string abstraction_begin_date { get; set; }
-        public string abstraction_complete_date { get; set; }
-        public string case_locked_date { get; set; }
-        public string overall_case_status { get; set; }
-        public string projected_review_date { get; set; }
-    }
-
     public class case_view_sortable_item
     {
         public case_view_sortable_item () { }
@@ -75,7 +66,13 @@ reverse sort
 
         public string jurisdiction_id {get; set;}
 
-        public case_status? case_status { get; set; }
+        public int? case_status { get; set; }
+
+        public DateTime? review_date_projected{ get; set; }
+
+        public DateTime? review_date_actual{ get; set; }
+
+        public string host_state{ get; set; }
     }
 
 

@@ -166,7 +166,7 @@ function renderCheckedOutCases(p_cases)
 						timeLocked = convertToReadableTime(timeLocked);
 
 						const lockedBy = item.value.last_checked_out_by;
-						const currentCaseStatus = item.value.case_status.overall_case_status;
+						const currentCaseStatus = item.value.case_status;
 						//TODO: Load the below dynamically
 						const caseStatuses = [
 							'Abstracting (incomplete)',
