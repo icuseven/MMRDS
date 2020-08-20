@@ -803,7 +803,8 @@ function create_global_ast(x, p_output_json)
 													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
-													p_output_json.push("';\n");													
+													p_output_json.push("';\n");	
+													break;												
 											case 'validate':
 													f_name += "_sv";
 													p_output_json.push("\n");

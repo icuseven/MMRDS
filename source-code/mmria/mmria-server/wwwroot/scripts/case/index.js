@@ -45,17 +45,6 @@ function g_set_data_object_from_path(
   var is_search_result = false;
   var search_text = null;
 
-  // console.table([
-  //   ['p_object_path', p_object_path],
-  //   ['p_metadata_path', p_metadata_path],
-  //   ['p_dictionary_path', p_dictionary_path],
-  //   ['value', value],
-  //   ['p_form_index', p_form_index],
-  //   ['p_grid_index', p_grid_index],
-  //   ['p_date_object', p_date_object],
-  //   ['p_time_object', p_time_object]
-  // ]);
-
   if (
     g_ui.url_state.selected_id &&
     g_ui.url_state.selected_id == 'field_search'
@@ -67,13 +56,11 @@ function g_set_data_object_from_path(
   //With datetime control, the below logic concats the extra param value to the orginal value passed in
   //the param value are either 'p_date_object' or 'p_time_object'
   if (eval(p_metadata_path).type === 'datetime') {
-    if (!isNullOrUndefined(p_date_object)) {
+    if (p_date_object) {
       // date value was passed in param
-      // console.log('a1', p_date_object.value);
       value = p_date_object.value + ' ' + value; // param + ' ' + value
-    } else if (!isNullOrUndefined(p_time_object)) {
+    } else if (p_time_object) {
       // time value was passed in param
-      // console.log('a2', p_time_object.value);
       value = value + ' ' + p_time_object.value; // value + ' ' + param
     }
   }
@@ -473,19 +460,18 @@ function g_set_data_object_from_path(
 //fn to validate date controls
 function is_valid_date(p_value) {
   let result = false; //flagged as false by default
-  let year_check = null; //var to set year that will be validated
+  let year = null;
 
   //return true if blank
   if (p_value.length === 0) {
     result = true;
   } else {
-    p_value = new Date(p_value.toString() + 'T00:00:00'); //concat date based on ISO 8601 format, also add time
-    year_check = p_value.getFullYear(); //get the year
-    console.log(year_check);
+    year = p_value.split('-')[0]; //get year
+    year = parseInt(year); //convert year to a number
 
     //only validating year
     //check if between 1900 or 2100
-    if (year_check + 1 >= 1900 && year_check <= 2100) {
+    if (year >= 1900 && year <= 2100) {
       result = true;
     }
   }
@@ -496,111 +482,25 @@ function is_valid_date(p_value) {
 //fn to validate datetime controls
 function is_valid_datetime(p_value) {
   let result = false; //flagged as false by default
-  let year_check = null; //var to set year that will be validated
+  let year = null;
 
   //if date is missing OR blank
   if (p_value.charAt(0) == ' ' || p_value.length === 0) {
     result = true;
   } else {
-    let p_date = p_value.split(' ')[0]; //get date from param
-    let p_time = p_value.split(' ')[1]; //get time from param
-    let p_hour = p_time.split(':')[0]; //get hour from time
-
-    //check if hour is singular integer, then manually add a zero in front
-    //we have an issue where singular hour returns with no leading zero
-    //this will make it a valid time
-    if (parseInt(p_hour) < 10) {
-      p_time = '0' + p_time;
-    }
-
-    p_value = p_date + 'T' + p_time; //concat date and time based on ISO 8601 format for datetime
-    p_value = new Date(p_value.toString()); //convert to browser datetime
-    year_check = p_value.getFullYear(); //get the year
+    p_value = p_value.split(' ')[0]; //strip the time if it is available
+    year = p_value.split('-')[0]; //get year
+    year = parseInt(year); //convert year to a number
 
     //only validating year
     //check if between 1900 or 2100
-    if (year_check >= 1900 && year_check <= 2100) {
+    if (year >= 1900 && year <= 2100) {
       result = true;
     }
   }
 
   return result;
 }
-
-// function is_valid_date_or_datetime(p_value, p_metadata)
-// {
-//   let result = false;
-//   let try_date = null;
-//   let year_check = null;
-
-//   if (p_value.charAt(0) == ' ')
-//   {
-//     result = true;
-//     return result;
-//   }
-
-//   p_value = new Date(p_value);
-
-//   if (p_value instanceof Date === false)
-//   {
-//     try_date = new Date(g_data.date_last_checked_out)
-//   }
-//   else
-//   {
-//     try_date = p_value
-//   }
-
-//   //1900-2100
-//   if (p_metadata.type == 'date')
-//   {
-//     year_check = try_date.getFullYear() + 1;
-//   }
-//   else
-//   {
-//     year_check = try_date.getFullYear();
-//   }
-
-//   if (year_check >= 1900 && year_check <= 2100)
-//   {
-//     result = true;
-//   }
-
-//   return result;
-// }
-// function is_valid_date_or_datetime(p_metadata, p_value)
-// {
-//   let result = false;
-//   // switch(metadata.type.toLowerCase())
-//   // {
-//   //   case 'datetime':
-//   //   case 'date':
-//       let try_date = null;
-
-//       if(!(p_value instanceof Date))
-//       {
-//           try_date = new Date(g_data.date_last_checked_out);
-//       }
-//       else
-//       {
-//         try_date = p_value;
-//       }
-//       //1900-2100
-//       let year_check = try_date.getFullYear();
-//       if
-//       (
-//           year_check >= 1900 ||
-//           year_check <= 2100
-//       )
-//       {
-//         result = true;
-
-//       }
-//   //     break;
-
-//   // }
-
-//   return result;
-// }
 
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) {
   var metadata = eval(p_metadata_path);
@@ -775,8 +675,10 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
-    result.home_record.case_progress_report.case_status.overall_case_status = 1;
-    result.home_record.case_progress_report.case_status.abstraction_begin_date = new Date();
+    result.home_record.case_status.overall_case_status = 1;
+    result.home_record.case_status.abstraction_begin_date = new Date()
+      .toISOString()
+      .split('T')[0];
 
     if (g_jurisdiction_list.length > 0) {
       result.home_record.jurisdiction_id = g_jurisdiction_list[0];
@@ -847,7 +749,7 @@ var g_ui = {
     page: 1,
     skip: 0,
     take: 100,
-    sort: 'by_date_created',
+    sort: 'by_date_last_updated',
     search_key: null,
     descending: true,
     get_query_string: function () {
@@ -930,8 +832,9 @@ $(function () {
     }
   }
 
-  let urlParams = new URLSearchParams(window.location.search);
-  g_is_data_analyst_mode = urlParams.get('r');
+  if (window.location.pathname == '/analyst-case') {
+    g_is_data_analyst_mode = 'da';
+  }
 
   /*
         // Get the modal
@@ -1520,36 +1423,42 @@ function save_case(p_data, p_call_back) {
     p_data.host_state = window.location.host.split('-')[0];
   }
 
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(p_data),
-    type: 'POST',
-  })
-    .done(function (case_response) {
-      console.log('save_case: success');
-
-      g_change_stack = [];
-
-      if (g_data && g_data._id == case_response.id) {
-        g_data._rev = case_response.rev;
-        g_data_is_checked_out = is_case_checked_out(g_data);
-        set_local_case(g_data);
-        //console.log('set_value save finished');
-      }
-
-      if (p_call_back) {
-        p_call_back();
-      }
+  if (g_is_data_analyst_mode == null) {
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(p_data),
+      type: 'POST',
     })
-    .fail(function (xhr, err) {
-      console.log('server save_case: failed', err);
-      if (xhr.status == 401) {
-        let redirect_url = location.protocol + '//' + location.host;
-        window.location = redirect_url;
-      }
-    });
+      .done(function (case_response) {
+        console.log('save_case: success');
+
+        g_change_stack = [];
+
+        if (g_data && g_data._id == case_response.id) {
+          g_data._rev = case_response.rev;
+          g_data_is_checked_out = is_case_checked_out(g_data);
+          set_local_case(g_data);
+          //console.log('set_value save finished');
+        }
+
+        if (p_call_back) {
+          p_call_back();
+        }
+      })
+      .fail(function (xhr, err) {
+        console.log('server save_case: failed', err);
+        if (xhr.status == 401) {
+          let redirect_url = location.protocol + '//' + location.host;
+          window.location = redirect_url;
+        }
+      });
+  } else {
+    if (p_call_back) {
+      p_call_back();
+    }
+  }
 }
 
 function delete_case(p_id, p_rev) {

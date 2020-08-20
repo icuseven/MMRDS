@@ -150,14 +150,14 @@ else
     @if(is_data_analyst)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Data Analyst</h4></div>
+        <div class="card-header bg-secondary"><h4 class="h5">Analyst</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/case?r=da">View case data</a></li>
+            <li><a href="/analyst-case">View case data</a></li>
             <li><a href="/export-queue">Export data</a></li>
             @if(ViewBag.is_power_bi_user)
             {
-              <li><a href="/overdose-data-summary" >Reports</a></li>
+              <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
             }
           </ul>
         </div>

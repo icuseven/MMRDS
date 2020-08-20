@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
-	[Authorize(Roles  = "abstractor")]
+	
 	[Route("api/[controller]")]
     public class caseController: ControllerBase 
 	{ 
@@ -66,6 +66,7 @@ namespace mmria.server
 		} 
 
 
+		[Authorize(Roles  = "abstractor")]
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
 		(
@@ -210,6 +211,7 @@ namespace mmria.server
 
 		} 
 
+		[Authorize(Roles  = "abstractor")]
 		[HttpDelete]
         public async Task<System.Dynamic.ExpandoObject> Delete(string case_id = null, string rev = null) 
         { 

@@ -10,6 +10,7 @@ rm -rf /tmp/src/Vagrantfile
 rm -rf /tmp/src/provision-script-set
 rm -rf /tmp/src/provision-script-set
 rm -rf /tmp/src/source-code/scratch
+rm -rf /tmp/src/source-code/mmria/data-migration
 rm -rf /tmp/src/source-code/mmria/install-setup
 rm -rf /tmp/src/source-code/mmria/mmria-console
 rm -rf /tmp/src/source-code/mmria/mmria-identity
@@ -18,6 +19,8 @@ rm -rf /tmp/src/source-code/mmria/mmria.sln
 
 echo "---> Remove unneeded files - End ..."
 
+echo "---> changing ChakraCore version from windows to linux"
+sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
 
 echo "---> Version Setup - Begin ..."
 

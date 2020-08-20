@@ -277,7 +277,8 @@ function $calc_ga_lmp(p_start_date, p_end_date) {
     return result;
 }
 //CALCLATE GESTATIONAL AGE WITH EDD 
-function $calc_ga_edd(p_start_date, p_end_date) {
+function $calc_ga_edd(p_start_date, p_end_date) 
+{
     result = [];
     var weeks = null;
     var days = null;
@@ -308,18 +309,119 @@ function $get_current_multiform_index() {
 path=home_record/record_id
 event=onfocus
 */
-function create_ID(p_control) {
-    if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) {
+function create_ID(p_control) 
+{
+    if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) 
+    {
         this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         p_control.value = this.record_id;
     }
 }
+
+
+// Case Status Value Change
+//4.	Review complete and decision entered, with associated Case Locked Date 
+//5.	Out of Scope and decision entered, with associated Case Locked Date
+//6.	False Positive and death certificate entered, with associated Case Locked Date 
+/*
+path=home_record/case_status/overall_case_status
+event=onblur
+*/
+function case_status_value_blur(p_control) 
+{
+
+    if 
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) &&
+        this.overall_case_status!= null &&
+        (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    ) 
+    {
+        this.case_locked_date = new Date().toISOString().split("T")[0];
+        //$mmria.save_current_record();
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+ 
+    }
+    else if
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) && 
+        this.overall_case_status!= null &&
+        ! (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    )
+    {
+        this.case_locked_date = null;
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+    }
+}
+
+/*
+path=home_record/case_status/overall_case_status
+event=onchange
+*/
+function case_status_value_change(p_control) 
+{
+
+    if 
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) &&
+        this.overall_case_status!= null &&
+        (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    ) 
+    {
+        this.case_locked_date = new Date().toISOString().split("T")[0];
+        //$mmria.save_current_record();
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+ 
+    }
+    else if
+    (
+        (
+            this.case_locked_date != null ||
+            this.case_locked_date != ""
+        ) && 
+        this.overall_case_status!= null &&
+        ! (
+            this.overall_case_status == 4 ||
+            this.overall_case_status == 5 ||
+            this.overall_case_status == 6
+        )
+    )
+    {
+        this.case_locked_date = null;
+        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+    }
+}
+
+
+
 //CALCULATE MOTHERS AGE AT DEATH ON DC
 /*
 path=death_certificate/demographics/age
 event=onfocus
 */
-function mothers_age_death(p_control) {
+function mothers_age_death(p_control) 
+{
     var years = null;
     var start_year = parseInt(this.date_of_birth.year);
     var start_month = parseInt(this.date_of_birth.month);
@@ -2142,7 +2244,8 @@ function geocode_omov_location(p_control)
 path=prenatal/routine_monitoring/gestational_age_weeks
 event=onfocus
 */
-function pc_rm_ga(p_control, p_grid_index) {
+function pc_rm_ga(p_control, p_grid_index) 
+{
     var ga = [];
     let form_index = null;
     var weeks = null;

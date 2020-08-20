@@ -89,9 +89,24 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             )
                         );
                     }
+
                     p_result.push("<div class='grid-control-action-icn row no-gutters'>");
                     if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
                     {
+                        let disable_html = " disabled='disabled' ";
+
+                        if(g_is_data_analyst_mode == null)
+                        {
+                            if(g_data_is_checked_out)
+                            {
+                                disable_html = '';
+                            }
+                            else if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by === g_user_name)
+                            {
+                                disable_html = '';
+                            }
+                        }
+
                         p_result.push("<button type='button' class='grid-control-action-btn mr-1' title='delete' id='delete_");
                             p_result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
                             p_result.push("' onclick='g_delete_grid_item(\"");
@@ -100,7 +115,9 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push(p_metadata_path);
                             p_result.push("\", \"");
                             p_result.push(p_dictionary_path);
-                            p_result.push("\", " + i + ")'>");
+                            p_result.push("\", " + i + ")'");
+                            p_result.push(disable_html);
+                            p_result.push(">");
                             p_result.push("<span class='x24 fill-p text-secondary cdc-icon-close'></span>");
                             p_result.push("<span class='sr-only'>Close</span>");
                         p_result.push("</button>");
@@ -118,12 +135,19 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("</ul>");
             if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
             {
-                let disable_html = " disabled='disabled' ";
-
-                if(g_data_is_checked_out)
+                let disable_html = " disabled='disabled' "
+                if(g_is_data_analyst_mode == null)
                 {
-                    disable_html = ''
+                    if(g_data_is_checked_out)
+                    {
+                        disable_html = '';
+                    }
+                    else if(!is_checked_out_expired(g_data) && g_data.last_checked_out_by === g_user_name)
+                    {
+                        disable_html = '';
+                    }
                 }
+
                 p_result.push("<button type='button' class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
                     p_result.push(p_object_path);
                     p_result.push("\", \"");

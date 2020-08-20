@@ -58,29 +58,17 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			{
 				is_valid = p_ctx.is_valid_date_or_datetime;
 			}
-			/*
-			if(is_valid_date_or_datetime(p_data) || p_data.length === 0)
-			{
-				//validation passed
-				// console.log('~~~~~ valid');
-				is_valid = true;
-			}
-			else if (!is_valid_date_or_datetime(p_data))
-			{
-				//validation failed, show validation message
-				// console.log('~~~~~ invalid');
-				is_valid = false;
-			}*/
 
-			p_result.push(`
-				<input class="datetime-date form-control w-50 h-100"
-					   dpath="${p_object_path}"
-					   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-					   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-					   type="date" name="${p_metadata.name}"
-					   data-value="${p_data}"
-					   value="${p_data.split(' ')[0]}"
-					   ${disabled_html}`);
+			p_result.push(
+				`<input class="datetime-date form-control w-50 h-100"
+					    dpath="${p_object_path}"
+					    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+					    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+					    type="date" name="${p_metadata.name}"
+					    data-value="${p_data}"
+					    value="${p_data.split(' ')[0]}"
+						${disabled_html}`
+			);
 				if
 				(
 					!(
@@ -110,15 +98,16 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(` min="1900-01-01" max="2100-12-31">`);
-			p_result.push(`
-			<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+			p_result.push(
+				`<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
 				   dpath="${p_object_path}"
 				   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${!isNullOrUndefined(p_data.split(' ')[0]) ? p_data.split(' ')[1] : '00:00:00'}"
-				   ${disabled_html}`);
+				   value="${p_data.split(' ')[0] ? p_data.split(' ')[1] : '00:00:00'}"
+				   ${disabled_html}`
+			);
 				if
 				(
 					!(
@@ -148,6 +137,16 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
 				p_result.push(`>`);
+
+				//TODO: Future route to implement a fake time control for easier 'hh:mm:ss' placeholder
+				//at the moment our plugin is not playing nicely with the time control
+				// p_result.push(
+				// 	`<input class="datetime-fauxtime form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+				// 					placeholder="hh:mm:ss"
+				// 					${disabled_html}
+				// 					aria-hidden="true"
+				// 					focusable="false">`
+				// );
 
 				let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
 				let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
@@ -221,6 +220,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		//Initialize the custom 'bootstrap timepicker'
 		p_post_html_render.push(`
 			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
+				defaultTime: false,
 				minuteStep: 1,
 				secondStep: 1,
 				showMeridian: false,
@@ -351,46 +351,69 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 	}
 	else //if(p_metadata.type!="number")
 	{
-		p_result.push(" onblur='g_set_data_object_from_path(\"");
-		p_result.push(p_object_path);
-		p_result.push("\",\"");
-		p_result.push(p_metadata_path);
-		p_result.push("\",\"");
-		p_result.push(p_dictionary_path);
-		if(p_metadata.type=="boolean")
+		//TODO: Refactor the below condition once we figure how to write 'nested' ternary operators
+		if (p_ctx)
 		{
-			p_result.push("\",this.checked");
+			//p_ctx exits, setting form_index and grid_index value
+			p_result.push(
+				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, ${p_ctx.form_index != null ? p_ctx.form_index : 'null'}, ${p_ctx.grid_index != null ? p_ctx.grid_index : 'null'}, this.previousElementSibling, this.nextElementSibling)"`
+			);
 		}
 		else
 		{
-			p_result.push("\",this.value");
+			//no p_ctx arguments, setting form_index and grid_index value to 'null'
+			p_result.push(
+				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, null, null, this.previousElementSibling, this.nextElementSibling)"`
+			);
 		}
 
-		if(p_ctx!=null)
-		{
-			if(p_ctx.form_index != null)
-			{
-				p_result.push(", ");
-				p_result.push(p_ctx.form_index);
-			}
-			else
-			{
-				p_result.push(", null");
-			}
+		//Rewrite to string interpolation for less jumble
+		//Keeping commented out for reference
+		//TODO: REMOVE once we confirm it's working
+		// p_result.push(" onblur='g_set_data_object_from_path(\"");
+		// p_result.push(p_object_path);
+		// p_result.push("\",\"");
+		// p_result.push(p_metadata_path);
+		// p_result.push("\",\"");
+		// p_result.push(p_dictionary_path);
+		// if(p_metadata.type=="boolean")
+		// {
+		// 	p_result.push("\",this.checked");
+		// }
+		// else
+		// {
+		// 	p_result.push("\",this.value");
+		// }
+
+		// if(p_ctx!=null)
+		// {
+		// 	if(p_ctx.form_index != null)
+		// 	{
+		// 		p_result.push(", ");
+		// 		p_result.push(p_ctx.form_index);
+		// 	}
+		// 	else
+		// 	{
+		// 		p_result.push(", null");
+		// 	}
 	
-			if(p_ctx.grid_index != null)
-			{
-				p_result.push(", ");
-				p_result.push(p_ctx.grid_index);
-			}
-			else
-			{
-				p_result.push(", null");
-			}
-		}
-		p_result.push(", this.previousElementSibling");
-		p_result.push(", this.nextElementSibling");
-		p_result.push(")'");
+		// 	if(p_ctx.grid_index != null)
+		// 	{
+		// 		p_result.push(", ");
+		// 		p_result.push(p_ctx.grid_index);
+		// 	}
+		// 	else
+		// 	{
+		// 		p_result.push(", null");
+		// 	}
+		// }
+		// else
+		// {
+		// 	p_result.push(", null, null");
+		// }
+		// p_result.push(", this.previousElementSibling");
+		// p_result.push(", this.nextElementSibling");
+		// p_result.push(")'");
 	}
 }
 

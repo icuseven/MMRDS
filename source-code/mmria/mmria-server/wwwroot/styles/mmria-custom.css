@@ -373,9 +373,12 @@ template {
   --grape: #712177;
   --grape-light: #b890bb;
   --grape-dark: #351147;
+
+  --link: #075290;
   
   /* grays */
   --neutral: #cccccc;
+  --neutral-xlight: #f6f6f6;
   --neutral-light: #f0f0f0;
   --neutral-mid: #7a7a7a;
   --neutral-dark: #333333;
@@ -395,11 +398,6 @@ body {
   color: var(--neutral-dark);
   font-size: 1rem;
   min-height: 100%;
-}
-
-button,
-select {
-  cursor: pointer;
 }
 
 button  {
@@ -483,11 +481,13 @@ ul {
   COMPONENTS
 */
 .link {
-  color: inherit;
+  color: var(--link);
+  cursor: pointer;
 }
 .link:focus,
 .link:hover {
-  color: inherit;
+  color: var(--link);
+  text-decoration: underline;
 }
 /* links that are buttons, yar! */
 button.link {
@@ -1350,7 +1350,7 @@ button.link {
 .construct__info span {
   padding-left: 5px;
   position: absolute;
-  width: 50%;
+  width: 75%;
 }
 
 /*
@@ -1380,19 +1380,25 @@ button.link {
 .construct-output input[readonly="true"],
 .construct-output textarea[readonly="true"],
 .construct-output select[readonly="true"] {
-    background-color: var(--neutral-light);
+    background-color: var(--neutral-xlight);
 }
 
 /* When an conotrl is read only */
 .construct-output input[disabled],
 .construct-output textarea[disabled],
 .construct-output select[disabled] {
-    background-color: var(--neutral-light);
+    background-color: var(--neutral-xlight);
+    color: #545454 !important;
+    opacity: 1;
 }
 
 .construct-output textarea {
     line-height: 1.75;
 }
+
+/* .construct-output select:disabled {
+  color: var(--black) !important;
+} */
 
 .construct-output .btn {
     max-height: 39.75px;
@@ -1471,11 +1477,13 @@ button.link {
   border-radius: var(--radius) 0px 0px var(--radius);
 }
 
-.search-group input.datetime-time {
+.search-group input.datetime-time,
+.search-group input.datetime-fauxtime {
   border-radius: 0px var(--radius) var(--radius) 0px;
 }
 
-.search-group input.datetime-date + input.datetime-time {
+.search-group input.datetime-date + input.datetime-time,
+.search-group input.datetime-date + input.datetime-fauxtime {
   margin-left: -1px;
 }
 

@@ -1,9 +1,11 @@
 @using System.Security.Claims;
 @{ 
-    Layout = "_cdc_no_footer"; 
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
+    ViewBag.Sidebar = false;
+
     var userName = "";
 
-    
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -12,46 +14,36 @@
     }
 }
 
-<script src="./scripts/mmria.js"></script>
-<script src="./scripts/manage-case-check-outs/index.js"></script>
-<script>
- 
-
-
-function main()
+@section HeadScripts
 {
-
-  //print_node(metadata);
-}
-
-function print_node(p_node)
-{
-  console.log(p_node.name);
-  console.log(p_node.prompt);
-  console.log(p_node.type);
-
-  if(p_node.children)
-  {
-    for(var i in p_node.children)
+  <script src="./scripts/mmria.js"></script>
+  <script src="./scripts/manage-case-check-outs/index.js"></script>
+  <script>
+    
+@*
+    function main()
     {
-      var child = p_node.children[i];
-      print_node(child);
+      //print_node(metadata);
     }
-  }
+    
+    function print_node(p_node)
+    {
+      console.log(p_node.name);
+      console.log(p_node.prompt);
+      console.log(p_node.type);
 
+      if(p_node.children)
+      {
+        for(var i in p_node.children)
+        {
+          var child = p_node.children[i];
+          print_node(child);
+        }
+      }
+    }
+*@
+  </script>
 }
 
-</script>
-
-<br/>
-
-<a href="/home">home</a>
-
-<h1>Manage Case Check Outs</h1>
-
-<div id="output">Case check out list</div>
-
-<br/>
-
-<a href="/home">home</a>
-
+<h1 class="h2 mb-4">Manage Case Check Outs</h1>
+<div id="output"></div>

@@ -237,7 +237,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
 
     
-    let disabled_html = "  readonly=true  ";
+    let disabled_html = "  disabled=true  ";
 	if(g_data_is_checked_out)
 	{
 		disabled_html = " ";
@@ -257,20 +257,25 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_metadata.mirror_reference
     )
     {
-        p_result.push(" readonly=true ");
+        p_result.push(" disabled=true ");
     }
     else
     {
 
-        if(g_data_is_checked_out)
+        if (g_data_is_checked_out)
         {
-            p_result.push("  onblur='g_set_data_object_from_path(\"");
-            p_result.push(p_object_path);
-            p_result.push("\",\"");
-            p_result.push(p_metadata_path);
-            p_result.push("\",\"");
-            p_result.push(p_dictionary_path);
-            p_result.push("\",this.value)'  ");
+            if (path_to_int_map[p_metadata_path])
+            {
+
+				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+				if(path_to_onchange_map[p_metadata_path])
+				{
+					page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+				}
+				
+
+                page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+            }
         }
     }
 
@@ -376,12 +381,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -402,12 +407,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -525,7 +530,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_metadata.mirror_reference
     )
     {
-        p_result.push(" readonly=true ");
+        p_result.push(" disabled=true ");
     }
     else
     {
@@ -572,12 +577,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.display.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                     if(item.display)
                     {
@@ -598,12 +603,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.display.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                     if(item.display)
                     {
@@ -682,12 +687,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -708,12 +713,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' ");
-                let disabled_option_html = "disabled";
-                if(g_data_is_checked_out || g_is_data_analyst_mode)
-                {
-                    disabled_option_html = "";
-                }
-                p_result.push(disabled_option_html);
+                // let disabled_option_html = "disabled";
+                // if(g_data_is_checked_out || g_is_data_analyst_mode)
+                // {
+                //     disabled_option_html = "";
+                // }
+                // p_result.push(disabled_option_html);
                 p_result.push(">");
                 if(item.display)
                 {
@@ -1062,7 +1067,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                 p_metadata.mirror_reference
             )
             {
-                is_read_only= " readonly=true ";
+                is_read_only= " disabled=true ";
             }
             else
             {
@@ -1201,7 +1206,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             p_metadata.mirror_reference
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
         }
 
         //let object_id = ;

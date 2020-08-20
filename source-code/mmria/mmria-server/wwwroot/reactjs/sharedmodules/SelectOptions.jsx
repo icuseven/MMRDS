@@ -1,6 +1,6 @@
 class SelectOptions extends React.Component {
   render() {
-    const { options, selected, handleChange } = this.props;
+    const { options, selected, handleChange, id, className } = this.props;
     const OPTS = options.map(({ display, value }) => {
       return (
         <option key={value} value={value}>
@@ -9,7 +9,12 @@ class SelectOptions extends React.Component {
       );
     });
     return (
-      <select value={selected} onChange={handleChange}>
+      <select
+        id={id}
+        value={selected}
+        onChange={handleChange}
+        className={className || ''}
+      >
         {OPTS}
       </select>
     );

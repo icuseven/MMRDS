@@ -80,7 +80,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			{
 			 result.push(' style="display:block">');
 			}
-			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path, p_object_path));
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> children:');
@@ -157,7 +157,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			{
 			 result.push(' style="display:block">');
 			}
-			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/", p_object_path));
 			// lookup - begin
 			if(p_metadata.lookup)
 			{
@@ -262,7 +262,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			{
 			result.push(' style="display:block">');
 			}
-			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path, p_object_path));
 			result.push('</ul></li>');
 
 
@@ -301,7 +301,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
 		result.push(p_object_path);
 		result.push('<br/><ul  tag="attribute_list">');
-		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path, p_object_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
 
@@ -419,7 +419,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			{
 			result.push(' style="display:block">');
 			}
-			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path, p_object_path));
 			result.push('</ul></li>');
 
            break;		
@@ -454,7 +454,7 @@ var valid_types = [
 ];
 
 
-function attribute_renderer(p_metadata, p_path)
+function attribute_renderer(p_metadata, p_path, p_object_path)
 {
 	var result = [];
 
@@ -480,6 +480,17 @@ function attribute_renderer(p_metadata, p_path)
         if(p_metadata.sass_export_name == null)
         { 
           p_metadata.sass_export_name = "";
+        }
+
+        if(p_metadata.sass_export_name == "")
+        {
+          //g_path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
+          
+          let new_name = g_path_to_csv_all[p_object_path.replace("app/", "/")]; 
+          if (new_name != null)
+          {
+            p_metadata.sass_export_name = new_name.field_name;
+          }
         }
         break;
 

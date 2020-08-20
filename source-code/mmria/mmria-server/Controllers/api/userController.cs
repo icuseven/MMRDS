@@ -18,7 +18,7 @@ namespace mmria.server
 	public class userController: ControllerBase 
 	{ 
 		
-		[Authorize(Roles  = "abstractor")]
+		[Authorize(Roles  = "abstractor,data_analyst")]
 		[Route("my-user")]
 		[HttpGet]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> GetMyUser() 
