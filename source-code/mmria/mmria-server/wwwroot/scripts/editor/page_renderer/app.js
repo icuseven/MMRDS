@@ -164,6 +164,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     delete_enabled_html = ' disabled = "disabled" ';
                 }
 
+                //TODO: Get/Set dynamically
+                const caseStatuses = [
+                  'Abstracting (incomplete)',
+                  'Abstraction Complete',
+                  'Ready For Review',
+                  'Review complete and decision entered',
+                  'Out of Scope and death certificate entered',
+                  'False Positive and death certificate entered',
+                  '(blank)'
+              ]; 
                 const caseID = item.id;
                 const hostState = item.value.host_state;
                 const jurisdictionID = item.value.jurisdiction_id;
@@ -174,28 +184,17 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const createdBy = item.value.created_by;
                 const lastUpdatedBy = item.value.last_updated_by;
                 const lockedBy = item.value.last_checked_out_by;
-                const currentCaseStatus = item.value.case_status;
+                const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
                 const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                 const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                 const projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-                const actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-
-                //TODO: Get/Set dynamically
-                const caseStatuses = [
-                    'Abstracting (incomplete)',
-                    'Abstraction Complete',
-                    'Ready For Review',
-                    'Review complete and decision entered',
-                    'Out of Scope and death certificate entered',
-                    'False Positive and death certificate entered',
-                    '(blank)'
-                ];                
+                const actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists               
 
                 return (`
                     <tr class="tr" path="${caseID}">
                         <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
                             ${checked_out_html}</td>
-                        <td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus === '9999' ? '(blank)' : caseStatuses[parseInt(currentCaseStatus)-1]}</td>
+                        <td class="td" scope="col">${currentCaseStatus}</td>
                         <td class="td">${projectedReviewDate} ${projectedReviewDate && actualReviewDate ? `, ${actualReviewDate}` : actualReviewDate}</td>
                         <td class="td">${createdBy} - ${dateCreated}</td>
                         <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
