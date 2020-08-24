@@ -1,11 +1,9 @@
 'use strict';
 
-//@ts-check
-//http://www.w3schools.com/css/css3_flexbox.asp
-
 var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
+var g_data_is_checked_out = null;
 var g_jurisdiction_list = [];
 var g_metadata_path = [];
 var g_validator_map = [];
