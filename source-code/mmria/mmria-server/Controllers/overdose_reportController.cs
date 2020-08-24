@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor,data_analyst")]
     [Route("overdose-data-summary")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
