@@ -264,13 +264,19 @@ namespace mmria.server
 					string document_json = null;
 					document_json = await check_document_curl.executeAsync ();
 					user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
-					IDictionary<string, object> result_dictionary = user as IDictionary<string, object>;
-
+					
 					
 					
 					if(string.IsNullOrWhiteSpace(Program.db_prefix))
 					{
-						if(user.app_prefix_list.Count == 0 || !user.app_prefix_list.ContainsKey("__no_prefix__"))
+						if
+                        (
+                            user.app_prefix_list.Count == 0 ||
+                            (
+                                user.app_prefix_list.Count == 1 && 
+                                user.app_prefix_list.ContainsKey("__no_prefix__")
+                            )
+                        )
 						{
 							is_only_remove_prefix = false;
 						}
@@ -284,12 +290,6 @@ namespace mmria.server
 					if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
 					{
 						return null;
-					}
-
-					if (result_dictionary.ContainsKey ("_rev")) 
-					{
-						request_string = Program.config_couchdb_url + "/_users/" + user_id + "?rev=" + result_dictionary ["_rev"];
-						//System.Console.WriteLine ("json\n{0}", object_string);
 					}
 
 				} 
