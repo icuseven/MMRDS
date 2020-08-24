@@ -1,8 +1,5 @@
 'use strict';
 
-//@ts-check
-//http://www.w3schools.com/css/css3_flexbox.asp
-
 var g_metadata = null;
 var g_user_name = null;
 var g_is_data_analyst_mode = null;
@@ -1266,16 +1263,22 @@ function get_metadata() {
     get_case_set();
 
     g_ui.url_state = url_monitor.get_url_state(window.location.href);
-    if (window.onhashchange) {
+    if (window.onhashchange) 
+    {
       window.onhashchange({ isTrusted: true, newURL: window.location.href });
-    } else {
+    } 
+    else 
+    {
       window.onhashchange = window_on_hash_change;
       window.onhashchange({ isTrusted: true, newURL: window.location.href });
     }
+
+    window.onbeforeunload = navigation_away;
   });
 }
 
-function window_on_hash_change(e) {
+function window_on_hash_change(e) 
+{
   /*
   e = HashChangeEvent
   {
@@ -1284,16 +1287,20 @@ function window_on_hash_change(e) {
     newURL: "http://localhost:12345/rea
   }*/
 
-  if (g_data) {
-    if (e.isTrusted) {
+  if (g_data) 
+  {
+    if (e.isTrusted) 
+    {
       var new_url = e.newURL || window.location.href;
       g_ui.url_state = url_monitor.get_url_state(new_url);
 
-      if (
+      if 
+      (
         g_ui.url_state.path_array &&
         g_ui.url_state.path_array.length > 0 &&
         parseInt(g_ui.url_state.path_array[0]) >= 0
-      ) {
+      ) 
+      {
         /*
         if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
         {
@@ -1306,42 +1313,58 @@ function window_on_hash_change(e) {
             g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
           );
         });
-      } else {
-        /*
-        if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-        {
-          save_queue.push(g_data._id);
-        }*/
-        save_case(g_data, function () {
-          g_data = null;
-          get_case_set(function () {
-            g_render();
-          });
-        });
+      } 
+      else 
+      {
+        g_data.date_last_checked_out = null;
+        g_data.last_checked_out_by = null;
+        g_data_is_checked_out = false;
+
+        save_case
+        (
+            g_data, 
+            function () 
+            {
+                g_data = null;
+                get_case_set
+                (   
+                    function () { g_render(); }
+                );
+            }
+        );
       }
     }
 
     // g_data_access.set_data(g_data);
-  } else if (e.isTrusted) {
+  } 
+  else if (e.isTrusted) 
+  {
     var new_url = e.newURL || window.location.href;
 
     g_ui.url_state = url_monitor.get_url_state(new_url);
 
-    if (
+    if 
+    (
       g_ui.url_state.path_array &&
       g_ui.url_state.path_array.length > 0 &&
       parseInt(g_ui.url_state.path_array[0]) >= 0
-    ) {
-      if (g_ui.case_view_list.length > 0) {
+    ) 
+    {
+      if (g_ui.case_view_list.length > 0) 
+      {
         get_specific_case(
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
         );
         //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
-      } else {
+      } 
+      else 
+      {
         g_render();
       }
       //
-    } else {
+    } 
+    else
+    {
       /*
       if(g_data && !(save_queue.indexOf(g_data._id) > -1))
       {
@@ -1352,7 +1375,9 @@ function window_on_hash_change(e) {
 
       g_render();
     }
-  } else {
+  } 
+  else 
+  {
     // do nothing for now
   }
 }
@@ -2190,30 +2215,42 @@ function diff_minutes(dt1, dt2) {
   return Math.abs(Math.round(diff));
 }
 
-function g_textarea_oninput(
+function g_textarea_oninput
+(
   p_object_path,
   p_metadata_path,
   p_dictionary_path,
   value
-) {
+) 
+{
   var metadata = eval(p_metadata_path);
 
-  if (
+  if 
+  (
     metadata.type.toLowerCase() == 'list' &&
     metadata['is_multiselect'] &&
     metadata.is_multiselect == true
-  ) {
+  ) 
+  {
     var item = eval(p_object_path);
 
-    if (item.indexOf(value) > -1) {
+    if (item.indexOf(value) > -1)
+    {
       item.splice(item.indexOf(value), 1);
-    } else {
+    } 
+    else 
+    {
       item.push(value);
     }
-  } else if (metadata.type.toLowerCase() == 'boolean') {
+  } 
+  else if (metadata.type.toLowerCase() == 'boolean')
+  {
     eval(p_object_path + ' = ' + value);
-  } else {
-    eval(
+  } 
+  else
+  {
+    eval
+    (
       p_object_path +
         ' = "' +
         value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
@@ -2222,4 +2259,31 @@ function g_textarea_oninput(
   }
 
   set_local_case(g_data, null);
+}
+
+
+function navigation_away()
+{
+  if(g_data)
+  {
+    g_data.date_last_updated = new Date();
+    g_data.date_last_checked_out = null;
+    g_data.last_checked_out_by = null;
+    g_data_is_checked_out = false;
+
+    for (let i = 0; i < g_ui.case_view_list.length; i++)
+    {
+      let item = g_ui.case_view_list[i];
+      if(item.id == g_data._id)
+      {
+        item.date_last_checked_out = null;
+        item.last_checked_out_by = null;
+        break;
+      }
+    }
+
+    save_case(g_data);
+    window.clearInterval(g_autosave_interval);
+    g_autosave_interval = null;
+  }
 }
