@@ -120,9 +120,10 @@ function form_render(
       p_result.push(p_metadata.prompt);
       p_result.push('</p>');
 
-      if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
-      {
-          p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+      if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+        p_result.push(
+          `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+        );
       }
 
       if (
@@ -636,9 +637,10 @@ function form_render(
       p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
       p_result.push('</p>');
 
-      if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
-      {
-          p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+      if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+        p_result.push(
+          `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+        );
       }
 
       if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
@@ -812,19 +814,20 @@ function form_render(
     }
 
     p_result.push("<p class='construct__subtitle'");
-      if (p_metadata.description && p_metadata.description.length > 0) {
-        p_result.push("rel='tooltip' data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
-      } else {
-        p_result.push('>');
-      }
-      p_result.push(p_metadata.prompt);
+    if (p_metadata.description && p_metadata.description.length > 0) {
+      p_result.push("rel='tooltip' data-original-title='");
+      p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+      p_result.push("'>");
+    } else {
+      p_result.push('>');
+    }
+    p_result.push(p_metadata.prompt);
     p_result.push('</p>');
 
-    if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
-    {
-        p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+    if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+      p_result.push(
+        `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+      );
     }
 
     if (
@@ -1593,9 +1596,10 @@ function quick_edit_header_render(
     p_result.push('>');
   }
 
-  if (g_data.host_state && !isNullOrUndefined(g_data.host_state))
-  {
-      p_result.push(`<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`);
+  if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+    p_result.push(
+      `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+    );
   }
 
   p_result.push(
@@ -1629,7 +1633,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
       '<label for="print_case" class="sr-only">Print version</label>'
     );
     p_result.push(
-      '<select id="print_case_id" class="form-control" style="width:280px">'
+      '<select id="print_case_id" onchange="enable_print_button(event)" class="form-control" style="width:280px">'
     );
     p_result.push('<option value="">Select a form to print</option>');
 
@@ -1671,7 +1675,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 
     p_result.push('</select>');
     p_result.push(
-      `<input type='button' class='btn btn-secondary ml-1' value='Print' onclick='print_case_onclick()'/>`
+      `<input type='button' id="print-case-form" class='btn btn-primary ml-1' value='Print' onclick='print_case_onclick()' disabled="true"/>`
     );
   }
 }
