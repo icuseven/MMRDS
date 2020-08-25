@@ -25,9 +25,16 @@ function form_render(
   let save_and_finish_disable_attribute = " disabled='disabled' ";
   let delete_disable_attribute = " disabled='disabled' ";
 
-  if (g_is_data_analyst_mode == null) {
+  if 
+  (
+      g_is_data_analyst_mode == null &&
+      ! is_case_locked(g_data)
+
+  ) 
+  {
     //if case is checked out by ANYONE
-    if (g_data_is_checked_out) {
+    if (g_data_is_checked_out) 
+    {
       // console.log('anyone has locked it out')
       enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
       undo_disable_attribute = ''; //enable undo btn
@@ -39,10 +46,12 @@ function form_render(
     }
 
     //if case is checked out by YOU
-    if (
+    if 
+    (
       !is_checked_out_expired(g_data) &&
       g_data.last_checked_out_by === g_user_name
-    ) {
+    ) 
+    {
       // console.log('you')
       enable_edit_disable_attribute = ' disabled '; //disable enable edit btn
       currently_locked_by_html = ''; //hide user locked info
@@ -50,10 +59,12 @@ function form_render(
     }
 
     //if case is checked out by SOMEONE ELSE
-    if (
+    if 
+    (
       !is_checked_out_expired(g_data) &&
       g_data.last_checked_out_by !== g_user_name
-    ) {
+    ) 
+    {
       // console.log('someone else')
       enable_edit_disable_attribute = ' disabled '; //disable enable edit btn
       currently_locked_by_html =

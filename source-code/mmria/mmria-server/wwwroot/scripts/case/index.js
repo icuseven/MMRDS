@@ -28,6 +28,9 @@ var g_release_version = null;
 var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
+var g_is_confirm_for_case_lock = false;
+var g_target_case_status = null;
+
 
 function g_set_data_object_from_path(
   p_object_path,
@@ -2171,29 +2174,77 @@ function autosave() {
   }
 }
 
-function is_case_checked_out(p_case) {
+
+function is_case_locked(p_case)
+{
+    let result = false;
+
+    let selected_value = 9999;
+    
+    if
+    (
+        p_case.home_record.case_status.overall_case_status &&
+        p_case.home_record.case_status.overall_case_status != ""
+    )
+    {
+        selected_value = new Number(p_case.home_record.case_status.overall_case_status);
+    }
+    
+    if
+    (
+        p_case.home_record.case_status &&
+        p_case.home_record.case_status.case_locked_date != "" &&
+        (
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
+        )
+    )
+    {
+        if (! g_is_confirm_for_case_lock)
+        {
+            result = true;
+        }
+    }
+
+    g_is_confirm_for_case_lock
+
+    return result;
+}
+
+
+
+function is_case_checked_out(p_case) 
+{
   let is_checked_out = false;
 
   let checked_out_html = '';
 
   let current_date = new Date();
 
-  if (
+  if 
+  (
     p_case.date_last_checked_out != null &&
     p_case.date_last_checked_out != ''
-  ) {
+  ) 
+  {
     let try_date = null;
     let is_date = false;
-    if (!(p_case.date_last_checked_out instanceof Date)) {
+    if (!(p_case.date_last_checked_out instanceof Date)) 
+    {
       try_date = new Date(p_case.date_last_checked_out);
-    } else {
+    } 
+    else 
+    {
       try_date = p_case.date_last_checked_out;
     }
 
-    if (
+    if 
+    (
       diff_minutes(try_date, current_date) <= 120 &&
       p_case.last_checked_out_by.toLowerCase() == g_user_name.toLowerCase()
-    ) {
+    ) 
+    {
       is_checked_out = true;
     }
   }
@@ -2201,23 +2252,30 @@ function is_case_checked_out(p_case) {
   return is_checked_out;
 }
 
-function is_checked_out_expired(p_case) {
+function is_checked_out_expired(p_case) 
+{
   let is_expired = true;
 
   let current_date = new Date();
 
-  if (
+  if 
+  (
     p_case.date_last_checked_out != null &&
     p_case.date_last_checked_out != ''
-  ) {
+  ) 
+  {
     let try_date = null;
-    if (!(p_case.date_last_checked_out instanceof Date)) {
+    if (!(p_case.date_last_checked_out instanceof Date)) 
+    {
       try_date = new Date(p_case.date_last_checked_out);
-    } else {
+    } 
+    else 
+    {
       try_date = p_case.date_last_checked_out;
     }
 
-    if (diff_minutes(try_date, current_date) < 120) {
+    if (diff_minutes(try_date, current_date) < 120) 
+    {
       is_expired = false;
     }
   }

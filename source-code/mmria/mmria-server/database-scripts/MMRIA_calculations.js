@@ -324,29 +324,27 @@ function create_ID(p_control)
 //5.	Out of Scope and decision entered, with associated Case Locked Date
 //6.	False Positive and death certificate entered, with associated Case Locked Date 
 /*
-path=home_record/case_status/overall_case_status
-event=onblur
-*/
+pa  th=home_record/case_status/overall_case_status
+eve  nt=onblur
+
 function case_status_value_blur(p_control) 
 {
-
+    let selected_value = new Number(p_control.value);
+    this.overall_case_status = selected_value;
     if 
     (
         (
             this.case_locked_date != null ||
             this.case_locked_date != ""
-        ) &&
-        this.overall_case_status!= null &&
+        )
+        &&
         (
-            this.overall_case_status == 4 ||
-            this.overall_case_status == 5 ||
-            this.overall_case_status == 6
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
         )
     ) 
     {
-        this.case_locked_date = new Date().toISOString().split("T")[0];
-        //$mmria.save_current_record();
-        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
         $mmria.show_confirmation_dialog($global.case_status_confirm, $global.case_status_cancel);
     }
     else if
@@ -354,12 +352,12 @@ function case_status_value_blur(p_control)
         (
             this.case_locked_date != null ||
             this.case_locked_date != ""
-        ) && 
-        this.overall_case_status!= null &&
+        )
+         &&
         ! (
-            this.overall_case_status == 4 ||
-            this.overall_case_status == 5 ||
-            this.overall_case_status == 6
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
         )
     )
     {
@@ -367,6 +365,7 @@ function case_status_value_blur(p_control)
         $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
     }
 }
+*/
 
 /*
 path=home_record/case_status/overall_case_status
@@ -375,23 +374,25 @@ event=onchange
 function case_status_value_change(p_control) 
 {
 
+    let selected_value = new Number(p_control.value);
+    this.overall_case_status = selected_value;
     if 
     (
         (
             this.case_locked_date != null ||
             this.case_locked_date != ""
-        ) &&
-        this.overall_case_status!= null &&
+        ) 
+        &&
         (
-            this.overall_case_status == 4 ||
-            this.overall_case_status == 5 ||
-            this.overall_case_status == 6
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
         )
     ) 
     {
-        this.case_locked_date = new Date().toISOString().split("T")[0];
-        //$mmria.save_current_record();
-        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
+
+        g_is_confirm_for_case_lock = true;
+        g_target_case_status = selected_value;
         $mmria.show_confirmation_dialog($global.case_status_confirm, $global.case_status_cancel);
     }
     else if
@@ -399,12 +400,12 @@ function case_status_value_change(p_control)
         (
             this.case_locked_date != null ||
             this.case_locked_date != ""
-        ) && 
-        this.overall_case_status!= null &&
+        )
+        &&
         ! (
-            this.overall_case_status == 4 ||
-            this.overall_case_status == 5 ||
-            this.overall_case_status == 6
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
         )
     )
     {
@@ -415,12 +416,17 @@ function case_status_value_change(p_control)
 
 function $case_status_confirm()
 {
-    console.log("confirm");
+    g_data.home_record.case_status.case_locked_date = new Date().toISOString().split("T")[0];
+    $mmria.save_current_record();
+    g_is_confirm_for_case_lock = false;
+    g_target_case_status = null;
 }
 
 function $case_status_cancel()
 {
-    console.log("cancel");
+    
+    g_is_confirm_for_case_lock = false;
+    g_target_case_status = null;
 }
 
 //CALCULATE MOTHERS AGE AT DEATH ON DC
