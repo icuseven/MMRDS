@@ -50,9 +50,45 @@ function g_set_data_object_from_path(
     search_text = g_ui.url_state.path_array[2].replace(/%20/g, ' ');
   }
 
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    NOTE:
+      With date controls, 'value' param is actually the 'this' html node object
+      I know this is confusing... But hear me out.
+      We are not renaming because 'value' param is used EVERYWHERE on this file
+
+    TODO:
+      Consider renaming to something more explicit, ie. 'dateObject'
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  //check if date and value isnt falsey
+  if (eval(p_metadata_path).type === 'date' && value.value.length > 0)
+  {
+    const elementObject = value; //grab the current element
+    const elementValue = elementObject.value; //get date value
+    const elementDataValue = elementObject.dataset.value; //get data-value value
+
+    //check if there is time in historical data
+    if (elementValue.length > 0 && elementDataValue.split('T')[1])
+    {
+      //reassign value(this) object to a string of current 'yyyy-mm-dd' value + 'HH:MM:SS.sss' value
+      //new value string will then be converted to ISO format for validating
+      value = new Date(`${elementValue} ${elementDataValue.split('T')[1]}`).toISOString();
+    }
+    //no time stored
+    //set it to current time
+    else
+    {
+      const currentTime = new Date();
+      const hours = currentTime.getHours();
+      const minutes = currentTime.getMinutes();
+      const seconds = currentTime.getSeconds();
+      const millis = currentTime.getMilliseconds();
+      
+      value = new Date(`${elementValue} ${hours}:${minutes}:${seconds}.${millis}`).toISOString();
+    }
+  }
   //With datetime control, the below logic concats the extra param value to the orginal value passed in
   //the param value are either 'p_date_object' or 'p_time_object'
-  if (eval(p_metadata_path).type === 'datetime') {
+  else if (eval(p_metadata_path).type === 'datetime') {
     if (p_date_object) {
       // date value was passed in param
       value = p_date_object.value + ' ' + value; // param + ' ' + value
@@ -60,6 +96,10 @@ function g_set_data_object_from_path(
       // time value was passed in param
       value = value + ' ' + p_time_object.value; // value + ' ' + param
     }
+  }
+  else
+  {
+    value = '';
   }
 
   var current_value = eval(p_object_path);
@@ -456,21 +496,17 @@ function g_set_data_object_from_path(
 
 //fn to validate date controls
 function is_valid_date(p_value) {
-  let result = false; //flagged as false by default
-  let year = null;
+  let result = false; //flag set false by default, we will validate against this
 
   //return true if blank
   if (p_value.length === 0) {
     result = true;
   } else {
-    year = p_value.split('-')[0]; //get year
-    year = parseInt(year); //convert year to a number
+    let year = p_value.split('T')[0]; //get year and convert to a number
+    year = parseInt(year)
 
-    //only validating year
-    //check if between 1900 or 2100
-    if (year >= 1900 && year <= 2100) {
-      result = true;
-    }
+    //only validating year, check if between 1900 or 2100
+    if (year >= 1900 && year <= 2100) result = true;
   }
 
   return result;

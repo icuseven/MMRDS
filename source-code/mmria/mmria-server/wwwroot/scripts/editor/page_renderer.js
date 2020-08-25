@@ -477,22 +477,44 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			else
 			{
 				p_result.push("' type='text' name='");
-			}
+      }
 			
 			p_result.push(p_metadata.name);
-			p_result.push("' value='");
-			if(p_data || p_data == 0)
-			{ 
-				if (typeof p_data === 'string' || p_data instanceof String)
-				{
-					p_result.push(p_data.replace(/'/g, "&apos;"));
-				}
-				else
-				{
-					p_result.push(p_data);
-				}
-			}
-			p_result.push("' ");
+      p_result.push("' ");
+
+      p_result.push(`data-value="${p_data}"`);
+      
+			p_result.push(" value='");
+        if(p_data || p_data == 0)
+        { 
+          if (typeof p_data === 'string' || p_data instanceof String)
+          {
+            if (p_metadata.type.toLowerCase() == "date")
+            {
+              p_result.push(
+                `${p_data.split('T')[0]}`
+              );
+            }
+            else
+            {
+              p_result.push(p_data.replace(/'/g, "&apos;"));
+            }
+          }
+          else
+          {
+            if (p_metadata.type.toLowerCase() == "date")
+            {
+              p_result.push(
+                `${p_data.split('T')[0]}`
+              );
+            }
+            else
+            {
+              p_result.push(p_data);
+            }
+          }
+        }
+      p_result.push("' ");
 
 			if
 			(
@@ -521,7 +543,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 					page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 				}
 				
-				page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 			}
 		}
 
@@ -532,20 +554,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(`<span class="spinner-container spinner-small mt-2"><span class="spinner-body text-primary"><span class="spinner"></span><span class="spinnerinfo">Loading...</span></span></span>`);
 		p_result.push("</div>");
 	}
-
-	//~~~~ Validation Error Message
-	// switch ( p_metadata.type )
-	// {
-	// 	case "date":
-	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
-	// 		break;
-	// 	case "datetime":
-	// 		p_result.push(`<small class="text-danger">Invalid date</small>`);
-	// 		break;
-	// 	default :
-	// 		//do nothing, linting requires empty default case
-	// 		break;
-	// }
 }
 
 
@@ -553,16 +561,16 @@ function page_render_create_event(p_result, p_event_name, p_code_json, p_metadat
 {
 	var post_fix = null;
 
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
+  /*
+  var path_to_int_map = [];
+  var path_to_onblur_map = [];
+  var path_to_onclick_map = [];
+  var path_to_onfocus_map = [];
+  var path_to_onchange_map = [];
+  var path_to_source_validation = [];
+  var path_to_derived_validation = [];
+  var path_to_validation_description = [];
+  */
 
 	switch(p_event_name)
 	{
@@ -673,16 +681,20 @@ var path_to_validation_description = [];
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);
 		p_result.push("\",\"");
-		p_result.push(p_dictionary_path);
+    p_result.push(p_dictionary_path);
+    
 		if(p_metadata.type=="boolean")
 		{
-			p_result.push("\",this.checked");
-		}
+			p_result.push("\", this.checked");
+    }
+    else if(p_metadata.type=="date")
+    {
+      p_result.push("\", this");
+    }
 		else
 		{
-			p_result.push("\",this.value");
+			p_result.push("\", this.value");
 		}
-
 
 		if(p_ctx!=null)
 		{
@@ -786,7 +798,7 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	else
 	{
-		p_result.push("'  value='");
+		p_result.push("' value='");
 	}
 	p_result.push(p_data);
 	p_result.push("' ");
