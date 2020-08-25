@@ -66,7 +66,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 					    type="date" name="${p_metadata.name}"
 					    data-value="${p_data}"
-					    value="${p_data.split(' ')[0]}"
+					    value="${p_data.split('T')[0]}"
 						${disabled_html}`
 			);
 				if
@@ -105,7 +105,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split(' ')[0] ? p_data.split(' ')[1] : '00:00:00'}"
+				   value="${p_data.split('T')[0] === '' || p_data.split('T')[0].length < 1 ? '' : p_data.replace('Z', '').split('T')[1]}"
 				   ${disabled_html}`
 			);
 				if

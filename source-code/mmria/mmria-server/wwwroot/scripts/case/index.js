@@ -90,11 +90,17 @@ function g_set_data_object_from_path(
   //the param value are either 'p_date_object' or 'p_time_object'
   else if (eval(p_metadata_path).type === 'datetime') {
     if (p_date_object) {
+      const timeValue = value;
+      const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
+
       // date value was passed in param
-      value = p_date_object.value + ' ' + value; // param + ' ' + value
+      value = p_date_object.value + 'T' + hour + 'Z'; // param + ' ' + value
     } else if (p_time_object) {
+      const timeValue = p_time_object.value;
+      const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
+
       // time value was passed in param
-      value = value + ' ' + p_time_object.value; // value + ' ' + param
+      value = value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
     }
   }
 
@@ -514,10 +520,10 @@ function is_valid_datetime(p_value) {
   let year = null;
 
   //if date is missing OR blank
-  if (p_value.charAt(0) == ' ' || p_value.length === 0) {
+  if (p_value === '' || p_value.length === 0) {
     result = true;
   } else {
-    p_value = p_value.split(' ')[0]; //strip the time if it is available
+    p_value = p_value.split('T')[0]; //strip the time if it is available
     year = p_value.split('-')[0]; //get year
     year = parseInt(year); //convert year to a number
 
