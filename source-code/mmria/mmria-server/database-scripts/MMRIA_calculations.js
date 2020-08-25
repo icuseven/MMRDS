@@ -347,7 +347,7 @@ function case_status_value_blur(p_control)
         this.case_locked_date = new Date().toISOString().split("T")[0];
         //$mmria.save_current_record();
         $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
- 
+        $mmria.show_confirmation_dialog($global.case_status_confirm, $global.case_status_cancel);
     }
     else if
     (
@@ -392,7 +392,7 @@ function case_status_value_change(p_control)
         this.case_locked_date = new Date().toISOString().split("T")[0];
         //$mmria.save_current_record();
         $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
- 
+        $mmria.show_confirmation_dialog($global.case_status_confirm, $global.case_status_cancel);
     }
     else if
     (
@@ -413,7 +413,15 @@ function case_status_value_change(p_control)
     }
 }
 
+function $case_status_confirm()
+{
+    console.log("confirm");
+}
 
+function $case_status_cancel()
+{
+    console.log("cancel");
+}
 
 //CALCULATE MOTHERS AGE AT DEATH ON DC
 /*

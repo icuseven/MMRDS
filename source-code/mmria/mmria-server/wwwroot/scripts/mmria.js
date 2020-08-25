@@ -260,6 +260,62 @@ var $mmria = function()
         {
             let crypto = window.crypto || window.msCrypto; // handles Internet Explorer
             return crypto.getRandomValues(new Uint32Array(1))[0]  / 0xffffffff;
+        },
+        show_confirmation_dialog: function(p_confirm_call_back, p_cancel_call_back)
+        {
+ 
+            let dialog_div = $("#mmria_dialog");
+            
+            dialog_div.dialog
+            ({
+                title: 'Confirmation Dialog',
+                autoOpen: false,
+                closeOnEscape: false,
+                draggable: false,
+                width: 600,
+                minHeight: 400,
+                backgroundColor: 0xaaaaaa, 
+                modal: true,
+                buttons : {
+                    "Confirm" : function() {
+                        $(this).dialog("close");
+                        p_confirm_call_back();
+                    },
+                    "Cancel" : function() {
+                        $(this).dialog("close");
+                        p_cancel_call_back();
+                    }
+                }
+            });
+
+        
+            $(".confirmLink").click
+            (
+                function(e) 
+                {
+                    e.preventDefault();
+                    $(this).dialog("close");
+                    p_confirm_call_back();
+                }
+            );
+
+            $(".cancelLink").click
+            (
+                function(e) 
+                {
+                    e.preventDefault();
+                    $(this).dialog("close");
+                    p_cancel_call_back();
+                }
+            );
+
+            let dialog = document.getElementById('mmria_dialog')
+            dialog.style.top = ((window.innerHeight/2) - (dialog.offsetHeight/2))+'px';
+            dialog.style.left = ((window.innerWidth/2) - (dialog.offsetWidth/2))+'px';
+
+            
+            $("#mmria_dialog").dialog("open");
+            $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
         }
     };
 
