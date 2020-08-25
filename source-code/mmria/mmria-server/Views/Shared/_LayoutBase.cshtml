@@ -1,3 +1,10 @@
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnv 
+@{
+  string environment = "production";
+  if(hostingEnv.EnvironmentName == "Development") {
+    environment = "development";
+  }
+}
 <!DOCTYPE html>
 <html lang="en" class="theme-purple">
 <head>
@@ -50,12 +57,13 @@
   @await Html.PartialAsync("_Footer")
   @await Html.PartialAsync("_Spinner")
   
-  <script crossorigin src="/reactjs/react.development.js"></script>
-  <script crossorigin src="/reactjs/react-dom.development.js"></script>
+  <script crossorigin src="@($"/reactjs/react.{environment}.js")"></script>
+  <script crossorigin src="@($"/reactjs/react-dom.{environment}.js")"></script>
   <script src="/reactjs/remarkable.min.js"></script>
+  <script src="/reactjs/proptypes.min.js"></script>
+
   <script src="/scripts/mmria-custom.js"></script>
-
-
+  
   @RenderSection("Scripts", false)
   @Html.ReactInitJavaScript()
 </body>
