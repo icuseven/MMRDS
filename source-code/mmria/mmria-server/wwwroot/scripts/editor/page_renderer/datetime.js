@@ -291,7 +291,6 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 	p_result.push("</div>");
 }
 
-
 //Custom function to create onblur event ONLY on datetime control
 function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
@@ -416,8 +415,6 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		// p_result.push(")'");
 	}
 }
-
-
 
 //Custom function to create events ONLY on datetime control
 function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
