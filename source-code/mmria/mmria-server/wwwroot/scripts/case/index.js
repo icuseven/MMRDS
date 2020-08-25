@@ -67,23 +67,17 @@ function g_set_data_object_from_path(
     const elementDataValue = elementObject.dataset.value; //get data-value value
 
     //check if there is time in historical data
-    if (elementValue.length > 0 && elementDataValue.split('T')[1])
+    if (elementDataValue.split('T')[1])
     {
       //reassign value(this) object to a string of current 'yyyy-mm-dd' value + 'HH:MM:SS.sss' value
       //new value string will then be converted to ISO format for validating
       value = new Date(`${elementValue} ${elementDataValue.split('T')[1]}`).toISOString();
     }
     //no time stored
-    //set it to current time
+    //set it to current value
     else
-    {
-      const currentTime = new Date();
-      const hours = currentTime.getHours();
-      const minutes = currentTime.getMinutes();
-      const seconds = currentTime.getSeconds();
-      const millis = currentTime.getMilliseconds();
-      
-      value = new Date(`${elementValue} ${hours}:${minutes}:${seconds}.${millis}`).toISOString();
+    {      
+      value = elementValue;
     }
   }
   //With datetime control, the below logic concats the extra param value to the orginal value passed in
