@@ -60,14 +60,20 @@ function g_set_data_object_from_path(
       Consider renaming to something more explicit, ie. 'dateObject'
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   //check if date and value isnt falsey
-  if (eval(p_metadata_path).type === 'date' && value.value.length > 0)
+  if (eval(p_metadata_path).type === 'date')
   {
     const elementObject = value; //grab the current element
     const elementValue = elementObject.value; //get date value
     const elementDataValue = elementObject.dataset.value; //get data-value value
 
+    //if date value is blank
+    if (elementObject.value.length < 1) {
+      value = ''; //set it to nothing (will revert back to mm/dd/yyyy in the UI OR 'blank')
+    }
     //check if there is time in historical data
-    if (elementDataValue.split('T')[1])
+    //we will want to keep it
+    //historical dates below validaton requirements will still persist UNTIL validation is done
+    else if (elementDataValue.split('T')[1])
     {
       //reassign value(this) object to a string of current 'yyyy-mm-dd' value + 'HH:MM:SS.sss' value
       //new value string will then be converted to ISO format for validating
@@ -75,7 +81,7 @@ function g_set_data_object_from_path(
     }
     //no time stored
     //set it to current value
-    else
+    else if (!elementDataValue.split('T')[1])
     {      
       value = elementValue;
     }
@@ -90,10 +96,6 @@ function g_set_data_object_from_path(
       // time value was passed in param
       value = value + ' ' + p_time_object.value; // value + ' ' + param
     }
-  }
-  else
-  {
-    value = '';
   }
 
   var current_value = eval(p_object_path);
@@ -493,11 +495,11 @@ function is_valid_date(p_value) {
   let result = false; //flag set false by default, we will validate against this
 
   //return true if blank
-  if (p_value.length === 0) {
+  if (p_value.length === 0 || p_value === '') {
     result = true;
   } else {
     let year = p_value.split('T')[0]; //get year and convert to a number
-    year = parseInt(year)
+    year = parseInt(year);
 
     //only validating year, check if between 1900 or 2100
     if (year >= 1900 && year <= 2100) result = true;
