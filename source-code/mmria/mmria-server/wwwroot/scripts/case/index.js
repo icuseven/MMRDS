@@ -2207,8 +2207,6 @@ function is_case_locked(p_case)
         }
     }
 
-    g_is_confirm_for_case_lock
-
     return result;
 }
 

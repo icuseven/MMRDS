@@ -25,12 +25,13 @@ function form_render(
   let save_and_finish_disable_attribute = " disabled='disabled' ";
   let delete_disable_attribute = " disabled='disabled' ";
 
-  if 
-  (
-      g_is_data_analyst_mode == null &&
-      ! is_case_locked(g_data)
+  let case_is_locked = is_case_locked(g_data);
 
-  ) 
+  if (case_is_locked)
+  {
+    // do nothing for now
+  }
+  else if (g_is_data_analyst_mode == null) 
   {
     //if case is checked out by ANYONE
     if (g_data_is_checked_out) 
@@ -185,7 +186,16 @@ function form_render(
         add_button_disable_attribute = '';
       }
       p_result.push('<div class="row no-gutters align-items-center mt-3">');
-      if (!g_is_data_analyst_mode) {
+      if 
+      (
+          ! 
+          (
+              g_is_data_analyst_mode ||
+              case_is_locked
+          )
+        
+      ) 
+      {
         p_result.push(
           '<input path="" type="button" class="construct__btn btn btn-primary" value="Add A New Record"'
         );
@@ -218,7 +228,15 @@ function form_render(
       p_result.push(
         "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
       );
-      if (!g_is_data_analyst_mode) {
+      if 
+      (
+        !
+        (
+            g_is_data_analyst_mode ||
+            case_is_locked
+        )
+      ) 
+      {
         p_result.push(`
                                     ${currently_locked_by_html}
                                     <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -684,7 +702,14 @@ function form_render(
         "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
       );
 
-      if (!g_is_data_analyst_mode) {
+      if 
+      (
+        !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+            )
+        ) 
+        {
         p_result.push(`
                                     ${currently_locked_by_html}
                                     <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -701,7 +726,14 @@ function form_render(
       p_result.push(
         "<div class='mt-3 mt-3 row no-gutters justify-content-end'>"
       );
-      if (!g_is_data_analyst_mode) {
+      if 
+      (
+        !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+        )
+    )
+    {
         p_result.push(
           `<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
         );
@@ -769,7 +801,13 @@ function form_render(
       p_result.push('</div>');
 
       p_result.push("<div class='construct__footer'>");
-      if (!g_is_data_analyst_mode) {
+      if 
+      (
+          !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+            )
+        ) {
         p_result.push(`
                         <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
                          <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
@@ -894,7 +932,14 @@ function form_render(
     p_result.push(
       "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
     );
-    if (!g_is_data_analyst_mode) {
+    if 
+    (
+        !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+        )
+    ) 
+    {
       p_result.push(`
                             ${currently_locked_by_html}
                             <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -907,7 +952,14 @@ function form_render(
     render_print_form_control(p_result, p_ui, p_metadata);
     p_result.push('</div>');
     p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
-    if (!g_is_data_analyst_mode) {
+    if 
+    (
+        !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+        )
+    )
+    {
       p_result.push(
         `<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
       );
@@ -1512,7 +1564,14 @@ function form_render(
     p_result.push(
       "<div class='construct__footer row no-gutters align-items-center justify-content-start'>"
     );
-    if (!g_is_data_analyst_mode) {
+    if 
+    (
+        !(
+            g_is_data_analyst_mode ||
+            case_is_locked
+        )
+    ) 
+    {
       p_result.push(`
                     <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
                     <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
@@ -1621,7 +1680,14 @@ function quick_edit_header_render(
   p_result.push('</p>');
   p_result.push('</div>');
   p_result.push("<div class='col col-4 text-right'>");
-  if (!g_is_data_analyst_mode) {
+  if 
+  (
+    !(
+        g_is_data_analyst_mode ||
+        case_is_locked
+    )
+    )
+{
     p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()'/>
                  <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
   }
