@@ -97,7 +97,13 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 				}
-				p_result.push(` min="1900-01-01" max="2100-12-31">`);
+        p_result.push(` min="1900-01-01" max="2100-12-31">`);
+        
+      //if we have . which signifies milliseconds are present in data
+      //get string between 'T' and '.' of ISO format
+      //else get string between 'T' and 'Z' of ISO format
+      const newData = p_data;
+      const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'))
 			p_result.push(
 				`<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
 				   dpath="${p_object_path}"
@@ -105,7 +111,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${p_data.split('T')[0] === '' || p_data.split('T')[0].length < 1 ? '' : p_data.replace('Z', '').split('T')[1]}"
+				   value="${newTimeValue}"
 				   ${disabled_html}`
 			);
 				if
