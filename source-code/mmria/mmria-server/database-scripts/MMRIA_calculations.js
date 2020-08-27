@@ -416,10 +416,18 @@ function case_status_value_change(p_control)
 
 function $case_status_confirm()
 {
-    g_data.home_record.case_status.case_locked_date = new Date().toISOString().split("T")[0];
-    $mmria.save_current_record();
-    g_is_confirm_for_case_lock = false;
     g_target_case_status = null;
+    g_is_confirm_for_case_lock = false;
+
+    g_data.home_record.case_status.case_locked_date = new Date().toISOString().split("T")[0];
+    g_data.date_last_checked_out = null;
+    g_data.last_checked_out_by = null;
+    g_data_is_checked_out = false;
+
+    $mmria.save_current_record();
+
+    g_render();
+  
 }
 
 function $case_status_cancel()
