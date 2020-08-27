@@ -240,7 +240,7 @@ class MetadataSubstanceLists extends React.Component {
     csvData.forEach(([source_value, target_value], index) => {
       if (newDuplicatesMemo[source_value] === undefined) {
         newDuplicatesMemo[source_value] = false;
-      } else if (newDuplicates[source_value] === false) {
+      } else if (newDuplicatesMemo[source_value] === false) {
         newDuplicatesMemo[source_value] = true;
       }
       newSubstanceList.push({
