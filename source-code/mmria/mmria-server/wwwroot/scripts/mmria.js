@@ -276,6 +276,7 @@ var $mmria = function()
                 minHeight: 400,
                 backgroundColor: 0xaaaaaa, 
                 modal: true,
+                zIndex:10,
                 buttons : {
                     "Confirm" : function() {
                         $(this).dialog("close");
@@ -294,7 +295,7 @@ var $mmria = function()
                 function(e) 
                 {
                     e.preventDefault();
-                    $(this).dialog("close");
+                    $("#mmria_dialog").dialog("close");
                     p_confirm_call_back();
                 }
             );
@@ -304,7 +305,7 @@ var $mmria = function()
                 function(e) 
                 {
                     e.preventDefault();
-                    $(this).dialog("close");
+                    $("#mmria_dialog").dialog("close");
                     p_cancel_call_back();
                 }
             );
@@ -312,7 +313,7 @@ var $mmria = function()
             let dialog = document.getElementById('mmria_dialog')
             dialog.style.top = ((window.innerHeight/2) - (dialog.offsetHeight/2))+'px';
             dialog.style.left = ((window.innerWidth/2) - (dialog.offsetWidth/2))+'px';
-
+            $(".ui-dialog").css("z-index",10);
             
             $("#mmria_dialog").dialog("open");
             $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
