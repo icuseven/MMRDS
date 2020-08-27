@@ -1,7 +1,31 @@
-// @TODO use module imports in the future
-// import SubstanceRow from './SubstanceRow.jsx';
-// import AddNewMapping from './AddNewMapping.jsx';
-// import { getValidTarget, substanceMappingAPI } from './helpers.jsx';
+import React from 'react';
+import SubstanceRow from './SubstanceRow.jsx';
+import AddNewMapping from './AddNewMapping.jsx';
+import CSVReader from 'react-csv-reader';
+import SelectOptions from '../sharedmodules/SelectOptions.jsx';
+import { getValidTarget, substanceMappingAPI } from './helpers.js';
+import useStyles from './style.jsx';
+
+const Alert = {
+  Success: (message) => (
+    <div
+      className="alert alert-success text-right"
+      style={{ width: '100%' }}
+      role="alert"
+    >
+      {message}
+    </div>
+  ),
+  Error: (message) => {
+    <div
+      className="alert alert-danger text-right"
+      style={{ width: '100%' }}
+      role="alert"
+    >
+      {message}
+    </div>;
+  },
+};
 
 class MetadataSubstanceLists extends React.Component {
   state = {
@@ -16,6 +40,7 @@ class MetadataSubstanceLists extends React.Component {
     loading: true,
     addNew: false,
     saved: undefined,
+    csvData: undefined,
   };
   componentDidMount() {
     const metaPromise = substanceMappingAPI.getSubstanceMetadata();
@@ -74,7 +99,7 @@ class MetadataSubstanceLists extends React.Component {
       }
     }
     if (id) {
-      substanceLists[selected].forEach((val, currentIndex) => {
+      substanceLists[selected].forEach((val) => {
         // Update or Delete
         if (id && val.id === id) {
           if (newValue) {
@@ -92,7 +117,7 @@ class MetadataSubstanceLists extends React.Component {
       });
     } else {
       // Create New
-      newDuplicatesMemo = this.state.duplicatesMemo;
+      newDuplicatesMemo = this.state.duplicatesMemo[selected];
       updatedList = substanceLists[selected];
       updatedList.push({
         ...newValue,
@@ -198,6 +223,46 @@ class MetadataSubstanceLists extends React.Component {
   addNew = () => {
     this.setState({ addNew: true });
   };
+
+  // CSV Import
+  setCSVData = (csvData) => {
+    this.setState({ csvData });
+  };
+  replaceAllMappings = () => {
+    this.addMappings();
+  };
+  addToCurrentMappings = () => {
+    const { selected, substanceLists, duplicatesMemo } = this.state;
+    this.addMappings(duplicatesMemo[selected], substanceLists[selected]);
+  };
+  addMappings = (newDuplicatesMemo = {}, newSubstanceList = []) => {
+    const { targetSubstanceList, csvData, selected } = this.state;
+    csvData.forEach(([source_value, target_value], index) => {
+      if (newDuplicatesMemo[source_value] === undefined) {
+        newDuplicatesMemo[source_value] = false;
+      } else if (newDuplicates[source_value] === false) {
+        newDuplicatesMemo[source_value] = true;
+      }
+      newSubstanceList.push({
+        id: source_value + index,
+        source_value,
+        target_value: getValidTarget(targetSubstanceList, target_value),
+      });
+    });
+    this.setState({
+      duplicatesMemo: {
+        ...this.state.duplicatesMemo,
+        [selected]: newDuplicatesMemo,
+      },
+      substanceLists: {
+        ...this.state.substanceLists,
+        [selected]: newSubstanceList,
+      },
+      csvData: undefined,
+      saved: undefined,
+    });
+  };
+
   render() {
     const {
       substanceLists,
@@ -205,6 +270,8 @@ class MetadataSubstanceLists extends React.Component {
       targetSubstanceList,
       duplicatesMemo,
       saved,
+      csvData,
+      error,
     } = this.state;
     const hasDuplicates = selected
       ? Object.values(duplicatesMemo[selected]).includes(true)
@@ -229,26 +296,20 @@ class MetadataSubstanceLists extends React.Component {
       <div>Loading...</div>
     ) : (
       <div className="container">
-        <div className="row position-sticky substance-lists__sticky-controls">
+        <div
+          className={
+            'row position-sticky ' +
+            this.props.classes['substance-lists__sticky-controls']
+          }
+        >
           {saved !== undefined ? (
             saved ? (
-              <div
-                className="alert alert-success text-right"
-                style={{ width: '100%' }}
-                role="alert"
-              >
-                Saved!
-              </div>
+              <Alert.Success message="Saved!" />
             ) : (
-              <div
-                className="alert alert-danger text-right"
-                style={{ width: '100%' }}
-                role="alert"
-              >
-                Error Saving Changes
-              </div>
+              <Alert.Error message="Error Saving Changes" />
             )
           ) : null}
+          {error !== undefined && <Alert.Error message={error} />}
           <div className="container">
             <div className="row justify-content-between">
               <div>
@@ -265,6 +326,31 @@ class MetadataSubstanceLists extends React.Component {
                 />
               </div>
               <button onClick={this.handleSave}>Save Changes</button>
+            </div>
+            <div
+              className={`row ${
+                csvData ? this.props.classes['csv-active'] : ''
+              }`}
+            >
+              <CSVReader
+                {...{
+                  label: 'Import Substance Mapping',
+                  onError: (err) => {
+                    console.error(err);
+                  },
+                  onFileLoaded: this.setCSVData,
+                }}
+              ></CSVReader>
+              {csvData && (
+                <>
+                  <button onClick={this.replaceAllMappings}>
+                    Replace All Mappings
+                  </button>
+                  <button onClick={this.addToCurrentMappings}>
+                    Add to Current Mappings
+                  </button>
+                </>
+              )}
             </div>
             <div className="row">
               {this.state.addNew ? (
@@ -305,3 +391,8 @@ class MetadataSubstanceLists extends React.Component {
     );
   }
 }
+
+export default () => {
+  const classes = useStyles();
+  return <MetadataSubstanceLists {...{ classes }} />;
+};

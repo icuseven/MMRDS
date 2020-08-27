@@ -1,4 +1,4 @@
-const substanceMappingAPI = {
+export const substanceMappingAPI = {
   toJSON(response) {
     // why do this: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
     if (!response.ok) {
@@ -26,7 +26,7 @@ const substanceMappingAPI = {
   },
 };
 
-function getValidTarget(targets, value) {
+export function getValidTarget(targets, value) {
   if (targets.find((target) => target.value === value)) return value;
   return 'Other';
 }

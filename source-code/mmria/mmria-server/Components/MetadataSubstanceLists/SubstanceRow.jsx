@@ -1,4 +1,7 @@
-class SubstanceRow extends React.Component {
+import React from 'react';
+import SelectOptions from '../sharedmodules/SelectOptions.jsx';
+
+export default class SubstanceRow extends React.Component {
   state = {
     canDelete: false,
     canUpdate: false,

@@ -1,4 +1,6 @@
-class SelectOptions extends React.Component {
+import React from 'react';
+
+export default class SelectOptions extends React.Component {
   render() {
     const { options, selected, handleChange, id, className } = this.props;
     const OPTS = options.map(({ display, value }) => {

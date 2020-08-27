@@ -1,4 +1,6 @@
-class Spinner extends React.Component {
+import React from 'react';
+
+export default class Spinner extends React.Component {
   render() {
     const active = this.props.active ? 'spinner-active' : '';
     return (

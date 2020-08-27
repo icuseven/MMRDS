@@ -97,8 +97,8 @@ namespace mmria.server
         Program.config_cdc_instance_pull_db_url = Configuration["mmria_settings:cdc_instance_pull_db_url"];
       }
 
-      
-      
+
+
 
 
       var test_int = 0;
@@ -541,8 +541,8 @@ namespace mmria.server
 
       services.AddAuthorization(options =>
       {
-              //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
-              options.AddPolicy("abstractor", policy => policy.RequireRole("abstractor"));
+        //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
+        options.AddPolicy("abstractor", policy => policy.RequireRole("abstractor"));
         options.AddPolicy("data_analyst", policy => policy.RequireRole("data_analyst"));
         options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
         options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
@@ -550,12 +550,12 @@ namespace mmria.server
         options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));
         options.AddPolicy("guest", policy => policy.RequireRole("guest"));
 
-              //options.AddPolicy("form_designer", policy => policy.RequireClaim("EmployeeId"));
-              //options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId", "123", "456"));
-              //options.AddPolicy("Over21Only", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
-              //options.AddPolicy("BuildingEntry", policy => policy.Requirements.Add(new OfficeEntryRequirement()));
+        //options.AddPolicy("form_designer", policy => policy.RequireClaim("EmployeeId"));
+        //options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId", "123", "456"));
+        //options.AddPolicy("Over21Only", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+        //options.AddPolicy("BuildingEntry", policy => policy.Requirements.Add(new OfficeEntryRequirement()));
 
-            });
+      });
 
       services.AddReact();
       services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
@@ -570,9 +570,9 @@ namespace mmria.server
 
         config.CacheProfiles.Add("NoStore",
               new Microsoft.AspNetCore.Mvc.CacheProfile()
-          {
-            NoStore = true
-          });
+              {
+                NoStore = true
+              });
       });
       /*.AddJsonOptions(o =>
           {
@@ -615,8 +615,8 @@ namespace mmria.server
       {
         OnValidatePrincipal = context =>
         {
-                  //check to see if user is authenticated first
-                  if (context.Principal.Identity.IsAuthenticated)
+          //check to see if user is authenticated first
+          if (context.Principal.Identity.IsAuthenticated)
           {
 
 
@@ -624,24 +624,24 @@ namespace mmria.server
 
             var expires_at_time = DateTimeOffset.Parse(expires_at);
 
-                    /*
-                                            var accessToken = context.Request.HttpContext.Session.GetString("access_token");
-                                            var refreshToken = context.Request.HttpContext.Session.GetString("refresh_token");
-                                            var exp = context.Request.HttpContext.Session.GetInt32("expires_in");
-                     */
+            /*
+                                    var accessToken = context.Request.HttpContext.Session.GetString("access_token");
+                                    var refreshToken = context.Request.HttpContext.Session.GetString("refresh_token");
+                                    var exp = context.Request.HttpContext.Session.GetInt32("expires_in");
+             */
 
-                    /*
-                                var tokens = context.Properties.GetTokens();
-                                var refreshToken = tokens.FirstOrDefault(t => t.Name == "refresh_token");
-                                var accessToken = tokens.FirstOrDefault(t => t.Name == "access_token");
-                                var exp = tokens.FirstOrDefault(t => t.Name == "expires_at");
-                                var expires = DateTime.Parse(exp.Value);
-                                 */
+            /*
+                        var tokens = context.Properties.GetTokens();
+                        var refreshToken = tokens.FirstOrDefault(t => t.Name == "refresh_token");
+                        var accessToken = tokens.FirstOrDefault(t => t.Name == "access_token");
+                        var exp = tokens.FirstOrDefault(t => t.Name == "expires_at");
+                        var expires = DateTime.Parse(exp.Value);
+                         */
 
-                    //context.Request.Cookies.["sid"].
-                    // var expires = DateTime.Parse(exp.ToString());
-                    //check to see if the token has expired
-                    if (expires_at_time.DateTime < DateTime.Now)
+            //context.Request.Cookies.["sid"].
+            // var expires = DateTime.Parse(exp.ToString());
+            //check to see if the token has expired
+            if (expires_at_time.DateTime < DateTime.Now)
             {
               try
               {
@@ -668,26 +668,26 @@ namespace mmria.server
                 var exp = session.data["expires_at"];
                 expires_at_time = DateTimeOffset.Parse(exp);
 
-                        // server-side check for expiration
-                        if (expires_at_time.DateTime < DateTime.Now)
+                // server-side check for expiration
+                if (expires_at_time.DateTime < DateTime.Now)
                 {
-                          //token is expired, let's attempt to renew
-                          var tokenEndpoint = sams_endpoint_token;
+                  //token is expired, let's attempt to renew
+                  var tokenEndpoint = sams_endpoint_token;
                   var tokenClient = new mmria.server.util.TokenClient(Configuration);
 
-                          //var name = HttpContext.Session.GetString(SessionKeyName);
-                          //var name = HttpContext.Session.GetString(SessionKeyName);
+                  //var name = HttpContext.Session.GetString(SessionKeyName);
+                  //var name = HttpContext.Session.GetString(SessionKeyName);
 
-                          var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
-                          //check for error while renewing - any error will trigger a new login.
-                          if (tokenResponse.is_error)
+                  var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
+                  //check for error while renewing - any error will trigger a new login.
+                  if (tokenResponse.is_error)
                   {
-                            //reject Principal
-                            context.RejectPrincipal();
+                    //reject Principal
+                    context.RejectPrincipal();
                     return Task.CompletedTask;
                   }
-                          //set new token values
-                          refreshToken = tokenResponse.refresh_token;
+                  //set new token values
+                  refreshToken = tokenResponse.refresh_token;
                   accessToken = tokenResponse.access_token;
                   var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
 
@@ -718,16 +718,16 @@ namespace mmria.server
 
                   Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
 
-                          //trigger context to renew cookie with new token values
-                          context.ShouldRenew = true;
+                  //trigger context to renew cookie with new token values
+                  context.ShouldRenew = true;
                   return Task.CompletedTask;
                 }
 
               }
               catch (Exception ex)
               {
-                        // do nothing for now document doesn't exsist.
-                        System.Console.WriteLine($"err caseController.Post\n{ex}");
+                // do nothing for now document doesn't exsist.
+                System.Console.WriteLine($"err caseController.Post\n{ex}");
               }
             }
           }
@@ -772,9 +772,9 @@ namespace mmria.server
                 {
                   context.Response.StatusCode = 400;
                   context.Response.Headers.Add("Connection", "close");
-                        //context.Abort();
-                        //context.RequestAborted.Session
-                      }
+                  //context.Abort();
+                  //context.RequestAborted.Session
+                }
                 else if
                       (
 
@@ -784,8 +784,8 @@ namespace mmria.server
                 {
                   context.Response.StatusCode = 400;
                   context.Response.Headers.Add("Connection", "close");
-                        // context.Abort();
-                      }
+                  // context.Abort();
+                }
                 else if
                       (
                           context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
@@ -802,9 +802,9 @@ namespace mmria.server
                   context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                   context.Response.Headers.Add("Connection", "close");
                   context.Response.StatusCode = 400;
-                        //context.Abort();
+                  //context.Abort();
 
-                      }
+                }
                 else
                 {
                   context.Response.Headers.Add("X-Frame-Options", "DENY");
@@ -822,8 +822,8 @@ namespace mmria.server
               default:
                 context.Response.StatusCode = 400;
                 context.Response.Headers.Add("Connection", "close");
-                      //context.Abort();
-                      break;
+                //context.Abort();
+                break;
             }
           }
       );
@@ -870,21 +870,11 @@ namespace mmria.server
       // Initialise ReactJS.NET. Must be before static files.
       app.UseReact(config =>
       {
-        // If you want to use server-side rendering of React components,
-        // add all the necessary JavaScript files here. This includes
-        // your components as well as all of their dependencies.
-        // See http://reactjs.net/ for more information. Example:
         config
-          .AddScript("~/reactjs/sharedmodules/*")
-          .AddScript("~/reactjs/MetadataSubstanceLists/*.jsx");
-
-        // If you use an external build too (for example, Babel, Webpack,
-        // Browserify or Gulp), you can improve performance by disabling
-        // ReactJS.NET's version of Babel and loading the pre-transpiled
-        // scripts. Example:
-        //config
-        //    .SetLoadBabel(false)
-        //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
+          .SetReuseJavaScriptEngines(true)
+          .SetLoadBabel(false)
+          .SetLoadReact(false)
+          .SetReactAppBuildPath("~/dist");
       });
       app.UseStaticFiles();
 
@@ -909,8 +899,8 @@ namespace mmria.server
         (
             new Action(async () =>
            {
-              await new mmria.server.util.c_db_setup(Program.actorSystem).Setup();
-            }
+             await new mmria.server.util.c_db_setup(Program.actorSystem).Setup();
+           }
 
         ));
       }

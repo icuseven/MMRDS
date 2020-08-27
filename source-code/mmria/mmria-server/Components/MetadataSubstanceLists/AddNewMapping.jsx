@@ -1,4 +1,7 @@
-class AddNewMapping extends React.Component {
+import React from 'react';
+import SelectOptions from '../sharedmodules/SelectOptions.jsx';
+
+export default class AddNewMapping extends React.Component {
   state = {
     isValid: true,
     sourceValue: '',
