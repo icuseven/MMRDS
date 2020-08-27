@@ -23,11 +23,10 @@ echo "---> changing ChakraCore version from windows to linux"
 sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
 
 echo "---> running NPM build"
-pwd
 cd /tmp/src/source-code/mmria/mmria-server
 npm install
 npm run build
-cd /
+cd /opt/app-root/src
 
 echo "---> Version Setup - Begin ..."
 #current_build=$(git rev-parse --short HEAD)
