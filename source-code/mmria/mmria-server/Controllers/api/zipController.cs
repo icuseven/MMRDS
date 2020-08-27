@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
-	[Authorize(Roles  = "abstractor")]
+	[Authorize(Roles  = "abstractor,data_analyst")]
 	[Route("api/[controller]")]
 	public class zipController: ControllerBase
 	{
