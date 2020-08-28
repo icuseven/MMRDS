@@ -16,32 +16,4 @@
   </ul>
 
 } 
-@*else 
-{
 
-  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">
-    <span class="glyphicon glyphicon-log-in"></span> Login
-  </a>
-
-  <ul class="dropdown-menu" role="menu">
-    @model ApplicationUser
-    @{    
-      <form id="profile_form2" action="/Account/Login" method="POST">
-        <li>Nunca
-          <div class="form-group" id="profile_content_id2">
-            <div class="input-group">
-              <span class="input-group-addon">
-                <img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />
-              </span>
-
-              User name: <input name="username" type="text" />
-              Password: <input name="value" type="password" />
-              <input name="submit" value="Login" type="submit" />
-              <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
-            </div>
-          </div>
-        </li>    
-      </form>
-  }
-	</ul>
-}*@

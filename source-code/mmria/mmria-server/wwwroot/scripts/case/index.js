@@ -837,6 +837,9 @@ $(function () {
   let working_space = 100;
   let default_local_storage_limit = 300; */
 
+
+  $('#profile_form2').on('submit', navigation_away);
+
   if (
     default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() <
     working_space
