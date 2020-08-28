@@ -134,7 +134,7 @@ function form_render(
 
       if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
         p_result.push(
-          `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+          `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
         );
       }
 
@@ -668,7 +668,7 @@ function form_render(
 
       if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
         p_result.push(
-          `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+          `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
         );
       }
 
@@ -875,7 +875,7 @@ function form_render(
 
     if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
       p_result.push(
-        `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+        `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
       );
     }
 
@@ -1668,7 +1668,7 @@ function quick_edit_header_render(
 
   if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
     p_result.push(
-      `<p class='construct__info mb-0'>Host state: <span>${g_data.host_state}</span></p>`
+      `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
     );
   }
 
