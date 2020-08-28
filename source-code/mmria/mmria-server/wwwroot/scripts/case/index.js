@@ -96,14 +96,13 @@ function g_set_data_object_from_path(
       const timeValue = value;
       const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-      // date value was passed in param
       value = p_date_object.value + 'T' + hour + 'Z'; // param + ' ' + value
     } else if (p_time_object) {
       const timeValue = p_time_object.value;
       const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-      // time value was passed in param
-      value = value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
+      //check if value null, set to blank else convert to ISO format
+      value = !value ? '' : value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
     }
   }
 
@@ -519,6 +518,7 @@ function is_valid_date(p_value) {
 
 //fn to validate datetime controls
 function is_valid_datetime(p_value) {
+  p_value = p_value.split('T')[0]; //strip the time if it is available
   let result = false; //flagged as false by default
   let year = null;
 
@@ -526,7 +526,6 @@ function is_valid_datetime(p_value) {
   if (p_value === '' || p_value.length === 0) {
     result = true;
   } else {
-    p_value = p_value.split('T')[0]; //strip the time if it is available
     year = p_value.split('-')[0]; //get year
     year = parseInt(year); //convert year to a number
 

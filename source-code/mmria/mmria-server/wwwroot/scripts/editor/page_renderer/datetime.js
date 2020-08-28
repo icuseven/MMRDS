@@ -111,7 +111,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
 				   type="text" name="${p_metadata.name}"
 				   data-value="${p_data}"
-				   value="${newTimeValue}"
+				   value="${newData.split('T')[0] ? newTimeValue : '00:00:00'}"
 				   ${disabled_html}`
 			);
 				if
@@ -167,7 +167,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					//if validation passed
 					if (${is_valid})
 					{
-						$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').removeClass('is-invalid'); //remove css error class
+						$('#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date').parent().removeClass('is-invalid'); //remove css error class
 						$('#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg').hide(); //hide message
 						
 						//if grid item
@@ -193,7 +193,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					}
 					else
 					{
-						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").addClass('is-invalid'); //add css error class
+						$("#${convert_object_path_to_jquery_id(p_object_path)} input.datetime-date").parent().addClass('is-invalid'); //add css error class
 						$("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show(); //show message
 		
 						//check if grid item
