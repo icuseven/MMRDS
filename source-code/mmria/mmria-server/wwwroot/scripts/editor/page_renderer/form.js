@@ -27,15 +27,11 @@ function form_render(
 
   let case_is_locked = is_case_locked(g_data);
 
-  if (case_is_locked)
-  {
+  if (case_is_locked) {
     // do nothing for now
-  }
-  else if (g_is_data_analyst_mode == null) 
-  {
+  } else if (g_is_data_analyst_mode == null) {
     //if case is checked out by ANYONE
-    if (g_data_is_checked_out) 
-    {
+    if (g_data_is_checked_out) {
       // console.log('anyone has locked it out')
       enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
       undo_disable_attribute = ''; //enable undo btn
@@ -47,12 +43,10 @@ function form_render(
     }
 
     //if case is checked out by YOU
-    if 
-    (
+    if (
       !is_checked_out_expired(g_data) &&
       g_data.last_checked_out_by === g_user_name
-    ) 
-    {
+    ) {
       // console.log('you')
       enable_edit_disable_attribute = ' disabled '; //disable enable edit btn
       currently_locked_by_html = ''; //hide user locked info
@@ -60,12 +54,10 @@ function form_render(
     }
 
     //if case is checked out by SOMEONE ELSE
-    if 
-    (
+    if (
       !is_checked_out_expired(g_data) &&
       g_data.last_checked_out_by !== g_user_name
-    ) 
-    {
+    ) {
       // console.log('someone else')
       enable_edit_disable_attribute = ' disabled '; //disable enable edit btn
       currently_locked_by_html =
@@ -186,18 +178,9 @@ function form_render(
         add_button_disable_attribute = '';
       }
       p_result.push('<div class="row no-gutters align-items-center mt-3">');
-      if 
-      (
-          ! 
-          (
-              g_is_data_analyst_mode ||
-              case_is_locked
-          )
-        
-      ) 
-      {
+      if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(
-          '<input path="" type="button" class="construct__btn btn btn-primary" value="Add A New Record"'
+          '<input path="" type="button" class="btn btn-primary" value="Add A New Record"'
         );
         p_result.push(add_button_disable_attribute);
         p_result.push(
@@ -228,26 +211,16 @@ function form_render(
       p_result.push(
         "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
       );
-      if 
-      (
-        !
-        (
-            g_is_data_analyst_mode ||
-            case_is_locked
-        )
-      ) 
-      {
+      if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(`
                                     ${currently_locked_by_html}
-                                    <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
-                                    <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
-                                    <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                                 `);
       }
       p_result.push('</div>');
-      p_result.push(
-        "<div class='mt-3 mt-3 row no-gutters justify-content-end'>"
-      );
+      p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
       render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
       p_result.push('</div> <!-- end .construct__controller -->');
@@ -702,40 +675,22 @@ function form_render(
         "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
       );
 
-      if 
-      (
-        !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-            )
-        ) 
-        {
+      if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(`
                                     ${currently_locked_by_html}
-                                    <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
-                                    <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
-                                    <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
+                                    <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                                 `);
       }
       p_result.push('</div>');
-      p_result.push(
-        "<div class='mt-3 mt-3 row no-gutters justify-content-end'>"
-      );
+      p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
       render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
-      p_result.push(
-        "<div class='mt-3 mt-3 row no-gutters justify-content-end'>"
-      );
-      if 
-      (
-        !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-        )
-    )
-    {
+      p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
+      if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(
-          `<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
+          `<input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
         );
       }
       p_result.push('</div>');
@@ -801,17 +756,11 @@ function form_render(
       p_result.push('</div>');
 
       p_result.push("<div class='construct__footer'>");
-      if 
-      (
-          !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-            )
-        ) {
+      if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(`
-                        <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                         <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                        <input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                        <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                         <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                        <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                     `);
       }
       p_result.push(
@@ -932,36 +881,22 @@ function form_render(
     p_result.push(
       "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
     );
-    if 
-    (
-        !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-        )
-    ) 
-    {
+    if (!(g_is_data_analyst_mode || case_is_locked)) {
       p_result.push(`
                             ${currently_locked_by_html}
-                            <input type="button" class="construct__btn btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
-                            <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
-                            <input type="button" class="construct__btn btn btn-primary ml-1" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
+                            <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
+                            <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
+                            <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
                         `);
     }
     p_result.push('</div>');
-    p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
+    p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
     render_print_form_control(p_result, p_ui, p_metadata);
     p_result.push('</div>');
-    p_result.push("<div class='mt-3 mt-3 row no-gutters justify-content-end'>");
-    if 
-    (
-        !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-        )
-    )
-    {
+    p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
+    if (!(g_is_data_analyst_mode || case_is_locked)) {
       p_result.push(
-        `<input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
+        `<input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
       );
     }
     p_result.push('</div>');
@@ -1564,18 +1499,11 @@ function form_render(
     p_result.push(
       "<div class='construct__footer row no-gutters align-items-center justify-content-start'>"
     );
-    if 
-    (
-        !(
-            g_is_data_analyst_mode ||
-            case_is_locked
-        )
-    ) 
-    {
+    if (!(g_is_data_analyst_mode || case_is_locked)) {
       p_result.push(`
-                    <input type='button' class='construct__btn btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                    <input type='button' class='construct__btn btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                    <input type='button' class='construct__btn btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                    <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                    <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                    <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                 `);
     }
     p_result.push(
@@ -1680,16 +1608,9 @@ function quick_edit_header_render(
   p_result.push('</p>');
   p_result.push('</div>');
   p_result.push("<div class='col col-4 text-right'>");
-  if 
-  (
-    !(
-        g_is_data_analyst_mode ||
-        case_is_locked
-    )
-    )
-{
-    p_result.push(` <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()'/>
-                 <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
+  if (!(g_is_data_analyst_mode || case_is_locked)) {
+    p_result.push(` <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()'/>
+                 <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
   }
   p_result.push('</div>');
   p_result.push('</div>');
@@ -1752,7 +1673,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 
     p_result.push('</select>');
     p_result.push(
-      `<input type='button' id="print-case-form" class='btn btn-primary ml-1' value='Print' onclick='print_case_onclick()' disabled="true"/>`
+      `<input type='button' id="print-case-form" class='btn btn-primary ml-3' value='Print' onclick='print_case_onclick()' disabled="true"/>`
     );
   }
 }
