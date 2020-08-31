@@ -190,30 +190,30 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
                 const actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists               
 
-                return (`
-                    <tr class="tr" path="${caseID}">
-                        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
-                            ${checked_out_html}</td>
-                        <td class="td" scope="col">${currentCaseStatus}</td>
-                        <td class="td">${projectedReviewDate} ${projectedReviewDate && actualReviewDate ? `, ${actualReviewDate}` : actualReviewDate}</td>
-                        <td class="td">${createdBy} - ${dateCreated}</td>
-                        <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-                        <td class="td">
-                            ${is_checked_out ? (`
-                                <span class="icn-info">${lockedBy}</span>
-                            `) : ''}
-                            ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
-                                <span class="row no-gutters align-items-center">
-                                    <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
-                                    <span class="icn-info">${lockedBy}</span>
-                                </span>
-                            `) : ''}
-                        </td>
-                        <td class="td">
-                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
-                        </td>
-                    </tr>
-                `);
+                return (
+                  `<tr class="tr" path="${caseID}">
+                      <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+                        ${checked_out_html}</td>
+                      <td class="td" scope="col">${currentCaseStatus}</td>
+                      <td class="td">${projectedReviewDate} ${projectedReviewDate && actualReviewDate ? `, ${actualReviewDate}` : actualReviewDate}</td>
+                      <td class="td">${createdBy} - ${dateCreated}</td>
+                      <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
+                      <td class="td">
+                        ${is_checked_out ? (`
+                          <span class="icn-info">${lockedBy}</span>
+                        `) : ''}
+                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
+                          <span class="row no-gutters align-items-center">
+                            <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                            <span class="icn-info">${lockedBy}</span>
+                          </span>
+                        `) : ''}
+                      </td>
+                      <td class="td">
+                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                      </td>
+                    </tr>`
+                  );
               }).join('')}
           </tbody>
       </table>
