@@ -50,6 +50,8 @@ namespace mmria.common.Controllers
         private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;
 
+        private bool http_async_signin_called = false;
+
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
         {
@@ -76,6 +78,10 @@ namespace mmria.common.Controllers
         [AllowAnonymous] 
         public ActionResult SignIn()
         {
+
+            Response.Cookies.Delete("sid");
+            Response.Cookies.Delete("expires_at");
+
 
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
@@ -104,6 +110,9 @@ namespace mmria.common.Controllers
         [AllowAnonymous] 
         public async Task<ActionResult> SignInCallback()
         {
+
+            
+
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
@@ -309,7 +318,7 @@ namespace mmria.common.Controllers
                 session_data["refresh_token"] = refresh_token;
                 session_data["expires_at"] = unix_time.ToString();
 
-                await create_user_principal(user.name, new List<string>(), unix_time.DateTime);
+                await create_user_principal(this.HttpContext, user.name, new List<string>(), unix_time.DateTime);
 
 
                 var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
@@ -347,7 +356,12 @@ namespace mmria.common.Controllers
                 //return RedirectToAction("Index", "HOME");
             }
 
-            return RedirectToAction("Index", "HOME");
+
+
+            System.Console.WriteLine($"http_async_signin_called: {http_async_signin_called}");
+            TempData["user_name"] = user.name;
+            return View();
+           // return RedirectToAction("Index", "HOME");
 
             // Generate JWT for token request
             //var cert = new X509Certificate2(Server.MapPath("~/App_Data/cert.pfx"), "1234");
@@ -440,7 +454,7 @@ namespace mmria.common.Controllers
             return default(T);
         }
 
-        public async Task create_user_principal(string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
+        public async Task create_user_principal(HttpContext p_context, string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
         {
             const string Issuer = "https://contoso.com";
             var claims = new List<Claim>();
@@ -477,16 +491,10 @@ namespace mmria.common.Controllers
                 int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
             }
 
+            var ticket = new AuthenticationTicket(userPrincipal,"custom");
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                userPrincipal,
-                new AuthenticationProperties
-                {
-                    ExpiresUtc = p_session_expire_date_time,
-                    IsPersistent = false,
-                    AllowRefresh = true,
-                });
+            p_context.User = userPrincipal;
+            System.Threading.Thread.CurrentPrincipal = userPrincipal;
 
         }
 

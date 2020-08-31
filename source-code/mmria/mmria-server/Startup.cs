@@ -32,6 +32,7 @@ using Microsoft.AspNetCore.Http;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using React.AspNet;
+using mmria.server.authentication;
 
 
 namespace mmria.server
@@ -378,122 +379,18 @@ namespace mmria.server
       {
         Log.Information("using sams");
 
-        if (Configuration["mmria_settings:is_development"] != null && Configuration["mmria_settings:is_development"] == "true")
+
+        services.AddAuthentication(options =>
         {
-
-          Log.Information("using sams and is_development");
-          //https://github.com/jerriepelser-blog/AspnetCoreGitHubAuth/blob/master/AspNetCoreGitHubAuth/
-
-          services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-          .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-              options =>
-              {
-                options.LoginPath = new PathString("/Account/SignIn");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-
-                options.Events = get_sams_authentication_events();
-
-                Log.Information("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
-                Log.Information("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
-
-
-              });
-          /*
-          .AddOAuth("SAMS", options =>
-          {
-              options.ClientId = Configuration["sams:client_id"];
-              options.ClientSecret = Configuration["sams:client_secret"];
-              options.CallbackPath = new PathString("/Account/SignInCallback");//new PathString(Configuration["sams:callback_url"]);// new PathString("/signin-github");
-
-              options.AuthorizationEndpoint = Configuration["sams:endpoint_authorization"];// "https://github.com/login/oauth/authorize";
-              options.TokenEndpoint = Configuration["sams:endpoint_token"];// ""https://github.com/login/oauth/access_token";
-              options.UserInformationEndpoint = Configuration["sams:endpoint_user_info"];// "https://api.github.com/user";
-
-              options.SaveTokens = true;
-
-              options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-              options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-              options.ClaimActions.MapJsonKey("urn:github:login", "login");
-              options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
-              options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
-
-              options.Events = new OAuthEvents
-              {
-                  OnCreatingTicket = async context =>
-                  {
-                      var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                      request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-                      var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
-                      response.EnsureSuccessStatusCode();
-
-                      var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                      context.RunClaimActions(user);
-                  }
-              };
-      }); */
-
-        }
-        else
+            options.DefaultAuthenticateScheme = CustomAuthOptions.DefaultScheme;
+            options.DefaultChallengeScheme = CustomAuthOptions.DefaultScheme;
+        })
+        .AddCustomAuth(options =>
         {
-          Log.Information("using sams and NOT is_development");
+            // Configure single or multiple passwords for authentication
+            options.AuthKey = "custom auth key";
+        });
 
-          services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-          .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-              options =>
-              {
-                options.LoginPath = new PathString("/Account/SignIn");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                //options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Events = get_sams_authentication_events();
-
-                Log.Information("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
-                Log.Information("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
-
-
-              });
-          /*
-          .AddOAuth("SAMS", options =>
-          {
-              options.ClientId = Configuration["sams:client_id"];
-              options.ClientSecret = Configuration["sams:client_secret"];
-              options.CallbackPath = Configuration["sams:callback_url"];// new PathString("/signin-github");
-
-              options.AuthorizationEndpoint = Configuration["sams:endpoint_authorization"];// "https://github.com/login/oauth/authorize";
-              options.TokenEndpoint = Configuration["sams:endpoint_token"];// ""https://github.com/login/oauth/access_token";
-              options.UserInformationEndpoint = Configuration["sams:endpoint_user_info"];// "https://api.github.com/user";
-
-              options.SaveTokens = true;
-
-              options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-              options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-              options.ClaimActions.MapJsonKey("urn:github:login", "login");
-              options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
-              options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
-
-              options.Events = new OAuthEvents
-              {
-                  OnCreatingTicket = async context =>
-                  {
-                      var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                      request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-                      var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
-                      response.EnsureSuccessStatusCode();
-
-                      var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                      context.RunClaimActions(user);
-                  }
-              };
-      }); */
-        }
 
       }
       else
