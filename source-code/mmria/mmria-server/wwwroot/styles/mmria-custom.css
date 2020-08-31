@@ -501,6 +501,17 @@ button.link {
   position: static;
 }
 
+.btn:focus:disabled,
+.btn:hover:disabled,
+.btn:disabled {
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.btn-icon {
+  display: block;
+}
+
 .anti-btn,
 .anti-btn:focus {
   background-color: transparent;
@@ -508,10 +519,6 @@ button.link {
   margin: 0;
   outline: none;
   padding: 0;
-}
-
-.btn-icon {
-  display: block;
 }
 
 .icn {
@@ -736,11 +743,6 @@ button.link {
 .table-pagination + .table,
 .table + .table-pagination {
   margin-top: .5rem;
-}
-
-.table-btn[disabled] {
-  cursor: not-allowed;
-  text-decoration: none;
 }
 
 .table-btn-link {

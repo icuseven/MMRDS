@@ -210,7 +210,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                             `) : ''}
                         </td>
                         <td class="td">
-                            <button type="button" id="id_for_record_${i}" class="table-btn btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
                         </td>
                     </tr>
                 `);
