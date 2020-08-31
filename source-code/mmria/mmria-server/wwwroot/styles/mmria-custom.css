@@ -501,12 +501,12 @@ button.link {
   position: static;
 }
 
-.btn:focus:disabled,
+/* .btn:focus:disabled,
 .btn:hover:disabled,
 .btn:disabled {
   cursor: not-allowed;
   text-decoration: none;
-}
+} */
 
 .btn-icon {
   display: block;
@@ -1439,14 +1439,14 @@ button.link {
   font-weight: 400;
 }
 
-.construct__btn:hover[disabled] {
+/* .construct__btn:hover[disabled] {
   cursor: not-allowed;
   text-decoration: none;
 }
 
 .construct__btn + .construct__btn {
   margin-left: 5px;
-}
+} */
 
 .construct__body {
   border: var(--border-width) solid;
