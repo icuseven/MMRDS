@@ -24,7 +24,7 @@ namespace mmria.server.authentication
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // Get Authorization header value
-            if(Request.Cookies.ContainsKey("sid"))
+            if(Request.Cookies.ContainsKey("sid") && !string.IsNullOrWhiteSpace(Request.Cookies["sid"]))
             {
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
