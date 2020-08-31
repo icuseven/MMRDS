@@ -111,17 +111,18 @@ namespace mmria.server
 				}
 			}
 
-			//try
-			//{
+			try
+			{
 				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
 				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 				//Console.WriteLine("Response : " + respStr); // if you want see the output
-			//}
-			//catch(Exception ex)
-			//{
-				//process exception here   
-			//	result = ex.ToString();
-			//}
+			}
+			catch(System.Net.Sockets.SocketException ex)
+			{
+				Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
+				Console.WriteLine(ex);
+				throw ex;
+			}
 
 			return result;
 		}
