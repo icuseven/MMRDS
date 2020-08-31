@@ -263,14 +263,12 @@ var $mmria = function()
         },
         show_confirmation_dialog: function(p_confirm_call_back, p_cancel_call_back)
         {
- 
-            let dialog_div = $("#mmria_dialog");
+            const dialog_div = $("#mmria_dialog");
             
             dialog_div.dialog
             ({
               autoOpen: false,
               closeText: '×',
-              title: 'Confirmation Dialog',
               closeOnEscape: false,
               draggable: false,
               width: 600,
