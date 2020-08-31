@@ -1051,6 +1051,7 @@ button.link {
 
 .modal-header {
   border: none;
+  border-radius: var(--radius) var(--radius) 0 0;
   padding: .5rem 1rem;
 }
 
@@ -1078,6 +1079,49 @@ button.link {
 }
 
 
+/*
+  jQuery UI
+*/
+.ui-dialog {
+  background-color: var(--white);
+  border-radius: var(--radius);
+}
+
+.ui-dialog-title {
+  font-size: 1.375rem;
+}
+
+.ui-dialog-titlebar-close {
+  background: none;
+  border: none;
+  color: var(--neutral-light);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  height: auto;
+  outline: none;
+  width: auto;
+}
+.ui-dialog-titlebar-close:focus,
+.ui-dialog-titlebar-close:hover {
+  border: none;
+  color: var(--white);
+  outline: none;
+}
+
+.ui-dialog-buttonpane {
+  display: none;
+}
+
+.ui-widget-overlay {
+  background-color: rgba(0,0,0,.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
 
 
 

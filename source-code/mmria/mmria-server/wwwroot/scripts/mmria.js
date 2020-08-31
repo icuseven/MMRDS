@@ -268,33 +268,58 @@ var $mmria = function()
             
             dialog_div.dialog
             ({
-                title: 'Confirmation Dialog',
-                autoOpen: false,
-                closeOnEscape: false,
-                draggable: false,
-                width: 600,
-                minHeight: 400,
-                backgroundColor: 0xaaaaaa, 
-                modal: true,
-                zIndex:10,
-                buttons : {
-                    "Confirm" : function() {
-                        $(this).dialog("close");
-                        p_confirm_call_back();
-                    },
-                    "Cancel" : function() {
-                        $(this).dialog("close");
-                        p_cancel_call_back();
-                    }
+              autoOpen: false,
+              closeText: '×',
+              title: 'Confirmation Dialog',
+              closeOnEscape: false,
+              draggable: false,
+              width: 600,
+              modal: true,
+              zIndex: 999,
+              buttons : {
+                'Confirm' : function() {
+                  $(this).dialog('close');
+                  p_confirm_call_back();
+                },
+                'Cancel' : function() {
+                  $(this).dialog('close');
+                  p_cancel_call_back();
                 }
+              },
+              classes: {
+                'ui-dialog-titlebar': 'modal-header bg-primary',
+                'ui-dialog-buttonpane': 'modal-footer'
+              },
+              open: function(event, ui) {
+                $(event.target).parent().css({
+                  'position': 'fixed',
+                  'left': '50%',
+                  'top': '40%',
+                  'transform': 'translate3d(-50%, -50%, 0)',
+                  'z-index': '999',
+                });
+
+                $(event.target).find('.ui-dialog-buttonpane').hide();
+
+                $('.ui-widget-overlay').bind('click', function () {
+                  dialog_div.dialog('close');
+                });
+
+                const currentHash = location.hash;
+                $(window).bind('hashchange', function () {
+                  if (currentHash !== location.hash) {
+                    dialog_div.dialog('close');
+                  }
+                });
+              }
             });
 
         
             $(".confirmLink").click
             (
-                function(e) 
+                function(event) 
                 {
-                    e.preventDefault();
+                    event.preventDefault();
                     $("#mmria_dialog").dialog("close");
                     p_confirm_call_back();
                 }
@@ -302,21 +327,22 @@ var $mmria = function()
 
             $(".cancelLink").click
             (
-                function(e) 
+                function(event) 
                 {
-                    e.preventDefault();
+                    event.preventDefault();
                     $("#mmria_dialog").dialog("close");
                     p_cancel_call_back();
                 }
             );
+            
 
-            let dialog = document.getElementById('mmria_dialog')
-            dialog.style.top = ((window.innerHeight/2) - (dialog.offsetHeight/2))+'px';
-            dialog.style.left = ((window.innerWidth/2) - (dialog.offsetWidth/2))+'px';
-            $(".ui-dialog").css("z-index",10);
+            // let dialog = document.getElementById('mmria_dialog');
+            // dialog.style.top = ((window.innerHeight/2) - (dialog.offsetHeight/2))+'px';
+            // dialog.style.left = ((window.innerWidth/2) - (dialog.offsetWidth/2))+'px';
+            // $(".ui-dialog").css("z-index",10);
             
             $("#mmria_dialog").dialog("open");
-            $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
+            // $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
         }
     };
 
