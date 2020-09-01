@@ -38,7 +38,7 @@ namespace mmria.server.authentication
                 {
                     string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
                     var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
-                    var responseFromServer =  session_message_curl.executeAsync().GetAwaiter().GetResult();
+                    var responseFromServer =  session_message_curl.execute();
 
                     var session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
                     user_name = session_message.user_id;
@@ -58,7 +58,7 @@ namespace mmria.server.authentication
                     {
                         string request_string = $"{config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user_name.ToLower())}";
                         var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
-                        var responseFromServer =  user_curl.executeAsync().GetAwaiter().GetResult();
+                        var responseFromServer =  user_curl.execute();
 
                         user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer); 
                     }
