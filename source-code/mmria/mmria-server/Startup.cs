@@ -157,12 +157,19 @@ namespace mmria.server
         Program.config_cron_schedule = System.Environment.GetEnvironmentVariable("cron_schedule");
         Program.config_export_directory = System.Environment.GetEnvironmentVariable("export_directory") != null ? System.Environment.GetEnvironmentVariable("export_directory") : "/workspace/export";
 
+        Configuration["mmria_settings:couchdb_url"]  = Program.config_couchdb_url;
+        Configuration["mmria_settings:web_site_url"] = Program.config_web_site_url;
+
+        Configuration["mmria_settings:timer_user_name"] = Program.config_timer_user_name;
+        Configuration["mmria_settings:timer_password"] = Program.config_timer_value;
+        Configuration["mmria_settings:cron_schedule"] = Program.config_cron_schedule;
+
+
+
         Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
 
-
-        //
-
         Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable("session_idle_timeout"), out test_int) ? test_int : 30;
+        Configuration["mmria_settings:session_idle_timeout"] = Program.config_session_idle_timeout_minutes.ToString();
 
 
         Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_minimum_length")) ? 8 : int.Parse(System.Environment.GetEnvironmentVariable("password_minimum_length"));
