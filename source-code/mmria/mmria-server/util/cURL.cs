@@ -117,7 +117,7 @@ namespace mmria.server
 				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 				//Console.WriteLine("Response : " + respStr); // if you want see the output
 			}
-			catch(System.Net.Sockets.SocketException ex)
+			catch(System.Net.Http.HttpRequestException ex)
 			{
 				Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
 				Console.WriteLine(ex);
@@ -175,7 +175,7 @@ namespace mmria.server
                 WebResponse resp = await httpWebRequest.GetResponseAsync ();
                 result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
 			}
-			catch(System.Net.Sockets.SocketException ex)
+			catch(System.Net.Http.HttpRequestException ex)
 			{
 				Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
 				Console.WriteLine(ex);
