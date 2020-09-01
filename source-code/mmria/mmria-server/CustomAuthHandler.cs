@@ -37,6 +37,9 @@ namespace mmria.server.authentication
                 try
                 {
                     string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
+                    System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
+				
+                    
                     var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                     var responseFromServer =  session_message_curl.execute();
 
@@ -57,6 +60,7 @@ namespace mmria.server.authentication
                     try
                     {
                         string request_string = $"{config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user_name.ToLower())}";
+                        System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
                         var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                         var responseFromServer =  user_curl.execute();
 

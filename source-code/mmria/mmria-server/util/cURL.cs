@@ -111,18 +111,18 @@ namespace mmria.server
 				}
 			}
 
-			try
-			{
+			//try
+			//{
 				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
 				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 				//Console.WriteLine("Response : " + respStr); // if you want see the output
-			}
+			/*}
 			catch(System.Net.Http.HttpRequestException ex)
 			{
 				Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
 				Console.WriteLine(ex);
 				throw ex;
-			}
+			}*/
 
 			return result;
 		}
@@ -170,17 +170,17 @@ namespace mmria.server
                 }
             }
 
-            try
-            {
+            //try
+            //{
                 WebResponse resp = await httpWebRequest.GetResponseAsync ();
                 result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
-			}
+			/*}
 			catch(System.Net.Http.HttpRequestException ex)
-			{
-				Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
+			{Console.WriteLine($"Connection Refused on method: {this.method} url: {this.url}");
+				
 				Console.WriteLine(ex);
 				throw ex;
-			}
+			}*/
 
 
             return result;

@@ -50,7 +50,7 @@ namespace mmria.common.Controllers
         private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;
 
-        private bool http_async_signin_called = false;
+        private bool user_principal_created = false;
 
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
@@ -344,7 +344,7 @@ namespace mmria.common.Controllers
             }
 
 
-            System.Console.WriteLine($"http_async_signin_called: {http_async_signin_called}");
+            System.Console.WriteLine($"http_async_signin_called: {user_principal_created}");
             TempData["user_name"] = user.name;
             return View();
 
@@ -436,6 +436,7 @@ namespace mmria.common.Controllers
 
             p_context.User = userPrincipal;
             System.Threading.Thread.CurrentPrincipal = userPrincipal;
+            user_principal_created = true;
 
         }
 
