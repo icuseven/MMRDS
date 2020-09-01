@@ -229,7 +229,6 @@ function get_style_string(p_style_string)
 	return result;
 }
 
-
 function get_grid_style_string(p_grid_style_string, p_style_string)
 {
 	var top_regex = /"top":(\d+\.?\d*),/;
@@ -333,7 +332,6 @@ function convert_dictionary_path_to_lookup_object(p_path)
 			break;
 		}
 	}
-
 
 	return result;
 }
@@ -556,7 +554,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 }
 
-
 function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var post_fix = null;
@@ -619,20 +616,20 @@ function page_render_create_event(p_result, p_event_name, p_code_json, p_metadat
 	p_result.push("'");
 }
 
-
 function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
-	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
+  /*
+  var path_to_int_map = [];
+  var path_to_onblur_map = [];
+  var path_to_onclick_map = [];
+  var path_to_onfocus_map = [];
+  var path_to_onchange_map = [];
+  var path_to_source_validation = [];
+  var path_to_derived_validation = [];
+  var path_to_validation_description = [];
+  */
+  var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
+  
 	if(path_to_onblur_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
@@ -720,32 +717,27 @@ var path_to_validation_description = [];
 		}
 
 		p_result.push(")'");
-
-		
 	}
-	
 }
-
 
 function page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
 {
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
+  /*
+  var path_to_int_map = [];
+  var path_to_onblur_map = [];
+  var path_to_onclick_map = [];
+  var path_to_onfocus_map = [];
+  var path_to_onchange_map = [];
+  var path_to_source_validation = [];
+  var path_to_derived_validation = [];
+  var path_to_validation_description = [];
+  */
 
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
 	if(path_to_onchange_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
 		var code_array = [];
-		
 		
 		code_array.push("(function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
 		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_och");
@@ -783,15 +775,14 @@ var path_to_validation_description = [];
 		{
 			p_result.push("\",this.value)'");
 		}
-		
 	}
-	
 }
 
 function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	p_result.push("<input  class='checkbox' type='checkbox' name='");
-	p_result.push(p_metadata.name);
+  p_result.push(p_metadata.name);
+  
 	if(p_data == true)
 	{
 		p_result.push("' checked='true'");
@@ -803,14 +794,13 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(p_data);
 	p_result.push("' ");
 
-	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+	  var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
     {
         p_result.push(" style='");
         p_result.push(get_style_string(style_object.control.style));
         p_result.push("'");
     }
-
 
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
@@ -832,12 +822,8 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	
 	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
-
-
 	p_result.push("/>");
-	
 }
-
 
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
@@ -847,7 +833,6 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	{
 		disabled_html = " ";
 	}
-
 
 	if(p_metadata.name == "case_opening_overview")
 	{
@@ -860,7 +845,6 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
-
 
 	p_result.push(" class='");
 	p_result.push(p_metadata.type.toLowerCase());
@@ -878,7 +862,8 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 				p_result.push(" readonly='true' ");
 	}
 
-	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+  var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+  
 	if(style_object && p_metadata.name != "case_opening_overview")
 	{
 			p_result.push(" style='");
@@ -886,7 +871,8 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 			p_result.push("'");
 	}
 
-	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+  var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+  
 	if(path_to_onfocus_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
@@ -898,7 +884,6 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 	}
 
-
 	p_result.push(" oninput='g_textarea_oninput(\"");
 	p_result.push(p_object_path);
 	p_result.push("\",\"");
@@ -906,10 +891,9 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push("\",\"");
 	p_result.push(p_dictionary_path);
 	p_result.push("\",this.value)' ");
-
-
 	
-	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+  f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+  
 	if(path_to_onclick_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
@@ -923,19 +907,15 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push("</textarea>");
 }
 
-
 function convert_object_path_to_jquery_id(p_value)
 {
 	return p_value.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_")
 }
 
-
 function make_c3_date(p_value)
 {
 	//'%Y-%m-%d %H:%M:%S
-	
 	var date_time = new Date(p_value);
-
 	var result = [];
 
 	result.push(date_time.getFullYear());
@@ -956,21 +936,20 @@ function make_c3_date(p_value)
 
 function get_style_string(p_specicification_style_string)
 {
-
     var result = [];
-
     var properly_formated_style = p_specicification_style_string;
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
 
-
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
     var items = properly_formated_style.split(";")
+
     for(var i in items)
     {
         var pair = items[i].split(":");
+
         switch(pair[0].toLocaleLowerCase())
         {
             case "top":
@@ -993,16 +972,13 @@ function get_style_string(p_specicification_style_string)
                 result.push(pair.join(":"));
             break;
         }
-
     }
 
     return result.join(";");
 }
 
-
 function get_only_size_and_position_string(p_specicification_style_string)
 {
-
     var result = [];
 
     var properly_formated_style = p_specicification_style_string;
@@ -1010,13 +986,14 @@ function get_only_size_and_position_string(p_specicification_style_string)
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
 
-
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
     var items = properly_formated_style.split(";")
+
     for(var i in items)
     {
         var pair = items[i].split(":");
+
         switch(pair[0].toLocaleLowerCase())
         {
             case "top":
@@ -1037,7 +1014,6 @@ function get_only_size_and_position_string(p_specicification_style_string)
                 result.push(pair.join(":"));
                 break;
         }
-
     }
 
     return result.join(";");
@@ -1045,9 +1021,7 @@ function get_only_size_and_position_string(p_specicification_style_string)
 
 function get_only_font_style_string(p_specicification_style_string)
 {
-
     var result = [];
-
     var properly_formated_style = p_specicification_style_string;
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
@@ -1055,6 +1029,7 @@ function get_only_font_style_string(p_specicification_style_string)
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
     var items = properly_formated_style.split(";")
+
     for(var i in items)
     {
         var pair = items[i].split(":");
@@ -1099,19 +1074,15 @@ function get_chart_size(p_style_string)
 	var width_regex = /"width":(\d+\.?\d*),/;
 	var height_regex = /"height":(\d+\.?\d*),/;
 
-
 	var outer_witdh =  null;
 	var outer_height = null;
 	var outer_top = null;
 	var outer_left = null;
 
-
 	var new_top = null;
 	var new_left = null;
 	var new_width = null;
 	var new_height = null;
-
-
 
 	var match = top_regex.exec(p_style_string);
 	outer_top = new Number(match[1]);
