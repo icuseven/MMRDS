@@ -376,7 +376,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			)
 		)
 		{
-					p_result.push(" readonly='true' ");
+      p_result.push(" readonly='true' ");
 		}
 
 		p_result.push(" style='");
@@ -386,7 +386,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		if(style_object && p_metadata.type !== 'button')
 		{
 			p_result.push(get_style_string(style_object.control.style));
-		}
+    }
 
 		p_result.push("' ");
 		p_result.push(" class='");
@@ -402,19 +402,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_result.push(p_metadata.decimal_precision);
 		}
 
-		if(p_metadata.type=="date")
-		{
-			p_result.push(" form-control date-control");
-		}
+		if(p_metadata.type=="date") p_result.push(` form-control date-control`);
+
+    if (p_metadata.type === 'date' && p_metadata.name === 'case_locked_date') p_result.push(` plain-date-control`);
 		
-		if(p_metadata.type=="button")
-		{
-			p_result.push(" btn btn-secondary");
-		}
+		if(p_metadata.type=="button") p_result.push(` btn btn-secondary`);
 		
 		p_result.push("' dpath='");
 		p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
-		
 
 		if(p_ctx!=null)
 		{
@@ -544,6 +539,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
         page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 			}
 		}
+
+    if (p_metadata.type === 'date' && p_metadata.name === 'case_locked_date') p_result.push(` disabled="true" `);
 
 	p_result.push("/>");
 	
@@ -859,7 +856,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 		)
 	)
 	{
-				p_result.push(" readonly='true' ");
+      p_result.push(" readonly='true' ");
 	}
 
   var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];

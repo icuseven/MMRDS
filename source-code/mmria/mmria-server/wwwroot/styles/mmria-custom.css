@@ -578,6 +578,10 @@ button.link {
   transform: translateY(-50%);
 }
 
+.faux-form-control {
+
+}
+
 
 /* Vertical align the calendar icons */
 ::-webkit-inner-spin-button {
@@ -1487,7 +1491,8 @@ button.link {
 
 .construct-output input,
 .construct-output textarea,
-.construct-output select {
+.construct-output select,
+.construct-output .faux-form-control {
     background-color: #FFFFFF;
     border: var(--border-width) solid;
     border-color: var(--neutral);
@@ -1586,6 +1591,14 @@ button.link {
 /* The buttons that will accomodate to the spinner */
 .construct-output [data-render-type="button"] input {
   width: 100%;
+}
+
+/* Specific Styles for Case Locked Date on Home Record */
+.construct-output .plain-date-control,
+.construct-output .plain-date-control:disabled,
+.construct-output .plain-date-control:read-only {
+  background-color: transparent;
+  border: none;
 }
 
 /* ~~~~~~~ Rich Text Editor ~~~~~~~ */
