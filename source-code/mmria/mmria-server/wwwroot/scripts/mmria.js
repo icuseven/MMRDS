@@ -302,16 +302,18 @@ var $mmria = function()
                 $('.ui-widget-overlay').bind('click', function () {
                   dialog_div.dialog('close');
                 });
-
+/*
                 const currentHash = location.hash;
                 $(window).bind('hashchange', function () {
                   if (currentHash !== location.hash) {
                     dialog_div.dialog('close');
                   }
-                });
+                });*/
               }
             });
 
+            $('.confirmLink').unbind('click');
+            $('.cancelLink').unbind('click');
         
             $(".confirmLink").click
             (
