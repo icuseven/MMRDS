@@ -1554,6 +1554,8 @@ function quick_edit_header_render(
 ) {
   p_result.push("<div data-header='quick-edit' class='construct__header'>");
 
+  let case_is_locked = is_case_locked(g_data);
+
   render_validation_error_summary(
     p_result,
     p_metadata,
