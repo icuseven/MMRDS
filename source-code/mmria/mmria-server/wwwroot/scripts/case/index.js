@@ -30,6 +30,7 @@ var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
+var g_previous_case_status = null;
 
 
 function g_set_data_object_from_path(
