@@ -2177,6 +2177,42 @@ function autosave() {
   }
 }
 
+function is_case_view_locked(p_case)
+{
+    let result = false;
+
+    let selected_value = 9999;
+    
+    if
+    (
+        p_case.case_status &&
+        p_case.case_status != ""
+    )
+    {
+        selected_value = new Number(p_case.case_status);
+    }
+    
+    if
+    (
+        p_case.case_status &&
+        p_case.case_locked_date != "" &&
+        (
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
+        )
+    )
+    {
+        if (! g_is_confirm_for_case_lock)
+        {
+            result = true;
+        }
+    }
+
+    return result;
+}
+
+
 
 function is_case_locked(p_case)
 {

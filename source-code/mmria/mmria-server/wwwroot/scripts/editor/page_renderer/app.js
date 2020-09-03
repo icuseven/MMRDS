@@ -141,11 +141,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
               ${p_ui.case_view_list.map((item, i) => {
 
                 let is_checked_out = is_case_checked_out(item.value);
+                let case_is_locked = is_case_view_locked(item.value);
+
                 // let checked_out_html = ' [not checked out] ';
                 let checked_out_html = '';
                 let delete_enabled_html = ''; 
 
-                if(g_is_data_analyst_mode)
+                if(case_is_locked || g_is_data_analyst_mode)
                 {
                     // checked_out_html = ' [ read only ] ';
                     checked_out_html = '';
