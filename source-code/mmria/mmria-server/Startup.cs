@@ -554,7 +554,7 @@ namespace mmria.server
                 string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{sid}";
                 var curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                 string session_json = curl.execute();
-                var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session>(session_json);
+                var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(session_json);
 
                 var userName = context.Principal.Identities.First(
                                 u => u.IsAuthenticated &&
@@ -617,6 +617,7 @@ namespace mmria.server
                               session.user_id, //user_id = 
                               session.ip, //ip = 
                               session.session_event_id, // session_event_id = 
+                              session.role_list,
                               session.data
                           );
 

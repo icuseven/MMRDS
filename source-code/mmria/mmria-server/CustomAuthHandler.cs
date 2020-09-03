@@ -24,7 +24,11 @@ namespace mmria.server.authentication
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // Get Authorization header value
-            if(Request.Cookies.ContainsKey("sid") && !string.IsNullOrWhiteSpace(Request.Cookies["sid"]))
+            if
+            (
+                Request.Cookies.ContainsKey("sid") && 
+                !string.IsNullOrWhiteSpace(Request.Cookies["sid"])
+            )
             {
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
@@ -33,7 +37,7 @@ namespace mmria.server.authentication
                 var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
 
-                string user_name = null;
+                mmria.server.model.actor.Session_MessageDTO session_message = null;
                 try
                 {
                     string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
@@ -43,8 +47,8 @@ namespace mmria.server.authentication
                     var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                     var responseFromServer =  session_message_curl.execute();
 
-                    var session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
-                    user_name = session_message.user_id;
+                    session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
+
                 }
                 catch(System.Exception ex)
                 {
@@ -52,11 +56,15 @@ namespace mmria.server.authentication
 
                 } 
 
-                if(!string.IsNullOrWhiteSpace(user_name))
+                if
+                (
+                    session_message != null &&
+                    !string.IsNullOrWhiteSpace(session_message.user_id)
+                )
                 {
                     mmria.common.model.couchdb.user user = null;
 
-
+/*
                     try
                     {
                         string request_string = $"{config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user_name.ToLower())}";
@@ -69,13 +77,13 @@ namespace mmria.server.authentication
                     catch(System.Exception ex)
                     {
                         System.Console.WriteLine (ex);
-                    } 
+                    } */
 
                     const string Issuer = "https://contoso.com";
                     var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Name, user_name, ClaimValueTypes.String, Issuer));
+                    claims.Add(new Claim(ClaimTypes.Name, session_message.user_id, ClaimValueTypes.String, Issuer));
     
-                    foreach(var role in user.roles)
+                    foreach(var role in session_message.role_list)
                     {
                         if(role == "_admin")
                         {
@@ -83,7 +91,7 @@ namespace mmria.server.authentication
                         }
                     }
 
-                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user_name).Select( jr => jr.role_name).Distinct())
+                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(session_message.user_id).Select( jr => jr.role_name).Distinct())
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                     }

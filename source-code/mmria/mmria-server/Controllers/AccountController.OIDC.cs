@@ -317,6 +317,19 @@ namespace mmria.common.Controllers
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
 
+                List<string> role_list = new List<string>();
+                foreach(var role in user.roles)
+                {
+                    if(role == "_admin")
+                    {
+                        role_list.Add("installation_admin");
+                    }
+                }
+
+                foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
+                {
+                    role_list.Add(role);
+                }
 
 
                 var Session_Message = new mmria.server.model.actor.Session_Message
@@ -331,6 +344,7 @@ namespace mmria.common.Controllers
                     user.name, //user_id = 
                     this.GetRequestIP(), //ip = 
                     Session_Event_Message._id, // session_event_id = 
+                    role_list,
                     session_data
                 );
 
