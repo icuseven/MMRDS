@@ -56,14 +56,15 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_post_html_render.push(`
           $('#g_data_home_record_case_status_case_locked_date input').hide();
 
-          if (
-            ${g_data.home_record.case_status.abstraction_begin_date.length > 0}  &&
-            ${g_data.home_record.case_status.abstraction_complete_date.length > 0} &&
-            ${g_data.home_record.case_status.projected_review_date.length > 0} &&
-            ${g_data.home_record.case_status.case_locked_date !== null}
-          )
+          if (${
+            g_data.home_record.case_status.abstraction_begin_date.length > 0 &&
+            g_data.home_record.case_status.abstraction_complete_date.length > 0 &&
+            g_data.home_record.case_status.projected_review_date.length > 0 &&
+            g_data.home_record.case_status.case_locked_date != null &&
+            g_data.home_record.case_status.overall_case_status !== '9999'
+            })
           {
-            if (${g_data.home_record.case_status.case_locked_date.length > 0}) $('#g_data_home_record_case_status_case_locked_date input').show();
+            $('#g_data_home_record_case_status_case_locked_date input').show();
           }
         `);
 
