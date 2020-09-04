@@ -358,7 +358,7 @@ namespace mmria.server.Controllers
                         {
                             ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
                             IsPersistent = false,
-                            AllowRefresh = false,
+                            AllowRefresh = true,
                         });
                 }
 
@@ -604,9 +604,9 @@ namespace mmria.server.Controllers
                 userPrincipal,
                 new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(Program.config_session_idle_timeout_minutes),
                     IsPersistent = false,
-                    AllowRefresh = false,
+                    AllowRefresh = true,
                 });
 
         }

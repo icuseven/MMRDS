@@ -213,6 +213,7 @@ namespace mmria.common.Controllers
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
             var config_timer_password = _configuration["mmria_settings:timer_password"];
 
+            var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
             mmria.common.model.couchdb.user user = null;
 			try
 			{
@@ -331,14 +332,14 @@ namespace mmria.common.Controllers
                     role_list.Add(role);
                 }
 
-
+                var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes);
                 var Session_Message = new mmria.server.model.actor.Session_Message
                 (
                     Guid.NewGuid().ToString(), //_id = 
                     null, //_rev = 
                     DateTime.Now, //date_created = 
                     DateTime.Now, //date_last_updated = 
-                    null, //date_expired = 
+                    session_expiration_datetime, //date_expired = 
 
                     true, //is_active = 
                     user.name, //user_id = 
@@ -349,8 +350,8 @@ namespace mmria.common.Controllers
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
-                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
+                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
                 return RedirectToAction("Index", "HOME");
