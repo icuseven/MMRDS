@@ -54,16 +54,16 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
         p_post_html_render.push(`
-          $('#g_data_home_record_case_status_case_locked_date span').hide();
+          $('#g_data_home_record_case_status_case_locked_date input').hide();
 
           if (
-            ${g_data.home_record.case_status.abstraction_begin_date.length} > 0 &&
-            ${g_data.home_record.case_status.abstraction_complete_date.length} > 0 &&
-            ${g_data.home_record.case_status.projected_review_date.length} > 0 &&
-            ${g_data.home_record.case_status.case_locked_date.length} > 0
+            ${g_data.home_record.case_status.abstraction_begin_date.length > 0}  &&
+            ${g_data.home_record.case_status.abstraction_complete_date.length > 0} &&
+            ${g_data.home_record.case_status.projected_review_date.length > 0} &&
+            ${g_data.home_record.case_status.case_locked_date != null}
           )
           {
-            $('#g_data_home_record_case_status_case_locked_date input').show();
+            if (${g_data.home_record.case_status.case_locked_date.length > 0}) $('#g_data_home_record_case_status_case_locked_date input').show();
           }
         `);
 
