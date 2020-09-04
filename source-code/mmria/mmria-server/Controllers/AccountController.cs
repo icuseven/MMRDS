@@ -132,27 +132,19 @@ namespace mmria.server.Controllers
 
 			try
 			{
-
-
                 var unsuccessful_login_attempts_number_before_lockout = Program.config_unsuccessful_login_attempts_number_before_lockout;
                 var unsuccessful_login_attempts_within_number_of_minutes = Program.config_unsuccessful_login_attempts_within_number_of_minutes;
                 var unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
                 var password_days_before_expires = Program.config_pass_word_days_before_expires;
 
-
                 var is_locked_out = false;
                 var failed_login_count = 0;
                 var is_app_prefix_ok = false;
-
-
-
-                
                 
                 DateTime grace_period_date = DateTime.Now;
 
                 try
                 {
-
                     var user_request_url = $"{Program.config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
                     var user_request_curl = new cURL("GET", null, user_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
                     string user_response_string = await user_request_curl.executeAsync ();
@@ -188,26 +180,7 @@ namespace mmria.server.Controllers
 
                     var MaxRange = DateTime.Now.AddMinutes(-unsuccessful_login_attempts_within_number_of_minutes);
                     session_event_response.rows.Sort(new mmria.common.model.couchdb.Compare_Session_Event_By_DateCreated<mmria.common.model.couchdb.session_event>());
-/*
-                    if(password_days_before_expires > 0)
-                    {
-                        var date_of_last_password_change = DateTime.MinValue;
-                
-                        foreach(var session_event in session_event_response.rows)
-                        {
-                            if(session_event.value.action_result == mmria.common.model.couchdb.session_event.session_event_action_enum.password_changed)
-                            {
-                                date_of_last_password_change = session_event.value.date_created;
-                                break;
-                            }
-                        }
 
-                        if(date_of_last_password_change != DateTime.MinValue)
-                        {
-                            days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
-                        }
-                    }
- */
 
                     foreach(var session_event in session_event_response.rows.Where(row=> row.value.date_created >= MaxRange))
                     {
@@ -413,16 +386,7 @@ namespace mmria.server.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout() 
         {
-            await HttpContext.SignOutAsync
-            (
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(-5),
-                    IsPersistent = false,
-                    AllowRefresh = true,
-                }
-            );
+
 
             if
             (
@@ -430,10 +394,69 @@ namespace mmria.server.Controllers
                 _configuration["sams:is_enabled"].ToLower() == "true" 
             )
             {
+
+                var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
+                var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
+                var config_timer_password = _configuration["mmria_settings:timer_password"];
+                var config_db_prefix = _configuration["mmria_settings:db_prefix"];
+
+                mmria.server.model.actor.Session_MessageDTO session_message = null;
+                try
+                {
+                    string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
+                    System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
+				
+                    
+                    var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+                    var responseFromServer =  session_message_curl.execute();
+
+                    session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
+
+                }
+                catch(System.Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+
+                } 
+
+                session_message.date_expired = DateTime.Now;
+
+                var Session_Message = new mmria.server.model.actor.Session_Message
+                (
+                    session_message._id,
+                    session_message._rev, //_rev = 
+                    session_message.date_created, //date_created = 
+                    session_message.date_last_updated, //date_last_updated = 
+                    session_message.date_expired, //date_expired = 
+
+                    session_message.is_active, //is_active = 
+                    session_message.user_id, //user_id = 
+                    session_message.ip, //ip = 
+                    session_message.session_event_id, // session_event_id = 
+                    session_message.role_list,
+                    session_message.data
+                );
+
+                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+
+
                 return Redirect(_configuration["sams:logout_url"]);
             }
             else
             {
+
+                await HttpContext.SignOutAsync
+                (
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(-5),
+                        IsPersistent = false,
+                        AllowRefresh = true,
+                    }
+                );
+
+
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             
