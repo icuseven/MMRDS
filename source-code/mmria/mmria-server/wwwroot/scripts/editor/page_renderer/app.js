@@ -189,15 +189,19 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
                 const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                 const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
-                const projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-                const actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists               
+                let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+                let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+                if (actualReviewDate.length > 0 && projectedReviewDate < 1) projectedReviewDate = '(blank)';
+                if (projectedReviewDate.length > 0 && actualReviewDate < 1) actualReviewDate = '(blank)';
 
                 return (
                   `<tr class="tr" path="${caseID}">
                       <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
                         ${checked_out_html}</td>
                       <td class="td" scope="col">${currentCaseStatus}</td>
-                      <td class="td">${projectedReviewDate} ${projectedReviewDate && actualReviewDate ? `, ${actualReviewDate}` : actualReviewDate}</td>
+                      <td class="td">
+                        ${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}
+                      </td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
                       <td class="td">
@@ -212,7 +216,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         `) : ''}
                       </td>
                       <td class="td">
-                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" ${delete_enabled_html} >Click twice to delete</button>
+                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>
                       </td>
                     </tr>`
                   );
