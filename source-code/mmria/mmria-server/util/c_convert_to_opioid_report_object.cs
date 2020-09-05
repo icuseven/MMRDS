@@ -6,6 +6,38 @@ namespace mmria.server.util
 {
 	public partial class c_convert_to_opioid_report_object
 	{
+
+        public static Dictionary<string,bool> Id_List = new Dictionary<string,bool>(StringComparer.OrdinalIgnoreCase)
+        {
+{"044a11ce-f961-43e2-2359-6114764029ad", false},
+{"13630b86-cbb6-dc74-cb26-95003a49f9ed", false},
+{"145ea4c7-bd87-b500-aafc-95b13dd7fb21", false},
+{"280554aa-7005-ab54-5d7e-a844e567d829", false},
+{"2b4b3fee-a8a3-306a-dcdb-096a907775e7", false},
+{"2effcef7-8ddc-49fd-19de-6207e82cd2eb", false},
+{"31006b17-e317-c19f-5583-c8bb7812827a", false},
+{"36101a7d-bc4e-b1cd-667a-24d3eca76d80", false},
+{"363a43df-b4e6-2c7b-be75-47a00d641e5c", false},
+{"3c492399-a75a-82f0-79fe-c6f96969ce6c", false},
+{"55594560-700c-de11-f419-039e0cf36f3d", false},
+{"584c1700-b168-199c-bd74-a318f0f68771", false},
+{"5a60a554-5d2a-a330-1731-922780538d1a", false},
+{"5d768211-987a-e2e6-32b4-2bdf5db82e15", false},
+{"63a284ed-54ec-f2fa-6349-988533398322", false},
+{"7353c6f6-87db-0feb-120a-1148ecc8ca75", false},
+{"73ead686-6427-4d06-800e-dd12f82b9892", false},
+{"76394821-2c51-8ec9-284b-fa5bc17a4fce", false},
+{"96a9d1bc-1246-201c-8da7-92f82523ed89", false},
+{"9918e6bf-fcb3-b9f9-7a0b-9c818fa4b6a8", false},
+{"a273b35b-b380-b947-3ea3-cfeb49a8edb5", false},
+{"ae4e4472-8dde-4e83-ad58-a2b658bdc23e", false},
+{"c5570e88-c433-4c46-b796-0c9876d846df", false},
+{"cf39b440-fa60-305e-f9ce-bc83f39e128b", false},
+{"d5f0970d-8ff8-d50d-2c72-6fe47306b9d0", false},
+{"dbab861c-16fa-174d-7449-fc2e187c1d6e", false},
+{"e71f4c4f-86a1-c182-72ac-9a17186e9712", false},
+{"ec4dea00-9401-6f96-5d82-5afee7321f1f", false}
+        };
 		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
 
 		string source_json;
@@ -2097,171 +2129,28 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
 			p_opioid_report_value.indicator_id = "mDeathsbyRaceEth";
 			p_opioid_report_value.value = 1;
 
-			//if (p_is_pregnancy_related)
-			//{
-				//HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
+            var race_ethnicity_result = get_race_ethnicity(p_source_object);
 
-				var race_ethnicity_result = get_race_ethnicity(p_source_object);
+            switch(race_ethnicity_result)
+            {
+                case "9999":
+                    p_opioid_report_value.field_id = "MRaceEth20";
+                break;
+                case "hispanic":
+                    p_opioid_report_value.field_id = "MRaceEth3";
+                break;
+                case "black":
+                    p_opioid_report_value.field_id = "MRaceEth4";
+                break;
+                case "white":
+                    p_opioid_report_value.field_id = "MRaceEth5";
+                break;
+                case "other":
+                    p_opioid_report_value.field_id = "MRaceEth18";
+                break;
+            }
 
-				switch(race_ethnicity_result)
-				{
-					case "9999":
-						p_opioid_report_value.field_id = "MRaceEth20";
-					break;
-					case "hispanic":
-						p_opioid_report_value.field_id = "MRaceEth3";
-					break;
-					case "black":
-						p_opioid_report_value.field_id = "MRaceEth4";
-					break;
-					case "white":
-						p_opioid_report_value.field_id = "MRaceEth5";
-					break;
-					case "other":
-						p_opioid_report_value.field_id = "MRaceEth18";
-					break;
-				}
 
-/*
-
-				if (ethnicity_set.Count() == 0)
-				{
-					//p_report_object.mDeathsbyRaceEth.blank = 1;
-					p_opioid_report_value.field_id = "MRaceEth20";
-					return;
-				}
-
-				
-				bool is_blank = true;
-				
-				if (ethnicity_set.Contains(ethnicity_enum.hispanic))
-				{
-					//p_report_object.mDeathsbyRaceEth.hispanic  = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth3";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
-				{
-					//p_report_object.mDeathsbyRaceEth.non_hispanic_black  = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth4";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
-				{
-					//p_report_object.mDeathsbyRaceEth.non_hispanic_white = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth5";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
-				{
-					//p_report_object.mDeathsbyRaceEth.american_indian_alaska_native = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth6";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
-				{
-					//p_report_object.mDeathsbyRaceEth.native_hawaiian = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth7";
-				}
-
-			
-				if (ethnicity_set.Contains (ethnicity_enum.guamanian_or_chamorro))
-				{
-					//p_report_object.mDeathsbyRaceEth.guamanian_or_chamorro = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth8";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.samoan))
-				{
-					//p_report_object.mDeathsbyRaceEth.samoan = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth9";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
-				{
-					//p_report_object.mDeathsbyRaceEth.other_pacific_islander = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth10";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
-				{
-					//p_report_object.mDeathsbyRaceEth.asian_indian = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth11";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.filipino))
-				{
-					//p_report_object.mDeathsbyRaceEth.filipino = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth12";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.korean))
-				{
-					//p_report_object.mDeathsbyRaceEth .korean = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth13";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
-				{
-					//p_report_object.mDeathsbyRaceEth.other_asian = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth14";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.chinese))
-				{
-					//p_report_object.mDeathsbyRaceEth.chinese = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth15";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.japanese))
-				{
-					//p_report_object.mDeathsbyRaceEth.japanese = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth16";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
-				{
-					//p_report_object.mDeathsbyRaceEth.vietnamese = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth17";
-				}
-			
-				if (ethnicity_set.Contains (ethnicity_enum.other))
-				{
-					//p_report_object.mDeathsbyRaceEth.other = 1;
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth18";
-				}
-
-				if (ethnicity_set.Contains (ethnicity_enum.not_specified))
-				{
-					is_blank = false;
-					p_opioid_report_value.field_id = "MRaceEth19";
-				}
-
-				if (is_blank)
-				{
-					//p_report_object.mDeathsbyRaceEth.blank = 1;
-					p_opioid_report_value.field_id = "MRaceEth20";
-					return;
-				}
-				*/
-				//System.Console.WriteLine ("break");
-			//}
 		}
 
 
@@ -2285,8 +2174,13 @@ MPregRel5	(Blank)
 				
 				var list = List_Look_Up["/committee_review/pregnancy_relatedness"];
 
-				string val = get_value(p_source_object, "committee_review/pregnancy_relatedness");
-				if(val != null)
+				var val_dynamic = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null)
 				{
 					switch(val)
 					{
@@ -2401,75 +2295,29 @@ MPregRel5	(Blank)
 				}
 		}
 
-/*
-		private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object, string p_mmria_path, bool p_is_pregnance_related)
-        {
-            var list = List_Look_Up["/" + p_mmria_path];
-
-            //p_result = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
-
-            foreach(var kvp in list)
-            {
-                p_result.Add(kvp.Key, 0);
-            }
-
-			if(p_is_pregnance_related)
-			{
-				if (p_report_object.mPregRelated.pregnancy_related == 1)
-				{
-					try
-					{	
-						string val = get_value(p_source_object, p_mmria_path);
-						if(val != null && p_result.ContainsKey(val))
-						{
-							p_result[val] = 1;
-						}
-						else
-						{
-							p_result["9999"] = 1;
-						}
-					}
-					catch(Exception ex)
-					{
-						System.Console.WriteLine (ex);
-					}
-				}
-			}
-            else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1)
-			{
-            	try
-                {	
-                    string val = get_value(p_source_object, p_mmria_path);
-                    if(val != null && p_result.ContainsKey(val))
-                    {
-                        p_result[val] = 1;
-                    }
-                    else
-                    {
-                       p_result["9999"] = 1;
-                    }
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-            }
-        }
-*/
-
 		private void popluate_mDeathSubAbuseEvi (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
 			int test_int;
 
-
+            var mmria_id = get_value(p_source_object, "_id");
+            if(mmria_id == "73ead686-6427-4d06-800e-dd12f82b9892")
+            {
+                System.Console.Write("here");
+            }
 			//mDeathSubAbuseEvi	Deaths with Evidence of Substance Use in Prenatal Records	MEviSub1	Yes	1	prenatal/evidence_of_substance_use=Yes	prenatal/evidence_of_substance_use = 1
 
 			try
 			{	
 
-				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				var val_dynamic = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+
+                if(val != null && int.TryParse(val, out test_int) && test_int == 1)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathSubAbuseEvi";
@@ -2488,8 +2336,15 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				var val_dynamic = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				
+                string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+
+                if(val != null && int.TryParse(val, out test_int) && test_int == 0)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathSubAbuseEvi";
@@ -2507,15 +2362,27 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if
+				var val_dynamic = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				
+                string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+
+                if
 				(
 					val == null || 
 					string.IsNullOrWhiteSpace(val) || 
 					(val != null && int.TryParse(val, out test_int) && test_int == blank_value)
 				)
 				{
+                    
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    if(Id_List.ContainsKey(mmria_id))
+                    {
+                        Id_List[mmria_id] = true;
+                    }
 					curr.indicator_id = "mDeathSubAbuseEvi";
 					curr.field_id = "MEviSub3";
 					curr.value = 1;
@@ -2530,8 +2397,14 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 8888)
+				var val_dynamic = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                
+                if(val != null && int.TryParse(val, out test_int) && test_int == 8888)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathSubAbuseEvi";
@@ -2558,8 +2431,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 1)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2580,8 +2458,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 0)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2602,8 +2485,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 2)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2624,8 +2512,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2646,8 +2539,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				var val_dynamic = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2667,8 +2565,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 1)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2687,8 +2590,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 0)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2708,8 +2616,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 2)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2728,8 +2641,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				var val_dynamic = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2749,8 +2667,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val == null || string.IsNullOrWhiteSpace(val) || (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				var val_dynamic = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val == null || string.IsNullOrWhiteSpace(val) || (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2771,8 +2694,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 1)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2792,8 +2720,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 0)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2813,8 +2746,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 2)
+				var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 2)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2834,8 +2772,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
+				var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val != null && int.TryParse(val, out test_int) && test_int == 7777)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -2855,8 +2798,13 @@ MPregRel5	(Blank)
 			try
 			{	
 
-				string val = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
-				if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_sucide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
