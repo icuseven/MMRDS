@@ -7,37 +7,6 @@ namespace mmria.server.util
 	public partial class c_convert_to_opioid_report_object
 	{
 
-        public static Dictionary<string,bool> Id_List = new Dictionary<string,bool>(StringComparer.OrdinalIgnoreCase)
-        {
-{"044a11ce-f961-43e2-2359-6114764029ad", false},
-{"13630b86-cbb6-dc74-cb26-95003a49f9ed", false},
-{"145ea4c7-bd87-b500-aafc-95b13dd7fb21", false},
-{"280554aa-7005-ab54-5d7e-a844e567d829", false},
-{"2b4b3fee-a8a3-306a-dcdb-096a907775e7", false},
-{"2effcef7-8ddc-49fd-19de-6207e82cd2eb", false},
-{"31006b17-e317-c19f-5583-c8bb7812827a", false},
-{"36101a7d-bc4e-b1cd-667a-24d3eca76d80", false},
-{"363a43df-b4e6-2c7b-be75-47a00d641e5c", false},
-{"3c492399-a75a-82f0-79fe-c6f96969ce6c", false},
-{"55594560-700c-de11-f419-039e0cf36f3d", false},
-{"584c1700-b168-199c-bd74-a318f0f68771", false},
-{"5a60a554-5d2a-a330-1731-922780538d1a", false},
-{"5d768211-987a-e2e6-32b4-2bdf5db82e15", false},
-{"63a284ed-54ec-f2fa-6349-988533398322", false},
-{"7353c6f6-87db-0feb-120a-1148ecc8ca75", false},
-{"73ead686-6427-4d06-800e-dd12f82b9892", false},
-{"76394821-2c51-8ec9-284b-fa5bc17a4fce", false},
-{"96a9d1bc-1246-201c-8da7-92f82523ed89", false},
-{"9918e6bf-fcb3-b9f9-7a0b-9c818fa4b6a8", false},
-{"a273b35b-b380-b947-3ea3-cfeb49a8edb5", false},
-{"ae4e4472-8dde-4e83-ad58-a2b658bdc23e", false},
-{"c5570e88-c433-4c46-b796-0c9876d846df", false},
-{"cf39b440-fa60-305e-f9ce-bc83f39e128b", false},
-{"d5f0970d-8ff8-d50d-2c72-6fe47306b9d0", false},
-{"dbab861c-16fa-174d-7449-fc2e187c1d6e", false},
-{"e71f4c4f-86a1-c182-72ac-9a17186e9712", false},
-{"ec4dea00-9401-6f96-5d82-5afee7321f1f", false}
-        };
 		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
 
 		string source_json;
@@ -2301,10 +2270,7 @@ MPregRel5	(Blank)
 			int test_int;
 
             var mmria_id = get_value(p_source_object, "_id");
-            if(mmria_id == "73ead686-6427-4d06-800e-dd12f82b9892")
-            {
-                System.Console.Write("here");
-            }
+            
 			//mDeathSubAbuseEvi	Deaths with Evidence of Substance Use in Prenatal Records	MEviSub1	Yes	1	prenatal/evidence_of_substance_use=Yes	prenatal/evidence_of_substance_use = 1
 
 			try
@@ -2379,10 +2345,6 @@ MPregRel5	(Blank)
 				{
                     
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                    if(Id_List.ContainsKey(mmria_id))
-                    {
-                        Id_List[mmria_id] = true;
-                    }
 					curr.indicator_id = "mDeathSubAbuseEvi";
 					curr.field_id = "MEviSub3";
 					curr.value = 1;
