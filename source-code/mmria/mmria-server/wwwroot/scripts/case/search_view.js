@@ -1,4 +1,4 @@
-function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_form_index, p_grid_index)
+function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_is_read_only, p_form_index, p_grid_index, p_valid_date_or_datetime, p_entered_date_or_datetime_value)
 {
     let result = {
         result : p_result,
@@ -11,7 +11,11 @@ function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data
         object_path:p_object_path,
         search_text:p_search_text,
         form_index: p_form_index,
-        grid_index: p_grid_index
+        grid_index: p_grid_index,
+        is_read_only: p_is_read_only,
+
+        is_valid_date_or_datetime: p_valid_date_or_datetime,
+        entered_date_or_datetime_value: p_entered_date_or_datetime_value
 
     };
 
@@ -42,7 +46,7 @@ function render_search_text(p_ctx)
                 let child = p_ctx.metadata.children[i];
                 if(p_ctx.data && child.type.toLocaleLowerCase() == "form")
                 {
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             }
@@ -56,7 +60,7 @@ function render_search_text(p_ctx)
 
                     if(p_ctx.data)
                     {
-                        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                         render_search_text(new_context);
                     }
                     
@@ -74,7 +78,7 @@ function render_search_text(p_ctx)
     
                         if(row_data)
                         {
-                            let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, row);
+                            let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, row, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                             new_context.multiform_index = row;
                             render_search_text(new_context);
                         }
@@ -89,7 +93,7 @@ function render_search_text(p_ctx)
                 let child = p_ctx.metadata.children[i];
                 if(p_ctx.data)
                 {
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.form_index, p_ctx.grid_index);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             }
@@ -102,7 +106,7 @@ function render_search_text(p_ctx)
                 {
                     let child = p_ctx.metadata.children[j];
                     
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.form_index, i);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, i, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             
@@ -513,7 +517,7 @@ function render_search_text_grid_control(p_ctx)
     for(let i = 0; i < p_ctx.metadata.children.length; i++)
     {
         let child = p_ctx.metadata.children[i];
-        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child.name, p_ctx.data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text);
+        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child.name, p_ctx.data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
 
         render_search_text(new_context);
 

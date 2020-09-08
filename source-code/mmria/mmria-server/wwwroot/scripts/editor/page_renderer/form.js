@@ -1554,7 +1554,13 @@ function quick_edit_header_render(
 ) {
   p_result.push("<div data-header='quick-edit' class='construct__header'>");
 
-  let case_is_locked = is_case_locked(g_data);
+
+  let save_and_continue_disable_attribute = " disabled='disabled' ";
+  if (!p_search_ctx.is_read_only) 
+  {
+    save_and_continue_disable_attribute = '';
+  }
+
 
   render_validation_error_summary(
     p_result,
@@ -1610,7 +1616,8 @@ function quick_edit_header_render(
   p_result.push('</p>');
   p_result.push('</div>');
   p_result.push("<div class='col col-4 text-right'>");
-  if (!(g_is_data_analyst_mode || case_is_locked)) {
+  if (! p_search_ctx.is_read_only) 
+  {
     p_result.push(` <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()'/>
                  <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
   }

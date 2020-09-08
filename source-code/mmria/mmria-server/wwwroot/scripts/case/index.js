@@ -238,8 +238,10 @@ function g_set_data_object_from_path(
         entered_date_or_datetime_value: entered_date_or_datetime_value,
       };
 
-      if (is_search_result) {
-        let new_context = get_seach_text_context(
+      if (is_search_result) 
+      {
+        let new_context = get_seach_text_context
+        (
           [],
           post_html_call_back,
           metadata,
@@ -248,7 +250,11 @@ function g_set_data_object_from_path(
           p_metadata_path,
           p_object_path,
           search_text,
-          ctx
+
+          ctx.form_index,
+          ctx.grid_index,
+           valid_date_or_datetime,
+         entered_date_or_datetime_value
         );
 
         render_search_text(new_context);

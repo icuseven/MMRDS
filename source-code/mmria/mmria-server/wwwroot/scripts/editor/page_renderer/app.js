@@ -261,10 +261,24 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             var search_text = p_ui.url_state.path_array[2].replace(/%20/g, " ");
             p_result.push("<section id='field_search_id'>");
 
+
+            let is_case_read_only = false;
+            let is_checked_out = is_case_checked_out(g_data);
+            let case_is_locked = is_case_locked(g_data);
+
+
+            if(case_is_locked || g_is_data_analyst_mode)
+            {
+                is_case_read_only = true;
+            }
+            else if(!is_checked_out)
+            {
+                is_case_read_only = true;
+            }
+
+            quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, { search_text: search_text, is_read_only: is_case_read_only });
             
-            quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, { search_text: search_text });
-            
-            var search_text_context = get_seach_text_context(p_result, [], p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
+            var search_text_context = get_seach_text_context(p_result, [], p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text, is_case_read_only);
 
             render_search_text(search_text_context);
 
