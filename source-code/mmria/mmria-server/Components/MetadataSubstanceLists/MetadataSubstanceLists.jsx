@@ -7,7 +7,7 @@ import { getValidTarget, substanceMappingAPI } from './helpers.js';
 import useStyles from './style.jsx';
 
 const Alert = {
-  Success: (message) => (
+  Success: ({ message }) => (
     <div
       className="alert alert-success text-right"
       style={{ width: '100%' }}
@@ -16,7 +16,7 @@ const Alert = {
       {message}
     </div>
   ),
-  Error: (message) => {
+  Error: ({ message }) => {
     <div
       className="alert alert-danger text-right"
       style={{ width: '100%' }}
@@ -59,7 +59,7 @@ class MetadataSubstanceLists extends React.Component {
           const listWithIds = substance_lists[listName].map((value, index) => {
             if (duplicatesMemo[listName][value.source_value] === undefined) {
               duplicatesMemo[listName][value.source_value] = false;
-            } else if (duplicatesMemo[listName][value.source_value === false]) {
+            } else if (duplicatesMemo[listName][value.source_value] === false) {
               duplicatesMemo[listName][value.source_value] = true;
             }
             return {
