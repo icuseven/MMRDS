@@ -238,8 +238,10 @@ function g_set_data_object_from_path(
         entered_date_or_datetime_value: entered_date_or_datetime_value,
       };
 
-      if (is_search_result) {
-        let new_context = get_seach_text_context(
+      if (is_search_result) 
+      {
+        let new_context = get_seach_text_context
+        (
           [],
           post_html_call_back,
           metadata,
@@ -248,7 +250,11 @@ function g_set_data_object_from_path(
           p_metadata_path,
           p_object_path,
           search_text,
-          ctx
+
+          ctx.form_index,
+          ctx.grid_index,
+           valid_date_or_datetime,
+         entered_date_or_datetime_value
         );
 
         render_search_text(new_context);
@@ -1879,14 +1885,20 @@ var save_queue = [];
 
 function enable_print_button(event) {
   const { value } = event.target;
-  const printButton = document.getElementById('print-case-form');
+  //duplicate print buttons being rendered
+  //targetting next sibling instead
+  const printButton = event.target.nextSibling; 
+  // const printButton = document.getElementById('print-case-form');
   printButton.disabled = !value; // if there is a value it will be enabled.
 }
 
-function print_case_onclick() {
-  const dropdown = document.getElementById('print_case_id');
+function print_case_onclick(event) {
+  const btn = event.target;
+  const dropdown = btn.previousSibling;
+  // const dropdown = document.getElementById('print_case_id');
   // get value of selected option
   const section_name = dropdown.value;
+
   if (section_name) {
     if (section_name == 'core-summary') {
       openTab('./core-elements', '_core_summary', 'all');

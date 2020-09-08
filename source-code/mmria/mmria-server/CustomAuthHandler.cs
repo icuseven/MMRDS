@@ -56,9 +56,17 @@ namespace mmria.server.authentication
 
                 } 
 
-                if
+
+                if(session_message.date_expired == null || session_message.date_expired.HasValue == false)
+                {
+                    return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
+                }
+                else if(session_message.date_expired.HasValue && session_message.date_expired.Value < System.DateTime.Now)
+                {
+                    return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
+                }
+                else if
                 (
-                    session_message != null &&
                     !string.IsNullOrWhiteSpace(session_message.user_id)
                 )
                 {

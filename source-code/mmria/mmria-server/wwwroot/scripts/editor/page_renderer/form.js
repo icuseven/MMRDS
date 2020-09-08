@@ -221,7 +221,7 @@ function form_render(
       }
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-      render_print_form_control(p_result, p_ui, p_metadata);
+        render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
       p_result.push('</div> <!-- end .construct__controller -->');
       p_result.push('</div>');
@@ -685,7 +685,7 @@ function form_render(
       }
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-      render_print_form_control(p_result, p_ui, p_metadata);
+        render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
       if (!(g_is_data_analyst_mode || case_is_locked)) {
@@ -758,9 +758,9 @@ function form_render(
       p_result.push("<div class='construct__footer'>");
       if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(`
-                        <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                         <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                        <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                        <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                         <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                        <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                     `);
       }
       p_result.push(
@@ -891,7 +891,7 @@ function form_render(
     }
     p_result.push('</div>');
     p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-    render_print_form_control(p_result, p_ui, p_metadata);
+      render_print_form_control(p_result, p_ui, p_metadata);
     p_result.push('</div>');
     p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
     if (!(g_is_data_analyst_mode || case_is_locked)) {
@@ -1501,9 +1501,9 @@ function form_render(
     );
     if (!(g_is_data_analyst_mode || case_is_locked)) {
       p_result.push(`
-                    <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                    <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                    <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                 `);
     }
     p_result.push(
@@ -1554,7 +1554,13 @@ function quick_edit_header_render(
 ) {
   p_result.push("<div data-header='quick-edit' class='construct__header'>");
 
-  let case_is_locked = is_case_locked(g_data);
+
+  let save_and_continue_disable_attribute = " disabled='disabled' ";
+  if (!p_search_ctx.is_read_only) 
+  {
+    save_and_continue_disable_attribute = '';
+  }
+
 
   render_validation_error_summary(
     p_result,
@@ -1610,7 +1616,8 @@ function quick_edit_header_render(
   p_result.push('</p>');
   p_result.push('</div>');
   p_result.push("<div class='col col-4 text-right'>");
-  if (!(g_is_data_analyst_mode || case_is_locked)) {
+  if (! p_search_ctx.is_read_only) 
+  {
     p_result.push(` <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()'/>
                  <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' ${save_and_continue_disable_attribute}/>`);
   }
@@ -1638,20 +1645,17 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
     p_result.push('<option value="">Select a form to print</option>');
 
     p_result.push('<optgroup label="Current form">');
-    let is_multi_form = false;
-    let path_to_check_multi_form = parseInt(p_ui.url_state.path_array[2]);
+
+    const path_to_check_multi_form = parseInt(p_ui.url_state.path_array[2]);
+    const recordNumber = path_to_check_multi_form + 1;
 
     if (!isNaN(path_to_check_multi_form)) {
       // Render options for specific 'Record Number'
       p_result.push(
-        '<option value="' +
-          p_metadata.name +
-          '" data-record="' +
-          (path_to_check_multi_form + 1) +
-          '">'
+        '<option value="' + p_metadata.name + '" data-record="' + recordNumber + '">'
       );
       p_result.push(
-        p_metadata.prompt + ' (Record ' + (path_to_check_multi_form + 1) + ')'
+        p_metadata.prompt + ' (Record ' + recordNumber + ')'
       );
       p_result.push('</option>');
     } else if (!isNullOrUndefined(p_data) && isNaN(path_to_check_multi_form)) {
@@ -1665,18 +1669,15 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
       p_result.push(p_metadata.prompt);
       p_result.push('</option>');
     }
-
     p_result.push('</optgroup>');
 
     p_result.push('<optgroup label="Other">');
-    p_result.push('<option value="core-summary">Core Elements Only</option>');
-    p_result.push('<option value="all">All Case Forms</option>');
+      p_result.push('<option value="core-summary">Core Elements Only</option>');
+      p_result.push('<option value="all">All Case Forms</option>');
     p_result.push('</optgroup>');
-
     p_result.push('</select>');
-    p_result.push(
-      `<input type='button' id="print-case-form" class='btn btn-primary ml-3' value='Print' onclick='print_case_onclick()' disabled="true"/>`
-    );
+
+    p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="Print" onclick="print_case_onclick(event)" disabled="true" />`);
   }
 }
 
