@@ -24,6 +24,7 @@ namespace mmria.server.model.actor
         string p_user_id,
         string p_ip,
         string p_session_event_id,
+        System.Collections.Generic.List<string> p_role_list,
         System.Collections.Generic.Dictionary<string,string> p_data
         )
         {
@@ -39,6 +40,7 @@ namespace mmria.server.model.actor
             user_id = p_user_id;
             ip = p_ip;
             session_event_id = p_session_event_id;
+            role_list = p_role_list;
             data = p_data;
             
         }
@@ -66,7 +68,36 @@ namespace mmria.server.model.actor
         public string ip {get; private set;}
         public string session_event_id {get; private set;}
 
+        public System.Collections.Generic.List<string> role_list {get; private set;}
+
         public System.Collections.Generic.Dictionary<string,string> data { get; private set; }
+
+    }
+
+    public class Session_MessageDTO
+	{
+        public Session_MessageDTO()
+        {
+            data = new System.Collections.Generic.Dictionary<string,string>();
+            role_list = new System.Collections.Generic.List<string> ();
+        }
+
+        public string _id {get;  set;}
+        public string _rev {get;  set;}
+		public string data_type { get;  set; } = "session";
+        public DateTime date_created {get;  set;}
+        public DateTime date_last_updated {get;  set;}
+
+        public DateTime? date_expired {get;  set;}
+
+        public bool is_active {get;  set;}
+        public string user_id {get;  set;}
+        public string ip {get;  set;}
+        public string session_event_id {get;  set;}
+        public System.Collections.Generic.List<string> role_list {get; set;}
+
+
+        public System.Collections.Generic.Dictionary<string,string> data { get;  set; }
 
     }
 

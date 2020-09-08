@@ -501,6 +501,17 @@ button.link {
   position: static;
 }
 
+/* .btn:focus:disabled,
+.btn:hover:disabled,
+.btn:disabled {
+  cursor: not-allowed;
+  text-decoration: none;
+} */
+
+.btn-icon {
+  display: block;
+}
+
 .anti-btn,
 .anti-btn:focus {
   background-color: transparent;
@@ -508,10 +519,6 @@ button.link {
   margin: 0;
   outline: none;
   padding: 0;
-}
-
-.btn-icon {
-  display: block;
 }
 
 .icn {
@@ -571,11 +578,96 @@ button.link {
   transform: translateY(-50%);
 }
 
+.faux-form-control {
+
+}
+
+
 /* Vertical align the calendar icons */
 ::-webkit-inner-spin-button {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+
+/*
+~~~ CUSTOM TIMEPICKER STYLES
+*/
+.datetime-control {
+  background-color: #FFFFFF;
+  border: var(--border-width) solid;
+  border-color: var(--neutral);
+  border-radius: var(--radius);
+	z-index: 1;
+}
+.datetime-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.datetime-control .datetime-date,
+.datetime-control .datetime-time {
+	border: none;
+}
+.datetime-control .datetime-date:focus,
+.datetime-control .datetime-time:focus,
+.datetime-control .datetime-fauxtime:focus {
+	outline: auto 3px rgba(255,102,1,.9);
+}
+
+.datetime-date + .datetime-time {
+  border-left: 1px solid;
+  border-color: var(--neutral);
+}
+
+.datetime-control .datetime-date {
+	border-right: none;
+	/* border-radius: 4px 0px 0px 4px; */
+}
+
+.datetime-control .datetime-date,
+.datetime-control .datetime-time {
+	box-shadow: none;
+}
+.datetime-control .datetime-date:focus,
+.datetime-control .datetime-time:focus {
+	box-shadow: none;
+}
+
+.datetime-control .datetime-time,
+.datetime-control .datetime-fauxtime {
+	border-radius: 0px 4px 4px 0px
+}
+.datetime-control .input-group > .form-control:not(:last-child) {
+	border-radius: 0px 4px 4px 0px
+}
+
+.time-icon-btn {
+	background-color: transparent;
+	border: none;
+	border-radius: 0px 4px 4px 0px;
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translate3d(0, -50%, 0);
+	z-index: 4;
+}
+
+.time-icon-btn,
+.datetime-time[disabled] + .time-icon-btn,
+.datetime-fauxtime[disabled] + .time-icon-btn {
+	cursor: default;
+}
+
+.time-icon-btn:focus,
+.time-icon-btn:active {
+	border: none;
+	outline: none;
+}
+
+.time-icon-btn svg {
+	display: block;
+	height: 22px;
+	width: 22px;
 }
 
 .table {
@@ -655,11 +747,6 @@ button.link {
 .table-pagination + .table,
 .table + .table-pagination {
   margin-top: .5rem;
-}
-
-.table-btn[disabled] {
-  cursor: not-allowed;
-  text-decoration: none;
 }
 
 .table-btn-link {
@@ -968,6 +1055,7 @@ button.link {
 
 .modal-header {
   border: none;
+  border-radius: var(--radius) var(--radius) 0 0;
   padding: .5rem 1rem;
 }
 
@@ -995,6 +1083,49 @@ button.link {
 }
 
 
+/*
+  jQuery UI
+*/
+.ui-dialog {
+  background-color: var(--white);
+  border-radius: var(--radius);
+}
+
+.ui-dialog-title {
+  font-size: 1.375rem;
+}
+
+.ui-dialog-titlebar-close {
+  background: none;
+  border: none;
+  color: var(--neutral-light);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  height: auto;
+  outline: none;
+  width: auto;
+}
+.ui-dialog-titlebar-close:focus,
+.ui-dialog-titlebar-close:hover {
+  border: none;
+  color: var(--white);
+  outline: none;
+}
+
+.ui-dialog-buttonpane {
+  display: none;
+}
+
+.ui-widget-overlay {
+  background-color: rgba(0,0,0,.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
 
 
 
@@ -1312,14 +1443,14 @@ button.link {
   font-weight: 400;
 }
 
-.construct__btn:hover[disabled] {
+/* .construct__btn:hover[disabled] {
   cursor: not-allowed;
   text-decoration: none;
 }
 
 .construct__btn + .construct__btn {
   margin-left: 5px;
-}
+} */
 
 .construct__body {
   border: var(--border-width) solid;
@@ -1360,7 +1491,8 @@ button.link {
 
 .construct-output input,
 .construct-output textarea,
-.construct-output select {
+.construct-output select,
+.construct-output .faux-form-control {
     background-color: #FFFFFF;
     border: var(--border-width) solid;
     border-color: var(--neutral);
@@ -1459,6 +1591,14 @@ button.link {
 /* The buttons that will accomodate to the spinner */
 .construct-output [data-render-type="button"] input {
   width: 100%;
+}
+
+/* Specific Styles for Case Locked Date on Home Record */
+.construct-output .plain-date-control,
+.construct-output .plain-date-control:disabled,
+.construct-output .plain-date-control:read-only {
+  background-color: transparent;
+  border: none;
 }
 
 /* ~~~~~~~ Rich Text Editor ~~~~~~~ */

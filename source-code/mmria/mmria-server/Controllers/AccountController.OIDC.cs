@@ -50,6 +50,8 @@ namespace mmria.common.Controllers
         private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;
 
+        private bool user_principal_created = false;
+
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
         {
@@ -58,24 +60,13 @@ namespace mmria.common.Controllers
             _configuration = configuration;
         }
         private IConfiguration _configuration;
-/*
-        public ActionResult Index()
-        {
-            if (TempData["email"] == null)
-            {
-                ViewBag.Message = "Log in to see your account.";
-            }
-            else
-            {
-                ViewBag.Message = $"Welcome back {TempData["email"]}!";
-                ViewBag.Content = $"Your user ID is: {TempData["id"]}";
-            }
-            return View();
-        }
-*/
+
         [AllowAnonymous] 
         public ActionResult SignIn()
         {
+
+            //Response.Cookies.Delete("sid");
+            //Response.Cookies.Delete("expires_at");
 
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
@@ -104,6 +95,9 @@ namespace mmria.common.Controllers
         [AllowAnonymous] 
         public async Task<ActionResult> SignInCallback()
         {
+
+            
+
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
@@ -219,6 +213,7 @@ namespace mmria.common.Controllers
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
             var config_timer_password = _configuration["mmria_settings:timer_password"];
 
+            var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
             mmria.common.model.couchdb.user user = null;
 			try
 			{
@@ -309,7 +304,7 @@ namespace mmria.common.Controllers
                 session_data["refresh_token"] = refresh_token;
                 session_data["expires_at"] = unix_time.ToString();
 
-                await create_user_principal(user.name, new List<string>(), unix_time.DateTime);
+                await create_user_principal(this.HttpContext, user.name, new List<string>(), unix_time.DateTime);
 
 
                 var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
@@ -323,76 +318,51 @@ namespace mmria.common.Controllers
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
 
+                List<string> role_list = new List<string>();
+                foreach(var role in user.roles)
+                {
+                    if(role == "_admin")
+                    {
+                        role_list.Add("installation_admin");
+                    }
+                }
 
+                foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
+                {
+                    role_list.Add(role);
+                }
 
+                var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes);
                 var Session_Message = new mmria.server.model.actor.Session_Message
                 (
                     Guid.NewGuid().ToString(), //_id = 
                     null, //_rev = 
                     DateTime.Now, //date_created = 
                     DateTime.Now, //date_last_updated = 
-                    null, //date_expired = 
+                    session_expiration_datetime, //date_expired = 
 
                     true, //is_active = 
                     user.name, //user_id = 
                     this.GetRequestIP(), //ip = 
                     Session_Event_Message._id, // session_event_id = 
+                    role_list,
                     session_data
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
-                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
+                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
                 //return RedirectToAction("Index", "HOME");
-                //return RedirectToAction("Index", "HOME");
-            }
-
-            return RedirectToAction("Index", "HOME");
-
-            // Generate JWT for token request
-            //var cert = new X509Certificate2(Server.MapPath("~/App_Data/cert.pfx"), "1234");
-            /*
-            var cert = new X509Certificate2();
-            var signingCredentials = new SigningCredentials(new X509SecurityKey(cert), SecurityAlgorithms.RsaSha256);
-            var header = new JwtHeader(signingCredentials);
-             
-            var header = new JwtHeader();
-            var payload = new JwtPayload
-            {
-                {"iss", sams_client_id},
-                {"sub", sams_client_id},
-                {"aud", $"{sams_endpoint_token}"},
-                {"jti", Guid.NewGuid().ToString("N")},
-                {"exp", (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds + 5 * 60}
-            };
-            var securityToken = new JwtSecurityToken(header, payload);
-            var handler = new JwtSecurityTokenHandler();
-            var tokenString = handler.WriteToken(securityToken);
-
-            // Send POST to make token request
-            using (var wb = new WebClient())
-            {
-                var data = new NameValueCollection();
-                data["client_assertion"] = tokenString;
-                data["client_assertion_type"] = HttpUtility.HtmlEncode("urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
-                data["code"] = code;
-                data["grant_type"] = "authorization_code";
-
-                //var response = wb.UploadValues($"{IdpUrl}/api/openid_connect/token", "POST", data);
-                var response = wb.UploadValues($"{sams_endpoint_token}", "POST", data);
-
-                var responseString = Encoding.ASCII.GetString(response);
-                dynamic tokenResponse = JObject.Parse(responseString);
-
-                var token = handler.ReadToken((String)tokenResponse.id_token) as JwtSecurityToken;
-                var userId = token.Claims.First(c => c.Type == "sub").Value;
-                var userEmail = token.Claims.First(c => c.Type == "email").Value;
-
-                TempData["id"] = userId;
-                TempData["email"] = userEmail;
                 //return RedirectToAction("Index", "HOME");
                 return RedirectToAction("Index", "HOME");
-            }*/
+
+            }
+
+
+            System.Console.WriteLine($"http_async_signin_called: {user_principal_created}");
+            TempData["user_name"] = user.name;
+            return View();
+
         }
 
 
@@ -440,7 +410,7 @@ namespace mmria.common.Controllers
             return default(T);
         }
 
-        public async Task create_user_principal(string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
+        public async Task create_user_principal(HttpContext p_context, string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
         {
             const string Issuer = "https://contoso.com";
             var claims = new List<Claim>();
@@ -477,16 +447,11 @@ namespace mmria.common.Controllers
                 int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
             }
 
+            var ticket = new AuthenticationTicket(userPrincipal,"custom");
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                userPrincipal,
-                new AuthenticationProperties
-                {
-                    ExpiresUtc = p_session_expire_date_time,
-                    IsPersistent = false,
-                    AllowRefresh = true,
-                });
+            p_context.User = userPrincipal;
+            System.Threading.Thread.CurrentPrincipal = userPrincipal;
+            user_principal_created = true;
 
         }
 

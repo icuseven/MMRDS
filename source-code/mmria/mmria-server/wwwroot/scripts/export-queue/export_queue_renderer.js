@@ -170,13 +170,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="init_inline_loader(de_identified_search_click)">Search</button>
 								<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 							</div>
-							<div class="form-group form-check mb-0">
-								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)" ${
-                  p_answer_summary.is_de_identify_standard_fields == true
-                    ? 'checked=true'
-                    : ''
-                } >
-								<label class="form-check-label font-weight-normal" for="include_pii">De-identify standard fields</label>
+							<div class="row">
 								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all()">
 									Select All
 								</button>
@@ -1207,10 +1201,6 @@ function de_identify_search_text_change(p_value) {
 
 function filter_serach_text_change(p_value) {
   g_case_view_request.search_key = p_value;
-}
-
-function de_identify_standard_fields_change(p_value) {
-  answer_summary.is_de_identify_standard_fields = p_value;
 }
 
 function render_pagination(p_result, p_case_view_request) {

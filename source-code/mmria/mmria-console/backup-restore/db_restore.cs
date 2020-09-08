@@ -198,12 +198,6 @@ namespace mmria.console.db
 
 					Console.WriteLine (put_result);
 				} 
-				/**/
-/*
-				string post_result = await Post_Document_List (bulk_document);
-
-				Console.WriteLine (post_result);
-				*/
 
 				Console.WriteLine ("Restore Finished.");
 			}

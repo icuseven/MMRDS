@@ -30,6 +30,7 @@ var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
+var g_previous_case_status = null;
 
 
 function g_set_data_object_from_path(
@@ -96,14 +97,13 @@ function g_set_data_object_from_path(
       const timeValue = value;
       const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-      // date value was passed in param
       value = p_date_object.value + 'T' + hour + 'Z'; // param + ' ' + value
     } else if (p_time_object) {
       const timeValue = p_time_object.value;
       const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-      // time value was passed in param
-      value = value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
+      //check if value null, set to blank else convert to ISO format
+      value = !value ? '' : value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
     }
   }
 
@@ -238,8 +238,10 @@ function g_set_data_object_from_path(
         entered_date_or_datetime_value: entered_date_or_datetime_value,
       };
 
-      if (is_search_result) {
-        let new_context = get_seach_text_context(
+      if (is_search_result) 
+      {
+        let new_context = get_seach_text_context
+        (
           [],
           post_html_call_back,
           metadata,
@@ -248,7 +250,11 @@ function g_set_data_object_from_path(
           p_metadata_path,
           p_object_path,
           search_text,
-          ctx
+
+          ctx.form_index,
+          ctx.grid_index,
+           valid_date_or_datetime,
+         entered_date_or_datetime_value
         );
 
         render_search_text(new_context);
@@ -519,6 +525,7 @@ function is_valid_date(p_value) {
 
 //fn to validate datetime controls
 function is_valid_datetime(p_value) {
+  p_value = p_value.split('T')[0]; //strip the time if it is available
   let result = false; //flagged as false by default
   let year = null;
 
@@ -526,7 +533,6 @@ function is_valid_datetime(p_value) {
   if (p_value === '' || p_value.length === 0) {
     result = true;
   } else {
-    p_value = p_value.split('T')[0]; //strip the time if it is available
     year = p_value.split('-')[0]; //get year
     year = parseInt(year); //convert year to a number
 
@@ -837,6 +843,9 @@ $(function () {
   /*
   let working_space = 100;
   let default_local_storage_limit = 300; */
+
+
+  $('#profile_form2').on('submit', navigation_away);
 
   if (
     default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() <
@@ -1876,14 +1885,20 @@ var save_queue = [];
 
 function enable_print_button(event) {
   const { value } = event.target;
-  const printButton = document.getElementById('print-case-form');
+  //duplicate print buttons being rendered
+  //targetting next sibling instead
+  const printButton = event.target.nextSibling; 
+  // const printButton = document.getElementById('print-case-form');
   printButton.disabled = !value; // if there is a value it will be enabled.
 }
 
-function print_case_onclick() {
-  const dropdown = document.getElementById('print_case_id');
+function print_case_onclick(event) {
+  const btn = event.target;
+  const dropdown = btn.previousSibling;
+  // const dropdown = document.getElementById('print_case_id');
   // get value of selected option
   const section_name = dropdown.value;
+
   if (section_name) {
     if (section_name == 'core-summary') {
       openTab('./core-elements', '_core_summary', 'all');
@@ -2173,6 +2188,42 @@ function autosave() {
     }
   }
 }
+
+function is_case_view_locked(p_case)
+{
+    let result = false;
+
+    let selected_value = 9999;
+    
+    if
+    (
+        p_case.case_status &&
+        p_case.case_status != ""
+    )
+    {
+        selected_value = new Number(p_case.case_status);
+    }
+    
+    if
+    (
+        p_case.case_status &&
+        p_case.case_locked_date != "" &&
+        (
+            selected_value == 4 ||
+            selected_value == 5 ||
+            selected_value == 6
+        )
+    )
+    {
+        if (! g_is_confirm_for_case_lock)
+        {
+            result = true;
+        }
+    }
+
+    return result;
+}
+
 
 
 function is_case_locked(p_case)
