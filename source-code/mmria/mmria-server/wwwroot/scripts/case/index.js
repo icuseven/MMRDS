@@ -1885,7 +1885,10 @@ var save_queue = [];
 
 function enable_print_button(event) {
   const { value } = event.target;
-  const printButton = document.getElementById('print-case-form');
+  //duplicate print buttons being rendered
+  //targetting next sibling instead
+  const printButton = event.target.nextSibling; 
+  // const printButton = document.getElementById('print-case-form');
   printButton.disabled = !value; // if there is a value it will be enabled.
 }
 
