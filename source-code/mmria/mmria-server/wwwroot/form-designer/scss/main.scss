@@ -1,13 +1,9 @@
-@import "variables";
-@import "global";
-@import "drag-drop";
-@import "drag-select";
-@import "form-designer";
-@import "canvas-heads-up-display";
-@import "form-list";
-@import "modal";
-@import "canvas";
-
-body {
-    background-color: #BADA55;
-}
+@import 'variables';
+@import 'global';
+@import 'drag-drop';
+@import 'drag-select';
+@import 'canvas-heads-up-display';
+@import 'form-list';
+@import 'modal';
+@import 'canvas';
+@import 'custom';

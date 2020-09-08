@@ -2,7 +2,10 @@ const path = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = (env) => ({
-  entry: './Components/expose-components.js',
+  entry: [
+    './Components/expose-components.js',
+    __dirname + '/wwwroot/form-designer/scss/main.scss',
+  ],
   output: {
     filename: '[name].[contenthash:8].js',
     globalObject: 'this',
@@ -35,6 +38,20 @@ module.exports = (env) => ({
       {
         test: /\.css$/i,
         loader: 'css-loader',
+      },
+      {
+        test: /\.scss$/,
+        include: [path.resolve(__dirname, 'wwwroot/form-designer')],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'form-designer-css/',
+              name: '[name].min.css',
+            },
+          },
+          'sass-loader',
+        ],
       },
     ],
   },
