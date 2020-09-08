@@ -758,9 +758,9 @@ function form_render(
       p_result.push("<div class='construct__footer'>");
       if (!(g_is_data_analyst_mode || case_is_locked)) {
         p_result.push(`
-                        <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                         <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                        <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                        <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                         <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                        <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                     `);
       }
       p_result.push(
@@ -1501,9 +1501,9 @@ function form_render(
     );
     if (!(g_is_data_analyst_mode || case_is_locked)) {
       p_result.push(`
-                    <input type='button' class='btn btn-primary' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                    <input type='button' class='btn btn-primary' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                    <input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
                 `);
     }
     p_result.push(
