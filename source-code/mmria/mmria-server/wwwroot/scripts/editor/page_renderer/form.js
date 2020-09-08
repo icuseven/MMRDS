@@ -221,7 +221,7 @@ function form_render(
       }
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-      render_print_form_control(p_result, p_ui, p_metadata);
+        render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
       p_result.push('</div> <!-- end .construct__controller -->');
       p_result.push('</div>');
@@ -685,7 +685,7 @@ function form_render(
       }
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-      render_print_form_control(p_result, p_ui, p_metadata);
+        render_print_form_control(p_result, p_ui, p_metadata);
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
       if (!(g_is_data_analyst_mode || case_is_locked)) {
@@ -891,7 +891,7 @@ function form_render(
     }
     p_result.push('</div>');
     p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-    render_print_form_control(p_result, p_ui, p_metadata);
+      render_print_form_control(p_result, p_ui, p_metadata);
     p_result.push('</div>');
     p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
     if (!(g_is_data_analyst_mode || case_is_locked)) {
@@ -1677,7 +1677,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
     p_result.push('</optgroup>');
     p_result.push('</select>');
 
-    p_result.push(`<input type='button' id="print-case-form" class='btn btn-primary ml-3' value='Print' onclick='print_case_onclick()' disabled="true" />`);
+    p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="Print" onclick="print_case_onclick(event)" disabled="true" />`);
   }
 }
 

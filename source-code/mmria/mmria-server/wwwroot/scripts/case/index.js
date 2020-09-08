@@ -1892,10 +1892,13 @@ function enable_print_button(event) {
   printButton.disabled = !value; // if there is a value it will be enabled.
 }
 
-function print_case_onclick() {
-  const dropdown = document.getElementById('print_case_id');
+function print_case_onclick(event) {
+  const btn = event.target;
+  const dropdown = btn.previousSibling;
+  // const dropdown = document.getElementById('print_case_id');
   // get value of selected option
   const section_name = dropdown.value;
+
   if (section_name) {
     if (section_name == 'core-summary') {
       openTab('./core-elements', '_core_summary', 'all');
