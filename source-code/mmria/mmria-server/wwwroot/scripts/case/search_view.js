@@ -145,17 +145,6 @@ function render_search_text_input_control(p_ctx)
     let style_string = get_only_size_and_font_style_string(style_object.prompt.style);
     let control_string = get_only_size_and_font_style_string(style_object.control.style);
 
-    /*
-    if(style_object == null)
-    {
-        console.log(p_ctx.mmria_path.substring(1));
-    }*/
-
-    // result.push("<div id='");
-    //     result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-    //     result.push("' class='form-group mb-5' metadata='");
-    //     result.push(p_ctx.mmria_path);
-    //     result.push("'>");
     result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
         result.push("<p>");
             //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
@@ -190,19 +179,7 @@ function render_search_text_input_control(p_ctx)
                 }
             >${p_ctx.metadata.prompt}</label>
         `);
-        // result.push("<label class='row no-gutters w-auto h-auto' for='");
-        // result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        // result.push("' style='");
-        // if
-        // (
-        //     style_object &&
-        //     style_object.prompt &&
-        //     style_object.prompt.style
-        // )
-        // result.push(style_string); 
-        // result.push("'>");
-        // result.push(p_ctx.metadata.prompt);
-        // result.push("</label>");
+
             
         result.push("<input id='");
             result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
@@ -250,7 +227,8 @@ function render_search_text_input_control(p_ctx)
                     p_ctx.metadata.is_read_only != null &&
                     p_ctx.metadata.is_read_only == true
                 ) ||
-                p_ctx.metadata.mirror_reference
+                p_ctx.metadata.mirror_reference ||
+                p_ctx.is_read_only
             )
             {
                 result.push(" readonly=true ");
@@ -434,7 +412,8 @@ function render_search_text_textarea_control(p_ctx)
                 p_ctx.metadata.is_read_only != null &&
                 p_ctx.metadata.is_read_only == true
             ) ||
-            p_ctx.metadata.mirror_reference
+            p_ctx.metadata.mirror_reference ||
+            p_ctx.is_read_only
         )
         {
             p_ctx.result.push(" readonly=true ");
@@ -542,7 +521,7 @@ function render_search_text_select_control(p_ctx)
 {   
     if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
     else if
@@ -551,12 +530,12 @@ function render_search_text_select_control(p_ctx)
         (p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("checkbox") > -1)
     )
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_checkbox_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_checkbox_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
     else if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("radio") > -1) 
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_radio_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_radio_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
 
@@ -617,7 +596,8 @@ function render_search_text_select_control(p_ctx)
                     p_ctx.metadata.is_read_only != null &&
                     p_ctx.metadata.is_read_only == true
                 ) ||
-                p_ctx.metadata.mirror_reference
+                p_ctx.metadata.mirror_reference ||
+                p_ctx.is_read_only
             )
             {
                 p_ctx.result.push(" readonly=true ");
@@ -1157,7 +1137,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
             p_metadata.mirror_reference
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
             
         }
         else
@@ -1310,10 +1290,11 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
                 p_metadata.is_read_only != null &&
                 p_metadata.is_read_only == true
             ) ||
-            p_metadata.mirror_reference
+            p_metadata.mirror_reference ||
+            p_search_ctx.is_read_only
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
         }
 
         //let object_id = ;
