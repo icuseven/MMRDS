@@ -189,19 +189,20 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
                 const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                 const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
+                
                 let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
                 let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-                if (actualReviewDate.length > 0 && projectedReviewDate < 1) projectedReviewDate = '(blank)';
-                if (projectedReviewDate.length > 0 && actualReviewDate < 1) actualReviewDate = '(blank)';
+
+                if (projectedReviewDate.length < 1 && actualReviewDate.length > 0) projectedReviewDate = '(blank)';
+                if (projectedReviewDate.length > 0 && actualReviewDate.length < 1) actualReviewDate = '(blank)';
+                const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
 
                 return (
                   `<tr class="tr" path="${caseID}">
                       <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${firstName}, ${lastName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
                         ${checked_out_html}</td>
                       <td class="td" scope="col">${currentCaseStatus}</td>
-                      <td class="td">
-                        ${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}
-                      </td>
+                      <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
                       <td class="td">
