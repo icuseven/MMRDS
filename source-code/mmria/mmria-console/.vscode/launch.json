@@ -12,64 +12,9 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/mmria-console.dll",
             "args": [
- /*   
-                "restore",
-                "user_name:mmria_admin",
-                "password:?n3v3raga1n?",
-                "database_url:https://couchdb-nc-mmria.services.cdc.gov/mmrds",
-                "backup_file_path:C:/work-space/bk-file-set/migration/nc/2020-04-16-mmrds/2020-04-16-mmrds.bk"
-                
-*/
-            
-
-                "restore",
-                "user_name:mmria_admin",
-                "password:?n3v3raga1n?",
-                "database_url:https://couchdb-mi-mmria.services-dev.cdc.gov/mmrds",
-                "backup_file_path:C:/temp/2020-04-068-all-mmrds.json"
-
-/*
 
 
-                "restore",
-                "user_name:mmria_admin",
-                "password:?n3v3raga1n?",
-                "database_url:http://couchdb-ks-mmria.services.cdc.gov/mmrds",
-                "backup_file_path:C:/work-space/bk-file-set/migration/ks/MMRIA_Backups/mmria.mmrds-db.json"
-
-                
-                "restore",
-                "user_name:mmrds",
-                "password:mmrds",
-                "database_url:http://localhost:5984/mmrds",
-                "backup_file_path:/media/jhaines/vold_tera/file-set/workspace/vsce/testdb-premigration-mmrds.json"
-
-                "convert",
-                "user_name:mmrds",
-                "password:mmrds",
-                "url:http://localhost:8080",
-                "source_file_path:C:/work-space/sams/IL backup/IL-Data/"
-*/
-                /*
-                "export",
-                "user_name:mmrds",
-                "password:mmrds",
-                "url:http://localhost:8080",
-                "source_file_path:C:/work-space/sams/IL backup/IL-Data/"
-                */
-                /*
-                "import",
-                "user_name:churst",
-                "password:Churst123",
-                "url:https://mmria.dph.illinois.gov",
-                "source_file_path:C:/work-space/sams/IL backup/IL-Data/"
-                */
-
-                //"database_url:http://localhost:5983/mmrds",
-                //"backup_file_path:C:/work-space/sams/IL backup/il-mmria-mmrds-db_29Nov2017.json"
-                //"backup_file_path:C:/work-space/sams/IL backup/bk2.json"
-                //"backup_file_path:C:/work-space/sams/IL backup/IL-Data/"
-                
+ 
             ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window

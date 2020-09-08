@@ -375,6 +375,7 @@ function case_status_value_change(p_control)
 {
 
     let selected_value = new Number(p_control.value);
+    g_previous_case_status = this.overall_case_status;
     this.overall_case_status = selected_value;
     if 
     (
@@ -432,9 +433,11 @@ function $case_status_confirm()
 
 function $case_status_cancel()
 {
-    
+    g_data.home_record.case_status.overall_case_status = g_previous_case_status;
+    $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
     g_is_confirm_for_case_lock = false;
     g_target_case_status = null;
+    g_previous_case_status = null;
 }
 
 //CALCULATE MOTHERS AGE AT DEATH ON DC

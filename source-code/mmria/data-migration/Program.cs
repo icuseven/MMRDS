@@ -36,7 +36,7 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"nm"/*,
+			"sc"/*,
 			"wi",
 			"tn",*/
 			/*"nh",
@@ -49,20 +49,21 @@ namespace migrate
 
 		static List<string> prefix_list = new List<string>()
 		{
-			/*"al",
+			"al",
 			"ak",
 			"az",
 			"ca",
 			"ct",
 			"cdc",
+			"co",
 			"de",
 			"demo",
-			"fl",*/
+			"fl",
 			"ia",
-			/*"id",
+			"id",
 			"in",
 			"il",
-			"ks",*/
+			"ks",
 			"ky",
 			"la",
 			"ma",
@@ -70,25 +71,29 @@ namespace migrate
 			"mn",
 			"mo",
 			"ms",
+			"mt",
 			"nc",
 			"ne",
-			/*"nh",
+			"nh",
 			"nj",
-			*/
-			"nv",
+			"nm",
 			"ny",
+			"nv",
 			"oh",
+			"ok",
 			"or",
 			"pa",
 			"ri",
 			"sc",
 			"sd",
 			"tn",
-			//"ut",
+			"tx",
+			"ut",
 			"va",
 			"wa",
 			"wi",
-			"wv"
+			"wv",
+			"wy"
 			
 
 		};
@@ -160,6 +165,8 @@ namespace migrate
 
 			foreach(var prefix in run_list)
 			{
+
+				config_couchdb_url = Configuration["mmria_settings:central_couchdb_url"].Replace("{prefix}", prefix);
 				var db_name = "mmrds";
 				if(is_test_list)
 				{

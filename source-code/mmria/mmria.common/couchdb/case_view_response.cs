@@ -72,6 +72,8 @@ reverse sort
 
         public DateTime? review_date_actual{ get; set; }
 
+        public DateTime? case_locked_date { get; set; }
+
         public string host_state{ get; set; }
     }
 

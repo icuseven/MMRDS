@@ -1,4 +1,4 @@
-function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_form_index, p_grid_index)
+function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_is_read_only, p_form_index, p_grid_index, p_valid_date_or_datetime, p_entered_date_or_datetime_value)
 {
     let result = {
         result : p_result,
@@ -11,7 +11,11 @@ function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data
         object_path:p_object_path,
         search_text:p_search_text,
         form_index: p_form_index,
-        grid_index: p_grid_index
+        grid_index: p_grid_index,
+        is_read_only: p_is_read_only,
+
+        is_valid_date_or_datetime: p_valid_date_or_datetime,
+        entered_date_or_datetime_value: p_entered_date_or_datetime_value
 
     };
 
@@ -42,7 +46,7 @@ function render_search_text(p_ctx)
                 let child = p_ctx.metadata.children[i];
                 if(p_ctx.data && child.type.toLocaleLowerCase() == "form")
                 {
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             }
@@ -56,7 +60,7 @@ function render_search_text(p_ctx)
 
                     if(p_ctx.data)
                     {
-                        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                         render_search_text(new_context);
                     }
                     
@@ -74,7 +78,7 @@ function render_search_text(p_ctx)
     
                         if(row_data)
                         {
-                            let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, row);
+                            let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, row, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                             new_context.multiform_index = row;
                             render_search_text(new_context);
                         }
@@ -89,7 +93,7 @@ function render_search_text(p_ctx)
                 let child = p_ctx.metadata.children[i];
                 if(p_ctx.data)
                 {
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.form_index, p_ctx.grid_index);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             }
@@ -102,7 +106,7 @@ function render_search_text(p_ctx)
                 {
                     let child = p_ctx.metadata.children[j];
                     
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.form_index, i);
+                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, i, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     render_search_text(new_context);
                 }
             
@@ -141,17 +145,6 @@ function render_search_text_input_control(p_ctx)
     let style_string = get_only_size_and_font_style_string(style_object.prompt.style);
     let control_string = get_only_size_and_font_style_string(style_object.control.style);
 
-    /*
-    if(style_object == null)
-    {
-        console.log(p_ctx.mmria_path.substring(1));
-    }*/
-
-    // result.push("<div id='");
-    //     result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-    //     result.push("' class='form-group mb-5' metadata='");
-    //     result.push(p_ctx.mmria_path);
-    //     result.push("'>");
     result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
         result.push("<p>");
             //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
@@ -186,19 +179,7 @@ function render_search_text_input_control(p_ctx)
                 }
             >${p_ctx.metadata.prompt}</label>
         `);
-        // result.push("<label class='row no-gutters w-auto h-auto' for='");
-        // result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        // result.push("' style='");
-        // if
-        // (
-        //     style_object &&
-        //     style_object.prompt &&
-        //     style_object.prompt.style
-        // )
-        // result.push(style_string); 
-        // result.push("'>");
-        // result.push(p_ctx.metadata.prompt);
-        // result.push("</label>");
+
             
         result.push("<input id='");
             result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
@@ -246,7 +227,8 @@ function render_search_text_input_control(p_ctx)
                     p_ctx.metadata.is_read_only != null &&
                     p_ctx.metadata.is_read_only == true
                 ) ||
-                p_ctx.metadata.mirror_reference
+                p_ctx.metadata.mirror_reference ||
+                p_ctx.is_read_only
             )
             {
                 result.push(" readonly=true ");
@@ -430,7 +412,8 @@ function render_search_text_textarea_control(p_ctx)
                 p_ctx.metadata.is_read_only != null &&
                 p_ctx.metadata.is_read_only == true
             ) ||
-            p_ctx.metadata.mirror_reference
+            p_ctx.metadata.mirror_reference ||
+            p_ctx.is_read_only
         )
         {
             p_ctx.result.push(" readonly=true ");
@@ -513,7 +496,7 @@ function render_search_text_grid_control(p_ctx)
     for(let i = 0; i < p_ctx.metadata.children.length; i++)
     {
         let child = p_ctx.metadata.children[i];
-        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child.name, p_ctx.data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text);
+        let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child.name, p_ctx.data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
 
         render_search_text(new_context);
 
@@ -538,7 +521,7 @@ function render_search_text_select_control(p_ctx)
 {   
     if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
     else if
@@ -547,12 +530,12 @@ function render_search_text_select_control(p_ctx)
         (p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("checkbox") > -1)
     )
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_checkbox_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_checkbox_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
     else if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("radio") > -1) 
     {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_radio_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        Array.prototype.push.apply(p_ctx.result, render_search_text_list_radio_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
         return;
     }
 
@@ -613,7 +596,8 @@ function render_search_text_select_control(p_ctx)
                     p_ctx.metadata.is_read_only != null &&
                     p_ctx.metadata.is_read_only == true
                 ) ||
-                p_ctx.metadata.mirror_reference
+                p_ctx.metadata.mirror_reference ||
+                p_ctx.is_read_only
             )
             {
                 p_ctx.result.push(" readonly=true ");
@@ -1153,7 +1137,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
             p_metadata.mirror_reference
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
             
         }
         else
@@ -1306,10 +1290,11 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
                 p_metadata.is_read_only != null &&
                 p_metadata.is_read_only == true
             ) ||
-            p_metadata.mirror_reference
+            p_metadata.mirror_reference ||
+            p_search_ctx.is_read_only
         )
         {
-            is_read_only= " readonly=true ";
+            is_read_only= " disabled=true ";
         }
 
         //let object_id = ;

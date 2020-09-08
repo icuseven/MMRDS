@@ -50,7 +50,7 @@ namespace mmria.common.Controllers
         private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;
 
-        private bool http_async_signin_called = false;
+        private bool user_principal_created = false;
 
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
@@ -213,6 +213,7 @@ namespace mmria.common.Controllers
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
             var config_timer_password = _configuration["mmria_settings:timer_password"];
 
+            var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
             mmria.common.model.couchdb.user user = null;
 			try
 			{
@@ -317,26 +318,40 @@ namespace mmria.common.Controllers
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
 
+                List<string> role_list = new List<string>();
+                foreach(var role in user.roles)
+                {
+                    if(role == "_admin")
+                    {
+                        role_list.Add("installation_admin");
+                    }
+                }
 
+                foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
+                {
+                    role_list.Add(role);
+                }
 
+                var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes);
                 var Session_Message = new mmria.server.model.actor.Session_Message
                 (
                     Guid.NewGuid().ToString(), //_id = 
                     null, //_rev = 
                     DateTime.Now, //date_created = 
                     DateTime.Now, //date_last_updated = 
-                    null, //date_expired = 
+                    session_expiration_datetime, //date_expired = 
 
                     true, //is_active = 
                     user.name, //user_id = 
                     this.GetRequestIP(), //ip = 
                     Session_Event_Message._id, // session_event_id = 
+                    role_list,
                     session_data
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
-                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
+                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
                 return RedirectToAction("Index", "HOME");
@@ -344,7 +359,7 @@ namespace mmria.common.Controllers
             }
 
 
-            System.Console.WriteLine($"http_async_signin_called: {http_async_signin_called}");
+            System.Console.WriteLine($"http_async_signin_called: {user_principal_created}");
             TempData["user_name"] = user.name;
             return View();
 
@@ -436,6 +451,7 @@ namespace mmria.common.Controllers
 
             p_context.User = userPrincipal;
             System.Threading.Thread.CurrentPrincipal = userPrincipal;
+            user_principal_created = true;
 
         }
 
