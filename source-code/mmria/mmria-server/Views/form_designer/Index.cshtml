@@ -43,7 +43,7 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-12">
                 <div id="ui-spec-selector-container">
                     <div class="form-inline">
                         <div class="form-group">
@@ -64,7 +64,9 @@
                 </div>
                 <div id="form-list-container" class="fd-intial-cloaked"></div>
             </div>
-            <div class="col-sm-10">
+          </div>
+          <div class="row"></div>
+            <div class="col-12">
                 <div id="fd-canvas-heads-up-display-wrapper" class="fd-initial-cloaked">
                     <span id="ui-spec-display-container">Form Designer Canvas</span>
                     <span id="ui-spec-delete-modify-container">
@@ -98,13 +100,13 @@
                     </div>
                 </div>
                 <div class="row no-guttersow">
-                    <div id="fd-canvas-wrapper" class="col-10 dropzone form-designer-wrapper">
+                    <div id="fd-canvas-wrapper" class="form-designer-wrapper">
                         <div id="fd-canvas" class="resize-container form-designer-canvas">
                             <p id="alert-select-spec" class="form-designer-alert">....please add and/or select a specification</p>
                             <p id="alert-select-formtype" class="form-designer-alert">....please select a form type</p>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-12">
                         <label for="fd-messages">Messages</label>
                         <textarea id="fd-messages" style="padding:10px;width:100%" rows="10"></textarea>
                     </div>
@@ -192,7 +194,7 @@
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="../scripts/mmria.js"></script>
-    <script src="../scripts/form-designer/interact.js"></script>
+    <script src="../scripts/form-designer/interactNew.js"></script>
     <script src="../scripts/form-designer/canvas/drag-select.js"></script>
     <script src="../scripts/form-designer/canvas/templates.js"></script>
     <script src="../scripts/form-designer/canvas/index.js"></script>
@@ -206,6 +208,5 @@
             $('body').bootstrapMaterialDesign();
         });
     </script>
-
 </body>
 </html>

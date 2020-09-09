@@ -152,43 +152,7 @@ DragSelect.prototype._handleSelectables = function (
     }
   }
 };
-/**
- * Triggers when a node is actively selected.
- *
- * This might be an "onClick" method but it also triggers when
- * <button> nodes are pressed via the keyboard.
- * Making DragSelect accessible for everyone!
- *
- * @param {Object} selectables - selectable elements.
- * @param {Boolean} remove - if elements were removed.
- */
 
-DragSelect.prototype._onClick = function (event) {
-  if (this.mouseInteraction) {
-    return;
-  } // fix firefox doubleclick issue
-
-  if (this.isRightClick(event)) {
-    return;
-  }
-
-  var node = event.target;
-
-  if (this.isMultiSelectKeyPressed(event)) {
-    this._prevSelected = this.selected.slice();
-  } // #9
-  else {
-    this._prevSelected = [];
-  } // #9
-
-  this.checkIfInsideSelection(true); // reset selection if no multiselectionkeypressed
-
-  if (this.selectables.indexOf(node) > -1) {
-    this.toggle(node);
-  }
-
-  this.reset();
-};
 /**
  * Create the selector node when not provided by options object.
  *
@@ -224,6 +188,55 @@ DragSelect.prototype.start = function () {
     passive: false,
   });
 };
+
+/**
+ * Complete function teardown
+ */
+
+DragSelect.prototype.stop = function () {
+  //this.reset();
+  this.area.removeEventListener('mousedown', this._startUp);
+  this.area.removeEventListener('touchstart', this._startUp, {
+    passive: false,
+  });
+  // this.area.removeEventListener('mousemove', this._handleMove);
+  // this.area.removeEventListener('touchmove', this._handleMove);
+  // document.removeEventListener('mouseup', this.reset);
+  // document.removeEventListener('touchend', this.reset);
+}; // Usefull methods for user
+//////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Triggers when a node is actively selected.
+ *
+ * This might be an "onClick" method but it also triggers when
+ * <button> nodes are pressed via the keyboard.
+ * Making DragSelect accessible for everyone!
+ *
+ * @param {Object} selectables - selectable elements.
+ * @param {Boolean} remove - if elements were removed.
+ */
+
+DragSelect.prototype._onClick = function (event) {
+  // if (this.mouseInteraction) {
+  //   return;
+  // } // fix firefox doubleclick issue
+  if (this.isRightClick(event)) {
+    return;
+  }
+  var node = event.target;
+  if (!this.isMultiSelectKeyPressed(event)) {
+    //this._prevSelected = this.selected.slice();
+    this.selected.forEach((node) => this.unselect(node));
+  } // #9
+  this.select(node);
+  // #9
+  //this.checkIfInsideSelection(true); // reset selection if no multiselectionkeypressed
+  // if (this.selectables.indexOf(node) > -1) {
+  //   this.toggle(node);
+  // }
+  //this.reset();
+};
 /**
  * Startup when the area is clicked.
  *
@@ -231,6 +244,8 @@ DragSelect.prototype.start = function () {
  */
 
 DragSelect.prototype._startUp = function (event) {
+  this._onClick(event);
+  return;
   // touchmove handler
   if (event.type === 'touchstart')
     // Call preventDefault() to prevent double click issue, see https://github.com/ThibaultJanBeyer/DragSelect/pull/29 & https://developer.mozilla.org/vi/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent
@@ -280,6 +295,40 @@ DragSelect.prototype._startUp = function (event) {
   document.addEventListener('mouseup', this.reset);
   document.addEventListener('touchend', this.reset);
 };
+
+/**
+ * Unbind functions when mouse click is released
+ */
+
+DragSelect.prototype.reset = function (event) {
+  this.previousCursorPos = this._getCursorPos(event, this.area);
+  document.removeEventListener('mouseup', this.reset);
+  document.removeEventListener('touchend', this.reset);
+  this.area.removeEventListener('mousemove', this._handleMove);
+  this.area.removeEventListener('touchmove', this._handleMove);
+  this.area.addEventListener('mousedown', this._startUp);
+  this.area.addEventListener('touchstart', this._startUp, {
+    passive: false,
+  });
+  this.selectorPosition = {};
+  //this.callback(this.selected, event);
+
+  if (this._breaked) {
+    return false;
+  }
+
+  this.selector.style.width = '0';
+  this.selector.style.height = '0';
+  this.selector.style.display = 'none';
+  setTimeout(
+    function () {
+      // debounce in order "onClick" to work
+      this.mouseInteraction = false;
+    }.bind(this),
+    100
+  );
+};
+
 /**
  * Check if some multiselection modifier key is pressed
  *
@@ -301,7 +350,7 @@ DragSelect.prototype.isMultiSelectKeyPressed = function (event) {
       }
     }
   }
-
+  console.log(this.multiSelectKeyPressed);
   return this.multiSelectKeyPressed;
 };
 /**
@@ -542,6 +591,8 @@ DragSelect.prototype._handleUnselection = function (item, force) {
  */
 
 DragSelect.prototype.select = function (item) {
+  const excludeList = ['fd-canvas', 'fd-canvas-wrapper'];
+  if (excludeList.includes(item.id)) return;
   if (this.selected.indexOf(item) > -1) {
     return false;
   }
@@ -633,12 +684,26 @@ DragSelect.prototype._isElementTouching = function (
   //& b01 < b12 (top border pos box1 smaller than bottom border pos box2)
   //& b02 > b11 (bottom border pos box1 larger than top border pos box2)
   // See: https://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box and https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+  console.log(selectionRect, elementRect);
+  /*
+  sX < eX && sX + sW > eX + eW 
+  ||
+  sY < eY && sY + sH > eY + eH
 
+  */
+  // int => intersect
+  const S = selectionRect;
+  const E = elementRect;
+  const intLeft = S.x < e.x && S.x + S.w > E.x + E.w;
   if (
-    selectionRect.x < elementRect.x + elementRect.w &&
-    selectionRect.x + selectionRect.w > elementRect.x &&
-    selectionRect.y < elementRect.y + elementRect.h &&
-    selectionRect.h + selectionRect.y > elementRect.y
+    // selectionRect.x < elementRect.x + elementRect.w &&
+    // selectionRect.x + selectionRect.w > elementRect.x &&
+    // selectionRect.y < elementRect.y + elementRect.h &&
+    // selectionRect.h + selectionRect.y > elementRect.y
+    (selectionRect.x < elementRect.x &&
+      selectionRect.x + selectionRect.w > elementRect.x + elementRect.w) ||
+    (selectionRect.y < elementRect.y &&
+      selectionRect.h + selectionRect.y > elementRect.y + elementRect.h)
   ) {
     return true; // collision detected!
   } else {
@@ -705,38 +770,6 @@ DragSelect.prototype.isCursorNearEdge = function (event, area) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Unbind functions when mouse click is released
- */
-
-DragSelect.prototype.reset = function (event) {
-  this.previousCursorPos = this._getCursorPos(event, this.area);
-  document.removeEventListener('mouseup', this.reset);
-  document.removeEventListener('touchend', this.reset);
-  this.area.removeEventListener('mousemove', this._handleMove);
-  this.area.removeEventListener('touchmove', this._handleMove);
-  this.area.addEventListener('mousedown', this._startUp);
-  this.area.addEventListener('touchstart', this._startUp, {
-    passive: false,
-  });
-  this.selectorPosition = {};
-  //this.callback(this.selected, event);
-
-  if (this._breaked) {
-    return false;
-  }
-
-  this.selector.style.width = '0';
-  this.selector.style.height = '0';
-  this.selector.style.display = 'none';
-  setTimeout(
-    function () {
-      // debounce in order "onClick" to work
-      this.mouseInteraction = false;
-    }.bind(this),
-    100
-  );
-};
-/**
  * Function break: used in callbacks to stop break the code at the specific moment
  * - Event listeners and calculation will continue working
  * - Selector won’t display and will not select
@@ -752,20 +785,6 @@ DragSelect.prototype.break = function () {
     100
   );
 };
-/**
- * Complete function teardown
- */
-
-DragSelect.prototype.stop = function () {
-  this.reset();
-  this.area.removeEventListener('mousedown', this._startUp);
-  this.area.removeEventListener('touchstart', this._startUp, {
-    passive: false,
-  });
-  document.removeEventListener('mouseup', this.reset);
-  document.removeEventListener('touchend', this.reset);
-}; // Usefull methods for user
-//////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Returns the current selected nodes
