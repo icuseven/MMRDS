@@ -67,7 +67,7 @@ function print_version_render(
             result.push('&nbsp;');
           } else {
             function getDisplay(p_dataValue) {
-              if (!child.values) return '';
+              if (!child.values || !child.values.length) return '';
               const displayText = child.values.find(
                 (val) => val.value === p_dataValue
               ).display;
