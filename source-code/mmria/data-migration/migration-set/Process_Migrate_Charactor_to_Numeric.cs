@@ -143,7 +143,7 @@ namespace migrate.set
 
 
 
-						if(false)
+						if(true)
 						{
 							string substance_mapping_url = "https://testdb-mmria.services-dev.cdc.gov/metadata/substance-mapping";
 							cURL substance_mapping_curl = new cURL("GET", null, substance_mapping_url, null, config_timer_user_name, config_timer_value);
@@ -199,7 +199,12 @@ namespace migrate.set
 										if(value_string.Trim().ToLower() == "Other".ToLower())
 										{
 											var (other_index, other_value) = (other_list[i].Item1, other_list[i].Item2);
-											if(source_target_dictionary.ContainsKey(other_value) && source_target_dictionary[other_value].ToLower() != "other")
+											if
+											(
+												source_target_dictionary.ContainsKey(other_value) && 
+												source_target_dictionary[other_value].ToLower() != "other" &&
+												source_target_dictionary[other_value].ToLower() != "9999"
+											)
 											{
 												if(case_change_count == 0)
 												{
@@ -212,7 +217,7 @@ namespace migrate.set
 
 
 												
-												this.output_builder.AppendLine($"applied substance mapping: {mmria_id} mapped {other_value} => {source_target_dictionary[other_value]}");
+												this.output_builder.AppendLine($"applied substance mapping {substance_path}: {mmria_id} mapped {other_value} => {source_target_dictionary[other_value]}");
 												if
 												(
 													this.summary_value_dictionary.ContainsKey($"{substance_path}_other") ||
