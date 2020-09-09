@@ -906,7 +906,7 @@
           { "source_value": "\"known history of drug abuse\"" },
           { "source_value": "Not specified - but illicit drug use" }
         ],
-        "prenatal/substance_use_grid/stubstance":      [
+        "prenatal/substance_use_grid/substance":      [
           {
             "source_value": "Aprazolzam",
             "target_value": "Alprazolam (Xanax)"

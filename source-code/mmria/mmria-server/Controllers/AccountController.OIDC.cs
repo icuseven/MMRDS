@@ -211,14 +211,14 @@ namespace mmria.common.Controllers
             //check if user exists
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_password"];
+            var config_timer_value = _configuration["mmria_settings:timer_password"];
 
             var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
             mmria.common.model.couchdb.user user = null;
 			try
 			{
 				string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email.ToLower());
-				var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+				var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
 				var responseFromServer = await user_curl.executeAsync();
 
 				user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -256,7 +256,7 @@ namespace mmria.common.Controllers
 
                     string user_db_url = config_couchdb_url + "/_users/"  + user._id;
 
-                    var user_curl = new mmria.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_password);
+                    var user_curl = new mmria.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_value);
                     var responseFromServer = await user_curl.executeAsync();
                     user_save_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
@@ -349,12 +349,37 @@ namespace mmria.common.Controllers
                     session_data
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
-                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
-                //return RedirectToAction("Index", "HOME");
-                //return RedirectToAction("Index", "HOME");
-                return RedirectToAction("Index", "HOME");
+
+
+
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
+
+                string request_string = config_couchdb_url + $"/{_configuration["mmria_settings:db_prefix"]}session/{Session_Message._id}";
+
+                mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
+
+                try
+                {
+                    string responseFromServer = document_curl.execute();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                    if(result.ok)
+                    {
+                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                        Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                        //return RedirectToAction("Index", "HOME");
+                        //return RedirectToAction("Index", "HOME");
+                        return RedirectToAction("Index", "HOME");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
 
             }
 
