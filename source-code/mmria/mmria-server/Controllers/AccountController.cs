@@ -437,6 +437,12 @@ namespace mmria.server.Controllers
                     session_message.data
                 );
 
+
+                Response.Cookies.Append("sid", null, new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
+                Response.Cookies.Append("expires_at", null, new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
+
+                System.Threading.Thread.CurrentPrincipal = null;
+
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
 
 
