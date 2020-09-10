@@ -438,8 +438,8 @@ namespace mmria.server.Controllers
                 );
 
 
-                Response.Cookies.Append("sid", null, new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
-                Response.Cookies.Append("expires_at", null, new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
+                Response.Cookies.Append("sid", "", new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
+                Response.Cookies.Append("expires_at", "", new CookieOptions{ HttpOnly = true, Expires = DateTime.Now });
 
                 System.Threading.Thread.CurrentPrincipal = null;
 
