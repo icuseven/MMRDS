@@ -180,6 +180,30 @@ namespace mmria.server
 			return result; 
 		} 
 
+        
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
+        [Route("check-user/{id}")]
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> CheckUser(string id) 
+		{ 
+			mmria.common.model.couchdb.user result = null;
+			try
+			{
+				string request_string = Program.config_couchdb_url + "/_users/" + id;
+
+				var user_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				var responseFromServer = await user_curl.executeAsync();
+
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return result; 
+		} 
+
 		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] mmria.common.model.couchdb.user user) 

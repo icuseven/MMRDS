@@ -48,7 +48,8 @@ var $$ = {
 
 
 $(function ()
-{//http://www.w3schools.com/html/html_layout.asp
+{
+    //http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	/*profile.on_login_call_back = function (){
 				load_users();
@@ -257,8 +258,62 @@ function add_new_user_click()
 			is_valid_password(new_user_password)
 		)
 		{
+            check_if_existing_user(new_user_name, new_user_password);
 
-			var new_user = $$.add_new_user(new_user_name.toLowerCase(), new_user_password);
+		}
+		else
+		{
+			create_status_warning("invalid password.<br/>be sure that verify and password match,<br/> minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", "new_user");
+			
+		}
+
+	}
+	else
+	{
+		create_status_warning("invalid user name. user name should be unique and at least 5 characters long. ", "new_user");
+		console.log("got nothing.");
+	}
+}
+
+
+function check_if_existing_user(p_user_id, p_new_user_password)
+{
+    $.ajax({
+        url: location.protocol + '//' + location.host + '/api/user/check-user/org.couchdb.user:' + p_user_id,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        type: "GET"
+    }).done(function(user_check_response) 
+    {
+        if(user_check_response)
+        {
+            let user = eval(user_check_response);
+            let is_found = false;
+
+            for(var i = 0; i < g_ui.user_summary_list.length; i++)
+            {
+                if(g_ui.user_summary_list[i]._id == user._id)
+                {
+                    is_found = true;
+                    break;
+                }
+            }
+
+            if(!is_found)
+            {
+                g_ui.user_summary_list.push(user);
+
+                save_user(user._id);
+
+                //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+                //create_status_message("existing user has been added to this mmria instance.", user._id);
+            }
+
+
+        }
+        else
+        {
+			var new_user = $$.add_new_user(p_user_id.toLowerCase(), p_new_user_password);
 			user_id = new_user._id;
 			g_ui.user_summary_list.push(new_user);
 	
@@ -282,12 +337,6 @@ function add_new_user_click()
 						}
 					}
 	
-					if(response_obj.auth_session)
-					{
-						//profile.auth_session = response_obj.auth_session;
-						$mmria.addCookie("AuthSession", response_obj.auth_session);
-					}
-	
 					document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 					create_status_message("new user has been added.", "new_user");
 	
@@ -295,21 +344,17 @@ function add_new_user_click()
 				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 				
 			});
-		}
-		else
-		{
-			create_status_warning("invalid password.<br/>be sure that verify and password match,<br/> minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", "new_user");
-			
-		}
+/*
 
-	}
-	else
-	{
-		create_status_warning("invalid user name. user name should be unique and at least 5 characters long. ", "new_user");
-		console.log("got nothing.");
-	}
+
+            document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+            create_status_message("new user has been added.", "new_user");
+*/
+        }
+        //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+        
+    });
 }
-
 
 function change_password_user_click(p_user_id)
 {
@@ -473,50 +518,37 @@ function save_user(p_user_id)
 	if(user_index > -1)
 	{
 		var user = user_list[user_index];
-		var current_auth_session = profile.get_auth_session_cookie();
+ 
+        $.ajax({
+            url: location.protocol + '//' + location.host + '/api/user',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            type: "POST"
+        }).done(function(response) 
+        {
+            var response_obj = eval(response);
+            if(response_obj.ok)
+            {
+                for(var i = 0; i < g_ui.user_summary_list.length; i++)
+                {
+                    if(g_ui.user_summary_list[i]._id == response_obj.id)
+                    {
+                        g_ui.user_summary_list[i]._rev = response_obj.rev; 
+                        break;
+                    }
+                }
 
-			if(current_auth_session)
-			{ 
-				$.ajax({
-					url: location.protocol + '//' + location.host + '/api/user',
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(user),
-					type: "POST",
-					beforeSend: function (request)
-					{
-						request.setRequestHeader("AuthSession", current_auth_session);
-					}
-				}).done(function(response) 
-				{
-					var response_obj = eval(response);
-					if(response_obj.ok)
-					{
-						for(var i = 0; i < g_ui.user_summary_list.length; i++)
-						{
-							if(g_ui.user_summary_list[i]._id == response_obj.id)
-							{
-								g_ui.user_summary_list[i]._rev = response_obj.rev; 
-								break;
-							}
-						}
-
-						if(response_obj.auth_session)
-						{
-							//profile.auth_session = response_obj.auth_session;
-							$mmria.addCookie("AuthSession", response_obj.auth_session);
-						}
-
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-						create_status_message("user information saved", convert_to_jquery_id(user._id));
-						console.log("password saved sent", response);
+                document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+                create_status_message("user information saved", convert_to_jquery_id(user._id));
+                console.log("password saved sent", response);
 
 
-					}
-					//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					
-				});
-			}
+            }
+            //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+            
+        });
+        
 	}
 }
 
