@@ -28,7 +28,7 @@
 let apiURL = location.protocol + '//' + location.host + '/api/';
 let endpointMetaData = 'metadata/';
 let endpointUISpecification = 'ui_specification/';
-
+const pageHeightMultiplier = 1424;
 // Declare Http request objects (for global scope)
 let jsonMetaData;
 let jsonUISpecification;
@@ -69,7 +69,7 @@ formDesigner = {
           formDesigner.canvasHandler.displayFormList(metaData.forms);
         })
         .fail(function (xhr, status, error) {
-          console.log(xhr);
+          console.error(xhr);
         });
     },
     getForms: function (metaData) {
@@ -157,21 +157,23 @@ formDesigner = {
       formDesigner.fdObjectHandler.mapToSpec();
 
       // Take quicksnap for local revision
-
+      let max = 0;
       // Set element positions via inline style
       $.each(newElems, function (index, value) {
         if (
           uiSpecification.currentObject.form_design[value.path] !== undefined
         ) {
-          $(value.target).css(
-            JSON.parse(
-              uiSpecification.currentObject.form_design[value.path][
-                value.promptVcontrol
-              ].style
-            )
+          const style = JSON.parse(
+            uiSpecification.currentObject.form_design[value.path][
+              value.promptVcontrol
+            ].style
           );
+          $(value.target).css(style);
+          const endOfPage = style.top + style.height;
+          if (max < endOfPage) {
+            max = endOfPage;
+          }
         }
-
         $(value.target).css('transform', '');
         $(value.target).removeAttr('data-x data-y');
       });
@@ -233,7 +235,7 @@ formDesigner = {
           formDesigner.uiSpecHandler.displayOptions(uiSpecification);
         })
         .fail(function (xhr, status, error) {
-          console.log(xhr);
+          console.error(xhr);
         });
     },
     newSpecObject: function (name) {
@@ -421,6 +423,20 @@ formDesigner = {
     },
   },
   canvasHandler: {
+    addPage: function () {
+      const currentHeight =
+        uiSpecification.currentObject.dimension.height || pageHeightMultiplier;
+      const newHeight = currentHeight + pageHeightMultiplier;
+      uiSpecification.currentObject.dimension.height = newHeight;
+      $('.form-designer-wrapper').css('height', newHeight + 'px');
+    },
+    removePage: function () {
+      const currentHeight = uiSpecification.currentObject.dimension.height;
+      if (!currentHeight || currentHeight < pageHeightMultiplier * 2) return;
+      const newHeight = currentHeight - pageHeightMultiplier;
+      uiSpecification.currentObject.dimension.height = newHeight;
+      $('.form-designer-wrapper').css('height', newHeight + 'px');
+    },
     displayFormList: function (forms) {
       let tpl =
         '<select class="custom-select" onchange="javascript: formDesigner.canvasHandler.formFields.display(this.value);"> <option value="">Select a Form</option>';
@@ -435,6 +451,9 @@ formDesigner = {
         'width',
         uiSpecification.currentObject.dimension.width + 'px'
       );
+      const height =
+        uiSpecification.currentObject.dimension.height || pageHeightMultiplier;
+      $('.form-designer-wrapper').css('height', height + 'px');
     },
     formFields: {
       widestInFormGroup: function () {
@@ -493,7 +512,6 @@ formDesigner = {
       display: function (formName) {
         let fields = formDesigner.dataHandler.getFormFields(formName);
         let tpl = [];
-        console.log(fields);
         $.each(fields, function (index, value) {
           switch (value.type.toLowerCase()) {
             case 'group':
@@ -562,22 +580,18 @@ formDesigner = {
     wysiwyg: {
       checkHierarchy: function () {},
       wrap: function () {
-        // @TODO init interact.js
-        if (interactJSActive) {
-          interactStop();
-        } else {
-          interactStart();
-        }
-        interactJSActive = !interactJSActive;
-        $('.ds-selected').each(function (index, obj) {
-          $(this).parents().removeClass('ds-selected');
-        });
-
+        if (!$('.ds-selected').length) return;
         if (globalDSelected.length > 0) {
+          interactStop();
+          fdDragSelect.start();
+          interactJSActive = false;
           $('#btn-multiDrag').removeClass('multiDrag');
           globalDSelected = [];
           $('.multiDrag').removeClass('multiDrag');
         } else {
+          interactStart();
+          fdDragSelect.stop();
+          interactJSActive = true;
           $('#btn-multiDrag').addClass('multiDrag');
           globalDSelected = [...$('.ds-selected')];
           $('.ds-selected').addClass('multiDrag');
@@ -670,65 +684,57 @@ function execute_command_click() {
   if (valid_command_regex.test(cmd_test.trim())) {
     var cmd_text = cmd_test.trim().split(' ');
     var message = 'execute command clicked\n\n' + cmd_text;
-
+    let save = true;
     switch (cmd_text[0].toLowerCase()) {
       case 'ls':
         message += '\n\nlist selection';
         message += list_selection();
+        save = false;
         break;
       case 'all':
         message += '\n\nselect all';
         message += select_all_canvas_child_nodes();
+        save = false;
         break;
       case 'none':
         message += '\n\nremove all selections';
         message += remove_all_selections_on_canvas();
+        save = false;
         break;
       case 'al':
         message += '\n\nalign left selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_left_selection();
         break;
       case 'al+':
         message += '\n\nalign left+ selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_left_selection(true);
         break;
       case 'at':
         message += '\n\nalign top selection';
-
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_top_selection();
         break;
       case 'at+':
         message += '\n\nalign top+ selection';
-
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_top_selection(true);
         break;
       case 'aw':
         message += '\n\nalign width selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_width_selection();
         break;
       case 'aw+':
         message += '\n\nalign width+ selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_width_selection(true);
         break;
       case 'ah':
         message += '\n\nalign height selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_height_selection();
         break;
       case 'ah+':
         message += '\n\nalign height+ selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += align_height_selection(true);
         break;
       case 'ahs':
         message += '\n\nalign height space of selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         if (cmd_text.length > 1) {
           if (cmd_text.length > 2) {
             message += align_height_space_of_selection(
@@ -741,24 +747,18 @@ function execute_command_click() {
         } else {
           message += align_height_space_of_selection(15);
         }
-
         break;
       case 'aws':
         message += '\n\nalign width space of selection';
-        formDesigner.fdObjectHandler.quickSnap(true);
         if (cmd_text.length > 1) {
           message += align_width_space_of_selection(cmd_text[1]);
         } else {
           message += align_width_space_of_selection(15);
         }
-
         break;
-
       case 'st':
       case 'stack':
         message += '\n\nstack selected fields';
-        formDesigner.fdObjectHandler.quickSnap(true);
-
         if (cmd_text.length > 1) {
           if (cmd_text.length > 2) {
             message += stack_selected_fields(cmd_text[1], cmd_text[2]);
@@ -768,22 +768,21 @@ function execute_command_click() {
         } else {
           message += stack_selected_fields();
         }
-
         break;
-
       case 'ro':
       case 'row':
         message += '\n\nmake row of selected fields';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += make_row_of_selected_fields();
         break;
       case 'sac':
         message += '\n\nselect all container child nodes';
-        formDesigner.fdObjectHandler.quickSnap(true);
         message += select_container_child_nodes();
         break;
     }
-
+    if (save) {
+      formDesigner.fdObjectHandler.snapShot();
+      formDesigner.fdObjectHandler.quickSnap();
+    }
     message_area.innerHTML = sanitizeHTML(message);
   } else {
     message_area.innerHTML = 'invalid command';
@@ -821,7 +820,6 @@ function list_selection() {
           result += ': [' + item.getAttribute('id') + ']';
           result += ' left: ' + item.offsetLeft;
           result += ' top: ' + item.offsetTop;
-
           break;
       }
   }

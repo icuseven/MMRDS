@@ -1,7 +1,16 @@
 .form-designer-wrapper {
+  $pageHeight: 1424px;
   position: relative;
-  height: 1424px; // set programmatically this is just a default
-  width: 1100px;
+  height: 1424px; // default height is one page proportionally
+  width: 1100px; // default width is one page proportionally
+  background: repeating-linear-gradient(
+    to bottom,
+    white,
+    white $pageHeight - 5,
+    red $pageHeight - 5,
+    red $pageHeight,
+    white $pageHeight
+  );
   padding: 15px;
   background: #fff;
   border: 2px solid;

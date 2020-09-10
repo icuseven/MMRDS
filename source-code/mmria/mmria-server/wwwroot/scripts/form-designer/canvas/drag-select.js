@@ -227,7 +227,10 @@ DragSelect.prototype._onClick = function (event) {
   var node = event.target;
   if (!this.isMultiSelectKeyPressed(event)) {
     //this._prevSelected = this.selected.slice();
-    this.selected.forEach((node) => this.unselect(node));
+    this.selected.forEach((node) => {
+      this.removeClass(node, this.selectedClass);
+    });
+    this.selected = [];
   } // #9
   this.select(node);
   // #9
@@ -350,7 +353,6 @@ DragSelect.prototype.isMultiSelectKeyPressed = function (event) {
       }
     }
   }
-  console.log(this.multiSelectKeyPressed);
   return this.multiSelectKeyPressed;
 };
 /**
@@ -684,7 +686,7 @@ DragSelect.prototype._isElementTouching = function (
   //& b01 < b12 (top border pos box1 smaller than bottom border pos box2)
   //& b02 > b11 (bottom border pos box1 larger than top border pos box2)
   // See: https://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box and https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-  console.log(selectionRect, elementRect);
+  //console.log(selectionRect, elementRect);
   /*
   sX < eX && sX + sW > eX + eW 
   ||
