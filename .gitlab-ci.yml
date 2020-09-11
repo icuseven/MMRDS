@@ -50,30 +50,37 @@ build:
         - echo "---> Version Setup - End ..."
         
         - echo "{" > build-call.txt
-        - echo "    \"ApplicationData\":{ "  >> build-call.txt
-        - echo "        \"ReleaseId\":0, " >> build-call.txt
-        - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
-        - echo "        \"ReleaseName\":\"$version_text\", " >> build-call.txt
-        - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
-        - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
-        - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
-        - echo "        \"UserDeployed\":\"Haines III, James E. (CDC DDNID NCCDPHP OD) (CTR)\", " >> build-call.txt
-        - echo "        \"ApplicationURL\":\"http://test-mmria.services-dev.cdc.gov\" " >> build-call.txt
-        - echo "    }, " >> build-call.txt
-        - echo "    \"ScansToRun\":[ " >> build-call.txt
-        - echo "        { " >> build-call.txt
-        - echo "            \"ScanName\":\"Fortify\", " >> build-call.txt
-        - echo "            \"ScanParameters\":{ " >> build-call.txt
-        - echo "                \"BuildConfiguration\":\"release\", " >> build-call.txt
-        - echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
-        - echo "                \"SolutionFileName\":\"\", " >> build-call.txt
-        - echo "                \"ResultsDelivery\":\"isu7@cdc.gov\", " >> build-call.txt
-        - echo "                \"SourceSubFolder\":\"source-code/mmria/mmria-server\", " >> build-call.txt        
-        - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
-        - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
-        - echo "                \"Technology\":\"DotNetCore\" " >> build-call.txt
-        - echo "            } " >> build-call.txt
-        - echo "        } " >> build-call.txt
+        - echo "        \"SourcePath\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
+        - echo "        \"Environment\":\"dev\", " >> build-call.txt
+        #- echo "        \"ReleaseName\":\"$version_text\", " >> build-call.txt
+        - echo "        \"SourceName\":\"MMRIA\", " >> build-call.txt
+        - echo "        \"TestingMode\":\"false\", " >> build-call.txt
+        - echo "        \"DestroyTargetInd\":\"false\", " >> build-call.txt
+        - echo "        \"DataTypeSent\":\"LogDeploymentFromOutsidePipeline\", " >> build-call.txt
+        - echo "        \"ChangeSetNumber\":\"$full_commit_number\", " >> build-call.txt
+        - echo "         \"DeployedByEmail\":\"isu7@cdc.gov\" " >> build-call.txt
+        - echo "} " >> build-call.txt
+        - written_file=$(cat build-call.txt | grep -E ".")
+        - echo " printing written_file"
+        - echo " $written_file"
+        - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/DevOpsAPI/api/PostData'
+        - sleep 30s
+        
+        #- echo "            } " >> build-call.txt
+        #- echo "    \"ScansToRun\":[ " >> build-call.txt
+        #- echo "        { " >> build-call.txt
+        #- echo "            \"ScanName\":\"Fortify\", " >> build-call.txt
+        #- echo "            \"ScanParameters\":{ " >> build-call.txt
+        #- echo "                \"BuildConfiguration\":\"release\", " >> build-call.txt
+        #- echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
+        #- echo "                \"SolutionFileName\":\"\", " >> build-call.txt
+
+        #- echo "                \"SourceSubFolder\":\"source-code/mmria/mmria-server\", " >> build-call.txt        
+        #- echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
+        #- echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
+        #- echo "                \"Technology\":\"DotNetCore\" " >> build-call.txt
+        
+        #- echo "        } " >> build-call.txt
         # - echo "        ,{ " >> build-call.txt
         # - echo "            \"ScanName\":\"WebInspect\", " >> build-call.txt
         # - echo "            \"ScanParameters\":{ " >> build-call.txt
@@ -86,13 +93,13 @@ build:
         # - echo "                \"StartingURL\":\"https://server.cdc.gov/application\" " >> build-call.txt
         # - echo "            } " >> build-call.txt
         # - echo "        } " >> build-call.txt
-        - echo "         " >> build-call.txt
-        - echo "    ]} " >> build-call.txt
-        - written_file=$(cat build-call.txt | grep -E ".")
-        - echo " printing written_file"
-        - echo " $written_file"
-        - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
-        - sleep 30s
+        #- echo "         " >> build-call.txt
+        #- echo "    ]} " >> build-call.txt
+        #- written_file=$(cat build-call.txt | grep -E ".")
+        #- echo " printing written_file"
+        #- echo " $written_file"
+        #- 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/DevOpsAPI/api/PostData'
+        #- sleep 30s
         - twist_lock_url="https://jenkins-ahb-cicd.services-dev.cdc.gov/job/ahb-cicd/job/ahb-cicd-mmria-twistlock-pipeline/buildWithParameters?token=$twistlock_token&imagename=mmria-s2i&tag=latest"
         - 'curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET $twist_lock_url > twist_lock.txt'
         - cat twist_lock.txt
