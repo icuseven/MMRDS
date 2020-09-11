@@ -239,7 +239,10 @@ by_state_of_death
                         if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
                     }
                     
-                    //result.total_rows = result.rows.Count;
+                    if(skip == 0 && result.rows.Count < take)
+                    {
+                        result.total_rows = result.rows.Count;
+                    }
 
                     return result;
                 } 
