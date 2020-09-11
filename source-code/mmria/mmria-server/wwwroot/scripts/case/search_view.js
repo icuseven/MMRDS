@@ -365,17 +365,16 @@ function render_search_text_input_control(p_ctx)
 
 function renderSearchDateControl(p_ctx)
 {
-  const control_type = p_ctx.metadata.type;
   const result = p_ctx.result;
   const style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
-  const style_string = get_only_size_and_font_style_string(style_object.prompt.style);
   const control_string = get_only_size_and_font_style_string(style_object.control.style);
+  const is_readonly = (p_ctx.metadata.is_read_only != null && p_ctx.metadata.is_read_only == true) || p_ctx.metadata.mirror_reference || p_ctx.is_read_only ? true : false;
   let is_valid = p_ctx.is_valid_date_or_datetime;
   if (is_valid === undefined) is_valid = !is_valid;
 
   result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+    const path_items = p_ctx.mmria_path.split("/");
     result.push("<p>");
-      const path_items = p_ctx.mmria_path.split("/");
       for(let i = 1; i < path_items.length; i++)
       {
         const item = path_items[i];
@@ -397,31 +396,20 @@ function renderSearchDateControl(p_ctx)
 
     result.push(`<input style="${style_object && style_object.control && style_object.control.style ? control_string : ''}" id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_input" class="form-control date ${!is_valid && 'is-invalid'}" type="date" min="1900-01-01" max="2100-12-31"`);
       result.push(` data-value="${p_ctx.data}" value="${p_ctx.data}" `); 
-      if
-      (
-        (
-          p_ctx.metadata.is_read_only != null &&
-          p_ctx.metadata.is_read_only == true
-        ) ||
-        p_ctx.metadata.mirror_reference ||
-        p_ctx.is_read_only
-      )
-      {
-        result.push(" readonly=true ");
-      }
-      else
-      {
-        let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
+      if (is_readonly) {
+        result.push(" readonly=true disabled=true ");
+      } else {
+        let f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_of`;
         if(path_to_onfocus_map[p_ctx.metadata_path])
         {
           page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
-        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
+        f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_och`;
         if(path_to_onchange_map[p_ctx.metadata_path])
         {
           page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
-        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
+        f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_ocl`;
         if(path_to_onclick_map[p_ctx.metadata_path])
         {
           page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
@@ -434,9 +422,7 @@ function renderSearchDateControl(p_ctx)
   result.push(`</div>`);
 
   p_ctx.post_html_render.push(`
-    //if validation passed
-    if (${is_valid})
-    {
+    if (${is_valid}) {
       //check if item is already there
       if ($('#validation_summary ul').find('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').length > 0) {
         $('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').remove();
@@ -445,13 +431,12 @@ function renderSearchDateControl(p_ctx)
       if ($('#validation_summary li').length < 1) {
         $('#validation_summary').hide();
       }
-    }
-    else
-    {
+    } else {
       //check if item is already there
       if ($('#validation_summary ul').find('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').length < 1) {
         const li = document.createElement('li');
         const strong = document.createElement('strong');
+        
         li.setAttribute('data-path', '${convert_object_path_to_jquery_id(p_ctx.object_path)}');
         strong.innerText = '${p_ctx.metadata.prompt}: ';
         li.innerText = 'Date must be a valid calendar date between 1900-2100';
