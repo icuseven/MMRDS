@@ -250,11 +250,11 @@ function g_set_data_object_from_path(
           p_metadata_path,
           p_object_path,
           search_text,
-
+          false,
           ctx.form_index,
           ctx.grid_index,
-           valid_date_or_datetime,
-         entered_date_or_datetime_value
+          valid_date_or_datetime,
+          entered_date_or_datetime_value
         );
 
         render_search_text(new_context);
