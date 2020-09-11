@@ -29,7 +29,8 @@ namespace mmria.server
             int take = 25,
             string sort = "by_date_created",
             string search_key = null,
-            bool descending = false
+            bool descending = false,
+            string case_status = "all"
         ) 
 		{
             /*
@@ -64,6 +65,7 @@ by_state_of_death
                     sort,
                     search_key,
                     descending,
+                    case_status,
                     jurisdiction_hashset
                 );
             }
@@ -76,6 +78,7 @@ by_state_of_death
                     sort,
                     search_key,
                     descending,
+                    case_status,
                     jurisdiction_hashset
                 );
             }
@@ -104,6 +107,7 @@ by_state_of_death
             string sort,
             string search_key,
             bool descending,
+            string case_status,
             HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> jurisdiction_hashset
         )
         {
@@ -152,7 +156,6 @@ by_state_of_death
                         request_builder.Append ("skip=0");
                     }
 
-
                     if (take > -1) 
                     {
                         request_builder.Append ($"&limit={take}");
@@ -189,6 +192,7 @@ by_state_of_death
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool is_jurisdiction_ok = false;
+                        bool add_item = false;
 
                         if(cvi.value.jurisdiction_id == null)
                         {
@@ -207,7 +211,32 @@ by_state_of_death
                             }
                         }
 
-                        if(is_jurisdiction_ok) result.rows.Add (cvi);
+
+                        if (cvi.value.case_status != null && cvi.value.case_status.HasValue) 
+                        {
+                            switch(case_status.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                    if(cvi.value.case_status.Value.ToString () == case_status)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
+                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
                     }
                     
                     //result.total_rows = result.rows.Count;
@@ -275,6 +304,34 @@ by_state_of_death
                         }
 
 
+                        if (add_item && cvi.value.case_status != null && cvi.value.case_status.HasValue) 
+                        {
+                            switch(case_status.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                    if(cvi.value.case_status.Value.ToString () == case_status)
+                                    {
+                                        add_item = true;
+                                    }
+                                    else
+                                    {
+                                        add_item = false;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
                         bool is_jurisdiction_ok = false;
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
@@ -298,7 +355,7 @@ by_state_of_death
                       }
 
 
-                    //result.total_rows = result.rows.Count;
+                    result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();
 
                     return result;
@@ -323,6 +380,7 @@ by_state_of_death
             string sort,
             string search_key,
             bool descending,
+            string case_status,
             HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> jurisdiction_hashset
         )
         {
@@ -494,6 +552,30 @@ by_state_of_death
                         if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && cvi.value.date_of_committee_review.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1) 
                         {
                             add_item = true;
+                        }
+
+                        if (cvi.value.case_status != null && cvi.value.case_status.HasValue) 
+                        {
+                            switch(case_status.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                    if(cvi.value.case_status.Value.ToString () == case_status)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
                         }
 
 

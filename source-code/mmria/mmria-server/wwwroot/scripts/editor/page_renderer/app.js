@@ -393,11 +393,11 @@ function render_sort_by_include_in_export(p_sort)
 	return f_result.join(''); // .join('') removes trailing comma in array interation
 }
 
-function renderSortCaseStatus(p_sort)
+function renderSortCaseStatus(p_case_view)
 {
 	const sortCaseStatuses = [
         {
-            value : '',
+            value : 'all',
             display : 'All'
         },
         {
@@ -433,7 +433,8 @@ function renderSortCaseStatus(p_sort)
 
 	// Using the trusty ole' .map method instead of for loop
 	sortCaseStatuses.map((status, i) => {
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value === p_sort.sort ? 'selected' : ''}>${status.display}</option>`);
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value === p_case_view.case_status ? 'selected' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); // .join('') removes trailing comma in array interation

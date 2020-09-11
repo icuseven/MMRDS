@@ -796,21 +796,35 @@ var g_ui = {
     sort: 'by_date_last_updated',
     search_key: null,
     descending: true,
+    case_status: "all",
     get_query_string: function () {
       var result = [];
       result.push('?skip=' + (this.page - 1) * this.take);
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
+      result.push('descending=' + this.descending);
 
-      if (this.search_key) {
+      let case_status_element = document.getElementById("search_case_status");
+      
+      if(case_status_element == null || case_status_element.value == null)
+      {
+        this.case_status = "all";
+      }
+      else
+      {
+        this.case_status = case_status_element.value;
+      }
+
+      result.push('case_status=' + this.case_status);
+      
+      if (this.search_key)
+      {
         result.push(
           'search_key="' +
             this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
             '"'
         );
       }
-
-      result.push('descending=' + this.descending);
 
       return result.join('&');
     },
