@@ -58,7 +58,7 @@ function render_search_text(p_ctx)
                 {
                     let child = p_ctx.metadata.children[i];
 
-                    if(p_ctx.data)
+                    if(p_ctx.data && p_ctx.data[child.name])
                     {
                         let new_context = get_seach_text_context(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                         render_search_text(new_context);

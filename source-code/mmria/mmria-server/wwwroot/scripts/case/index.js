@@ -2248,6 +2248,8 @@ function is_case_locked(p_case)
     
     if
     (
+        p_case.home_record &&
+        p_case.home_record.case_status &&
         p_case.home_record.case_status.overall_case_status &&
         p_case.home_record.case_status.overall_case_status != ""
     )
@@ -2257,6 +2259,8 @@ function is_case_locked(p_case)
     
     if
     (
+        p_case.home_record &&
+        p_case.home_record.case_status &&
         p_case.home_record.case_status &&
         p_case.home_record.case_status.case_locked_date != "" &&
         (
