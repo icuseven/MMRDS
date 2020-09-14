@@ -677,9 +677,16 @@ namespace migrate.set
 										//change_count += 1;
 										break;
 									}
+									else if(test_value_string.Trim().ToLower() == "Hawaiian / Pacific Islander".ToLower())
+									{
+										var pacific_islander_item_value = "3";
+										change_list.Add((form_item.Item1, pacific_islander_item_value));
+										//change_count += 1;
+										break;
+									}
 									else
 									{
-										System.Console.WriteLine("informant interview bad mapping:"  + test_value_string);
+										System.Console.WriteLine("Manual Migration.cs informant interview bad mapping:"  + test_value_string);
 									
 										var summary_key = "informant_interviews/race";
 										if(!this.summary_value_dictionary.ContainsKey(summary_key))
@@ -729,6 +736,10 @@ namespace migrate.set
 						}
 						
 					}
+				}
+				else
+				{
+					System.Console.WriteLine("here");
 				}
 
 				if(change_list.Count > 0)
