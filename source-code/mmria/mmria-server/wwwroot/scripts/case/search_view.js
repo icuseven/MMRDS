@@ -457,7 +457,7 @@ function render_search_text_textarea_control(p_ctx)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path);
-        p_ctx.result.push("' class='form-group mb-5'>");
+        p_ctx.result.push("' class='quickedit-wrapper form-group mb-5'>");
         p_ctx.result.push("<p>");
             // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
             let path_items = p_ctx.mmria_path.split('/');
@@ -492,7 +492,7 @@ function render_search_text_textarea_control(p_ctx)
 
         p_ctx.result.push("<textarea id='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' class='form-control' style='");
+        p_ctx.result.push("' class='quicksearch-rich-text-editor form-control' style='");
         
         p_ctx.result.push(get_only_size_and_font_style_string(style_object.control.style));
         p_ctx.result.push("' "); 
@@ -534,8 +534,82 @@ function render_search_text_textarea_control(p_ctx)
         }
 
         p_ctx.result.push(">");
-        p_ctx.result.push(p_ctx.data);
+          p_ctx.result.push(p_ctx.data);
         p_ctx.result.push("</textarea>");
+
+        let opts = {
+          btns: [
+            ['viewHTML'],
+            ['undo', 'redo'],
+            ['strong', 'em', 'underline', 'del'],
+            ['fontsize'],
+            ['foreColor', 'backColor'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen'],
+          ],
+          plugins: {
+            // Add font sizes manually
+            fontsize: {
+              sizeList: [
+                '14px',
+                '16px',
+                '18px',
+                '24px',
+                '32px',
+                '48px'
+              ],
+              allowCustomSize: false
+            },
+            // Add colors manually
+            // Currently utilizing all primary, secondary, tertiary colors in color wheel
+            colors: {
+              colorList: [
+                'FFFFFF',
+                'CCCCCC',
+                '777777',
+                '333333',
+                '000000',
+                'FF0000',
+                '00FF00',
+                '0000FF',
+                'FFFF00',
+                'FF00FF',
+                '00FFFF',
+                'FF7F00',
+                'FF007F',
+                '7FFF00',
+                '7F00FF',
+                '00FF7F',
+                '007FFF'
+              ]
+            }
+          },
+          semantic: true
+        }
+
+        p_ctx.post_html_render.push(`
+          $('.quicksearch-rich-text-editor').trumbowyg(${JSON.stringify(opts)})
+            .on('tbwchange', function ()
+            {
+              let data = $('.trumbowyg-editor').html();
+              data = data.split('&quot;').join('\\'');
+              $('.trumbowyg-textarea').val(data);
+              
+              g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
+            })
+            .on('tbwpaste', function ()
+            {
+              let data = $('.trumbowyg-editor').html();
+              data = data.split('&quot;').join('\\'');
+              $('.trumbowyg-textarea').val(data);
+              
+              g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
+            });
+        `);
+
         p_ctx.result.push("</div>");
     }
 }
