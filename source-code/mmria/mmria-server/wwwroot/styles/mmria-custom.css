@@ -1497,6 +1497,12 @@ button.link {
 .trumbowyg-textarea[contenteditable="false"] {
   background-color: var(--neutral-light);
 }
+.quickedit-wrapper .trumbowyg-box {
+  display: grid;
+}
+.quickedit-wrapper .trumbowyg-fullscreen.trumbowyg-box {
+  display: block;
+}
 
 .trumbowyg-editor blockquote,
 .trumbowyg-editor div,
