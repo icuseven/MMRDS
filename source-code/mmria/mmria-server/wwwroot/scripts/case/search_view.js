@@ -115,7 +115,6 @@ function render_search_text(p_ctx)
         case "string":
         case "number":
         case "time":
-          case "datetime":
             if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
             {
                 render_search_text_input_control(p_ctx);
@@ -125,6 +124,12 @@ function render_search_text(p_ctx)
             if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
             {
                 renderSearchDateControl(p_ctx);
+            }
+            break;
+        case "datetime":
+            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+                renderSearchDateTimeControl(p_ctx);
             }
             break;
         case "list":
@@ -447,6 +452,159 @@ function renderSearchDateControl(p_ctx)
       $('#validation_summary').show();
     }
   `);
+}
+
+function renderSearchDateTimeControl(p_ctx)
+{
+  const result = p_ctx.result;
+  const style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
+  const control_string = get_only_size_and_font_style_string(style_object.control.style);
+  const is_readonly = (p_ctx.metadata.is_read_only != null && p_ctx.metadata.is_read_only == true) || p_ctx.metadata.mirror_reference || p_ctx.is_read_only ? true : false;
+  let is_valid = p_ctx.is_valid_date_or_datetime;
+  if (is_valid === undefined) is_valid = !is_valid;
+
+  result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+    const path_items = p_ctx.mmria_path.split("/");
+    result.push(`<p>`);
+      for(let i = 1; i < path_items.length; i++)
+      {
+        const item = path_items[i];
+        if(i === 1)
+        {
+          const array = window.location.href.split("/field_search/");
+          const link_url = array[0] + "/" + item;
+          result.push(`<a href='${link_url}'>${item}</a>`);
+        }
+        else
+        {
+          result.push(" > ");
+          result.push(item);
+        }
+      }
+    result.push(`</p>`);
+    
+    result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}">${p_ctx.metadata.prompt}</label>`);
+    
+    result.push(`<div class="datetime-control row no-gutters ${!is_valid && 'is-invalid'}" style="${style_object && style_object.control && style_object.control.style ? control_string : ''}">`);
+      result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_dateinput" class="form-control datetime-date form-control w-50 h-100" type="date" min="1900-01-01" max="2100-12-31"`);
+        result.push(` data-value="${p_ctx.data}" value="${p_ctx.data.split('T')[0]}" `); 
+        if (is_readonly) {
+          result.push(" readonly=true disabled=true ");
+        } else {
+          let f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_of`;
+          if(path_to_onfocus_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_och`;
+          if(path_to_onchange_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_ocl`;
+          if(path_to_onclick_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          
+          create_onblur_datetime_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+        }
+      result.push(` />`);
+
+      const newData = p_ctx.data;
+      const newDateValue = newData.split('T')[0];
+      const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'));
+      result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_timeinput" class="form-control datetime-time form-control w-50 h-100" type="text" data-value="${newData}" value="${newDateValue ? newTimeValue : '00:00:00'}"`);
+        if (is_readonly) {
+          result.push(" readonly=true disabled=true ");
+        } else {
+          let f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_of`;
+          if(path_to_onfocus_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_och`;
+          if(path_to_onchange_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          f_name = `x${path_to_int_map[p_ctx.metadata_path].toString(16)}_ocl`;
+          if(path_to_onclick_map[p_ctx.metadata_path])
+          {
+            page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
+          
+          create_onblur_datetime_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+        }
+      result.push(` />`);
+      result.push(`<small class="validation-msg text-danger mt-2" style="${is_valid ? 'display: none;' : 'display: false;'}">Invalid date and time</small>`);
+      result.push(`</div>`);
+  result.push(`</div>`);
+
+  p_ctx.post_html_render.push(`
+    if (${is_valid}) {
+      //check if item is already there
+      if ($('#validation_summary ul').find('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').length > 0) {
+        $('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').remove();
+      }
+      
+      if ($('#validation_summary li').length < 1) {
+        $('#validation_summary').hide();
+      }
+    } else {
+      //check if item is already there
+      if ($('#validation_summary ul').find('[data-path="${convert_object_path_to_jquery_id(p_ctx.object_path)}"]').length < 1) {
+        const li = document.createElement('li');
+        const strong = document.createElement('strong');
+        
+        li.setAttribute('data-path', '${convert_object_path_to_jquery_id(p_ctx.object_path)}');
+        strong.innerText = '${p_ctx.metadata.prompt}: ';
+        li.innerText = 'Date must be a valid calendar date between 1900-2100';
+        li.prepend(strong);
+        $('#validation_summary ul').append(li);
+      }
+
+      $('#validation_summary').show();
+    }
+  `);
+
+  //Initialize the custom 'bootstrap timepicker'
+  p_ctx.post_html_render.push(`
+    $('#${convert_object_path_to_jquery_id(p_ctx.object_path)}_timeinput').timepicker({
+      defaultTime: false,
+      minuteStep: 1,
+      secondStep: 1,
+      showMeridian: false,
+      showSeconds: true,
+      template: false,
+      icons: {
+        up: 'x24 fill-p cdc-icon-arrow-down',
+        down: 'x24 fill-p cdc-icon-arrow-down'
+      }
+    });
+  `);
+
+  //helper fn to toggle disabled attr
+  p_ctx.post_html_render.push(`
+    function toggle_disabled(el, tar) {				
+      if (isNullOrUndefined(el.val())) {
+        tar.attr('disabled', true);
+      }
+      else
+      {
+        tar.attr('disabled', false);
+      }
+    }
+  `);
+
+  //On load, IF case has been checked out
+  //we want to toggle disabled attr on time incase date is valid/invalid
+  if (g_data_is_checked_out)
+  {
+    p_ctx.post_html_render.push(`
+      toggle_disabled($('#${convert_object_path_to_jquery_id(p_ctx.object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_ctx.object_path)} .datetime-time'));
+    `);
+  }
 }
 
 function render_search_text_textarea_control(p_ctx)
