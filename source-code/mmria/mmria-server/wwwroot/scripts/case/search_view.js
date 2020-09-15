@@ -613,160 +613,147 @@ function render_search_text_textarea_control(p_ctx)
 
     if(style_object)
     {
-        p_ctx.result.push("<div metadata='");
-        p_ctx.result.push(p_ctx.mmria_path);
-        p_ctx.result.push("' class='quickedit-wrapper form-group mb-5'>");
-        p_ctx.result.push("<p>");
-            // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
-            let path_items = p_ctx.mmria_path.split('/');
+        p_ctx.result.push(`<div metadata="${p_ctx.mmria_path}" class="quickedit-wrapper form-group mb-5"`);
+          p_ctx.result.push("<p>");
+              // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+              let path_items = p_ctx.mmria_path.split('/');
 
-            for(let i = 1; i < path_items.length; i++)
-            {
-                let item = path_items[i];
+              for(let i = 1; i < path_items.length; i++)
+              {
+                  let item = path_items[i];
 
-                if(i == 1)
-                {
-                    let array = window.location.href.split("/field_search/");
-                    //window.location.hash = "/" + record_index + "/field_search/" + search_text;
-                    let link_url = array[0] + "/" + item;
+                  if(i == 1)
+                  {
+                      let array = window.location.href.split("/field_search/");
+                      //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                      let link_url = array[0] + "/" + item;
 
-                    p_ctx.result.push(`<a href='${link_url}'>${item}</a>`);
-                }
-                else
-                {
-                    p_ctx.result.push(" > ");
-                    p_ctx.result.push(item);
-                }
-            }
-        p_ctx.result.push("</p>");
+                      p_ctx.result.push(`<a href='${link_url}'>${item}</a>`);
+                  }
+                  else
+                  {
+                      p_ctx.result.push(" > ");
+                      p_ctx.result.push(item);
+                  }
+              }
+          p_ctx.result.push("</p>");
 
-        p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
-        p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' style='");
-        p_ctx.result.push(get_only_size_and_font_style_string(style_object.prompt.style)); 
-        p_ctx.result.push("'>");
-        p_ctx.result.push(p_ctx.metadata.prompt);
-        p_ctx.result.push("</label>");
+          p_ctx.result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}" style="${get_only_size_and_font_style_string(style_object.prompt.style)}">${p_ctx.metadata.prompt}</label>`);
 
-        p_ctx.result.push("<textarea id='");
-        p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' class='quicksearch-rich-text-editor form-control' style='");
-        
-        p_ctx.result.push(get_only_size_and_font_style_string(style_object.control.style));
-        p_ctx.result.push("' "); 
+          p_ctx.result.push(`<textarea id="${p_ctx.mmria_path.replace(/\//g, "--")}" class="${p_ctx.mmria_path.indexOf('case_narrative') !== -1 ? 'quicksearch-rich-text-editor': ''} form-control" style="${get_only_size_and_font_style_string(style_object.control.style)}; ${p_ctx.mmria_path.indexOf('case_narrative') !== -1 ? 'height: auto': ''}" `);
 
-        if
-        (
-            (
-                p_ctx.metadata.is_read_only != null &&
-                p_ctx.metadata.is_read_only == true
-            ) ||
-            p_ctx.metadata.mirror_reference ||
-            p_ctx.is_read_only
-        )
-        {
-            p_ctx.result.push(" readonly=true ");
-        }
-        else
-        {
-            let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
+          if
+          (
+              (
+                  p_ctx.metadata.is_read_only != null &&
+                  p_ctx.metadata.is_read_only == true
+              ) ||
+              p_ctx.metadata.mirror_reference ||
+              p_ctx.is_read_only
+          )
+          {
+              p_ctx.result.push(` readonly=true disabled=true `);
+          }
+          else
+          {
+              let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
 
-            if(path_to_onfocus_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-            }
+              if(path_to_onfocus_map[p_ctx.metadata_path])
+              {
+                  page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+              }
 
-            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
-            if(path_to_onchange_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionmmria_pathary_path);
-            }
-            
-            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
-            if(path_to_onclick_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-            }
-            
-            page_render_create_onblur_event(p_ctx.result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-        }
+              f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
+              if(path_to_onchange_map[p_ctx.metadata_path])
+              {
+                  page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionmmria_pathary_path);
+              }
+              
+              f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
+              if(path_to_onclick_map[p_ctx.metadata_path])
+              {
+                  page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+              }
+              
+              page_render_create_onblur_event(p_ctx.result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+          }
 
-        p_ctx.result.push(">");
-          p_ctx.result.push(p_ctx.data);
-        p_ctx.result.push("</textarea>");
+          p_ctx.result.push(">");
+            p_ctx.result.push(p_ctx.data);
+          p_ctx.result.push("</textarea>");
 
-        let opts = {
-          btns: [
-            ['viewHTML'],
-            ['undo', 'redo'],
-            ['strong', 'em', 'underline', 'del'],
-            ['fontsize'],
-            ['foreColor', 'backColor'],
-            ['justifyLeft', 'justifyCenter', 'justifyRight'],
-            ['unorderedList', 'orderedList'],
-            ['horizontalRule'],
-            ['removeformat'],
-            ['fullscreen'],
-          ],
-          plugins: {
-            // Add font sizes manually
-            fontsize: {
-              sizeList: [
-                '14px',
-                '16px',
-                '18px',
-                '24px',
-                '32px',
-                '48px'
-              ],
-              allowCustomSize: false
+          let opts = {
+            btns: [
+              ['viewHTML'],
+              ['undo', 'redo'],
+              ['strong', 'em', 'underline', 'del'],
+              ['fontsize'],
+              ['foreColor', 'backColor'],
+              ['justifyLeft', 'justifyCenter', 'justifyRight'],
+              ['unorderedList', 'orderedList'],
+              ['horizontalRule'],
+              ['removeformat'],
+              ['fullscreen'],
+            ],
+            plugins: {
+              // Add font sizes manually
+              fontsize: {
+                sizeList: [
+                  '14px',
+                  '16px',
+                  '18px',
+                  '24px',
+                  '32px',
+                  '48px'
+                ],
+                allowCustomSize: false
+              },
+              // Add colors manually
+              // Currently utilizing all primary, secondary, tertiary colors in color wheel
+              colors: {
+                colorList: [
+                  'FFFFFF',
+                  'CCCCCC',
+                  '777777',
+                  '333333',
+                  '000000',
+                  'FF0000',
+                  '00FF00',
+                  '0000FF',
+                  'FFFF00',
+                  'FF00FF',
+                  '00FFFF',
+                  'FF7F00',
+                  'FF007F',
+                  '7FFF00',
+                  '7F00FF',
+                  '00FF7F',
+                  '007FFF'
+                ]
+              }
             },
-            // Add colors manually
-            // Currently utilizing all primary, secondary, tertiary colors in color wheel
-            colors: {
-              colorList: [
-                'FFFFFF',
-                'CCCCCC',
-                '777777',
-                '333333',
-                '000000',
-                'FF0000',
-                '00FF00',
-                '0000FF',
-                'FFFF00',
-                'FF00FF',
-                '00FFFF',
-                'FF7F00',
-                'FF007F',
-                '7FFF00',
-                '7F00FF',
-                '00FF7F',
-                '007FFF'
-              ]
-            }
-          },
-          semantic: true
-        }
+            semantic: true
+          }
 
-        p_ctx.post_html_render.push(`
-          $('.quicksearch-rich-text-editor').trumbowyg(${JSON.stringify(opts)})
-            .on('tbwchange', function ()
-            {
-              let data = $('.trumbowyg-editor').html();
-              data = data.split('&quot;').join('\\'');
-              $('.trumbowyg-textarea').val(data);
-              
-              g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
-            })
-            .on('tbwpaste', function ()
-            {
-              let data = $('.trumbowyg-editor').html();
-              data = data.split('&quot;').join('\\'');
-              $('.trumbowyg-textarea').val(data);
-              
-              g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
-            });
-        `);
+          p_ctx.post_html_render.push(`
+            $('.quicksearch-rich-text-editor').trumbowyg(${JSON.stringify(opts)})
+              .on('tbwchange', function ()
+              {
+                let data = $('.trumbowyg-editor').html();
+                data = data.split('&quot;').join('\\'');
+                $('.trumbowyg-textarea').val(data);
+                
+                g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
+              })
+              .on('tbwpaste', function ()
+              {
+                let data = $('.trumbowyg-editor').html();
+                data = data.split('&quot;').join('\\'');
+                $('.trumbowyg-textarea').val(data);
+                
+                g_textarea_oninput("${p_ctx.object_path}","${p_ctx.metadata_path}","${p_ctx.dictionary_path}", data);
+              });
+          `);
 
         p_ctx.result.push("</div>");
     }
