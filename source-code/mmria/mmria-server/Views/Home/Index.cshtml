@@ -224,7 +224,10 @@ else
         <div class="card-body">
           <ul>
             <li><a href="/_users">Manage users & jurisdictions</a></li>
-            <li><a href="/manage-case-check-outs">Manage case check outs</a></li>
+            @if(is_abstractor)
+            {
+                <li><a href="/manage-case-check-outs">Manage case check outs</a></li>
+            }
           </ul>
         </div>
       </li>
