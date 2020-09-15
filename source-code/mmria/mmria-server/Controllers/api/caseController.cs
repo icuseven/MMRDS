@@ -240,7 +240,19 @@ namespace mmria.server
 					document_json = await check_document_curl.executeAsync ();
 					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
-					if (result_dictionary.ContainsKey ("_rev")) 
+					
+                    if
+					(
+						result_dictionary != null && 
+						!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+					)
+					{
+						Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+						return null;
+					}
+                    
+                    
+                    if (result_dictionary.ContainsKey ("_rev")) 
 					{
 						request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
 						//System.Console.WriteLine ("json\n{0}", object_string);
