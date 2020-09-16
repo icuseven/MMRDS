@@ -1427,13 +1427,6 @@ function get_metadata()
 
 function window_on_hash_change(e) 
 {
-  /*
-  e = HashChangeEvent
-  {
-    isTrusted: true,
-    oldURL: "http://localhost:12345/react-test/#/",
-    newURL: "http://localhost:12345/rea
-  }*/
 
   if (g_data) 
   {
@@ -1449,18 +1442,26 @@ function window_on_hash_change(e)
         parseInt(g_ui.url_state.path_array[0]) >= 0
       ) 
       {
-        /*
-        if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
-        {
-            save_queue.push(g_data._id);
-        }*/
 
         var case_id = g_data._id;
-        save_case(g_data, function () {
-          get_specific_case(
-            g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
-          );
-        });
+
+        if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
+        {
+            save_case(g_data, function () 
+            {
+            get_specific_case(
+                g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
+            );
+            });
+
+        }
+        else
+        {
+            save_case(g_data, function () 
+            {
+                g_render();
+            });
+        }
       } 
       else 
       {
@@ -1494,26 +1495,19 @@ function window_on_hash_change(e)
     {
       if (g_ui.case_view_list.length > 0) 
       {
-        get_specific_case(
+        get_specific_case
+        (
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
         );
-        //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
       } 
       else 
       {
         g_render();
       }
-      //
+    
     } 
     else 
     {
-      /*
-      if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-      {
-        save_queue.push(g_data._id);
-      }*/
-      //save_case(g_data);
-      //g_data = null;
 
       g_render();
     }
@@ -1699,7 +1693,7 @@ function g_render()
     g_ui
   ).join('');
 
-  document.getElementById('form_content_id').innerHTML = 
+  document.getElementById('form_content_id').innerHTML = page_render
   (
     g_metadata,
     g_data,
@@ -1896,16 +1890,6 @@ function apply_validation()
       if (element && element.className.indexOf('failed-validation') < 0) 
       {
         element.className += ' failed-validation';
-        /*
-         var validation_text = element.getAttribute('validation-tooltip');
-         if(validation_text)
-         {
-          var span_node = document.createElement("span");
-          span_node.setAttribute('class', 'tooltip-content');
-          span_node.innerText = element.getAttribute('validation-tooltip');
-          element.appendChild(span_node);
-         }
-         */
       }
     } 
     else 
