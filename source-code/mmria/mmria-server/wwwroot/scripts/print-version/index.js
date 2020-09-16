@@ -29,7 +29,7 @@ function create_print_version(p_metadata, p_data, p_section, p_number)
 
 	// console.log('c. Create print version...');
 
-	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui, "g_metadata", "g_data", post_html_call_back).join("");
+	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui, "g_metadata", "g_data", post_html_call_back, null, false).join("");
 
 	if(post_html_call_back.length > 0)
 	{

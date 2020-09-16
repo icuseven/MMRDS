@@ -760,7 +760,7 @@ namespace mmria.server
               template: "{controller=Home}/{action=Index}/{id?}");
       });
       */
-    app.UseStaticFiles();
+
 
       app.UseRouting();
       app.UseAuthentication();
@@ -783,7 +783,7 @@ namespace mmria.server
           .SetLoadReact(false)
           .SetReactAppBuildPath("~/dist");
       });
-      
+    app.UseStaticFiles();
 
       //http://localhost:5000/swagger/v1/swagger.json
       // Enable middleware to serve generated Swagger as a JSON endpoint.
