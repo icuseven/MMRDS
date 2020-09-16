@@ -2093,7 +2093,13 @@ function print_case_onclick(event)
   {
     if (section_name == 'core-summary') 
     {
-      openTab('./core-elements', '_core_summary', 'all');
+
+        window.setTimeout(function()
+        {
+            openTab('./core-elements', '_core_summary', 'all');
+        }, 1000);	
+
+      
     } 
     else 
     {
@@ -2101,7 +2107,13 @@ function print_case_onclick(event)
       const selectedOption = dropdown.options[dropdown.options.selectedIndex];
       const record_number = selectedOption.dataset.record;
       const tabName = section_name === 'all' ? '_all' : '_print_version';
-      openTab('./print-version', tabName, section_name, record_number);
+
+
+      window.setTimeout(function()
+      {
+          openTab('./print-version', tabName, section_name, record_number);
+      }, 1000);	
+      
     }
   }
 }
