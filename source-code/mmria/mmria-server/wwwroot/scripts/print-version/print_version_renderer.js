@@ -496,12 +496,19 @@ d3.select('#chart svg').append('text')
     case 'boolean':
       result.push('<h9>');
       result.push('<p>');
-      result.push(' <strong>');
-      result.push(p_metadata.prompt);
-      result.push('</strong>: ');
-      if (p_data) {
+      if(! p_is_grid_context)
+      {
+        result.push(' <strong>');
+        result.push(p_metadata.prompt);
+        result.push('</strong>: ');
+      }
+
+      if (p_data) 
+      {
         result.push(p_data);
-      } else {
+      } 
+      else 
+      {
         result.push('&nbsp;');
       }
       result.push('</p>');
@@ -514,9 +521,12 @@ d3.select('#chart svg').append('text')
       {
         result.push('<h9>');
         result.push('<p>');
-        result.push(' <strong>');
-        result.push(p_metadata.prompt);
-        result.push('</strong>: ');
+        if(! p_is_grid_context)
+        {
+            result.push(' <strong>');
+            result.push(p_metadata.prompt);
+            result.push('</strong>: ');
+        }
         result.push(p_data);
         result.push('</p>');
         result.push('</h9>');
