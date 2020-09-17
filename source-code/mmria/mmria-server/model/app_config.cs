@@ -17,7 +17,7 @@ namespace mmria.server.model
             public string export_directory {get; set;} = "c:/temp/mmria-export";
             public string couchdb_url {get; set;} = "http://localhost:5984";
             public string timer_user_name {get; set;} = null;
-            public string timer_password {get; set;} = null;
+            public string timer_value {get; set;} = null;
             public string cron_schedule {get; set;} = "0 */1 * * * ?";
             public int? pass_word_minimum_length {get; set;} =  8;
             public int? pass_word_days_before_expires {get; set;} = 0;
