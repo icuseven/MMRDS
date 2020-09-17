@@ -535,22 +535,29 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     else
     {
 
-        p_result.push("  onblur='g_set_data_object_from_path(\"");
-        p_result.push(p_object_path);
-        p_result.push("\",\"");
-        p_result.push(p_metadata_path);
-        p_result.push("\",\"");
-        p_result.push(p_dictionary_path);
-        p_result.push("\",this.value)'  ");
+        if(g_data_is_checked_out)
+        {
+            p_result.push("  onblur='g_set_data_object_from_path(\"");
+            p_result.push(p_object_path);
+            p_result.push("\",\"");
+            p_result.push(p_metadata_path);
+            p_result.push("\",\"");
+            p_result.push(p_dictionary_path);
+            p_result.push("\",this.value)'  ");
+        }
     }
 
     let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
 
-    p_result.push("  onchange='editable_list_onchange(this, \"");
-    p_result.push(p_object_path);
-    p_result.push("\",\"");
-    p_result.push(d_path);
-    p_result.push("\")' ");
+    if(g_data_is_checked_out)
+    {
+
+        p_result.push("  onchange='editable_list_onchange(this, \"");
+        p_result.push(p_object_path);
+        p_result.push("\",\"");
+        p_result.push(d_path);
+        p_result.push("\")' ");
+    }
 
     if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
     {
