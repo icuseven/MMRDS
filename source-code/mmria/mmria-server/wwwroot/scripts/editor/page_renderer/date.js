@@ -44,14 +44,19 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata.prompt);
 
         p_result.push("</label> ");
-
+        
         let is_valid = true;
         if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
         {
-            is_valid = p_ctx.is_valid_date_or_datetime;
+          is_valid = p_ctx.is_valid_date_or_datetime;
         }
         
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        p_result.push(
+          `<div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+          </div>`
+        );
 
         p_post_html_render.push(`
           $('#g_data_home_record_case_status_case_locked_date input').hide();
@@ -137,6 +142,25 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             TODO: Comment out when going to test
                 ~ 7/6/20: Removed datepicker plugin, using browser supported 'type="date"' attribute
         */
+        // p_post_html_render.push(`$("#${convert_object_path_to_jquery_id(p_object_path)} input").datepicker({
+        //   forceParse: false,
+        //   keyboardNavigation: false
+        // })`);
+        p_post_html_render.push(`
+          $("#${convert_object_path_to_jquery_id(p_object_path)} input").datetimepicker({
+            format: 'MM/DD/YYYY',
+            keepInvalid: true,
+            useCurrent: false,
+            icons: {
+              time: "x24 cdc-icon-clock_01",
+              date: "x24 cdc-icon-calendar_01",
+              up: "x24 cdc-icon-chevron-double-right",
+              down: "x24 cdc-icon-chevron-double-right",
+              previous: 'x16 cdc-icon-chevron-double-right',
+              next: 'x16 cdc-icon-chevron-double-right'
+            }
+          })
+        `);
         // p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
         // p_post_html_render.push(' format: "Y-MM-DD", ');
         // p_post_html_render.push(' defaultDate: "' + p_data + '",');

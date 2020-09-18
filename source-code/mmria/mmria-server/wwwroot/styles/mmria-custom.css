@@ -229,6 +229,17 @@ button.link {
 }
 
 /*
+~~~ CUSTOM DATEPICKER STYLES
+*/
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  background-color: var(--white) !important;
+}
+
+.datepicker .prev .cdc-icon-chevron-double-right {
+  transform: rotate(180deg);
+}
+
+/*
 ~~~ CUSTOM TIMEPICKER STYLES
 */
 .datetime-control {

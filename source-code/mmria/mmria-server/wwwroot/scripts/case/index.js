@@ -352,19 +352,32 @@ function g_set_data_object_from_path(
                 });
                 break;
 
-                /*
                 case 'date':
-                flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
-                    utc: true,
-                    enableTime: false,
-                    defaultDate: value,
-                    onChange: function(selectedDates, p_value, instance) {
-                        g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
+                  $(`#${convert_object_path_to_jquery_id(p_object_path)} input`).datetimepicker({
+                    format: 'MM/DD/YYYY',
+                    keepInvalid: true,
+                    useCurrent: false,
+                    icons: {
+                      time: "x24 cdc-icon-clock_01",
+                      date: "x24 cdc-icon-calendar_01",
+                      up: "x24 cdc-icon-chevron-double-right",
+                      down: "x24 cdc-icon-chevron-double-right",
+                      previous: 'x16 cdc-icon-chevron-double-right',
+                      next: 'x16 cdc-icon-chevron-double-right'
                     }
-                });
+                  });
+                  
+                  // flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
+                  //     utc: true,
+                  //     enableTime: false,
+                  //     defaultDate: value,
+                  //     onChange: function(selectedDates, p_value, instance) {
+                  //         g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
+                  //     }
+                  // });
 
-                break;
-                */
+                  break;
+
                 case 'datetime':
                 $(
                     `#${convert_object_path_to_jquery_id(
