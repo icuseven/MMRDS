@@ -59,15 +59,18 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				is_valid = p_ctx.is_valid_date_or_datetime;
 			}
 
+      const newData = p_data;
+
+      const newDateValue = newData.split('T')[0]
 			p_result.push(
 				`<input class="datetime-date form-control w-50 h-100"
-					    dpath="${p_object_path}"
-					    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-					    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-					    type="date" name="${p_metadata.name}"
-					    data-value="${p_data}"
-					    value="${p_data.split('T')[0]}"
-						${disabled_html}`
+                dpath="${p_object_path}"
+                ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+                ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+                type="date" name="${p_metadata.name}"
+                data-value="${p_data}"
+                value="${newDateValue}"
+                ${disabled_html}`
 			);
 				if
 				(
@@ -102,17 +105,24 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
       //if we have . which signifies milliseconds are present in data
       //get string between 'T' and '.' of ISO format
       //else get string between 'T' and 'Z' of ISO format
-      const newData = p_data;
       const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'))
 			p_result.push(
-				`<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
-				   dpath="${p_object_path}"
-				   ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-				   ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-				   type="text" name="${p_metadata.name}"
-				   data-value="${p_data}"
-				   value="${newData.split('T')[0] ? newTimeValue : '00:00:00'}"
-				   ${disabled_html}`
+        `<input class="datetime-time form-control w-50 h-100"
+				        dpath="${p_object_path}"
+				        ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+                ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+                type="text" name="${p_metadata.name}"
+                data-value="${p_data}"
+                value="${newDateValue ? newTimeValue : '00:00:00'}"
+                ${disabled_html}`
+				// `<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+				//    dpath="${p_object_path}"
+				//    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+				//    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+				//    type="text" name="${p_metadata.name}"
+				//    data-value="${p_data}"
+				//    value="${newData.split('T')[0] ? newTimeValue : '00:00:00'}"
+				//    ${disabled_html}`
 			);
 				if
 				(
@@ -224,41 +234,65 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		p_result.push("</div>");
 
 		//Initialize the custom 'bootstrap timepicker'
-		p_post_html_render.push(`
-			$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
-				defaultTime: false,
-				minuteStep: 1,
-				secondStep: 1,
-				showMeridian: false,
-				showSeconds: true,
-				template: false,
-				icons: {
-					up: 'x24 fill-p cdc-icon-arrow-down',
-					down: 'x24 fill-p cdc-icon-arrow-down'
-				}
-			});
+    p_post_html_render.push(`
+      $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date").datetimepicker({
+        format: 'MM/DD/YYYY',
+        keepInvalid: true,
+        useCurrent: false,
+        icons: {
+          up: "x24 cdc-icon-chevron-double-right",
+          down: "x24 cdc-icon-chevron-double-right",
+          previous: 'x16 cdc-icon-chevron-double-right',
+          next: 'x16 cdc-icon-chevron-double-right'
+        }
+      });
+
+      $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time").datetimepicker({
+        format: 'HH:mm:ss',
+        keepInvalid: true,
+        useCurrent: false,
+        icons: {
+          up: "x24 cdc-icon-chevron-double-right",
+          down: "x24 cdc-icon-chevron-double-right",
+          previous: 'x16 cdc-icon-chevron-double-right',
+          next: 'x16 cdc-icon-chevron-double-right'
+        }
+      });
+
+			// $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
+			// 	defaultTime: false,
+			// 	minuteStep: 1,
+			// 	secondStep: 1,
+			// 	showMeridian: false,
+			// 	showSeconds: true,
+			// 	template: false,
+			// 	icons: {
+			// 		up: 'x24 fill-p cdc-icon-arrow-down',
+			// 		down: 'x24 fill-p cdc-icon-arrow-down'
+			// 	}
+			// });
 		`);
 
 		//helper fn to toggle disabled attr
-		p_post_html_render.push(`
-			function toggle_disabled(el, tar) {				
-				if (isNullOrUndefined(el.val())) {
-					tar.attr('disabled', true);
-				}
-				else
-				{
-					tar.attr('disabled', false);
-				}
-			}
-		`);
+		// p_post_html_render.push(`
+		// 	function toggle_disabled(el, tar) {				
+		// 		if (isNullOrUndefined(el.val())) {
+		// 			tar.attr('disabled', true);
+		// 		}
+		// 		else
+		// 		{
+		// 			tar.attr('disabled', false);
+		// 		}
+		// 	}
+		// `);
 
 		//On load, IF case has been checked out
 		//we want to toggle disabled attr on time incase date is valid/invalid
 		if (g_data_is_checked_out)
 		{
-			p_post_html_render.push(`
-				toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time'));
-			`);
+			// p_post_html_render.push(`
+			// 	toggle_disabled($('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date'), $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time'));
+			// `);
 		}
 
 		// //Toggle disabled attr on time when changing date and value is valid/invalid
