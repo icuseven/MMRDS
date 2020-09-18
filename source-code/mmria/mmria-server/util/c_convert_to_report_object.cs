@@ -109,6 +109,7 @@ namespace mmria.server.util
 		public string execute ()
 		{
 			string result = null;
+            Get_Value_Result value_result = null;
 
 			string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
@@ -130,9 +131,10 @@ namespace mmria.server.util
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 			report_object = new mmria.server.model.c_report_object ();
-			report_object._id = get_value (source_object, "_id");
+			report_object._id = get_value (source_object, "_id").result;
 
 
+            
 
 
 			/*
@@ -145,7 +147,7 @@ namespace mmria.server.util
 
 			try
 			{
-				val = get_value(source_object, "home_record/date_of_death/year");
+				val = get_value(source_object, "home_record/date_of_death/year").result;
 				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_death = System.Convert.ToInt32(val);
@@ -159,7 +161,7 @@ namespace mmria.server.util
 
 			try
 			{
-				val = get_value(source_object, "committee_review/date_of_review");
+				val = get_value(source_object, "committee_review/date_of_review").result;
 				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_case_review = System.Convert.ToDateTime(val).Year;
@@ -228,9 +230,19 @@ namespace mmria.server.util
 		}
 
 
-		public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
+        private class Get_Value_Result
+        {
+            public Get_Value_Result(){}
+
+            public dynamic result { get; set;}
+
+            public bool is_erorr { get; set;}
+        }
+
+		private Get_Value_Result get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
 		{
 			dynamic result = null;
+            bool is_error = false;
 
 			try
 			{
@@ -396,10 +408,19 @@ namespace mmria.server.util
 			}
 			catch (Exception ex)
 			{
+                is_error = true;
 				System.Console.WriteLine("c_convert_to_report_object.get_value bad mapping {0}\n {1}", p_path, ex);
 			}
 
-			return result;
+            if(is_error)
+            {
+                return new Get_Value_Result(){ result = null, is_erorr = is_error};
+            }
+            else
+            {
+
+			    return new Get_Value_Result(){ result = result, is_erorr = is_error};
+            }
 
 		}
 
@@ -505,12 +526,24 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 			pregnant_within_43_to_365_days_of_death
 */
 
-			object length = get_value (p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+            var get_value_result = get_value (p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			object length = null;
+
+            if(!get_value_result.is_erorr)
+            {
+                length = get_value_result.result;
+            }
+            
 			int length_test = -1;
 
 			if (length != null) int.TryParse (length.ToString (), out length_test);
 
-			string status = get_value (p_source_object, "death_certificate/pregnancy_status");
+            string status = null;
+            get_value_result = get_value (p_source_object, "death_certificate/pregnancy_status");
+            if(!get_value_result.is_erorr)
+            {
+                status = get_value_result.result;
+            }
 
 			if (status == null) status = "";
 
@@ -546,10 +579,16 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 		private deaths_by_age_enum get_age_classifier (System.Dynamic.ExpandoObject p_source_object)
 		{
 
-			deaths_by_age_enum result = deaths_by_age_enum.blank;;
+			deaths_by_age_enum result = deaths_by_age_enum.blank;
 			
+            object val = null;
 
-			object val = get_value (p_source_object, "death_certificate/demographics/age");
+            var get_value_result = get_value (p_source_object, "death_certificate/demographics/age");
+            if(!get_value_result.is_erorr)
+            {
+                val = get_value_result.result;
+            }
+
 			int value_test = 0;
 			if (val != null && int.TryParse (val.ToString (), out value_test))
 			{
@@ -625,7 +664,12 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 			dc_hispanic_origin.Add ("5");
 
 
-			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			var get_value_result = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+            if(! get_value_result.is_erorr)
+            {
+                val = get_value_result.result;
+            }
+
 			if (val != null)
 			{
 				if (bc_hispanic_origin.Contains (val))
@@ -634,8 +678,13 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 				}
 				else 
 				{
-					val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
-					if (dc_hispanic_origin.Contains (val))
+					get_value_result = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+					if(! get_value_result.is_erorr)
+                    {
+                        val = get_value_result.result;
+                    }
+                    
+                    if (dc_hispanic_origin.Contains (val))
 					{
 						result.Add (ethnicity_enum.hispanic);
 					}
@@ -938,8 +987,16 @@ pregnancy_status <- list field
 
 */
 
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			int length_between_child_birth_and_death_of_mother =  -1;
+			dynamic length_between_child_birth_and_death_of_mother_dynamic = null;
+
+            var get_value_result = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			
+            if(! get_value_result.is_erorr)
+            {
+                length_between_child_birth_and_death_of_mother_dynamic = get_value_result.result;
+            }
+            
+            int length_between_child_birth_and_death_of_mother =  -1;
 			if(length_between_child_birth_and_death_of_mother_dynamic is string)
 			{
 				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
@@ -959,9 +1016,16 @@ pregnancy_status <- list field
 				length_between_child_birth_and_death_of_mother = -1;
 			}
 
-			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
-			int pregnancy_status = -1;
-			if(!int.TryParse(pregnancy_status_string, out pregnancy_status))
+			string pregnancy_status_string = null;
+            get_value_result = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
+            if(! get_value_result.is_erorr)
+            {
+                pregnancy_status_string = get_value_result.result;
+            }
+            
+            
+            int pregnancy_status = -1;
+			if(string.IsNullOrWhiteSpace(pregnancy_status_string) || !int.TryParse(pregnancy_status_string, out pregnancy_status))
 			{
 				pregnancy_status = -1;
 			}
@@ -1489,7 +1553,13 @@ age_45_and_above
 				
 				var list = List_Look_Up["/committee_review/pregnancy_relatedness"];
 
-				string val = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+				string val = null;
+                var get_value_result = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+                if(! get_value_result.is_erorr)
+                {
+                    val = get_value_result.result;
+                }
+
 				if(val != null)
 				{
 					switch(val)
@@ -1610,7 +1680,13 @@ age_45_and_above
 				{
 					try
 					{	
-						string val = get_value(p_source_object, p_mmria_path);
+						string val = null;
+                        var get_value_result = get_value(p_source_object, p_mmria_path);
+                        if(! get_value_result.is_erorr)
+                        {
+                            val = get_value_result.result;
+                        }
+
 						if(val != null && p_result.ContainsKey(val))
 						{
 							p_result[val] = 1;
@@ -1630,7 +1706,13 @@ age_45_and_above
 			{
             	try
                 {	
-                    string val = get_value(p_source_object, p_mmria_path);
+                    string val = null;
+                    var get_value_result = get_value(p_source_object, p_mmria_path);
+                    if(! get_value_result.is_erorr)
+                    {
+                        val = get_value_result.result;
+                    }
+
                     if(val != null && p_result.ContainsKey(val))
                     {
                         p_result[val] = 1;

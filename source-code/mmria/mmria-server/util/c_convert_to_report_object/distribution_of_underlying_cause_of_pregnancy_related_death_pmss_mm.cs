@@ -30,7 +30,13 @@ namespace mmria.server.util
 
                 try
                 {	
-                    string val = get_value(p_source_object, "committee_review/pmss_mm");
+                    string val = null;
+                    var get_value_result = get_value(p_source_object, "committee_review/pmss_mm");
+                    if(! get_value_result.is_erorr)
+                    {
+                        val = get_value_result.result;
+                    }
+
                     if(val != null && result.ContainsKey(val))
                     {
                         result[val] = 1;
@@ -40,7 +46,13 @@ namespace mmria.server.util
                        result["9999"] = 1;
                     }
 
-                    val = get_value(p_source_object, "committee_review/pmss_mm_secondary");
+                    val = null;
+                    get_value_result = get_value(p_source_object, "committee_review/pmss_mm_secondary");
+                    if(! get_value_result.is_erorr)
+                    {
+                        val = get_value_result.result;
+                    }
+                    
                     if(val != null && result.ContainsKey(val))
                     {
                         result[val] += 1;

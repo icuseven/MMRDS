@@ -283,36 +283,46 @@ function delete_export_item(p_id) {
 let update_queue_interval_id = null;
 let update_queue_interval_count = 0;
 
-function update_queue_task() {
+function update_queue_task() 
+{
   var temp = [];
 
-  if (g_data == null) {
+  if (g_data == null) 
+  {
     return;
   }
 
-  for (var i = 0; i < g_data.length; i++) {
-    if (g_data[i].status == 'Confirmation Required') {
+  for (var i = 0; i < g_data.length; i++) 
+  {
+    if (g_data[i].status == 'Confirmation Required') 
+    {
       temp.push(g_data[i]);
     }
   }
 
   var url = location.protocol + '//' + location.host + '/api/export_queue';
 
-  $.ajax({
+  $.ajax
+  ({
     url: url,
   })
-    .done(function (response) {
+    .done(function (response) 
+    {
       g_data = [];
-      for (var i = 0; i < response.length; i++) {
-        if (
+      for (var i = 0; i < response.length; i++) 
+      {
+        if 
+        (
           response[i].status != 'Deleted' &&
           response[i].status != 'expunged'
-        ) {
+        ) 
+        {
           g_data.push(response[i]);
         }
       }
 
-      for (var i = 0; i < temp.length; i++) {
+      for (var i = 0; i < temp.length; i++) 
+      {
         g_data.push(temp[i]);
       }
 
@@ -324,12 +334,36 @@ function update_queue_task() {
 
       //document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
     })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      if (update_queue_interval_id != null) {
-        update_queue_interval_count = 0;
-        clearInterval(update_queue_interval_id);
-        update_queue_interval_id = null;
-      }
+    .fail(function (jqXHR, textStatus, errorThrown) 
+    {
+        switch(jqXHR.status)
+        {
+            case 503: // service unavailable
+            case 504: // gateway time-out
+                if (update_queue_interval_id != null) 
+                {
+                  update_queue_interval_count = 0;
+                  clearInterval(update_queue_interval_id);
+                  update_queue_interval_id = null;
+                }
+                
+                //let interval_of_10_second = 10000;
+                let interval_of_30_second = 30000;
+                
+                update_queue_interval_id = window.setInterval(update_queue_task, interval_of_30_second);
+                update_queue_interval_count = 1;
+
+                break;
+            default:
+                if (update_queue_interval_id != null) 
+                {
+                  update_queue_interval_count = 0;
+                  clearInterval(update_queue_interval_id);
+                  update_queue_interval_id = null;
+                }
+                break;
+        }
+
       /*
 		switch(errorThrown)
 		{
