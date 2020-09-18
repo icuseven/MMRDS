@@ -33,7 +33,8 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 
 
-function g_set_data_object_from_path(
+function g_set_data_object_from_path
+(
   p_object_path,
   p_metadata_path,
   p_dictionary_path,
@@ -133,29 +134,34 @@ function g_set_data_object_from_path(
         g_ui.broken_rules[p_object_path] = false;
       }
 
-      set_local_case(g_data, function () 
-      {
-        var post_html_call_back = [];
+        set_local_case
+        (
+            g_data, 
+            function () 
+            {
+                var post_html_call_back = [];
 
-        document.getElementById(
-          convert_object_path_to_jquery_id(p_object_path)
-        ).innerHTML = page_render(
-          metadata,
-          eval(p_object_path),
-          g_ui,
-          p_metadata_path,
-          p_object_path,
-          '',
-          false,
-          post_html_call_back
-        ).join('');
-        if (post_html_call_back.length > 0) 
-        {
-          eval(post_html_call_back.join(''));
-        }
+                document.getElementById
+                (
+                    convert_object_path_to_jquery_id(p_object_path)
+                ).innerHTML = page_render(
+                metadata,
+                eval(p_object_path),
+                g_ui,
+                p_metadata_path,
+                p_object_path,
+                '',
+                false,
+                post_html_call_back
+                ).join('');
+                if (post_html_call_back.length > 0) 
+                {
+                    eval(post_html_call_back.join(''));
+                }
 
-        apply_validation();
-      });
+                apply_validation();
+            }
+        );
     } 
     else 
     {
@@ -205,7 +211,7 @@ function g_set_data_object_from_path(
       } 
       else 
       {
-        eval(p_object_path + ' = ""');
+        //eval(p_object_path + ' = ""');
         valid_date_or_datetime = false;
       }
     } 
@@ -222,7 +228,7 @@ function g_set_data_object_from_path(
       } 
       else 
       {
-        eval(p_object_path + ' = ""');
+        //eval(p_object_path + ' = ""');
         valid_date_or_datetime = false;
       }
     } 
