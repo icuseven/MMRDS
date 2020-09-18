@@ -83,7 +83,11 @@ namespace mmria.server.model.actor.quartz
 
                                     string _id = "";
 
-                                    if (case_item.ContainsKey ("_id")) 
+                                    if(case_item == null)
+                                    {
+                                        continue;
+                                    }
+                                    else if (case_item.ContainsKey ("_id")) 
                                     {
                                         _id = case_item ["_id"].ToString();
                                     }
@@ -106,6 +110,11 @@ namespace mmria.server.model.actor.quartz
 
                                     var de_identified_dictionary = de_identified_case as IDictionary<string,object>;
 
+                                    if(de_identified_dictionary == null)
+                                    {
+                                        continue;
+                                    }
+                                    
                                     var revision = get_revision(target_url).GetAwaiter().GetResult();
                                     if(!string.IsNullOrWhiteSpace(revision))
                                     {
