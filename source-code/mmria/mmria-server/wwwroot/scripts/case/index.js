@@ -200,35 +200,29 @@ function g_set_data_object_from_path
     }
     else if (metadata.type.toLowerCase() == 'date') 
     {
-      if (is_valid_date(value)) 
-      {
-        eval(
-          p_object_path +
+
+    eval(
+        p_object_path +
             ' = "' +
             value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
             '"'
         );
-      } 
-      else 
+      if (!is_valid_date(value)) 
       {
-        //eval(p_object_path + ' = ""');
         valid_date_or_datetime = false;
       }
     } 
     else if (metadata.type.toLowerCase() == 'datetime') 
     {
-      if (is_valid_datetime(value)) 
-      {
         eval(
-          p_object_path +
-            ' = "' +
-            value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-            '"'
-        );
-      } 
-      else 
+            p_object_path +
+              ' = "' +
+              value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+              '"'
+          );
+
+      if (!is_valid_datetime(value)) 
       {
-        //eval(p_object_path + ' = ""');
         valid_date_or_datetime = false;
       }
     } 
