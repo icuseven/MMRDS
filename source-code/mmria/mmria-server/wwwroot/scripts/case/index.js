@@ -1817,6 +1817,8 @@ function g_render()
       }
     }
   }
+
+  render_summary_validation(g_metadata, g_data);
 }
 
 function show_print_version() 
@@ -2695,4 +2697,114 @@ function navigation_away()
     window.clearInterval(g_autosave_interval);
     g_autosave_interval = null;
   }
+}
+
+
+function render_summary_validation(p_metadata, p_data, p_path)
+{
+    switch(p_metadata.type.toLocaleLowerCase())
+    {
+        case "app":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                if
+                (
+                    p_data && 
+                    p_data[child.name] &&
+                    child.type.toLocaleLowerCase() == "form"
+                )
+                {
+                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name);
+                }
+            }
+            break;
+        case "form":
+            if(p_metadata.cardinality == "1" || p_metadata.cardinality == "?")
+            {
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+
+                    if(p_data && p_data[child.name])
+                    {
+                        render_summary_validation(p_metadata, p_data[child.name], p_path + "/" + child.name);
+                    }
+                    
+                }
+            }
+            else // multiform
+            {
+
+                for(let row = 0; row < p_data.length; row++)
+                {
+                    let row_data = p_data[row]
+                    for(let i = 0; i < p_metadata.children.length; i++)
+                    {
+                        let child = p_metadata.children[i];
+    
+                        if(row_data)
+                        {
+                            render_summary_validation(p_metadata, row_data, p_path + "/" + child.name);
+                        }
+                        
+                    }
+                }
+            }
+            break;
+        case "group":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                if(p_data)
+                {
+                    render_summary_validation(p_metadata, p_data[child.name], p_path + "/" + child.name);
+                }
+            }
+            break;
+        case "grid":
+            for(let i = 0; i < p_data.length; i++)
+            {
+                let row_item = p_data[i];
+                for(let j = 0; j <p_metadata.children.length; j++)
+                {
+                    let child = p_metadata.children[j];
+                    render_summary_validation(p_metadata, row_item[child.name], p_path + "/" + child.name);
+                }
+            
+            }
+            break;
+        case "string":
+        case "number":
+        case "time":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+                //render_summary_validation_input_control(p_ctx);
+            }
+            break;
+        case "date":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+               // renderSearchDateControl(p_ctx);
+            }
+            break;
+        case "datetime":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+                //renderSearchDateTimeControl(p_ctx);
+            }
+            break;
+        case "list":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+                //render_summary_validation_select_control(p_ctx);
+            }
+            break;
+        case "textarea":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            {
+               // render_summary_validation_textarea_control(p_ctx);
+            }  
+            break;
+    }
 }
