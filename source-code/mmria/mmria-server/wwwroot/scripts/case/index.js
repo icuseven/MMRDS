@@ -1818,7 +1818,14 @@ function g_render()
     }
   }
 
-  render_summary_validation(g_metadata, g_data);
+  let validation_summary = [];
+  render_summary_validation(g_metadata, g_data, "",validation_summary, null, null);
+
+  if(validation_summary.length > 0)
+  {
+    validation_summary.push("$('#validation_summary').css('display','');")
+    eval(validation_summary.join(""));
+  }  
 }
 
 function show_print_version() 
@@ -2700,7 +2707,15 @@ function navigation_away()
 }
 
 
-function render_summary_validation(p_metadata, p_data, p_path)
+function render_summary_validation
+(
+    p_metadata, 
+    p_data, 
+    p_path,  
+    p_result, 
+    p_form_index, 
+    p_grid_index
+)
 {
     switch(p_metadata.type.toLocaleLowerCase())
     {
@@ -2715,7 +2730,7 @@ function render_summary_validation(p_metadata, p_data, p_path)
                     child.type.toLocaleLowerCase() == "form"
                 )
                 {
-                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name);
+                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
                 }
             }
             break;
@@ -2728,7 +2743,7 @@ function render_summary_validation(p_metadata, p_data, p_path)
 
                     if(p_data && p_data[child.name])
                     {
-                        render_summary_validation(p_metadata, p_data[child.name], p_path + "/" + child.name);
+                        render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
                     }
                     
                 }
@@ -2736,16 +2751,16 @@ function render_summary_validation(p_metadata, p_data, p_path)
             else // multiform
             {
 
-                for(let row = 0; row < p_data.length; row++)
+                for(let form_index = 0; form_index < p_data.length; form_index++)
                 {
-                    let row_data = p_data[row]
+                    let row_data = p_data[form_index]
                     for(let i = 0; i < p_metadata.children.length; i++)
                     {
                         let child = p_metadata.children[i];
     
                         if(row_data)
                         {
-                            render_summary_validation(p_metadata, row_data, p_path + "/" + child.name);
+                            render_summary_validation(child, row_data, p_path + "/" + child.name, p_result, form_index, p_grid_index);
                         }
                         
                     }
@@ -2758,7 +2773,7 @@ function render_summary_validation(p_metadata, p_data, p_path)
                 let child = p_metadata.children[i];
                 if(p_data)
                 {
-                    render_summary_validation(p_metadata, p_data[child.name], p_path + "/" + child.name);
+                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
                 }
             }
             break;
@@ -2769,7 +2784,7 @@ function render_summary_validation(p_metadata, p_data, p_path)
                 for(let j = 0; j <p_metadata.children.length; j++)
                 {
                     let child = p_metadata.children[j];
-                    render_summary_validation(p_metadata, row_item[child.name], p_path + "/" + child.name);
+                    render_summary_validation(child, row_item[child.name], p_path + "/" + child.name, p_result, p_form_index, i);
                 }
             
             }
@@ -2777,34 +2792,29 @@ function render_summary_validation(p_metadata, p_data, p_path)
         case "string":
         case "number":
         case "time":
-            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
-                //render_summary_validation_input_control(p_ctx);
-            }
+                // do nothing for now
             break;
         case "date":
-            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            if (!is_valid_date(p_data)) 
             {
-               // renderSearchDateControl(p_ctx);
+                //p_result.push('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+ p_grid_index +'"><strong>'+legend_label+': ${p_metadata.prompt}, item '+(parseInt(p_grid_index)+1)+':</strong> Date must be a valid calendar date between 1900-2100</li>');
+                p_result.push(`$('#validation_summary_list').append('<li><strong>: ${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100</li>');`);
+                
             }
             break;
         case "datetime":
-            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
+            if (!is_valid_datetime(p_data)) 
             {
-                //renderSearchDateTimeControl(p_ctx);
+                //p_result.push('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+p_grid_index+'"><strong>'+legend_label+': ${p_metadata.prompt}, item '+(parseInt(p_grid_index)+1)+':</strong> Date must be a valid calendar date between 1900-2100</li>');
+                p_result.push(`$('.construct__header-alert ul').append('<li><strong>: ${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100</li>');`);
+                
             }
             break;
         case "list":
-            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
-                //render_summary_validation_select_control(p_ctx);
-            }
+            // do nothing for now
             break;
         case "textarea":
-            if(p_metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
-               // render_summary_validation_textarea_control(p_ctx);
-            }  
+            // do nothing for now
             break;
     }
 }
