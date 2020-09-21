@@ -65,22 +65,22 @@ function g_set_data_object_from_path
         const elementDataValue = elementObject.dataset.value; //get data-value value
 
 
-        if (elementObject.value.length < 1)
+        if(elementValue == null || elementValue == "")
         {
             value = ''; 
         }
-        else if (elementDataValue.split('T')[1])
+        else if (elementValue.split('T')[1])
         {
-            value = new Date(`${elementValue} ${elementDataValue.split('T')[1]}`).toISOString();
+            value = new Date(`${elementValue} ${elementValue.split('T')[1]}`).toISOString();
         }
-        else if (!elementDataValue.split('T')[1])
+        else if (!elementValue.split('T')[1])
         {    
-            if(elementDataValue.indexOf("/"))
+            if(elementValue.indexOf("-"))
             {
-                let date_part_array = elementDataValue.split("/")
+                let date_part_array = elementValue.split("-")
                 if(date_part_array.length > 2)
                 {
-                    value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+                    value = date_part_array[1] + "/" + date_part_array[2] + "/" + date_part_array[0];
                 }
                 else 
                 {
@@ -542,6 +542,20 @@ function is_valid_date(p_value)
   if (p_value.length === 0 || p_value === '')
   {
     result = true;
+  } 
+  else if (p_value.indexOf("/") > -1)
+  {
+
+    let value_array = p_value.split('/'); //get year and convert to a number
+    
+    if(value_array.length > 2)
+    {
+        let year = parseInt(value_array[2]);
+
+        //only validating year, check if between 1900 or 2100
+        if (year >= 1900 && year <= 2100) result = true;
+    }
+
   } 
   else 
   {

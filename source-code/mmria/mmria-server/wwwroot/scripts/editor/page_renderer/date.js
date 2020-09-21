@@ -43,8 +43,24 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
           is_valid = p_ctx.is_valid_date_or_datetime;
         }
+
+        let input_value = p_data;
+
+        if
+        (
+            p_data!=null && 
+            p_data!="" &&
+            p_data.indexOf("-") > -1
+        )
+        {
+            let date_part_array = p_data.split("");
+            if(date_part_array.length > 2)
+            {
+                input_value = date_part_array[1] + "/" + date_part_array[0] +  "/" + date_part_array[2];
+            }
+        }
                 
-        page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        page_render_create_input(p_result, p_metadata, input_value, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
         p_result.push(
           `<div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
