@@ -1,19 +1,6 @@
 function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
-/*
-    if(g_validator_map[p_metadata_path])
-    {
-      if(g_validator_map[p_metadata_path](value))
-      {
-        var metadata = eval(p_metadata_path);
-  
-        if(metadata.type.toLowerCase() == "boolean")
-        {
-          eval(p_object_path + ' = ' + value);
-        }
-    }
-*/
-    
+
     p_result.push("<div id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
@@ -45,7 +32,13 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push("</label> ");
         
-        let is_valid = is_valid_date(p_data);
+        let is_valid = true;
+
+        if(p_data != null && p_data != "")
+        {
+            is_valid = is_valid_date(p_data);
+        }
+
         if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
         {
           is_valid = p_ctx.is_valid_date_or_datetime;
@@ -76,7 +69,11 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         let validation_height_new = 'auto';
         let validation_top_new = parseInt(validation_top) + parseInt(validation_height) + 4;
 
-        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top:${validation_top_new}px">Invalid date</small>`);
+        if(! is_valid)
+        {
+            p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top:${validation_top_new}px">Invalid date</small>`);
+        }
+        
 /*
         p_post_html_render.push(`
             //if validation passed
@@ -137,7 +134,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
         `);
         */
-       
+
         /*
             START datetimepicker() init and options
             TODO: Comment out when going to test

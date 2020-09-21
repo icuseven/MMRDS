@@ -53,7 +53,12 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		"entered_date_or_datetime_value":entered_date_or_datetime_value
 		*/
 
-			let is_valid = is_valid_datetime(p_data);
+            let is_valid = true;
+            
+            if(p_data != null && p_data != "")
+            {
+                is_valid = is_valid_datetime(p_data);
+            }
 			if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
 			{
 				is_valid = p_ctx.is_valid_date_or_datetime;
@@ -171,7 +176,10 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				let validation_bottom_new = '-24px';
 				let validation_left_new = 'auto';
 
-				p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
+                if(! is_valid)
+                {
+                    p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
+                }
 /*
 				p_post_html_render.push(`
 					//if validation passed
