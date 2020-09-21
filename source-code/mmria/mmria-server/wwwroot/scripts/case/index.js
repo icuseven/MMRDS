@@ -1819,7 +1819,7 @@ function g_render()
   }
 
   let validation_summary = [];
-  render_summary_validation(g_metadata, g_data, "",validation_summary, null, null);
+  render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
 
   if(validation_summary.length > 0)
   {
@@ -2712,6 +2712,7 @@ function render_summary_validation
     p_metadata, 
     p_data, 
     p_path,  
+    p_object_path,
     p_result, 
     p_form_index, 
     p_grid_index
@@ -2730,7 +2731,7 @@ function render_summary_validation
                     child.type.toLocaleLowerCase() == "form"
                 )
                 {
-                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
+                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_object_path + "." + child.name, p_result, p_form_index, p_grid_index);
                 }
             }
             break;
@@ -2743,7 +2744,7 @@ function render_summary_validation
 
                     if(p_data && p_data[child.name])
                     {
-                        render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
+                        render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_object_path + "." + child.name, p_result, p_form_index, p_grid_index);
                     }
                     
                 }
@@ -2760,7 +2761,7 @@ function render_summary_validation
     
                         if(row_data)
                         {
-                            render_summary_validation(child, row_data, p_path + "/" + child.name, p_result, form_index, p_grid_index);
+                            render_summary_validation(child, row_data, p_path + "/" + child.name, p_object_path + "[" + form_index + "]." + child.name, p_result, form_index, p_grid_index);
                         }
                         
                     }
@@ -2773,7 +2774,7 @@ function render_summary_validation
                 let child = p_metadata.children[i];
                 if(p_data)
                 {
-                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_result, p_form_index, p_grid_index);
+                    render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_object_path + "." + child.name, p_result, p_form_index, p_grid_index);
                 }
             }
             break;
@@ -2784,7 +2785,7 @@ function render_summary_validation
                 for(let j = 0; j <p_metadata.children.length; j++)
                 {
                     let child = p_metadata.children[j];
-                    render_summary_validation(child, row_item[child.name], p_path + "/" + child.name, p_result, p_form_index, i);
+                    render_summary_validation(child, row_item[child.name], p_path + "/" + child.name, p_object_path + "[" + i + "]." + child.name, p_result, p_form_index, i);
                 }
             
             }
