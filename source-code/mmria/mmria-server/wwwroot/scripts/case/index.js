@@ -74,8 +74,25 @@ function g_set_data_object_from_path
             value = new Date(`${elementValue} ${elementDataValue.split('T')[1]}`).toISOString();
         }
         else if (!elementDataValue.split('T')[1])
-        {      
-            value = elementValue;
+        {    
+            if(elementDataValue.indexOf("/"))
+            {
+                let date_part_array = elementDataValue.split("/")
+                if(date_part_array.length > 2)
+                {
+                    value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+                }
+                else 
+                {
+                    value = elementValue;
+                }
+                
+            }
+            else 
+            {
+                value = elementValue;
+            }
+            
         }
     }
     else if (eval(p_metadata_path).type === 'datetime') 
@@ -509,6 +526,8 @@ function g_set_data_object_from_path
             }
 
             apply_validation();
+
+
         }
     );
   }
@@ -1819,13 +1838,19 @@ function g_render()
   }
 
   let validation_summary = [];
+  
   render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
 
   if(validation_summary.length > 0)
   {
+    validation_summary.unshift("$('#validation_summary_list').empty();")
     validation_summary.push("$('#validation_summary').css('display','');")
-    eval(validation_summary.join(""));
-  }  
+  }
+  else
+  {
+    validation_summary.push("$('#validation_summary').css('display','none');")
+  }
+  eval(validation_summary.join(""));
 }
 
 function show_print_version() 
@@ -1925,6 +1950,21 @@ function apply_validation()
       }
     }
   }
+
+  let validation_summary = [];
+  render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
+  
+  if(validation_summary.length > 0)
+  {
+    validation_summary.unshift("$('#validation_summary_list').empty();")
+    validation_summary.push("$('#validation_summary').css('display','');")
+  }
+  else
+  {
+    validation_summary.push("$('#validation_summary').css('display','none');")
+  }
+  eval(validation_summary.join(""));
+
 }
 
 // First
