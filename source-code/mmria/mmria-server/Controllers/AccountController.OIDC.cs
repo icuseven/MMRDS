@@ -368,8 +368,14 @@ namespace mmria.common.Controllers
                     if(result.ok)
                     {
                         _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
-                        Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime });
+                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
+                        Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
+                       
+                       /*
+                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime, SameSite = SameSiteMode.Strict });
+                        Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime, SameSite = SameSiteMode.Strict });
+                       */
+                        
                         //return RedirectToAction("Index", "HOME");
                         //return RedirectToAction("Index", "HOME");
                         return RedirectToAction("Index", "HOME");
