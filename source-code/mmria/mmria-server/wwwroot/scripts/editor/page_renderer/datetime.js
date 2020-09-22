@@ -76,6 +76,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 name="${p_metadata.name}"
                 data-value="${p_data}"
                 value="${newDateValue}"
+                placeholder="mm/dd/yyyy"
                 ${disabled_html}`
 			);
 				if

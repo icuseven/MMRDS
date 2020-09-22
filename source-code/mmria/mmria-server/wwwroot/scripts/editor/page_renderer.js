@@ -464,7 +464,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			}
 			else if (p_metadata.type.toLowerCase() == "date")
 			{
-				p_result.push("' maxlength='10' type='text' name='");
+				p_result.push("' maxlength='10' type='text' placeholder='mm/dd/yyyy' name='");
 			// 	p_result.push("' type='date' min='1900-01-01' max='2100-12-31' name='");
 			}
 			else
