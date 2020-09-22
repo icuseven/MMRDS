@@ -2876,7 +2876,7 @@ function render_summary_validation
             if (!is_valid_date(p_data)) 
             {
                 //p_result.push('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+ p_grid_index +'"><strong>'+legend_label+': ${p_metadata.prompt}, item '+(parseInt(p_grid_index)+1)+':</strong> Date must be a valid calendar date between 1900-2100</li>');
-                p_result.push(`$('#validation_summary_list').append('<li><strong>: ${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100</li>');`);
+                p_result.push(`$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`);
                 
             }
             break;
@@ -2884,7 +2884,7 @@ function render_summary_validation
             if (!is_valid_datetime(p_data)) 
             {
                 //p_result.push('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+p_grid_index+'"><strong>'+legend_label+': ${p_metadata.prompt}, item '+(parseInt(p_grid_index)+1)+':</strong> Date must be a valid calendar date between 1900-2100</li>');
-                p_result.push(`$('.construct__header-alert ul').append('<li><strong>: ${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100</li>');`);
+                p_result.push(`$('.construct__header-alert ul').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`);
                 
             }
             break;
