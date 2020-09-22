@@ -72,7 +72,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 dpath="${p_object_path}"
                 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
                 ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-                type="date" name="${p_metadata.name}"
+                type="text"
+                name="${p_metadata.name}"
                 data-value="${p_data}"
                 value="${newDateValue}"
                 ${disabled_html}`
@@ -249,8 +250,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         keepInvalid: true,
         useCurrent: false,
         icons: {
-          up: "x24 cdc-icon-chevron-double-right",
-          down: "x24 cdc-icon-chevron-double-right",
+          up: "x16 cdc-icon-chevron-circle-up-light",
+          down: "x16 cdc-icon-chevron-circle-down-light",
           previous: 'x16 cdc-icon-chevron-double-right',
           next: 'x16 cdc-icon-chevron-double-right'
         }
@@ -261,26 +262,28 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         keepInvalid: true,
         useCurrent: false,
         icons: {
-          up: "x24 cdc-icon-chevron-double-right",
-          down: "x24 cdc-icon-chevron-double-right",
+          up: "x16 cdc-icon-chevron-circle-up-light",
+          down: "x16 cdc-icon-chevron-circle-down-light",
           previous: 'x16 cdc-icon-chevron-double-right',
           next: 'x16 cdc-icon-chevron-double-right'
         }
       });
-
-			// $('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
-			// 	defaultTime: false,
-			// 	minuteStep: 1,
-			// 	secondStep: 1,
-			// 	showMeridian: false,
-			// 	showSeconds: true,
-			// 	template: false,
-			// 	icons: {
-			// 		up: 'x24 fill-p cdc-icon-arrow-down',
-			// 		down: 'x24 fill-p cdc-icon-arrow-down'
-			// 	}
-			// });
-		`);
+    `);
+    
+    // p_post_html_render.push(`
+		// 	$('#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time').timepicker({
+		// 		defaultTime: false,
+		// 		minuteStep: 1,
+		// 		secondStep: 1,
+		// 		showMeridian: false,
+		// 		showSeconds: true,
+		// 		template: false,
+		// 		icons: {
+		// 			up: 'x24 fill-p cdc-icon-arrow-down',
+		// 			down: 'x24 fill-p cdc-icon-arrow-down'
+		// 		}
+		// 	});
+		// `);
 
 		//helper fn to toggle disabled attr
 		// p_post_html_render.push(`

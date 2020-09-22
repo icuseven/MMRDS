@@ -396,22 +396,45 @@ function g_set_data_object_from_path
                   break;
 
                 case 'datetime':
-                $(
-                    `#${convert_object_path_to_jquery_id(
-                    p_object_path
-                    )} input.datetime-time`
-                ).timepicker({
-                    defaultTime: '00:00:00',
-                    minuteStep: 1,
-                    secondStep: 1,
-                    showMeridian: false,
-                    showSeconds: true,
-                    template: false,
+                  $(`#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date`).datetimepicker({
+                    format: 'MM/DD/YYYY',
+                    keepInvalid: true,
+                    useCurrent: false,
                     icons: {
-                    up: 'x24 fill-p cdc-icon-arrow-down',
-                    down: 'x24 fill-p cdc-icon-arrow-down',
-                    },
-                });
+                      up: "x16 cdc-icon-chevron-circle-up-light",
+                      down: "x16 cdc-icon-chevron-circle-down-light",
+                      previous: 'x16 cdc-icon-chevron-double-right',
+                      next: 'x16 cdc-icon-chevron-double-right'
+                    }
+                  });
+
+                  $(`#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time`).datetimepicker({
+                    format: 'HH:mm:ss',
+                    keepInvalid: true,
+                    useCurrent: false,
+                    icons: {
+                      up: "x16 cdc-icon-chevron-circle-up-light",
+                      down: "x16 cdc-icon-chevron-circle-down-light",
+                      previous: 'x16 cdc-icon-chevron-double-right',
+                      next: 'x16 cdc-icon-chevron-double-right'
+                    }
+                  });
+                // $(
+                //     `#${convert_object_path_to_jquery_id(
+                //     p_object_path
+                //     )} input.datetime-time`
+                // ).timepicker({
+                //     defaultTime: '00:00:00',
+                //     minuteStep: 1,
+                //     secondStep: 1,
+                //     showMeridian: false,
+                //     showSeconds: true,
+                //     template: false,
+                //     icons: {
+                //     up: 'x24 fill-p cdc-icon-arrow-down',
+                //     down: 'x24 fill-p cdc-icon-arrow-down',
+                //     },
+                // });
 
                 if (!isNullOrUndefined(p_date_object)) {
                     // console.log('a2', p_date_object.value);

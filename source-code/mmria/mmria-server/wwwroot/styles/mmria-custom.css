@@ -216,10 +216,6 @@ button.link {
   transform: translateY(-50%);
 }
 
-.faux-form-control {
-
-}
-
 
 /* Vertical align the calendar icons */
 ::-webkit-inner-spin-button {
@@ -239,9 +235,6 @@ button.link {
   transform: rotate(180deg);
 }
 
-/*
-~~~ CUSTOM TIMEPICKER STYLES
-*/
 .datetime-control {
   background-color: #FFFFFF;
   border: var(--border-width) solid;
@@ -288,6 +281,29 @@ button.link {
 }
 .datetime-control .input-group > .form-control:not(:last-child) {
 	border-radius: 0px 4px 4px 0px
+}
+
+/*
+~~~ CUSTOM TIMEPICKER STYLES
+*/
+
+.bootstrap-datetimepicker-widget table td [class*=" cdc-icon-"] {
+  color: #000000;
+}
+
+.bootstrap-datetimepicker-widget .timepicker-hour,
+.bootstrap-datetimepicker-widget .timepicker-minute,
+.bootstrap-datetimepicker-widget .timepicker-second {
+  color: #333333 !important;
+}
+
+.bootstrap-datetimepicker-widget table td [data-action] span {
+  width: 30px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
 }
 
 .time-icon-btn {
@@ -1395,10 +1411,6 @@ button.link {
 /* .form-control-outer {
   position: relative;
 } */
-
-.bootstrap-datetimepicker-widget:after {
-  border-bottom-color: #f0f0f0 !important;
-}
 
 
 
