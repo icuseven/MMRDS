@@ -97,20 +97,54 @@ function g_set_data_object_from_path
     }
     else if (eval(p_metadata_path).type === 'datetime') 
     {
+
+
         if (p_date_object) 
         {
             const timeValue = value;
             const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-            value = p_date_object.value + 'T' + hour + 'Z'; // param + ' ' + value
+            
+            if(p_date_object.value != null && p_date_object.value.indexOf("/") > -1)
+            {
+                let date_part_array = p_date_object.value.split("/")
+                if(date_part_array.length > 2)
+                {
+                    value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1]  + 'T' + p_time_object.value;
+                }
+                else 
+                {
+                    value = elementValue;
+                }
+            }
+            else
+            {
+                value = p_date_object.value + 'T' + hour;// + 'Z'; // param + ' ' + value
+            }
         } 
         else if (p_time_object) 
         {
             const timeValue = p_time_object.value;
             const hour = timeValue.split(':')[0].length < 2 ? `0${timeValue}` : timeValue;
 
-            //check if value null, set to blank else convert to ISO format
-            value = !value ? '' : value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
+            if(value != null && value.indexOf("/") > -1)
+            {
+                let date_part_array = value.split("/")
+                if(date_part_array.length > 2)
+                {
+                    value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1]  + 'T' + p_time_object.value;
+                }
+                else 
+                {
+                    value = value +   + 'T' + p_time_object.value;
+                }
+            }
+            else if(value == null || value=="")
+            {
+                // do nothing
+            }
+    
+            //value = !value ? '' : value + 'T' + p_time_object.value + 'Z'; // value + ' ' + param
         }
     }
 
