@@ -151,7 +151,15 @@ namespace mmria.server.authentication
 
         protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
         {
-            Response.Redirect("/Account/SignIn");
+            if(this.Options.Is_SAMS)
+            {
+                Response.Redirect("/Account/SignIn");
+            }
+            else
+            {
+                Response.Redirect("/Account/Login");
+
+            }
         }
 
 

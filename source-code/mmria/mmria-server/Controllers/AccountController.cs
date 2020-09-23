@@ -288,19 +288,19 @@ namespace mmria.server.Controllers
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
 
-
+                    List<string> role_list = new List<string>();
                     foreach(var role in json_result.roles)
                     {
                         if(role == "_admin")
                         {
                             claims.Add(new Claim(ClaimTypes.Role, "installation_admin", ClaimValueTypes.String, Issuer));
+                            role_list.Add("installation_admin");
                         }
                     }
 
 
                     foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
                     {
-
                         claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                     }
 
@@ -324,6 +324,85 @@ namespace mmria.server.Controllers
                     userIdentity.AddClaims(claims);
                     var userPrincipal = new ClaimsPrincipal(userIdentity);
 
+
+                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
+                    {
+                        role_list.Add(role);
+                    }
+
+                    var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+                    (
+                        DateTime.Now,
+                        user.UserName,
+                        this.GetRequestIP(),
+                        json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
+                    );
+
+                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+
+
+                    var session_data = new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
+                    var session_expiration_datetime =  DateTime.Now.AddMinutes(session_idle_timeout_minutes);
+                    var Session_Message = new mmria.server.model.actor.Session_Message
+                    (
+                        Guid.NewGuid().ToString(), //_id = 
+                        null, //_rev = 
+                        DateTime.Now, //date_created = 
+                        DateTime.Now, //date_last_updated = 
+                        session_expiration_datetime, //date_expired = 
+
+                        true, //is_active = 
+                        user.UserName, //user_id = 
+                        this.GetRequestIP(), //ip = 
+                        Session_Event_Message._id, // session_event_id = 
+                        role_list,
+                        session_data
+                    );
+
+                    var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
+                    var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
+                    var config_timer_value = _configuration["mmria_settings:timer_password"];
+
+
+                    Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
+
+                    request_string = config_couchdb_url + $"/{_configuration["mmria_settings:db_prefix"]}session/{Session_Message._id}";
+
+                    mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
+
+                    try
+                    {
+                        responseFromServer = document_curl.execute();
+                        var put_session_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                        if(put_session_result.ok)
+                        {
+                            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                            Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
+                            //Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
+                        
+                        /*
+                            Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime, SameSite = SameSiteMode.Strict });
+                            Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true, Expires = session_expiration_datetime, SameSite = SameSiteMode.Strict });
+                        */
+                            
+                            //return RedirectToAction("Index", "HOME");
+                            //return RedirectToAction("Index", "HOME");
+                            //return RedirectToAction("Index", "HOME");
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+
+
+
+
+/*
+
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal,
@@ -332,18 +411,11 @@ namespace mmria.server.Controllers
                             ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
                             IsPersistent = false,
                             AllowRefresh = true,
-                        });
+                        });*/
                 }
 
-                var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
-                (
-                    DateTime.Now,
-                    user.UserName,
-                    this.GetRequestIP(),
-                    json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
-                );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+
 
 				//this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
 
@@ -386,14 +458,6 @@ namespace mmria.server.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout() 
         {
-
-
-            if
-            (
-                !string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"])  &&
-                _configuration["sams:is_enabled"].ToLower() == "true" 
-            )
-            {
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
                 var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
@@ -445,12 +509,19 @@ namespace mmria.server.Controllers
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
 
+            if
+            (
+                !string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"])  &&
+                _configuration["sams:is_enabled"].ToLower() == "true" 
+            )
+            {
 
                 return Redirect(_configuration["sams:logout_url"]);
             }
             else
             {
 
+/*
                 await HttpContext.SignOutAsync
                 (
                     CookieAuthenticationDefaults.AuthenticationScheme,
@@ -460,7 +531,7 @@ namespace mmria.server.Controllers
                         IsPersistent = false,
                         AllowRefresh = true,
                     }
-                );
+                );*/
 
 
                 return RedirectToAction(nameof(HomeController.Index), "Home");

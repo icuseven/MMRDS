@@ -396,6 +396,7 @@ namespace mmria.server
         {
             // Configure single or multiple passwords for authentication
             options.AuthKey = "custom auth key";
+            options.Is_SAMS = true;
         });
 
 
@@ -403,6 +404,20 @@ namespace mmria.server
       else
       {
         Log.Information("NOT using sams");
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = CustomAuthOptions.DefaultScheme;
+            options.DefaultChallengeScheme = CustomAuthOptions.DefaultScheme;
+        })
+        .AddCustomAuth(options =>
+        {
+            // Configure single or multiple passwords for authentication
+            options.AuthKey = "custom auth key";
+            options.Is_SAMS = false;
+        });
+
+/*
 
         if (Configuration["mmria_settings:is_development"] != null && Configuration["mmria_settings:is_development"] == "true")
         {
@@ -438,7 +453,7 @@ namespace mmria.server
                 Log.Information("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
                 Log.Information("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
               });
-        }
+        }*/
       }
 
 
