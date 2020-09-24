@@ -1932,15 +1932,25 @@ function g_render()
   
   render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
 
+
+  if(g_ui.broken_rules.length > 0)
+  {
+      for(let i = 0; i < g_ui.broken_rules.length; i++)
+      {
+        validation_summary.push(g_ui.broken_rules[i]);
+      }
+  }
+
   if(validation_summary.length > 0)
   {
-    validation_summary.unshift("$('#validation_summary_list').empty();")
+    //validation_summary.unshift("$('#validation_summary_list').empty();")
     validation_summary.push("$('#validation_summary').css('display','');")
   }
   else
   {
     validation_summary.push("$('#validation_summary').css('display','none');")
   }
+
   eval(validation_summary.join(""));
 }
 
@@ -2852,6 +2862,7 @@ function render_summary_validation
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
+            
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
