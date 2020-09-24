@@ -205,7 +205,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(`
             <div class='form-inline'>
                 <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(get_case_set);'>Apply Filters</button>&nbsp; 
-                <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(clear_case_search)'>Clear</button>
+                <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='init_inline_loader(clear_case_search)'>Reset</button>
                 <span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>
             </div>
         `);
@@ -533,7 +533,8 @@ function render_filter_records_per_page(p_sort)
 function clear_case_search() {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
+    g_ui.case_view_request.case_status = 'all'
     g_ui.case_view_request.descending = true;
 
-    get_case_set();
+    get_case_set(g_render);
 }
