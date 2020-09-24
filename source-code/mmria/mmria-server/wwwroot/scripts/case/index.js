@@ -162,29 +162,35 @@ function g_set_data_object_from_path
     else if (metadata.type.toLowerCase() == 'date') 
     {
 
-    eval(
-        p_object_path +
-            ' = "' +
-            value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-            '"'
-        );
+
       if (!is_valid_date(value)) 
       {
         valid_date_or_datetime = false;
       }
+      else
+      {
+        eval(
+            p_object_path +
+                ' = "' +
+                value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                '"'
+            );
+      }
     } 
     else if (metadata.type.toLowerCase() == 'datetime') 
     {
+      if (!is_valid_datetime(value)) 
+      {
+        valid_date_or_datetime = false;
+      }
+      else
+      {
         eval(
             p_object_path +
               ' = "' +
               value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
               '"'
           );
-
-      if (!is_valid_datetime(value)) 
-      {
-        valid_date_or_datetime = false;
       }
     } 
     else 
@@ -518,50 +524,102 @@ function is_valid_date(p_value)
     if(value_array.length > 2)
     {
         let year = parseInt(value_array[2]);
+        let month = parseInt(value_array[0]);
+        let day = parseInt(value_array[1]);
 
-        //only validating year, check if between 1900 or 2100
-        if (year >= 1900 && year <= 2100) result = true;
+        if 
+        (
+            year >= 1900 && 
+            year <= 2100 &&
+            month >= 1 &&
+            month <= 12 &&
+            day >= 1 &&
+            day <= 31
+        ) 
+        {
+            result = true;
+        }
     }
 
   } 
-  else 
+  else if(p_value.indexOf('T') > -1)
   {
-    let year = p_value.split('T')[0]; //get year and convert to a number
-    year = parseInt(year);
+    let date_array = p_value.split('T')[0]; 
+    if(date_array.indexOf("-") > -1)
+    {
+        let value_array = date_array.split("-");
 
-    //only validating year, check if between 1900 or 2100
-    if (year >= 1900 && year <= 2100) result = true;
+        if(value_array.length > 2)
+        {
+            let year = parseInt(value_array[2]);
+            let month = parseInt(value_array[0]);
+            let day = parseInt(value_array[1]);
+
+            if 
+            (
+                year >= 1900 && 
+                year <= 2100 &&
+                month >= 1 &&
+                month <= 12 &&
+                day >= 1 &&
+                day <= 31
+            ) 
+            {
+                result = true;
+            }
+        }
+    }
+
   }
 
   return result;
 }
 
-//fn to validate datetime controls
 function is_valid_datetime(p_value) 
 {
-  p_value = p_value.split('T')[0]; //strip the time if it is available
-  let result = false; //flagged as false by default
-  let year = null;
 
-  //if date is missing OR blank
-  if (p_value === '' || p_value.length === 0) 
-  {
-    result = true;
-  } 
-  else 
-  {
-    year = p_value.split('-')[0]; //get year
-    year = parseInt(year); //convert year to a number
+    let result = false;
 
-    //only validating year
-    //check if between 1900 or 2100
-    if (year >= 1900 && year <= 2100) 
+
+    if (p_value === '' || p_value.length === 0) 
     {
-      result = true;
-    }
-  }
+    result = true;
+    } 
+    else if(p_value.indexOf('T') > -1)
+    {
+        let split_array = p_value.split('T'); 
+        if(split_array.length > 1)
+        {
+            let date_array = split_array[0];
+            let time_array =  split_array[1];
 
-  return result;
+            if(date_array.indexOf("-") > -1)
+            {
+                let value_array = date_array.split("-");
+
+                if(value_array.length > 2)
+                {
+                    let year = parseInt(value_array[2]);
+                    let month = parseInt(value_array[0]);
+                    let day = parseInt(value_array[1]);
+
+                    if 
+                    (
+                        year >= 1900 && 
+                        year <= 2100 &&
+                        month >= 1 &&
+                        month <= 12 &&
+                        day >= 1 &&
+                        day <= 31
+                    ) 
+                    {
+                        result = true;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
