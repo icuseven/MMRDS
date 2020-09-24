@@ -11,177 +11,217 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 	p_result.push(" mpath='");
 	p_result.push(p_metadata_path);
 	p_result.push("' ");
-	p_result.push(">");
-		p_result.push("<label ");
-		if(p_metadata.description && p_metadata.description.length > 0)
-		{
-			p_result.push("rel='tooltip'  data-original-title='");
-			p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-			p_result.push("'");
-		}
+    p_result.push(">");
+    
+    p_result.push("<label ");
+    if(p_metadata.description && p_metadata.description.length > 0)
+    {
+        p_result.push("rel='tooltip'  data-original-title='");
+        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+        p_result.push("'");
+    }
 
-		var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-		if(style_object)
-		{
-			p_result.push(" style='");
-			p_result.push(get_style_string(style_object.prompt.style));
-			p_result.push("'");
-		}
-		p_result.push(">");
-			p_result.push(p_metadata.prompt);
-		p_result.push("</label>");
+    if(style_object)
+    {
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.prompt.style));
+        p_result.push("'");
+    }
+    p_result.push(">");
+        p_result.push(p_metadata.prompt);
+    p_result.push("</label>");
 
-		p_result.push(`
-			<div class="row no-gutters datetime-control"
-				 style="${style_object && get_style_string(style_object.control.style)}"
-				 dpath="${p_object_path}"
-				 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-				 ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-			>
-		`);
-
-			let disabled_html = " disabled = 'disabled' ";
-			if(g_data_is_checked_out)
-			{
-				disabled_html = " ";
-			}
-			// console.log(g_data_is_checked_out);
-
-			/*
-        "is_valid_date_or_datetime": valid_date_or_datetime,
-		"entered_date_or_datetime_value":entered_date_or_datetime_value
-		*/
-
-            let is_valid = true;
-            
-            if(p_data != null && p_data != "")
-            {
-                is_valid = is_valid_datetime(p_data);
-            }
-			if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
-			{
-				is_valid = p_ctx.is_valid_date_or_datetime;
-			}
-
-      const newData = p_data;
-
-      const newDateValue = newData.split('T')[0]
-			p_result.push(
-				`<input class="datetime-date form-control w-50 h-100"
+    p_result.push(`
+        <div class="row no-gutters datetime-control"
+                style="${style_object && get_style_string(style_object.control.style)}"
                 dpath="${p_object_path}"
                 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
                 ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-                type="text"
-                name="${p_metadata.name}"
-                data-value="${p_data}"
-                value="${newDateValue}"
-                placeholder="mm/dd/yyyy"
-                ${disabled_html}`
-			);
-				if
-				(
-					!(
-						p_metadata.mirror_reference &&
-						p_metadata.mirror_reference.length > 0
-					)
-				)
-				{
-					let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-					if(path_to_onfocus_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
+        >
+    `);
 
-					f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-					if(path_to_onchange_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
-					
-					f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-					if(path_to_onclick_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
+    let disabled_html = " disabled = 'disabled' ";
+    if(g_data_is_checked_out)
+    {
+        disabled_html = " ";
+    }
+    // console.log(g_data_is_checked_out);
 
-					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
-				}
-        p_result.push(` min="1900-01-01" max="2100-12-31">`);
+    /*
+"is_valid_date_or_datetime": valid_date_or_datetime,
+"entered_date_or_datetime_value":entered_date_or_datetime_value
+*/
+
+    let is_valid = true;
+    
+    let date_part_display_value = null;
+    let time_part_display_value = '00:00:00';
+    
+    if(p_data != null && p_data != "")
+    {
+        is_valid = is_valid_datetime(p_data);
+    }
+    if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+    {
+        is_valid = p_ctx.is_valid_date_or_datetime;
+    }
+
+
+    if(p_data != null && p_data != "")
+    {
+        if(p_data.indexOf("T"))
+        {
+            const date_time_array = p_data.split('T');
+
+            let date_part = date_time_array[0];
+            let time_part = date_time_array[1];
+            
+            if(date_part.indexOf("-") > -1)
+            {
+                let date_part_array = date_part.split("-");
+                date_part_display_value = date_part_array[1] + "/" + date_part_array[2] + "/" + date_part_array[0];
+
+            }
+            else
+            {
+                date_part_display_value = date_part;
+            }
+
+
+            
+            //const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'))
+            if(time_part.indexOf('.') > -1)
+            {
+                time_part_display_value =  time_part.substring(time_part.indexOf('T')+1, time_part.indexOf('.')) 
+            } 
+            else
+            {
+                time_part_display_value = time_part;
+            }
+        }
+    }
+    
+ 
+    
+    p_result.push
+    (
+        `<input class="datetime-date form-control w-50 h-100"
+        dpath="${p_object_path}"
+        ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+        ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+        type="text"
+        name="${p_metadata.name}"
+        data-value="${p_data}"
+        value="${date_part_display_value}"
+        placeholder="mm/dd/yyyy"
+        ${disabled_html}`
+    );
+
+
+    if
+    (
+        !(
+            p_metadata.mirror_reference &&
+            p_metadata.mirror_reference.length > 0
+        )
+    )
+    {
+        let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+        if(path_to_onfocus_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
+
+        f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+        if(path_to_onchange_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
         
-      //if we have . which signifies milliseconds are present in data
-      //get string between 'T' and '.' of ISO format
-      //else get string between 'T' and 'Z' of ISO format
-      const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'))
-			p_result.push(
-        `<input class="datetime-time form-control w-50 h-100"
-				        dpath="${p_object_path}"
-				        ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-                ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-                type="text" name="${p_metadata.name}"
-                data-value="${p_data}"
-                value="${newDateValue ? newTimeValue : '00:00:00'}"
-                ${disabled_html}`
-				// `<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
-				//    dpath="${p_object_path}"
-				//    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-				//    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-				//    type="text" name="${p_metadata.name}"
-				//    data-value="${p_data}"
-				//    value="${newData.split('T')[0] ? newTimeValue : '00:00:00'}"
-				//    ${disabled_html}`
-			);
-				if
-				(
-					!(
-						p_metadata.mirror_reference &&
-						p_metadata.mirror_reference.length > 0
-					)
-				)
-				{
-					let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-					if(path_to_onfocus_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
+        f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+        if(path_to_onclick_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
 
-					f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-					if(path_to_onchange_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
-					
-					f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-					if(path_to_onclick_map[p_metadata_path])
-					{
-						create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-					}
+        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+    }
+    p_result.push(` min="1900-01-01" max="2100-12-31">`);
+        
 
-					create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
-				}
-				p_result.push(`>`);
+      
+    p_result.push(
+`<input class="datetime-time form-control w-50 h-100"
+                dpath="${p_object_path}"
+                ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+        ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+        type="text" name="${p_metadata.name}"
+        data-value="${p_data}"
+        value="${time_part_display_value}"
+        ${disabled_html}`
+        // `<input class="datetime-time form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+        //    dpath="${p_object_path}"
+        //    ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+        //    ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
+        //    type="text" name="${p_metadata.name}"
+        //    data-value="${p_data}"
+        //    value="${newData.split('T')[0] ? newTimeValue : '00:00:00'}"
+        //    ${disabled_html}`
+    );
 
-				//TODO: Future route to implement a fake time control for easier 'hh:mm:ss' placeholder
-				//at the moment our plugin is not playing nicely with the time control
-				// p_result.push(
-				// 	`<input class="datetime-fauxtime form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
-				// 					placeholder="hh:mm:ss"
-				// 					${disabled_html}
-				// 					aria-hidden="true"
-				// 					focusable="false">`
-				// );
+    if
+    (
+        !(
+            p_metadata.mirror_reference &&
+            p_metadata.mirror_reference.length > 0
+        )
+    )
+    {
+        let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+        if(path_to_onfocus_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
 
-				let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
-				let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
-				let validation_height_new = 'auto';
-				let validation_top_new = 'auto';
-				let validation_bottom_new = '-24px';
-				let validation_left_new = 'auto';
+        f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+        if(path_to_onchange_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
+        
+        f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+        if(path_to_onclick_map[p_metadata_path])
+        {
+            create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+        }
 
-                if(! is_valid)
-                {
-                    p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
-                }
+        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+    }
+    p_result.push(`>`);
+
+    //TODO: Future route to implement a fake time control for easier 'hh:mm:ss' placeholder
+    //at the moment our plugin is not playing nicely with the time control
+    // p_result.push(
+    // 	`<input class="datetime-fauxtime form-control w-50 h-100 input-group bootstrap-timepicker timepicker"
+    // 					placeholder="hh:mm:ss"
+    // 					${disabled_html}
+    // 					aria-hidden="true"
+    // 					focusable="false">`
+    // );
+
+    let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
+    let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];
+    let validation_height_new = 'auto';
+    let validation_top_new = 'auto';
+    let validation_bottom_new = '-24px';
+    let validation_left_new = 'auto';
+
+    if(! is_valid)
+    {
+        p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
+    }
 /*
 				p_post_html_render.push(`
 					//if validation passed
@@ -242,7 +282,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 					}
                 `);
                 */
-		p_result.push("</div>");
+	p_result.push("</div>");
 
 		//Initialize the custom 'bootstrap timepicker'
     p_post_html_render.push(`
@@ -401,21 +441,21 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		p_result.push(code_array.join('').replace(/'/g,"\""));
 		p_result.push("'");
 	}
-	else //if(p_metadata.type!="number")
+	else 
 	{
 		//TODO: Refactor the below condition once we figure how to write 'nested' ternary operators
 		if (p_ctx)
 		{
 			//p_ctx exits, setting form_index and grid_index value
 			p_result.push(
-				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, ${p_ctx.form_index != null ? p_ctx.form_index : 'null'}, ${p_ctx.grid_index != null ? p_ctx.grid_index : 'null'}, this.previousElementSibling, this.nextElementSibling)"`
+				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
 			);
 		}
 		else
 		{
 			//no p_ctx arguments, setting form_index and grid_index value to 'null'
 			p_result.push(
-				` onblur="g_set_data_object_from_path('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_metadata.type === 'boolean' ? 'this.checked' : 'this.value'}, null, null, this.previousElementSibling, this.nextElementSibling)"`
+				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', null, null)"`
 			);
 		}
 
@@ -530,4 +570,41 @@ function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_p
 	p_result.push("='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
 	p_result.push("'");
+}
+
+
+function DateTime_Onblur
+(
+    p_object_path,
+    p_metadata_path,
+    p_dictionary_path,
+    p_form_index,
+    p_grid_index
+)
+{
+    let object_id = convert_object_path_to_jquery_id(p_object_path)
+
+    let date_element = document.querySelector(`#${object_id} .datetime-date`);
+    let time_element = document.querySelector(`#${object_id} .datetime-time`);
+    
+    let date_value = date_element.value;
+    let time_value = time_element.value;
+    
+    let date_part_array = date_value.split("/")
+    if(date_part_array.length > 2)
+    {
+        date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+    }
+
+ 
+    g_set_data_object_from_path
+    (
+        p_object_path,
+        p_metadata_path,
+        p_dictionary_path,
+        date_value + "T" + time_value,
+        p_form_index,
+        p_grid_index
+    );
+
 }
