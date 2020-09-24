@@ -90,76 +90,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(`<small class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top:${validation_top_new}px">Invalid date</small>`);
         }
         
-/*
-        p_post_html_render.push(`
-            //if validation passed
-            if (${is_valid})
-            {
-                $('#${convert_object_path_to_jquery_id(p_object_path)} input').removeClass('is-invalid'); //remove css error class
-                $('#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg').hide(); //hide message
-                
-                //if grid item
-                if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
-                {
-                    let grid_number = $('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index');
-
-                    //remove specific grid item error
-                    $('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"][data-grid="'+grid_number+'"]').remove();
-                }
-                else
-                {
-                    //remove specific error
-                    $('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"]').remove();
-                }
-
-                //if no error items
-                if ($('.construct__header-alert ul').find('li').length < 1)
-                {
-                    $('.construct__header-alert ul').html(''); //clear the html
-                    $('.construct__header-alert').hide(); //then hide alert box
-                }
-            }
-            else
-            {
-                $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid'); //add css error class
-                $("#${convert_object_path_to_jquery_id(p_object_path)} .validation-msg").show(); //show message
-
-                //check if grid item
-                if ($('#${convert_object_path_to_jquery_id(p_object_path)} input')[0].hasAttribute('grid_index'))
-                {
-                    let legend_label = $('#${convert_object_path_to_jquery_id(p_object_path)} input').closest('.grid-control').find('legend')[0].innerText.split(' - ')[0];
-                    let grid_number = $('#${convert_object_path_to_jquery_id(p_object_path)} input').attr('grid_index');
-
-                    //check if item error doesnt exist
-                    if ($('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"][data-grid="'+grid_number+'"]').length < 1)
-                    {
-                        $('.construct__header-alert ul').append('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}" data-grid="'+grid_number+'"><strong>'+legend_label+': ${p_metadata.prompt}, item '+(parseInt(grid_number)+1)+':</strong> Date must be a valid calendar date between 1900-2100</li>');
-                    }
-                }
-                //if NOT grid item
-                else
-                {
-                    //check if item error doesnt exist
-                    if ($('.construct__header-alert ul').find('li[data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"]').length < 1)
-                    {
-                        $('.construct__header-alert ul').append('<li data-path="${p_dictionary_path.substring(1, p_dictionary_path.length)}"><strong>${p_metadata.prompt}:</strong> Date must be a valid calendar date between 1900-2100</li>')
-                    }
-                }
-
-                $('.construct__header-alert').show(); //show alert box
-            }
-        `);
-        */
-
-        /*
-            START datetimepicker() init and options
-            TODO: Comment out when going to test
-                ~ 7/6/20: Removed datepicker plugin, using browser supported 'type="date"' attribute
-        */
-        // p_post_html_render.push(`$("#${convert_object_path_to_jquery_id(p_object_path)} input").datepicker({
-        //   forceParse: false,
-        //   keyboardNavigation: false
-        // })`);
         p_post_html_render.push(`
           $("#${convert_object_path_to_jquery_id(p_object_path)} input").datetimepicker({
             format: 'MM/DD/YYYY',
@@ -175,21 +105,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
           })
         `);
-        // p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
-        // p_post_html_render.push(' format: "Y-MM-DD", ');
-        // p_post_html_render.push(' defaultDate: "' + p_data + '",');
-        // p_post_html_render.push(`
-        //     icons: {
-        //         time: "x24 fill-p cdc-icon-clock_01",
-        //         date: "x24 fill-p cdc-icon-calendar_01",
-        //         up: "x24 fill-p cdc-icon-chevron-circle-up",
-        //         down: "x24 fill-p cdc-icon-chevron-circle-down",
-        //         previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
-        //         next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
-        //     }
-        // `);
-        // p_post_html_render.push('});');
-        /* END datetimepicker() */
+
 
     p_result.push("</div>");
 }

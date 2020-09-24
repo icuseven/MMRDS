@@ -540,7 +540,15 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			}
 		}
 
-    if (p_metadata.type === 'date' && p_metadata.name === 'case_locked_date') p_result.push(` disabled="true" `);
+    if 
+    (
+        p_metadata.type === 'date' && 
+        p_metadata.name === 'case_locked_date'
+    ) 
+    {
+        p_result.push(` disabled="true" `);
+    }
+
 
 	p_result.push("/>");
 	
@@ -615,18 +623,18 @@ function page_render_create_event(p_result, p_event_name, p_code_json, p_metadat
 
 function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
-  /*
-  var path_to_int_map = [];
-  var path_to_onblur_map = [];
-  var path_to_onclick_map = [];
-  var path_to_onfocus_map = [];
-  var path_to_onchange_map = [];
-  var path_to_source_validation = [];
-  var path_to_derived_validation = [];
-  var path_to_validation_description = [];
-  */
-  var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
-  
+    /*
+    var path_to_int_map = [];
+    var path_to_onblur_map = [];
+    var path_to_onclick_map = [];
+    var path_to_onfocus_map = [];
+    var path_to_onchange_map = [];
+    var path_to_source_validation = [];
+    var path_to_derived_validation = [];
+    var path_to_validation_description = [];
+    */
+    var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
+
 	if(path_to_onblur_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
@@ -675,16 +683,12 @@ function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, 
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);
 		p_result.push("\",\"");
-    p_result.push(p_dictionary_path);
+        p_result.push(p_dictionary_path);
     
 		if(p_metadata.type=="boolean")
 		{
 			p_result.push("\", this.checked");
-    }
-    else if(p_metadata.type=="date")
-    {
-      p_result.push("\", this");
-    }
+        }
 		else
 		{
 			p_result.push("\", this.value");
