@@ -84,7 +84,7 @@ namespace mmria.server.authentication
                     if
                     (
                         date_diff.HasValue && 
-                        date_diff.Value.TotalMinutes < 3
+                        date_diff.Value.TotalMinutes < 2
                     )
                     {   
 
