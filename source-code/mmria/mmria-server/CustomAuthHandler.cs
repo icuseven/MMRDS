@@ -84,12 +84,11 @@ namespace mmria.server.authentication
                     if
                     (
                         date_diff.HasValue && 
-                        date_diff.Value.TotalMinutes > 0 && 
                         date_diff.Value.TotalMinutes < 3
                     )
                     {   
 
-                        session_message.date_expired.Value.AddMinutes(10);
+                        session_message.date_expired = session_message.date_expired.Value.AddMinutes(10);
                         string session_message_json = Newtonsoft.Json.JsonConvert.SerializeObject(session_message);
                         try
                         {
