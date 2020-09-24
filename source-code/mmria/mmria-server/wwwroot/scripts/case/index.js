@@ -578,30 +578,32 @@ function is_valid_date(p_value)
 function is_valid_datetime(p_value) 
 {
 
-    let result = false;
+    let is_valid_date = false;
+    let is_valid_time = false;
 
 
     if (p_value === '' || p_value.length === 0) 
     {
-    result = true;
+        is_valid_date = true;
+        is_valid_time = true;
     } 
     else if(p_value.indexOf('T') > -1)
     {
         let split_array = p_value.split('T'); 
         if(split_array.length > 1)
         {
-            let date_array = split_array[0];
-            let time_array =  split_array[1];
+            let date_component = split_array[0];
+            let time_component =  split_array[1];
 
-            if(date_array.indexOf("-") > -1)
+            if(date_component.indexOf("-") > -1)
             {
-                let value_array = date_array.split("-");
+                let value_array = date_component.split("-");
 
                 if(value_array.length > 2)
                 {
-                    let year = parseInt(value_array[2]);
-                    let month = parseInt(value_array[0]);
-                    let day = parseInt(value_array[1]);
+                    let year = parseInt(value_array[0]);
+                    let month = parseInt(value_array[1]);
+                    let day = parseInt(value_array[2]);
 
                     if 
                     (
@@ -613,12 +615,62 @@ function is_valid_datetime(p_value)
                         day <= 31
                     ) 
                     {
-                        result = true;
+                        is_valid_date = true;
+                    }
+                }
+
+                if(time_component.indexOf(":") > -1)
+                {
+                    let value_array = time_component.split(":");
+                    if(value_array.length > 2)
+                    {
+                        let hour = parseInt(value_array[0]);
+                        let minute = parseInt(value_array[1]);
+                        let second = 0;
+                        let millisecond = null;
+                        if(value_array[2].indexOf(".") > -1)
+                        {
+                            let second_array = value_array[2].split(".");
+                            second = parseInt(second_array[0]);
+                            millisecond = parseInt(second_array[1]);
+                        }
+                        else
+                        {
+                            second = parseInt(value_array[2]);
+                        }
+
+                        if 
+                        (
+                            hour >= 0 && 
+                            hour <= 23 &&
+                            minute >= 0 &&
+                            minute <= 59 &&
+                            second >= 0 &&
+                            second <= 59
+                        ) 
+                        {
+                            if
+                            (
+                                millisecond != null &&
+                                millisecond >=0 &&
+                                millisecond <= 999
+                            )
+                            {
+                                is_valid_time = true;
+                            }
+                            else
+                            {
+                                is_valid_time = true;
+                            }
+                        }
+                        
                     }
                 }
             }
         }
     }
+
+    return is_valid_date && is_valid_time;
 
 }
 

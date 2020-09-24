@@ -41,9 +41,6 @@ namespace mmria.server.authentication
                 try
                 {
                     string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
-                    System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
-				
-                    
                     var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                     var responseFromServer =  session_message_curl.execute();
 
@@ -67,29 +64,56 @@ namespace mmria.server.authentication
                 }
                 else if(session_message.date_expired.HasValue && session_message.date_expired.Value < System.DateTime.Now)
                 {
-                    return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
+                    if(Request.Path.Value.StartsWith("/api/"))
+                    {
+                        return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
+                    }
+                    else
+                    {
+                        return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
+                    }
                 }
                 else if
                 (
                     !string.IsNullOrWhiteSpace(session_message.user_id)
                 )
                 {
-                    mmria.common.model.couchdb.user user = null;
 
-/*
-                    try
-                    {
-                        string request_string = $"{config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user_name.ToLower())}";
-                        System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
-                        var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
-                        var responseFromServer =  user_curl.execute();
+                    var date_diff = session_message.date_expired - System.DateTime.Now;
 
-                        user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer); 
+                    if
+                    (
+                        date_diff.HasValue && 
+                        date_diff.Value.TotalMinutes > 0 && 
+                        date_diff.Value.TotalMinutes < 3
+                    )
+                    {   
+
+                        session_message.date_expired.Value.AddMinutes(10);
+                        string session_message_json = Newtonsoft.Json.JsonConvert.SerializeObject(session_message);
+                        try
+                        {
+                            string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
+                            
+                            var session_put_curl = new mmria.server.cURL("PUT", null, request_string, session_message_json, config_timer_user_name, config_timer_password);
+                            var responseFromServer =  session_put_curl.execute();
+
+                            var response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer); 
+                            if(!response.ok)
+                            {
+                                System.Console.WriteLine ("problem saving session update.");
+                            }
+
+                        }
+                        catch(System.Exception ex)
+                        {
+                            System.Console.WriteLine (ex);
+                        } 
                     }
-                    catch(System.Exception ex)
-                    {
-                        System.Console.WriteLine (ex);
-                    } */
+
+                    //mmria.common.model.couchdb.user user = null;
+
+
 
                     const string Issuer = "https://contoso.com";
                     var claims = new List<Claim>();
