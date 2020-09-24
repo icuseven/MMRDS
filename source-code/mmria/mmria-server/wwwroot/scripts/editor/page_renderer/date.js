@@ -34,14 +34,15 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         let is_valid = true;
 
-        if(p_data != null && p_data != "")
-        {
-            is_valid = is_valid_date(p_data);
-        }
+
 
         if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
         {
           is_valid = p_ctx.is_valid_date_or_datetime;
+        }
+        else if(p_data != null && p_data != "")
+        {
+            is_valid = is_valid_date(p_data);
         }
 
         let input_value = p_data;

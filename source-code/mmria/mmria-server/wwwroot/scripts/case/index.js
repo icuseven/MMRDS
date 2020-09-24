@@ -2859,7 +2859,10 @@ function render_summary_validation
                 (
                     p_data && 
                     p_data[child.name] &&
-                    child.type.toLocaleLowerCase() == "form"
+                    child.type.toLocaleLowerCase() == "form" &&
+                    g_ui.url_state &&
+                    g_ui.url_state.selected_id &&
+                    g_ui.url_state.selected_id == child.name
                 )
                 {
                     render_summary_validation(child, p_data[child.name], p_path + "/" + child.name, p_object_path + "." + child.name, p_result, p_form_index, p_grid_index);
