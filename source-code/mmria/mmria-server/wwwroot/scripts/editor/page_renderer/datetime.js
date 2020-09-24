@@ -104,10 +104,10 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
     
  
-    
+
     p_result.push
     (
-        `<input class="datetime-date form-control w-50 h-100"
+        `<input id="${convert_object_path_to_jquery_id(p_object_path)}-date" class="datetime-date form-control w-50 h-100"
         dpath="${p_object_path}"
         ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
         ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
@@ -154,7 +154,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
       
     p_result.push(
-`<input class="datetime-time form-control w-50 h-100"
+`<input id="${convert_object_path_to_jquery_id(p_object_path)}-time" class="datetime-time form-control w-50 h-100"
                 dpath="${p_object_path}"
                 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
         ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
@@ -230,7 +230,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 		//Initialize the custom 'bootstrap timepicker'
     p_post_html_render.push(`
-      $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date").datetimepicker({
+      $("#${convert_object_path_to_jquery_id(p_object_path)}-date").datetimepicker({
         format: 'MM/DD/YYYY',
         keepInvalid: true,
         useCurrent: false,
@@ -242,7 +242,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         }
       });
 
-      $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time").datetimepicker({
+      $("#${convert_object_path_to_jquery_id(p_object_path)}-time").datetimepicker({
         format: 'HH:mm:ss',
         keepInvalid: true,
         useCurrent: false,
@@ -254,7 +254,11 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         }
       });
     `);
-    	
+
+
+    p_post_html_render.push(`document.getElementById("${convert_object_path_to_jquery_id(p_object_path)}-date").onkeypress = date_field_key_press;`);
+    p_post_html_render.push(`document.getElementById("${convert_object_path_to_jquery_id(p_object_path)}-time").onkeypress = time_field_key_press;`);
+
 	p_result.push("</div>");
 }
 
@@ -432,5 +436,13 @@ function DateTime_Onblur
         p_form_index,
         p_grid_index
     );
+}
 
+function time_field_key_press(e) 
+{
+    var chr = String.fromCharCode(e.which);
+    if ("0123456789:".indexOf(chr) < 0)
+    {
+        return false;
+    }
 }
