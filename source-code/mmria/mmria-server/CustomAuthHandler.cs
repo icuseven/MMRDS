@@ -120,7 +120,7 @@ namespace mmria.server.authentication
     
                     foreach(var role in session_message.role_list)
                     {
-                        if(role == "_admin")
+                        if(role == "installation_admin")
                         {
                             claims.Add(new Claim(ClaimTypes.Role, "installation_admin", ClaimValueTypes.String, Issuer));
                         }

@@ -324,6 +324,9 @@ namespace mmria.server.Controllers
                     userIdentity.AddClaims(claims);
                     var userPrincipal = new ClaimsPrincipal(userIdentity);
 
+                    this.HttpContext.User = userPrincipal;
+                    System.Threading.Thread.CurrentPrincipal = userPrincipal;
+           
 
                     foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
                     {
