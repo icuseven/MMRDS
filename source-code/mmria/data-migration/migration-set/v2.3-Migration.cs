@@ -8,6 +8,21 @@ namespace migrate.set
 {
 
 
+
+    public class Case_Status
+    {
+        public int? overall_case_status { get; set; } //- case_status
+
+        public string abstraction_begin_date { get; set; } // -abstrn_bgn_date
+
+        public string abstraction_complete_date { get; set; } // - abstrn_cmp_date
+
+        public string projected_review_date { get; set; } // - prjtd_rvw_date
+
+        public string case_locked_date { get; set; } // - case_lck_date
+
+//6.	committee_review/critical_factors_worksheet/recommendation_level { get; set; } // -crcfw_categ_rec
+    }
     public class v2_3_Migration
     {
 

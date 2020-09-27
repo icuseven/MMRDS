@@ -820,7 +820,7 @@ var g_ui = {
 
   data_list: [],
 
-  broken_rules: [],
+  broken_rules: {},
 
   set_value: function (p_path, p_value) 
   {
@@ -1570,6 +1570,7 @@ function window_on_hash_change(e)
 
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
         {
+            g_ui.broken_rules = {};
             save_case(g_data, function () 
             {
             get_specific_case(
@@ -1616,8 +1617,10 @@ function window_on_hash_change(e)
       parseInt(g_ui.url_state.path_array[0]) >= 0
     ) 
     {
+        
       if (g_ui.case_view_list.length > 0) 
       {
+        g_ui.broken_rules = {};
         get_specific_case
         (
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
@@ -1928,30 +1931,8 @@ function g_render()
     }
   }
 
-  let validation_summary = [];
+  apply_validation();
   
-  render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
-
-
-  if(g_ui.broken_rules.length > 0)
-  {
-      for(let i = 0; i < g_ui.broken_rules.length; i++)
-      {
-        validation_summary.push(g_ui.broken_rules[i]);
-      }
-  }
-
-  if(validation_summary.length > 0)
-  {
-    //validation_summary.unshift("$('#validation_summary_list').empty();")
-    validation_summary.push("$('#validation_summary').css('display','');")
-  }
-  else
-  {
-    validation_summary.push("$('#validation_summary').css('display','none');")
-  }
-
-  eval(validation_summary.join(""));
 }
 
 function show_print_version() 
@@ -2029,41 +2010,26 @@ function apply_tool_tips()
 
 function apply_validation() 
 {
-  for (var i in g_ui.broken_rules) 
-  {
-    var element = document.getElementById(i);
 
-    if (g_ui.broken_rules[i] == true) 
-    {
-      if (element && element.className.indexOf('failed-validation') < 0) 
-      {
-        element.className += ' failed-validation';
-      }
-    } 
-    else 
-    {
-      if (element && element.className.indexOf('failed-validation') > 0) 
-      {
-        var class_array = element.className.split(' ');
+    let list_has_items = false;
+    let validation_summary = [];
 
-        class_array.splice(class_array.indexOf('failed-validation'), 1);
-        element.className = class_array.join(' ');
-      }
+    for (let key in g_ui.broken_rules) 
+    {
+        list_has_items = true;
+        validation_summary.push(g_ui.broken_rules[key]);
     }
-  }
 
-  let validation_summary = [];
-  render_summary_validation(g_metadata, g_data, "", "g_data", validation_summary, null, null);
-  
-  if(validation_summary.length > 0)
-  {
-    validation_summary.unshift("$('#validation_summary_list').empty();")
-    validation_summary.push("$('#validation_summary').css('display','');")
-  }
-  else
-  {
-    validation_summary.push("$('#validation_summary').css('display','none');")
-  }
+    if(list_has_items)
+    {
+      validation_summary.unshift("$('#validation_summary_list').empty();")
+      validation_summary.push("$('#validation_summary').css('display','');")
+    }
+    else
+    {
+      validation_summary.push("$('#validation_summary').css('display','none');")
+    }
+
   eval(validation_summary.join(""));
 
 }
