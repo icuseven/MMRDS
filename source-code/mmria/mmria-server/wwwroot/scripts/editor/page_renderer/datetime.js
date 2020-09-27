@@ -63,11 +63,16 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     {
         is_valid = p_ctx.is_valid_date_or_datetime;
 
-        g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`;
+        
     }
     else if(p_data != null && p_data != "")
     {
         is_valid = is_valid_datetime(p_data);
+    }
+
+    if(! is_valid)
+    {
+        g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1"  onclick="gui_remove_broken_rule(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`;
     }
     
 

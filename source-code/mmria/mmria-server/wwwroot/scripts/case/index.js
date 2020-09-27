@@ -90,10 +90,11 @@ function g_set_data_object_from_path
         new_value: value,
       });
 
-      if (g_ui.broken_rules[p_object_path]) 
+      /*
+      if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
       {
-        g_ui.broken_rules[p_object_path] = false;
-      }
+        delete g_ui.broken_rules[p_object_path];
+      }*/
 
         set_local_case
         (
@@ -126,7 +127,8 @@ function g_set_data_object_from_path
     } 
     else 
     {
-      g_ui.broken_rules[p_object_path] = true;
+        // do nothing for now
+      //g_ui.broken_rules[p_object_path] = true;
       //console.log("didn't pass validation");
     }
   } 
@@ -2016,8 +2018,13 @@ function apply_validation()
 
     for (let key in g_ui.broken_rules) 
     {
-        list_has_items = true;
-        validation_summary.push(g_ui.broken_rules[key]);
+        
+        if(g_ui.broken_rules[key]!= null)
+        {
+            list_has_items = true;
+            validation_summary.push(g_ui.broken_rules[key]);
+        }
+        
     }
 
     if(list_has_items)
@@ -2027,7 +2034,8 @@ function apply_validation()
     }
     else
     {
-      validation_summary.push("$('#validation_summary').css('display','none');")
+        validation_summary.unshift("$('#validation_summary_list').empty();")
+        validation_summary.push("$('#validation_summary').css('display','none');")
     }
 
   eval(validation_summary.join(""));
@@ -2929,4 +2937,16 @@ function render_summary_validation
             // do nothing for now
             break;
     }
+}
+
+function gui_remove_broken_rule(p_object_id)
+{
+    if(g_ui.broken_rules.hasOwnProperty(p_object_id))
+    {
+        g_ui.broken_rules[p_object_id] = null;
+        delete g_ui.broken_rules[p_object_id];
+    }
+
+    apply_validation();
+
 }
