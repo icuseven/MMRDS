@@ -247,7 +247,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 												 id="filter_search_text"
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
-									<button type="button" class="btn btn-secondary" alt="search" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
+									<button type="button" class="btn btn-secondary" alt="apply filters" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
 									<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 								</div>
 
