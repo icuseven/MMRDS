@@ -173,12 +173,13 @@ function g_set_data_object_from_path
       {
           if(value!= null && value!="")
           {
+            let save_datetime = new Date(value);
             eval(
                 p_object_path +
-                    ' = "' +
-                    value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-                    '"'
-                );
+                ' = "' +
+                save_datetime.toISOString().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                '"'
+            );
           }
         eval(
             p_object_path +

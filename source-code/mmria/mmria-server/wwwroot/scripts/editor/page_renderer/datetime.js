@@ -82,7 +82,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         if(p_data.indexOf("T"))
         {
             const date_time_object = new Date(p_data);
-            
+
             date_part_display_value = 
             (date_time_object.getMonth() + 1) + "/" + 
             date_time_object.getDate() + "/" + 
@@ -443,15 +443,27 @@ function convert_datetime_to_local_display_value(p_value)
 {
     let result = p_value;
 
-    if(p_value && p_value.indexOf("T") > -1)
+    if(p_value && p_value!= "")
     {
-        let date_time_object = new Date(p_value);
-        result = 
-        (date_time_object.getMonth() + 1) + "/" + 
-        date_time_object.getDate() + "/" + 
-        date_time_object.getFullYear() + " "  +  ("00" + date_time_object.getHours()).slice(-2) + ":" 
-        + ("00" + date_time_object.getMinutes()).slice(-2) 
-        + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
+        if(typeof p_value.getMonth === 'function')
+        {
+            result = 
+            (p_value.getMonth() + 1) + "/" + 
+            p_value.getDate() + "/" + 
+            p_value.getFullYear() + " "  +  ("00" + p_value.getHours()).slice(-2) + ":" 
+            + ("00" + p_value.getMinutes()).slice(-2) 
+            + ":" + ("00" + p_value.getSeconds()).slice(-2); 
+        }
+        else if(p_value && p_value.indexOf("T") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            (date_time_object.getMonth() + 1) + "/" + 
+            date_time_object.getDate() + "/" + 
+            date_time_object.getFullYear() + " "  +  ("00" + date_time_object.getHours()).slice(-2) + ":" 
+            + ("00" + date_time_object.getMinutes()).slice(-2) 
+            + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
+        }
     }
 
     return result;

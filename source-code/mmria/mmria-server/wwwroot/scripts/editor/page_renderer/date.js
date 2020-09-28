@@ -52,19 +52,29 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         let input_value = p_data;
 
-        if
-        (
-            p_data!=null && 
-            p_data!="" &&
-            p_data.indexOf("-") > -1
-        )
+        if(p_data !=null && p_data != "")
         {
-            let date_part_array = p_data.split("");
-            if(date_part_array.length > 2)
+            input_value = convert_date_to_local_display_value(p_data);
+            /*
+            if(p_data.indexOf("T"))
             {
-                input_value = date_part_array[1] + "/" + date_part_array[0] +  "/" + date_part_array[2];
+                input_value = convert_date_to_local_display_value(p_data);
             }
+            else if
+            (
+              
+                p_data.indexOf("-") > -1
+            )
+            {
+                let date_part_array = p_data.split("");
+                if(date_part_array.length > 2)
+                {
+                    input_value = date_part_array[1] + "/" + date_part_array[0] +  "/" + date_part_array[2];
+                }
+            }*/
         }
+        
+        
                 
         page_render_create_input(p_result, p_metadata, input_value, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
         p_result.push(
@@ -134,4 +144,46 @@ function date_field_key_press(e)
     {
         return false;
     }
+}
+
+function convert_date_to_local_display_value(p_value)
+{
+    let result = p_value;
+
+    if(p_value && p_value!= "")
+    {
+        if(typeof p_value.getMonth === 'function')
+        {
+            result = 
+            (p_value.getMonth() + 1) + "/" + 
+            p_value.getDate() + "/" + 
+            p_value.getFullYear(); 
+        }
+        else if(p_value && p_value.indexOf("T") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            (date_time_object.getMonth() + 1) + "/" + 
+            date_time_object.getDate() + "/" + 
+            date_time_object.getFullYear(); 
+        }
+        else if(p_value.indexOf("-") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            (date_time_object.getMonth() + 1) + "/" + 
+            date_time_object.getDate() + "/" + 
+            date_time_object.getFullYear(); 
+        }
+        else if(p_value.indexOf("/") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            (date_time_object.getMonth() + 1) + "/" + 
+            date_time_object.getDate() + "/" + 
+            date_time_object.getFullYear(); 
+        }
+    }
+
+    return result;
 }
