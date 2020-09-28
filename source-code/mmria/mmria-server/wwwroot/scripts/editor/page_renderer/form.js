@@ -154,22 +154,29 @@ function form_render(
         );
       }
 
-      if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
+      if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
+      {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
+        
         p_result.push(
           `<p class='construct__info mb-0'>Date created: <span>${
             g_data.created_by && g_data.created_by
-          } ${g_data.date_created}</span></p>`
+          } ${date_part_display_value}</span></p>`
         );
       }
 
-      if (
+      if 
+      (
         g_data.date_last_updated &&
         !isNullOrUndefined(g_data.date_last_updated)
-      ) {
+      ) 
+      {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
+
         p_result.push(
           `<p class='construct__info mb-0'>Last updated: <span>${
             g_data.last_updated_by && g_data.last_updated_by
-          } ${g_data.date_last_updated}</span></p>`
+          } ${date_part_display_value}</span></p>`
         );
       }
 
@@ -645,22 +652,29 @@ function form_render(
         );
       }
 
-      if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
+      if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
+      {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
+
         p_result.push(
           `<p class='construct__info mb-0'>Date created: <span>${
             g_data.created_by && g_data.created_by
-          } ${g_data.date_created}</span></p>`
+          } ${date_part_display_value}</span></p>`
         );
       }
 
-      if (
+      if 
+      (
         g_data.date_last_updated &&
         !isNullOrUndefined(g_data.date_last_updated)
-      ) {
+      ) 
+      {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
+
         p_result.push(
           `<p class='construct__info mb-0'>Last updated: <span>${
             g_data.last_updated_by && g_data.last_updated_by
-          } ${g_data.date_last_updated}</span></p>`
+          } ${date_part_display_value}</span></p>`
         );
       }
 
@@ -852,22 +866,29 @@ function form_render(
       );
     }
 
-    if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
-      p_result.push(
-        `<p class='construct__info mb-0'>Date created: <span>${
-          g_data.created_by && g_data.created_by
-        } ${g_data.date_created}</span></p>`
-      );
+    if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
+    {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
+        
+        p_result.push(
+            `<p class='construct__info mb-0'>Date created: <span>${
+            g_data.created_by && g_data.created_by
+            } ${date_part_display_value}</span></p>`
+        );
     }
 
-    if (
+    if 
+    (
       g_data.date_last_updated &&
       !isNullOrUndefined(g_data.date_last_updated)
-    ) {
+    ) 
+    {
+        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
+
       p_result.push(
         `<p class='construct__info mb-0'>Last updated: <span>${
           g_data.last_updated_by && g_data.last_updated_by
-        } ${g_data.date_last_updated}</span></p>`
+        } ${date_part_display_value}</span></p>`
       );
     }
 

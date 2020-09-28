@@ -171,6 +171,15 @@ function g_set_data_object_from_path
       }
       else
       {
+          if(value!= null && value!="")
+          {
+            eval(
+                p_object_path +
+                    ' = "' +
+                    value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                    '"'
+                );
+          }
         eval(
             p_object_path +
                 ' = "' +
@@ -187,12 +196,26 @@ function g_set_data_object_from_path
       }
       else
       {
-        eval(
-            p_object_path +
-              ' = "' +
-              value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-              '"'
-          );
+
+        if(value!= null && value!="")
+        {
+            let save_datetime = new Date(value);
+            eval(
+                p_object_path +
+                ' = "' +
+                save_datetime.toISOString().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                '"'
+            );
+        }
+        else
+        {
+            eval(
+                p_object_path +
+                ' = "' +
+                value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                '"'
+            );
+        }
       }
     } 
     else 

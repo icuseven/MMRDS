@@ -81,33 +81,17 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     {
         if(p_data.indexOf("T"))
         {
-            const date_time_array = p_data.split('T');
-
-            let date_part = date_time_array[0];
-            let time_part = date_time_array[1];
+            const date_time_object = new Date(p_data);
             
-            if(date_part.indexOf("-") > -1)
-            {
-                let date_part_array = date_part.split("-");
-                date_part_display_value = date_part_array[1] + "/" + date_part_array[2] + "/" + date_part_array[0];
+            date_part_display_value = 
+            (date_time_object.getMonth() + 1) + "/" + 
+            date_time_object.getDate() + "/" + 
+            date_time_object.getFullYear();
 
-            }
-            else
-            {
-                date_part_display_value = date_part;
-            }
+            time_part_display_value = ("00" + date_time_object.getHours()).slice(-2) + ":" 
+            + ("00" + date_time_object.getMinutes()).slice(-2) 
+            + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
 
-
-            
-            //const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'))
-            if(time_part.indexOf('.') > -1)
-            {
-                time_part_display_value =  time_part.substring(time_part.indexOf('T')+1, time_part.indexOf('.')) 
-            } 
-            else
-            {
-                time_part_display_value = time_part;
-            }
         }
     }
     
@@ -453,4 +437,22 @@ function time_field_key_press(e)
     {
         return false;
     }
+}
+
+function convert_datetime_to_local_display_value(p_value)
+{
+    let result = p_value;
+
+    if(p_value && p_value.indexOf("T") > -1)
+    {
+        let date_time_object = new Date(p_value);
+        result = 
+        (date_time_object.getMonth() + 1) + "/" + 
+        date_time_object.getDate() + "/" + 
+        date_time_object.getFullYear() + " "  +  ("00" + date_time_object.getHours()).slice(-2) + ":" 
+        + ("00" + date_time_object.getMinutes()).slice(-2) 
+        + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
+    }
+
+    return result;
 }
