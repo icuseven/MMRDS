@@ -991,18 +991,6 @@ var g_ui = {
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
       result.push('descending=' + this.descending);
-
-      let case_status_element = document.getElementById("search_case_status");
-      
-      if(case_status_element == null || case_status_element.value == null)
-      {
-        this.case_status = "all";
-      }
-      else
-      {
-        this.case_status = case_status_element.value;
-      }
-
       result.push('case_status=' + this.case_status);
       
       if (this.search_key)

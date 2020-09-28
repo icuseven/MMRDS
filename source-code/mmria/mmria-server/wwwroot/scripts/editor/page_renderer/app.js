@@ -48,7 +48,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_case_status" class="mr-2">Case Status:</label>
-            <select id="search_case_status" class="custom-select" onchange="">
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
                 ${renderSortCaseStatus(p_ui.case_view_request)}
             </select>
         </div>`
@@ -434,7 +434,7 @@ function renderSortCaseStatus(p_case_view)
 	// Using the trusty ole' .map method instead of for loop
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value === p_case_view.case_status ? 'selected' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); // .join('') removes trailing comma in array interation
@@ -458,5 +458,11 @@ function clear_case_search() {
     g_ui.case_view_request.case_status = 'all'
     g_ui.case_view_request.descending = true;
 
-    get_case_set(g_render);
+    get_case_set();
+}
+
+
+function search_case_status_onchange(p_value)
+{
+    g_ui.case_view_request.case_status = p_value;
 }
