@@ -34,6 +34,7 @@ namespace migrate.set
 		public bool is_report_only_mode;
 
 		public System.Text.StringBuilder output_builder;
+        private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
 
 		public Dictionary<string, HashSet<string>> summary_value_dictionary = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
         public v2_3_Migration
@@ -61,7 +62,113 @@ namespace migrate.set
         public async Task execute()
         {
 			this.output_builder.AppendLine($"v2.3 Data Migration started at: {DateTime.Now.ToString("o")}");
+			DateTime begin_time = System.DateTime.Now;
+			
+			this.output_builder.AppendLine($"v2_3_Migration started at: {begin_time.ToString("o")}");
+			
+            var gs = new C_Get_Set_Value(this.output_builder);
+			try
+			{
+				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
+				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-20.07.13/metadata";
+				
+				cURL metadata_curl = new cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
+				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
 
+
+				this.lookup = get_look_up(metadata);
+
+				var estimate_based_on_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+				var onset_of_labor_was_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+				var estimate_based_on_node = get_metadata_node(metadata, "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on");
+				foreach(var item in estimate_based_on_node.values)
+				{
+					estimate_based_on_set.Add(item.value);
+				}
+
+
+				var onset_of_labor_was_node = get_metadata_node(metadata, "er_visit_and_hospital_medical_records/onset_of_labor/onset_of_labor_was");
+				foreach(var item in onset_of_labor_was_node.values)
+				{
+					onset_of_labor_was_set.Add(item.value);
+				}
+
+				Console.WriteLine($"v2_3_Migration Begin {begin_time}");
+
+
+
+				//this.lookup = get_look_up(metadata);
+           
+           
+           //1.	/home_record/case_status/overall_case_status - case_status
+
+          // 	committee_review/critical_factors_worksheet/recommendation_level -crcfw_categ_rec
+           		string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
+
+				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
+				string responseFromServer = case_curl.execute();
+				
+				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
+
+
+				var host_state_array = this.host_db_url.Split("-");
+				var host_state = host_state_array[1];
+
+				foreach(var row in case_response.rows)
+				{
+					var case_item = row.doc;
+
+					var case_has_changed = false;
+					var change_count = 0;
+
+
+					C_Get_Set_Value.get_value_result value_result = gs.get_value(case_item, "_id");
+					var mmria_id = value_result.result;
+
+					if(mmria_id.IndexOf("_design") > -1)
+					{
+						continue;
+					}
+
+					// host_state  *** begin
+
+					value_result = gs.get_value(case_item, "host_state");
+					var test_host_state_object = value_result.result;
+					if(test_host_state_object == null || string.IsNullOrWhiteSpace(test_host_state_object.ToString()))
+					{
+						if(change_count == 0)
+						{
+							case_has_changed = gs.set_value("host_state", host_state, case_item);
+							change_count+= 1;
+						}
+						else
+						{
+							case_has_changed = case_has_changed && gs.set_value("host_state", host_state, case_item);
+						}
+					}
+					// host_state  *** end
+
+					List<(int, dynamic)> change_list = new System.Collections.Generic.List<(int, dynamic)>();	
+
+					C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(case_item, "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial");
+					
+                
+                	if(!is_report_only_mode && case_has_changed)
+					{
+						save_case(case_item);
+					}
+                
+                }
+           
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        
 /*
 new fields
 
@@ -83,7 +190,111 @@ new fields
 */
 
 
+
+
         }
+
+        private async Task<bool> save_case(IDictionary<string, object> case_item)
+        {
+            bool result = false;
+			var gsv = new C_Get_Set_Value(this.output_builder);
+
+            //var case_item  = p_case_item as System.Collections.Generic.Dictionary<string, object>;
+
+            gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item);
+            gsv.set_value("last_updated_by", "migration_plan", case_item);
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
+
+            string put_url = $"{host_db_url}/{db_name}"  + case_item["_id"];
+            cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
+
+            try
+            {
+                var responseFromServer = await document_curl.executeAsync();
+                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                if(put_result.ok)
+                {
+                    result = true;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
+        private mmria.common.metadata.node get_metadata_node(mmria.common.metadata.app p_metadata, string p_path)
+		{
+
+			mmria.common.metadata.node result = null;
+
+			mmria.common.metadata.node current = null;
+			
+			string[] path = p_path.Split("/");
+
+			for(int i = 0; i < path.Length; i++)
+			{
+				string current_name = path[i];
+				if(i == 0)
+				{
+					foreach(var child in p_metadata.children)
+					{
+						if(child.name.Equals(current_name, StringComparison.OrdinalIgnoreCase))
+						{
+							current = child;
+							break;
+						}
+					}
+				}
+
+				else
+				{
+
+					if(current.children != null)
+					{
+						foreach(var child2 in current.children)
+						{
+							if(child2.name.Equals(current_name, StringComparison.OrdinalIgnoreCase))
+							{
+								current = child2;
+								break;
+							}
+						}	
+					}
+					else
+					{
+						return result;
+					}
+
+					if(i == path.Length -1)
+					{
+						result = current;
+					}
+				}
+
+			}
+
+			return result;
+		}
+
+        private static Dictionary<string,mmria.common.metadata.value_node[]> get_look_up(mmria.common.metadata.app p_metadata)
+        {
+			var result = new Dictionary<string,mmria.common.metadata.value_node[]>(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var node in p_metadata.lookup)
+			{
+				result.Add("lookup/" + node.name, node.values);
+			}
+			return result;
+		}
 
     }
 

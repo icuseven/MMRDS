@@ -47,7 +47,14 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         if(!is_valid)
         {
+            if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
+            {
               g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`;
+            }
+            else
+            {
+                g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-close"></span></button></li>');`;
+            }
         }
         
         let input_value = p_data;
@@ -55,23 +62,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         if(p_data !=null && p_data != "")
         {
             input_value = convert_date_to_local_display_value(p_data);
-            /*
-            if(p_data.indexOf("T"))
-            {
-                input_value = convert_date_to_local_display_value(p_data);
-            }
-            else if
-            (
-              
-                p_data.indexOf("-") > -1
-            )
-            {
-                let date_part_array = p_data.split("");
-                if(date_part_array.length > 2)
-                {
-                    input_value = date_part_array[1] + "/" + date_part_array[0] +  "/" + date_part_array[2];
-                }
-            }*/
         }
         
         
