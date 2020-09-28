@@ -1839,6 +1839,16 @@ function g_render()
     g_ui
   ).join('');
 
+  $('[data-toggle="tooltip"]').tooltip({
+    classes: {
+      'ui-tooltip': 'custom-tooltip'
+    },
+    position: {
+      my: "left-10 top", //position from top of tooltip
+      at: "bottom+10" //at bottom of element
+    }
+  });
+
   document.getElementById('form_content_id').innerHTML = page_render
   (
     g_metadata,

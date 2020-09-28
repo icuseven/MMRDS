@@ -227,6 +227,20 @@ button.link {
 /*
 ~~~ CUSTOM DATEPICKER STYLES
 */
+
+.custom-tooltip {
+  background-color: var(--grape) !important;
+  border-radius: var(--radius);
+  color: var(--white);
+  padding: 8px;
+  position: absolute;
+  width: 360px;
+  z-index: 999;
+}
+
+/*
+~~~ CUSTOM DATEPICKER STYLES
+*/
 .bootstrap-datetimepicker-widget.dropdown-menu {
   background-color: var(--white) !important;
 }
@@ -430,6 +444,9 @@ button.link {
 /* More Info Icon */
 .info-icon {
   cursor: help;
+}
+.info-icon:focus {
+  outline: auto 3px rgba(255,102,1,.9);
 }
 
 /* THE LOADER */

@@ -46,7 +46,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
         p_result.push("<div class='form-inline mb-2'>");
         p_result.push("<label for='search_sort_by' class='mr-2'>Sort:</label>");
-        p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = this.options[this.selectedIndex].value;'>");
+        p_result.push("<select id='search_sort_by' name='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = this.options[this.selectedIndex].value;'>");
             p_result.push(`
                 ${render_sort_by_include_in_export(p_ui.case_view_request)}
             `);
@@ -145,9 +145,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
             p_result.push(`
                 <select id="search_records_per_page"
+                        name="search_records_per_page"
                         class="custom-select"
                         onchange="g_ui.case_view_request.take = this.value;">
-                    ${render_filter_records_per_page(p_ui.case_view_request)}
+                  ${render_filter_records_per_page(p_ui.case_view_request)}
                 </select>
             `);
             // p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
@@ -190,9 +191,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
 
         p_result.push("<div class='form-inline mb-3'>");
-        p_result.push("<label for='sort_decending' class='mr-2'>Descending order:</label>");
+        p_result.push("<label for='sort_descending' class='mr-2'>Descending order:</label>");
         p_result.push(`
-            <input id="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
+            <input id="sort_descending" name="sort_descending" type="checkbox" onchange="g_ui.case_view_request.descending = this.checked" ${p_ui.case_view_request.descending && 'checked'} />
         `);
         // p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;'");
         // if (p_ui.case_view_request.descending) 
