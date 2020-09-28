@@ -232,6 +232,7 @@ button.link {
   background-color: var(--grape) !important;
   border-radius: var(--radius);
   color: var(--white);
+  font-size: 14px;
   padding: 8px;
   position: absolute;
   width: 360px;
