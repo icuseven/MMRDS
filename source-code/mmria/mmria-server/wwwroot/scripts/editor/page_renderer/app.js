@@ -85,8 +85,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     /* Apply Filters Btn */
     p_result.push(
         `<div class="form-inline">
-            <button type="button" class="btn btn-secondary mr-2" alt="search" onclick="init_inline_loader(function(){ get_case_set() })">Apply Filters</button>
-            <button type="button" class="btn btn-secondary" alt="search" id="search_command_button" onclick="init_inline_loader(function(){ clear_case_search() })">Reset</button>
+            <button type="button" class="btn btn-secondary mr-2" alt="apply filters" onclick="init_inline_loader(function(){ get_case_set() })">Apply Filters</button>
+            <button type="button" class="btn btn-secondary" alt="reset filters" id="search_command_button" onclick="init_inline_loader(function(){ clear_case_search() })">Reset</button>
             <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
         </div>`
     );
