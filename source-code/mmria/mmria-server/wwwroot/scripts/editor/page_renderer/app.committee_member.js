@@ -3,7 +3,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<section id='app_summary'>");
 
         /* The De-ID'ed Intro */
-        p_result.push("<div tabindex='-1'>");
+        p_result.push("<div>");
             p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
         p_result.push("</div> <!-- end .content-intro -->");
 
