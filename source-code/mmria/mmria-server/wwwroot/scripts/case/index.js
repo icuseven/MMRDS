@@ -168,6 +168,10 @@ function g_set_data_object_from_path
       if (!is_valid_date(value)) 
       {
         valid_date_or_datetime = false;
+        eval(
+            p_object_path +
+                ' = ""'
+            );
       }
       else
       {
@@ -194,6 +198,10 @@ function g_set_data_object_from_path
       if (!is_valid_datetime(value)) 
       {
         valid_date_or_datetime = false;
+        eval(
+            p_object_path +
+                ' = ""'
+            );
       }
       else
       {
@@ -577,6 +585,36 @@ function is_valid_date(p_value)
 
         if(value_array.length > 2)
         {
+            let year = parseInt(value_array[0]);
+            let month = parseInt(value_array[1]);
+            let day = parseInt(value_array[2]);
+
+            if 
+            (
+                year >= 1900 && 
+                year <= 2100 &&
+                month >= 1 &&
+                month <= 12 &&
+                day >= 1 &&
+                day <= 31
+            ) 
+            {
+                result = true;
+            }
+        }
+    }
+
+  }
+  /*
+  else if(p_value.indexOf('-') > -1)
+  {
+    let date_array = p_value.split('-')[0]; 
+    if(date_array.indexOf("-") > -1)
+    {
+        let value_array = date_array.split("-");
+
+        if(value_array.length > 2)
+        {
             let year = parseInt(value_array[2]);
             let month = parseInt(value_array[0]);
             let day = parseInt(value_array[1]);
@@ -596,7 +634,7 @@ function is_valid_date(p_value)
         }
     }
 
-  }
+  }*/
 
   return result;
 }
@@ -899,8 +937,7 @@ var g_ui = {
     result.version = g_release_version;
     result.home_record.case_status.overall_case_status = 1;
     result.home_record.case_status.abstraction_begin_date = new Date()
-      .toISOString()
-      .split('T')[0];
+      .toISOString();
 
     if (g_jurisdiction_list.length > 0) 
     {
