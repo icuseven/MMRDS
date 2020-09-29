@@ -181,7 +181,7 @@ function g_set_data_object_from_path
             eval(
                 p_object_path +
                 ' = "' +
-                convert_date_to_local_display_value(save_datetime).replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                convert_date_to_storage_format(save_datetime).replace(/"/g, '\\"').replace(/\n/g, '\\n') +
                 '"'
             );
           }

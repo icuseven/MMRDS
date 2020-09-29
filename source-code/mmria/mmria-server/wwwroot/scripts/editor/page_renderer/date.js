@@ -178,6 +178,48 @@ function convert_date_to_local_display_value(p_value)
     return result;
 }
 
+function convert_date_to_storage_format(p_value)
+{
+    let result = p_value;
+
+    if(p_value && p_value!= "")
+    {
+        if(typeof p_value.getMonth === 'function')
+        {
+            result = 
+            p_value.getFullYear() + "-" +
+            (p_value.getMonth() + 1) + "-" + 
+            p_value.getDate(); 
+        }
+        else if(p_value && p_value.indexOf("T") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            date_time_object.getFullYear() + "-" +
+            (date_time_object.getMonth() + 1) + "-" + 
+            date_time_object.getDate(); 
+        }
+        else if(p_value.indexOf("-") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            date_time_object.getFullYear() + "-" +
+            (date_time_object.getMonth() + 1) + "-" + 
+            date_time_object.getDate(); 
+        }
+        else if(p_value.indexOf("/") > -1)
+        {
+            let date_time_object = new Date(p_value);
+            result = 
+            date_time_object.getFullYear() + "-" +
+            (date_time_object.getMonth() + 1) + "-" + 
+            date_time_object.getDate(); 
+        }
+    }
+
+    return result;
+}
+
 
 function is_valid_date(p_value) 
 {
