@@ -411,6 +411,8 @@ function DateTime_Onblur
     p_grid_index
 )
 {
+    let value = "";
+
     let object_id = convert_object_path_to_jquery_id(p_object_path)
 
     let date_element = document.querySelector(`#${object_id} .datetime-date`);
@@ -420,18 +422,22 @@ function DateTime_Onblur
     let time_value = time_element.value;
     
     let date_part_array = date_value.split("/")
-    if(date_part_array.length > 2)
+    if(date_value != null && date_value != "")
     {
-        date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
-    }
+        if(date_part_array.length > 2)
+        {
+            date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+        }
 
+        value = date_value + "T" + time_value;
+    }
  
     g_set_data_object_from_path
     (
         p_object_path,
         p_metadata_path,
         p_dictionary_path,
-        date_value + "T" + time_value,
+        value,
         p_form_index,
         p_grid_index
     );
@@ -474,4 +480,105 @@ function convert_datetime_to_local_display_value(p_value)
     }
 
     return result;
+}
+
+
+
+function is_valid_datetime(p_value) 
+{
+
+    let is_valid_date = false;
+    let is_valid_time = false;
+
+
+    if (p_value === '' || p_value.length === 0) 
+    {
+        is_valid_date = true;
+        is_valid_time = true;
+    } 
+    else if(p_value.indexOf('T') > -1)
+    {
+        let split_array = p_value.split('T'); 
+        if(split_array.length > 1)
+        {
+            let date_component = split_array[0];
+            let time_component =  split_array[1];
+
+            if(date_component.indexOf("-") > -1)
+            {
+                let value_array = date_component.split("-");
+
+                if(value_array.length > 2)
+                {
+                    let year = parseInt(value_array[0]);
+                    let month = parseInt(value_array[1]);
+                    let day = parseInt(value_array[2]);
+
+                    if 
+                    (
+                        year >= 1900 && 
+                        year <= 2100 &&
+                        month >= 1 &&
+                        month <= 12 &&
+                        day >= 1 &&
+                        day <= 31
+                    ) 
+                    {
+                        is_valid_date = true;
+                    }
+                }
+
+                if(time_component.indexOf(":") > -1)
+                {
+                    let value_array = time_component.split(":");
+                    if(value_array.length > 2)
+                    {
+                        let hour = parseInt(value_array[0]);
+                        let minute = parseInt(value_array[1]);
+                        let second = 0;
+                        let millisecond = null;
+                        if(value_array[2].indexOf(".") > -1)
+                        {
+                            let second_array = value_array[2].split(".");
+                            second = parseInt(second_array[0]);
+                            millisecond = parseInt(second_array[1]);
+                        }
+                        else
+                        {
+                            second = parseInt(value_array[2]);
+                        }
+
+                        if 
+                        (
+                            hour >= 0 && 
+                            hour <= 23 &&
+                            minute >= 0 &&
+                            minute <= 59 &&
+                            second >= 0 &&
+                            second <= 59
+                        ) 
+                        {
+                            if
+                            (
+                                millisecond != null &&
+                                millisecond >=0 &&
+                                millisecond <= 999
+                            )
+                            {
+                                is_valid_time = true;
+                            }
+                            else
+                            {
+                                is_valid_time = true;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+
+    return is_valid_date && is_valid_time;
+
 }

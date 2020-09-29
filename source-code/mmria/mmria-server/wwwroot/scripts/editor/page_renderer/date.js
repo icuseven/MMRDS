@@ -177,3 +177,103 @@ function convert_date_to_local_display_value(p_value)
 
     return result;
 }
+
+
+function is_valid_date(p_value) 
+{
+    let result = false; //flag set false by default, we will validate against this
+
+    if (p_value.length === 0 || p_value === '')
+    {
+        result = true;
+    } 
+    else if(p_value.indexOf("/") < 0)
+    {
+        result = false;
+    }
+    else if (p_value.indexOf("/") > -1)
+    {
+        let value_array = p_value.split('/'); //get year and convert to a number
+
+        if(value_array.length > 2)
+        {
+            let year = parseInt(value_array[2]);
+            let month = parseInt(value_array[0]);
+            let day = parseInt(value_array[1]);
+
+            if 
+            (
+                year >= 1900 && 
+                year <= 2100 &&
+                month >= 1 &&
+                month <= 12 &&
+                day >= 1 &&
+                day <= 31
+            ) 
+            {
+                result = true;
+            }
+        }
+    } 
+    else if(p_value.indexOf('T') > -1)
+    {
+        let date_array = p_value.split('T')[0]; 
+        if(date_array.indexOf("-") > -1)
+        {
+            let value_array = date_array.split("-");
+
+            if(value_array.length > 2)
+            {
+                let year = parseInt(value_array[0]);
+                let month = parseInt(value_array[1]);
+                let day = parseInt(value_array[2]);
+
+                if 
+                (
+                    year >= 1900 && 
+                    year <= 2100 &&
+                    month >= 1 &&
+                    month <= 12 &&
+                    day >= 1 &&
+                    day <= 31
+                ) 
+                {
+                    result = true;
+                }
+            }
+        }
+
+    }
+    /*
+    else if(p_value.indexOf('-') > -1)
+    {
+    let date_array = p_value.split('-')[0]; 
+    if(date_array.indexOf("-") > -1)
+    {
+        let value_array = date_array.split("-");
+
+        if(value_array.length > 2)
+        {
+            let year = parseInt(value_array[2]);
+            let month = parseInt(value_array[0]);
+            let day = parseInt(value_array[1]);
+
+            if 
+            (
+                year >= 1900 && 
+                year <= 2100 &&
+                month >= 1 &&
+                month <= 12 &&
+                day >= 1 &&
+                day <= 31
+            ) 
+            {
+                result = true;
+            }
+        }
+    }
+
+    }*/
+
+    return result;
+}

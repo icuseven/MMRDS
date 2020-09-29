@@ -172,6 +172,8 @@ function updateUrlFromSelectValue(event, val)
   var currLocation = window.location;
   var options = event.target.options;
   var selected = options.selectedIndex;
+
+  g_ui.broken_rules = {};
   
   currLocation.hash = "/" + val;
 
