@@ -2800,6 +2800,13 @@ function render_summary_validation
     }
 }
 
+function gui_remove_broken_rule_click(p_object_id)
+{
+    gui_remove_broken_rule(p_object_id);
+    apply_validation();
+
+}
+
 function gui_remove_broken_rule(p_object_id)
 {
     if(g_ui.broken_rules.hasOwnProperty(p_object_id))
@@ -2807,7 +2814,4 @@ function gui_remove_broken_rule(p_object_id)
         g_ui.broken_rules[p_object_id] = null;
         delete g_ui.broken_rules[p_object_id];
     }
-
-    apply_validation();
-
 }
