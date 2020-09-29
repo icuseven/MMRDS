@@ -181,16 +181,18 @@ function g_set_data_object_from_path
             eval(
                 p_object_path +
                 ' = "' +
-                save_datetime.toISOString().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                convert_date_to_local_display_value(save_datetime).replace(/"/g, '\\"').replace(/\n/g, '\\n') +
                 '"'
             );
           }
-        eval(
-            p_object_path +
-                ' = "' +
-                value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-                '"'
-            );
+          else
+          {
+            eval(
+                p_object_path +
+                    ' = ""'
+                );
+          }
+
       }
     } 
     else if (metadata.type.toLowerCase() == 'datetime') 
@@ -220,22 +222,12 @@ function g_set_data_object_from_path
         {
             eval(
                 p_object_path +
-                ' = "' +
-                value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-                '"'
-            );
+                    ' = ""'
+                );
         }
       }
     } 
-    else 
-    {
-      eval(
-        p_object_path +
-          ' = "' +
-          value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-          '"'
-      );
-    }
+
 
     g_change_stack.push({
       object_path: p_object_path,
