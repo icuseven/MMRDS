@@ -94,3 +94,42 @@ function init_content_loader(callback) {
     spinner.removeClass('spinner-active');
   }, 500);
 }
+
+
+//Extend jQuery so it can select pseudo selectors
+jQuery.extend(jQuery.expr[':'], {
+  focusable: function(el, index, selector){
+    return $(el).is('a, button, :input, [tabindex]');
+  }
+});
+
+//When clicking on skip to * links at top of site
+$('#content-link, #nav-link').on('click', (event) => {
+  event.preventDefault();
+
+  const target = $(event.target).attr('href');
+  const targetElement = $(target);
+  const focusableElements = targetElement.find(':focusable');
+
+  //check if we are cases
+  const isCaseForms = window.location.href.toLowerCase().indexOf('/case') !== -1 || window.location.href.toLowerCase().indexOf('/analyst-case') !== -1 || window.location.href.toLowerCase().indexOf('/de-identified') !== -1 ? true : false;
+
+  //if we are on ANY case form (/case, /analyst, /de-identified)
+  if (isCaseForms) {
+    if ( $(event.target).attr('id') === 'nav-link' ) {
+      let focusableElement = focusableElements.eq(0); //get the first focusable element
+
+      focusableElement.focus(); //focus on it
+    } else {
+      const newTargetElement = $('#form_content_id > section:visible');
+      const newFocusableElements = newTargetElement.find(':focusable');
+      const newFocusableElement = newFocusableElements.eq(0);
+
+      newFocusableElement.focus();
+    }
+  } else {
+    let focusableElement = focusableElements.eq(0); //get the first focusable element
+
+    focusableElement.focus(); //focus on it
+  }
+});
