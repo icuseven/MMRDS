@@ -769,6 +769,11 @@ button.link {
 /*
   jQuery UI
 */
+.ui-helper-hidden-accessible {
+  position: absolute;
+  visibility: hidden;
+}
+
 .ui-dialog {
   background-color: var(--white);
   border-radius: var(--radius);

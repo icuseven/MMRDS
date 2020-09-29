@@ -3,7 +3,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<section id='app_summary'>");
 
     /* The Intro */
-    p_result.push("<div tabindex='-1'>");
+    p_result.push("<div>");
     p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
     p_result.push("<div class='row no-gutters align-items-center'>");
     
@@ -12,6 +12,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     if(g_is_data_analyst_mode)
     {
         is_read_only_html = "disabled='disabled'";
+        // is_read_only_html = "disabled='disabled'";
     }
 
     p_result.push(`<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)' ${is_read_only_html}>Add New Case</button>`);
