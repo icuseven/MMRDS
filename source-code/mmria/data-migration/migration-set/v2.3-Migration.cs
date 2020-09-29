@@ -11,7 +11,7 @@ namespace migrate.set
 
     public class Case_Status
     {
-        public int? overall_case_status { get; set; } //- case_status
+        public int? overall_case_status { get; set; } = 9999;//- case_status
 
         public string abstraction_begin_date { get; set; } // -abstrn_bgn_date
 
@@ -132,32 +132,62 @@ namespace migrate.set
 						continue;
 					}
 
-					// host_state  *** begin
-
-					value_result = gs.get_value(case_item, "host_state");
-					var test_host_state_object = value_result.result;
-					if(test_host_state_object == null || string.IsNullOrWhiteSpace(test_host_state_object.ToString()))
+					DateTime? date_created = null;
+					value_result = gs.get_value(case_item, "date_created");
+					if(!value_result.is_error)
 					{
+						if(value_result.result != null)
+						{
+							if(value_result.result is DateTime)
+							{
+								date_created = value_result.result;
+							}
+							else
+							{
+
+							}
+						}
+					}
+	
+					List<(int, dynamic)> change_list = new System.Collections.Generic.List<(int, dynamic)>();	
+
+					string mmria_path = "home_record/case_status";
+					value_result = gs.get_value(case_item, mmria_path);
+					
+					if
+					(
+						!value_result.is_error &&
+						value_result.result == null
+					)
+					{
+
+						var new_data = new Case_Status();
+						if(date_created.HasValue)
+						{
+							new_data.abstraction_begin_date = date_created.Value.ToString("o");
+						}
 						if(change_count == 0)
 						{
-							case_has_changed = gs.set_value("host_state", host_state, case_item);
+							//case_has_changed = gs.set_value(mmria_path, new_data, case_item);
 							change_count+= 1;
 						}
 						else
 						{
-							case_has_changed = case_has_changed && gs.set_value("host_state", host_state, case_item);
+							//case_has_changed = case_has_changed && gs.set_value(mmria_path, new_data, case_item);
 						}
+
 					}
-					// host_state  *** end
-
-					List<(int, dynamic)> change_list = new System.Collections.Generic.List<(int, dynamic)>();	
-
-					C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(case_item, "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial");
-					
                 
+           
+					//1.	/home_record/case_status/overall_case_status - case_status
+
+					// 	committee_review/critical_factors_worksheet/recommendation_level -crcfw_categ_rec
+					//value_result = gs.get_value(case_item, "committee_review/critical_factors_worksheet");
+
+
                 	if(!is_report_only_mode && case_has_changed)
 					{
-						save_case(case_item);
+						//save_case(case_item);
 					}
                 
                 }
