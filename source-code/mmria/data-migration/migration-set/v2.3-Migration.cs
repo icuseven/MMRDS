@@ -75,7 +75,7 @@ namespace migrate.set
 				cURL metadata_curl = new cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
 				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
 
-
+/*
 				this.lookup = get_look_up(metadata);
 
 				var estimate_based_on_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -94,7 +94,7 @@ namespace migrate.set
 				{
 					onset_of_labor_was_set.Add(item.value);
 				}
-
+*/
 				Console.WriteLine($"v2_3_Migration Begin {begin_time}");
 
 
@@ -161,28 +161,69 @@ namespace migrate.set
 					)
 					{
 
-						var new_data = new Case_Status();
+						string abstraction_begin_date = null;
 						if(date_created.HasValue)
 						{
-							new_data.abstraction_begin_date = date_created.Value.ToString("o");
+							abstraction_begin_date = date_created.Value.ToString("o");
 						}
+
 						if(change_count == 0)
-						{
-							//case_has_changed = gs.set_value(mmria_path, new_data, case_item);
+						{   
+							case_has_changed = gs.set_objectvalue("home_record/case_status", new System.Dynamic.ExpandoObject(), case_item);
+
+							case_has_changed =  case_has_changed && gs.set_value("home_record/case_status/overall_case_status", "9999", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/abstraction_begin_date", abstraction_begin_date, case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/abstraction_complete_date", "", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/projected_review_date", "", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/case_locked_date", "", case_item);
+
 							change_count+= 1;
 						}
 						else
 						{
-							//case_has_changed = case_has_changed && gs.set_value(mmria_path, new_data, case_item);
+							case_has_changed = case_has_changed && gs.set_objectvalue("home_record/case_status", new System.Dynamic.ExpandoObject(), case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/overall_case_status", "9999", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/abstraction_begin_date", abstraction_begin_date, case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/abstraction_complete_date", "", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/projected_review_date", "", case_item);
+
+							case_has_changed = case_has_changed && gs.set_value("home_record/case_status/case_locked_date", "", case_item);
+
 						}
 
 					}
                 
            
-					//1.	/home_record/case_status/overall_case_status - case_status
 
 					// 	committee_review/critical_factors_worksheet/recommendation_level -crcfw_categ_rec
-					//value_result = gs.get_value(case_item, "committee_review/critical_factors_worksheet");
+					
+					mmria_path = "committee_review/critical_factors_worksheet/recommendation_level";
+					value_result = gs.get_value(case_item, mmria_path);
+					if
+					(
+						!value_result.is_error &&
+						value_result.result == null
+					)
+					{
+						//System.Console.WriteLine("here");
+						if(change_count == 0)
+						{
+							case_has_changed = gs.set_value(mmria_path, "9999", case_item);
+							change_count+= 1;
+						}
+						else
+						{
+							case_has_changed = case_has_changed && gs.set_value(mmria_path, "9999", case_item);
+						}
+					}
 
 
                 	if(!is_report_only_mode && case_has_changed)
@@ -198,6 +239,7 @@ namespace migrate.set
 
             }
 
+			Console.WriteLine($"v2_3_Migration Finished {DateTime.Now}");
         
 /*
 new fields
