@@ -34,7 +34,7 @@
 
       @if (ViewBag.Sidebar == true)
       {
-        <aside class="app-sidebar col order-lg-1 leftnav-wrapper">
+        <aside class="app-sidebar col order-lg-1 leftnav-wrapper" tabindex="-1">
           @await Html.PartialAsync("_SideBarNav")
         </aside>
       }
