@@ -324,7 +324,6 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 	}
 	else 
 	{
-		//TODO: Refactor the below condition once we figure how to write 'nested' ternary operators
 		if (p_ctx)
 		{
 			//p_ctx exits, setting form_index and grid_index value

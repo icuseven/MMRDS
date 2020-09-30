@@ -380,7 +380,7 @@ function g_set_data_object_from_path
                   break;
 
                 case 'datetime':
-                  $(`#${convert_object_path_to_jquery_id(p_object_path)} .datetime-date`).datetimepicker({
+                  $(`#${convert_object_path_to_jquery_id(p_object_path)}-date`).datetimepicker({
                     format: 'MM/DD/YYYY',
                     keepInvalid: true,
                     useCurrent: false,
@@ -392,7 +392,7 @@ function g_set_data_object_from_path
                     }
                   });
 
-                  $(`#${convert_object_path_to_jquery_id(p_object_path)} .datetime-time`).datetimepicker({
+                  $(`#${convert_object_path_to_jquery_id(p_object_path)}-time`).datetimepicker({
                     format: 'HH:mm:ss',
                     keepInvalid: true,
                     useCurrent: false,
@@ -403,27 +403,15 @@ function g_set_data_object_from_path
                       next: 'x16 cdc-icon-chevron-double-right'
                     }
                   });
-                // $(
-                //     `#${convert_object_path_to_jquery_id(
-                //     p_object_path
-                //     )} input.datetime-time`
-                // ).timepicker({
-                //     defaultTime: '00:00:00',
-                //     minuteStep: 1,
-                //     secondStep: 1,
-                //     showMeridian: false,
-                //     showSeconds: true,
-                //     template: false,
-                //     icons: {
-                //     up: 'x24 fill-p cdc-icon-arrow-down',
-                //     down: 'x24 fill-p cdc-icon-arrow-down',
-                //     },
-                // });
 
-                if (!isNullOrUndefined(p_date_object)) {
+
+                if (!isNullOrUndefined(p_date_object)) 
+                {
                     // console.log('a2', p_date_object.value);
                     // do stuff
-                } else if (!isNullOrUndefined(p_time_object)) {
+                } 
+                else if (!isNullOrUndefined(p_time_object)) 
+                {
                     // console.log('b2', p_time_object.value);
                     post_html_call_back.push(
                     `$('#${convert_object_path_to_jquery_id(

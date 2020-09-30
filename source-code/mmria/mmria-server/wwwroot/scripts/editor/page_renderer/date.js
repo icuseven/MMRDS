@@ -134,7 +134,11 @@ document.getElementById("foo").onkeypress = function(e) {
 function date_field_key_press(e) 
 {
     var chr = String.fromCharCode(e.which);
-    if ("0123456789/".indexOf(chr) < 0)
+    if (chr == 9) 
+    {
+        return true;
+    }
+    else if ("0123456789/".indexOf(chr) < 0)
     {
         return false;
     }

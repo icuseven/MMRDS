@@ -68,14 +68,17 @@ function form_render(
   }
   //~~~~~ END SETUP Concurrent Edit
 
-  if (p_metadata.cardinality == '+' || p_metadata.cardinality == '*') {
+  if (p_metadata.cardinality == '+' || p_metadata.cardinality == '*') 
+  {
     p_result.push("<section id='");
     p_result.push(p_metadata.name);
     p_result.push("_id' class='construct'>");
     p_result.push(
       "<header data-header='multi-form' class='construct__header content-intro' tabindex='-1'>"
     );
-    if (g_data) {
+    if (g_data) 
+    {
+        /*
       render_validation_error_summary(
         p_result,
         p_metadata,
@@ -89,6 +92,7 @@ function form_render(
         p_search_ctx,
         p_ctx
       );
+      */
 
       p_result.push(
         "<div class='construct__header-main position-relative row no-gutters align-items-start'>"
@@ -783,7 +787,9 @@ function form_render(
       p_result.push('</div>');
       p_result.push('</section>');
     }
-  } else {
+  } 
+  else 
+  {
     p_result.push("<section id='");
     p_result.push(p_metadata.name);
     p_result.push("_id' class='construct' ");
@@ -842,10 +848,12 @@ function form_render(
       );
     }
 
-    if (
+    if 
+    (
       g_data.home_record.case_status &&
       !isNullOrUndefined(g_data.home_record.case_status.overall_case_status)
-    ) {
+    ) 
+    {
       let current_value = g_data.home_record.case_status.overall_case_status;
       let look_up = get_metadata_value_node_by_mmria_path(
         g_metadata,
@@ -853,9 +861,11 @@ function form_render(
         ''
       );
       let label = current_value;
-      for (let i = 0; i < look_up.values.length; i++) {
+      for (let i = 0; i < look_up.values.length; i++) 
+      {
         let item = look_up.values[i];
-        if (item.value == current_value) {
+        if (item.value == current_value) 
+        {
           label = item.display;
           break;
         }
@@ -902,7 +912,9 @@ function form_render(
     p_result.push(
       "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
     );
-    if (!(g_is_data_analyst_mode || case_is_locked)) {
+
+    if (!(g_is_data_analyst_mode || case_is_locked)) 
+    {
       p_result.push(`
                             ${currently_locked_by_html}
                             <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
