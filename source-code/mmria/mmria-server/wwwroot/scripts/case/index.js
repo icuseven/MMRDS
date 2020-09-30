@@ -227,7 +227,15 @@ function g_set_data_object_from_path
         }
       }
     } 
-
+    else 
+    {
+      eval(
+        p_object_path +
+          ' = "' +
+          value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+          '"'
+      );
+    }
 
     g_change_stack.push({
       object_path: p_object_path,
