@@ -225,6 +225,40 @@ namespace migrate.set
 						}
 					}
 
+/*
+bcifsri_do_deliv
+/birth_certificate_infant_fetal_section/record_identification/date_of_delivery
+*/
+					mmria_path = "birth_certificate_infant_fetal_section/record_identification/date_of_delivery";
+					var multiform_value_result = gs.get_multiform_value(case_item, mmria_path);
+					if(!multiform_value_result.is_error)
+					{
+						var tuple_list = multiform_value_result.result;
+						foreach(var tuple in tuple_list)
+						{
+							var index = tuple.Item1;
+							var value_dynamic = tuple.Item2;
+							if(value_dynamic != null)
+							{
+								var value_string = value_dynamic.ToString();
+
+								if(!string.IsNullOrWhiteSpace(value_string))
+								{
+									System.Console.WriteLine($"{mmria_id}\t{value_string}");
+									if(change_count == 0)
+									{
+										//case_has_changed = gs.set_value(mmria_path, "9999", case_item);
+										change_count+= 1;
+									}
+									else
+									{
+										//case_has_changed = case_has_changed && gs.set_value(mmria_path, "9999", case_item);
+									}
+								}
+							}
+						}
+					}
+
 
                 	if(!is_report_only_mode && case_has_changed)
 					{
