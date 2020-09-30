@@ -233,7 +233,7 @@ function is_valid_date(p_value)
     {
         result = true;
     } 
-    else if(p_value.indexOf("/") < 0)
+    else if(p_value.indexOf("/") < 0 && p_value.indexOf("-") < 0)
     {
         result = false;
     }
@@ -290,19 +290,16 @@ function is_valid_date(p_value)
         }
 
     }
-    /*
     else if(p_value.indexOf('-') > -1)
     {
-    let date_array = p_value.split('-')[0]; 
-    if(date_array.indexOf("-") > -1)
-    {
-        let value_array = date_array.split("-");
+
+        let value_array = p_value.split("-");
 
         if(value_array.length > 2)
         {
-            let year = parseInt(value_array[2]);
-            let month = parseInt(value_array[0]);
-            let day = parseInt(value_array[1]);
+            let year = parseInt(value_array[0]);
+            let month = parseInt(value_array[1]);
+            let day = parseInt(value_array[2]);
 
             if 
             (
@@ -317,9 +314,9 @@ function is_valid_date(p_value)
                 result = true;
             }
         }
-    }
+        
 
-    }*/
+    }
 
     return result;
 }
