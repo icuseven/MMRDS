@@ -358,6 +358,7 @@ function g_set_data_object_from_path
                     format: 'MM/DD/YYYY',
                     keepInvalid: true,
                     useCurrent: false,
+                    useStrict: true,
                     icons: {
                       time: "x24 cdc-icon-clock_01",
                       date: "x24 cdc-icon-calendar_01",
@@ -384,6 +385,7 @@ function g_set_data_object_from_path
                     format: 'MM/DD/YYYY',
                     keepInvalid: true,
                     useCurrent: false,
+                    useStrict: true,
                     icons: {
                       up: "x16 cdc-icon-chevron-circle-up-light",
                       down: "x16 cdc-icon-chevron-circle-down-light",

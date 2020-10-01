@@ -105,6 +105,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             format: 'MM/DD/YYYY',
             keepInvalid: true,
             useCurrent: false,
+            useStrict: true,
             icons: {
               time: "x24 cdc-icon-clock_01",
               date: "x24 cdc-icon-calendar_01",
@@ -323,4 +324,11 @@ function is_valid_date(p_value)
     }
 
     return result;
+}
+
+function datetimepicker_onselect(p_value, p_old)
+{
+ 
+     console.log("Selected date: " + p_value + "; input's current value: " + this.value);
+   
 }
