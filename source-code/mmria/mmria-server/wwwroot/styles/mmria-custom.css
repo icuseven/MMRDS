@@ -159,6 +159,16 @@ button.link {
   padding: 0;
 }
 
+.anti-btn [class*=" cdc-icon-"],
+.anti-btn [class^=cdc-icon-] {
+  color: #222222;
+  line-height: inherit;
+}
+.anti-btn:hover [class*=" cdc-icon-"],
+.anti-btn [class^=cdc-icon-] {
+  color: var(--black);
+}
+
 .icn {
   align-items: center;
   display: flex;
@@ -1525,6 +1535,7 @@ button.link {
       font-weight: inherit;
     }  
   }
+
 
 
 
