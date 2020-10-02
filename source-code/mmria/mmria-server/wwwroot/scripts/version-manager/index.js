@@ -333,7 +333,7 @@ function get_sass_name(p_metadata, p_search_path, p_path)
             (
                 p_metadata.sass_export_name != null &&
                 p_metadata.sass_export_name != "" && 
-                p_search_path == p_path
+                p_search_path.toLowerCase() == p_path.toLowerCase()
 
             )
             {
