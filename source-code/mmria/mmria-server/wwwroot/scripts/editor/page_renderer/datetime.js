@@ -449,7 +449,12 @@ function DateTime_Onblur
 function time_field_key_press(e) 
 {
     var chr = String.fromCharCode(e.which);
-    if ("0123456789:".indexOf(chr) < 0)
+    var chr = String.fromCharCode(e.which);
+    if (chr == 9) 
+    {
+        return true;
+    }
+    else if ("0123456789:".indexOf(chr) < 0)
     {
         return false;
     }
