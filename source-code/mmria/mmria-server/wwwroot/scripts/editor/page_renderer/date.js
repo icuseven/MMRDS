@@ -161,7 +161,7 @@ document.getElementById("foo").onkeypress = function(e) {
 
 function date_field_key_press(e) 
 {
-    var chr = String.fromCharCode(e.which);
+    let chr = String.fromCharCode(e.which);
     if (chr == 9) 
     {
         return true;

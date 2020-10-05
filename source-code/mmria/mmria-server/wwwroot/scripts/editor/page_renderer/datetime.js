@@ -476,8 +476,7 @@ function DateTime_Onblur
 
 function time_field_key_press(e) 
 {
-    var chr = String.fromCharCode(e.which);
-    var chr = String.fromCharCode(e.which);
+    let chr = String.fromCharCode(e.which);
     if (chr == 9) 
     {
         return true;
