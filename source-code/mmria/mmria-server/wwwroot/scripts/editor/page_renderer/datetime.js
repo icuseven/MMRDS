@@ -453,12 +453,18 @@ function DateTime_Onblur
     let date_part_array = date_value.split("/")
     if(date_value != null && date_value != "")
     {
+        let check_date_value;
         if(date_part_array.length > 2)
         {
-            date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+            check_date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
         }
 
-        value = date_value + "T" + time_value;
+        
+        value = check_date_value + "T" + time_value;
+        if(! is_valid_datetime(value))
+        {
+            value = date_value + " " +  time_value;
+        }
     }
  
     g_set_data_object_from_path
