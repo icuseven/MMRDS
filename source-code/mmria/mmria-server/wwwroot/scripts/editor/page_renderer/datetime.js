@@ -21,7 +21,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         p_result.push("'");
     }
 
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
     if(style_object)
     {
@@ -293,7 +293,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 	p_result.push("</div>");
 }
 
-//Custom function to create onblur event ONLY on datetime control
+
 function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	/*
@@ -306,12 +306,12 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		var path_to_derived_validation = [];
 		var path_to_validation_description = [];
 	*/
-	var t_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
+	let t_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
 
 	if(path_to_onblur_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
-		var code_array = [];
+		let code_array = [];
 		
 		code_array.push("(function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
 		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_ob");
@@ -354,14 +354,12 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 	{
 		if (p_ctx)
 		{
-			//p_ctx exits, setting form_index and grid_index value
 			p_result.push(
 				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
 			);
 		}
 		else
 		{
-			//no p_ctx arguments, setting form_index and grid_index value to 'null'
 			p_result.push(
 				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', null, null)"`
 			);
@@ -372,7 +370,7 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 //Custom function to create events ONLY on datetime control
 function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
-	var post_fix = null;
+	let post_fix = null;
 
 	/*
 		var path_to_int_map = [];
@@ -401,8 +399,8 @@ function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_p
 			break;
 	}
 
-	//var source_code = escodegen.generate(p_metadata.onfocus);
-	var code_array = [];
+	//let source_code = escodegen.generate(p_metadata.onfocus);
+	let code_array = [];
 	
 	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
 	code_array.push(".call(");

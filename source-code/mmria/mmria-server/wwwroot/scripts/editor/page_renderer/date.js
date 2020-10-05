@@ -18,7 +18,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("'");
         }
 
-        var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+        let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
         
         if(style_object)
         {
@@ -149,15 +149,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     p_result.push("</div>");
 }
-
-/*
-document.getElementById("foo").onkeypress = function(e) {
-    var chr = String.fromCharCode(e.which);
-    if ("12345NOABC".indexOf(chr) < 0)
-        return false;
-};
-
-*/
 
 function date_field_key_press(e) 
 {
