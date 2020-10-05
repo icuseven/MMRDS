@@ -262,6 +262,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         format: 'MM/DD/YYYY',
         keepInvalid: true,
         useCurrent: false,
+        useStrict: true,
         icons: {
           up: "x16 cdc-icon-chevron-circle-up-light",
           down: "x16 cdc-icon-chevron-circle-down-light",
