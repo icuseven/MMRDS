@@ -406,7 +406,7 @@ function g_set_data_object_from_path
                     }
                   });
 
-
+/*
                 if (!isNullOrUndefined(p_date_object)) 
                 {
                     // console.log('a2', p_date_object.value);
@@ -420,7 +420,7 @@ function g_set_data_object_from_path
                         p_object_path
                     )} input.datetime-time').focus()`
                     );
-                }
+                }*/
                 break;
 
                 case 'date':
