@@ -34,12 +34,12 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     p_result.push("</label>");
 
     p_result.push(`
-        <div class="row no-gutters datetime-control"
-                style="${style_object && get_style_string(style_object.control.style)}"
-                dpath="${p_object_path}"
-                ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
-                ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
-        >
+        <div id="${convert_object_path_to_jquery_id(p_object_path)}-innerdiv"
+             class="row no-gutters datetime-control"
+             style="${style_object && get_style_string(style_object.control.style)}"
+             dpath="${p_object_path}"
+             ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
+             ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}>
     `);
 
     let disabled_html = " disabled = 'disabled' ";
@@ -97,6 +97,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
             g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> This invalid date/time has been cleared in the form below. Please enter a valid calendar date/time between 1/1/1900 and 12/31/2100 in mm/dd/yyyy hh:mm:ss format. <button class="btn anti-btn ml-1"  onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
         }
+
+        p_post_html_render.push(`$('${convert_object_path_to_jquery_id(p_object_path)}-innerdiv').addClass('is-invalid');`);
     }
     else
     {

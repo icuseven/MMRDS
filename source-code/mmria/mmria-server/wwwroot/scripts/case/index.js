@@ -2818,4 +2818,9 @@ function gui_remove_broken_rule(p_object_id)
     {
         item.style.display = 'none';
     }
+
+    //remove validation error from date control
+    $(`#${p_object_id} .date-control`).removeClass('is-invalid');
+    //remove validation error from datetime control
+    $(`#${p_object_id}-innerdiv`).removeClass('is-invalid');
 }
