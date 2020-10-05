@@ -169,7 +169,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
         }
 
-        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx, true);
     }
     p_result.push(` min="1900-01-01" max="2100-12-31">`);
         
@@ -222,7 +222,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             create_datetime_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
         }
 
-        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx, false);
     }
     p_result.push(`>`);
 
@@ -294,7 +294,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 }
 
 
-function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx, p_is_date)
 {
 	/*
 		var path_to_int_map = [];
@@ -355,19 +355,19 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		if (p_ctx)
 		{
 			p_result.push(
-				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
+				` onblur="DateTime_Onblur(${p_is_date}, ${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
 			);
 		}
 		else
 		{
 			p_result.push(
-				` onblur="DateTime_Onblur('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', null, null)"`
+				` onblur="DateTime_Onblur(${p_is_date}, '${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', null, null)"`
 			);
 		}
 	}
 }
 
-//Custom function to create events ONLY on datetime control
+
 function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	let post_fix = null;
@@ -433,6 +433,7 @@ function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_p
 
 function DateTime_Onblur
 (
+    p_is_date,
     p_object_path,
     p_metadata_path,
     p_dictionary_path,
@@ -467,6 +468,11 @@ function DateTime_Onblur
         }
     }
  
+    let is_date = true;
+    if(p_is_date!= null && p_is_date == false)
+    {
+        is_date = false;
+    }
     g_set_data_object_from_path
     (
         p_object_path,
@@ -474,7 +480,8 @@ function DateTime_Onblur
         p_dictionary_path,
         value,
         p_form_index,
-        p_grid_index
+        p_grid_index,
+        is_date
     );
 }
 
@@ -620,4 +627,12 @@ function is_valid_datetime(p_value)
 
     return is_valid_date && is_valid_time;
 
+}
+
+function findNextTabStop(el) 
+{
+    let universe = document.querySelectorAll('input, button, select, textarea, a[href]');
+    let list = Array.prototype.filter.call(universe, function(item) {return item.tabIndex >= "0"});
+    let index = list.indexOf(el);
+    return list[index + 1] || list[0];
 }

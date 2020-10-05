@@ -406,13 +406,12 @@ function g_set_data_object_from_path
                     }
                   });
 
-/*
+ 
                 if (!isNullOrUndefined(p_date_object)) 
                 {
-                    // console.log('a2', p_date_object.value);
-                    // do stuff
+                    post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-date')).focus();`);
                 } 
-                else if (!isNullOrUndefined(p_time_object)) 
+/*               else if (!isNullOrUndefined(p_time_object)) 
                 {
                     // console.log('b2', p_time_object.value);
                     post_html_call_back.push(
@@ -503,15 +502,18 @@ function g_set_data_object_from_path
                 break;
 
                 case 'list':
-                if (
+                if 
+                (
                     metadata.control_style != null &&
                     metadata.control_style == 'radio'
-                ) {
+                ) 
+                {
                     //console("bubba");
-                    post_html_call_back.push(
-                    `$('#${convert_object_path_to_jquery_id(
-                        p_object_path
-                    )}${value}').focus()`
+                    post_html_call_back.push
+                    (
+                        `$('#${convert_object_path_to_jquery_id(
+                            p_object_path
+                        )}${value}').focus()`
                     );
                 }
                 break;
