@@ -132,7 +132,17 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
           })
         `);
 
-        p_post_html_render.push(`document.getElementById("${convert_object_path_to_jquery_id(p_object_path)}").onkeypress = date_field_key_press;`);
+        p_post_html_render.push(`
+          if (${!is_valid}) {
+            $("#${convert_object_path_to_jquery_id(p_object_path)} input").addClass('is-invalid')
+          } else {
+            $("#${convert_object_path_to_jquery_id(p_object_path)} input").removeClass('is-invalid')
+          }
+        `);
+
+        p_post_html_render.push(`
+          document.getElementById("${convert_object_path_to_jquery_id(p_object_path)}").onkeypress = date_field_key_press;
+        `);
 
 
     p_result.push("</div>");

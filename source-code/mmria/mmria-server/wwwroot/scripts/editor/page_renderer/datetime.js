@@ -246,7 +246,15 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         p_result.push(`<small id="${convert_object_path_to_jquery_id(p_object_path)}-inline-validation-message" class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
     }
 
-	p_result.push("</div>");
+  p_result.push("</div>");
+  
+    p_post_html_render.push(`
+      if (${!is_valid}) {
+        $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-control").addClass('is-invalid')
+      } else {
+        $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-control").removeClass('is-invalid')
+      }
+    `);
 
 		//Initialize the custom 'bootstrap timepicker'
     p_post_html_render.push(`
