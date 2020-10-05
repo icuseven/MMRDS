@@ -47,13 +47,28 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         if(!is_valid)
         {
+            let form_html = '';
+            let grid_html = '';
+
             if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
             {
-              g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
+                /*
+                if(p_ctx.form_index != null)
+                {
+                    form_html = ` Form Item(${p_ctx.form_index + 1}) `;
+                }
+
+                if(p_ctx.grid_index != null)
+                {
+                    grid_html = ` Grid Item(${p_ctx.grid_index + 1}) `;
+                }
+                */
+
+                g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> This invalid date has been cleared in the form below. Please enter a valid calendar date between 1/1/1900 and 12/31/2100 in mm/dd/yyyy format. <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
             }
             else
             {
-                g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> Date must be a valid calendar date between 1900-2100 <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
+                g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> This invalid date has been cleared in the form below. Please enter a valid calendar date between 1/1/1900 and 12/31/2100 in mm/dd/yyyy format. <button class="btn anti-btn ml-1" onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
             }
         }
         else
