@@ -406,18 +406,46 @@ function g_set_data_object_from_path
                     }
                   });
 
- 
+
+                 // post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-date')).focus();`);
+
+                 if (!isNullOrUndefined(p_date_object)) 
+                 {
+                  post_html_call_back.push(
+                    `$('#${convert_object_path_to_jquery_id(
+                        p_object_path
+                    )}-time').focus();`
+                    );
+                 }
+                 
+                 /*
+                 else
+                 {
+                    post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-time')).focus();`);
+                 }
+*/
+
+ /*
+                if(!is_valid_datetime(value))
+                {
+                    post_html_call_back.push(
+                        `$('#${convert_object_path_to_jquery_id(
+                            p_object_path
+                        )}-date').focus();`
+                        );
+                }
+                else 
                 if (!isNullOrUndefined(p_date_object)) 
                 {
                     post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-date')).focus();`);
-                } 
+                } */
 /*               else if (!isNullOrUndefined(p_time_object)) 
                 {
                     // console.log('b2', p_time_object.value);
                     post_html_call_back.push(
                     `$('#${convert_object_path_to_jquery_id(
                         p_object_path
-                    )} input.datetime-time').focus()`
+                    )} input.datetime-time').focus();`
                     );
                 }*/
                 break;

@@ -355,7 +355,7 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		if (p_ctx)
 		{
 			p_result.push(
-				` onblur="DateTime_Onblur(${p_is_date}, ${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
+				` onblur="DateTime_Onblur(${p_is_date}, '${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
 			);
 		}
 		else
@@ -457,7 +457,7 @@ function DateTime_Onblur
         let check_date_value;
         if(date_part_array.length > 2)
         {
-            check_date_value = date_part_array[2] + "-" + date_part_array[0] + "-" + date_part_array[1];
+            check_date_value = date_part_array[2] + "-" + ("00" + date_part_array[0]).slice(-2) + "-" + ("00" + date_part_array[1]).slice(-2);
         }
 
         
@@ -636,3 +636,4 @@ function findNextTabStop(el)
     let index = list.indexOf(el);
     return list[index + 1] || list[0];
 }
+
