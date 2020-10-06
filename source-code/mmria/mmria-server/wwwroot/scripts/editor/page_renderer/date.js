@@ -186,11 +186,23 @@ function convert_date_to_local_display_value(p_value)
         }
         else if(p_value.indexOf("-") > -1)
         {
-            let date_time_object = new Date(p_value);
-            result = 
-            (date_time_object.getMonth() + 1) + "/" + 
-            date_time_object.getDate() + "/" + 
-            date_time_object.getFullYear(); 
+            let date_array = p_value.split("-")
+            if(date_array.length > 2)
+            {
+                /*
+                let date_time_object = new Date(p_value);
+                date_time_object.getFullYear() + "-" +
+                (date_time_object.getMonth() + 1) + "-" + 
+                date_time_object.getDate(); 
+                */
+                result = 
+                ("00" + date_array[1]).slice(-2) + "/" +
+                ("00" + date_array[2]).slice(-2) + "/" +
+                date_array[0];
+                
+
+            }
+
         }
         else if(p_value.indexOf("/") > -1)
         {
@@ -228,11 +240,14 @@ function convert_date_to_storage_format(p_value)
         }
         else if(p_value.indexOf("-") > -1)
         {
+            result = p_value;
+            /*
             let date_time_object = new Date(p_value);
             result = 
             date_time_object.getFullYear() + "-" +
             (date_time_object.getMonth() + 1) + "-" + 
             date_time_object.getDate(); 
+            */
         }
         else if(p_value.indexOf("/") > -1)
         {

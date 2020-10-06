@@ -553,6 +553,10 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)'  ");
         }
+        else
+        {
+            p_result.push(" disabled=true ");
+        }
     }
 
     let d_path = p_dictionary_path.substring(1, p_dictionary_path.length) + "_other";
