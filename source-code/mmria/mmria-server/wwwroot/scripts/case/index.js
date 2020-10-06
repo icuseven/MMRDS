@@ -247,6 +247,19 @@ function g_set_data_object_from_path
     g_data.date_last_updated = new Date();
     //g_data.last_updated_by = g_uid;
 
+if
+(
+    metadata.type.toLowerCase() == 'datetime' &&
+    valid_date_or_datetime
+)
+{
+    set_local_case
+    (
+        g_data,
+        function () { gui_remove_broken_rule_click(convert_object_path_to_jquery_id(p_object_path));}
+    );
+}
+else
     set_local_case
     (
         g_data, 
