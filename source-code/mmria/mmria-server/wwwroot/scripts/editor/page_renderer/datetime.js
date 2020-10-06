@@ -124,6 +124,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
         }
     }
+
     
  
 
@@ -174,7 +175,11 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     p_result.push(` min="1900-01-01" max="2100-12-31">`);
         
 
-      
+     
+    if(p_data == null || p_data == "")
+    {
+        disabled_html = " disabled = 'disabled' ";
+    }
     p_result.push(
 `<input id="${convert_object_path_to_jquery_id(p_object_path)}-time" class="datetime-time form-control w-50 h-100"
                 dpath="${p_object_path}"
