@@ -800,8 +800,7 @@ var g_ui = {
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
     result.home_record.case_status.overall_case_status = 1;
-    result.home_record.case_status.abstraction_begin_date = new Date()
-      .toISOString();
+    result.home_record.case_status.abstraction_begin_date = convert_date_to_storage_format(new Date());
 
     if (g_jurisdiction_list.length > 0) 
     {
