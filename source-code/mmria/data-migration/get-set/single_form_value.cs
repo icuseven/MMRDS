@@ -119,6 +119,114 @@ namespace migrate
 			return result;
 		}
 
+        public bool set_objectvalue(string p_metadata_path, object p_value, object p_case, int p_index = -1)
+		{
+			bool result = false;
+
+			var metadata_path_array = p_metadata_path.Split("/");
+			var item_key = metadata_path_array[0];
+
+			if(metadata_path_array.Length == 1)
+			{
+				if(p_index < 0)
+				{
+					switch(p_case)
+					{
+						case IDictionary<string,object> val:
+							if(val.ContainsKey(item_key))
+							{
+								val[item_key] = p_value;
+							}
+							else
+							{
+								val.Add(item_key, p_value);
+							}
+							result = true;
+							break;
+
+					}
+				}
+				else
+				{
+					switch(p_case)
+					{
+						case IList<object> val:
+							switch(val[p_index])
+							{
+								case  IDictionary<string,object> list_val:
+								if(list_val.ContainsKey(item_key))
+								{
+									list_val[item_key] = p_value;
+								}
+								else
+								{
+									list_val.Add(item_key, p_value);
+								}
+								result = true;
+								break;
+							}
+							break;
+
+					}
+				}
+			}
+			else
+			{
+				var  builder = new System.Text.StringBuilder();
+				for(int i = 1; i < metadata_path_array.Length; i++)
+				{
+					builder.Append(metadata_path_array[i]);
+					builder.Append("/");
+				}
+				builder.Length = builder.Length - 1;
+
+				var metadata_path = builder.ToString();
+				object new_item = null;
+
+				switch(p_case)
+				{
+					case IDictionary<string,object> val:
+						if(val.ContainsKey(item_key))
+						{
+							result = set_objectvalue(metadata_path, p_value, val[item_key]);
+						}
+						else
+						{
+							// error
+						}
+
+						break;
+					case IList<object> val:
+						foreach(var item in val)
+						{
+							switch(item)
+							{
+								case IDictionary<string,object> item_val:
+									if(item_val.ContainsKey(item_key))
+									{
+										result &= set_objectvalue(metadata_path, p_value, item_val[item_key]);
+									}
+									else
+									{
+										// error
+									}
+
+									break;
+							}
+						}
+
+						break;
+
+				}
+				//result = set_value(metadata_path, p_value, new_item);
+			}
+			
+
+
+
+			return result;
+		}
+
         public bool set_multi_value(string p_metadata_path, object p_value, object p_case)
 		{
 			bool result = false;

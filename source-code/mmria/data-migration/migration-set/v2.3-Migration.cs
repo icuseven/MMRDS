@@ -164,7 +164,7 @@ namespace migrate.set
 						string abstraction_begin_date = null;
 						if(date_created.HasValue)
 						{
-							abstraction_begin_date = date_created.Value.ToString("o");
+							abstraction_begin_date = $"{date_created.Value.Year}-{date_created.Value.Month.ToString().PadLeft(2, '0')}-{date_created.Value.Day.ToString().PadLeft(2, '0')}";
 						}
 
 						if(change_count == 0)
@@ -206,29 +206,48 @@ namespace migrate.set
 					// 	committee_review/critical_factors_worksheet/recommendation_level -crcfw_categ_rec
 					
 					mmria_path = "committee_review/critical_factors_worksheet/recommendation_level";
-					value_result = gs.get_value(case_item, mmria_path);
-					if
-					(
-						!value_result.is_error &&
-						value_result.result == null
-					)
+					var grid_value_result = gs.get_grid_value(case_item, mmria_path);
+					if(!grid_value_result.is_error)
 					{
-						//System.Console.WriteLine("here");
-						if(change_count == 0)
+						var grid = grid_value_result.result;
+
+						List<(int, dynamic)> new_list = new List<(int, dynamic)>();
+						var is_changed = false;
+						for(var i = 0; i < grid.Count; i++)
 						{
-							case_has_changed = gs.set_value(mmria_path, "9999", case_item);
-							change_count+= 1;
+							var tuple = grid[i];
+
+							if(tuple.Item2 == null)
+							{
+								new_list.Add((tuple.Item1, "9999"));
+								is_changed = true;
+							}
+							else
+							{
+								new_list.Add(tuple);
+							}
 						}
-						else
+
+
+						if(is_changed)
 						{
-							case_has_changed = case_has_changed && gs.set_value(mmria_path, "9999", case_item);
+
+							if(change_count == 0)
+							{
+								case_has_changed = gs.set_grid_value(case_item, mmria_path, new_list);
+								change_count+= 1;
+							}
+							else
+							{
+								case_has_changed = case_has_changed && gs.set_grid_value(case_item, mmria_path, new_list);
+							}
 						}
 					}
 
 /*
 bcifsri_do_deliv
 /birth_certificate_infant_fetal_section/record_identification/date_of_delivery
-*/
+
 					mmria_path = "birth_certificate_infant_fetal_section/record_identification/date_of_delivery";
 					var multiform_value_result = gs.get_multiform_value(case_item, mmria_path);
 					if(!multiform_value_result.is_error)
@@ -248,7 +267,7 @@ bcifsri_do_deliv
 									if(change_count == 0)
 									{
 										//case_has_changed = gs.set_value(mmria_path, "9999", case_item);
-										change_count+= 1;
+										//change_count+= 1;
 									}
 									else
 									{
@@ -258,11 +277,11 @@ bcifsri_do_deliv
 							}
 						}
 					}
-
+*/
 
                 	if(!is_report_only_mode && case_has_changed)
 					{
-						//save_case(case_item);
+						var save_result = await save_case(case_item);
 					}
                 
                 }
@@ -315,7 +334,7 @@ new fields
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
 
-            string put_url = $"{host_db_url}/{db_name}"  + case_item["_id"];
+            string put_url = $"{host_db_url}/{db_name}/{case_item["_id"]}";
             cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
 
             try
