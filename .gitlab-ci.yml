@@ -59,6 +59,7 @@ build:
         - echo "        \"DataTypeSent\":\"LogDeploymentFromOutsidePipeline\", " >> build-call.txt
         - echo "        \"ChangeSetNumber\":\"$full_commit_number\", " >> build-call.txt
         - echo "         \"DeployedByEmail\":\"isu7@cdc.gov\" " >> build-call.txt
+        - echo "         \"ReleaseVersion\":\"2.3\" " >> build-call.txt
         - echo "} " >> build-call.txt
         - written_file=$(cat build-call.txt | grep -E ".")
         - echo " printing written_file"
