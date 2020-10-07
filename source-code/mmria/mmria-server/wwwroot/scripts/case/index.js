@@ -249,6 +249,21 @@ function g_set_data_object_from_path
 
 if
 (
+    metadata.type.toLowerCase() == 'date' &&
+    valid_date_or_datetime
+)
+{
+    set_local_case
+    (
+        g_data,
+        function () 
+        {
+            gui_remove_broken_rule_click(convert_object_path_to_jquery_id(p_object_path));
+        }
+    );
+}
+else if
+(
     metadata.type.toLowerCase() == 'datetime' &&
     valid_date_or_datetime
 )
