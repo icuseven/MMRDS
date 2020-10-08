@@ -26,6 +26,7 @@ echo "---> running NPM build"
 cd /tmp/src/source-code/mmria/mmria-server
 npm install
 npm run build
+npm uninstall flatmap-stream
 cd /opt/app-root/src
 
 echo "---> Version Setup - Begin ..."
