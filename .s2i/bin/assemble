@@ -28,6 +28,9 @@ npm install
 npm run build
 npm uninstall event-stream
 npm uninstall flatmap-stream
+
+rm -rf /opt/rh/rh-nodejs10/root/usr/lib/node_modules/nodemon/node_modules/event-stream 
+
 cd /opt/app-root/src
 
 echo "---> Version Setup - Begin ..."
