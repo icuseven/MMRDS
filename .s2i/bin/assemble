@@ -26,10 +26,10 @@ echo "---> running NPM build"
 cd /tmp/src/source-code/mmria/mmria-server
 npm install
 npm run build
-npm uninstall event-stream
-npm uninstall flatmap-stream
+npm uninstall --save event-stream
+npm uninstall --save flatmap-stream
 
-rm -rf /opt/rh/rh-nodejs10/root/usr/lib/node_modules/nodemon/node_modules/event-stream 
+#rm -rf /opt/rh/rh-nodejs10/root/usr/lib/node_modules/nodemon/node_modules/event-stream 
 
 cd /opt/app-root/src
 
