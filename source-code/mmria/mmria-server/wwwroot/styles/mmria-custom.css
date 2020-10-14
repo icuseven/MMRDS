@@ -265,7 +265,6 @@ button.link {
   border: var(--border-width) solid;
   border-color: var(--neutral);
   border-radius: var(--radius);
-	z-index: 1;
 }
 .datetime-control.is-invalid {
   border-color: #dc3545;
