@@ -202,14 +202,14 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			var val = array[i][field];
 			if(val)
 			{
-				var res = val.match(/^\d\d\d\d-\d\d-\d+$/);
+				var res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
 				if(res)
 				{
 					result.push("'" + make_c3_date(val) +"'");
 				}
 				else 
 				{
-					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d[Z]?$/)
+					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
 					if(res)
 					{
 						//var date_time = new Date(val);

@@ -629,6 +629,16 @@ function is_valid_datetime(p_value)
             }
         }
     }
+    else
+    {
+        let res = p_value.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+        
+        if(res != null)
+		{
+            is_valid_date = true;
+            is_valid_time = true;
+        }
+    }
 
     return is_valid_date && is_valid_time;
 
