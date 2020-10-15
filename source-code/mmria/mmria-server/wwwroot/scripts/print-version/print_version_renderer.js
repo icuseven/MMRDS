@@ -531,9 +531,10 @@ d3.select('#chart svg').append('text')
         result.push('</p>');
         result.push('</h9>');
       }
+      
       if (p_metadata.name == 'case_opening_overview') 
       {
-        result.push('<div class="box">');
+        result.push('<div>');
 
         if (g_data.home_record.record_id) 
         {
