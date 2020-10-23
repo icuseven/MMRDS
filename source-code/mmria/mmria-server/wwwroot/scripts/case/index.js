@@ -1485,20 +1485,36 @@ function window_on_hash_change(e)
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
         {
             g_ui.broken_rules = {};
-            save_case(g_data, function () 
+            if(g_data_is_checked_out)
             {
-            get_specific_case(
-                g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
-            );
-            });
+                save_case(g_data, function () 
+                {
+                get_specific_case(
+                    g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
+                );
+                });
+            }
+            else
+            {
+                get_specific_case(
+                    g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
+                );
+            }
 
         }
         else
         {
-            save_case(g_data, function () 
+            if(g_data_is_checked_out)
+            {
+                save_case(g_data, function () 
+                {
+                    g_render();
+                });
+            }
+            else
             {
                 g_render();
-            });
+            }
         }
       } 
       else 
