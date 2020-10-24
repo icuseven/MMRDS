@@ -193,10 +193,18 @@ namespace mmria.console.db
 
 
 
-					
-					string put_result = await Put_Document (doc, _id);
+						try
+						{
+							string put_result = await Put_Document (doc, _id);
 
-					Console.WriteLine (put_result);
+							Console.WriteLine (put_result);
+						}
+						catch(
+						Exception ex)
+						{
+							Console.WriteLine (ex);
+						}					
+
 				} 
 
 				Console.WriteLine ("Restore Finished.");
