@@ -257,32 +257,43 @@ by_state_of_death
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool add_item = false;
-                        if (cvi.value.first_name != null && cvi.value.first_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        if (!string.IsNullOrWhiteSpace(cvi.value.first_name) && cvi.value.first_name.Length > 3 && key_compare.IndexOf (cvi.value.first_name, StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             add_item = true;
                         }
 
-                        if (cvi.value.middle_name != null && cvi.value.middle_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        if (!string.IsNullOrWhiteSpace(cvi.value.middle_name) && cvi.value.middle_name.Length > 3 && key_compare.IndexOf (cvi.value.middle_name, StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.last_name != null && cvi.value.last_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        if(!string.IsNullOrWhiteSpace(cvi.value.last_name) && cvi.value.last_name.Length > 3  && key_compare.IndexOf (cvi.value.last_name, StringComparison.OrdinalIgnoreCase) > -1 )
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.record_id != null && cvi.value.record_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        if(!string.IsNullOrWhiteSpace(cvi.value.record_id) && cvi.value.record_id.Length > 3  && key_compare.IndexOf (cvi.value.record_id, StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.agency_case_id != null && cvi.value.agency_case_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        if(!string.IsNullOrWhiteSpace(cvi.value.agency_case_id) && cvi.value.agency_case_id.Length > 3  && key_compare.IndexOf (cvi.value.agency_case_id, StringComparison.OrdinalIgnoreCase) > -1 )
                         {
                             add_item = true;
                         }
+
+                        if(cvi.value.date_created != null && cvi.value.date_created.ToString().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
 
                         if(cvi.value.created_by != null && cvi.value.created_by.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.date_last_updated != null && cvi.value.date_last_updated.ToString().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             add_item = true;
                         }
@@ -353,7 +364,10 @@ by_state_of_death
                             }
                         }
 
-                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
+                        if(add_item && is_jurisdiction_ok)
+                        {
+                             result.rows.Add (cvi);
+                        }
                         
                       }
 
