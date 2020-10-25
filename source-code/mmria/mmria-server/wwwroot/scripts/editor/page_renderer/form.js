@@ -693,7 +693,8 @@ function form_render(
         "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
       );
 
-      if (!(g_is_data_analyst_mode || case_is_locked)) {
+      if (!(g_is_data_analyst_mode || case_is_locked)) 
+      {
         p_result.push(`
                                     ${currently_locked_by_html}
                                     <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -727,7 +728,8 @@ function form_render(
       p_result.push(
         `<div class='construct-output' style='height:${height_attribute}'>`
       );
-      for (var i = 0; form_item && i < p_metadata.children.length; i++) {
+      for (var i = 0; form_item && i < p_metadata.children.length; i++) 
+      {
         var child = p_metadata.children[i];
         //var item = p_data[data_index][child.name];
 
@@ -736,7 +738,8 @@ function form_render(
           form_item[child.name] = create_default_object(child, {})[child.name];
         }
 
-        if (child.type == 'group') {
+        if (child.type == 'group') 
+        {
           Array.prototype.push.apply(
             p_result,
             page_render(
@@ -752,7 +755,9 @@ function form_render(
               { form_index: data_index }
             )
           );
-        } else {
+        }
+        else 
+        {
           Array.prototype.push.apply(
             p_result,
             page_render(
@@ -796,7 +801,8 @@ function form_render(
     p_result.push(" style='' class='construct'>");
     p_result.push("<div data-header='single-form' class='construct__header'>");
 
-    render_validation_error_summary(
+    render_validation_error_summary
+    (
       p_result,
       p_metadata,
       p_data,
@@ -814,7 +820,8 @@ function form_render(
       "<div class='construct__header-main position-relative row no-gutters align-items-start'>"
     );
     p_result.push("<div class='col-4 position-static'>");
-    if (g_data) {
+    if (g_data) 
+    {
       p_result.push(
         "<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
       );
@@ -823,7 +830,9 @@ function form_render(
       p_result.push(g_data.home_record.first_name);
       p_result.push('</p>');
     }
-    if (g_data.home_record.record_id) {
+
+    if (g_data.home_record.record_id) 
+    {
       p_result.push("<p class='construct__info mb-0'>");
       p_result.push(
         '<strong>Record ID:</strong> ' + g_data.home_record.record_id
@@ -832,11 +841,14 @@ function form_render(
     }
 
     p_result.push("<p class='construct__subtitle'");
-    if (p_metadata.description && p_metadata.description.length > 0) {
+    if (p_metadata.description && p_metadata.description.length > 0) 
+    {
       p_result.push("rel='tooltip' data-original-title='");
       p_result.push(p_metadata.description.replace(/'/g, "\\'"));
       p_result.push("'>");
-    } else {
+    } 
+    else 
+    {
       p_result.push('>');
     }
     p_result.push(p_metadata.prompt);
@@ -1046,9 +1058,11 @@ function form_render(
                     `);
 
       //~~~~~~~ LOOPS through each key and prints out data unique to that form
-      for (let key in g_data) {
+      for (let key in g_data) 
+      {
         //~~~ death_certificate
-        if (key === 'death_certificate') {
+        if (key === 'death_certificate') 
+        {
           noteTitle = 'Death Certificate';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1065,7 +1079,8 @@ function form_render(
         }
 
         //~~~ birth_fetal_death_certificate_parent
-        else if (key === 'birth_fetal_death_certificate_parent') {
+        else if (key === 'birth_fetal_death_certificate_parent') 
+        {
           noteTitle = 'Birth/Fetal Death Certificate- Parent Section';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1083,7 +1098,8 @@ function form_render(
 
         // MULTI RECORD FORM
         //~~~ birth_certificate_infant_fetal_section
-        else if (key === 'birth_certificate_infant_fetal_section') {
+        else if (key === 'birth_certificate_infant_fetal_section') 
+        {
           noteTitle = 'Birth/Fetal Death Certificate- Infant/Fetal Section';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1093,7 +1109,8 @@ function form_render(
                                 <ul class="list-unstyled">
                             `);
 
-          for (let i = 0; i < notes.length; i++) {
+          for (let i = 0; i < notes.length; i++) 
+          {
             let recordType =
               g_value_to_display_lookup[`/${key}/record_type`][
                 g_data[key][i].record_type
@@ -1105,9 +1122,7 @@ function form_render(
             p_result.push(`
                                     <li>
                                         <p class="mb-2 font-weight-bold">
-                                            Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${
-              i + 1
-            }
+                                            Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${i + 1}
                                             ${
                                               !isNullOrUndefined(recordType)
                                                 ? `– ${recordType}`
@@ -1140,7 +1155,8 @@ function form_render(
 
         // SINGLE FORM
         //~~~ autopsy_report
-        else if (key === 'autopsy_report') {
+        else if (key === 'autopsy_report') 
+        {
           noteTitle = 'Autopsy Report';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1158,7 +1174,8 @@ function form_render(
 
         // SINGLE FORM
         //~~~ prenatal
-        else if (key === 'prenatal') {
+        else if (key === 'prenatal') 
+        {
           noteTitle = 'Prenatal Care Record';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1176,7 +1193,8 @@ function form_render(
 
         // MULTI RECORD FORM
         //~~~ er_visit_and_hospital_medical_records
-        else if (key === 'er_visit_and_hospital_medical_records') {
+        else if (key === 'er_visit_and_hospital_medical_records') 
+        {
           noteTitle = 'ER Visits and Hospitalizations';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1186,7 +1204,8 @@ function form_render(
                                 <ul class="list-unstyled">
                             `);
 
-          for (let i = 0; i < notes.length; i++) {
+          for (let i = 0; i < notes.length; i++) 
+          {
             let month =
               g_value_to_display_lookup[
                 `/${key}/basic_admission_and_discharge_information/date_of_arrival/month`
@@ -1217,56 +1236,53 @@ function form_render(
               ];
 
             p_result.push(`
-                                    <li>
-                                        <p class="mb-2 font-weight-bold">
-                                            Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${
-              i + 1
-            }
-                                            ${
-                                              !isNullOrUndefined(month) &&
-                                              !isNullOrUndefined(day) &&
-                                              !isNullOrUndefined(year) &&
-                                              month != '(blank)' &&
-                                              day != '(blank)' &&
-                                              year != '(blank)'
-                                                ? `– ${month}/${day}/${year}`
-                                                : ''
-                                            }
-                                            ${
-                                              !isNullOrUndefined(
-                                                dischargeStatus
-                                              ) && dischargeStatus !== '(blank)'
-                                                ? `– ${dischargeStatus}`
-                                                : ''
-                                            }
-                                        </p>
-                                        <p>${
-                                          !notes[i].reviewer_note
-                                            ? '<em>No data entered</em>'
-                                            : notes[i].reviewer_note
-                                        }</p>
-                                    </li>
-                                `);
+                <li>
+                    <p class="mb-2 font-weight-bold">
+                        Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${i + 1}
+                        ${
+                            !isNullOrUndefined(month) &&
+                            !isNullOrUndefined(day) &&
+                            !isNullOrUndefined(year) &&
+                            month != '(blank)' &&
+                            day != '(blank)' &&
+                            year != '(blank)'
+                            ? `– ${month}/${day}/${year}`
+                            : ''
+                        }
+                        ${
+                            !isNullOrUndefined(
+                            dischargeStatus
+                            ) && dischargeStatus !== '(blank)'
+                            ? `– ${dischargeStatus}`
+                            : ''
+                        }
+                    </p>
+                    <p>${
+                        !notes[i].reviewer_note
+                        ? '<em>No data entered</em>'
+                        : notes[i].reviewer_note
+                    }</p>
+                </li>
+            `);
           }
 
-          p_result.push(`
-                                </ul>
-                            `);
+          p_result.push(`</ul>`);
         }
 
         // MULTI RECORD FORM
         //~~ other_medical_office_visits
-        else if (key === 'other_medical_office_visits') {
+        else if (key === 'other_medical_office_visits') 
+        {
           noteTitle = 'Other Medical Office Visits';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
 
-          p_result.push(`
-                                <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
+          p_result.push(`   <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <ul class="list-unstyled">
                             `);
 
-          for (let i = 0; i < notes.length; i++) {
+          for (let i = 0; i < notes.length; i++) 
+          {
             let month =
               g_value_to_display_lookup[
                 `/${key}/visit/date_of_medical_office_visit/month`
@@ -1292,60 +1308,58 @@ function form_render(
                 `/${key}/medical_care_facility/pregnancy_status`
               ][g_data[key][i].medical_care_facility.pregnancy_status];
 
-            p_result.push(`
-                                    <li>
-                                        <p class="mb-2 font-weight-bold">
-                                            Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${
-              i + 1
-            }
-                                            ${
-                                              !isNullOrUndefined(month) &&
-                                              !isNullOrUndefined(day) &&
-                                              !isNullOrUndefined(year) &&
-                                              month != '(blank)' &&
-                                              day != '(blank)' &&
-                                              year != '(blank)'
-                                                ? `– ${month}/${day}/${year}`
-                                                : ''
-                                            }
-                                            ${
-                                              !isNullOrUndefined(visitType) &&
-                                              visitType !== '(blank)'
-                                                ? `– ${visitType}`
-                                                : ''
-                                            }
-                                            ${
-                                              !isNullOrUndefined(
-                                                providerType
-                                              ) && providerType !== '(blank)'
-                                                ? `– ${providerType}`
-                                                : ''
-                                            }
-                                            ${
-                                              !isNullOrUndefined(
-                                                pregnancyStatus
-                                              ) && pregnancyStatus !== '(blank)'
-                                                ? `– ${pregnancyStatus}`
-                                                : ''
-                                            }
-                                        </p>
-                                        <p>${
-                                          !notes[i].reviewer_note
-                                            ? '<em>No data entered</em>'
-                                            : notes[i].reviewer_note
-                                        }</p>
-                                    </li>
-                                `);
+            p_result.push
+            (`
+                <li>
+                    <p class="mb-2 font-weight-bold">
+                        Reviewer's Notes from <a href="${noteUrl}/${i}">Case Form</a>: Record ${i + 1}
+                        ${
+                            !isNullOrUndefined(month) &&
+                            !isNullOrUndefined(day) &&
+                            !isNullOrUndefined(year) &&
+                            month != '(blank)' &&
+                            day != '(blank)' &&
+                            year != '(blank)'
+                            ? `– ${month}/${day}/${year}`
+                            : ''
+                        }
+                        ${
+                            !isNullOrUndefined(visitType) &&
+                            visitType !== '(blank)'
+                            ? `– ${visitType}`
+                            : ''
+                        }
+                        ${
+                            !isNullOrUndefined(
+                            providerType
+                            ) && providerType !== '(blank)'
+                            ? `– ${providerType}`
+                            : ''
+                        }
+                        ${
+                            !isNullOrUndefined(
+                            pregnancyStatus
+                            ) && pregnancyStatus !== '(blank)'
+                            ? `– ${pregnancyStatus}`
+                            : ''
+                        }
+                    </p>
+                    <p>${
+                        !notes[i].reviewer_note
+                        ? '<em>No data entered</em>'
+                        : notes[i].reviewer_note
+                    }</p>
+                </li>
+            `);
           }
 
-          p_result.push(`
-                                </ul>
-                            `);
+          p_result.push(`</ul>`);
         }
 
         // MULTI RECORD FORM
         //~~~ medical_transport
-        else if (key === 'medical_transport') {
+        else if (key === 'medical_transport') 
+        {
           noteTitle = 'Medical Transport';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1355,7 +1369,8 @@ function form_render(
                                 <ul class="list-unstyled">
                             `);
 
-          for (let i = 0; i < notes.length; i++) {
+          for (let i = 0; i < notes.length; i++) 
+          {
             let month =
               g_value_to_display_lookup[`/${key}/date_of_transport/month`][
                 g_data[key][i].date_of_transport.month
@@ -1410,7 +1425,8 @@ function form_render(
 
         // SINGLE FORM
         //~~~ social_and_environmental_profile
-        else if (key === 'social_and_environmental_profile') {
+        else if (key === 'social_and_environmental_profile') 
+        {
           noteTitle = 'Social and Environmental Profile';
           noteUrl = window.location.hash.replace(p_metadata.name, key);
           notes = g_data[key];
@@ -1428,7 +1444,8 @@ function form_render(
 
         // SINGLE FORM
         //~~~ mental_health_profile
-        else if (key === 'mental_health_profile') {
+        else if (key === 'mental_health_profile') 
+        {
           noteTitle = 'Mental Health Profile';
           notes = g_data[key];
           noteUrl = window.location.hash.replace(p_metadata.name, key);
@@ -1446,7 +1463,8 @@ function form_render(
 
         // MULTI RECORD FORM
         //~~~ informant_interviews
-        else if (key === 'informant_interviews') {
+        else if (key === 'informant_interviews') 
+        {
           noteTitle = 'Informant Interviews';
           noteUrl = window.location.hash.replace(p_metadata.name, key); // replace 'case_narrative' with 'informant_interviews'
           notes = g_data[key]; // array of forms
@@ -1456,7 +1474,8 @@ function form_render(
                                 <ul class="list-unstyled">
                             `);
 
-          for (let i = 0; i < notes.length; i++) {
+          for (let i = 0; i < notes.length; i++) 
+          {
             let month =
               g_value_to_display_lookup[`/${key}/date_of_interview/month`][
                 g_data[key][i].date_of_interview.month
@@ -1548,7 +1567,8 @@ function form_render(
   }
 }
 
-function render_validation_error_summary(
+function render_validation_error_summary
+(
   p_result,
   p_metadata,
   p_data,
@@ -1559,7 +1579,8 @@ function render_validation_error_summary(
   p_is_grid_context,
   p_post_html_render,
   p_search_ctx
-) {
+) 
+{
   p_result.push(`
         <div id="validation_summary" class="construct__header-alert row no-gutters p-2" style="display: none">
             <span class="left-col x32 fill-p cdc-icon-alert_02"></span>
@@ -1584,7 +1605,8 @@ function quick_edit_header_render(
   p_is_grid_context,
   p_post_html_render,
   p_search_ctx
-) {
+) 
+{
   p_result.push("<div data-header='quick-edit' class='construct__header'>");
 
 
@@ -1610,7 +1632,8 @@ function quick_edit_header_render(
 
   p_result.push("<div class='construct__header-main row no-gutters'>");
   p_result.push("<div class='col col-8'>");
-  if (g_data) {
+  if (g_data) 
+  {
     p_result.push(
       "<h1 class='construct__title text-primary h1' tabindex='-1'>"
     );
@@ -1619,7 +1642,8 @@ function quick_edit_header_render(
     p_result.push(g_data.home_record.first_name);
     p_result.push('</h1>');
   }
-  if (g_data.home_record.record_id) {
+  if (g_data.home_record.record_id) 
+  {
     p_result.push("<p class='construct__info mb-0'>");
     p_result.push(
       '<strong>Record ID:</strong> ' + g_data.home_record.record_id
@@ -1627,15 +1651,19 @@ function quick_edit_header_render(
     p_result.push('</p>');
   }
   p_result.push("<p class='construct__subtitle'");
-  if (p_metadata.description && p_metadata.description.length > 0) {
+  if (p_metadata.description && p_metadata.description.length > 0) 
+  {
     p_result.push("rel='tooltip' data-original-title='");
     p_result.push(p_metadata.description.replace(/'/g, "\\'"));
     p_result.push("'>");
-  } else {
+  } 
+  else 
+  {
     p_result.push('>');
   }
 
-  if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+  if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) 
+  {
     p_result.push(
       `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
     );
@@ -1668,7 +1696,8 @@ function quick_edit_header_render(
 }
 
 function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
-  if (parseInt(p_ui.url_state.path_array[0]) >= 0) {
+  if (parseInt(p_ui.url_state.path_array[0]) >= 0) 
+  {
     p_result.push(
       '<label for="print_case" class="sr-only">Print version</label>'
     );
@@ -1682,7 +1711,8 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
     const path_to_check_multi_form = parseInt(p_ui.url_state.path_array[2]);
     const recordNumber = path_to_check_multi_form + 1;
 
-    if (!isNaN(path_to_check_multi_form)) {
+    if (!isNaN(path_to_check_multi_form)) 
+    {
       // Render options for specific 'Record Number'
       p_result.push(
         '<option value="' + p_metadata.name + '" data-record="' + recordNumber + '">'
@@ -1691,12 +1721,15 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
         p_metadata.prompt + ' (Record ' + recordNumber + ')'
       );
       p_result.push('</option>');
-    } else if (!isNullOrUndefined(p_data) && isNaN(path_to_check_multi_form)) {
+    } 
+    else if (!isNullOrUndefined(p_data) && isNaN(path_to_check_multi_form)) {
       // Render options for 'Multi Forms'
       p_result.push('<option value="' + p_metadata.name + '">');
       p_result.push('All ' + p_metadata.prompt);
       p_result.push('</option>');
-    } else {
+    } 
+    else 
+    {
       // Render print options for 'Single Forms'
       p_result.push('<option value="' + p_metadata.name + '">');
       p_result.push(p_metadata.prompt);
@@ -1714,31 +1747,38 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
   }
 }
 
-function get_metadata_value_node_by_mmria_path(
+function get_metadata_value_node_by_mmria_path
+(
   p_metadata,
   p_search_path,
   p_path
-) {
+) 
+{
   let result = null;
-  switch (p_metadata.type.toLowerCase()) {
+  switch (p_metadata.type.toLowerCase()) 
+  {
     case 'app':
     case 'form':
     case 'group':
     case 'grid':
-      for (let i = 0; i < p_metadata.children.length; i++) {
+      for (let i = 0; i < p_metadata.children.length; i++) 
+      {
         let child = p_metadata.children[i];
-        result = get_metadata_value_node_by_mmria_path(
+        result = get_metadata_value_node_by_mmria_path
+        (
           child,
           p_search_path,
           p_path + '/' + child.name
         );
-        if (result != null) {
+        if (result != null) 
+        {
           break;
         }
       }
       break;
     default:
-      if (p_search_path == p_path) {
+      if (p_search_path == p_path) 
+      {
         result = p_metadata;
       }
       break;

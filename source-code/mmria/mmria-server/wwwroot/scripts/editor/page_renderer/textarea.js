@@ -41,7 +41,17 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             p_result.push(p_metadata.prompt);
         p_result.push("</label>");
 
-        page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+
+        let crlf_regex = /\n/g;
+
+        let new_text = p_data;
+
+        if(p_data!= null)
+        {
+            new_text = p_data.replace(crlf_regex, "<br/>");
+        }
+
+        page_render_create_textarea(p_result, p_metadata, new_text, p_metadata_path, p_object_path, p_dictionary_path);
 
         if(p_metadata.name == "case_opening_overview")
         {
