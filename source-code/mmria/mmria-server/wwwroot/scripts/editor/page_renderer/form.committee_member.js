@@ -1015,11 +1015,20 @@ function form_render(
           p_data[child.name] = create_default_object(child, {})[child.name];
         }
 
+        let crlf_regex = /\n/g;
+
+        let new_text = p_data[child.name];
+
+        if(p_data[child.name]!= null)
+        {
+            new_text = p_data[child.name].replace(crlf_regex, "<br/>");
+        }
+
         Array.prototype.push.apply(
           p_result,
           page_render(
             child,
-            p_data[child.name],
+            new_text,
             p_ui,
             p_metadata_path + '.children[' + i + ']',
             p_object_path + '.' + child.name,

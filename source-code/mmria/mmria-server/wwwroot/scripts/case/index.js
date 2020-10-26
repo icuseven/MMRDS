@@ -1519,16 +1519,26 @@ function window_on_hash_change(e)
       } 
       else 
       {
-        g_data.date_last_checked_out = null;
-        g_data.last_checked_out_by = null;
-        g_data_is_checked_out = false;
+        if(g_data_is_checked_out)
+        {
+            g_data.date_last_checked_out = null;
+            g_data.last_checked_out_by = null;
+            g_data_is_checked_out = false;
 
-        save_case(g_data, function () {
-          g_data = null;
-          get_case_set(function () {
-            g_render();
-          });
-        });
+            save_case(g_data, function () {
+            g_data = null;
+            get_case_set(function () {
+                g_render();
+            });
+            });
+        }
+        else
+        {
+            g_data = null;
+            get_case_set(function () {
+                g_render();
+            });
+        }
       }
     }
 
@@ -2741,7 +2751,7 @@ function g_textarea_oninput
 
 function navigation_away() 
 {
-  if (g_data) 
+  if (g_data_is_checked_out && g_data) 
   {
     g_data.date_last_updated = new Date();
     g_data.date_last_checked_out = null;
