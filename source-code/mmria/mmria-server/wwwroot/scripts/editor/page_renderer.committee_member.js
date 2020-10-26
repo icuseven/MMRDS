@@ -526,22 +526,23 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<textarea  class='");
-	p_result.push(p_metadata.type.toLowerCase());
-	//hack
-	if(p_metadata.name == "case_opening_overview")
-	{
-		p_result.push("'<textarea'  rows=30 cols=120 name='");
-	}
-	else
-	{
-		p_result.push("'<textarea'  rows=5 cols=40 name='");
-	}
-	p_result.push(p_metadata.name);
-	p_result.push("' ");
+	p_result.push("<textarea class='");
+    p_result.push(p_metadata.type.toLowerCase());
+    p_result.push("' ");
+    //hack
+    if(p_metadata.name == "case_opening_overview")
+    {
+      p_result.push("disabled id='case_narrative_editor' rows='30' cols='120' name='");
+    }
+    else
+    {
+      p_result.push("rows=5 cols=40 name='");
+    }
 
+    p_result.push(p_metadata.name);
+    p_result.push("' ");
 
-	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
     {
         p_result.push(" style='");
@@ -549,29 +550,29 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
         p_result.push("'");
     }
 
-	/*
-	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-	if(path_to_onfocus_map[p_metadata_path])
-	{
-		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
-	}
+    /*
+    var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+    if(path_to_onfocus_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
+    }
 
-	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ochs";
-	if(path_to_onchange_map[p_metadata_path])
-	{
-		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
-	}
-	
-	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-	if(path_to_onclick_map[p_metadata_path])
-	{
-		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
-	}
-	
-	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
-*/
-	p_result.push(" >");
-	p_result.push(p_data);
+    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ochs";
+    if(path_to_onchange_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
+    }
+    
+    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    if(path_to_onclick_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
+    }
+    
+    page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+  */
+    p_result.push(" >");
+    p_result.push(p_data);
 	p_result.push("</textarea>");
 	
 }
