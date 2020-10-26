@@ -588,7 +588,6 @@ function convert_object_path_to_jquery_id(p_value)
 	return p_value.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_")
 }
 
-
 function make_c3_date(p_value)
 {
 	//'%Y-%m-%d %H:%M:%S
@@ -615,15 +614,12 @@ function make_c3_date(p_value)
 
 function get_style_string(p_specicification_style_string)
 {
-
     var result = [];
-
     var properly_formated_style = p_specicification_style_string;
+
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
-
-
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
     var items = properly_formated_style.split(";")
@@ -661,18 +657,16 @@ function get_style_string(p_specicification_style_string)
 
 function get_only_size_and_position_string(p_specicification_style_string)
 {
-
     var result = [];
-
     var properly_formated_style = p_specicification_style_string;
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
-
-
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
-    var items = properly_formated_style.split(";")
+
+    var items = properly_formated_style.split(";");
+
     for(var i in items)
     {
         var pair = items[i].split(":");
@@ -696,7 +690,6 @@ function get_only_size_and_position_string(p_specicification_style_string)
                 result.push(pair.join(":"));
                 break;
         }
-
     }
 
     return result.join(";");
@@ -704,16 +697,16 @@ function get_only_size_and_position_string(p_specicification_style_string)
 
 function get_only_font_style_string(p_specicification_style_string)
 {
-
     var result = [];
-
     var properly_formated_style = p_specicification_style_string;
+
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
     var items = properly_formated_style.split(";")
+
     for(var i in items)
     {
         var pair = items[i].split(":");
@@ -736,7 +729,6 @@ function get_only_font_style_string(p_specicification_style_string)
                 result.push(pair.join(":"));
                 break;
         }
-
     }
 
     return result.join(";");
@@ -745,29 +737,24 @@ function get_only_font_style_string(p_specicification_style_string)
 
 function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 {
-
-	
-
-	let result = null;
-	let height = null;
-	let top = null;
-	
-	let child = p_metadata.children[p_metadata.children.length -1];
-	let dictionary_path = p_dictionary_path + "/" + child.name;
-
-	let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
-
-	let specicification_style_string = style_object.control.style;
-
+    let result = null;
+    let height = null;
+    let top = null;
+    let child = p_metadata.children[p_metadata.children.length -1];
+    let dictionary_path = p_dictionary_path + "/" + child.name;
+    let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
+    let specicification_style_string = style_object.control.style;
     let properly_formated_style = specicification_style_string;
+
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
     properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
-	let items = properly_formated_style.split(";")
-	let height_is_found = false;
-	let top_is_found = false;
+    
+    let items = properly_formated_style.split(";")
+    let height_is_found = false;
+    let top_is_found = false;
 	
     for(let i = 0; i < items.length && (!height_is_found || !top_is_found); i++)
     {
@@ -816,7 +803,6 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 
 function get_chart_size(p_style_string)
 {
-
 	var result = {
 		height: 240,
 		width: 480,
@@ -826,23 +812,18 @@ function get_chart_size(p_style_string)
 
 	var top_regex = /"top":(\d+\.?\d*),/;
 	var left_regex = /"left":(\d+\.?\d*),/;
-
 	var width_regex = /"width":(\d+\.?\d*),/;
 	var height_regex = /"height":(\d+\.?\d*),/;
-
 
 	var outer_witdh =  null;
 	var outer_height = null;
 	var outer_top = null;
 	var outer_left = null;
 
-
 	var new_top = null;
 	var new_left = null;
 	var new_width = null;
 	var new_height = null;
-
-
 
 	var match = top_regex.exec(p_style_string);
 	outer_top = new Number(match[1]);
@@ -872,19 +853,16 @@ function get_data_object_for_mirror(p_mirror_reference)
 
 function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 {
+    let result = null;
+    let height = null;
+    let top = null;
+    
+    let child = p_metadata.children[p_metadata.children.length -1];
+    let dictionary_path = p_dictionary_path + "/" + child.name;
 
-	
+    let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
 
-	let result = null;
-	let height = null;
-	let top = null;
-	
-	let child = p_metadata.children[p_metadata.children.length -1];
-	let dictionary_path = p_dictionary_path + "/" + child.name;
-
-	let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
-
-	let specicification_style_string = style_object.control.style;
+    let specicification_style_string = style_object.control.style;
 
     let properly_formated_style = specicification_style_string;
     properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
@@ -892,9 +870,9 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
     properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
     properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
     //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
-	let items = properly_formated_style.split(";")
-	let height_is_found = false;
-	let top_is_found = false;
+    let items = properly_formated_style.split(";")
+    let height_is_found = false;
+    let top_is_found = false;
 	
     for(let i = 0; i < items.length && (!height_is_found || !top_is_found); i++)
     {
