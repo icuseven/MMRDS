@@ -1103,3 +1103,76 @@ function undo_click()
   g_render();
 }
 
+function enable_print_button(event) 
+{
+  const { value } = event.target;
+  //duplicate print buttons being rendered
+  //targetting next sibling instead
+  const printButton = event.target.nextSibling; 
+  // const printButton = document.getElementById('print-case-form');
+  printButton.disabled = !value; // if there is a value it will be enabled.
+}
+
+function print_case_onclick(event) 
+{
+  const btn = event.target;
+  const dropdown = btn.previousSibling;
+  // const dropdown = document.getElementById('print_case_id');
+  // get value of selected option
+  const section_name = dropdown.value;
+
+  if (section_name) 
+  {
+    if (section_name == 'core-summary') 
+    {
+
+        window.setTimeout(function()
+        {
+            openTab('./core-elements', '_core_summary', 'all');
+        }, 1000);	
+
+      
+    } 
+    else 
+    {
+      // data-record of selected option
+      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
+      const record_number = selectedOption.dataset.record;
+      const tabName = section_name === 'all' ? '_all' : '_print_version';
+
+
+      window.setTimeout(function()
+      {
+          openTab('./print-version', tabName, section_name, record_number);
+      }, 1000);	
+      
+    }
+  }
+}
+
+function openTab(pageRoute, tabName, p_section, p_number) 
+{
+  // check if a WindowProxy object has already been created.
+  if (!window[tabName] || window[tabName].closed) 
+  {
+    window[tabName] = window.open(pageRoute, tabName, null, false);
+    window[tabName].addEventListener('load', () => {
+      window[tabName].create_print_version(
+        g_metadata,
+        g_data,
+        p_section,
+        p_number
+      );
+    });
+  } 
+  else 
+  {
+    // if the WindowProxy Object already exists then just call the function on it
+    window[tabName].create_print_version(
+      g_metadata,
+      g_data,
+      p_section,
+      p_number
+    );
+  }
+}
