@@ -538,26 +538,29 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		case 'address':
 		case 'textarea':
 				result.push("<div class='textarea' id='");
-				result.push(p_object_path);
-				result.push("'><span ");
-				if(p_metadata.description && p_metadata.description.length > 0)
-				{
-					result.push("rel='tooltip'  data-original-title='");
-					result.push(p_metadata.description.replace(/'/g, "\\'"));
-					result.push("'>");
-				}
-				else
-				{
-					result.push(">");
-				}
-				
+          result.push(p_object_path);
+          result.push("'>");
+          result.push("<span ");
+          if(p_metadata.description && p_metadata.description.length > 0)
+          {
+            result.push("rel='tooltip'  data-original-title='");
+            result.push(p_metadata.description.replace(/'/g, "\\'"));
+            result.push("'>");
+          }
+          else
+          {
+            result.push(">");
+          }
 
-				result.push(p_metadata.prompt);
-				
-				result.push("</span><br/><textarea>");
-				result.push(p_data);
-				//page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
-				result.push("</textarea></div>");
+          result.push(p_metadata.prompt);
+          
+          result.push("</span>");
+          result.push("<br/>");
+          result.push("<textarea>");
+            result.push(p_data);
+            //page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
+          result.push("</textarea>");
+				result.push("</div>");
            break;
     case 'number':
 			result.push("<div class='number' id='");

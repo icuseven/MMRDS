@@ -1548,6 +1548,7 @@ button.link {
 .trumbowyg-editor,
 .trumbowyg-textarea {
   min-height: 500px !important;
+  padding: 10px !important;
 }
 .trumbowyg-editor[contenteditable="false"],
 .trumbowyg-textarea[contenteditable="false"] {
