@@ -71,7 +71,7 @@ let fdTemplates = {
         {
             string: function(formName, value) 
             {
-                return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
+                return `<input id="${formName}--${value.name}" class="form-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
             textarea: function (formName, value) 
             {
@@ -136,19 +136,19 @@ let fdTemplates = {
 
                     listField = `
                     <fieldset id="${formName}--${value.name}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                        <legend data-order="${p_index}">${value.prompt}</legend>
-                            ${listOptions}
-                        </fieldset>`;
+                      <legend data-order="${p_index}">${value.prompt}</legend>
+                      ${listOptions}
+                    </fieldset>`;
 
 
                 }
                 else
                 {
                     listField = `
-                                <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size} >
-                                    ${listOptions}
-                                </select>`;
-
+                      <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size} >
+                          ${listOptions}
+                      </select>
+                    `;
                 }
                 //}
                 return listField;

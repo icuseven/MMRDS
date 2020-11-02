@@ -183,7 +183,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     {
         p_result.push(get_style_string(style_object.prompt.style));
     }
-    p_result.push("' ");
+    // 10/26/2020 remove height values
+    // TODO: Work this into ui_specifications
+    p_result.push("; color: auto; height: auto;' ");
             
     if(p_metadata.description && p_metadata.description.length > 0)
     {
@@ -201,7 +203,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!="")
     {
-        p_result.push("<select size=");
+        p_result.push("<select class='form-control' size=");
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -210,11 +212,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         if(p_metadata.values.length > 6)
         {
-            p_result.push("<select size='6' name='");
+            p_result.push("<select class='form-control' size='6' name='");
         }
         else
         {
-            p_result.push("<select size=");
+            p_result.push("<select class='form-control' size=");
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
@@ -222,7 +224,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
     else
     {
-        p_result.push("<select size=");
+        p_result.push("<select class='form-control' size=");
         p_result.push(1);
         p_result.push(" name='");
     }
@@ -233,7 +235,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     {
         p_result.push("'  style='");
         p_result.push(get_style_string(style_object.control.style));
-        p_result.push("' ");
+        p_result.push("; color: auto; height: auto;' ");
     }
 
     
@@ -465,7 +467,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     {
         p_result.push(get_style_string(style_object.prompt.style));
     }
-    p_result.push("' ");
+    p_result.push("; color: auto; height: auto;' ");
 
     if(p_metadata.description && p_metadata.description.length > 0)
     {
@@ -491,7 +493,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
        
     }
 
-    p_result.push("'>");
+    p_result.push("; color: auto; height: auto;'>");
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
     {

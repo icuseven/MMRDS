@@ -35,25 +35,13 @@ html {
 body {
   color: var(--neutral-dark);
   font-size: 1rem;
+  line-height: 1.5;
   min-height: 100%;
 }
-
-/* button  {
-  outline: none;
-} */
 
 ul {
   padding-left: 20px;
 }
-
-
-
-
-
-
-
-
-
 
 /*
   SITE-WIDE
@@ -61,7 +49,6 @@ ul {
 .site {
   min-height: 100%; /* Helps auto height based on content flow */
 }
-
 
 .site-title + .site-content {
   margin-top: 10px;
@@ -71,16 +58,6 @@ ul {
 .site-title-link:hover {
   text-decoration: underline !important;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
   LAYOUT
@@ -101,15 +78,6 @@ ul {
 .grid-item.grid-item--3:nth-child(3n) {
   margin-right: 0;
 }
-
-
-
-
-
-
-
-
-
 
 /*
   COMPONENTS
@@ -138,13 +106,6 @@ button.link {
   clip: auto;
   position: static;
 }
-
-/* .btn:focus:disabled,
-.btn:hover:disabled,
-.btn:disabled {
-  cursor: not-allowed;
-  text-decoration: none;
-} */
 
 .btn-icon {
   display: block;
@@ -198,7 +159,6 @@ button.link {
   margin-left: 10px;
 }
 
-
 .smooth-list {
   padding-left: 0;
 }
@@ -214,18 +174,24 @@ button.link {
   background-color: var(--neutral-light);
 }
 
+/*
+~~~ GLOBAL FORM CONTROLS
+*/
+
 .form-control-wrap {
   position: relative;
 }
 
 .form-control-wrap .form-control + .fancy-form-icon {
   right: 10px;
-  /* pointer-events: none; */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
 
+.form-control {
+  padding: .375rem .75rem;
+}
 
 /* Vertical align the calendar icons */
 ::-webkit-inner-spin-button {
@@ -237,7 +203,6 @@ button.link {
 /*
 ~~~ CUSTOM DATEPICKER STYLES
 */
-
 .custom-tooltip {
   background-color: var(--grape) !important;
   border-radius: var(--radius);
@@ -287,7 +252,6 @@ button.link {
 
 .datetime-control .datetime-date {
 	border-right: none;
-	/* border-radius: 4px 0px 0px 4px; */
 }
 
 .datetime-control .datetime-date,
@@ -310,7 +274,6 @@ button.link {
 /*
 ~~~ CUSTOM TIMEPICKER STYLES
 */
-
 .bootstrap-datetimepicker-widget table td [class*=" cdc-icon-"] {
   color: #000000;
 }
@@ -774,7 +737,6 @@ button.link {
   padding-right: 1rem;
 }
 
-
 /*
   jQuery UI
 */
@@ -835,12 +797,6 @@ button.link {
   z-index: 998;
 }
 
-
-
-
-
-
-
 /*
   APP
 */
@@ -854,11 +810,6 @@ button.link {
   position: relative;
   width: calc(100% - 60px);
 }
-
-/* Direct descendant */
-/* .app-main > .row {
-  min-height: 100%;
-} */
 
 /* Direct siblings */
 .app-header + .app-main,
@@ -929,16 +880,6 @@ button.link {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
   PATTERNS
 */
@@ -993,12 +934,6 @@ button.link {
   border-bottom: 1px dashed #e0e0e0;
   position: relative;
 }
-  /* .fake-list-group-anchor:focus,
-  .fake-list-group-anchor:hover {
-    border-left-color: var(--grape);
-    background-color: var(--neutral-light);
-    color: var(--grape);
-  } */
   .active .fake-list-group-anchor {
     font-weight: bold;
   }
@@ -1011,26 +946,9 @@ button.link {
   font-size: 80%;
 }
 
-/* .content-intro {
-  border-bottom: 1px solid;
-  border-bottom-color: var(--neutral);
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-} */
-
 .content-intro-title:only-child {
   margin-bottom: 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
   MODULEs
@@ -1105,12 +1023,6 @@ button.link {
 
 .construct__header {
   background-color: rgba(255,255,255,.95);
-  /* border: none;
-  border-bottom: var(--border-width) solid;
-  border-bottom-color: var(--neutral); */
-  /* margin-bottom: -1px; */
-  /* margin-left: -1px; */
-  /* margin-right: -1px; */
   padding-bottom: 15px;
   padding-top: 15px;
   position: sticky;
@@ -1136,7 +1048,6 @@ button.link {
   margin-top: 1rem;
 }
 
-
 .construct__title {
   font-weight: 700;
   margin-top: 0;
@@ -1151,23 +1062,12 @@ button.link {
   font-weight: 400;
 }
 
-/* .construct__btn:hover[disabled] {
-  cursor: not-allowed;
-  text-decoration: none;
-}
-
-.construct__btn + .construct__btn {
-  margin-left: 5px;
-} */
-
 .construct__body {
   border: var(--border-width) solid;
   border-color: var(--neutral);
-  /* border-radius: var(--radius); */
   min-height: 100vh;
   min-height: calc(100vh - 156px);
   overflow-y: auto;
-  /* overflow-y: scroll; */
   padding: 1rem;
 }
 
@@ -1191,13 +1091,39 @@ button.link {
 /*
     Form styles for anything inside of data-collector output
 */
-
 .construct-output {
   color: var(--black);
   position: relative;
 }
 
-.construct-output input,
+.construct-output fieldset {
+  border: var(--border-width) solid;
+  border-color: var(--neutral);
+  margin-bottom: 15px;
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: .375rem .75rem;
+}
+
+.construct-output legend {
+  background-color: #f4f4f4;
+  border: 1px solid;
+  border-color: var(--neutral);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-bottom: 4px;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: 4px;
+  position: absolute;
+  top: 0;
+  transform: translateY(-100%);
+  width: auto;
+  z-index: 1;
+}
+
+/* .construct-output input,
 .construct-output textarea,
 .construct-output select,
 .construct-output .faux-form-control {
@@ -1210,17 +1136,17 @@ button.link {
 .construct-output input:focus,
 .construct-output textarea:focus {
     border-color: #712177;
-}
+} */
 
 /* When an input is read only */
-.construct-output input[readonly="true"],
+/* .construct-output input[readonly="true"],
 .construct-output textarea[readonly="true"],
 .construct-output select[readonly="true"] {
     background-color: var(--neutral-xlight);
-}
+} */
 
 /* When an conotrl is read only */
-.construct-output input[disabled],
+/* .construct-output input[disabled],
 .construct-output textarea[disabled],
 .construct-output select[disabled] {
     background-color: var(--neutral-xlight);
@@ -1232,16 +1158,12 @@ button.link {
     line-height: 1.75;
 }
 
-/* .construct-output select:disabled {
-  color: var(--black) !important;
-} */
-
 .construct-output .btn {
     max-height: 39.75px;
     padding: 0.375rem 0.75rem;
-}
+} */
 
-.construct-output fieldset {
+/* .construct-output fieldset {
     border: var(--border-width) solid;
     border-color: var(--neutral);
     border-radius: 4px;
@@ -1251,9 +1173,9 @@ button.link {
     padding: 10px;
     
     overflow: visible;
-}
+} */
 
-.construct-output legend {
+/* .construct-output legend {
     display: inline-block;
     font-size: 20px !important;
     padding-bottom: 2px;
@@ -1270,54 +1192,47 @@ button.link {
     background: var(--white);
     top: 0;
     transform: translateY(-50%);
-}
+} */
 
-.construct-output label,
+/* .construct-output label,
 .construct-output .faux-label {
     line-height: 16px;
     margin-bottom: 10px;
     margin-right: 10px;
     padding-bottom: 15px;
-    padding-top: 15px;
+    padding-top: 15px; */
 
     /* Lets remove all left and right padding to help with wrapping */
-    padding-left: 0;
+    /* padding-left: 0;
     padding-right: 0;
-}
-
-/* .construct-output > :last-child {
-  margin-bottom: 24px;
 } */
 
-.construct-output #g_data_case_narrative_case_opening_overview label,
+/* .construct-output #g_data_case_narrative_case_opening_overview label,
 .construct-output #g_data_case_narrative_case_opening_overview textarea {
   left: auto !important;
   position: relative !important;
   top: auto !important;
-}
+} */
 
 /* The buttons that will accomodate to the spinner */
-.construct-output [data-render-type="button"] input {
+/* .construct-output [data-render-type="button"] input {
   width: 100%;
-}
+} */
 
 /* Specific Styles for Case Locked Date on Home Record */
-.construct-output .plain-date-control,
+/* .construct-output .plain-date-control,
 .construct-output .plain-date-control:disabled,
 .construct-output .plain-date-control:read-only {
   background-color: transparent;
   border: none;
-}
+} */
 
 /* ~~~~~~~ Rich Text Editor ~~~~~~~ */
 #case_narrative_editor {
   padding: 20px;
 }
 
-
-
-
-/* ~~~~~~~ Rich Text Editor ~~~~~~~ */
+/* ~~~~~~~ Search Group ~~~~~~~ */
 .search-group input.datetime-date {
   border-radius: var(--radius) 0px 0px var(--radius);
 }
@@ -1332,10 +1247,6 @@ button.link {
   margin-left: -1px;
 }
 
-
-
-
-
 .statement {
   background-color: var(--white);
   border: 1px solid var(--neutral);
@@ -1348,11 +1259,6 @@ button.link {
 .statement-info {
   font-size: smaller;
 }
-
-
-
-
-
 
 .grid-control {
   overflow: hidden;
@@ -1404,7 +1310,6 @@ button.link {
 
 .list-control-select {
   height: 100%;
-  /* height: 50%; */
   width: 100%;
 }
 
@@ -1437,21 +1342,6 @@ button.link {
 }
 
 /*
-  Outer wrapper to control form highlighting
-  - commenting out for now but leaving for future reference
-  */
-/* .form-control-outer {
-  position: relative;
-} */
-
-
-
-
-
-
-
-
-/*
   Helper classes to assist in making things aspect ratio
 */
 .ratio-16-9 {
@@ -1472,11 +1362,6 @@ button.link {
 .is-read-only {
   background-color: var(--neutral-light);
 }
-
-
-
-
-
 
 /*
   HELPERS/UTILS
@@ -1534,10 +1419,6 @@ button.link {
       font-weight: inherit;
     }  
   }
-
-
-
-
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
 .trumbowyg-box,

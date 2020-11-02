@@ -2,8 +2,6 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 {
     p_result.push("<div class='form-control-outer' id='" + convert_object_path_to_jquery_id(p_object_path) + "'");
     p_result.push(" mpath='" + p_metadata_path + "' >");
-
-
     p_result.push("<label");
     p_result.push(" style='");
 
@@ -14,29 +12,29 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     }
     p_result.push("' ");
     p_result.push(">Jurisdiction ID </label>");
-
-    p_result.push("<select name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
+    p_result.push("<select class='form-control' name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
     p_result.push(p_object_path);
     p_result.push("\",\"");
     p_result.push(p_metadata_path);
     p_result.push("\",\"");
     p_result.push(p_dictionary_path);
     p_result.push("\",this.value)'  ");
-
-
     p_result.push(" style='");
 
     if(style_object)
     {
         p_result.push(get_style_string(style_object.control.style));
     }
-    p_result.push("' ");
+    // 10/26/2020 remove height values
+    // TODO: Work this into ui_specifications
+    p_result.push("; color: auto; height: auto;' ");
 
     let disabled_html = " disabled=true ";
-	if(g_data_is_checked_out)
-	{
-		disabled_html = " ";
-	}
+    
+    if(g_data_is_checked_out)
+    {
+      disabled_html = " ";
+    }
     p_result.push(disabled_html);
 
     p_result.push(">");
@@ -86,5 +84,4 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         
     }
     p_result.push("</select></div>");
-
 }
