@@ -483,6 +483,7 @@ by_state_of_death
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool is_jurisdiction_ok = false;
+                        bool add_item = false;
 
                         if(cvi.value.jurisdiction_id == null)
                         {
@@ -501,7 +502,31 @@ by_state_of_death
                             }
                         }
 
-                        if(is_jurisdiction_ok) temp.Add (cvi);
+                        if (cvi.value.case_status != null && cvi.value.case_status.HasValue) 
+                        {
+                            switch(case_status.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                    if(cvi.value.case_status.Value.ToString () == case_status)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
+                        if(is_jurisdiction_ok && add_item) temp.Add (cvi);
                     }
                     
                     result.total_rows = temp.Count;
@@ -571,7 +596,7 @@ by_state_of_death
                             add_item = true;
                         }
 
-                        if (cvi.value.case_status != null && cvi.value.case_status.HasValue) 
+                        if (add_item && cvi.value.case_status != null && cvi.value.case_status.HasValue) 
                         {
                             switch(case_status.ToLower())
                             {
@@ -590,7 +615,7 @@ by_state_of_death
                                     break;
                                 case "all":
                                 default:
-                                     add_item = true;
+                                     //add_item = true;
                                      break;
                             }                                               
                         }
