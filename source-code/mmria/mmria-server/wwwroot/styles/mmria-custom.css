@@ -1106,7 +1106,6 @@ button.link {
 }
 
 .construct-output legend {
-  background-color: #f4f4f4;
   border: 1px solid;
   border-color: var(--neutral);
   font-size: 17px;
