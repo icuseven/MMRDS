@@ -1079,7 +1079,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
     {
-        p_result.push("<select class='list-control-select 1' size=");
+        p_result.push("<select class='form-control list-control-select 1' size=");
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -1087,7 +1087,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
     {
         if(p_metadata.values.length > 6)
         {
-            p_result.push("<select class='list-control-select 2' size='6' name='");
+            p_result.push("<select class='form-control list-control-select 2' size='6' name='");
         }
         else
         {
@@ -1099,7 +1099,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
     }
     else
     {
-        p_result.push("<select class='list-control-select 3' size=");
+        p_result.push("<select class='form-control list-control-select 3' size=");
         p_result.push(1);
         p_result.push(" name='");
     }

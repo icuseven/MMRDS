@@ -320,7 +320,7 @@ let fdTemplates = {
                     group = `
                     <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
                         <legend data-order="${p_index}">${value.prompt} - 4 item(s)</legend>
-                        <div style="overflow-y: scroll;height: 100%;">
+                        <div style="height: 100%;">
                             <div class="grid-control-action-icn row no-gutters"">
                                 <button type="button" class="grid-control-action-btn mr-1" title="delete">
                                 <span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 1 of 4</span>
