@@ -20,13 +20,13 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push(p_dictionary_path);
     p_result.push("\",this.value)'  ");
     p_result.push(" style='");
+      if(style_object)
+      {
+          p_result.push(get_style_string(style_object.control.style));
+      }
+    p_result.push("' ");
 
-    if(style_object)
-    {
-        p_result.push(get_style_string(style_object.control.style));
-    }
-
-    let disabled_html = " disabled=true ";
+    let disabled_html = "disabled='true' ";
     
     if(g_data_is_checked_out)
     {
