@@ -388,9 +388,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_result.push(get_style_string(style_object.control.style));
     }
 
-    // 10/26/2020 remove height values
-    // TODO: Work this into ui_specifications
-		p_result.push("; color: auto; height: auto; ' ");
 		p_result.push(" class='form-control ");
 		p_result.push(p_metadata.type.toLowerCase());
 		

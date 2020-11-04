@@ -15,10 +15,6 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
       {
           p_result.push(get_style_string(style_object.prompt.style));
       }
-      
-      // 10/26/2020 remove height values
-      // TODO: Work this into ui_specifications
-      p_result.push("; color: auto;' ");
 
       if(p_metadata.description && p_metadata.description.length > 0)
       {
