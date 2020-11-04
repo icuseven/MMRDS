@@ -6,12 +6,11 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 		p_data = new Date(p_data);
 	}*/
 	p_result.push("<div class='datetime form-control-outer' id='");
-	p_result.push(convert_object_path_to_jquery_id(p_object_path));
+	  p_result.push(convert_object_path_to_jquery_id(p_object_path));
 	p_result.push("' ");
-	p_result.push(" mpath='");
+	p_result.push("mpath='");
 	p_result.push(p_metadata_path);
-	p_result.push("' ");
-    p_result.push(">");
+	p_result.push("'>");
     
     p_result.push("<label ");
     if(p_metadata.description && p_metadata.description.length > 0)
