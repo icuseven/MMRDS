@@ -60,6 +60,14 @@
 .form-designer-wrapper .form-designer-canvas .form-group-wrapper {
   display: inline-block;
 }
+.form-designer-wrapper .form-designer-canvas label.form-field-item {
+  /* height: 24px !important; */
+}
+.form-designer-wrapper .form-designer-canvas input.form-field-item,
+.form-designer-wrapper .form-designer-canvas select.form-field-item,
+.form-designer-wrapper .form-designer-canvas input.form-field-item {
+  /* height: 38px !important; */
+}
 .form-designer-wrapper .form-designer-canvas .form-field-item {
   padding: 0.375rem 0.75rem;
   border: 1px solid lightgray;
