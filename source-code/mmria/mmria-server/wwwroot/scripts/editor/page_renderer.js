@@ -380,16 +380,16 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 		p_result.push(" style='");
-
-		// Apply styles only to non button types
-		// Buttons have their styles applied to a outer wrapper container
-		if(style_object && p_metadata.type !== 'button')
-		{
-			p_result.push(get_style_string(style_object.control.style));
-    }
+      // Apply styles only to non button types
+      // Buttons have their styles applied to a outer wrapper container
+      if(style_object && p_metadata.type !== 'button')
+      {
+        p_result.push(get_style_string(style_object.control.style));
+      }
+    p_result.push("' ");
 
 		p_result.push(" class='form-control ");
-		p_result.push(p_metadata.type.toLowerCase());
+		  p_result.push(p_metadata.type.toLowerCase());
 		
 		if
 		(
