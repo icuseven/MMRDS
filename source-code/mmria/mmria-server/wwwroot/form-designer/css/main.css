@@ -80,7 +80,7 @@
 .form-designer-wrapper .form-designer-canvas fieldset {
   margin: 10px 10px 15px 0;
   width: 100%;
-  padding: .375rem .75rem;
+  padding: .75rem;
   position: relative;
 }
 .form-designer-wrapper .form-designer-canvas fieldset legend {
