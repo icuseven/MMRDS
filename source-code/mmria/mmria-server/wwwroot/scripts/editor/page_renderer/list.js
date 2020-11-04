@@ -224,13 +224,14 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("<select class='form-control' size=");
         p_result.push(1);
         p_result.push(" name='");
-    }
-
-    p_result.push(p_metadata.name);
+      }
+      
+        p_result.push(p_metadata.name);
+    p_result.push("'");
 
     if(style_object && style_object.control)
     {
-        p_result.push("' style='");
+        p_result.push(" style='");
           p_result.push(get_style_string(style_object.control.style));
         p_result.push("' ");
     }
