@@ -513,9 +513,8 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_result.push(1);
         p_result.push(" name='");
     }
-    
+
     p_result.push(p_metadata.name);
-    
     p_result.push("'");
 
     p_result.push(" dpath='")
@@ -535,7 +534,6 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     }
     else
     {
-
         if(g_data_is_checked_out)
         {
             p_result.push("  onblur='g_set_data_object_from_path(\"");
@@ -556,7 +554,6 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     if(g_data_is_checked_out)
     {
-
         p_result.push("  onchange='editable_list_onchange(this, \"");
         p_result.push(p_object_path);
         p_result.push("\",\"");
@@ -567,7 +564,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
     {
         p_result.push(" multiple>");
-
+        
         var metadata_value_list = p_metadata.values;
 
         if(p_metadata.path_reference && p_metadata.path_reference != "")
@@ -803,7 +800,6 @@ function editable_list_set_visibility(p_data, p_object_path)
     (
         p_data == null || 
         p_data == ""  
-        
     )
     {
         document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
@@ -817,7 +813,6 @@ function editable_list_set_visibility(p_data, p_object_path)
         document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
     }  
 }
-
 
 function editable_list_onchange(p_select_list, p_object_path)
 {
@@ -835,7 +830,6 @@ function editable_list_onchange(p_select_list, p_object_path)
     )
     {
         editable_list_events(p_select_list, p_object_path, editable_list_other_callback);
-
     }
     else if(p_select_list.value.indexOf("Other") != 0)
     {
@@ -859,21 +853,18 @@ function editable_list_events(p_select_list, p_object_path)
     // If clicked on confirm button
     $('#' + selector + ' .modal-confirm').on('click', function () {
         // console.log('confirmed');
-
         editable_list_other_callback(p_select_list, true, p_object_path);
     });
 
     // If clicked on cancel button
     $('#' + selector + ' .modal-cancel').on('click', function () {
         // console.log('canceled');
-
         editable_list_other_callback(p_select_list, false, p_object_path);
     });
 
     // If clicked on X button
     $('#' + selector + ' button.close').on('click', function () {
         // console.log('X canceled');
-        
         editable_list_other_callback(p_select_list, false, p_object_path);
     });
 
@@ -898,7 +889,6 @@ function editable_list_events(p_select_list, p_object_path)
     });
     */
 }
-
 
 // Callback that returns true or false
 function editable_list_other_callback(p_select_list, confirm, p_object_path)
@@ -930,7 +920,6 @@ function editable_list_other_callback(p_select_list, confirm, p_object_path)
     }
 }
 
-
 // Function to simply hide and deactivate the modal
 function editable_list_other_hide_all_confirm()
 {
@@ -940,7 +929,6 @@ function editable_list_other_hide_all_confirm()
     $('body').removeClass('modal-open');
     $('body').removeAttr('style');
 }
-
 
 // Function to create and render the modal
 // Gets populated with the correct information
@@ -1280,10 +1268,8 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push("></input>");
 }
 
-
 function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_path)
 {
-
     switch(p_metadata.type.toLowerCase())
     {
         case "app":
@@ -1294,10 +1280,10 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
             {
                 let child = p_metadata.children[i];
                 set_list_lookup(p_list_lookup, p_name_to_value_lookup, child, p_path + "/" + child.name);
-
             }
 
             break;
+
         default:
             if(p_metadata.type.toLowerCase() == "list")
             {
@@ -1315,6 +1301,7 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
     
                 p_list_lookup[p_path] = {};
                 p_name_to_value_lookup[p_path] = {};
+                
                 for(let i = 0; i < data_value_list.length; i++)
                 {
                     let item = data_value_list[i];
@@ -1323,6 +1310,5 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
                 }
             }
             break;
-
     }
 }
