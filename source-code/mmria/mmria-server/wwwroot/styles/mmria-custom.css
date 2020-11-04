@@ -1102,6 +1102,7 @@ button.link {
   margin-bottom: 15px;
   margin-right: 10px;
   margin-top: 10px;
+  overflow: visible;
   padding: .375rem .75rem;
 }
 
