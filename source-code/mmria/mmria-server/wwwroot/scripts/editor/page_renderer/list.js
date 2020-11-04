@@ -179,10 +179,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push("<label for='");
     p_result.push(p_object_path.replace(/\//g, "--"));
     p_result.push("' style='");
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(get_style_string(style_object.prompt.style));
-    }
+      if(style_object && style_object.prompt)
+      {
+          p_result.push(get_style_string(style_object.prompt.style));
+      }
+      p_result.push("' ");
             
     if(p_metadata.description && p_metadata.description.length > 0)
     {
@@ -230,12 +231,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     if(style_object && style_object.control)
     {
-        p_result.push("'  style='");
-        p_result.push(get_style_string(style_object.control.style));
+        p_result.push("' style='");
+          p_result.push(get_style_string(style_object.control.style));
+        p_result.push("' ");
     }
-
     
     let disabled_html = "  disabled=true  ";
+    
 	if(g_data_is_checked_out)
 	{
 		disabled_html = " ";
@@ -459,10 +461,11 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push("<label for='");
     p_result.push(p_object_path.replace(/\//g, "--"));
     p_result.push("' style='");
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(get_style_string(style_object.prompt.style));
-    }
+      if(style_object && style_object.prompt)
+      {
+          p_result.push(get_style_string(style_object.prompt.style));
+      }
+    p_result.push("' ");
 
     if(p_metadata.description && p_metadata.description.length > 0)
     {
@@ -993,7 +996,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     if(style_object)
     {
         p_result.push(" style='");
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
+          p_result.push(get_only_size_and_position_string(style_object.control.style));
         p_result.push("' ");
     }
 
@@ -1003,7 +1006,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     if(style_object && style_object.prompt)
     {
         p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
+          p_result.push(get_only_font_style_string(style_object.prompt.style));
         p_result.push("'");
     }
 
@@ -1135,7 +1138,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     if(style_object)
     {
         p_result.push(" style='");
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
+          p_result.push(get_only_size_and_position_string(style_object.control.style));
         p_result.push("' ");
     }
 
@@ -1146,13 +1149,13 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     if(style_object && style_object.prompt)
     {
         p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
+          p_result.push(get_only_font_style_string(style_object.prompt.style));
         p_result.push("'");
     }
 
     if(p_metadata.description && p_metadata.description.length > 0)
     {
-        p_result.push(" rel='tooltip'  data-original-title='");
+        p_result.push(" rel='tooltip' data-original-title='");
         p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
         p_result.push("' ");
     }
@@ -1301,7 +1304,7 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
     
                 p_list_lookup[p_path] = {};
                 p_name_to_value_lookup[p_path] = {};
-                
+
                 for(let i = 0; i < data_value_list.length; i++)
                 {
                     let item = data_value_list[i];
