@@ -1,4 +1,3 @@
-
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
     // data migration - start
@@ -16,7 +15,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     if(Array.isArray(p_data))
     {
-
         for(let item_index = 0; item_index < p_data.length; item_index++)
         {
             let array_item = p_data[item_index];
@@ -176,27 +174,34 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     // p_result.push("' ");
     // p_result.push(">");
 
-    p_result.push("<label for='");
-        p_result.push(p_object_path.replace(/\//g, "--"));
-    p_result.push("' style='");
-        if(style_object && style_object.prompt)
-        {
-            p_result.push(get_style_string(style_object.prompt.style));
-        }
-        p_result.push("' ");
+    p_result.push(`
+        <label for="${p_object_path.replace(/\//g, "--")}"
+               ${style_object && style_object.prompt ? `style="${get_style_string(style_object.prompt.style)}"` : ``}
+               ${p_metadata.description && p_metadata.description.length > 0 ? `rel="tooltip" data-original-title="${p_metadata.description.replace(/'/g, "&#39;")}"` : ``}>
+            ${p_metadata.prompt}
+        </label>
+    `);
+    // p_result.push("<label for='");
+    //     p_result.push(p_object_path.replace(/\//g, "--"));
+    // p_result.push("' style='");
+    //     if(style_object && style_object.prompt)
+    //     {
+    //         p_result.push(get_style_string(style_object.prompt.style));
+    //     }
+    //     p_result.push("' ");
               
-        if(p_metadata.description && p_metadata.description.length > 0)
-        {
-            p_result.push("rel='tooltip' data-original-title='");
-            p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
-            p_result.push("'>");
-        }
-        else
-        {
-            p_result.push(">");
-        }
-        p_result.push(p_metadata.prompt);
-    p_result.push("</label> ");
+    //     if(p_metadata.description && p_metadata.description.length > 0)
+    //     {
+    //         p_result.push("rel='tooltip' data-original-title='");
+    //         p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
+    //         p_result.push("'>");
+    //     }
+    //     else
+    //     {
+    //         p_result.push(">");
+    //     }
+    //     p_result.push(p_metadata.prompt);
+    // p_result.push("</label> ");
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!="")
     {
@@ -217,7 +222,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
-        
     }
     else
     {
@@ -236,7 +240,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
     }
     
-    let disabled_html = "  disabled=true  ";
+    let disabled_html = "disabled='true' ";
     
 	if(g_data_is_checked_out)
 	{
