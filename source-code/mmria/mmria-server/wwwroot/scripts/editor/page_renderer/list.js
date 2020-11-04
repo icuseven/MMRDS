@@ -481,12 +481,12 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
 
     p_result.push("<div style='");
-    if(style_object && style_object.prompt)
-    {
-       // p_result.push(get_only_size_and_position_string(style_object.control.style));
-       p_result.push(get_style_string(style_object.control.style));
-       
-    }
+      if(style_object && style_object.prompt)
+      {
+        // p_result.push(get_only_size_and_position_string(style_object.control.style));
+        p_result.push(get_style_string(style_object.control.style));
+      }
+    p_result.push("'>");
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
     {
@@ -496,18 +496,16 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     }
     else if(p_metadata.is_multiselect && p_metadata.is_multiselect == true)
     {
-        
         if(p_metadata.values.length > 6)
         {
             p_result.push("<select class='form-control list-control-select 2' size='6' name='");
         }
         else
         {
-            p_result.push(" <select size=");
+            p_result.push("<select size=");
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
-        
     }
     else
     {
