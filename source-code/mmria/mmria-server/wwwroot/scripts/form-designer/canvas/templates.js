@@ -329,7 +329,7 @@ let fdTemplates = {
                             ${groupFields}
                         
                         </div>
-                        <button type="button" class="grid-control-btn btn btn-primary d-flex align-items-center">
+                        <button type="button" class="grid-control-btn btn d-flex align-items-center">
 
                         <span class="x24 cdc-icon-plus"></span> Add Item</button>
                         </fieldset>`;
