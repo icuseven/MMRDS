@@ -132,21 +132,26 @@ var g_ui = {
     sort : "date_last_updated",
     search_key : null,
     descending : true,
-    get_query_string : function(){
-      var result = [];
-      result.push("?skip=" + (this.page - 1) * this.take);
-      result.push("take=" + this.take);
-      result.push("sort=" + this.sort);
+    case_status: "3",
+    get_query_string: function () {
+        var result = [];
+        result.push('?skip=' + (this.page - 1) * this.take);
+        result.push('take=' + this.take);
+        result.push('sort=' + this.sort);
+        result.push('descending=' + this.descending);
+        result.push('case_status=' + this.case_status);
+        
+        if (this.search_key)
+        {
+          result.push(
+            'search_key="' +
+            encodeURIComponent(this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n')) +
+              '"'
+          );
+        }
   
-      if(this.search_key)
-      {
-        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+        return result.join('&');
       }
-  
-      result.push("descending=" + this.descending);
-  
-      return result.join("&");
-    }
   }
 };
 

@@ -174,6 +174,7 @@ by_state_of_death
                     {
                         bool is_jurisdiction_ok = false;
                         bool add_item = false;
+                        int add_count = 0;
 
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
@@ -215,7 +216,11 @@ by_state_of_death
                             }                                               
                         }
 
-                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
+                        if(add_item && is_jurisdiction_ok)
+                        {
+                           result.rows.Add (cvi);
+                           add_count += 1;
+                        } 
                     }
 
                     //result.total_rows = result.rows.Count;
