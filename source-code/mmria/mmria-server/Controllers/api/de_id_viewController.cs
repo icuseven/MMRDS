@@ -223,7 +223,10 @@ by_state_of_death
                         } 
                     }
 
-                    //result.total_rows = result.rows.Count;
+                    if(skip == 0 && result.rows.Count < take)
+                    {
+                        result.total_rows = result.rows.Count;
+                    }
 
                     return result;
                 } 
@@ -347,7 +350,7 @@ by_state_of_death
                         
                       }
 
-                    //result.total_rows = result.rows.Count;
+                    result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();
 
                     return result;
