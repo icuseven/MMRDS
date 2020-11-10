@@ -229,22 +229,19 @@
 }
 
 .form-designer-wrapper .form-designer-canvas label.form-field-item {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 
 .form-designer-wrapper .form-designer-canvas label.form-field-item:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag:hover {
   border: none;
   outline: 1px solid lightgray;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 .form-designer-wrapper .form-designer-canvas label.form-field-item.ds-selected:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag.ds-selected:hover {
   outline: 4px solid rgba(0,0,0,.4);
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 .custom-file-control.ds-selected:focus,
 .form-control.ds-selected:focus {
