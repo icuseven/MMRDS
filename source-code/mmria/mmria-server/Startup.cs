@@ -319,8 +319,7 @@ namespace mmria.server
       Log.Information("mmria_settings:metadata_version: {0}", Configuration["mmria_settings:metadata_version"]);
       Log.Information("mmria_settings:power_bi_link: {0}", Configuration["mmria_settings:power_bi_link"]);
       Log.Information("mmria_settings:app_instance_name: {0}", Configuration["mmria_settings:app_instance_name"]);
-
-
+      Log.Information("mmria_settings:session_idle_timeout: {0}", Configuration["mmria_settings:session_idle_timeout"]);
 
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
       services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
