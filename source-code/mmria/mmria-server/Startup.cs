@@ -168,7 +168,7 @@ namespace mmria.server
 
         Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
 
-        Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes"), out test_int) ? test_int : 30;
+        Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes") != null && int.TryParse(System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes"), out test_int) ? test_int : 30;
         Configuration["mmria_settings:session_idle_timeout_minutes"] = Program.config_session_idle_timeout_minutes.ToString();
 
 
