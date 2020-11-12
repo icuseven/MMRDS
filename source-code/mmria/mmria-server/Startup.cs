@@ -113,7 +113,7 @@ namespace mmria.server
       Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
       Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
-      Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout"], out test_int) ? test_int : 30;
+      Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout_minutes"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout_minutes"], out test_int) ? test_int : 30;
 
 
       Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"]) ? 8 : int.Parse(Configuration["password_settings:minimum_length"]);
@@ -169,7 +169,7 @@ namespace mmria.server
         Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
 
         Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable("session_idle_timeout"), out test_int) ? test_int : 30;
-        Configuration["mmria_settings:session_idle_timeout"] = Program.config_session_idle_timeout_minutes.ToString();
+        Configuration["mmria_settings:session_idle_timeout_minutes"] = Program.config_session_idle_timeout_minutes.ToString();
 
 
         Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_minimum_length")) ? 8 : int.Parse(System.Environment.GetEnvironmentVariable("password_minimum_length"));
@@ -319,7 +319,7 @@ namespace mmria.server
       Log.Information("mmria_settings:metadata_version: {0}", Configuration["mmria_settings:metadata_version"]);
       Log.Information("mmria_settings:power_bi_link: {0}", Configuration["mmria_settings:power_bi_link"]);
       Log.Information("mmria_settings:app_instance_name: {0}", Configuration["mmria_settings:app_instance_name"]);
-      Log.Information("mmria_settings:session_idle_timeout: {0}", Configuration["mmria_settings:session_idle_timeout"]);
+      Log.Information("mmria_settings:session_idle_timeout: {0}", Configuration["mmria_settings:session_idle_timeout_minutes"]);
       Log.Information("Program.config_session_idle_timeout_minutes: {0}", Program.config_session_idle_timeout_minutes);
 
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
