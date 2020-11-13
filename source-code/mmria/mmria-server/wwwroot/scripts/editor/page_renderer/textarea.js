@@ -43,7 +43,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 
 
-        page_render_create_textarea(p_result, p_metadata, new_text, p_metadata_path, p_object_path, p_dictionary_path);
+        
 
         if(p_metadata.name == "case_opening_overview")
         {
@@ -55,6 +55,8 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             {
                 new_text = p_data.replace(crlf_regex, "<br/>");
             }
+
+            page_render_create_textarea(p_result, p_metadata, new_text, p_metadata_path, p_object_path, p_dictionary_path);
 
             let opts = {
                 btns: [
@@ -151,6 +153,10 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             code_array.push(", event.target);");
 */
 
+        }
+        else
+        {
+            page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
         }
 
         p_result.push("</div>");
