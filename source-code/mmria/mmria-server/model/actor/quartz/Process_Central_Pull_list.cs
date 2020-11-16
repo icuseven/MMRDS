@@ -143,21 +143,14 @@ namespace mmria.server.model.actor.quartz
                         }
                     }
 
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
 
 
-/*
-
-                    try 
-                    {
-                        Program.ResumeSchedule (); 
-                    }
-                    catch (Exception ex) 
-                    {
-                        System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
-                    }
- */
-
-                    
                     break;
             }
 
@@ -188,6 +181,21 @@ namespace mmria.server.model.actor.quartz
 
             return result;
         }
+
+        private async System.Threading.Tasks.Task<string> PostCommand (string p_database_url, string p_user_name, string p_user_value)
+		{
+			string result = null;
+			cURL document_curl = new cURL ("POST", null, p_database_url, null, p_user_name, p_user_value);
+			try
+			{
+				result = await document_curl.executeAsync();
+			}
+			catch (Exception ex)
+			{
+				result = ex.ToString ();
+			}
+			return result;
+		}
 
         private async System.Threading.Tasks.Task<string> Put_Document (string p_document_json, string p_id, string p_database_url, string p_user_name, string p_user_value)
 		{

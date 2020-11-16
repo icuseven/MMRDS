@@ -5,8 +5,52 @@ using System.Threading.Tasks;
 
 namespace mmria.server.util
 {
+
+
+
+
+
 	public class c_document_sync_all
 	{
+/*
+{
+  "index": {
+    "partial_filter_selector": {
+      "_id": {
+          "$regex": "^opioid"
+
+      }
+    },
+    "fields": ["_id"]
+  },
+  "ddoc" : "opioid-report-index",
+  "type" : "json"
+}
+*/
+        public class Report_Opioid_Index_Attribute_Partial_Filter_Selector
+        {
+            public Report_Opioid_Index_Attribute_Partial_Filter_Selector(){}
+            public Dictionary<string,string> _id
+            { get;set;} = new Dictionary<string, string>(){
+          {"$regex", "^opioid"}};
+
+        }
+    public class Report_Opioid_Index_Attribute_Struct
+    {
+        public Report_Opioid_Index_Attribute_Struct(){}
+
+        public  Report_Opioid_Index_Attribute_Partial_Filter_Selector
+         partial_filter_selector { get; set;} = new Report_Opioid_Index_Attribute_Partial_Filter_Selector();
+         public List<string> fields { get; set;} = new List<string>(){"_id"}; 
+    }   
+    public class Report_Opioid_Index_Struct
+    {
+        public Report_Opioid_Index_Struct(){}
+        public Report_Opioid_Index_Attribute_Struct index {get;set;} = new Report_Opioid_Index_Attribute_Struct();
+
+        public string ddoc { get; set; } = "opioid-report-index";
+        public string type {get; set;} = "json";
+    }
 
 		private string couchdb_url;
 		private string user_name;
@@ -43,7 +87,6 @@ namespace mmria.server.util
 			{
 			
 			}
-
 
 
 			try
@@ -85,6 +128,19 @@ namespace mmria.server.util
 			{
 				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + $"/{Program.db_prefix}report", null, this.user_name, this.user_value);
 				await create_report_curl.executeAsync ();	
+			}
+			catch (Exception ex)
+			{
+			
+			}
+
+
+			try
+			{
+                var Report_Opioid_Index = new Report_Opioid_Index_Struct();
+                string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
+				var create_report_index_curl = new cURL ("POST", null, this.couchdb_url + $"/{Program.db_prefix}report/_index", index_json, this.user_name, this.user_value);
+				await create_report_index_curl.executeAsync ();
 			}
 			catch (Exception ex)
 			{

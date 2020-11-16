@@ -23,6 +23,8 @@ namespace mmria.server
             public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
             public string[] fields;
 
+            public string use_index;
+
             public int limit;
         }
 
@@ -57,7 +59,7 @@ namespace mmria.server
 				selector_struc.limit = 10000;
 				selector_struc.selector.Add("_id", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
 				selector_struc.selector["_id"].Add("$regex", "^opioid");
-
+                selector_struc.use_index = "opioid-report-index";
             	Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
