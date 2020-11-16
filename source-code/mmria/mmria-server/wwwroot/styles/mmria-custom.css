@@ -1099,6 +1099,7 @@ button.link {
 .construct-output fieldset {
   border: var(--border-width) solid;
   border-color: var(--neutral);
+  border-radius: var(--radius);
   margin-bottom: 15px;
   margin-right: 10px;
   margin-top: 10px;

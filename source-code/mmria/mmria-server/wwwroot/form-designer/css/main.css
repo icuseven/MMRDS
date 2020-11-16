@@ -87,10 +87,11 @@
   cursor: grab;
 }
 .form-designer-wrapper .form-designer-canvas fieldset {
+  border-radius: 4px;
   margin: 10px 10px 15px 0;
-  width: 100%;
   padding: .75rem;
   position: relative;
+  width: 100%;
 }
 .form-designer-wrapper .form-designer-canvas fieldset legend {
   width: auto;
