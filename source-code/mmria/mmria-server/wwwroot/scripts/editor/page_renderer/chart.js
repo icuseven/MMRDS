@@ -23,7 +23,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     }
     if(p_metadata.description && p_metadata.description.length > 0)
     {
-        p_result.push("rel='tooltip'  data-original-title='");
+        p_result.push("rel='tooltip' data-original-title='");
         p_result.push(p_metadata.description.replace(/'/g, "\\'"));
         p_result.push("'>");
     }
