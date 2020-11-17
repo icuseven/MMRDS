@@ -10,7 +10,7 @@ function number_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
 
 
     p_result.push(">");
-    p_result.push("<label ");
+    p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_control" `);
     p_result.push(" style='");
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];

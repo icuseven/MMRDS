@@ -5,27 +5,29 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
     var styleObject = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     p_result.push(
-        `<label for="${p_metadata.name}"
+        `<label for="${convert_object_path_to_jquery_id(p_object_path)}_control"
             ${styleObject ? `style="${get_style_string(styleObject.prompt.style)}"` : ''}>
             Jurisdiction ID
         </label>`
     );
 
-    p_result.push("<select class='form-control' name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
+    p_result.push("<select id='"+convert_object_path_to_jquery_id(p_object_path)+"_control' class='form-control' name='" + p_metadata.name + "' onchange='g_set_data_object_from_path(\"");
     p_result.push(p_object_path);
     p_result.push("\",\"");
     p_result.push(p_metadata_path);
     p_result.push("\",\"");
     p_result.push(p_dictionary_path);
     p_result.push("\",this.value)'  ");
-    p_result.push(" style='");
-      if(styleObject)
-      {
-          p_result.push(get_style_string(styleObject.control.style));
-      }
-    p_result.push("' ");
 
-    let disabled_html = "disabled='true' ";
+    p_result.push(`${styleObject ? `style="${get_style_string(styleObject.control.style)}"` : ''}`);
+    // p_result.push(" style='");
+    //   if(styleObject)
+    //   {
+    //       p_result.push(get_style_string(styleObject.control.style));
+    //   }
+    // p_result.push("' ");
+
+    let disabled_html = " disabled='true' ";
     
     if(g_data_is_checked_out)
     {

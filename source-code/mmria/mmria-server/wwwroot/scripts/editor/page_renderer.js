@@ -362,6 +362,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 
 	p_result.push("<input ");
+	p_result.push(` id="${convert_object_path_to_jquery_id(p_object_path)}_control" `);
 	p_result.push(disabled_html);
 		if
 		(
@@ -837,11 +838,11 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	if(p_metadata.name == "case_opening_overview")
 	{
 		p_result.push(`<p class="mb-2">CTRL+B to bold, CTRL+I to italicize, CTRL+U to underline</p>`);
-		p_result.push(`<textarea ${disabled_html} id='case_narrative_editor' name='`);
+		p_result.push(`<textarea id='case_narrative_editor' ${disabled_html} name='`);
 	}
 	else
 	{
-		p_result.push(`<textarea ${disabled_html} name='`);
+		p_result.push(`<textarea id="${convert_object_path_to_jquery_id(p_object_path)}_control" ${disabled_html} name='`);
 	}
     p_result.push(p_metadata.name);
     p_result.push("' ");

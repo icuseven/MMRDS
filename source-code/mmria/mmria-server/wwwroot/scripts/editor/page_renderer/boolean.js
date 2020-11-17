@@ -11,7 +11,7 @@ function boolean_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_o
 
     page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
-    p_result.push("<label ");
+    p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}" `);
     if(p_metadata.description && p_metadata.description.length > 0)
     {
         p_result.push("rel='tooltip' data-original-title='");

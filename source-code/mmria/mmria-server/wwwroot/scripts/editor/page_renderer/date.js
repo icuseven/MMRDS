@@ -10,7 +10,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push("' ");
 
     p_result.push(">");
-        p_result.push("<label ");
+        p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_control" `);
         if(p_metadata.description && p_metadata.description.length > 0)
         {
             p_result.push("rel='tooltip' data-original-title='");
@@ -85,9 +85,8 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             input_value = convert_date_to_local_display_value(p_data);
         }
         
-        
-                
         page_render_create_input(p_result, p_metadata, input_value, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
         p_result.push(
           `<div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>

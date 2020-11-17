@@ -167,7 +167,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     p_result.push(`
-        <label for="${p_object_path.replace(/\//g, "--")}"
+        <label for="${convert_object_path_to_jquery_id(p_object_path)}_control"
                ${style_object && style_object.prompt ? `style="${get_style_string(style_object.prompt.style)}"` : ``}
                ${p_metadata.description && p_metadata.description.length > 0 ? `rel="tooltip" data-original-title="${p_metadata.description.replace(/'/g, "&#39;")}"` : ``}>
             ${p_metadata.prompt}
@@ -176,7 +176,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!="")
     {
-        p_result.push("<select class='form-control' size=");
+        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -185,18 +185,18 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         if(p_metadata.values.length > 6)
         {
-            p_result.push("<select class='form-control' size='6' name='");
+            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size="6" name='`);
         }
         else
         {
-            p_result.push("<select class='form-control' size=");
+            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
     }
     else
     {
-        p_result.push("<select class='form-control' size=");
+        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
         p_result.push(1);
         p_result.push(" name='");
       }
@@ -468,7 +468,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
     {
-        p_result.push("<select class='form-control list-control-select 1' size=");
+        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class='form-control list-control-select 1' size=`);
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -476,18 +476,18 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     {
         if(p_metadata.values.length > 6)
         {
-            p_result.push("<select class='form-control list-control-select 2' size='6' name='");
+            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 2" size="6" name='`);
         }
         else
         {
-            p_result.push("<select size=");
+            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" size=`);
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
     }
     else
     {
-        p_result.push("<select class='form-control list-control-select 3' size=");
+        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 3" size=`);
         p_result.push(1);
         p_result.push(" name='");
     }
@@ -1073,15 +1073,15 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
 
             if (item.display) 
             {
-                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
+                p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class="choice-control" style='${get_style_string(item_style.prompt.style)}'>${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
             }
             else if(item.value == 9999)
             {
-                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
+                p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class="choice-control" style='${get_style_string(item_style.prompt.style)}'>${input_html}<span class="choice-control-info"> (blank)</span></label>`);
             }
             else 
             {
-                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
+                p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class="choice-control" style='${get_style_string(item_style.prompt.style)}' >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
             }
         }
 
@@ -1192,19 +1192,19 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
         if (item.display) 
         {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class='choice-control' style='" + get_style_string(item_style.prompt.style) + "'>`);
             list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> " + item.display + "</span></label>");
         }
         else if(item.value == 9999)
         {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class='choice-control' style='" + get_style_string(item_style.prompt.style) + "'>`);
             list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> (blank)</span></label>");
         }
         else 
         {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class='choice-control' style='" + get_style_string(item_style.prompt.style) + "'>`);
             list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> " + item.value + "</span></label>");
         }
@@ -1217,7 +1217,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected, p_is_read_only)
 {
     p_result.push("<input id='");
-    p_result.push(p_id);
+    p_result.push(convert_object_path_to_jquery_id(p_object_path) + '_' + p_item.value);
     p_result.push("' type='checkbox' ");
     p_result.push(" value='");
     p_result.push(p_item.value);
