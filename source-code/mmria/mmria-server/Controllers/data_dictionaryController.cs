@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server.Controllers
 {
     [AllowAnonymous] 
-    [Route("data-dictionary")]
+    
     
     public class data_dictionaryController : Controller
     {
@@ -16,7 +16,16 @@ namespace mmria.server.Controllers
             _authorizationService = authorizationService;
             //_documentRepository = documentRepository;
         }
+
+        [Route("data-dictionary")]
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        
+        [Route("data-dictionary/diff")]
+        public IActionResult diff()
         {
             return View();
         }
