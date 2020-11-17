@@ -8,7 +8,6 @@ namespace migrate.set
 {
     public class Process_Migrate_Charactor_to_Numeric
     {
-
 		public class Substance_Mapping_Item
 		{
 			public string source_value { get; set; }
@@ -32,6 +31,9 @@ namespace migrate.set
 		private string db_name;
         private string config_timer_user_name;
         private string config_timer_value;
+
+		private string config_metadata_user_name;
+        private string config_metadata_value;
         List<Metadata_Node> all_list_set;
 
 		List<Metadata_Node> single_form_value_set;
@@ -58,6 +60,8 @@ namespace migrate.set
 			string p_db_name, 
             string p_config_timer_user_name, 
             string p_config_timer_value,
+			string p_config_metadata_user_name,
+			string p_config_metadata_value,
 			System.Text.StringBuilder p_output_builder,
 			Dictionary<string, HashSet<string>> p_summary_value_dictionary,
 			bool p_is_report_only_mode
@@ -68,6 +72,10 @@ namespace migrate.set
 			db_name = p_db_name;
             config_timer_user_name = p_config_timer_user_name;
             config_timer_value = p_config_timer_value;
+			
+			config_metadata_user_name = p_config_metadata_user_name;
+			config_metadata_value = p_config_metadata_value;
+			
 			output_builder = p_output_builder;
 			summary_value_dictionary = p_summary_value_dictionary;
 			is_report_only_mode = p_is_report_only_mode;
@@ -143,14 +151,15 @@ namespace migrate.set
 
 
 
+
+						
 						if(true)
 						{
+							
 							string substance_mapping_url = "https://testdb-mmria.services-dev.cdc.gov/metadata/substance-mapping";
-							cURL substance_mapping_curl = new cURL("GET", null, substance_mapping_url, null, config_timer_user_name, config_timer_value);
+							cURL substance_mapping_curl = new cURL("GET", null, substance_mapping_url, null, config_metadata_user_name, config_metadata_value);
 							Substance_Mapping substance_mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<Substance_Mapping>(substance_mapping_curl.execute());
 							
-							var source_target_dictionary = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-
 
 							var substance_path_list = new List<string>()
 							{
@@ -161,16 +170,28 @@ namespace migrate.set
 
 							foreach(var substance_path in  substance_path_list)
 							{
+								var source_target_dictionary = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+
 								foreach(var st in substance_mapping.substance_lists[substance_path])
 								{
-									source_target_dictionary[st.source_value] = st.target_value;
+									source_target_dictionary[st.source_value.Trim()] = st.target_value.Trim();
 								}
 							
 
-								var node = all_list_set.Where( x => x.path == substance_path).FirstOrDefault();
+								var lookup_node = all_list_set.Where( x => x.path == substance_path).FirstOrDefault();
 
 								bool is_blank = false;
 
+/*
+								if(mmria_id == "07135EF4-B158-49BA-ADCA-F9E2C29C2B3D")
+								//if(mmria_id == "A627C0D5-BA78-47A9-93A3-A704EB466E24")
+								{
+									if(substance_path == "autopsy_report/toxicology/substance")
+									{
+
+									}
+								}
+*/
 								C_Get_Set_Value.get_grid_value_result get_grid_value_result = gs.get_grid_value(doc, substance_path);
 								C_Get_Set_Value.get_grid_value_result get_grid_value_other_result = gs.get_grid_value(doc, $"{substance_path}_other");
 
@@ -198,34 +219,63 @@ namespace migrate.set
 
 										if(value_string.Trim().ToLower() == "Other".ToLower())
 										{
-											var (other_index, other_value) = (other_list[i].Item1, other_list[i].Item2);
+											if(other_list[i].Item2 == null)
+											{
+												continue;
+											}
+
+											var (other_index, other_value) = (other_list[i].Item1, other_list[i].Item2.ToString().Trim());
 											if
 											(
-												source_target_dictionary.ContainsKey(other_value) && 
-												source_target_dictionary[other_value].ToLower() != "other" &&
-												source_target_dictionary[other_value].ToLower() != "9999"
+												other_value != null &&
+												(
+													(
+														source_target_dictionary.ContainsKey(other_value) && 
+														source_target_dictionary[other_value].ToLower() != "other" &&
+														source_target_dictionary[other_value].ToLower() != "9999" 
+													)||
+													lookup_node.value_to_display.ContainsKey(other_value)
+												)
 											)
 											{
+
 												if(case_change_count == 0)
 												{
 													case_change_count += 1;
 													case_has_changed = true;
 												}
 
-												new_list.Add((index, source_target_dictionary[other_value]));
-												new_other_list.Add((other_index, ""));
+
+												if(lookup_node.value_to_display.ContainsKey(other_value))
+												{
+													var key = lookup_node.value_to_display[other_value];
+													var other_list_value = lookup_node.display_to_value[key];
+													new_list.Add((index, other_list_value));
+													new_other_list.Add((other_index, ""));
+
+													this.output_builder.AppendLine($"applied substance mapping {substance_path}: {mmria_id} mapped {other_value} => {other_list_value} EXISTING");
+
+												}
+												else
+												{
+													new_list.Add((index, source_target_dictionary[other_value]));
+													new_other_list.Add((other_index, ""));
+
+													this.output_builder.AppendLine($"applied substance mapping {substance_path}: {mmria_id} mapped {other_value} => {source_target_dictionary[other_value]}");
+													if
+													(
+														this.summary_value_dictionary.ContainsKey($"{substance_path}_other") &&
+														this.summary_value_dictionary[$"{substance_path}_other"].Contains(other_value)
+													)
+													{
+														this.summary_value_dictionary[$"{substance_path}_other"].Remove(other_value);
+													}
+												}
+
 
 
 												
-												this.output_builder.AppendLine($"applied substance mapping {substance_path}: {mmria_id} mapped {other_value} => {source_target_dictionary[other_value]}");
-												if
-												(
-													this.summary_value_dictionary.ContainsKey($"{substance_path}_other") ||
-													this.summary_value_dictionary[$"{substance_path}_other"].Contains(other_value)
-												)
-												{
-													this.summary_value_dictionary[$"{substance_path}_other"].Remove(other_value);
-												}
+
 												
 												//System.Console.WriteLine("here");
 											}
@@ -1161,7 +1211,7 @@ if(is_data_correction)
 							settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 							var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(doc, settings);
 
-							string put_url = db_server_url + "/mmrds/"  + case_item.id;
+							string put_url = $"{db_server_url}/{db_name}/{case_item.id}";
 							cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
 
 							try
