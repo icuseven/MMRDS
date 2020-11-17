@@ -27,6 +27,8 @@ namespace migrate
 
 		static private string config_timer_user_name;
 		static private string config_timer_value;
+		static private string config_metadata_user_name;
+        static private string config_metadata_value;
 
 		static private string config_couchdb_url;
 
@@ -36,8 +38,10 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"sc"/*,
-			"wi",
+			"ok",
+			/*"qa",
+			"uat",
+			"cdc",
 			"tn",*/
 			/*"nh",
 			"wa",
@@ -49,15 +53,30 @@ namespace migrate
 
 		static List<string> prefix_list = new List<string>()
 		{
+			/*
+"afd",
+"dc",
+"ga",
+"hi",
+"md",
+"me",
+"nd",
+"vt",
+"pr",
+
+			
+			*/
+			
 			"al",
 			"ak",
 			"az",
+			"ar",
 			"ca",
 			"ct",
-			"cdc",
+			//"cdc",
 			"co",
 			"de",
-			"demo",
+			//"demo",
 			"fl",
 			"ia",
 			"id",
@@ -80,7 +99,7 @@ namespace migrate
 			"ny",
 			"nv",
 			"oh",
-			"ok",
+			/*"ok",*/
 			"or",
 			"pa",
 			"ri",
@@ -97,6 +116,36 @@ namespace migrate
 			
 
 		};
+
+		static Dictionary<string,bool> central_db = new Dictionary<string,bool>(StringComparer.OrdinalIgnoreCase)
+		{
+			
+			{"afd", true},
+			{"dc", true},
+			{"ga", true},
+			{"hi", true},
+			{"md", true},
+			{"me", true},
+			{"nd", true},
+			{"vt", true},
+			{"pr", true},
+
+{"ok", true},
+{"tx", true},
+{"mt", true},
+{"ak", true},
+{"ar", true},
+{"ca", true},
+{"ia", true},
+{"id", true},
+{"ky", true},
+{"nv", true},
+{"or", true},
+{"ri", true},
+{"sd", true}
+
+		};
+
         static async Task Main(string[] args)
         {
 			Configuration = new ConfigurationBuilder()
@@ -111,9 +160,14 @@ namespace migrate
 			config_timer_value = Configuration["mmria_settings:timer_password"];
 			config_metadata_version = Configuration["mmria_settings:metadata_version"];
 
-			bool is_test_list = true;
+			config_metadata_user_name = Configuration["mmria_settings:metadata_timer_user_name"];
+			config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
+
+
+
+			bool is_test_list = false;
 			
-			bool is_report_only_mode = false;
+			bool is_report_only_mode = true;
 
             string path = System.IO.Directory.GetCurrentDirectory();
             string target = System.IO.Path.Combine(path, "output");
@@ -168,6 +222,13 @@ namespace migrate
 
 				config_couchdb_url = Configuration["mmria_settings:central_couchdb_url"].Replace("{prefix}", prefix);
 				var db_name = "mmrds";
+
+				if(central_db.ContainsKey(prefix) && central_db[prefix])
+				{
+					config_couchdb_url = "https://couchdb-central-mmria.services.cdc.gov";
+					db_name = $"{prefix}_mmrds";
+				}
+				//var db_name = "{prefix}_mmrds".Replace("{prefix}",prefix);
 				if(is_test_list)
 				{
 
@@ -193,11 +254,12 @@ namespace migrate
 
 
 				output_string_builder["main"]["main"].AppendLine(output_text);
-
+				//if(false)
 				try
 				{
 
 					Console.WriteLine($"Process_Migrate_Data Begin {System.DateTime.Now}");
+					
 
 					var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 					await crpr.execute();
@@ -211,8 +273,11 @@ namespace migrate
 					await mm.execute();
 
 					
-					var pctn = new migrate.set.Process_Migrate_Charactor_to_Numeric(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+					var pctn = new migrate.set.Process_Migrate_Charactor_to_Numeric(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 					await pctn.execute();
+
+					var v2_3 = new migrate.set.v2_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+					await v2_3.execute();
 
 
 					foreach(var kvp in summary_value_dictionary[prefix])
@@ -267,6 +332,7 @@ namespace migrate
 				}
 			}
 
+
 			var edt = DateTime.Now;
 			var elapsed_time_in_minutes = (edt-dt).TotalMinutes;
 
@@ -292,6 +358,8 @@ namespace migrate
 					output_string_builder["summary"]["summary"].AppendLine($"{p_path}: {item}");
 				}
 			}
+			
+
 
 			string output_file = System.IO.Path.Combine(target_directory, file_name);
 			using (System.IO.FileStream fs = System.IO.File.OpenWrite(output_file)) 
@@ -322,6 +390,52 @@ namespace migrate
 					fs.Write(info, 0, info.Length);
 				}*/
 
+			}
+			
+
+
+			
+			string line = null;
+			string substance_mapping_log_path = System.IO.Path.Combine(target_directory, "substance-mapping-log.txt");
+			
+
+			using System.IO.StreamReader input_file = new System.IO.StreamReader(output_file); 
+			using (System.IO.StreamWriter substance_mapping_log_file = new System.IO.StreamWriter(substance_mapping_log_path))
+			{ 
+				string db_url = null;
+				//08c16c1b-a9e1-4d22-aa76-dc5d6dc6aef8
+				//22680d11-4291-76d5-a1531937205616573
+				var pattern = "[a-fA-F0-9]+";
+				var regex = new System.Text.RegularExpressions.Regex($"({pattern}-{pattern}-{pattern}-{pattern}-{pattern})");
+
+				
+				while((line = input_file.ReadLine()) != null)  
+				{  
+					System.Console.WriteLine(line);  
+
+					if (line.StartsWith("Database UrL: "))
+					{
+						db_url = line.Replace("Database UrL: ","");
+					}
+
+					if (line.StartsWith("applied substance mapping"))
+					{
+						var record_id = regex.Match(line).Groups[0]; 
+						if(string.IsNullOrWhiteSpace(record_id.ToString()))
+						{
+							var regex2 = new System.Text.RegularExpressions.Regex($"({pattern}-{pattern}-{pattern}-{pattern})");
+							record_id = regex2.Match(line).Groups[0]; 
+							System.Console.WriteLine(line);  
+						}
+
+						if(string.IsNullOrWhiteSpace(record_id.ToString()))
+						{
+							System.Console.WriteLine(line);  
+						}
+
+						substance_mapping_log_file.WriteLine($"{db_url}\t{record_id}\t{line}");
+					}
+				}  
 			}
 
 

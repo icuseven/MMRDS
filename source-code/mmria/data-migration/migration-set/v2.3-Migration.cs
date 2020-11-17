@@ -155,6 +155,12 @@ namespace migrate.set
 
 					string mmria_path = "home_record/case_status";
 					value_result = gs.get_value(case_item, mmria_path);
+
+					string abstraction_begin_date = null;
+					if(date_created.HasValue)
+					{
+						abstraction_begin_date = $"{date_created.Value.Year}-{date_created.Value.Month.ToString().PadLeft(2, '0')}-{date_created.Value.Day.ToString().PadLeft(2, '0')}";
+					}
 					
 					if
 					(
@@ -162,12 +168,6 @@ namespace migrate.set
 						value_result.result == null
 					)
 					{
-
-						string abstraction_begin_date = null;
-						if(date_created.HasValue)
-						{
-							abstraction_begin_date = $"{date_created.Value.Year}-{date_created.Value.Month.ToString().PadLeft(2, '0')}-{date_created.Value.Day.ToString().PadLeft(2, '0')}";
-						}
 
 						if(change_count == 0)
 						{   
@@ -202,6 +202,54 @@ namespace migrate.set
 						}
 
 					}
+					/*
+					else if(!value_result.is_error)
+					{
+						value_result = gs.get_value(case_item, "home_record/case_status/overall_case_status");
+
+						if
+						(
+							! value_result.is_error &&
+							(
+								value_result.result == null ||
+								string.IsNullOrWhiteSpace(value_result.result.ToString())
+							)
+						)
+						{
+							if(change_count == 0)
+							{   
+
+								case_has_changed =  gs.set_value("home_record/case_status/overall_case_status", "9999", case_item);
+								change_count+= 1;
+							}
+							else
+							{
+								case_has_changed =  case_has_changed && gs.set_value("home_record/case_status/overall_case_status", "9999", case_item);
+							}
+						
+
+							value_result = gs.get_value(case_item, "home_record/case_status/abstraction_begin_date");
+							if
+							(
+								! value_result.is_error &&
+								(
+									value_result.result == null ||
+									string.IsNullOrWhiteSpace(value_result.result.ToString())
+								)
+							)
+							{
+								if(change_count == 0)
+								{   
+									case_has_changed = gs.set_value("home_record/case_status/abstraction_begin_date", abstraction_begin_date, case_item);
+									change_count+= 1;
+								}
+								else
+								{
+									case_has_changed = case_has_changed && gs.set_value("home_record/case_status/abstraction_begin_date", abstraction_begin_date, case_item);
+								}
+							}
+						}
+					}*/
                 
            
 
