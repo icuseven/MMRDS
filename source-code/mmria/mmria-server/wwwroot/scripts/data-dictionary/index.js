@@ -34,14 +34,8 @@ var g_filter = 	{
 	search_text: ""
 };
 
-// Making this a self invoking function
-// Getting rid of the jQuery
-// $(function ()
-// {
-// 	get_release_version();
-// });
 (function() {
-	// When data dictionary is readying to be rendered
+
 	get_release_version();
 })()
 
@@ -83,7 +77,7 @@ function load_metadata()
 }
 
 
-function de_identify_search_text_change(p_value)
+function search_text_change(p_value)
 {
 	g_filter.search_text = p_value;
 }
@@ -111,7 +105,8 @@ function get_available_versions()
 				is_selected = "selected=true"
 			}
 
-			if(item._id.indexOf("_design/auth") < 0)
+			
+            if(item._id.indexOf("_design/auth") < 0 && item.name != null)
 			{
 				result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
 			}
@@ -119,7 +114,5 @@ function get_available_versions()
 		available_version.innerHTML = result.join("");
 	});
 
-	// When data dictionary tables have fully rendered in memory
-	// and ready to be displayed
 	$('.spinner-content').removeClass('spinner-active');
 }

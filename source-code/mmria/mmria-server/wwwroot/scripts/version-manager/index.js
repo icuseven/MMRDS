@@ -131,7 +131,7 @@ function render_available_version_list()
       {
           is_selected = "selected=true"
       }
-      if(item._id.indexOf("_design/auth") < 0)
+      if(item._id.indexOf("_design/auth") < 0 && item.name != null)
       {
           result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
       }

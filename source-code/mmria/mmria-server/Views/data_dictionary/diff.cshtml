@@ -20,6 +20,7 @@
 
     <script src="../scripts/data-dictionary/jsdifflib/diffview.js" type="text/javascript"></script>
     <script src="../scripts/data-dictionary/jsdifflib/difflib.js" type="text/javascript"></script>
+    <script src="../scripts/data-dictionary/diff.js" type="text/javascript"></script>
 
 
 }
@@ -101,10 +102,12 @@ function diffUsingJS(viewType)
 </div>
 <div class="textInput">
     <h2>Base Text</h2>
+    <select id="list-one"></select>
     <textarea id="baseText"></textarea>
 </div>
 <div class="textInput spacer">
     <h2>New Text</h2>
+    <select id="list-two"></select>
     <textarea id="newText"></textarea>
 </div>
 <div class="viewType">

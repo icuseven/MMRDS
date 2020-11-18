@@ -1,23 +1,23 @@
 function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
-	let de_identified_search_result = [];
+	let search_result = [];
 
-	render_de_identified_search_result(de_identified_search_result, g_filter);
+	render_search_result(search_result, g_filter);
 
 	result.push(`
-		<div id="de_identify_filter" class="sticky-section mt-2" data-prop="de_identified_selection_type" style="">
+		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
 			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+					<label for="search_text" class="mr-2"> Search for:</label>
 					<input type="text"
 								 class="form-control mr-2"
-								 id="de_identify_search_text"
+								 id="search_text"
 								 value=""
 								 style="width: 170px;"
-								 onchange="de_identify_search_text_change(this.value)" />
-					<select id="de_identify_form_filter" class="custom-select mr-2">
-						${render_de_identify_form_filter(g_filter)}
+								 onchange="search_text_change(this.value)" />
+					<select id="form_filter" class="custom-select mr-2">
+						${render_form_filter(g_filter)}
 					</select>
 					<select id="metadata_version_filter" class="custom-select mr-2">
 						<option value="">Select Metadata Version</option>
@@ -27,7 +27,7 @@ function dictionary_render(p_metadata, p_path)
 						type="submit"
 						class="btn btn-secondary no-print"
 						alt="clear search"
-						onclick="init_inline_loader(de_identified_search_click)">Search</button>
+						onclick="init_inline_loader(search_click)">Search</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 				</form>
 				<div>
@@ -38,8 +38,8 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<table id="de_identify_search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
-					${de_identified_search_result.join("")}
+				<table id="search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+					${search_result.join("")}
 				</table>
 			</div>
 	`);
@@ -79,7 +79,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 }
 
 
-function render_de_identify_form_filter(p_filter)
+function render_form_filter(p_filter)
 {
 	let result = [];
 
@@ -106,37 +106,37 @@ function render_de_identify_form_filter(p_filter)
 }
 
 
-function de_identified_search_click()
+function search_click()
 {
-	g_filter.selected_form = document.getElementById("de_identify_form_filter").value;
+	g_filter.selected_form = document.getElementById("form_filter").value;
 
-	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
+	let search_result_list = document.getElementById("search_result_list");
 	let result = [];
 	
-	render_de_identified_search_result(result, g_filter);
+	render_search_result(result, g_filter);
 
-	de_identify_search_result_list.innerHTML = result.join("");
+	search_result_list.innerHTML = result.join("");
 }
 
 
-function render_de_identified_search_result(p_result, p_filter)
+function render_search_result(p_result, p_filter)
 {
 	// Add toLowerCase() method to help with case sensitivity
-	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
+	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
 // Converts spaces to underscores, then renders
-// function render_de_identified_search_result(p_result, p_filter)
+// function render_search_result(p_result, p_filter)
 // {
 // 	let search_query = p_filter.search_text.toLowerCase();
 // 	search_query = search_query.replace(/ /g, '_'); // replaces 'all' spaces with and underscore
 
 // 	// Add toLowerCase() method to help with case sensitivity
-// 	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query);
+// 	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query);
 // }
 
 // Renders all keywords
-// function render_de_identified_search_result(p_result, p_filter)
+// function render_search_result(p_result, p_filter)
 // {
 // 	let search_query = p_filter.search_text.toLowerCase();
 // 	search_query = search_query.split(' ');
@@ -144,7 +144,7 @@ function render_de_identified_search_result(p_result, p_filter)
 // 	for (let i = 0; i < search_query.length; i++)
 // 	{
 // 		// Add toLowerCase() method to help with case sensitivity
-// 		render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query[i]);
+// 		render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query[i]);
 // 	}
 // }
 
@@ -153,7 +153,7 @@ function render_de_identified_search_result(p_result, p_filter)
 // Used to calc and create section headers
 let last_form = null;
 
-function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
+function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
 	switch(p_metadata.type.toLowerCase())
 	{
@@ -164,7 +164,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				{
 					let item = p_metadata.children[i];
 
-					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 				}
 			}
 			else
@@ -175,32 +175,32 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					{
 						let item = p_metadata.children[i];
 
-						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+						render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 					}
 				}
 			}
 			break;
 
 		case "app":
-			let de_identify_form_filter = "(any form)";
-			let el = document.getElementById("de_identify_form_filter");
+			let form_filter = "(any form)";
+			let el = document.getElementById("form_filter");
 
 			if(el)
 			{
-				de_identify_form_filter = el.value;
+				form_filter = el.value;
 			}
 
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				let item = p_metadata.children[i];
 
-				if(de_identify_form_filter.toLowerCase() == "(any form)")
+				if(form_filter.toLowerCase() == "(any form)")
 				{
-					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 				}
 				else if(item.type.toLowerCase() == "form")
 				{
-					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 				}
 				
 			}
@@ -211,7 +211,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				let item = p_metadata.children[i];
-				render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 			}
 			break;
 
@@ -242,13 +242,27 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					)
 					{
 						continue;
-					}
+                    }
+                    /*
+                    if
+                    (
+                        p_metadata.name.toLowerCase().indexOf(search_term.trim()) > -1 ||
+						p_metadata.prompt.toLowerCase().indexOf(search_term.trim()) > -1
+                    )
+					{
+						is_search_match = true;
+						break;
+					}*/
 
 					for(let j = 0; j < p_metadata.tags.length; j++)
 					{
 						let check_item = p_metadata.tags[j].toLowerCase();
 
-						if(check_item.indexOf(search_term) > -1)
+                        if
+                        (
+                            check_item.indexOf(search_term) > -1
+
+                        )
 						{
 							is_search_match = true;
 							break;
@@ -260,8 +274,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				(
 					!is_search_match && 
 					!(
-						p_metadata.name.indexOf(p_search_text.trim()) > -1 ||
-						p_metadata.prompt.indexOf(p_search_text.trim()) > -1 ||
+						p_metadata.name.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
+						p_metadata.prompt.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
 						file_name.indexOf(p_search_text.trim()) > -1 ||
 						field_name.indexOf(p_search_text.trim()) > -1
 					)
@@ -409,7 +423,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			// if (!isNullOrUndefined(p_search_text))
 			// {
 			// 	setTimeout(() => {
-			// 		const container = document.querySelectorAll('#de_identify_search_result_list td');
+			// 		const container = document.querySelectorAll('#search_result_list td');
 					
 			// 		// Shorthand for loop, loop through container var
 			// 		for (let td of container)
