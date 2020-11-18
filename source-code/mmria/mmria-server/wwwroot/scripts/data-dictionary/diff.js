@@ -58,7 +58,6 @@ function load_metadata()
 		url: metadata_url
 	}).done(function(response) {
 		g_metadata = response;
-		//document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
 		get_available_versions()
 	});
 }
@@ -76,25 +75,12 @@ function get_available_versions()
 
         update_list("list-one", g_list_one_selected_item);
         update_list("list-two", g_list_two_selected_item);
-        /*
-		let result = []
+        
+        let h2_element = document.getElementById("list-one-h2");
+        h2_element.innerText = g_list_one_selected_item;
 
-		for(let i = 0; i < g_version_list.length; i++)
-		{
-			let item = g_version_list[i];
-			let is_selected = "";
-
-			if(item.name == g_selected_version)
-			{
-				is_selected = "selected=true"
-			}
-
-			if(item._id.indexOf("_design/auth") < 0)
-			{
-				result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
-			}
-		}*/
-
+        h2_element = document.getElementById("list-two-h2");
+        h2_element.innerText = g_list_one_selected_item;
 	});
 
 
@@ -121,4 +107,16 @@ function update_list(p_id, p_selected_version)
         }
     }
     list_element.innerHTML = result.join("");
+}
+
+
+function source_list_changed(p_control)
+{
+    let h2_element = document.getElementById(p_control.id + "-h2");
+    h2_element.innerText = p_control.selectedOptions[0].innerText;
+}
+
+function source_list_two_changed(p_control)
+{
+    console.log(p_control.id);
 }

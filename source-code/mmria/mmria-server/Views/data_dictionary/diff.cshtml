@@ -98,16 +98,30 @@ function diffUsingJS(viewType)
 
 <h1 class="top">Metadata Version Differences</h1>
 <div class="top">
-    <strong>Context size (optional):</strong> <input type="text" id="contextSize" value="" />
+    <!--strong>Context size (optional):</strong--> <input type="hidden" id="contextSize" value="" />
 </div>
 <div class="textInput">
-    <h2>Base Text</h2>
-    <select id="list-one"></select>
+    <select id="list-one" onchange="source_list_changed(this)"></select>
+    <h2 id="list-one-h2">Base Text</h2>
+    <select id="list-one-detail" size="5">
+        <option value="metadata" selected="">metadata</option>
+        <option value="ui-specification">ui-specification</option>
+        <option value="calculation-validation.js">calculation-validation.js</option>
+        <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
+        <option value="de-identified-list-cdc">de-identified-list-cdc</option>
+    </select>
     <textarea id="baseText"></textarea>
 </div>
 <div class="textInput spacer">
-    <h2>New Text</h2>
-    <select id="list-two"></select>
+    <select id="list-two" onchange="source_list_changed(this)"></select>
+    <h2 id="list-two-h2">New Text</h2>
+    <select id="list-two-detail" size="5">
+        <option value="metadata" selected="">metadata</option>
+        <option value="ui-specification">ui-specification</option>
+        <option value="calculation-validation.js">calculation-validation.js</option>
+        <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
+        <option value="de-identified-list-cdc">de-identified-list-cdc</option>
+    </select>
     <textarea id="newText"></textarea>
 </div>
 <div class="viewType">
