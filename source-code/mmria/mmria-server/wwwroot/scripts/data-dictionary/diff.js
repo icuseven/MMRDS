@@ -114,9 +114,57 @@ function source_list_changed(p_control)
 {
     let h2_element = document.getElementById(p_control.id + "-h2");
     h2_element.innerText = p_control.selectedOptions[0].innerText;
+
+    if(p_control.id == "list-one")
+    {
+        g_list_one_selected_item = p_control.selectedOptions[0].innerText;
+    }
+    else if(p_control.id == "list-two")
+    {
+        g_list_two_selected_item = p_control.selectedOptions[0].innerText;
+    }
 }
 
-function source_list_two_changed(p_control)
+function compare_versions_click()
 {
-    console.log(p_control.id);
+    let v1 = null;
+    let v2 = null;
+
+    for(let i = 0; i < g_version_list.length; i++)
+    {
+        let item = g_version_list[i];
+        let is_selected = "";
+
+        if(item.name == g_list_one_selected_item)
+        {
+            v1 = item;
+        }
+
+        if(item.name == g_list_two_selected_item)
+        {
+            v2 = item;
+        }
+    }
+
+    if
+    (
+        v1 != null &&
+        v2 != null &&
+        v1.name != v2.name
+    )
+    {
+
+        let e1 = document.getElementById("baseText");
+        let e2 = document.getElementById("newText");
+        //e1.value = JSON.stringify(v1, null, '\t');
+        //e2.value = JSON.stringify(v2, null, '\t');
+
+        //e1.value = v1.metadata;
+        //e2.value = v2.metadata;
+        e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
+        e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
+
+    }
+
+
 }
