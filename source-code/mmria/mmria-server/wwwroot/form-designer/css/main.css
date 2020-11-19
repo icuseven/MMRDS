@@ -157,6 +157,11 @@
   height: 38px;
   left: 12px;
   position: absolute;
+  width: 108px;
+}
+.grid-control-btn [class*="icon"]
+{
+  padding-left: 4px;
 }
 
 .choice-control {
