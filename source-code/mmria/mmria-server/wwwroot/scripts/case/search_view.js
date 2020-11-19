@@ -155,7 +155,7 @@ function render_search_text_input_control(p_ctx)
     let style_string = get_only_size_and_font_style_string(style_object.prompt.style);
     let control_string = get_only_size_and_font_style_string(style_object.control.style);
 
-    result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+    result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-4">`);
         result.push("<p>");
             //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
             let path_items = p_ctx.mmria_path.split("/");
@@ -377,7 +377,7 @@ function renderSearchDateControl(p_ctx)
   let is_valid = p_ctx.is_valid_date_or_datetime;
   if (is_valid === undefined) is_valid = !is_valid;
 
-  result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+  result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-4">`);
     const path_items = p_ctx.mmria_path.split("/");
     result.push("<p>");
       for(let i = 1; i < path_items.length; i++)
@@ -463,7 +463,7 @@ function renderSearchDateTimeControl(p_ctx)
   let is_valid = p_ctx.is_valid_date_or_datetime;
   if (is_valid === undefined) is_valid = !is_valid;
 
-  result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-5">`);
+  result.push(`<div id="${convert_object_path_to_jquery_id(p_ctx.object_path)}" metadata="${p_ctx.mmria_path}" class="form-group mb-4">`);
     const path_items = p_ctx.mmria_path.split("/");
     result.push(`<p>`);
       for(let i = 1; i < path_items.length; i++)
@@ -613,7 +613,7 @@ function render_search_text_textarea_control(p_ctx)
 
     if(style_object)
     {
-        p_ctx.result.push(`<div metadata="${p_ctx.mmria_path}" class="quickedit-wrapper form-group mb-5"`);
+        p_ctx.result.push(`<div metadata="${p_ctx.mmria_path}" class="quickedit-wrapper form-group mb-4"`);
           p_ctx.result.push("<p>");
               // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
               let path_items = p_ctx.mmria_path.split('/');
@@ -855,7 +855,7 @@ function render_search_text_select_control(p_ctx)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path_path);
-        p_ctx.result.push("' class='form-group mb-5'>");
+        p_ctx.result.push("' class='form-group mb-4'>");
         p_ctx.result.push("<p>");
             // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
             let path_items = p_ctx.mmria_path.split('/');
@@ -1334,7 +1334,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
 {
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-    p_result.push("<div class='list form-group mb-5' id='");
+    p_result.push("<div class='list form-group mb-4' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
     p_result.push("' ");
@@ -1492,7 +1492,7 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
 {
     let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-    p_result.push("<div class='list form-group mb-5' id='");
+    p_result.push("<div class='list form-group mb-4' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
     p_result.push("' ");
