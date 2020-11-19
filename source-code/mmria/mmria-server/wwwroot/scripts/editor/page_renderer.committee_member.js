@@ -193,7 +193,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<input disabled='disabled' ");
+	p_result.push("<input  disabled='disabled' ");
 
     p_result.push(" style='");
     
@@ -216,7 +216,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
     p_result.push("' ");
 
 
-	p_result.push(" class='disabled ");
+	p_result.push("class='form-control disabled ");
 	p_result.push(p_metadata.type.toLowerCase());
 	
 	if
@@ -474,7 +474,7 @@ var path_to_validation_description = [];
 
 function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
-	p_result.push("<input  class='checkbox' type='checkbox' name='");
+	p_result.push("<input class='checkbox' type='checkbox' name='");
 	p_result.push(p_metadata.name);
 	if(p_data == true)
 	{
