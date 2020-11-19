@@ -2308,6 +2308,12 @@ if(is_data_correction)
 										result.is_mapped = true;
 										result.value = 20.1;
 									}
+									//95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension
+									else if(p_data_string.Trim().ToLower() == "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension".ToLower())
+									{
+										result.is_mapped = true;
+										result.value = 95;
+									}
 									else
 									{
 										//g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
