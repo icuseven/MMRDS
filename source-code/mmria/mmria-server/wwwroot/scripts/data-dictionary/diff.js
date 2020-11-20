@@ -7,7 +7,10 @@ var g_selected_version = null;
 var g_version_list = null;
 var g_list_one_selected_item = "";
 var g_list_two_selected_item = "";
-        
+var g_is_inline = 0;
+var g_view_type_is_dirty = false;
+var g_view1_is_dirty = true;
+var g_view2_is_dirty = true;
 
 (function() {
 	get_release_version();
@@ -86,6 +89,23 @@ function get_available_versions()
 
 }
 
+function set_is_inline(p_value)
+{
+    if(p_value != g_is_inline)
+    {
+        g_view_type_is_dirty = true;
+    }
+
+    if(p_value== 1)
+    {
+        g_is_inline = 1;
+    }
+    else
+    {
+        g_is_inline = 0;
+    }
+}
+
 function update_list(p_id, p_selected_version)
 {
     let list_element = document.getElementById(p_id);
@@ -117,19 +137,31 @@ function source_list_changed(p_control)
 
     if(p_control.id == "list-one")
     {
+        if(g_list_one_selected_item != p_control.selectedOptions[0].innerText)
+        {
+            g_view1_is_dirty = true;
+        }
+        
         g_list_one_selected_item = p_control.selectedOptions[0].innerText;
     }
     else if(p_control.id == "list-two")
     {
+        if(g_list_two_selected_item != p_control.selectedOptions[0].innerText)
+        {
+            g_view2_is_dirty = true;
+        }
         g_list_two_selected_item = p_control.selectedOptions[0].innerText;
     }
 }
 
 function compare_versions_click()
 {
+    if(! (g_view_type_is_dirty || g_view1_is_dirty || g_view2_is_dirty)) return;
+
     let v1 = null;
     let v2 = null;
 
+    if(g_view1_is_dirty || g_view2_is_dirty)
     for(let i = 0; i < g_version_list.length; i++)
     {
         let item = g_version_list[i];
@@ -153,18 +185,28 @@ function compare_versions_click()
         v1.name != v2.name
     )
     {
-
-        let e1 = document.getElementById("baseText");
-        let e2 = document.getElementById("newText");
         //e1.value = JSON.stringify(v1, null, '\t');
         //e2.value = JSON.stringify(v2, null, '\t');
 
         //e1.value = v1.metadata;
         //e2.value = v2.metadata;
-        e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
-        e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
+        if(g_view1_is_dirty)
+        {
+            let e1 = document.getElementById("baseText");
+            e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
+        }
+
+        if(g_view2_is_dirty)
+        {
+            let e2 = document.getElementById("newText");
+            e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
+        }
+
+        diffUsingJS(g_is_inline);
+
+        g_view_type_is_dirty = false;
+        g_view1_is_dirty = false;
+        g_view2_is_dirty = false;
 
     }
-
-
 }

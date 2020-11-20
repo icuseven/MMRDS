@@ -1087,7 +1087,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1105,7 +1105,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1156,7 +1156,7 @@ function form_render(
                                         <p>${
                                           !notes[i].reviewer_note
                                             ? '<em>No data entered</em>'
-                                            : notes[i].reviewer_note
+                                            : textarea_control_replace_return_with_br(notes[i].reviewer_note)
                                         }</p>
                                     </li>
                                 `);
@@ -1181,7 +1181,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1200,7 +1200,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1274,7 +1274,7 @@ function form_render(
                     <p>${
                         !notes[i].reviewer_note
                         ? '<em>No data entered</em>'
-                        : notes[i].reviewer_note
+                        : textarea_control_replace_return_with_br(notes[i].reviewer_note)
                     }</p>
                 </li>
             `);
@@ -1361,7 +1361,7 @@ function form_render(
                     <p>${
                         !notes[i].reviewer_note
                         ? '<em>No data entered</em>'
-                        : notes[i].reviewer_note
+                        : textarea_control_replace_return_with_br(notes[i].reviewer_note)
                     }</p>
                 </li>
             `);
@@ -1426,7 +1426,7 @@ function form_render(
                                         <p>${
                                           !notes[i].reviewer_note
                                             ? '<em>No data entered</em>'
-                                            : notes[i].reviewer_note
+                                            : textarea_control_replace_return_with_br(notes[i].reviewer_note)
                                         }</p>
                                     </li>
                                 `);
@@ -1451,7 +1451,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1470,7 +1470,7 @@ function form_render(
                                 <p>${
                                   notes.reviewer_note.length < 1
                                     ? '<em>No data entered</em>'
-                                    : notes.reviewer_note
+                                    : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
                             `);
         }
@@ -1547,7 +1547,7 @@ function form_render(
                                         <p>${
                                           !notes[i].reviewer_note
                                             ? '<em>No data entered</em>'
-                                            : notes[i].reviewer_note
+                                            : textarea_control_replace_return_with_br(notes[i].reviewer_note)
                                         }</p>
                                     </li>
                                 `);

@@ -515,7 +515,21 @@ d3.select('#chart svg').append('text')
       result.push('</h9>');
 
       break;
-
+    case 'textarea':
+        result.push('<h9>');
+        result.push('<p>');
+        if(! p_is_grid_context)
+        {
+            result.push(' <strong>');
+            result.push(p_metadata.prompt);
+            result.push('</strong>: ');
+        }
+        result.push('</p>');
+        result.push('</h9>');
+        result.push('<div>');
+        result.push(print_version_textarea_replace_return_with_br(p_data));
+        result.push('</div>');
+    break;
     default:
       if (p_metadata.name != 'case_opening_overview') 
       {
@@ -527,12 +541,14 @@ d3.select('#chart svg').append('text')
             result.push(p_metadata.prompt);
             result.push('</strong>: ');
         }
-        result.push(p_data);
+
         result.push('</p>');
         result.push('</h9>');
+        result.push('<div>');
+        result.push(p_data);
+        result.push('</div>');
       }
-      
-      if (p_metadata.name == 'case_opening_overview') 
+      else//if (p_metadata.name == 'case_opening_overview') 
       {
         result.push('<div>');
 
@@ -873,4 +889,19 @@ function make_c3_date(p_value)
   result.push(date_time.getSeconds());
 
   return result.join('');
+}
+
+
+function print_version_textarea_replace_return_with_br(p_value)
+{
+    let crlf_regex = /\n/g;
+
+    let result = p_value;
+
+    if(p_value!= null)
+    {
+        result = p_value.replace(crlf_regex, "<br/>");
+    }
+
+    return result
 }

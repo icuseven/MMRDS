@@ -100,39 +100,35 @@ function diffUsingJS(viewType)
 <div class="top">
     <!--strong>Context size (optional):</strong--> <input type="hidden" id="contextSize" value="" />
 </div>
-<div><input type="button" name="compare_button" value="compare versions" onclick="compare_versions_click()"/></div>
-<div class="textInput">
-    <select id="list-one" onchange="source_list_changed(this)"></select>
-    <h2 id="list-one-h2">Base Text</h2>
+<div>
     <select id="list-one-detail" size="5">
         <option value="metadata" selected="">metadata</option>
         <option value="ui-specification">ui-specification</option>
-        <option value="validator.js">validator.js</option>
-        <option value="mmria-check-code.js">mmria-check-code.js</option>
+        <option value="validation">validation.jd</option>
+        <option value="mmria_calculations">mmria-check-code.js</option>
         <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
         <option value="de-identified-list-cdc">de-identified-list-cdc</option>
-    </select>
-    <textarea id="baseText"></textarea>
+    </select><br/>
+    <input type="radio" name="_viewtype" id="sidebyside" onclick="set_is_inline(0);" checked /> <label for="sidebyside">Side by Side Diff</label>
+    &nbsp; &nbsp;
+    <input type="radio" name="_viewtype" id="inline" onclick="set_is_inline(1);" /> <label for="inline">Inline Diff</label>
+    <br/>
+    <input type="button" name="compare_button" value="compare versions" onclick="compare_versions_click()"/>
+</div>
+<br/>
+<div class="textInput">
+    <select id="list-one" onchange="source_list_changed(this)"></select>
+    <h2 id="list-one-h2">Base Text</h2>
+    <textarea id="baseText" readonly></textarea>
 </div>
 
 <div class="textInput spacer">
     <select id="list-two" onchange="source_list_changed(this)"></select>
     <h2 id="list-two-h2">New Text</h2>
-    <select id="list-two-detail" size="5">
-        <option value="metadata" selected="">metadata</option>
-        <option value="ui-specification">ui-specification</option>
-        <option value="validator.js">validator.js</option>
-        <option value="mmria-check-code.js">mmria-check-code.js</option>
-        <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
-        <option value="de-identified-list-cdc">de-identified-list-cdc</option>
-    </select>
-    <textarea id="newText"></textarea>
+    <textarea id="newText" readonly></textarea>
 </div>
 
 <div class="viewType">
-    <input type="radio" name="_viewtype" id="sidebyside" onclick="diffUsingJS(0);" /> <label for="sidebyside">Side by Side Diff</label>
-    &nbsp; &nbsp;
-    <input type="radio" name="_viewtype" id="inline" onclick="diffUsingJS(1);" /> <label for="inline">Inline Diff</label>
 </div>
 <div id="diffoutput"> </div>
 

@@ -186,3 +186,18 @@ function tbw_change_paste(p_object_path, p_metadata_path, p_dictionary_path)
     
     g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, new_text);
 }
+
+
+function textarea_control_replace_return_with_br(p_value)
+{
+    let crlf_regex = /\n/g;
+
+    let result = p_value;
+
+    if(p_value!= null)
+    {
+        result = p_value.replace(crlf_regex, "<br/>");
+    }
+
+    return result
+}
