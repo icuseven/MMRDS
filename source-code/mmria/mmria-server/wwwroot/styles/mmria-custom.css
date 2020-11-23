@@ -488,25 +488,25 @@ button.link {
   display: flex;
   justify-content: center;
 }
-  .spinner-takeover .spinner-body {
-    padding: 1rem;
-  }
-  .spinner-action .spinner-body {
-    font-size: 85%;
-  }
-  .spinner-small .spinner-body {
-    background-color: transparent;
-    font-size: 70%;
-  }
-  .spinner-content .spinner-body {
-    justify-content: flex-start;
-  }
-  .spinner-inline .spinner-body {
-    background-color: transparent;
-    position: relative;
-    height: inherit;
-    width: inherit;
-  }
+.spinner-takeover .spinner-body {
+  padding: 1rem;
+}
+.spinner-action .spinner-body {
+  font-size: 85%;
+}
+.spinner-small .spinner-body {
+  background-color: transparent;
+  font-size: 70%;
+}
+.spinner-content .spinner-body {
+  justify-content: flex-start;
+}
+.spinner-inline .spinner-body {
+  background-color: transparent;
+  position: relative;
+  height: inherit;
+  width: inherit;
+}
 
 .spinner {
   display: flex;
@@ -517,87 +517,87 @@ button.link {
   /* animation: spin-rotate 2s ease-in-out infinite; */
   animation: spin-rotate 2s cubic-bezier(0.71, 0.31, 0.1, 1.14) infinite;
 }
-  .spinner-action .spinner {
-    height: 30px;
-    width: 30px;
-  }
-  .spinner-inline .spinner {
-    height: inherit;
-    width: inherit;
-  }
-  .spinner-small .spinner {
-    height: 20px;
-    width: 20px;
-  }
-  .spinner:before {
-    border: 8px solid var(--grape);
-    height: 50px;
-    width: 50px;
-    
-    border-right-color: transparent;
-    border-radius: 50%;
-    content: '';
-    position: absolute;
+.spinner-action .spinner {
+  height: 30px;
+  width: 30px;
+}
+.spinner-inline .spinner {
+  height: inherit;
+  width: inherit;
+}
+.spinner-small .spinner {
+  height: 20px;
+  width: 20px;
+}
+.spinner:before {
+  border: 8px solid var(--grape);
+  height: 50px;
+  width: 50px;
+  
+  border-right-color: transparent;
+  border-radius: 50%;
+  content: '';
+  position: absolute;
 
-    animation: change-border-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s  */
-  }
-  .spinner-action .spinner:before {
-    border: 5px solid var(--grape);
-    height: inherit;
-    width: inherit;
-  }
-  .spinner-inline .spinner:before {
-    height: inherit;
-    width: inherit;
-  }
-  .spinner-small .spinner:before {
-    border: 4px solid var(--grape);
-    height: inherit;
-    width: inherit;
+  animation: change-border-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s  */
+}
+.spinner-action .spinner:before {
+  border: 5px solid var(--grape);
+  height: inherit;
+  width: inherit;
+}
+.spinner-inline .spinner:before {
+  height: inherit;
+  width: inherit;
+}
+.spinner-small .spinner:before {
+  border: 4px solid var(--grape);
+  height: inherit;
+  width: inherit;
 
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-  }
-  .spinner:after {
-    width: 8px;
-    height: 8px;
-    
-    content: '';
-    background-color: var(--grape);
-    border-radius: 50%;
-    left: 36px;
-    position: absolute;
-    top: 6px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.spinner:after {
+  width: 8px;
+  height: 8px;
+  
+  content: '';
+  background-color: var(--grape);
+  border-radius: 50%;
+  left: 36px;
+  position: absolute;
+  top: 6px;
 
-    animation: change-background-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s */
-  }
-  .spinner-action .spinner:after {
-    height: 5px;
-    width: 5px;
-    left: 21px;
-    top: 3px;
-  }
-  .spinner-inline .spinner:after {
-    left: 28px;
-    top: 5px;
-  }
-  .spinner-small .spinner:after {
-    height: 4px;
-    width: 4px;
-    left: 14px;
-    top: 3px;
-  }
+  animation: change-background-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s */
+}
+.spinner-action .spinner:after {
+  height: 5px;
+  width: 5px;
+  left: 21px;
+  top: 3px;
+}
+.spinner-inline .spinner:after {
+  left: 28px;
+  top: 5px;
+}
+.spinner-small .spinner:after {
+  height: 4px;
+  width: 4px;
+  left: 14px;
+  top: 3px;
+}
 
 .spinner-info {
   font-weight: bold;
 }
-  .spinner + .spinner-info {
-    margin-left: 10px;
-  }
-  .spinner-action .spinner + .spinner-info {
-    margin-left: 6px;
-  }
+.spinner + .spinner-info {
+  margin-left: 10px;
+}
+.spinner-action .spinner + .spinner-info {
+  margin-left: 6px;
+}
 
 @keyframes spin-rotate {
   0% {
@@ -934,13 +934,13 @@ button.link {
   border-bottom: 1px dashed #e0e0e0;
   position: relative;
 }
-  .active .fake-list-group-anchor {
-    font-weight: bold;
-  }
-  .theme-purple .selected .fake-list-group-anchor {
-    background-color: var(--neutral-light);
-    color: var(--grape);
-  }
+.active .fake-list-group-anchor {
+  font-weight: bold;
+}
+.theme-purple .selected .fake-list-group-anchor {
+  background-color: var(--neutral-light);
+  color: var(--grape);
+}
 
 .fake-list-group-anchor label {
   font-size: 80%;
@@ -1049,6 +1049,7 @@ button.link {
 }
 
 .construct__title {
+  font-size: 28px;
   font-weight: 700;
   margin-top: 0;
 }
@@ -1123,110 +1124,6 @@ button.link {
   width: auto;
   z-index: 1;
 }
-
-/* .construct-output input,
-.construct-output textarea,
-.construct-output select,
-.construct-output .faux-form-control {
-    background-color: #FFFFFF;
-    border: var(--border-width) solid;
-    border-color: var(--neutral);
-    border-radius: 4px;
-    padding: 10px;
-}
-.construct-output input:focus,
-.construct-output textarea:focus {
-    border-color: #712177;
-} */
-
-/* When an input is read only */
-/* .construct-output input[readonly="true"],
-.construct-output textarea[readonly="true"],
-.construct-output select[readonly="true"] {
-    background-color: var(--neutral-xlight);
-} */
-
-/* When an conotrl is read only */
-/* .construct-output input[disabled],
-.construct-output textarea[disabled],
-.construct-output select[disabled] {
-    background-color: var(--neutral-xlight);
-    color: #545454 !important;
-    opacity: 1;
-}
-
-.construct-output textarea {
-    line-height: 1.75;
-}
-
-.construct-output .btn {
-    max-height: 39.75px;
-    padding: 0.375rem 0.75rem;
-} */
-
-/* .construct-output fieldset {
-    border: var(--border-width) solid;
-    border-color: var(--neutral);
-    border-radius: 4px;
-    margin-bottom: 15px;
-    margin-right: 10px;
-    margin-top: 10px;
-    padding: 10px;
-    
-    overflow: visible;
-} */
-
-/* .construct-output legend {
-    display: inline-block;
-    font-size: 20px !important;
-    padding-bottom: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 2px;
-    width: auto;
-
-    border: 1px solid;
-    border-color: var(--neutral);
-    border-radius: 4px;
-    position: absolute;
-    z-index: 1;
-    background: var(--white);
-    top: 0;
-    transform: translateY(-50%);
-} */
-
-/* .construct-output label,
-.construct-output .faux-label {
-    line-height: 16px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    padding-bottom: 15px;
-    padding-top: 15px; */
-
-    /* Lets remove all left and right padding to help with wrapping */
-    /* padding-left: 0;
-    padding-right: 0;
-} */
-
-/* .construct-output #g_data_case_narrative_case_opening_overview label,
-.construct-output #g_data_case_narrative_case_opening_overview textarea {
-  left: auto !important;
-  position: relative !important;
-  top: auto !important;
-} */
-
-/* The buttons that will accomodate to the spinner */
-/* .construct-output [data-render-type="button"] input {
-  width: 100%;
-} */
-
-/* Specific Styles for Case Locked Date on Home Record */
-/* .construct-output .plain-date-control,
-.construct-output .plain-date-control:disabled,
-.construct-output .plain-date-control:read-only {
-  background-color: transparent;
-  border: none;
-} */
 
 /* ~~~~~~~ Rich Text Editor ~~~~~~~ */
 #case_narrative_editor {
@@ -1415,13 +1312,13 @@ button.link {
   /* background-color: var(--warning); */
   font-weight: 900;
 }
-  @media print {
-    .search-highlight {
-      color: inherit;
-      background-color: transparent;
-      font-weight: inherit;
-    }  
-  }
+@media print {
+  .search-highlight {
+    color: inherit;
+    background-color: transparent;
+    font-weight: inherit;
+  }  
+}
 
 /* ~~~~~~~ START VENDER OVERRIDES ~~~~~~~ */
 .trumbowyg-box,
