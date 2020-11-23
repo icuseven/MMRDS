@@ -1100,7 +1100,7 @@ button.link {
 .construct-output fieldset {
   border: var(--border-width) solid;
   border-color: var(--neutral);
-  border-radius: var(--radius);
+  border-radius: 0 var(--radius) var(--radius) var(--radius);
   margin-bottom: 15px;
   margin-right: 10px;
   margin-top: 10px;
@@ -1111,8 +1111,10 @@ button.link {
 .construct-output legend {
   border: 1px solid;
   border-color: var(--neutral);
+  border-radius: var(--radius) var(--radius) 0 0;
   font-size: 17px;
   font-weight: 700;
+  left : -1px;
   margin-bottom: 0;
   padding-bottom: 4px;
   padding-left: .75rem;
