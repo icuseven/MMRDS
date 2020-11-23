@@ -264,12 +264,18 @@
   padding: 0;
 }
 
+.form-designer-wrapper .form-designer-canvas fieldset {
+  border-radius: 0 4px 4px 4px;
+}
+
 /* Adding borders to legends */
 .form-designer-wrapper .form-designer-canvas fieldset legend {
   border: 1px solid;
   border-color: gray;
+  border-radius: 4px 4px 0 0;
   font-size: 17px;
   font-weight: 700;
+  left: -1px;
   margin-bottom: 0;
   padding-bottom: 4px;
   padding-left: .75rem;
