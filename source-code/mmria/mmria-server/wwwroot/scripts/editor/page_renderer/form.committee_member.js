@@ -102,7 +102,7 @@ function form_render(
       p_result.push(
         "<div class='construct__header-main position-relative row no-gutters align-items-start'>"
       );
-      p_result.push("<div class='col-4 position-static'>");
+      p_result.push("<div class='col-6 position-static'>");
       if (g_data) {
         p_result.push(
           "<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
@@ -219,7 +219,7 @@ function form_render(
 
       p_result.push('</div>');
       p_result.push(
-        "<div class='construct__controller col-8 row no-gutters justify-content-end'>"
+        "<div class='construct__controller col-6 row no-gutters justify-content-end'>"
       );
       p_result.push(
         "<div class='row no-gutters align-items-center justify-content-end'>"
@@ -623,90 +623,90 @@ function form_render(
       p_result.push(
         "<div class='construct__header-main position-relative row no-gutters align-items-start'>"
       );
-      p_result.push("<div class='col-4 position-static'>");
-      if (g_data) {
-        p_result.push(
-          "<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
-        );
-        p_result.push(g_data.home_record.last_name);
-        p_result.push(', ');
-        p_result.push(g_data.home_record.first_name);
+      p_result.push("<div class='col-6 position-static'>");
+        if (g_data) {
+            p_result.push(
+            "<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
+            );
+            p_result.push(g_data.home_record.last_name);
+            p_result.push(', ');
+            p_result.push(g_data.home_record.first_name);
+            p_result.push('</p>');
+        }
+        if (g_data.home_record.record_id) {
+            p_result.push("<p class='construct__info mb-0'>");
+            p_result.push(
+            '<strong>Record ID:</strong> ' + g_data.home_record.record_id
+            );
+            p_result.push('</p>');
+        }
+
+        p_result.push("<p class='construct__subtitle'");
+
+        if (p_metadata.description && p_metadata.description.length > 0) {
+            p_result.push("rel='tooltip' data-original-title='");
+            p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+            p_result.push("'>");
+        } else {
+            p_result.push('>');
+        }
+
+        p_result.push(p_metadata.prompt);
+        p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
         p_result.push('</p>');
-      }
-      if (g_data.home_record.record_id) {
-        p_result.push("<p class='construct__info mb-0'>");
-        p_result.push(
-          '<strong>Record ID:</strong> ' + g_data.home_record.record_id
-        );
-        p_result.push('</p>');
-      }
 
-      p_result.push("<p class='construct__subtitle'");
+        if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+            p_result.push(
+            `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
+            );
+        }
 
-      if (p_metadata.description && p_metadata.description.length > 0) {
-        p_result.push("rel='tooltip' data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
-      } else {
-        p_result.push('>');
-      }
+        if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
+        {
+            let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
 
-      p_result.push(p_metadata.prompt);
-      p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
-      p_result.push('</p>');
+            p_result.push(
+            `<p class='construct__info mb-0'>Date created: <span>${
+                g_data.created_by && g_data.created_by
+            } ${date_part_display_value}</span></p>`
+            );
+        }
 
-      if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
-        p_result.push(
-          `<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
-        );
-      }
+        if 
+        (
+            g_data.date_last_updated &&
+            !isNullOrUndefined(g_data.date_last_updated)
+        ) 
+        {
+            let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
 
-      if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
-      {
-        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
-
-        p_result.push(
-          `<p class='construct__info mb-0'>Date created: <span>${
-            g_data.created_by && g_data.created_by
-          } ${date_part_display_value}</span></p>`
-        );
-      }
-
-      if 
-      (
-        g_data.date_last_updated &&
-        !isNullOrUndefined(g_data.date_last_updated)
-      ) 
-      {
-        let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
-
-        p_result.push(
-          `<p class='construct__info mb-0'>Last updated: <span>${
-            g_data.last_updated_by && g_data.last_updated_by
-          } ${date_part_display_value}</span></p>`
-        );
-      }
+            p_result.push(
+            `<p class='construct__info mb-0'>Last updated: <span>${
+                g_data.last_updated_by && g_data.last_updated_by
+            } ${date_part_display_value}</span></p>`
+            );
+        }
 
       p_result.push('</div>');
       p_result.push(
-        "<div class='construct__controller col-8 row no-gutters justify-content-end'>"
+        "<div class='construct__controller col-6 row no-gutters justify-content-end'>"
       );
-      p_result.push(
-        "<div class='row no-gutters align-items-center justify-content-end'>"
-      );
-      p_result.push(
-        "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
-      );
+        p_result.push(
+            "<div class='row no-gutters align-items-center justify-content-end'>"
+        );
+        p_result.push(
+            "<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
+        );
 
-      if (!(g_is_data_analyst_mode || case_is_locked)) 
-      {
-        p_result.push(`
-                                    ${currently_locked_by_html}
-                                    <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
-                                    <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
-                                    <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
-                                `);
-      }
+        if (!(g_is_data_analyst_mode || case_is_locked)) 
+        {
+            p_result.push(`
+                                        ${currently_locked_by_html}
+                                        <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
+                                        <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
+                                        <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
+                                    `);
+        }
       p_result.push('</div>');
       p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
         render_print_form_control(p_result, p_ui, p_metadata);
@@ -824,7 +824,7 @@ function form_render(
     p_result.push(
       "<div class='construct__header-main position-relative row no-gutters align-items-start'>"
     );
-    p_result.push("<div class='col-4 position-static'>");
+    p_result.push("<div class='col-6 position-static'>");
     if (g_data) 
     {
       p_result.push(
@@ -921,7 +921,7 @@ function form_render(
 
     p_result.push('</div>');
     p_result.push(
-      "<div class='construct__controller col-8 row no-gutters justify-content-end'>"
+      "<div class='construct__controller col-6 row no-gutters justify-content-end'>"
     );
     p_result.push(
       "<div class='row no-gutters align-items-center justify-content-end'>"
