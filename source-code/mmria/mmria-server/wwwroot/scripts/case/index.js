@@ -896,9 +896,9 @@ var g_ui = {
       if (this.search_key)
       {
         result.push(
-          'search_key="' +
-          encodeURIComponent(this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n')) +
-            '"'
+          'search_key=' +
+          //encodeURIComponent(this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n'))
+          encodeURIComponent(this.search_key)
         );
       }
 

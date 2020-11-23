@@ -1001,12 +1001,15 @@ function form_render(
       let notes = null;
 
       //~~~ # RENDER THE CASE NARRATIVE TEXTAREA
-      for (var i = 0; i < p_metadata.children.length; i++) {
+      for (var i = 0; i < p_metadata.children.length; i++) 
+      {
         var child = p_metadata.children[i];
 
-        if (p_data[child.name] || p_data[child.name] == 0) {
+        if (p_data[child.name] || p_data[child.name] == 0) 
+        {
           // do nothing
-        } else {
+        } else 
+        {
           p_data[child.name] = create_default_object(child, {})[child.name];
         }
 
@@ -1034,13 +1037,15 @@ function form_render(
       // Finally it sets the label HTML to the new version (see below)
       let scan_for_narrative_label = setInterval(changeNarrativeLabel, 25);
 
-      function changeNarrativeLabel() {
+      function changeNarrativeLabel() 
+      {
         let caseNarrativeLabel = document.querySelectorAll(
           '#g_data_case_narrative_case_opening_overview'
         )[0].children[0];
 
         // Checks if the label exists
-        if (!isNullOrUndefined(caseNarrativeLabel)) {
+        if (!isNullOrUndefined(caseNarrativeLabel)) 
+        {
           // Insert new HTML/TEXT
           caseNarrativeLabel.innerHTML = `
                                     <h3 class="h3 mb-2 mt-0 font-weight-bold">Case Narrative</h3>
@@ -1071,7 +1076,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
@@ -1089,7 +1094,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
@@ -1165,7 +1170,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
@@ -1184,7 +1189,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
@@ -1435,7 +1440,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
@@ -1454,7 +1459,7 @@ function form_render(
                                 <h3 class="font-weight-bold mb-2">${noteTitle}</h3>
                                 <p class="mb-2 font-weight-bold">Reviewer's Notes from <a href="${noteUrl}#content">Case Form</a></p>
                                 <p>${
-                                  notes.reviewer_note.length < 1
+                                  (notes.reviewer_note!= null  && notes.reviewer_note.length < 1)
                                     ? '<em>No data entered</em>'
                                     : textarea_control_replace_return_with_br(notes.reviewer_note)
                                 }</p>
