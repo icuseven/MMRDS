@@ -677,7 +677,7 @@ function get_chart_x_range_from_path
         } 
         else 
         {
-          res = val.match(/^\d\d\d\d-\d\d-\d\d[ T]?\d\d:\d\d:\d\d$/);
+          res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
           if (res)
           {
             //let date_time = new Date(val);
