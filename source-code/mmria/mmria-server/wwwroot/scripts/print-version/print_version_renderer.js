@@ -670,7 +670,7 @@ function get_chart_x_range_from_path
       let val = array[i][field];
       if (val) 
       {
-        let res = val.match(/^\d\d\d\d-\d\d-\d+$/);
+        let res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
         if (res) 
         {
           result.push("'" + make_c3_date(val) + "'");

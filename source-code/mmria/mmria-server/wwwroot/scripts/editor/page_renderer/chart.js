@@ -183,13 +183,13 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
-	var result = [];
-	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	let result = [];
+	let array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	var array = eval(array_field[0]);
+	let array = eval(array_field[0]);
 	if(array)
 	{
-		var field = array_field[1];
+		let field = array_field[1];
 
 
 		result.push("['x'");
@@ -197,12 +197,12 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 		//result.push(50, 20, 10, 40, 15, 25);
 
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(var i = 0; i < array.length; i++)
+		for(let i = 0; i < array.length; i++)
 		{
-			var val = array[i][field];
+			let val = array[i][field];
 			if(val)
 			{
-				var res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
+				let res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
 				if(res)
 				{
 					result.push("'" + make_c3_date(val) +"'");
@@ -212,7 +212,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
 					if(res)
 					{
-						//var date_time = new Date(val);
+						//let date_time = new Date(val);
 						//result.push("'" + date_time.toISOString() + "'");
 						result.push("'" + make_c3_date(val) +"'");
 					}
