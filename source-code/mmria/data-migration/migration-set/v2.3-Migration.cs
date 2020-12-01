@@ -114,10 +114,6 @@ namespace migrate.set
 				
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
-
-				var host_state_array = this.host_db_url.Split("-");
-				var host_state = host_state_array[1];
-
 				foreach(var row in case_response.rows)
 				{
 					var case_item = row.doc;

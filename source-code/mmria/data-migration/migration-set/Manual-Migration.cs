@@ -377,6 +377,14 @@ namespace migrate.set
 				var host_state_array = this.db_server_url.Split("-");
 				var host_state = host_state_array[1];
 
+                if(host_state == "central")
+                {
+                    if(db_name.IndexOf("_") > -1)
+                    {
+                        host_state = db_name.Split("_")[0];
+                    }
+                }
+
 				foreach(var row in case_response.rows)
 				{
 					var case_item = row.doc;
@@ -397,8 +405,21 @@ namespace migrate.set
 
 					value_result = gs.get_value(case_item, "host_state");
 					var test_host_state_object = value_result.result;
-					if(test_host_state_object == null || string.IsNullOrWhiteSpace(test_host_state_object.ToString()))
+					if
+                    (
+                        test_host_state_object == null || 
+                        string.IsNullOrWhiteSpace(test_host_state_object.ToString()) ||
+                        test_host_state_object.ToString().ToLower() == "central"
+                    )
 					{
+                        if(test_host_state_object.ToString().ToLower() == "central")
+                        {
+                            if(db_name.IndexOf("_") > -1)
+                            {
+                                host_state = db_name.Split("_")[0];
+                            }
+                        }
+
 						if(change_count == 0)
 						{
 							case_has_changed = gs.set_value("host_state", host_state, case_item);
