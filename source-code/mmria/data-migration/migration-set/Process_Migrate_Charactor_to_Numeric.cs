@@ -2482,6 +2482,16 @@ if(is_data_correction)
 										result.is_mapped = true;
 										result.value = 0;
 									}
+									else if(p_data_string.Trim().ToLower() == "Not Specified".ToLower())
+									{
+										result.is_mapped = true;
+										result.value = 9999;
+									}
+									else if(p_data_string.Trim().ToLower() == "Self".ToLower())
+									{
+										result.is_mapped = true;
+										result.value = 2;
+									}
 									break;
 								case "birth_certificate_infant_fetal_section/is_multiple_gestation":
 								case "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/deceased_at_discharge":
