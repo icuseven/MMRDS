@@ -12,12 +12,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build-service",
+            "label": "build-services",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/mmria-server/mmria-service.csproj"
+                "${workspaceFolder}/mmria.services/mmria.services.csproj"
             ],
             "problemMatcher": "$msCompile"
         },

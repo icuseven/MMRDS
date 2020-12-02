@@ -71,7 +71,7 @@ namespace mmria.services
             */
             //Program.actorSystem.ActorOf(Props.Create<mmria.services.model.actor.quartz.Process_Migrate_Data>(), "Process_Migrate_Data");
 
-            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.services.model.actor.quartzSupervisor>(), "QuartzSupervisor");
+            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.services.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
 
             //System.Threading.Thread.Sleep(1000);
 
