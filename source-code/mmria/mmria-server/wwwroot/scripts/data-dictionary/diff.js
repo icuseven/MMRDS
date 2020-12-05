@@ -193,9 +193,10 @@ function compare_versions_click()
         if(g_view1_is_dirty)
         {
             let e1 = document.getElementById("baseText");
-            e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
+            //e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
             let v1_result = [];
-            GetPath(JSON.parse(v1.metadata), "", v1_result);
+            const cv1 = JSON.parse(v1.metadata);
+            GetPath(cv1, JSON.parse(v1.metadata), "", v1_result);
             e1.value = v1_result.join("\n");
         }
 
@@ -204,7 +205,8 @@ function compare_versions_click()
             let e2 = document.getElementById("newText");
             //e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
             let v2_result = [];
-            GetPath(JSON.parse(v2.metadata), "", v2_result);
+            const cv2 = JSON.parse(v2.metadata);
+            GetPath(cv2, JSON.parse(v2.metadata), "", v2_result);
             e2.value = v2_result.join("\n");
         }
 
@@ -242,7 +244,7 @@ function diffUsingJS(viewType)
 	}));
 }
 
-function GetPath(p_metadata, p_path = "", p_result = [])
+function GetPath(p_root_metadata, p_metadata, p_path = "", p_result = [])
 {
     switch(p_metadata.type.toLowerCase())
     {
@@ -252,14 +254,14 @@ function GetPath(p_metadata, p_path = "", p_result = [])
             for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
-				GetPath(child, p_path + `/${p_metadata.name}`, p_result);
+				GetPath(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
 			}
         break;
         case 'app':
             for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
-				GetPath(child, p_path + `/${p_metadata.name}`, p_result);
+				GetPath(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
 			}
         break;
         case 'label':
@@ -275,17 +277,61 @@ function GetPath(p_metadata, p_path = "", p_result = [])
         case 'hidden':
         case 'jurisdiction':
             p_result.push(p_path + `/${p_metadata.name}`);
+            p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
+            p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
         break;
         case 'yes_no':
         case 'race':
         case 'list':
             p_result.push(p_path + `/${p_metadata.name}`);
+            p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
+            p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
+
+            var metadata_value_list = p_metadata.values;
+
+            if(p_metadata.path_reference && p_metadata.path_reference != "")
+            {
+                metadata_value_list = eval(convert_path_to_lookup_object(p_root_metadata, p_metadata.path_reference));
+    
+                if(metadata_value_list == null)	
+                {
+                    metadata_value_list = p_metadata.values;
+                }
+            }
+    
+            for(var i = 0; i < metadata_value_list.length; i++)
+            {
+                p_result.push(p_path + `/${p_metadata.name}:values=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`);
+            }
+
             break;
         case 'chart':
             p_result.push(p_path + `/${p_metadata.name}`);
+            p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
+            p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
             break;		
         default:
                 console.log("editor_render not processed", p_metadata);
             break;
     }
+}
+
+
+function convert_path_to_lookup_object(p_root_metadata, p_path)
+{
+	let result = null;
+	let lookup_list = p_root_metadata.lookup;
+
+    let key_name = p_path.replace("lookup/", "");
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == key_name)
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
 }
