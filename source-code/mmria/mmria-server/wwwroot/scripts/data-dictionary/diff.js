@@ -194,12 +194,18 @@ function compare_versions_click()
         {
             let e1 = document.getElementById("baseText");
             e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
+            let v1_result = [];
+            GetPath(JSON.parse(v1.metadata), "", v1_result);
+            e1.value = v1_result.join("\n");
         }
 
         if(g_view2_is_dirty)
         {
             let e2 = document.getElementById("newText");
-            e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
+            //e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
+            let v2_result = [];
+            GetPath(JSON.parse(v2.metadata), "", v2_result);
+            e2.value = v2_result.join("\n");
         }
 
         diffUsingJS(g_is_inline);
@@ -234,4 +240,52 @@ function diffUsingJS(viewType)
 		contextSize: contextSize,
 		viewType: viewType
 	}));
+}
+
+function GetPath(p_metadata, p_path = "", p_result = [])
+{
+    switch(p_metadata.type.toLowerCase())
+    {
+        case 'grid':
+        case 'group':
+        case 'form':
+            for(var i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				GetPath(child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'app':
+            for(var i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				GetPath(child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'label':
+        case 'button':
+        case 'boolean':
+        case 'date':
+        case 'datetime':
+        case 'number':
+        case 'string':
+        case 'time':
+        case 'address':
+        case 'textarea':
+        case 'hidden':
+        case 'jurisdiction':
+            p_result.push(p_path + `/${p_metadata.name}`);
+        break;
+        case 'yes_no':
+        case 'race':
+        case 'list':
+            p_result.push(p_path + `/${p_metadata.name}`);
+            break;
+        case 'chart':
+            p_result.push(p_path + `/${p_metadata.name}`);
+            break;		
+        default:
+                console.log("editor_render not processed", p_metadata);
+            break;
+    }
 }
