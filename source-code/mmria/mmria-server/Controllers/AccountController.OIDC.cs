@@ -429,7 +429,7 @@ namespace mmria.common.Controllers
 
         public T GetHeaderValueAs<T>(string headerName)
         {
-            Microsoft.Extensions.Primitives.StringValues values;
+            Microsoft.Extensions.Primitives.StringValues values = new Microsoft.Extensions.Primitives.StringValues();
 
             if (_accessor.HttpContext?.Request?.Headers?.TryGetValue(headerName, out values) ?? false)
             {
