@@ -235,16 +235,16 @@ function diffUsingJS(viewType)
     let change_log_list = [];
 
     g_opcode_dictionary = {};
-    for (let i = 0; i < opcodes.length; i++)
+    for (let opcode_index = 0; opcode_index < opcodes.length; opcode_index++)
     { 
-        let change = opcodes[i]; 
+        let change = opcodes[opcode_index]; 
 
         let code = change[0]; 
-        var b = change[1];
-        var be = change[2];
-        var n = change[3];
-        var ne = change[4];
-        var rowcnt = Math.max(be - b, ne - n);
+        let b = change[1];
+        let be = change[2];
+        let n = change[3];
+        let ne = change[4];
+        let rowcnt = Math.max(be - b, ne - n);
 
         switch(code)
         {
@@ -257,12 +257,35 @@ function diffUsingJS(viewType)
                 change_log_list.push("Delete:\t" + newtxt[n]);
                 break;
             case "replace":
-                change_log_list.push("Replace:\t" + newtxt[n]);
+                let b_diff = be - b;
+                let n_diff = ne - n;
+                change_log_list.push(`Replace:`);
+                if(b_diff == n_diff)
+                {
+                    for(let i = 0; i < b_diff; i++)
+                    {
+                        change_log_list.push(`\t${base[b + i]} => ${newtxt[n + i]}`);
+                    }
+                }
+                else if(b_diff == 1)
+                {
+                    for(let i = 0; i < n_diff; i++)
+                    {
+                        change_log_list.push(`\t${base[b + i]} => ${newtxt[n + i]}`);
+                    }
+                }
+                else
+                {
+                    for(let i = 0; i < n_diff; i++)
+                    {
+                        change_log_list.push(`\t${base[b + i]} => ${newtxt[n + i]}`);
+                    }
+                }
                 break;
         }
     }
 
-    document.getElementById("change_log").value = change_log_list.join("\n");
+    document.getElementById("change_log").value = "number of changes = " + change_log_list.length + "\n" + change_log_list.join("\n");
 
 	diffoutputdiv.innerHTML = "";
 	contextSize = contextSize || null;
@@ -285,16 +308,22 @@ function GetPath(p_root_metadata, p_metadata, p_path = "", p_result = [])
         case 'grid':
         case 'group':
         case 'form':
-            for(var i = 0; i < p_metadata.children.length; i++)
+            for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
 				GetPath(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
 			}
         break;
         case 'app':
-            for(var i = 0; i < p_metadata.children.length; i++)
+            for(let i = 0; i < p_metadata.lookup.length; i++)
 			{
-				var child = p_metadata.children[i];
+				let child = p_metadata.lookup[i];
+				GetPath(p_root_metadata, child, p_path + `/lookup`, p_result);
+			}
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let child = p_metadata.children[i];
 				GetPath(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
 			}
         break;
@@ -321,21 +350,25 @@ function GetPath(p_root_metadata, p_metadata, p_path = "", p_result = [])
             p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
             p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
 
-            var metadata_value_list = p_metadata.values;
-
             if(p_metadata.path_reference && p_metadata.path_reference != "")
             {
+
+                p_result.push(p_path + `/${p_metadata.name}:path_reference=${p_metadata.path_reference}`);
+                /*
                 metadata_value_list = eval(convert_path_to_lookup_object(p_root_metadata, p_metadata.path_reference));
-    
                 if(metadata_value_list == null)	
                 {
                     metadata_value_list = p_metadata.values;
                 }
+                */
             }
-    
-            for(var i = 0; i < metadata_value_list.length; i++)
+            else
             {
-                p_result.push(p_path + `/${p_metadata.name}:values=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`);
+                var metadata_value_list = p_metadata.values;
+                for(var i = 0; i < metadata_value_list.length; i++)
+                {
+                    p_result.push(p_path + `/${p_metadata.name}:List Value[${i}]=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`);
+                }
             }
 
             break;
