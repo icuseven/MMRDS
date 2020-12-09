@@ -11,6 +11,7 @@ var g_is_inline = 0;
 var g_view_type_is_dirty = false;
 var g_view1_is_dirty = true;
 var g_view2_is_dirty = true;
+var g_opcode_dictionary = {};
 
 (function() {
 	get_release_version();
@@ -229,6 +230,39 @@ function diffUsingJS(viewType)
 		opcodes = sm.get_opcodes(),
 		diffoutputdiv = byId("diffoutput"),
 		contextSize = byId("contextSize").value;
+
+
+    let change_log_list = [];
+
+    g_opcode_dictionary = {};
+    for (let i = 0; i < opcodes.length; i++)
+    { 
+        let change = opcodes[i]; 
+
+        let code = change[0]; 
+        var b = change[1];
+        var be = change[2];
+        var n = change[3];
+        var ne = change[4];
+        var rowcnt = Math.max(be - b, ne - n);
+
+        switch(code)
+        {
+            case "equal":
+                break;
+            case "insert":
+                change_log_list.push("Insert:\t" + newtxt[n]);
+                break;
+            case "delete":
+                change_log_list.push("Delete:\t" + newtxt[n]);
+                break;
+            case "replace":
+                change_log_list.push("Replace:\t" + newtxt[n]);
+                break;
+        }
+    }
+
+    document.getElementById("change_log").value = change_log_list.join("\n");
 
 	diffoutputdiv.innerHTML = "";
 	contextSize = contextSize || null;

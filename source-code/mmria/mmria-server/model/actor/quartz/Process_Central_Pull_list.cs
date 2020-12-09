@@ -53,45 +53,48 @@ namespace mmria.server.model.actor.quartz
                         !string.IsNullOrWhiteSpace(Program.config_cdc_instance_pull_list)
                     )
                     {
-
-                        string current_directory = AppContext.BaseDirectory;
-
-                        var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
-                        System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.executeAsync ().GetAwaiter().GetResult());
-
-                        new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ().GetAwaiter().GetResult();
-                        System.Console.WriteLine("mmrds/_security completed successfully");
-
-                        try 
+                        try
                         {
-                            using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")))
+                            var db_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds";
+                            var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                            delete_mmrds_curl.executeAsync ().GetAwaiter().GetResult();
+
+                            string current_directory = AppContext.BaseDirectory;
+
+                            var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
+                            System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.executeAsync ().GetAwaiter().GetResult());
+
+                            new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ().GetAwaiter().GetResult();
+                            System.Console.WriteLine("mmrds/_security completed successfully");
+
+                            try 
                             {
+                                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")))
+                                {
 
-                                string case_design_sortable = sr.ReadToEnd ();
-                                var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
-                                case_design_sortable_curl.executeAsync ().GetAwaiter().GetResult();
+                                    string case_design_sortable = sr.ReadToEnd ();
+                                    var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                                    case_design_sortable_curl.executeAsync ().GetAwaiter().GetResult();
+                                }
+
+                                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
+                                {
+                                    string case_store_design_auth = sr.ReadToEndAsync ().GetAwaiter().GetResult();
+                                    var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                                    case_store_design_auth_curl.executeAsync ().GetAwaiter().GetResult();    
+                                }
+                                                                
                             }
-
-
-                            
-
-                            using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
+                            catch (Exception ex) 
                             {
-                                string case_store_design_auth = sr.ReadToEndAsync ().GetAwaiter().GetResult();
-                                var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
-                                case_store_design_auth_curl.executeAsync ().GetAwaiter().GetResult();    
+                                System.Console.WriteLine($"unable to configure mmrds database:\n{ex}");
                             }
-                            
-
-                            
-
-                        }
-                        catch (Exception ex) 
-                        {
-                            System.Console.WriteLine($"unable to configure mmrds database:\n{ex}");
-                        }
                     
-
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
                     
 
                         var pre_db_server_url = Program.config_cdc_instance_pull_db_url;
@@ -141,17 +144,7 @@ namespace mmria.server.model.actor.quartz
                                         continue;
                                     }
 
-                                    try
-                                    {
-                                        var db_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds";
 
-                                        var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, Program.config_timer_user_name, Program.config_timer_value);
-                                        delete_mmrds_curl.executeAsync ().GetAwaiter().GetResult();
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                    
-                                    }
 
                                     var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
