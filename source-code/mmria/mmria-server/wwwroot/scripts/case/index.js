@@ -2096,9 +2096,7 @@ function build_delete_dialog(p_values, p_index)
                       }
                     </strong>
                   </p>
-                  <p>Last updated ${p_values.value.date_last_updated} by ${
-    p_values.value.last_updated_by
-  }</p>
+                  <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
                 </div>
               </div>
               <div class="modal-footer">
@@ -2124,6 +2122,22 @@ function dispose_all_modals()
 
 function delete_record(p_index) 
 {
+    var data = g_ui.case_view_list[p_index];
+
+    g_selected_delete_index = null;
+
+    $.ajax({
+      url:
+        location.protocol +
+        '//' +
+        location.host +
+        '/api/case?case_id=' +
+        data.id,
+    }).done(function (case_response) 
+    {
+      delete_case(case_response._id, case_response._rev);
+    });
+    /*
   if (p_index == g_selected_delete_index) 
   {
     var data = g_ui.case_view_list[p_index];
@@ -2157,6 +2171,7 @@ function delete_record(p_index)
 
     $("tr[path='" + id + "']").css('background', '#ffd54f');
   }
+  */
 }
 
 var save_interval_id = null;

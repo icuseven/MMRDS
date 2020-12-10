@@ -217,7 +217,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         `) : ''}
                       </td>
                       <td class="td">
-                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>
+                        <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
+                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
                       </td>
                     </tr>`
                   );
