@@ -2067,7 +2067,7 @@ function build_delete_dialog(p_values, p_index)
               </div>
               <div class="modal-body modal-body-1 row no-gutters">
                 <div class="modal-icons">
-                  <span class="x40 fill-p cdc-icon-alert_02" aria-hidden="true"></span>
+                  <span class="x40 fill-amber-p cdc-icon-alert_02" aria-hidden="true"></span>
                   <span class="spinner-container spinner-inline" style="display: none">
                     <span class="spinner-body text-primary">
                       <span class="spinner"></span>
