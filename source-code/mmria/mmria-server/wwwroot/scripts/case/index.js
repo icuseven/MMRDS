@@ -2078,26 +2078,11 @@ function build_delete_dialog(p_values, p_index)
                   <p>Are you sure you want to delete this case?</p>
                   <p>
                     <strong>
-                      ${
-                        p_values.value.jurisdiction_id &&
-                        `${p_values.value.jurisdiction_id} : `
-                      }
-                      ${
-                        p_values.value.last_name &&
-                        `${p_values.value.last_name}`
-                      }
-                      ${
-                        p_values.value.first_name &&
-                        ` , ${p_values.value.first_name}`
-                      }
-                      ${
-                        p_values.value.record_id &&
-                        ` - ${p_values.value.record_id}`
-                      }
-                      ${
-                        p_values.value.agency_case_id &&
-                        ` ac_id: ${p_values.value.agency_case_id}`
-                      }
+                      ${p_values.value.jurisdiction_id ? `${p_values.value.jurisdiction_id} : ` : ''}
+                      ${p_values.value.last_name       ? `${p_values.value.last_name}` : ''}
+                      ${p_values.value.first_name      ? ` , ${p_values.value.first_name}` : ''}
+                      ${p_values.value.record_id       ? ` - ${p_values.value.record_id}` : ''}
+                      ${p_values.value.agency_case_id  ? ` ac_id: ${p_values.value.agency_case_id}` : ''}
                     </strong>
                   </p>
                   <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
