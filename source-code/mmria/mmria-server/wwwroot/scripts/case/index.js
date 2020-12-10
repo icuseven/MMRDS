@@ -2005,7 +2005,8 @@ function init_delete_dialog(p_index, callback)
 
   box.append(modal[0]);
 
-  $('#case_modal_' + p_index).modal('show');
+  $(`#case_modal_${p_index}`).modal('show');
+  $(`#case_modal_${p_index} .modal-footer .modal-cancel`).focus();
 }
 
 // Second
@@ -2015,6 +2016,9 @@ function update_delete_dialog(p_index, callback)
   const modal_msgs = modal.find('.modal-messages p');
   const modal_icons = modal.find('.modal-icons > span');
   const modal_btns = modal.find('.modal-footer button');
+
+  modal_msgs.first().text('Deleting...');
+  modal_msgs.last().hide();
 
   modal_icons.first().hide();
   modal_icons.last().show();
@@ -2046,7 +2050,7 @@ function update_delete_dialog(p_index, callback)
     modal_msgs.last().hide();
     modal_btns.hide();
     modal_btns.last().show();
-  }, 2500);
+  }, 1000);
 }
 
 function build_delete_dialog(p_values, p_index) 
