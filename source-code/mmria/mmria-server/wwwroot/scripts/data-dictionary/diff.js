@@ -253,7 +253,7 @@ function diffUsingJS(viewType)
             case "equal":
                 break;
             case "insert":
-                change_log_list.push("Insert:\t" + newtxt[n]);
+                change_log_list.push("Added:\t" + newtxt[n]);
 /*
                 let mmria_path = convert_change_text_to_mmria_path(newtxt[n]);
                 if(mmria_path!=null)
@@ -263,7 +263,7 @@ function diffUsingJS(viewType)
 */
                 break;
             case "delete":
-                change_log_list.push("Delete:\t" + newtxt[n]);
+                change_log_list.push("Removed:\t" + newtxt[n]);
                 /*
                 let mmria_path = convert_change_text_to_mmria_path(newtxt[n]);
                 if(mmria_path!=null)
@@ -275,7 +275,7 @@ function diffUsingJS(viewType)
             case "replace":
                 let b_diff = be - b;
                 let n_diff = ne - n;
-                change_log_list.push(`Replace:`);
+                change_log_list.push(`Replaced:`);
                 if(b_diff == n_diff)
                 {
                     for(let i = 0; i < b_diff; i++)
@@ -314,7 +314,9 @@ function diffUsingJS(viewType)
         }
     }
 
-    document.getElementById("change_log").value = "number of changes = " + change_log_list.length + "\n" + change_log_list.join("\n");
+    let v1_text = document.getElementById("list-one").value;
+    let v2_text = document.getElementById("list-two").value;
+    document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}\nnumber of changes = ${change_log_list.length}\n${change_log_list.join("\n")}`;
 
 	diffoutputdiv.innerHTML = "";
 	contextSize = contextSize || null;
