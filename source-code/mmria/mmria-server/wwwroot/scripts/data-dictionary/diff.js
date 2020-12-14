@@ -233,6 +233,8 @@ function diffUsingJS(viewType)
 
 
     let change_log_list = [];
+    let mmria_path_set = {};
+    let deleted_mmria_path_set = {};
 
     g_opcode_dictionary = {};
     for (let opcode_index = 0; opcode_index < opcodes.length; opcode_index++)
@@ -251,15 +253,29 @@ function diffUsingJS(viewType)
             case "equal":
                 break;
             case "insert":
-                change_log_list.push("Insert:\t" + newtxt[n]);
+                change_log_list.push("Added:\t" + newtxt[n]);
+/*
+                let mmria_path = convert_change_text_to_mmria_path(newtxt[n]);
+                if(mmria_path!=null)
+                {
+                    mmria_path_set[mmria_path] = true;
+                }
+*/
                 break;
             case "delete":
-                change_log_list.push("Delete:\t" + newtxt[n]);
+                change_log_list.push("Removed:\t" + newtxt[n]);
+                /*
+                let mmria_path = convert_change_text_to_mmria_path(newtxt[n]);
+                if(mmria_path!=null)
+                {
+                    mmria_path_set[mmria_path] = true;
+                }*/
+
                 break;
             case "replace":
                 let b_diff = be - b;
                 let n_diff = ne - n;
-                change_log_list.push(`Replace:`);
+                change_log_list.push(`Replaced:`);
                 if(b_diff == n_diff)
                 {
                     for(let i = 0; i < b_diff; i++)
@@ -281,11 +297,26 @@ function diffUsingJS(viewType)
                         change_log_list.push(`\t${base[b + i]} => ${newtxt[n + i]}`);
                     }
                 }
+/*
+                let mmria_path = convert_change_text_to_mmria_path(newtxt[n]);
+                if(mmria_path!=null)
+                {
+                    mmria_path_set[mmria_path] = true;
+                }
+
+                mmria_path = convert_change_text_to_mmria_path(base[b]);
+                if(mmria_path!=null)
+                {
+                    mmria_path_set[mmria_path] = true;
+                }
+*/
                 break;
         }
     }
 
-    document.getElementById("change_log").value = "number of changes = " + change_log_list.length + "\n" + change_log_list.join("\n");
+    let v1_text = document.getElementById("list-one").value;
+    let v2_text = document.getElementById("list-two").value;
+    document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}\nnumber of changes = ${change_log_list.length}\n${change_log_list.join("\n")}`;
 
 	diffoutputdiv.innerHTML = "";
 	contextSize = contextSize || null;
@@ -342,6 +373,8 @@ function GetPath(p_root_metadata, p_metadata, p_path = "", p_result = [])
             p_result.push(p_path + `/${p_metadata.name}`);
             p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
             p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
+
+            render_optional_attributes(p_metadata, p_path, p_result);
         break;
         case 'yes_no':
         case 'race':
@@ -370,12 +403,13 @@ function GetPath(p_root_metadata, p_metadata, p_path = "", p_result = [])
                     p_result.push(p_path + `/${p_metadata.name}:List Value[${i}]=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`);
                 }
             }
-
+            render_optional_attributes(p_metadata, p_path, p_result);
             break;
         case 'chart':
             p_result.push(p_path + `/${p_metadata.name}`);
             p_result.push(p_path + `/${p_metadata.name}:type=${p_metadata.type}`);
             p_result.push(p_path + `/${p_metadata.name}:prompt=${p_metadata.prompt}`);
+            render_optional_attributes(p_metadata, p_path, p_result);
             break;		
         default:
                 console.log("editor_render not processed", p_metadata);
@@ -401,4 +435,32 @@ function convert_path_to_lookup_object(p_root_metadata, p_path)
 
 
 	return result;
+}
+
+function render_optional_attributes(p_metadata, p_path, p_result)
+{
+	for(var prop in p_metadata)
+	{
+		var name_check = prop.toLowerCase();
+		switch(name_check)
+		{
+            case "name":
+            case "type":
+            case "prompt":
+            case "values":
+                break;
+            default:
+                p_result.push(p_path + `/${p_metadata.name}:${name_check}=${p_metadata[prop]}`);
+            break;
+        }
+
+    }
+
+}
+
+
+
+function convert_change_text_to_mmria_path(p_value)
+{
+
 }
