@@ -353,7 +353,10 @@ function form_render(
                             }
                         </td>
                         <td class="td">${pregStatus}</td>
-                        <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button></td>
+                        <td class="td">
+                            <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
+                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                        </td>
                     </tr>`
                 );
 			}
@@ -662,12 +665,12 @@ function form_render(
 			);
 
 			if (!(g_is_data_analyst_mode || case_is_locked)) {
-				p_result.push(`
-                                    ${currently_locked_by_html}
-                                    <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
-                                    <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
-                                    <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />
-                                `);
+				p_result.push(
+                    `${currently_locked_by_html}
+                    <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
+                    <input type="button" class="btn btn-primary ml-3" value="Save & Continue" onclick="init_inline_loader(function() { save_form_click() })" ${save_and_continue_disable_attribute} />
+                    <input type="button" class="btn btn-primary ml-3" value="Save & Finish" onclick="init_inline_loader(function() { save_and_finish_click() })" ${save_and_finish_disable_attribute} />`
+                );
 			}
 			p_result.push("</div>");
 			p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
@@ -686,11 +689,9 @@ function form_render(
 
 			p_result.push("</header>");
 
-			p_result.push("<div class='construct__body' tabindex='-1'>");
-			let height_attribute = get_form_height_attribute_height(
-				p_metadata,
-				p_dictionary_path
-			);
+            p_result.push("<div class='construct__body' tabindex='-1'>");
+            
+			let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
 
 			p_result.push(
 				`<div class='construct-output' style='height:${height_attribute}'>`

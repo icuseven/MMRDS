@@ -640,102 +640,87 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   });
 }
 
-function g_delete_grid_item
-(
-  p_object_path,
-  p_metadata_path,
-  p_dictionary_path,
-  p_index
-) 
-{
-  var record_number = new Number(p_index) + new Number(1);
-  var index_check = prompt
-  (
-    'Please confirm delete request of record ' +
-      record_number +
-      ' by entering the record number:',
-    '-1'
-  );
+function g_delete_grid_item(
+	p_object_path,
+	p_metadata_path,
+	p_dictionary_path,
+	p_index
+) {
+	var record_number = new Number(p_index) + new Number(1);
+	var index_check = prompt(
+		"Please confirm delete request of record " +
+			record_number +
+			" by entering the record number:",
+		"-1"
+	);
 
-  if (index_check != null && record_number == new Number(index_check)) 
-  {
-    var metadata = eval(p_metadata_path);
-    var index = p_object_path
-      .match(new RegExp('\\[\\d+\\]$'))[0]
-      .replace('[', '')
-      .replace(']', '');
-    var object_string = p_object_path.replace(new RegExp('(\\[\\d+\\]$)'), '');
+	if (index_check != null && record_number == new Number(index_check)) {
+		var metadata = eval(p_metadata_path);
+		var index = p_object_path
+			.match(new RegExp("\\[\\d+\\]$"))[0]
+			.replace("[", "")
+			.replace("]", "");
+		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
-    eval(object_string).splice(index, 1);
+		eval(object_string).splice(index, 1);
 
-    set_local_case
-    (
-        g_data, 
-        function () 
-        {
-            var post_html_call_back = [];
+		set_local_case(g_data, function () {
+			var post_html_call_back = [];
 
-            var render_result = page_render
-            (
-                metadata,
-                eval(object_string),
-                g_ui,
-                p_metadata_path,
-                object_string,
-                p_dictionary_path,
-                false,
-                post_html_call_back
-            ).join('');
-            var element = document.getElementById(p_metadata_path);
-            element.outerHTML = render_result;
-            if (post_html_call_back.length > 0) 
-            {
-                eval(post_html_call_back.join(''));
-            }
-        }
-    );
-  }
+			var render_result = page_render(
+				metadata,
+				eval(object_string),
+				g_ui,
+				p_metadata_path,
+				object_string,
+				p_dictionary_path,
+				false,
+				post_html_call_back
+			).join("");
+			var element = document.getElementById(p_metadata_path);
+			element.outerHTML = render_result;
+			if (post_html_call_back.length > 0) {
+				eval(post_html_call_back.join(""));
+			}
+		});
+	}
 }
 
-function g_delete_record_item(p_object_path, p_metadata_path, p_index) 
-{
-  var record_number = new Number(p_index) + new Number(1);
-  var index_check = prompt(
-    'Please confirm delete request of record ' +
-      record_number +
-      ' by entering the record number:',
-    '-1'
-  );
+function g_delete_record_item(p_object_path, p_metadata_path, p_index) {
+	// var record_number = new Number(p_index) + new Number(1);
+	// var index_check = prompt(
+	// 	"Please confirm delete request of record " +
+	// 		record_number +
+	// 		" by entering the record number:",
+	// 	"-1"
+    // );
 
-  if (index_check != null && record_number == new Number(index_check)) 
-  {
-    var metadata = eval(p_metadata_path);
-    var index = p_object_path
-      .match(new RegExp('\\[\\d+\\]$'))[0]
-      .replace('[', '')
-      .replace(']', '');
-    var object_string = p_object_path.replace(new RegExp('(\\[\\d+\\]$)'), '');
+	// if (index_check != null && record_number == new Number(index_check)) {
+		var metadata = eval(p_metadata_path);
+		var index = p_object_path
+			.match(new RegExp("\\[\\d+\\]$"))[0]
+			.replace("[", "")
+			.replace("]", "");
+		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
-    eval(object_string).splice(index, 1);
-    set_local_case(g_data, function () {
-      var post_html_call_back = [];
-      document.getElementById(metadata.name + '_id').innerHTML = page_render
-      (
-        metadata,
-        eval(object_string),
-        g_ui,
-        p_metadata_path,
-        object_string,
-        '',
-        false,
-        post_html_call_back
-      ).join('');
-      if (post_html_call_back.length > 0) 
-      {
-        eval(post_html_call_back.join(''));
-      }
-    });
-  }
+		eval(object_string).splice(index, 1);
+		set_local_case(g_data, function () {
+			var post_html_call_back = [];
+			document.getElementById(metadata.name + "_id").innerHTML = page_render(
+				metadata,
+				eval(object_string),
+				g_ui,
+				p_metadata_path,
+				object_string,
+				"",
+				false,
+				post_html_call_back
+			).join("");
+			if (post_html_call_back.length > 0) {
+				eval(post_html_call_back.join(""));
+			}
+		});
+    // }
 }
 
 var g_ui = {
@@ -1996,20 +1981,65 @@ function apply_validation()
 
 }
 
-// First
 function init_delete_dialog(p_index, callback) 
 {
-  const case_list = g_ui.case_view_list;
-  const modal = build_delete_dialog(case_list[p_index], p_index);
-  const box = $('#content');
+    const case_list = g_ui.case_view_list;
+	const modal = build_delete_dialog(case_list[p_index], p_index);
+	const box = $("#content");
 
-  box.append(modal[0]);
-
-  $(`#case_modal_${p_index}`).modal('show');
-  $(`#case_modal_${p_index} .modal-footer .modal-cancel`).focus();
+	box.append(modal[0]);
+	$(`#case_modal_${p_index}`).modal("show");
+	$(`#case_modal_${p_index} .modal-footer .modal-cancel`).focus();
 }
 
-// Second
+function build_delete_dialog(p_values, p_index) 
+{
+    const modal_ui = [];
+
+    modal_ui.push(`
+        <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                    <h5 id="case_modal_label_${p_index}" class="modal-title">Confirm Delete Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body row no-gutters">
+                    <div class="modal-icons col" style="max-width: 40px;">
+                        <span class="x40 fill-amber-p cdc-icon-alert_02" aria-hidden="true"></span>
+                        <span class="spinner-container spinner-inline" style="display: none">
+                        <span class="spinner-body text-primary">
+                            <span class="spinner"></span>
+                        </span>
+                        </span>
+                    </div>
+                    <div class="modal-messages col pl-3">
+                        <p>Are you sure you want to delete this case?</p>
+                        <p>
+                        <strong>
+                            ${p_values.value.jurisdiction_id ? `${p_values.value.jurisdiction_id} : ` : ''}
+                            ${p_values.value.last_name       ? `${p_values.value.last_name}` : ''}
+                            ${p_values.value.first_name      ? ` , ${p_values.value.first_name}` : ''}
+                            ${p_values.value.record_id       ? ` - ${p_values.value.record_id}` : ''}
+                            ${p_values.value.agency_case_id  ? ` ac_id: ${p_values.value.agency_case_id}` : ''}
+                        </strong>
+                        </p>
+                        <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal" onclick="dispose_all_modals()">Cancel</button>
+                    <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" onclick="update_delete_dialog(${p_index}, () => { delete_record(${p_index}) })">Delete</button>
+                    <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" style="display: none" onclick="dispose_all_modals()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+
+  return modal_ui;
+}
+
 function update_delete_dialog(p_index, callback) 
 {
   const modal = $(`#case_modal_${p_index}`);
@@ -2019,7 +2049,6 @@ function update_delete_dialog(p_index, callback)
 
   modal_msgs.first().text('Deleting...');
   modal_msgs.last().hide();
-
   modal_icons.first().hide();
   modal_icons.last().show();
 
@@ -2033,16 +2062,11 @@ function update_delete_dialog(p_index, callback)
     const second = date.getSeconds();
     const user_name = document.getElementById('user_logged_in').innerText;
 
+    //callback to actually delete the record
     callback();
 
     modal_icons.parent().hide();
-    modal_msgs
-      .first()
-      .text(
-        `Deleted ${
-          user_name && 'by ' + user_name
-        } ${month}/${day}/${year} ${hour}:${min}:${second}`
-      );
+    modal_msgs.first().text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
     modal_msgs.first().css({
       color: 'red',
       fontWeight: 'bold',
@@ -2050,63 +2074,104 @@ function update_delete_dialog(p_index, callback)
     modal_msgs.last().hide();
     modal_btns.hide();
     modal_btns.last().show();
-  }, 1000);
+  }, 500);
 }
 
-function build_delete_dialog(p_values, p_index) 
+function init_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index) {
+    const oPath = p_object_path;
+    const mPath = p_metadata_path;
+    const index = p_index;
+    const gData = g_data;
+    const modal = build_multirecord_delete_dialog(oPath, mPath, index, gData);
+    const box = $('#content');
+
+    box.append(modal[0]);
+    $(`#record_modal_${index}`).modal("show");
+	$(`#record_modal_${index} .modal-footer .modal-cancel`).focus();
+}
+
+function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index, p_data) {
+    const modal_ui = [];
+    var displayIndex = parseInt(p_index) + 1;
+
+    modal_ui.push(`
+        <div id="record_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="record_modal_label_${p_index}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 id="record_modal_label_${p_index}" class="modal-title">Confirm Delete Record</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body row no-gutters">
+                        <div class="modal-icons col" style="max-width: 40px">
+                            <span class="x40 fill-amber-p cdc-icon-alert_02" aria-hidden="true"></span>
+                            <span class="spinner-container spinner-inline" style="display: none">
+                                <span class="spinner-body text-primary">
+                                <span class="spinner"></span>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="modal-messages col pl-3">
+                            <p>Are you sure you want to delete this record?</p>
+                            <p style="font-size: 18px"><strong>Record ${displayIndex}</strong></p>
+                            <p>Last updated ${p_data.date_last_updated} by ${p_data.last_updated_by}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal" onclick="dispose_all_modals()">Cancel</button>
+                        <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" onclick="update_multirecord_delete_dialog(${p_index}, () => { g_delete_record_item('${p_object_path}', '${p_metadata_path}', '${p_index}') })">Delete</button>
+                        <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" style="display: none" onclick="dispose_all_modals()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    );
+
+    return modal_ui;
+}
+
+function update_multirecord_delete_dialog(p_index, callback) 
 {
-  const modal_ui = [];
+    const modal = $(`#record_modal_${p_index}`);
+    const modal_msgs = modal.find('.modal-messages p');
+    const modal_icons = modal.find('.modal-icons > span');
+    const modal_btns = modal.find('.modal-footer button');
 
-  modal_ui.push(`
-    <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-primary">
-                <h5 id="case_modal_label_${p_index}" class="modal-title">Confirm Delete Case</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body modal-body-1 row no-gutters">
-                <div class="modal-icons">
-                  <span class="x40 fill-amber-p cdc-icon-alert_02" aria-hidden="true"></span>
-                  <span class="spinner-container spinner-inline" style="display: none">
-                    <span class="spinner-body text-primary">
-                      <span class="spinner"></span>
-                    </span>
-                  </span>
-                </div>
-                <div class="modal-messages">
-                  <p>Are you sure you want to delete this case?</p>
-                  <p>
-                    <strong>
-                      ${p_values.value.jurisdiction_id ? `${p_values.value.jurisdiction_id} : ` : ''}
-                      ${p_values.value.last_name       ? `${p_values.value.last_name}` : ''}
-                      ${p_values.value.first_name      ? ` , ${p_values.value.first_name}` : ''}
-                      ${p_values.value.record_id       ? ` - ${p_values.value.record_id}` : ''}
-                      ${p_values.value.agency_case_id  ? ` ac_id: ${p_values.value.agency_case_id}` : ''}
-                    </strong>
-                  </p>
-                  <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal" onclick="dispose_all_modals()">Cancel</button>
-                <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" onclick="update_delete_dialog(${p_index}, () => { delete_record(${p_index}) })">Delete</button>
-                <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" style="display: none" onclick="dispose_all_modals()">OK</button>
-              </div>
-          </div>
-      </div>
-    </div>
-  `);
+    modal_msgs.first().text('Deleting...');
+    modal_msgs.last().hide();
+    modal_icons.first().hide();
+    modal_icons.last().show();
 
-  return modal_ui;
+    setTimeout(() => {
+        const date = new Date();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const second = date.getSeconds();
+        const user_name = document.getElementById('user_logged_in').innerText;
+
+        //callback to actually delete the record
+        callback();
+
+        modal_icons.parent().hide();
+        modal_msgs.first().text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
+        modal_msgs.first().css({
+        color: 'red',
+        fontWeight: 'bold',
+        });
+        modal_msgs.last().hide();
+        modal_btns.hide();
+        modal_btns.last().show();
+    }, 500);
 }
 
 function dispose_all_modals() 
 {
+  $('.modal').modal('hide');
   $('.modal').remove();
   $('.modal-backdrop').remove();
-  $('body').removeClass('modal-open').removeAttr('class');
-  $('body').removeAttr('style');
 }
 
 function delete_record(p_index) 
