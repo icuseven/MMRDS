@@ -1995,6 +1995,19 @@ function init_delete_dialog(p_index, callback)
 function build_delete_dialog(p_values, p_index) 
 {
     const modal_ui = [];
+    const hostState = p_values.value.host_state;
+    const jurisdictionID = p_values.value.jurisdiction_id;
+    const lastName = p_values.value.last_name;
+    const firstName = p_values.value.first_name;
+    const lastUpdatedBy = p_values.value.last_updated_by;
+    const dateLastUpdated = p_values.value.date_last_updated;
+    const mm      = new Date(dateLastUpdated).getMonth() + 1;
+    const dd      = new Date(dateLastUpdated).getDate();
+    const yyyy    = new Date(dateLastUpdated).getFullYear();
+    const h   = new Date(dateLastUpdated).getUTCHours().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCHours().toString() : new Date(dateLastUpdated).getUTCHours().toString();
+    const m = new Date(dateLastUpdated).getUTCMinutes().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMinutes().toString() : new Date(dateLastUpdated).getUTCMinutes().toString();
+    const s = new Date(dateLastUpdated).getUTCSeconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCSeconds().toString() : new Date(dateLastUpdated).getUTCSeconds().toString();
+    const ms = new Date(dateLastUpdated).getUTCMilliseconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMilliseconds().toString() : new Date(dateLastUpdated).getUTCMilliseconds().toString();
 
     modal_ui.push(`
         <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
@@ -2016,15 +2029,17 @@ function build_delete_dialog(p_values, p_index)
                     <div class="modal-messages col pl-3">
                         <p>Are you sure you want to delete this case?</p>
                         <p>
-                        <strong>
-                            ${p_values.value.jurisdiction_id ? `${p_values.value.jurisdiction_id} : ` : ''}
-                            ${p_values.value.last_name       ? `${p_values.value.last_name}` : ''}
-                            ${p_values.value.first_name      ? ` , ${p_values.value.first_name}` : ''}
-                            ${p_values.value.record_id       ? ` - ${p_values.value.record_id}` : ''}
-                            ${p_values.value.agency_case_id  ? ` ac_id: ${p_values.value.agency_case_id}` : ''}
-                        </strong>
+                            <strong>
+                                <span style="display: none;">${hostState ? `${hostState} ` : ''}${jurisdictionID ? `${jurisdictionID}:` : ''}</span>
+                                ${lastName ? lastName : ''}
+                                ${firstName ? `, ${firstName}` : ''}
+                            </strong>
                         </p>
-                        <p>Last updated ${p_values.value.date_last_updated} by ${p_values.value.last_updated_by}</p>
+                        <p>
+                            Last updated: 
+                            ${lastUpdatedBy} 
+                            ${`${mm}/${dd}/${yyyy} ${h}:${m}:${s}`}
+                        </p>
                     </div>
                     </div>
                     <div class="modal-footer">
@@ -2047,33 +2062,44 @@ function update_delete_dialog(p_index, callback)
   const modal_icons = modal.find('.modal-icons > span');
   const modal_btns = modal.find('.modal-footer button');
 
-  modal_msgs.first().text('Deleting...');
-  modal_msgs.last().hide();
-  modal_icons.first().hide();
-  modal_icons.last().show();
+  $(modal_msgs[0]).text('Deleting...');
+  $(modal_msgs[2]).hide();
+  $(modal_icons[0]).hide();
+  $(modal_icons[1]).show();
+//   modal_msgs.first().text('Deleting...');
+//   modal_msgs.last().hide();
+//   modal_icons.first().hide();
+//   modal_icons.last().show();
 
   setTimeout(() => {
     const date = new Date();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const year = date.getFullYear();
-    const hour = date.getHours();
-    const min = date.getMinutes();
-    const second = date.getSeconds();
+    const year = date.getFullYear().toString().length === 1 ? '0' + date.getFullYear().toString() : date.getFullYear().toString();
+    const hour = date.getHours().toString().length === 1 ? '0' + date.getHours().toString() : date.getHours().toString();
+    const min = date.getMinutes().toString().length === 1 ? '0' + date.getMinutes().toString() : date.getMinutes().toString();
+    const second = date.getSeconds().toString().length === 1 ? '0' + date.getSeconds().toString() : date.getSeconds().toString();
     const user_name = document.getElementById('user_logged_in').innerText;
 
     //callback to actually delete the record
     callback();
 
     modal_icons.parent().hide();
-    modal_msgs.first().text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
-    modal_msgs.first().css({
-      color: 'red',
-      fontWeight: 'bold',
-    });
-    modal_msgs.last().hide();
-    modal_btns.hide();
-    modal_btns.last().show();
+    modal_msgs.first().css({color: '#8f0000', fontWeight: 'bold'});
+    $(modal_msgs[0]).text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`).show();
+    $(modal_msgs[1]).find('span').show();
+    $(modal_msgs[2]).hide();
+    modal_btns.hide().last().show();
+
+    // modal_icons.parent().hide();
+    // modal_msgs.first().text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
+    // modal_msgs.first().css({
+    //   color: '#8f0000',
+    //   fontWeight: 'bold',
+    // });
+    // modal_msgs.last().hide();
+    // modal_btns.hide();
+    // modal_btns.last().show();
   }, 500);
 }
 
@@ -2092,7 +2118,16 @@ function init_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index)
 
 function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index, p_data) {
     const modal_ui = [];
-    var displayIndex = parseInt(p_index) + 1;
+    const displayIndex = parseInt(p_index) + 1;
+    const lastUpdatedBy = p_data.last_updated_by;
+    const dateLastUpdated = p_data.date_last_updated;
+    const mm   = new Date(dateLastUpdated).getMonth() + 1;
+    const dd   = new Date(dateLastUpdated).getDate();
+    const yyyy = new Date(dateLastUpdated).getFullYear();
+    const h    = new Date(dateLastUpdated).getUTCHours().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCHours().toString() : new Date(dateLastUpdated).getUTCHours().toString();
+    const m    = new Date(dateLastUpdated).getUTCMinutes().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMinutes().toString() : new Date(dateLastUpdated).getUTCMinutes().toString();
+    const s    = new Date(dateLastUpdated).getUTCSeconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCSeconds().toString() : new Date(dateLastUpdated).getUTCSeconds().toString();
+    const ms   = new Date(dateLastUpdated).getUTCMilliseconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMilliseconds().toString() : new Date(dateLastUpdated).getUTCMilliseconds().toString();
 
     modal_ui.push(`
         <div id="record_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="record_modal_label_${p_index}" aria-hidden="true">
@@ -2114,7 +2149,11 @@ function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index
                         <div class="modal-messages col pl-3">
                             <p>Are you sure you want to delete this record?</p>
                             <p style="font-size: 18px"><strong>Record ${displayIndex}</strong></p>
-                            <p>Last updated ${p_data.date_last_updated} by ${p_data.last_updated_by}</p>
+                            <p>
+                                Last updated: 
+                                ${lastUpdatedBy} 
+                                ${`${mm}/${dd}/${yyyy} ${h}:${m}:${s}`}
+                            </p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -2146,10 +2185,10 @@ function update_multirecord_delete_dialog(p_index, callback)
         const date = new Date();
         const month = date.getMonth() + 1;
         const day = date.getDate();
-        const year = date.getFullYear();
-        const hour = date.getHours();
-        const min = date.getMinutes();
-        const second = date.getSeconds();
+        const year = date.getFullYear().toString().length === 1 ? '0' + date.getFullYear().toString() : date.getFullYear().toString();
+        const hour = date.getHours().toString().length === 1 ? '0' + date.getHours().toString() : date.getHours().toString();
+        const min = date.getMinutes().toString().length === 1 ? '0' + date.getMinutes().toString() : date.getMinutes().toString();
+        const second = date.getSeconds().toString().length === 1 ? '0' + date.getSeconds().toString() : date.getSeconds().toString();
         const user_name = document.getElementById('user_logged_in').innerText;
 
         //callback to actually delete the record
@@ -2158,8 +2197,8 @@ function update_multirecord_delete_dialog(p_index, callback)
         modal_icons.parent().hide();
         modal_msgs.first().text(`Deleted ${user_name && 'by ' + user_name} ${month}/${day}/${year} ${hour}:${min}:${second}`);
         modal_msgs.first().css({
-        color: 'red',
-        fontWeight: 'bold',
+            color: '#8f0000',
+            fontWeight: 'bold',
         });
         modal_msgs.last().hide();
         modal_btns.hide();
