@@ -2031,8 +2031,7 @@ function build_delete_dialog(p_values, p_index)
                         <p>
                             <strong>
                                 <span style="display: none;">${hostState ? `${hostState} ` : ''}${jurisdictionID ? `${jurisdictionID}:` : ''}</span>
-                                ${lastName ? lastName : ''}
-                                ${firstName ? `, ${firstName}` : ''}
+                                ${lastName ? lastName : ''}${firstName ? `, ${firstName}` : ''}
                             </strong>
                         </p>
                         <p>
