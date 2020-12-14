@@ -1058,7 +1058,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                 disabled_html = " ";
             }
             
-            let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
+            let object_id = convert_object_path_to_jquery_id(p_object_path) + '_' +  item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
             let input_html = 
                 `<input 
                     id='${object_id}'
