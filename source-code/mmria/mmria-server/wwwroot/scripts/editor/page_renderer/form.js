@@ -453,9 +453,7 @@ function form_render(
             );
 			for (let i = 0; i < p_data.length; i++) {
 				let item = p_data[i];
-				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join(
-					"/"
-				)}`; // /Case#0/medical_transport/
+				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join("/")}`; // /Case#0/medical_transport/
 				let transportMonth =
 					g_value_to_display_lookup[
 						`/${p_metadata.name}/date_of_transport/month`
@@ -517,9 +515,7 @@ function form_render(
             );
 			for (let i = 0; i < p_data.length; i++) {
 				let item = p_data[i];
-				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join(
-					"/"
-				)}`; // /Case#0/informant_interviews/
+				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join("/")}`; // /Case#0/informant_interviews/
 				let interviewMonth =
 					g_value_to_display_lookup[
 						`/${p_metadata.name}/date_of_interview/month`
@@ -579,9 +575,7 @@ function form_render(
 			p_result.push(p_metadata.name);
 			p_result.push("' class='construct'>");
 
-			p_result.push(
-				"<header data-header='multi-single-form' class='construct__header'>"
-			);
+			p_result.push("<header data-header='multi-single-form' class='construct__header'>");
 
 			render_validation_error_summary(
 				p_result,
@@ -597,14 +591,10 @@ function form_render(
 				p_ctx
 			);
 
-			p_result.push(
-				"<div class='construct__header-main position-relative row no-gutters align-items-start'>"
-			);
+			p_result.push("<div class='construct__header-main position-relative row no-gutters align-items-start'>");
 			p_result.push("<div class='col-4 position-static'>");
 			if (g_data) {
-				p_result.push(
-					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
-				);
+				p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
 				p_result.push(g_data.home_record.last_name);
 				p_result.push(", ");
 				p_result.push(g_data.home_record.first_name);
@@ -612,9 +602,7 @@ function form_render(
 			}
 			if (g_data.home_record.record_id) {
 				p_result.push("<p class='construct__info mb-0'>");
-				p_result.push(
-					"<strong>Record ID:</strong> " + g_data.home_record.record_id
-				);
+				p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
 				p_result.push("</p>");
 			}
 
@@ -639,9 +627,7 @@ function form_render(
 			}
 
 			if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
-				let date_part_display_value = convert_datetime_to_local_display_value(
-					g_data.date_created
-				);
+				let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
 
 				p_result.push(
 					`<p class='construct__info mb-0'>Date created: <span>${
@@ -654,9 +640,7 @@ function form_render(
 				g_data.date_last_updated &&
 				!isNullOrUndefined(g_data.date_last_updated)
 			) {
-				let date_part_display_value = convert_datetime_to_local_display_value(
-					g_data.date_last_updated
-				);
+				let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
 
 				p_result.push(
 					`<p class='construct__info mb-0'>Last updated: <span>${
@@ -757,10 +741,10 @@ function form_render(
 			p_result.push("<div class='construct__footer'>");
 			if (!(g_is_data_analyst_mode || case_is_locked)) {
 				p_result.push(`
-                        <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
-                         <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
-                        <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
-                    `);
+                    <input type='button' class='btn btn-primary ml-3' value='Save & Continue' onclick='init_inline_loader(save_form_click)' ${save_and_continue_disable_attribute}/>
+                        <input type='button' class='btn btn-primary ml-3' value='Save & Finish' onclick='init_inline_loader(save_and_finish_click)' ${save_and_finish_disable_attribute}/>
+                    <input type='button' class='btn btn-primary ml-3' value='Undo' onclick='init_inline_loader(undo_click)' ${undo_disable_attribute}/>
+                `);
 			}
 			p_result.push(
 				'<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>'
@@ -789,14 +773,10 @@ function form_render(
 			p_ctx
 		);
 
-		p_result.push(
-			"<div class='construct__header-main position-relative row no-gutters align-items-start'>"
-		);
+		p_result.push("<div class='construct__header-main position-relative row no-gutters align-items-start'>");
 		p_result.push("<div class='col-4 position-static'>");
 		if (g_data) {
-			p_result.push(
-				"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
-			);
+			p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
 			p_result.push(g_data.home_record.last_name);
 			p_result.push(", ");
 			p_result.push(g_data.home_record.first_name);
@@ -805,9 +785,7 @@ function form_render(
 
 		if (g_data.home_record.record_id) {
 			p_result.push("<p class='construct__info mb-0'>");
-			p_result.push(
-				"<strong>Record ID:</strong> " + g_data.home_record.record_id
-			);
+			p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
 			p_result.push("</p>");
 		}
 
@@ -823,9 +801,7 @@ function form_render(
 		p_result.push("</p>");
 
 		if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
-			p_result.push(
-				`<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
-			);
+			p_result.push(`<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`);
 		}
 
 		if (
@@ -853,9 +829,7 @@ function form_render(
 		}
 
 		if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
-			let date_part_display_value = convert_datetime_to_local_display_value(
-				g_data.date_created
-			);
+			let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_created);
 
 			p_result.push(
 				`<p class='construct__info mb-0'>Date created: <span>${
