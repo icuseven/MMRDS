@@ -15,6 +15,7 @@ namespace mmria.common.metadata
 		public bool? is_core_summary { get; set; } 
 		public bool? is_required { get; set; } 
 		public bool? is_read_only { get; set; } 
+        public bool? is_hidden { get; set; } 
 
 		public bool? is_multiselect{ get; set; } 
 		public bool? is_save_value_display_description { get; set; } 

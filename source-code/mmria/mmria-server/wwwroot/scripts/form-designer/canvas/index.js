@@ -462,7 +462,12 @@ formDesigner = {
           fields,
           function(index, value) 
           {
-            switch(value.type.toLowerCase())
+            if(value.is_hidden != null && value.is_hidden == true)
+            {
+                // do nothing
+                console.log("here");
+            }
+            else switch(value.type.toLowerCase())
             {
               case 'group':
               case 'grid':

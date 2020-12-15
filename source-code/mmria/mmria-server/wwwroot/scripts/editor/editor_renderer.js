@@ -1064,7 +1064,8 @@ function render_attribute_add_control(p_path, node_type)
 	result.push(p_path);
 	result.push('">');
 	result.push('<option></option>');
-	result.push('<option>description</option>');
+    result.push('<option>description</option>');
+    result.push('<option>is_hidden</option>');
 
 	if(node_type.toLowerCase()== "chart")
 	{
@@ -1716,6 +1717,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "is_read_only":
 			case "is_multiselect":
 			case "is_save_value_display_description":
+            case "is_hidden":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
