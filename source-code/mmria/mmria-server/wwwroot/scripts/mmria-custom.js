@@ -133,3 +133,14 @@ $('#content-link, #nav-link').on('click', (event) => {
     focusableElement.focus(); //focus on it
   }
 });
+
+//Convert time string to 24 hour format
+function get24HourFormat(time) { 
+    //we dont care about the date so 1/1/1111 will suffice
+    var t = new Date("1/1/1111 " + time);
+    var hh = t.getHours().toString().length === 1 ? '0' + t.getHours() : t.getHours();
+    var mm = t.getMinutes().toString().length === 1 ? '0' + t.getMinutes() : t.getMinutes();
+    var ss = t.getSeconds().toString().length === 1 ? '0' + t.getSeconds() : t.getSeconds();
+
+    return `${hh}:${mm}:${ss}`;
+}

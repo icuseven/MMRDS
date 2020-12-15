@@ -1994,20 +1994,17 @@ function init_delete_dialog(p_index, callback)
 
 function build_delete_dialog(p_values, p_index) 
 {
-    const modal_ui = [];
-    const hostState = p_values.value.host_state;
-    const jurisdictionID = p_values.value.jurisdiction_id;
-    const lastName = p_values.value.last_name;
-    const firstName = p_values.value.first_name;
-    const lastUpdatedBy = p_values.value.last_updated_by;
-    const dateLastUpdated = p_values.value.date_last_updated;
-    const mm      = new Date(dateLastUpdated).getMonth() + 1;
-    const dd      = new Date(dateLastUpdated).getDate();
-    const yyyy    = new Date(dateLastUpdated).getFullYear();
-    const h   = new Date(dateLastUpdated).getUTCHours().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCHours().toString() : new Date(dateLastUpdated).getUTCHours().toString();
-    const m = new Date(dateLastUpdated).getUTCMinutes().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMinutes().toString() : new Date(dateLastUpdated).getUTCMinutes().toString();
-    const s = new Date(dateLastUpdated).getUTCSeconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCSeconds().toString() : new Date(dateLastUpdated).getUTCSeconds().toString();
-    const ms = new Date(dateLastUpdated).getUTCMilliseconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMilliseconds().toString() : new Date(dateLastUpdated).getUTCMilliseconds().toString();
+    const modal_ui        = [];
+    const hostState       = p_values.value.host_state;
+    const jurisdictionID  = p_values.value.jurisdiction_id;
+    const lastName        = p_values.value.last_name;
+    const firstName       = p_values.value.first_name;
+    const lastUpdatedBy   = p_values.value.last_updated_by;
+    const dateLastUpdated = new Date(p_values.value.date_last_updated);
+    const mm              = dateLastUpdated.getMonth() + 1;
+    const dd              = dateLastUpdated.getDate();
+    const yyyy            = dateLastUpdated.getFullYear();
+    const hhmmss          = get24HourFormat(dateLastUpdated.toLocaleTimeString());
 
     modal_ui.push(`
         <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
@@ -2037,7 +2034,7 @@ function build_delete_dialog(p_values, p_index)
                         <p>
                             Last updated: 
                             ${lastUpdatedBy} 
-                            ${`${mm}/${dd}/${yyyy} ${h}:${m}:${s}`}
+                            ${`${mm}/${dd}/${yyyy} ${hhmmss}`}
                         </p>
                     </div>
                     </div>
@@ -2116,17 +2113,14 @@ function init_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index)
 }
 
 function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index, p_data) {
-    const modal_ui = [];
-    const displayIndex = parseInt(p_index) + 1;
-    const lastUpdatedBy = p_data.last_updated_by;
-    const dateLastUpdated = p_data.date_last_updated;
-    const mm   = new Date(dateLastUpdated).getMonth() + 1;
-    const dd   = new Date(dateLastUpdated).getDate();
-    const yyyy = new Date(dateLastUpdated).getFullYear();
-    const h    = new Date(dateLastUpdated).getUTCHours().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCHours().toString() : new Date(dateLastUpdated).getUTCHours().toString();
-    const m    = new Date(dateLastUpdated).getUTCMinutes().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMinutes().toString() : new Date(dateLastUpdated).getUTCMinutes().toString();
-    const s    = new Date(dateLastUpdated).getUTCSeconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCSeconds().toString() : new Date(dateLastUpdated).getUTCSeconds().toString();
-    const ms   = new Date(dateLastUpdated).getUTCMilliseconds().toString().length === 1 ? '0' + new Date(dateLastUpdated).getUTCMilliseconds().toString() : new Date(dateLastUpdated).getUTCMilliseconds().toString();
+    const modal_ui        = [];
+    const displayIndex    = parseInt(p_index) + 1;
+    const lastUpdatedBy   = p_data.last_updated_by;
+    const dateLastUpdated = new Date(p_data.date_last_updated);
+    const mm              = dateLastUpdated.getMonth() + 1;
+    const dd              = dateLastUpdated.getDate();
+    const yyyy            = dateLastUpdated.getFullYear();
+    const hhmmss          = get24HourFormat(dateLastUpdated.toLocaleTimeString());
 
     modal_ui.push(`
         <div id="record_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="record_modal_label_${p_index}" aria-hidden="true">
@@ -2151,7 +2145,7 @@ function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index
                             <p>
                                 Last updated: 
                                 ${lastUpdatedBy} 
-                                ${`${mm}/${dd}/${yyyy} ${h}:${m}:${s}`}
+                                ${`${mm}/${dd}/${yyyy} ${hhmmss}`}
                             </p>
                         </div>
                     </div>
