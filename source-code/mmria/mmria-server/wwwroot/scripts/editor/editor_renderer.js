@@ -482,7 +482,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
           p_metadata.sass_export_name = "";
         }
 
-        if(p_metadata.sass_export_name == "")
+        if(p_metadata.sass_export_name == "" && p_object_path!= null)
         {
           //g_path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
           
