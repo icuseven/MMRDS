@@ -632,7 +632,7 @@ function execute_command_click()
   var message_area = document.getElementById("fd-messages");
   var cmd_test = document.getElementById("custom-fd-commands").value;
 
-  var valid_command_regex = /^[a-z]{2,5}( -?\d+)?( -?\d+)?$/
+  var valid_command_regex = /^[a-z]{2,6}( -?\d+)?( -?\d+)?$/
 
   if(valid_command_regex.test(cmd_test.trim()))
   {
@@ -696,7 +696,19 @@ function execute_command_click()
           message += "\n\nalign height+ selection";
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_height_selection(true);
-          break;          
+          break;   
+        case "height":
+            message += "\n\set height on selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            if(cmd_text.length > 1)
+            {
+                message += set_height_on_selection(cmd_text[1])
+            }
+            else
+            {
+                message += set_height_on_selection(24);
+            }
+            break;    
         case "ahs":
             message += "\n\nalign height space of selection";
             formDesigner.fdObjectHandler.quickSnap(true);
@@ -1058,6 +1070,36 @@ function align_width_selection(p_is_max_width)
   return result;
 }
 
+
+function set_height_on_selection(p_height_in_px)
+{
+
+  var result = "";
+
+
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length == 1)
+  {
+
+    selected_item_list[0].style.height = p_height_in_px + "px";
+/*
+    for(var i = 1; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.height = p_height_in_px + "px";
+    }*/
+  }
+
+  return result;
+}
 
 function align_height_selection(p_is_max_height)
 {

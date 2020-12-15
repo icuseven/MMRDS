@@ -57,7 +57,9 @@ let fdTemplates = {
             {
                 return '';
             } 
-            else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
+            else if 
+            (
+                value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
             {
                 return '';
             }
@@ -253,7 +255,8 @@ let fdTemplates = {
             },
             label: function (formName, value, p_index) 
             { 
-                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" >${value.prompt}</div>`;
+                //return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" >${value.prompt}</div>`;
+                return '';
             },
             chart: function (formName, value, p_index) 
             { 
