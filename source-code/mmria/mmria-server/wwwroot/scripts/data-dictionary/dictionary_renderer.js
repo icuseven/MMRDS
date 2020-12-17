@@ -276,8 +276,9 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					!(
 						p_metadata.name.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
 						p_metadata.prompt.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
-						file_name.indexOf(p_search_text.trim()) > -1 ||
-						field_name.indexOf(p_search_text.trim()) > -1
+                        (p_metadata.sass_export_name!= null && p_metadata.sass_export_name.toLowerCase().indexOf(p_search_text.trim()) > -1) ||
+                        (file_name!=null && file_name.indexOf(p_search_text.trim()) > -1) ||
+						(field_name!=null && field_name.indexOf(p_search_text.trim()) > -1)
 					)
 				
 				)
