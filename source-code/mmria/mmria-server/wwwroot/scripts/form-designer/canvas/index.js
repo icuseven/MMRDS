@@ -462,7 +462,12 @@ formDesigner = {
           fields,
           function(index, value) 
           {
-            switch(value.type.toLowerCase())
+            if(value.is_hidden != null && value.is_hidden == true)
+            {
+                // do nothing
+                console.log("here");
+            }
+            else switch(value.type.toLowerCase())
             {
               case 'group':
               case 'grid':
@@ -632,7 +637,7 @@ function execute_command_click()
   var message_area = document.getElementById("fd-messages");
   var cmd_test = document.getElementById("custom-fd-commands").value;
 
-  var valid_command_regex = /^[a-z]{2,5}( -?\d+)?( -?\d+)?$/
+  var valid_command_regex = /^[a-z\+]{2,6}( -?\d+)?( -?\d+)?$/
 
   if(valid_command_regex.test(cmd_test.trim()))
   {
@@ -696,7 +701,19 @@ function execute_command_click()
           message += "\n\nalign height+ selection";
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_height_selection(true);
-          break;          
+          break;   
+        case "height":
+            message += "\n\set height on selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            if(cmd_text.length > 1)
+            {
+                message += set_height_on_selection(cmd_text[1])
+            }
+            else
+            {
+                message += set_height_on_selection(24);
+            }
+            break;    
         case "ahs":
             message += "\n\nalign height space of selection";
             formDesigner.fdObjectHandler.quickSnap(true);
@@ -764,6 +781,27 @@ function execute_command_click()
             message += "\n\nselect all container child nodes";
             formDesigner.fdObjectHandler.quickSnap(true);
             message += select_container_child_nodes();
+        break;
+        case "help":
+            message += "ls list selection";
+            message += "all select all";
+            message += "none remove all selections";
+            message += "al align left selection";
+            message += "al+ nalign left+ selection";
+            message += "at align top selection (align to lowest)";
+            message += "at+ align top+ selection (align to highest)";
+            message += "aw align width selection (align to smallest)";
+            message += "aw+ align width+ selection (align to biggest)";
+            message += "ah align height selection (align to smallest)";
+            message += "ah+ align height selection (align to biggest)";
+            
+            message += "ahs ## ## ## align height space of selection";
+            message += "aws ## ## ## align width space of selection";
+            message += "height ## set height default = 24 number is px unit";
+            message += "st or stack stack controls"
+            message += "ro or row - make single row of controls"
+            message += "sac - select all container child nodes"
+            message += "help get list of commands"
         break;
           
             
@@ -1058,6 +1096,36 @@ function align_width_selection(p_is_max_width)
   return result;
 }
 
+
+function set_height_on_selection(p_height_in_px)
+{
+
+  var result = "";
+
+
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length == 1)
+  {
+
+    selected_item_list[0].style.height = p_height_in_px + "px";
+/*
+    for(var i = 1; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.height = p_height_in_px + "px";
+    }*/
+  }
+
+  return result;
+}
 
 function align_height_selection(p_is_max_height)
 {

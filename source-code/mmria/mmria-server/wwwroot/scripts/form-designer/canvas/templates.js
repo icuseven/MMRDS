@@ -57,7 +57,12 @@ let fdTemplates = {
             {
                 return '';
             } 
-            else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
+            else if 
+            (
+                value.type.toLowerCase() === 'hidden' || 
+                value.type.toLowerCase() === 'button' ||
+                (value.is_hidden != null && value.is_hidden == true)
+            ) 
             {
                 return '';
             }
@@ -245,7 +250,11 @@ let fdTemplates = {
             },
             date: function (formName, value) 
             { 
-                return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
+                if(value.is_hidden != null && value.is_hidden == true)
+                {
+                    return '';
+                }
+                else return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
             number: function (formName, value) 
             { 
@@ -253,7 +262,8 @@ let fdTemplates = {
             },
             label: function (formName, value, p_index) 
             { 
-                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" >${value.prompt}</div>`;
+                //return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" >${value.prompt}</div>`;
+                return '';
             },
             chart: function (formName, value, p_index) 
             { 
@@ -276,13 +286,18 @@ let fdTemplates = {
                         else
                         {
                             groupFields += fdTemplates.formFields.prompt(newGroupName, value, index);
-                            if(value.type.toLowerCase() === 'list') 
-                            {
-                                groupFields += fdTemplates.formFields.controls.list(newGroupName, value, index);
-                            }
-                            else if (value.type.toLowerCase() === 'hidden') 
+                            
+                            if 
+                            (
+                                value.type.toLowerCase() === 'hidden' ||
+                                (value.is_hidden != null && value.is_hidden == true)
+                            ) 
                             {
                                 return; // hide do nothing
+                            }
+                            else if(value.type.toLowerCase() === 'list') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.list(newGroupName, value, index);
                             }
                             else if (value.type.toLowerCase() === 'button') 
                             {
