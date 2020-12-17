@@ -2000,10 +2000,11 @@ function build_delete_dialog(p_values, p_index)
     const lastName        = p_values.value.last_name;
     const firstName       = p_values.value.first_name;
     const lastUpdatedBy   = p_values.value.last_updated_by;
+
     const dateLastUpdated = new Date(p_values.value.date_last_updated);
-    const mm              = dateLastUpdated.getMonth() + 1;
-    const dd              = dateLastUpdated.getDate();
-    const yyyy            = dateLastUpdated.getFullYear();
+    const mm              = (dateLastUpdated.getMonth() + 1).toString().length === 1 ? `0${dateLastUpdated.getMonth() + 1}` : dateLastUpdated.getMonth() + 1;
+    const dd              = dateLastUpdated.getDate().toString().length === 1 ? `0${dateLastUpdated.getDate()}` : dateLastUpdated.getDate();
+    const yyyy            = dateLastUpdated.getFullYear().toString().length === 1 ? `0${dateLastUpdated.getFullYear()}` : dateLastUpdated.getFullYear();
     const hhmmss          = get24HourFormat(dateLastUpdated.toLocaleTimeString());
 
     modal_ui.push(`
@@ -2116,10 +2117,11 @@ function build_multirecord_delete_dialog(p_object_path, p_metadata_path, p_index
     const modal_ui        = [];
     const displayIndex    = parseInt(p_index) + 1;
     const lastUpdatedBy   = p_data.last_updated_by;
+    
     const dateLastUpdated = new Date(p_data.date_last_updated);
-    const mm              = dateLastUpdated.getMonth() + 1;
-    const dd              = dateLastUpdated.getDate();
-    const yyyy            = dateLastUpdated.getFullYear();
+    const mm              = (dateLastUpdated.getMonth() + 1).toString().length === 1 ? `0${dateLastUpdated.getMonth() + 1}` : dateLastUpdated.getMonth() + 1;
+    const dd              = dateLastUpdated.getDate().toString().length === 1 ? `0${dateLastUpdated.getDate()}` : dateLastUpdated.getDate();
+    const yyyy            = dateLastUpdated.getFullYear().toString().length === 1 ? `0${dateLastUpdated.getFullYear()}` : dateLastUpdated.getFullYear();
     const hhmmss          = get24HourFormat(dateLastUpdated.toLocaleTimeString());
 
     modal_ui.push(`
