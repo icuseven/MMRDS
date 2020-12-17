@@ -1260,8 +1260,10 @@ button.link {
   width: 100%;
 }
 
-.is-read-only {
+.is-read-only,
+[readonly] {
   background-color: var(--neutral-light);
+  opacity: 1;
 }
 
 /*

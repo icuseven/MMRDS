@@ -828,7 +828,9 @@ function render_search_text_grid_control(p_ctx)
 }
 
 function render_search_text_select_control(p_ctx)
-{   
+{
+    const is_readonly = (p_ctx.metadata.is_read_only != null && p_ctx.metadata.is_read_only == true) || p_ctx.metadata.mirror_reference || p_ctx.is_read_only ? true : false;
+    
     if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx));
@@ -889,7 +891,7 @@ function render_search_text_select_control(p_ctx)
                 p_ctx.result.push(p_ctx.metadata.prompt);
                 p_ctx.result.push("</label>");
             
-                p_ctx.result.push("<select id='");
+                p_ctx.result.push(`<select ${is_readonly ? 'disabled' : ''} id='`);
                 p_ctx.result.push(p_ctx.mmria_path);
                 p_ctx.result.push("' class='custom-select' ");
 
