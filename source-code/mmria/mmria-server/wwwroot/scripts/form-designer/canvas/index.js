@@ -637,7 +637,7 @@ function execute_command_click()
   var message_area = document.getElementById("fd-messages");
   var cmd_test = document.getElementById("custom-fd-commands").value;
 
-  var valid_command_regex = /^[a-z]{2,6}( -?\d+)?( -?\d+)?$/
+  var valid_command_regex = /^[a-z\+]{2,6}( -?\d+)?( -?\d+)?$/
 
   if(valid_command_regex.test(cmd_test.trim()))
   {
@@ -781,6 +781,27 @@ function execute_command_click()
             message += "\n\nselect all container child nodes";
             formDesigner.fdObjectHandler.quickSnap(true);
             message += select_container_child_nodes();
+        break;
+        case "help":
+            message += "ls list selection";
+            message += "all select all";
+            message += "none remove all selections";
+            message += "al align left selection";
+            message += "al+ nalign left+ selection";
+            message += "at align top selection (align to lowest)";
+            message += "at+ align top+ selection (align to highest)";
+            message += "aw align width selection (align to smallest)";
+            message += "aw+ align width+ selection (align to biggest)";
+            message += "ah align height selection (align to smallest)";
+            message += "ah+ align height selection (align to biggest)";
+            
+            message += "ahs ## ## ## align height space of selection";
+            message += "aws ## ## ## align width space of selection";
+            message += "height ## set height default = 24 number is px unit";
+            message += "st or stack stack controls"
+            message += "ro or row - make single row of controls"
+            message += "sac - select all container child nodes"
+            message += "help get list of commands"
         break;
           
             
