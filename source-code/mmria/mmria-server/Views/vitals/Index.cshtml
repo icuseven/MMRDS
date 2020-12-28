@@ -1,0 +1,109 @@
+@using System.Security.Claims;
+@{
+  Layout = "_LayoutBase";
+
+  ViewBag.BreadCrumbs = true;
+  
+  var userName = "";
+  
+  if (User.Identities.Any(u => u.IsAuthenticated))
+  {
+    userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  }
+}
+
+@section HeadScripts
+{
+    <script src="../scripts/mmria.js" type="text/javascript"></script>
+
+    <script src="../scripts/vitals/jsdifflib/diffview.js" type="text/javascript"></script>
+    <script src="../scripts/vitals/jsdifflib/difflib.js" type="text/javascript"></script>
+    <script src="../scripts/vitals/index.js" type="text/javascript"></script>
+
+
+}
+
+<link rel="stylesheet" type="text/css" href="../scripts/vitals/jsdifflib/diffview.css"/>
+
+<style type="text/css">
+body {
+	font-size: 12px;
+	font-family: Sans-Serif;
+}
+h2 {
+	margin: 0.5em 0 0.1em;
+	text-align: center;
+}
+.top {
+	text-align: center;
+}
+.textInput {
+	display: block;
+	width: 49%;
+	float: left;
+}
+textarea {
+	width:100%;
+	height:300px;
+}
+label:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.spacer {
+	margin-left: 10px;
+}
+.viewType {
+	font-size: 16px;
+	clear: both;
+	text-align: center;
+	padding: 1em;
+}
+#diffoutput {
+	width: 100%;
+}
+</style>
+
+<h1 class="top">Vitals</h1>
+<div class="top">
+    <!--strong>Context size (optional):</strong--> <input type="hidden" id="contextSize" value="" />
+</div>
+<div>
+    <select id="list-one-detail" size="5">
+        <option value="metadata" selected="">metadata</option>
+        <option value="ui-specification">ui-specification</option>
+        <option value="validation">validation.jd</option>
+        <option value="mmria_calculations">mmria-check-code.js</option>
+        <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
+        <option value="de-identified-list-cdc">de-identified-list-cdc</option>
+    </select><br/>
+    <input type="radio" name="_viewtype" id="sidebyside" onclick="set_is_inline(0);" checked /> <label for="sidebyside">Side by Side Diff</label>
+    &nbsp; &nbsp;
+    <input type="radio" name="_viewtype" id="inline" onclick="set_is_inline(1);" /> <label for="inline">Inline Diff</label>
+    
+<br/>
+    change log<br/>
+    <textarea id="change_log" readonly cols=200 style="overflow-x: scroll;white-space: pre-wrap;"></textarea>
+    <br/>
+    <input type="button" name="compare_button" value="Create change log" onclick="compare_versions_click()"/>
+
+</div>
+<br/>
+<div class="textInput">
+    <select id="list-one" onchange="source_list_changed(this)"></select>
+    <h2 id="list-one-h2">Base Text</h2>
+    <textarea id="baseText" readonly></textarea>
+</div>
+
+<div class="textInput spacer">
+    <select id="list-two" onchange="source_list_changed(this)"></select>
+    <h2 id="list-two-h2">New Text</h2>
+    <textarea id="newText" readonly></textarea>
+</div>
+
+<div class="viewType">
+</div>
+<div id="diffoutput"> </div>
+

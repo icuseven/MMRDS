@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model mmria.server.model.FileUploadModel  
+
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload_FET"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload_FET" type="file">
+            <span asp-validation-for="FileUpload_FET"></span>
+        </dd>
+    </dl>
+    <dl>
+        <dt>
+            <label asp-for="FileUpload_NAT"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload_NAT" type="file">
+            <span asp-validation-for="FileUpload_NAT"></span>
+        </dd>
+    </dl>
+    <dl>
+        <dt>
+            <label asp-for="FileUpload_MOR"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload_MOR" type="file">
+            <span asp-validation-for="FileUpload_MOR"></span>
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+</form>

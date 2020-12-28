@@ -4,6 +4,7 @@
   var is_guest = true;
   var is_abstractor = false;
   var is_authenticated = false;
+  var is_cdc_analyst = false;
   var is_committee_member = false;
   var is_form_designer = false;
   var userName = "";
@@ -50,6 +51,11 @@
           break;
         case "installation_admin":
           is_installation_admin = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "cdc_analyst":
+          is_cdc_analyst = true;
           is_authenticated = true;
           is_guest = false;
           break;
@@ -241,6 +247,20 @@ else
           <ul>
             <li><a href="/_users">Manage users & jurisdictions</a></li>
             <li><a href="/_config">View configuration</a></li>
+          </ul>
+        </div>
+      </li>
+    }
+
+
+    @if(is_cdc_analyst)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">CDC Analyst</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/vitals">Vital Report</a></li>
+            <li><a href="/vitals/FileUpload">File Upload</a></li>
           </ul>
         </div>
       </li>
