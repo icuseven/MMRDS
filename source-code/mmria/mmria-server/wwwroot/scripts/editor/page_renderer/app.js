@@ -121,112 +121,110 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
     p_result.push("</div>");
     p_result.push(`
-      <table class="table mb-0">
-          <thead class='thead'>
-              <tr class='tr bg-tertiary'>
-                  <th class='th h4' colspan='7' scope='colgroup'>Case Listing</th>
-              </tr>
-          </thead>
-          <thead class='thead'>
-              <tr class='tr'>
-                  <th class='th' scope='col'>Case Information</th>
-                  <th class='th' scope='col'>Case Status</th>
-                  <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
-                  <th class='th' scope='col'>Created</th>
-                  <th class='th' scope='col'>Last Updated</th>
-                  <th class='th' scope='col'>Currently Edited By</th>
-                  ${!g_is_data_analyst_mode ? `<th class='th' scope='col' width='1'>Actions</th>` : ''}
-              </tr>
-          </thead>
-          <tbody class="tbody">
-              ${p_ui.case_view_list.map((item, i) => {
+        <table class="table mb-0">
+            <thead class='thead'>
+                <tr class='tr bg-tertiary'>
+                    <th class='th h4' colspan='7' scope='colgroup'>Case Listing</th>
+                </tr>
+            </thead>
+            <thead class='thead'>
+                <tr class='tr'>
+                    <th class='th' scope='col'>Case Information</th>
+                    <th class='th' scope='col'>Case Status</th>
+                    <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
+                    <th class='th' scope='col'>Created</th>
+                    <th class='th' scope='col'>Last Updated</th>
+                    <th class='th' scope='col'>Currently Edited By</th>
+                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col' width='1'>Actions</th>` : ''}
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                ${p_ui.case_view_list.map((item, i) => {
+                    let is_checked_out = is_case_checked_out(item.value);
+                    let case_is_locked = is_case_view_locked(item.value);
+                    // let checked_out_html = ' [not checked out] ';
+                    let checked_out_html = '';
+                    let delete_enabled_html = ''; 
 
-                let is_checked_out = is_case_checked_out(item.value);
-                let case_is_locked = is_case_view_locked(item.value);
+                    if(case_is_locked || g_is_data_analyst_mode)
+                    {
+                        // checked_out_html = ' [ read only ] ';
+                        checked_out_html = '';
+                        delete_enabled_html = ' disabled = "disabled" ';
+                    }
+                    else if(is_checked_out)
+                    {
+                        // checked_out_html = ' [checked out by you] ';
+                        checked_out_html = '';
+                        delete_enabled_html = ' disabled = "disabled" ';
+                    }
+                    else  if(!is_checked_out_expired(item.value))
+                    {
+                        // checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
+                        checked_out_html = '';
+                        delete_enabled_html = ' disabled = "disabled" ';
+                    }
 
-                // let checked_out_html = ' [not checked out] ';
-                let checked_out_html = '';
-                let delete_enabled_html = ''; 
+                    //TODO: Get/Set dynamically
+                    const caseStatuses = [
+                        'Abstracting (incomplete)',
+                        'Abstraction Complete',
+                        'Ready For Review',
+                        'Review complete and decision entered',
+                        'Out of Scope and death certificate entered',
+                        'False Positive and death certificate entered',
+                        '(blank)'
+                    ]; 
+                    const caseID = item.id;
+                    const hostState = item.value.host_state;
+                    const jurisdictionID = item.value.jurisdiction_id;
+                    const firstName = item.value.first_name;
+                    const lastName = item.value.last_name;
+                    const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
+                    const agencyCaseID = item.value.agency_case_id;
+                    const createdBy = item.value.created_by;
+                    const lastUpdatedBy = item.value.last_updated_by;
+                    const lockedBy = item.value.last_checked_out_by;
+                    const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
+                    const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
+                    const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
+                    
+                    let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+                    let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
+                    if (projectedReviewDate.length < 1 && actualReviewDate.length > 0) projectedReviewDate = '(blank)';
+                    if (projectedReviewDate.length > 0 && actualReviewDate.length < 1) actualReviewDate = '(blank)';
+                    const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
 
-                if(case_is_locked || g_is_data_analyst_mode)
-                {
-                    // checked_out_html = ' [ read only ] ';
-                    checked_out_html = '';
-                    delete_enabled_html = ' disabled = "disabled" ';
-                }
-                else if(is_checked_out)
-                {
-                    // checked_out_html = ' [checked out by you] ';
-                    checked_out_html = '';
-                    delete_enabled_html = ' disabled = "disabled" ';
-                }
-                else  if(!is_checked_out_expired(item.value))
-                {
-                    // checked_out_html = ` [checked out by ${item.value.last_checked_out_by}] `;
-                    checked_out_html = '';
-                    delete_enabled_html = ' disabled = "disabled" ';
-                }
-
-                //TODO: Get/Set dynamically
-                const caseStatuses = [
-                  'Abstracting (incomplete)',
-                  'Abstraction Complete',
-                  'Ready For Review',
-                  'Review complete and decision entered',
-                  'Out of Scope and death certificate entered',
-                  'False Positive and death certificate entered',
-                  '(blank)'
-              ]; 
-                const caseID = item.id;
-                const hostState = item.value.host_state;
-                const jurisdictionID = item.value.jurisdiction_id;
-                const firstName = item.value.first_name;
-                const lastName = item.value.last_name;
-                const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
-                const agencyCaseID = item.value.agency_case_id;
-                const createdBy = item.value.created_by;
-                const lastUpdatedBy = item.value.last_updated_by;
-                const lockedBy = item.value.last_checked_out_by;
-                const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
-                const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
-                const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
-                
-                let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-                let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
-                if (projectedReviewDate.length < 1 && actualReviewDate.length > 0) projectedReviewDate = '(blank)';
-                if (projectedReviewDate.length > 0 && actualReviewDate.length < 1) actualReviewDate = '(blank)';
-                const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
-
-                return (
-                  `<tr class="tr" path="${caseID}">
-                      <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
-                        ${checked_out_html}</td>
-                      <td class="td" scope="col">${currentCaseStatus}</td>
-                      <td class="td">${reviewDates}</td>
-                      <td class="td">${createdBy} - ${dateCreated}</td>
-                      <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-                      <td class="td">
-                        ${is_checked_out ? (`
-                          <span class="icn-info">${lockedBy}</span>
-                        `) : ''}
-                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
-                          <span class="row no-gutters align-items-center">
-                            <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                    return (
+                    `<tr class="tr" path="${caseID}">
+                        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+                            ${checked_out_html}</td>
+                        <td class="td" scope="col">${currentCaseStatus}</td>
+                        <td class="td">${reviewDates}</td>
+                        <td class="td">${createdBy} - ${dateCreated}</td>
+                        <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
+                        <td class="td">
+                            ${is_checked_out ? (`
                             <span class="icn-info">${lockedBy}</span>
-                          </span>
-                        `) : ''}
-                      </td>
-                      ${!g_is_data_analyst_mode ? (
-                          `<td class="td">
-                            <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
-                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
-                            </td>`
-                        ) : ''}
-                    </tr>`
-                  );
-              }).join('')}
-          </tbody>
-      </table>
+                            `) : ''}
+                            ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
+                            <span class="row no-gutters align-items-center">
+                                <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
+                                <span class="icn-info">${lockedBy}</span>
+                            </span>
+                            `) : ''}
+                        </td>
+                        ${!g_is_data_analyst_mode ? (
+                            `<td class="td">
+                                <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
+                                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
+                                </td>`
+                            ) : ''}
+                        </tr>`
+                    );
+                }).join('')}
+            </tbody>
+        </table>
     `);
 
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
@@ -264,8 +262,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         {
             var search_text = p_ui.url_state.path_array[2].replace(/%20/g, " ");
             p_result.push("<section id='field_search_id'>");
-
-
             let is_case_read_only = false;
             let is_checked_out = is_case_checked_out(g_data);
             let case_is_locked = is_case_locked(g_data);
@@ -307,11 +303,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         }
         else
         {
-
             for (var i = 0; i < p_metadata.children.length; i++) 
             {
-            
                 var child = p_metadata.children[i];
+
                 if (child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name) 
                 {
                     if (p_data[child.name] || p_data[child.name] == 0) 
@@ -324,7 +319,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     }
 
                     Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
-
                 }
             }
         }
@@ -464,7 +458,6 @@ function clear_case_search() {
 
     get_case_set();
 }
-
 
 function search_case_status_onchange(p_value)
 {
