@@ -135,7 +135,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Created</th>
                   <th class='th' scope='col'>Last Updated</th>
                   <th class='th' scope='col'>Currently Edited By</th>
-                  <th class='th' scope='col' width='1'>Actions</th>
+                  ${!g_is_data_analyst_mode ? `<th class='th' scope='col' width='1'>Actions</th>` : ''}
               </tr>
           </thead>
           <tbody class="tbody">
@@ -216,10 +216,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                           </span>
                         `) : ''}
                       </td>
-                      <td class="td">
-                        <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
-                        <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
-                      </td>
+                      ${!g_is_data_analyst_mode ? (
+                          `<td class="td">
+                            <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
+                            <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
+                            </td>`
+                        ) : ''}
                     </tr>`
                   );
               }).join('')}
