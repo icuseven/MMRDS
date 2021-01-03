@@ -66,44 +66,6 @@ label:hover {
 }
 </style>
 
-<h1 class="top">Vitals</h1>
-<div class="top">
-    <!--strong>Context size (optional):</strong--> <input type="hidden" id="contextSize" value="" />
-</div>
-<div>
-    <select id="list-one-detail" size="5">
-        <option value="metadata" selected="">metadata</option>
-        <option value="ui-specification">ui-specification</option>
-        <option value="validation">validation.jd</option>
-        <option value="mmria_calculations">mmria-check-code.js</option>
-        <option value="de-identified-list-committe-member">de-identified-list-committe-member</option>
-        <option value="de-identified-list-cdc">de-identified-list-cdc</option>
-    </select><br/>
-    <input type="radio" name="_viewtype" id="sidebyside" onclick="set_is_inline(0);" checked /> <label for="sidebyside">Side by Side Diff</label>
-    &nbsp; &nbsp;
-    <input type="radio" name="_viewtype" id="inline" onclick="set_is_inline(1);" /> <label for="inline">Inline Diff</label>
-    
-<br/>
-    change log<br/>
-    <textarea id="change_log" readonly cols=200 style="overflow-x: scroll;white-space: pre-wrap;"></textarea>
-    <br/>
-    <input type="button" name="compare_button" value="Create change log" onclick="compare_versions_click()"/>
+<h1 class="top">Vitals Load History</h1>
 
-</div>
-<br/>
-<div class="textInput">
-    <select id="list-one" onchange="source_list_changed(this)"></select>
-    <h2 id="list-one-h2">Base Text</h2>
-    <textarea id="baseText" readonly></textarea>
-</div>
-
-<div class="textInput spacer">
-    <select id="list-two" onchange="source_list_changed(this)"></select>
-    <h2 id="list-two-h2">New Text</h2>
-    <textarea id="newText" readonly></textarea>
-</div>
-
-<div class="viewType">
-</div>
-<div id="diffoutput"> </div>
 
