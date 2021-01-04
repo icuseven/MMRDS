@@ -1,69 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model mmria.server.model.FileUploadModel  
+
+@*<link href="scripts/fileupload.js" type="text/css" rel="stylesheet" />*@
+<script src="../scripts/fileupload/fileupload.js" type="text/javascript"></script>
 
 
-
-
-<input type='file' accept='text/*.MOR' onchange='openFile(event)'><br>
-
-<script>
-  var openFile = function(event) {
-    var input = event.target;
-
-    var reader = new FileReader();
-    reader.onload = function(){
-      var dataURL = reader.result;
-      var output = document.getElementById('output');
-      output.value = dataURL;
-    };
-    reader.readAsText(input.files[0]);
-  };
-
-function readmultifiles(files) 
-{
-    let bag = document.getElementById('bag');
-    let ul_list = [];
-    ul_list.push("<ul>");
-    for(let i = 0; i < files.length; i++)
-    {
-        let item = files[i];
-        ul_list.push("<li>");
-        ul_list.push(item.name);
-        ul_list.push("</li>");
-    }
-    ul_list.push("</ul>");
-
-    function readFile(index) 
-    {
-        if( index >= files.length ) return;
-
-        bag.innerHTML = ul_list.join("");
-
-        var file = files[index];
-        var reader = new FileReader(); 
-        reader.onload = function(e) {  
-            // get file content  
-            var bin = e.target.result;
-            // do sth with bin
-            readFile(index+1)
-        }
-        reader.readAsText(file);
-    }
-  readFile(0);
-}
-
-</script>
-
-
-
-<textarea id="mor_output" cols=6000 rows=9> </textarea>
-<textarea id="fet_output" cols=6000 rows=9> </textarea>
-<textarea id="nat_output" cols=6000 rows=9> </textarea>
-
-<input type="file" id="filesx" name="filesx[]" onchange="readmultifiles(this.files)" multiple=""/>
+<input type="file" id="files" name="files[]" onchange="readmultifiles(this.files)" multiple=""/>
     <div id="bag">
         <ul></ul>
     
     </div>
+<br/>
+<hr/>
+MOR:<br/>
+<textarea id="mor_output" cols=6000 rows=9> </textarea>
+
+NAT:<br/>
+<textarea id="fet_output" cols=9000 rows=9> </textarea>
+
+FET:<br/>
+<textarea id="nat_output" cols=6000 rows=9> </textarea>
+<br/>
+
+output:<br/>
+<textarea id="output" cols=6000 rows=9> </textarea>
