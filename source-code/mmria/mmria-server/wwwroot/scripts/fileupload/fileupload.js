@@ -101,9 +101,9 @@ function setup_file_list()
         if
         ( !(
 
-            get_state_from_file_name(g_file_stat_list[0]) &&
-            get_state_from_file_name(g_file_stat_list[1]) &&
-            get_state_from_file_name(g_file_stat_list[2])
+            get_state_from_file_name(g_file_stat_list[0].name) &&
+            get_state_from_file_name(g_file_stat_list[1].name) &&
+            get_state_from_file_name(g_file_stat_list[2].name)
             )
 
         )
@@ -112,7 +112,7 @@ function setup_file_list()
         }
         else
         {
-            g_host_state = g_file_stat_list[0];
+            g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
         }
         
 
@@ -207,12 +207,15 @@ function render_file_list()
     bag.innerHTML = ul_list.join("");
 
     let out = document.getElementById('output');
+    let button = document.getElementById('process');
     if(g_validation_errors.length > 0)
     {
        out.value = g_validation_errors.join("\n");
+       button.disabled = true;
     }
     else
     {
         out.value = g_host_state + " ready to process";
+        button.disabled = false;
     }
 }

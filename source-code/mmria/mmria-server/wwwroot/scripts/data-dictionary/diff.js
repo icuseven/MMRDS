@@ -13,9 +13,9 @@ var g_view1_is_dirty = true;
 var g_view2_is_dirty = true;
 var g_opcode_dictionary = {};
 
-(function() {
+window.onload = function() {
 	get_release_version();
-})()
+}
 
 
 function get_release_version()
@@ -157,12 +157,12 @@ function source_list_changed(p_control)
 
 function compare_versions_click()
 {
-    if(! (g_view_type_is_dirty || g_view1_is_dirty || g_view2_is_dirty)) return;
+    //if(! (g_view_type_is_dirty || g_view1_is_dirty || g_view2_is_dirty)) return;
 
     let v1 = null;
     let v2 = null;
 
-    if(g_view1_is_dirty || g_view2_is_dirty)
+    //if(g_view1_is_dirty || g_view2_is_dirty)
     for(let i = 0; i < g_version_list.length; i++)
     {
         let item = g_version_list[i];
@@ -191,26 +191,74 @@ function compare_versions_click()
 
         //e1.value = v1.metadata;
         //e2.value = v2.metadata;
-        if(g_view1_is_dirty)
+
+        let v1_result = [];
+        let v2_result = [];
+
+        let v1_dictionary = {};
+        let v2_dictionary = {};
+
+        let removed_list = [];
+        let added_list = [];
+
+        //if(g_view1_is_dirty)
         {
             let e1 = document.getElementById("baseText");
             //e1.value = JSON.stringify(JSON.parse(v1.metadata), null, '\t');
-            let v1_result = [];
+            
+            
             const cv1 = JSON.parse(v1.metadata);
-            GetPath(cv1, JSON.parse(v1.metadata), "", v1_result);
+            //GetPath(cv1, JSON.parse(v1.metadata), "", v1_result);
+            GetOnlyPathDictionary(cv1, JSON.parse(v1.metadata), "", v1_dictionary);
+
+            for(let i in v1_dictionary)
+            {
+                if(v1_dictionary.hasOwnProperty(i))
+                {
+                    v1_result.push(i);
+                }            
+            }
+
             e1.value = v1_result.join("\n");
         }
 
-        if(g_view2_is_dirty)
+        //if(g_view2_is_dirty)
         {
             let e2 = document.getElementById("newText");
             //e2.value = JSON.stringify(JSON.parse(v2.metadata), null, '\t');
-            let v2_result = [];
+            
+            
             const cv2 = JSON.parse(v2.metadata);
-            GetPath(cv2, JSON.parse(v2.metadata), "", v2_result);
+            //GetPath(cv2, JSON.parse(v2.metadata), "", v2_result);
+            GetOnlyPathDictionary(cv2, JSON.parse(v2.metadata), "", v2_dictionary);
+
+            for(let i in v2_dictionary)
+            {
+                if(v2_dictionary.hasOwnProperty(i))
+                {
+                    v2_result.push(i);
+                }            
+            }
+
             e2.value = v2_result.join("\n");
         }
 
+
+        removed_list = get_missing(v1_result, v2_result);
+        added_list = get_missing(v2_result, v1_result);
+
+        let intersection = get_intersection(v1_result, v2_result);
+
+        let v1_text = document.getElementById("list-one").value;
+        let v2_text = document.getElementById("list-two").value;
+        document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}
+        number of removed items = ${removed_list.length}
+        ${removed_list.join("\n")}
+        number of added items = ${added_list.length}
+        ${added_list.join("\n")}
+        number of added items = ${added_list.length}
+        ${added_list.join("\n")}`;
+        
         diffUsingJS(g_is_inline);
 
         g_view_type_is_dirty = false;
@@ -316,7 +364,7 @@ function diffUsingJS(viewType)
 
     let v1_text = document.getElementById("list-one").value;
     let v2_text = document.getElementById("list-two").value;
-    document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}\nnumber of changes = ${change_log_list.length}\n${change_log_list.join("\n")}`;
+    //document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}\nnumber of changes = ${change_log_list.length}\n${change_log_list.join("\n")}`;
 
 	diffoutputdiv.innerHTML = "";
 	contextSize = contextSize || null;
@@ -448,6 +496,7 @@ function render_optional_attributes(p_metadata, p_path, p_result)
             case "type":
             case "prompt":
             case "values":
+                
                 break;
             default:
                 p_result.push(p_path + `/${p_metadata.name}:${name_check}=${p_metadata[prop]}`);
@@ -458,9 +507,234 @@ function render_optional_attributes(p_metadata, p_path, p_result)
 
 }
 
+function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
+{
+	for(var prop in p_metadata)
+	{
+		var name_check = prop.toLowerCase();
+		switch(name_check)
+		{
+            case "name":
+            //case "type":
+            //case "prompt":
+                break;
+            case "values":
+                if(p_metadata.path_reference && p_metadata.path_reference != "")
+                {
+                    let key =  p_path + `/${p_metadata.name}:path_reference=${p_metadata.path_reference}`;
+                    p_result.push(key);
+                    /*
+                    metadata_value_list = eval(convert_path_to_lookup_object(p_root_metadata, p_metadata.path_reference));
+                    if(metadata_value_list == null)	
+                    {
+                        metadata_value_list = p_metadata.values;
+                    }
+                    */
+                }
+                else
+                {
+                    var metadata_value_list = p_metadata.values;
+                    for(var i = 0; i < metadata_value_list.length; i++)
+                    {
+                        let key = p_path + `/${p_metadata.name}:List Value[${i}]=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`;
+                        p_result.push(key);
+                    }
+                }
+                break;
+            default:
+                let key = `${p_path}/${p_metadata.name}:${name_check}=${p_metadata[prop]}`;
+                p_result.push(key);
+            break;
+        }
+
+    }
+}
+
 
 
 function convert_change_text_to_mmria_path(p_value)
 {
 
+}
+
+
+
+function get_missing(p_list_1, p_list_2) 
+{
+    var result = [];
+    for(let i = 0; i < p_list_1.length; i++)
+    {
+        const item1 = p_list_1[i].toLowerCase().trim();
+
+        let is_found = false;
+        for(let j = 0; j < p_list_2.length; j++)
+        {
+            const item2 = p_list_2[j].toLowerCase().trim();
+
+            if(item1 == item2)
+            {
+                is_found = true;
+                break;    
+            }
+        }
+
+        if(!is_found)
+        {
+            result.push(item1);
+        }
+    }
+
+    return result;
+}
+
+
+function get_intersection(p_list_1, p_list_2) 
+{
+    var result = [];
+    for(let i = 0; i < p_list_1.length; i++)
+    {
+        const item1 = p_list_1[i].toLowerCase().trim();
+
+        for(let j = 0; j < p_list_2.length; j++)
+        {
+            const item2 = p_list_2[j].toLowerCase().trim();
+
+            if(item1 == item2)
+            {
+                result.push(item1);
+                break;    
+            }
+        }
+
+    }
+
+    return result;
+}
+
+
+function GetOnlyPathDictionary(p_root_metadata, p_metadata, p_path = "", p_result = {})
+{
+    let key;
+    switch(p_metadata.type.toLowerCase())
+    {
+        case 'grid':
+        case 'group':
+        case 'form':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            p_result[key] = true;
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				GetOnlyPathDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'app':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            p_result[key] = true;
+
+            for(let i = 0; i < p_metadata.lookup.length; i++)
+			{
+				let child = p_metadata.lookup[i];
+				GetOnlyPathDictionary(p_root_metadata, child, p_path + `/lookup`, p_result);
+			}
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let child = p_metadata.children[i];
+				GetOnlyPathDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'label':
+        case 'button':
+        case 'boolean':
+        case 'date':
+        case 'datetime':
+        case 'number':
+        case 'string':
+        case 'time':
+        case 'address':
+        case 'textarea':
+        case 'hidden':
+        case 'jurisdiction':
+        case 'yes_no':
+        case 'race':
+        case 'list':
+        case 'chart':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            p_result[key] = true;
+            break;		
+        default:
+                console.log("editor_render not processed", p_metadata);
+            break;
+    }
+}
+
+function GetPathDictionary(p_root_metadata, p_metadata, p_path = "", p_result = {})
+{
+    let key;
+    let attribute_dictionary;
+    switch(p_metadata.type.toLowerCase())
+    {
+        case 'grid':
+        case 'group':
+        case 'form':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            
+            attribute_dictionary  = [];
+            render_optional_attributes(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary.join("\n");
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				GetPathDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+            }
+            p_result[key] = true;
+        break;
+        case 'app':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            
+            attribute_dictionary  = [];
+            render_optional_attributes(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary.join("\n");
+
+            for(let i = 0; i < p_metadata.lookup.length; i++)
+			{
+				let child = p_metadata.lookup[i];
+				GetPathDictionary(p_root_metadata, child, p_path + `/lookup`, p_result);
+			}
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let child = p_metadata.children[i];
+				GetPathDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'label':
+        case 'button':
+        case 'boolean':
+        case 'date':
+        case 'datetime':
+        case 'number':
+        case 'string':
+        case 'time':
+        case 'address':
+        case 'textarea':
+        case 'hidden':
+        case 'jurisdiction':
+        case 'yes_no':
+        case 'race':
+        case 'list':
+        case 'chart':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+           
+            attribute_dictionary  = [];
+            render_optional_attributes(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary.join("\n");
+            break;		
+        default:
+                console.log("editor_render not processed", p_metadata);
+            break;
+    }
 }
