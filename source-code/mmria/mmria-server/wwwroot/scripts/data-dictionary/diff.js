@@ -194,13 +194,19 @@ function compare_versions_click()
 
         let v1_result = [];
         let v2_result = [];
+        
 
         let v1_dictionary = {};
         let v2_dictionary = {};
 
+        let v1_ddictionary = {};
+        let v2_ddictionary = {};
+        
+
         let removed_list = [];
         let added_list = [];
-
+        let items_changed = [];
+        
         //if(g_view1_is_dirty)
         {
             let e1 = document.getElementById("baseText");
@@ -210,7 +216,8 @@ function compare_versions_click()
             const cv1 = JSON.parse(v1.metadata);
             //GetPath(cv1, JSON.parse(v1.metadata), "", v1_result);
             GetOnlyPathDictionary(cv1, JSON.parse(v1.metadata), "", v1_dictionary);
-
+            GetPathDictionary(cv1, JSON.parse(v1.metadata), "", v1_ddictionary);
+            
             for(let i in v1_dictionary)
             {
                 if(v1_dictionary.hasOwnProperty(i))
@@ -231,6 +238,7 @@ function compare_versions_click()
             const cv2 = JSON.parse(v2.metadata);
             //GetPath(cv2, JSON.parse(v2.metadata), "", v2_result);
             GetOnlyPathDictionary(cv2, JSON.parse(v2.metadata), "", v2_dictionary);
+            GetPathDictionary(cv2, JSON.parse(v2.metadata), "", v2_ddictionary);
 
             for(let i in v2_dictionary)
             {
@@ -247,7 +255,25 @@ function compare_versions_click()
         removed_list = get_missing(v1_result, v2_result);
         added_list = get_missing(v2_result, v1_result);
 
+        
+        
+        
+
+
         let intersection = get_intersection(v1_result, v2_result);
+
+        for(let i = 0; i < intersection.length; i++)
+        {
+            const key = intersection[i];
+            if
+            (
+                v1_ddictionary.hasOwnProperty(key) &&
+                v1_ddictionary[key] != v2_ddictionary[key]
+            )
+            {
+                items_changed.push(key);
+            }
+        }
 
         let v1_text = document.getElementById("list-one").value;
         let v2_text = document.getElementById("list-two").value;
@@ -257,7 +283,11 @@ function compare_versions_click()
         number of added items = ${added_list.length}
         ${added_list.join("\n")}
         number of added items = ${added_list.length}
-        ${added_list.join("\n")}`;
+        ${added_list.join("\n")}
+        number of changed items = ${items_changed.length}
+        ${items_changed.join("\n")}`;
+        
+
         
         diffUsingJS(g_is_inline);
 
