@@ -97,19 +97,19 @@ label:hover {
 <br/>
 <div class="textInput">
     <h2 id="list-one-h2">Base Text</h2>
-    <textarea id="baseText" readonly></textarea>
+    <textarea id="baseText" readonly style="display:none"></textarea>
 </div>
 
 <div class="textInput spacer">
     <h2 id="list-two-h2">New Text</h2>
-    <textarea id="newText" readonly></textarea>
+    <textarea id="newText" readonly style="display:none"></textarea>
 </div>
 
-    <input type="radio" name="_viewtype" id="sidebyside" onclick="set_is_inline(0);" checked /> <label for="sidebyside">Side by Side Diff</label>
+    <input type="radio" name="_viewtype" id="sidebyside" onclick="set_is_inline(0);" checked style="display:none" /> <label for="sidebyside" style="display:none">Side by Side Diff</label>
     &nbsp; &nbsp;
-    <input type="radio" name="_viewtype" id="inline" onclick="set_is_inline(1);" /> <label for="inline">Inline Diff</label>
+    <input type="radio" name="_viewtype" id="inline" onclick="set_is_inline(1);" style="display:none" /> <label for="inline" style="display:none">Inline Diff</label>
    
 <div class="viewType">
 </div>
-<div id="diffoutput"> </div>
+<div id="diffoutput" style="display:none"> </div>
 
