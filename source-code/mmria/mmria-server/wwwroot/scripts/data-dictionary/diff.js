@@ -202,6 +202,8 @@ function compare_versions_click()
         let v1_ddictionary = {};
         let v2_ddictionary = {};
         
+        let v1_3ddictionary = {};
+        let v2_3ddictionary = {};
 
         let removed_list = [];
         let added_list = [];
@@ -217,7 +219,7 @@ function compare_versions_click()
             //GetPath(cv1, JSON.parse(v1.metadata), "", v1_result);
             GetOnlyPathDictionary(cv1, JSON.parse(v1.metadata), "", v1_dictionary);
             GetPathDictionary(cv1, JSON.parse(v1.metadata), "", v1_ddictionary);
-            
+            GetPathDDictionary(cv1, JSON.parse(v1.metadata), "", v1_3ddictionary);
             for(let i in v1_dictionary)
             {
                 if(v1_dictionary.hasOwnProperty(i))
@@ -239,7 +241,7 @@ function compare_versions_click()
             //GetPath(cv2, JSON.parse(v2.metadata), "", v2_result);
             GetOnlyPathDictionary(cv2, JSON.parse(v2.metadata), "", v2_dictionary);
             GetPathDictionary(cv2, JSON.parse(v2.metadata), "", v2_ddictionary);
-
+            GetPathDDictionary(cv2, JSON.parse(v2.metadata), "", v2_3ddictionary);
             for(let i in v2_dictionary)
             {
                 if(v2_dictionary.hasOwnProperty(i))
@@ -275,9 +277,13 @@ function compare_versions_click()
             }
         }
 
+        let output = [];
+
+
+
         let v1_text = document.getElementById("list-one").value;
         let v2_text = document.getElementById("list-two").value;
-        document.getElementById("change_log").value = `comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}
+        output.push(`comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}
         number of removed items = ${removed_list.length}
         ${removed_list.join("\n")}
         number of added items = ${added_list.length}
@@ -285,7 +291,15 @@ function compare_versions_click()
         number of added items = ${added_list.length}
         ${added_list.join("\n")}
         number of changed items = ${items_changed.length}
-        ${items_changed.join("\n")}`;
+        ${items_changed.join("\n")}`);
+
+        output.push("Details\n");
+        for(let i = 0; i < items_changed.length; i++)
+        {
+            
+        }
+
+        document.getElementById("change_log").value = output.join("");
         
 
         
@@ -296,6 +310,14 @@ function compare_versions_click()
         g_view2_is_dirty = false;
 
     }
+}
+
+function get_changes()
+{
+    let result = [[],[],[]];
+
+
+    return result;
 }
 
 function diffUsingJS(viewType) 
@@ -552,7 +574,7 @@ function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
                 if(p_metadata.path_reference && p_metadata.path_reference != "")
                 {
                     let key =  p_path + `/${p_metadata.name}:path_reference=${p_metadata.path_reference}`;
-                    p_result.push(key);
+                    p_result[key] = true;
                     /*
                     metadata_value_list = eval(convert_path_to_lookup_object(p_root_metadata, p_metadata.path_reference));
                     if(metadata_value_list == null)	
@@ -567,13 +589,13 @@ function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
                     for(var i = 0; i < metadata_value_list.length; i++)
                     {
                         let key = p_path + `/${p_metadata.name}:List Value[${i}]=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`;
-                        p_result.push(key);
+                        p_result[key] = true;
                     }
                 }
                 break;
             default:
                 let key = `${p_path}/${p_metadata.name}:${name_check}=${p_metadata[prop]}`;
-                p_result.push(key);
+                p_result[key] = true;
             break;
         }
 
@@ -720,7 +742,7 @@ function GetPathDictionary(p_root_metadata, p_metadata, p_path = "", p_result = 
 				var child = p_metadata.children[i];
 				GetPathDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
             }
-            p_result[key] = true;
+        
         break;
         case 'app':
             key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
@@ -762,6 +784,76 @@ function GetPathDictionary(p_root_metadata, p_metadata, p_path = "", p_result = 
             attribute_dictionary  = [];
             render_optional_attributes(p_metadata, p_path, attribute_dictionary);
             p_result[key] = attribute_dictionary.join("\n");
+            break;		
+        default:
+                console.log("editor_render not processed", p_metadata);
+            break;
+    }
+}
+
+
+function GetPathDDictionary(p_root_metadata, p_metadata, p_path = "", p_result = {})
+{
+    let key;
+    let attribute_dictionary;
+    switch(p_metadata.type.toLowerCase())
+    {
+        case 'grid':
+        case 'group':
+        case 'form':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            
+            attribute_dictionary  = {};
+            render_optional_attributes_to_dictionary(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary;
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				GetPathDDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+            }
+            
+        break;
+        case 'app':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+            
+            attribute_dictionary  = {};
+            render_optional_attributes_to_dictionary(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary;
+
+            for(let i = 0; i < p_metadata.lookup.length; i++)
+			{
+				let child = p_metadata.lookup[i];
+				GetPathDDictionary(p_root_metadata, child, p_path + `/lookup`, p_result);
+			}
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let child = p_metadata.children[i];
+				GetPathDDictionary(p_root_metadata, child, p_path + `/${p_metadata.name}`, p_result);
+			}
+        break;
+        case 'label':
+        case 'button':
+        case 'boolean':
+        case 'date':
+        case 'datetime':
+        case 'number':
+        case 'string':
+        case 'time':
+        case 'address':
+        case 'textarea':
+        case 'hidden':
+        case 'jurisdiction':
+        case 'yes_no':
+        case 'race':
+        case 'list':
+        case 'chart':
+            key =  `${p_path}/${p_metadata.name}:type=${p_metadata.type}`;
+           
+            attribute_dictionary  = {};
+            render_optional_attributes_to_dictionary(p_metadata, p_path, attribute_dictionary);
+            p_result[key] = attribute_dictionary;
             break;		
         default:
                 console.log("editor_render not processed", p_metadata);
