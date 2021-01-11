@@ -284,19 +284,84 @@ function compare_versions_click()
         let v1_text = document.getElementById("list-one").value;
         let v2_text = document.getElementById("list-two").value;
         output.push(`comparing versions: ${v1_text.replace("version_specification-", "")} => ${v2_text.replace("version_specification-", "")}
+        Summary:
+        number of removed items = ${removed_list.length}
+        number of added items = ${added_list.length}       
+        number of changed items = ${items_changed.length}
+        
+        Details:
         number of removed items = ${removed_list.length}
         ${removed_list.join("\n")}
         number of added items = ${added_list.length}
-        ${added_list.join("\n")}
-        number of added items = ${added_list.length}
-        ${added_list.join("\n")}
+        ${added_list.join("\n")}`);
+        /*
         number of changed items = ${items_changed.length}
         ${items_changed.join("\n")}`);
+*/
 
-        output.push("Details\n");
+        
+        output.push("Changed Details\n");
         for(let i = 0; i < items_changed.length; i++)
         {
+            removed_list = [];
+            added_list = [];
+
+            let change_list = [];
+
+            const key = items_changed[i];
+            output.push(key + "\n");
+
             
+            const pre_key_array = key.split("=");
+            const pre_key = pre_key_array[0];
+
+            if(v1_3ddictionary[key] && v2_3ddictionary[key])
+            {
+                let d1 = v1_3ddictionary[key];
+                let d2 = v2_3ddictionary[key];
+                for(let j in d1)
+                {
+                    if(d1[j])
+                    {
+                        if(!d2[j])
+                        {
+                            removed_list.push(j);
+                            output.push("\tremoved " + key + "\n");
+                        }
+                    }
+                }
+
+                for(let j in d2)
+                {
+                    if(d2[j])
+                    {
+                        if(!d1[j])
+                        {
+                            added_list.push(j);
+                            output.push("\tadded " + key + "\n");
+                        }
+                    }
+                }
+
+
+                for(let j in d2)
+                {
+                    if(d2[j] && d1[j])
+                    {
+                        if(d1[j]!=d2[j])
+                        {
+                            //added_list.push(j);
+                            output.push(`\t changed ${key}: ${d1[j]} => ${d2[j]}\n`);
+                        }
+                    }
+                }
+
+                //console.log("here");
+            }
+            else
+            {
+                //console.log("there");
+            }
         }
 
         document.getElementById("change_log").value = output.join("");
@@ -573,8 +638,8 @@ function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
             case "values":
                 if(p_metadata.path_reference && p_metadata.path_reference != "")
                 {
-                    let key =  p_path + `/${p_metadata.name}:path_reference=${p_metadata.path_reference}`;
-                    p_result[key] = true;
+                    let key =  p_path + `/${p_metadata.name}:path_reference`;
+                    p_result[key] = p_metadata.path_reference;
                     /*
                     metadata_value_list = eval(convert_path_to_lookup_object(p_root_metadata, p_metadata.path_reference));
                     if(metadata_value_list == null)	
@@ -588,14 +653,14 @@ function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
                     var metadata_value_list = p_metadata.values;
                     for(var i = 0; i < metadata_value_list.length; i++)
                     {
-                        let key = p_path + `/${p_metadata.name}:List Value[${i}]=${metadata_value_list[i].value}, ${metadata_value_list[i].display}`;
-                        p_result[key] = true;
+                        let key = p_path + `/${p_metadata.name}:List Value[${i}]`;
+                        p_result[key] = `${metadata_value_list[i].value}, ${metadata_value_list[i].display}`;
                     }
                 }
                 break;
             default:
-                let key = `${p_path}/${p_metadata.name}:${name_check}=${p_metadata[prop]}`;
-                p_result[key] = true;
+                let key = `${p_path}/${p_metadata.name}:${name_check}`;
+                p_result[key] = p_metadata[prop];
             break;
         }
 
