@@ -46,13 +46,22 @@ function readmultifiles(files)
 
         window.setTimeout(setup_file_list, 9000);
     }
- 
-
-
-
-
-
 }
+
+
+window.onload = function()
+{
+    let process_button = document.getElementById("process");
+    process_button.onclick = process_button_click;
+    process_button.disabled = true;
+}
+
+
+function process_button_click()
+{
+    alert("wired up");
+}
+
 function setup_file_list()
 {
     g_host_state = null;

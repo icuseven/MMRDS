@@ -27,4 +27,23 @@ namespace mmria.server.model
         [Display(Name = "MOR File Upload: ")]
         public IFormFile FileUpload_MOR { get; set; }
     }
+
+
+    public class NewIJESet_Message
+    {
+        public string mor { get; set; }
+
+        public string nat { get; set; }
+
+        public string fet { get; set; }
+    }
+
+    public class NewIJESet_MessageResponse
+    {
+        public string batch_id { get; set; }
+
+        public bool ok { get; set; }
+
+        public string detail { get; set; }
+    }
 }
