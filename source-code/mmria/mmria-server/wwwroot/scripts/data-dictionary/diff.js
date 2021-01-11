@@ -326,7 +326,7 @@ function compare_versions_click()
                         if(!d2[j])
                         {
                             removed_list.push(j);
-                            output.push("\tremoved " + key + "\n");
+                            output.push(`\tremoved ${key} ${j}: ${d1[j]}\n`);
                         }
                     }
                 }
@@ -338,7 +338,7 @@ function compare_versions_click()
                         if(!d1[j])
                         {
                             added_list.push(j);
-                            output.push("\tadded " + key + "\n");
+                            output.push(`\tadded ${key} ${j}: ${d2[j]}\n`);
                         }
                     }
                 }
@@ -346,13 +346,27 @@ function compare_versions_click()
 
                 for(let j in d2)
                 {
-                    if(d2[j] && d1[j])
+                    switch(j)
                     {
-                        if(d1[j]!=d2[j])
+                        case "/mmria:_rev":
+                        case "/mmria:global":
+                        case "/mmria:_attachments":
+
+                        break;
+                        default:
+                        if(d2[j] && d1[j])
                         {
-                            //added_list.push(j);
-                            output.push(`\t changed ${key}: ${d1[j]} => ${d2[j]}\n`);
+                            if
+                            (
+                                d1[j]!=d2[j] && 
+                                !(Array.isArray(d1[j]) || Array.isArray(d2[j]))
+                            )
+                            {
+                                //added_list.push(j);
+                                output.push(`\t changed ${j}: ${d1[j]} => ${d2[j]}\n`);
+                            }
                         }
+                        break;
                     }
                 }
 
@@ -653,7 +667,7 @@ function render_optional_attributes_to_dictionary(p_metadata, p_path, p_result)
                     var metadata_value_list = p_metadata.values;
                     for(var i = 0; i < metadata_value_list.length; i++)
                     {
-                        let key = p_path + `/${p_metadata.name}:List Value[${i}]`;
+                        let key = p_path + `/${p_metadata.name}:ListItem${i}`;
                         p_result[key] = `${metadata_value_list[i].value}, ${metadata_value_list[i].display}`;
                     }
                 }
