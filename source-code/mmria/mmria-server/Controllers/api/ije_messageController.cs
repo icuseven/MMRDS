@@ -18,7 +18,7 @@ namespace mmria.server
 	public class ije_messageController: ControllerBase 
 	{ 
 		
-		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
+		[Authorize(Roles  = "cdc_analyst")]
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
 		{ 
@@ -35,9 +35,9 @@ namespace mmria.server
                     //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
                     //var messge_curl_result = await message_curl.executeAsync();
 
-				string user_db_url = "https://localhost:44331/api/Message/IJESet";
+				string user_db_url = "http://localhost:44331/api/Message/IJESet";
 
-				var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+				var user_curl = new cURL("PUT", null, user_db_url, object_string);
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
 

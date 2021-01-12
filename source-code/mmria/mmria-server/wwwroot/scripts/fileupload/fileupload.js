@@ -59,7 +59,7 @@ window.onload = function()
 
 function process_button_click()
 {
-    alert("wired up");
+    send_ije_set();
 }
 
 function setup_file_list()
@@ -150,7 +150,7 @@ function setup_file_list()
 
     g_file_stat_list = temp;
     g_content_list = temp_contents;
-
+    
     render_file_list()
 
     return result;
@@ -227,4 +227,31 @@ function render_file_list()
         out.value = g_host_state + " ready to process";
         button.disabled = false;
     }
+}
+
+function send_ije_set()
+{
+
+    let data = {
+        mor: g_content_list[0],
+        nat: g_content_list[1],
+        fet: g_content_list[2]
+    };
+
+    $.ajax({
+        url: location.protocol + '//' + location.host + '/api/ije_message',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(data),
+        type: "POST"
+    }).done(function(response) 
+    {
+        var response_obj = eval(response);
+        if(response_obj.ok)
+        {
+            console.log("IJE File sent", response);
+
+        }
+        
+    });
 }
