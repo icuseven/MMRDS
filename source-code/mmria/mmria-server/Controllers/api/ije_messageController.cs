@@ -50,6 +50,8 @@ namespace mmria.server
 			catch(Exception ex) 
 			{
 				Console.WriteLine (ex);
+                result.detail = ex.Message;
+                
 			}
 
 			return result;

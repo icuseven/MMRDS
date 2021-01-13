@@ -246,12 +246,19 @@ function send_ije_set()
         type: "POST"
     }).done(function(response) 
     {
+        let out = document.getElementById('output');
         var response_obj = eval(response);
         if(response_obj.ok)
         {
-            console.log("IJE File sent", response);
+            out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
 
         }
+        else
+        {
+            out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
+        }
         
+        let button = document.getElementById('process');
+        button.disabled = true;
     });
 }
