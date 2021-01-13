@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using Serilog;
 
 namespace mmria.services
 {
@@ -24,6 +25,9 @@ namespace mmria.services
         public static string config_timer_value;
         public static string config_cron_schedule;
         public static string config_export_directory;
+
+
+        public static string config_vitals_url;
 
         public static string app_instance_name;
 
@@ -72,14 +76,86 @@ namespace mmria.services
         
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            try
+            {
+                configuration = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .AddUserSecrets<Startup>()
+                .Build();
+
+
+/*
+               var Email = new mmria.server.util.email.Email();
+               Email.Body = "This is a MMRIA test";
+               Email.From = configuration["mmria_settings:EMAIL_FROM"];
+               Email.To = new List<string>(){"jhaines@brightnoise.net"};
+               Email.Subject = "Test Subject";
+               bool success = new mmria.server.util.email.Email_Handler(configuration).SendMessage(Email);
+  */
+
+                if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
+                {
+                    Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                    Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+                }
+                else 
+                {
+                    Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+                    Program.config_export_directory = configuration["mmria_settings:export_directory"];
+                }
+
+
+                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
+                {
+                    try
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .WriteTo.File(System.IO.Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+                    }
+                    catch(System.Exception ex)
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .CreateLogger();    
+                    }
+
+                }
+                else
+                {
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
+                    .CreateLogger();    
+                }
+            
+
+                var host = CreateHostBuilder(args).Build();
+/*
+                var host = Host.CreateDefaultBuilder(args)
+                    .UseStartup<Startup>()
+                    .UseUrls(Program.config_web_site_url)
+                    .Build();
+*/
+
+            
+                host.Run();
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine($"MMRIA Server error: ${ex}");
+            }    
+
+            //CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                    .UseUrls(Program.config_web_site_url);
                 });
 
 

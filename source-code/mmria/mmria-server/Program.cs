@@ -118,6 +118,8 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
 
         public static bool is_db_check_enabled = false;
 
+        public static string config_vitals_url;
+        
         public static int config_pass_word_minimum_length = 8;
         public static int config_pass_word_days_before_expires = 0;
         public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;

@@ -98,7 +98,10 @@ namespace mmria.server
         Program.config_cdc_instance_pull_db_url = Configuration["mmria_settings:cdc_instance_pull_db_url"];
       }
 
-
+        if (!string.IsNullOrEmpty(Configuration["mmria_settings:vitals_url"]))
+        {
+            Program.config_vitals_url = Configuration["mmria_settings:vitals_url"];
+        }
 
 
 
@@ -175,6 +178,14 @@ namespace mmria.server
         Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_minimum_length")) ? 8 : int.Parse(System.Environment.GetEnvironmentVariable("password_minimum_length"));
         Program.config_pass_word_days_before_expires = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_days_before_expires")) ? 0 : int.Parse(System.Environment.GetEnvironmentVariable("password_days_before_expires"));
         Program.config_pass_word_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration")) ? 0 : int.Parse(System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration"));
+
+       
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("vitals_url")))
+        {
+            Configuration["mmria_settings:vitals_url"] = System.Environment.GetEnvironmentVariable("vitals_url");
+            Program.config_vitals_url = System.Environment.GetEnvironmentVariable("vitals_url");
+        }
+
 
         if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("sams_endpoint_authorization")))
         {

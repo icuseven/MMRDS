@@ -80,6 +80,11 @@ namespace mmria.services
             }
 
 
+            if (!string.IsNullOrEmpty(Configuration["mmria_settings:vitals_url"]))
+            {
+                Program.config_vitals_url = Configuration["mmria_settings:vitals_url"];
+            }
+
 
 
 
@@ -175,6 +180,11 @@ namespace mmria.services
                 Program.metadata_release_version_name = System.Environment.GetEnvironmentVariable("metadata_version");
                 }
 
+                if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("vitals_url")))
+                {
+                    Configuration["mmria_settings:vitals_url"] = System.Environment.GetEnvironmentVariable("vitals_url");
+                    Program.config_vitals_url = System.Environment.GetEnvironmentVariable("vitals_url");
+                }
 
                 if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("sams_endpoint_token")))
                 {
@@ -302,8 +312,28 @@ namespace mmria.services
             Log.Information("mmria_settings:app_instance_name: {0}", Configuration["mmria_settings:app_instance_name"]);
             Log.Information("mmria_settings:session_idle_timeout_minutes: {0}", Configuration["mmria_settings:session_idle_timeout_minutes"]);
             Log.Information("Program.config_session_idle_timeout_minutes: {0}", Program.config_session_idle_timeout_minutes);
+/*
+var config = ConfigurationFactory.ParseString(@"
+akka.remote.dot-netty.tcp {
+    transport-class = ""Akka.Remote.Transport.DotNetty.DotNettyTransport, Akka.Remote""
+    transport-protocol = tcp
+    port = 8091
+    hostname = ""127.0.0.1""
+}");
 
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system");
+var system = ActorSystem.Create("MyActorSystem", config);
+*/
+
+            var config = Akka.Configuration.ConfigurationFactory.ParseString(@"
+            akka.remote.dot-netty.tcp {
+                transport-class = ""Akka.Remote.Transport.DotNetty.DotNettyTransport, Akka.Remote""
+                transport-protocol = tcp
+                port = 8091
+                hostname = ""127.0.0.1""
+            }");
+
+
+            Program.actorSystem = ActorSystem.Create("mmria-actor-system", config);
             services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
@@ -321,7 +351,7 @@ namespace mmria.services
             ITrigger trigger = TriggerBuilder.Create()
             .WithIdentity("trigger1", "group1")
             .StartAt(runTime.AddMinutes(3))
-            .WithCronSchedule(Configuration["mmria_settings:config_cron_schedule"])
+            .WithCronSchedule(Configuration["mmria_settings:cron_schedule"])
             .Build();
 
             sched.ScheduleJob(job, trigger);

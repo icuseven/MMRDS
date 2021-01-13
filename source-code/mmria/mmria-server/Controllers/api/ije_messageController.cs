@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -17,6 +18,11 @@ namespace mmria.server
 	[Route("api/[controller]")]
 	public class ije_messageController: ControllerBase 
 	{ 
+        IConfiguration configuration;
+        public ije_messageController(IConfiguration p_configuration)
+        {
+            configuration = p_configuration;
+        }
 		
 		[Authorize(Roles  = "cdc_analyst")]
 		[HttpPost]
@@ -35,7 +41,7 @@ namespace mmria.server
                     //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
                     //var messge_curl_result = await message_curl.executeAsync();
 
-				string user_db_url = "http://localhost:44331/api/Message/IJESet";
+				string user_db_url = configuration["mmria_settings:vitals_url"];
 
 				var user_curl = new cURL("PUT", null, user_db_url, object_string);
 				var responseFromServer = await user_curl.executeAsync();
