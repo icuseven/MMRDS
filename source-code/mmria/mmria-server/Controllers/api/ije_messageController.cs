@@ -88,36 +88,6 @@ namespace mmria.server
 		{ 
             IList<mmria.server.vitals.Batch> result = null;
 
-            /*
-			try
-			{
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
-
-                if (!string.IsNullOrWhiteSpace (case_id)) 
-                {
-                    request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-					var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-					string responseFromServer = await case_curl.executeAsync();
-
-					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
-
-					if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadCase, result))
-					{
-						return result;
-					}
-					else
-					{
-						return null;
-					}
-
-                } 
-
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
-			} */
-
             try
 			{
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
@@ -137,6 +107,32 @@ namespace mmria.server
                 
 			}
 
+
+			return result;
+		}
+
+        [Authorize(Roles  = "cdc_analyst")]
+		[HttpDelete]
+		public async Task<IList<mmria.server.vitals.Batch>> Delete() 
+		{ 
+            IList<mmria.server.vitals.Batch> result = null;
+            try
+			{
+                //var localUrl = "https://localhost:44331/api/Message/IJESet";
+                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+                //var messge_curl_result = await message_curl.executeAsync();
+
+				string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
+
+				var user_curl = new cURL("DELETE", null, user_db_url, null);
+				var responseFromServer = await user_curl.executeAsync();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.server.vitals.Batch>>(responseFromServer);
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
 
 			return result;
 		}
