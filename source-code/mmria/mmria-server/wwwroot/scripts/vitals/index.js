@@ -1,6 +1,6 @@
 'use strict';
 
-var g_metadata = null;
+var g_batch_list = [];
 var g_release_version = null;
 var g_release_version_specification = null;
 var g_selected_version = null;
@@ -13,33 +13,122 @@ var g_view1_is_dirty = true;
 var g_view2_is_dirty = true;
 var g_opcode_dictionary = {};
 
-(function() {
-	get_release_version();
-})()
+var batch_item_status = [
 
+    "Init",
+    "InProcess",
+    "NewCaseAdded",
+    "ExistingCaseSkipped",
+    "ImportFailed"
+];
+
+var batch_status = [
+    "Init",
+    "InProcess",
+    "Finished"
+];
+
+
+window.onload = get_release_version();
 
 function get_release_version()
 {
 	$.ajax({
-		url: location.protocol + '//' + location.host + `/api/version/release-version`
+		url: location.protocol + '//' + location.host + `/api/ije_message`
 	}).done(function(response) {
-		g_release_version = response;
-        g_selected_version = g_release_version;
-        g_list_one_selected_item = g_release_version;
-        g_list_two_selected_item = g_release_version;
-		get_release_version_sepecification();
+        g_batch_list = response;
+        
+        render_batch_list()
+
 	});
 }
 
-
-function get_release_version_sepecification()
+function render_batch_list()
 {
-	$.ajax({
-		url: location.protocol + '//' + location.host + `/api/metadata/version_specification-${g_release_version}`
-	}).done(function(response) {
-		g_release_version_specification = response;
-		load_metadata();
-	});
+    let html_builder = [];
+    html_builder.push("<ul>");
+    if(g_batch_list.length > 0)
+    {
+        for(let i = 0; i < g_batch_list.length; i++)
+        {
+            let item = g_batch_list[i];
+            html_builder.push(`<li>${batch_status[item.status]} ${item.importDate} ${item.reporting_state} ${item.mor_file_name} <input type="button" value="view report" onclick="render_report_click(${i})" /></li>`);
+        }
+    }
+    else
+    {
+        html_builder.push(`<li>No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</li>`);
+    }
+    html_builder.push("</ul>");
+
+    let el = document.getElementById("batch_list");
+    el.innerHTML = html_builder.join("");
+
+}
+
+
+function render_report_click(p_index)
+{
+    let html_builder = [];
+    html_builder.push("<table>");
+    let batch = g_batch_list[p_index];
+
+    html_builder.push
+    (`
+    <th colspan=9>
+    Import File=${batch.mor_file_name}</td>
+    Reporting State=${batch.reporting_state}</td>
+    Import Date=${batch.importDate}</td>
+    </th>
+    </tr>
+        <tr>
+        <th>Status</th>
+        <th>CDCUniqueID</th>
+        <th>StateOfDeathRecord</th>
+        <th>DateOfDeath</th>
+        <th>DateOfBirth</th>
+        <th>LastName</th>
+        <th>FirstName</th>
+        <th>MMRIARecordID</th>
+        <th>StatusDetail</th>
+        </tr>
+    `);
+/*
+cdcUniqueID: null
+dateOfBirth: "1989-03-14"
+dateOfDeath: "2018-01-04"
+firstName: "CHRISTIN                                          "
+importDate: "2021-01-14T15:16:01.804638-05:00"
+importFileName: "2020_11_05_KS.MOR"
+lastName: "CANTRELL                                          "
+mmriaRecordID: null
+reportingState: "KS"
+stateOfDeathRecord: "KS"
+status: 0
+statusDetail: null
+*/
+
+    for(let i = 0; i < batch.record_result.length; i++)
+    {
+        let item = batch.record_result[i];
+        html_builder.push
+        (`
+            <tr>
+            <td>${batch_item_status[item.status]}</td>
+            <td>${item.cdcUniqueID}</td>
+            <td>${item.stateOfDeathRecord}</td>
+            <td>${item.dateOfDeath}</td>
+            <td>${item.dateOfBirth}</td>
+            <td>${item.lastName}</td>
+            <td>${item.firstName}</td>
+            <td>${item.mmriaRecordID}</td>
+            <td>${item.statusDetail}</td>
+            </tr>
+        `);
+    }
+    html_builder.push("</table>");
+    let el = document.getElementById("report");
+    el.innerHTML = html_builder.join("");
 }
 
 
