@@ -36,6 +36,12 @@ namespace mmria.server.model
         public string nat { get; set; }
 
         public string fet { get; set; }
+
+        public string mor_file_name { get; set; }
+
+        public string nat_file_name { get; set; }
+
+        public string fet_file_name { get; set; }
     }
 
     public class NewIJESet_MessageResponse

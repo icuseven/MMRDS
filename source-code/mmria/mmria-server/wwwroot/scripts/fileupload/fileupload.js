@@ -3,6 +3,20 @@ var g_content_list = [];
 var g_validation_errors = [];
 var g_host_state = null;
 
+
+const mor_max_length = 5001;
+const nat_max_length = 4001;
+const fet_max_length = 6001;
+
+/*
+
+file length
+mor 5000
+nat 4000
+fet 6000
+
+*/
+
 var openFile = function(event) {
     var input = event.target;
 
@@ -88,18 +102,33 @@ function setup_file_list()
             is_mor = true;
             temp[0] = item;
             temp_contents[0] = g_content_list[i];
+
+            if(!validate_length(g_content_list[i].split("\n"), mor_max_length))
+            {
+                g_validation_errors.push("mor File Length !=" + mor_max_length);
+            }
         }
         else if(item.name.toLowerCase().endsWith(".nat"))
         {
             is_nat = true;
             temp[1] = item;
             temp_contents[1] = g_content_list[i];
+
+            if(!validate_length(g_content_list[i].split("\n"), nat_max_length))
+            {
+                g_validation_errors.push("nat File Length !=" + nat_max_length);
+            }
         }
         else if(item.name.toLowerCase().endsWith(".fet"))
         {
             is_fet = true;
             temp[2] = item;
             temp_contents[2] = g_content_list[i];
+
+            if(!validate_length(g_content_list[i].split("\n"),fet_max_length))
+            {
+                g_validation_errors.push("fet File Length !=" + fet_max_length);
+            }
         }
     }
 
@@ -158,6 +187,23 @@ function setup_file_list()
 }
 
 
+function validate_length(p_array, p_max_length)
+{
+    let result = true;
+
+    for(let i = 0; i < p_array.length; i++)
+    {
+        let item = p_array[i];
+        if(item.length > 0 && item.length != p_max_length)
+        {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+}
+
 function get_state_from_file_name(p_val)
 {
     if(p_val.length > 15)
@@ -185,7 +231,11 @@ function render_file_list()
         if(g_content_list.length > i && g_content_list[i])
         {
             let lines = g_content_list[i].split('\n');
-            number_of_lines = lines.length;
+            for(let line in lines)
+            {
+                if(line.trim().length > 0) number_of_lines+=1;
+            }
+            
         }
 
         if(item.name.toLowerCase().endsWith(".mor"))
@@ -235,7 +285,10 @@ function send_ije_set()
     let data = {
         mor: g_content_list[0],
         nat: g_content_list[1],
-        fet: g_content_list[2]
+        fet: g_content_list[2],
+        mor_file_name: g_file_stat_list[0].name,
+        nat_file_name: g_file_stat_list[1].name,
+        fet_file_name: g_file_stat_list[2].name
     };
 
     $.ajax({
