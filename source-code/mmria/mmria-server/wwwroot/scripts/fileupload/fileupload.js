@@ -18,6 +18,7 @@ fet 6000
 */
 
 var openFile = function(event) {
+
     var input = event.target;
 
     var reader = new FileReader();

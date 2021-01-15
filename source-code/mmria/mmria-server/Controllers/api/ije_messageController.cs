@@ -13,60 +13,6 @@ using System.Security.Claims;
 
 using mmria.common.model;
 
-namespace mmria.server.vitals
-{
-    public class BatchItem
-    {
-        public enum StatusEnum
-        {
-            Init,
-            InProcess,
-            NewCaseAdded,
-            ExistingCaseSkipped,
-            ImportFailed
-        }
-        public StatusEnum Status { get; init;}
-
-        public string CDCUniqueID { get; init;}
-        public DateTime? ImportDate { get; init;}
-        public string ImportFileName { get; init;}
-        public string ReportingState { get; init;}
-        public string StateOfDeathRecord { get; init;}
-        public string DateOfDeath { get; init;}
-        public string DateOfBirth { get; init;}
-        public string LastName { get; init;}
-        public string FirstName { get; init;}
-        public string MMRIARecordID { get; init;}
-
-        
-        public string StatusDetail { get; init;}
-
-    }
-    public class Batch
-    {
-
-        public enum StatusEnum
-        {
-            Init,
-            InProcess,
-            Finished
-        }
-        public StatusEnum Status { get; init;}
-        public string id { get; init;}
-
-        public string reporting_state { get; init;}
-        public string mor_file_name { get; init;}
-        public string fet_file_name { get; init;}
-        public string nat_file_name { get; init;}
-        public DateTime? ImportDate { get; init;}
-        public List<BatchItem> record_result { get; init;}
-
-        public string StatusInfo { get; init; }
-    }
-
-}
-
-
 namespace mmria.server
 {
 
@@ -84,9 +30,9 @@ namespace mmria.server
 		
         [Authorize(Roles  = "cdc_analyst")]
 		[HttpGet]
-		public async Task<IList<mmria.server.vitals.Batch>> Get(string case_id) 
+		public async Task<IList<mmria.common.ije.Batch>> Get(string case_id) 
 		{ 
-            IList<mmria.server.vitals.Batch> result = null;
+            IList<mmria.common.ije.Batch> result = null;
 
             try
 			{
@@ -98,7 +44,7 @@ namespace mmria.server
 
 				var user_curl = new cURL("GET", null, user_db_url, null);
 				var responseFromServer = await user_curl.executeAsync();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.server.vitals.Batch>>(responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.ije.Batch>>(responseFromServer);
 
 			}
 			catch(Exception ex) 
@@ -113,9 +59,9 @@ namespace mmria.server
 
         [Authorize(Roles  = "cdc_analyst")]
 		[HttpDelete]
-		public async Task<IList<mmria.server.vitals.Batch>> Delete() 
+		public async Task<IList<mmria.common.ije.Batch>> Delete() 
 		{ 
-            IList<mmria.server.vitals.Batch> result = null;
+            IList<mmria.common.ije.Batch> result = null;
             try
 			{
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
@@ -126,7 +72,7 @@ namespace mmria.server
 
 				var user_curl = new cURL("DELETE", null, user_db_url, null);
 				var responseFromServer = await user_curl.executeAsync();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.server.vitals.Batch>>(responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.ije.Batch>>(responseFromServer);
 
 			}
 			catch(Exception ex) 
