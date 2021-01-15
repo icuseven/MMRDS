@@ -231,8 +231,9 @@ function render_file_list()
         if(g_content_list.length > i && g_content_list[i])
         {
             let lines = g_content_list[i].split('\n');
-            for(let line in lines)
+            for(let j = 0; j < lines.length; j++)
             {
+                let line = lines[j];
                 if(line.trim().length > 0) number_of_lines+=1;
             }
             

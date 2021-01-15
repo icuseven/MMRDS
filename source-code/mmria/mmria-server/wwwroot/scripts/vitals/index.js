@@ -100,16 +100,18 @@ function render_report_click(p_index)
     <br/>Import Date=${batch.importDate}
     </th>
     </tr>
-        <tr>
+
+        <tr align="center">
+        <th>#</th>
         <th>Status</th>
-        <th>CDCUniqueID</th>
-        <th>StateOfDeathRecord</th>
-        <th>DateOfDeath</th>
-        <th>DateOfBirth</th>
-        <th>LastName</th>
-        <th>FirstName</th>
-        <th>MMRIARecordID</th>
-        <th>StatusDetail</th>
+        <th>CDC<br/>Unique<br/>ID</th>
+        <th>State<br/>Of<br/>Death<br/>Record</th>
+        <th>Date<br/>Of<br/>Death</th>
+        <th>Date<br/>Of<br/>Birth</th>
+        <th>Last<br/>Name</th>
+        <th>First<br/>Name</th>
+        <th>MMRIA<br/>RecordID</th>
+        <th>Status<br/>Detail</th>
         </tr>
     `);
 /*
@@ -132,7 +134,8 @@ statusDetail: null
         let item = batch.record_result[i];
         html_builder.push
         (`
-            <tr>
+            <tr bgcolor=${ i % 2 == 0? "FFFFFF": "CCCCCC"}>
+            <td>${i+1}</td>
             <td>${batch_item_status[item.status]}</td>
             <td>${item.cdcUniqueID}</td>
             <td>${item.stateOfDeathRecord}</td>
@@ -140,12 +143,12 @@ statusDetail: null
             <td>${item.dateOfBirth}</td>
             <td>${item.lastName}</td>
             <td>${item.firstName}</td>
-            <td>${item.mmriaRecordID}</td>
-            <td>${item.statusDetail}</td>
+            <td>${item.mmriaRecordID != null ? item.mmriaRecordID : "&nbsp;"}</td>
+            <td>${item.statusDetail != null ? item.statusDetail: "currently processing"}</td>
             </tr>
         `);
     }
-    html_builder.push("</table>");
+    html_builder.push("</table><br/>");
     let el = document.getElementById("report");
     el.innerHTML = html_builder.join("");
 }
