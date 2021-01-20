@@ -1,164 +1,98 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Akka.Actor;
+using Akka.DI.Core;
+using Akka.DI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Quartz;
-using Serilog;
 
-namespace mmria.services
+namespace System.Runtime.CompilerServices
+{
+    public class IsExternalInit{}
+}
+
+namespace RecordsProcessorApi
 {
     public class Program
     {
-        public static bool config_is_service = true;
-        public static string config_geocode_api_key;
-        public static string config_geocode_api_url;
-        public static string config_couchdb_url = "http://localhost:5984";
+        //public static Akka.Actor.ActorSystem actorSystem;
 
-        public static string db_prefix = "";
-        public static string config_web_site_url;
-        //public static string config_file_root_folder;
-        public static string config_timer_user_name;
-        public static string config_timer_value;
-        public static string config_cron_schedule;
-        public static string config_export_directory;
+        public static string config_web_site_url = null;
+        public static string  couchdb_url;
+        public static string db_prefix;
+        public static string timer_user_name;
+        public static string timer_password;
 
+        public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
-        public static string config_vitals_url;
+        private static IConfiguration configuration;
 
-        public static string app_instance_name;
-
-        public static string metadata_release_version_name;
-
-        public static string power_bi_link;
-
-        public static string config_cdc_instance_pull_list;
-        public static string config_cdc_instance_pull_db_url;
-
-        public static bool is_schedule_enabled = true;
-        public static int config_session_idle_timeout_minutes;
-
-        public static bool is_db_check_enabled = false;
-
-        public static int config_pass_word_minimum_length = 8;
-        public static int config_pass_word_days_before_expires = 0;
-        public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;
-        public static bool config_EMAIL_USE_AUTHENTICATION = true;
-        public static bool config_EMAIL_USE_SSL = true;
-        public static string config_SMTP_HOST = null;
-        public static int config_SMTP_PORT = 587;
-        public static string config_EMAIL_FROM = null;
-        public static string config_EMAIL_PASSWORD = null;
-        public static int config_default_days_in_effective_date_interval = 90;
-        public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
-        public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
-        public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
-
-
-
-        
-        public static Akka.Actor.ActorSystem actorSystem;
-        public static IScheduler sched;
-        public static ITrigger check_for_changes_job_trigger;
-        public static ITrigger rebuild_queue_job_trigger;
-    
-        public static Dictionary<string, string> Change_Sequence_List;
-        public static int Change_Sequence_Call_Count = 0;
-        public static IList<DateTime> DateOfLastChange_Sequence_Call;
-        public static string Last_Change_Sequence = null;
-
-        private static IConfiguration configuration = null;
-
-
-        
         public static void Main(string[] args)
         {
-            try
-            {
-                configuration = new ConfigurationBuilder()
+            BatchSet = new Dictionary<string, mmria.common.ije.Batch>(StringComparer.OrdinalIgnoreCase);
+            
+            configuration = new ConfigurationBuilder()
                 .SetBasePath(System.IO.Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)
                 .AddUserSecrets<Startup>()
                 .Build();
 
-
-/*
-               var Email = new mmria.server.util.email.Email();
-               Email.Body = "This is a MMRIA test";
-               Email.From = configuration["mmria_settings:EMAIL_FROM"];
-               Email.To = new List<string>(){"jhaines@brightnoise.net"};
-               Email.Subject = "Test Subject";
-               bool success = new mmria.server.util.email.Email_Handler(configuration).SendMessage(Email);
-  */
-
                 if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
                 {
-                    Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                    Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+                    config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                    //Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+                    couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+                    db_prefix = System.Environment.GetEnvironmentVariable ("db_prefix");
+                    timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
+                    timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+                    
+
+                    configuration["mmria_settings:web_site_url"] = config_web_site_url;
+                    //Program.config_export_directory = configuration["mmria_settings:export_directory"];
+                    configuration["mmria_settings:couchdb_url"] = couchdb_url;
+                    configuration["mmria_settings:db_prefix"] = db_prefix;
+                    configuration["mmria_settings:timer_user_name"] = timer_user_name;
+                    configuration["mmria_settings:timer_password"] = timer_password;
                 }
                 else 
                 {
-                    Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                    Program.config_export_directory = configuration["mmria_settings:export_directory"];
+                    config_web_site_url = configuration["mmria_settings:web_site_url"];
+                    //Program.config_export_directory = configuration["mmria_settings:export_directory"];
+                    couchdb_url = configuration["mmria_settings:couchdb_url"];
+                    db_prefix = configuration["mmria_settings:db_prefix"];
+                    timer_user_name = configuration["mmria_settings:timer_user_name"];
+                    timer_password = configuration["mmria_settings:timer_password"];
                 }
 
-
-                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
-                {
-                    try
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .WriteTo.File(System.IO.Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                        .CreateLogger();
-                    }
-                    catch(System.Exception ex)
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .CreateLogger();    
-                    }
-
-                }
-                else
-                {
-                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                    .WriteTo.Console()
-                    .CreateLogger();    
-                }
-            
-
-                var host = CreateHostBuilder(args).Build();
-/*
-                var host = Host.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>()
-                    .UseUrls(Program.config_web_site_url)
-                    .Build();
-*/
-
-            
-                host.Run();
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine($"MMRIA Server error: ${ex}");
-            }    
-
-            //CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .UseUrls(Program.config_web_site_url);
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls(config_web_site_url);
+                }).ConfigureServices((hostContext, services) =>
+                {
+                    
+                    var collection = new ServiceCollection();
+                    collection.AddSingleton<IConfiguration>(configuration);
+                    collection.AddLogging();
+                    var provider = collection.BuildServiceProvider();
+
+                    var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
+                    //actorSystem.ActorOf(actorSystem.DI().Props<RecordsProcessor_Worker.Actors.BatchSupervisor>(), "batch-supervisor");
+                    actorSystem.ActorOf<RecordsProcessor_Worker.Actors.BatchSupervisor>("batch-supervisor");
+                    
+                    services.AddHostedService<Worker>();
+                    services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
                 });
-
-
-
     }
 }
