@@ -27,7 +27,7 @@ namespace mmria.services.vitalsimport
         public static string  couchdb_url;
         public static string db_prefix;
         public static string timer_user_name;
-        public static string timer_password;
+        public static string timer_value;
 
         public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
@@ -50,7 +50,7 @@ namespace mmria.services.vitalsimport
                     couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
                     db_prefix = System.Environment.GetEnvironmentVariable ("db_prefix");
                     timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
-                    timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+                    timer_value = System.Environment.GetEnvironmentVariable ("timer_password");
                     
 
                     configuration["mmria_settings:web_site_url"] = config_web_site_url;
@@ -58,7 +58,7 @@ namespace mmria.services.vitalsimport
                     configuration["mmria_settings:couchdb_url"] = couchdb_url;
                     configuration["mmria_settings:db_prefix"] = db_prefix;
                     configuration["mmria_settings:timer_user_name"] = timer_user_name;
-                    configuration["mmria_settings:timer_password"] = timer_password;
+                    configuration["mmria_settings:timer_password"] = timer_value;
                 }
                 else 
                 {
@@ -67,7 +67,7 @@ namespace mmria.services.vitalsimport
                     couchdb_url = configuration["mmria_settings:couchdb_url"];
                     db_prefix = configuration["mmria_settings:db_prefix"];
                     timer_user_name = configuration["mmria_settings:timer_user_name"];
-                    timer_password = configuration["mmria_settings:timer_password"];
+                    timer_value = configuration["mmria_settings:timer_password"];
                 }
 
             CreateHostBuilder(args).Build().Run();

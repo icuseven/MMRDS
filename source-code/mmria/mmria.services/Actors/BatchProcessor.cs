@@ -98,6 +98,10 @@ function validate_length(p_array, p_max_length)
             var ImportDate = DateTime.Now;
             var record_result = new List<mmria.common.ije.BatchItem>();
 
+            var nat_list = message.nat.Split("\n");
+            var fet_list = message.fet.Split("\n");
+            
+
 
             if(status_builder.Length == 0)
             {
@@ -112,8 +116,16 @@ function validate_length(p_array, p_max_length)
                         try
                         {
 
+                            var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
+                            {
+                                cdc_unique_id = batch_item.CDCUniqueID,
+                                mor = row,
+                                nat = GetAssociatedNat(nat_list, batch_item.CDCUniqueID),
+                                fet = GetAssociatedFet(fet_list, batch_item.CDCUniqueID)
+                            };
+
                             var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_item.CDCUniqueID);
-                            batch_item_processor.Tell(message);
+                            batch_item_processor.Tell(StartBatchItemMessage);
                         }
                         catch(Exception ex)
                         {
@@ -251,5 +263,46 @@ GNAME 27 50
 5 home_record/last_name - LNAME  
 6 home_record/first_name - GNAME*/
         }
+   
+        private List<string> GetAssociatedNat(string[] p_nat_list, string p_cdc_unique_id)
+        {
+            var result = new List<string>();
+            int mom_ssn_start = 2000;
+            foreach(var item in p_nat_list)
+            {
+                if(item.Length > mom_ssn_start + 9)
+                {
+                    var mom_ssn = item.Substring(mom_ssn_start, 9);
+                    if(mom_ssn == p_cdc_unique_id)
+                    {
+                        result.Add(item);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private List<string> GetAssociatedFet(string[] p_fet_list, string p_cdc_unique_id)
+        {
+            var result = new List<string>();
+            int mom_ssn_start = 4039;
+            foreach(var item in p_fet_list)
+            {
+                if(item.Length > mom_ssn_start + 9)
+                {
+                    var mom_ssn = item.Substring(mom_ssn_start, 9);
+                    if(mom_ssn == p_cdc_unique_id)
+                    {
+                        result.Add(item);
+                    }
+                }
+            }
+
+            return result;
+        }
+   
     }
+
+   
 }
