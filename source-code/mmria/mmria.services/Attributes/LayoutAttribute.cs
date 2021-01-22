@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     [AttributeUsage(AttributeTargets.Field)]
     internal class LayoutAttribute : Attribute

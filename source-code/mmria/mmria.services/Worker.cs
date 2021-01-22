@@ -10,9 +10,9 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Akka.Actor;
 using RecordsProcessor_Worker.Actors;
-using RecordsProcessorApi.Actors.VitalsImport;
+using mmria.services.vitalsimport.Actors.VitalsImport;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     public class Worker : BackgroundService
     {

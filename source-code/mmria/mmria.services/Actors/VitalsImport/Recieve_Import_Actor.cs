@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
 using Newtonsoft.Json;
-using RecordsProcessorApi.Messages;
-using RecordsProcessorApi.Utilities;
+using mmria.services.vitalsimport.Messages;
+using mmria.services.vitalsimport.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi.Actors.VitalsImport
+namespace mmria.services.vitalsimport.Actors.VitalsImport
 {
     public class Recieve_Import_Actor : ReceiveActor
     {

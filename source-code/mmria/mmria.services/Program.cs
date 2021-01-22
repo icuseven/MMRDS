@@ -17,7 +17,7 @@ namespace System.Runtime.CompilerServices
     public class IsExternalInit{}
 }
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     public class Program
     {

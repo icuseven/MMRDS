@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Akka.Actor;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     public class Startup
     {

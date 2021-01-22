@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi.Utilities
+namespace mmria.services.vitalsimport.Utilities
 {
     public static class CsvConverter
     {

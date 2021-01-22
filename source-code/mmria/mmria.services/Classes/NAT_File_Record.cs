@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     public class NAT_File_Record
     {

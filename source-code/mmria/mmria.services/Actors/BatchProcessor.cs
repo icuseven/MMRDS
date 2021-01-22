@@ -137,12 +137,12 @@ function validate_length(p_array, p_max_length)
 
             };
 
-            RecordsProcessorApi.Program.BatchSet[batch.id] = batch;
+            mmria.services.vitalsimport.Program.BatchSet[batch.id] = batch;
         }
 
         private void Process_Message(mmria.common.ije.BatchItem message)
         {
-            var batch = RecordsProcessorApi.Program.BatchSet[_id];
+            var batch = mmria.services.vitalsimport.Program.BatchSet[_id];
         }
 
         private bool validate_length(IList<string> p_array, int p_max_length)

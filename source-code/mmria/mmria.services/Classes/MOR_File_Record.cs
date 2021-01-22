@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     public class MOR_File_Record
     {

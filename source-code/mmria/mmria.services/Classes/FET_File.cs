@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi
+namespace mmria.services.vitalsimport
 {
     //https://stackoverflow.com/questions/26060441/reading-data-from-fixed-length-file-into-class-objects?answertab=votes#tab-top
     //Using this as POC

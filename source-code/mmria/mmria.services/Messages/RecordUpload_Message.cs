@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecordsProcessorApi.Messages
+namespace mmria.services.vitalsimport.Messages
 {
     public class RecordUpload_Message
     {

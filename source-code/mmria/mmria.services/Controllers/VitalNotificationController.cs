@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
-using RecordsProcessorApi.Actors.VitalsImport;
-using RecordsProcessorApi.Messages;
+using mmria.services.vitalsimport.Actors.VitalsImport;
+using mmria.services.vitalsimport.Messages;
 using System;
 using System.IO;
 using System.Net.Http;
 
-namespace RecordsProcessorApi.Controllers
+namespace mmria.services.vitalsimport.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace RecordsProcessorApi.Controllers
         {
             var  result = new List<mmria.common.ije.Batch>();
 
-            foreach(var kvp in RecordsProcessorApi.Program.BatchSet)
+            foreach(var kvp in mmria.services.vitalsimport.Program.BatchSet)
             {
                 result.Add(kvp.Value);
             }
@@ -43,7 +43,7 @@ namespace RecordsProcessorApi.Controllers
         {
             var  result = true;
 
-            RecordsProcessorApi.Program.BatchSet.Clear();
+            mmria.services.vitalsimport.Program.BatchSet.Clear();
             return result;
         }
 
