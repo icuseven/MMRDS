@@ -15,7 +15,7 @@ var g_opcode_dictionary = {};
 
 var batch_item_status = [
 
-    "Init",
+    "Validating",
     "InProcess",
     "NewCaseAdded",
     "ExistingCaseSkipped",
@@ -23,7 +23,7 @@ var batch_item_status = [
 ];
 
 var batch_status = [
-    "Init",
+    "Validating",
     "InProcess",
     "Finished"
 ];

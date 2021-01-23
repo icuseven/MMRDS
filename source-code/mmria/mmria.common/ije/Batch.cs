@@ -11,7 +11,7 @@ namespace mmria.common.ije
 
         public enum StatusEnum
         {
-            Init,
+            Validating,
             InProcess,
             Finished
         }

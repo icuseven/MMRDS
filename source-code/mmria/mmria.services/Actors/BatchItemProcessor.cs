@@ -11,6 +11,14 @@ namespace RecordsProcessor_Worker.Actors
     {
         protected override void PreStart() => Console.WriteLine("Process_Message started");
         protected override void PostStop() => Console.WriteLine("Process_Message stopped");
+            private string config_timer_user_name = null;
+            private string config_timer_value = null;
+
+            private string config_couchdb_url = null;
+            private string db_prefix = "";
+
+            private System.Dynamic.ExpandoObject case_expando_object = null;
+
 
         public BatchItemProcessor()
         {
@@ -26,9 +34,12 @@ namespace RecordsProcessor_Worker.Actors
         private void Process_Message(mmria.common.ije.StartBatchItemMessage message)
         {
 
-            var config_timer_user_name = mmria.services.vitalsimport.Program.timer_user_name;
-            var config_timer_value = mmria.services.vitalsimport.Program.timer_value;
+            config_timer_user_name = mmria.services.vitalsimport.Program.timer_user_name;
+            config_timer_value = mmria.services.vitalsimport.Program.timer_value;
 
+            config_couchdb_url = mmria.services.vitalsimport.Program.couchdb_url;
+            db_prefix = "";
+            
             var mor_field_set = mor_get_header(message.mor);
 
 
@@ -53,11 +64,61 @@ namespace RecordsProcessor_Worker.Actors
             };
             */
 
-				string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
-				var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
-				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
+            string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
+            var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
+            mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
-				var lookup = get_look_up(metadata);
+            var lookup = get_look_up(metadata);
+
+            var is_case_already_present = false;            
+
+            var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
+
+
+            if(case_view_response.total_rows > 0)
+            {
+                int dod_yr = -1;
+                int dod_mo = -1;
+
+                int.TryParse(mor_field_set["DOD_YR"], out dod_yr);
+                int.TryParse(mor_field_set["DOD_MO"], out dod_mo);
+
+                foreach(var kvp in case_view_response.rows)
+                {
+                    
+
+                    if
+                    (
+                        kvp.value.host_state.Equals(message.host_state, StringComparison.OrdinalIgnoreCase)  &&
+                        kvp.value.last_name.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase)  &&
+                        kvp.value.first_name.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
+                        kvp.value.date_of_death_year == dod_yr &&
+                        kvp.value.date_of_death_month == dod_mo
+                        
+                    )
+                    {
+                        var case_expando_object = GetCaseById(kvp.key);
+                        if(case_expando_object != null)
+                        {
+                            var getset = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
+                            
+                        }
+                    }
+                }
+                
+            }
+
+
+            if(is_case_already_present)
+            {
+
+            }
+            else
+            {
+
+            }
+
+
 
 				//all_list_set = get_metadata_node_by_type(metadata, "list");
 
@@ -224,6 +285,177 @@ GNAME 27 50
 4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
 5 home_record/last_name - LNAME  
 6 home_record/first_name - GNAME*/
+        }
+
+        private mmria.common.model.couchdb.case_view_response GetCaseView
+        (
+
+            string config_couchdb_url,
+            string db_prefix,
+            string search_key,
+            int skip = 0,
+            int take = int.MaxValue,
+            string sort = "by_last_name",
+            bool descending = false,
+            string case_status = "all"
+        )
+        {
+            string sort_view = sort.ToLower ();
+            switch (sort_view)
+            {
+                case "by_date_created":
+                case "by_date_last_updated":
+                case "by_last_name":
+                case "by_first_name":
+                case "by_middle_name":
+                case "by_year_of_death":
+                case "by_month_of_death":
+                case "by_committee_review_date":
+                case "by_created_by":
+                case "by_last_updated_by":
+                case "by_state_of_death":
+                case "by_date_last_checked_out":
+                case "by_last_checked_out_by":
+                
+                case "by_case_status":
+                    break;
+
+                default:
+                    sort_view = "by_date_created";
+                break;
+            }
+
+
+
+			try
+			{
+                System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
+                request_builder.Append ($"{config_couchdb_url}/{db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+
+
+                if (string.IsNullOrWhiteSpace (search_key))
+                {
+                    if (skip > -1) 
+                    {
+                        request_builder.Append ($"skip={skip}");
+                    } 
+                    else 
+                    {
+
+                        request_builder.Append ("skip=0");
+                    }
+
+                    if (take > -1) 
+                    {
+                        request_builder.Append ($"&limit={take}");
+                    }
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                } 
+                else 
+                {
+                    request_builder.Append ("skip=0");
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                }
+
+                string request_string = request_builder.ToString();
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+                string responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                
+                string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
+
+                mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+                result.offset = case_view_response.offset;
+                result.total_rows = case_view_response.total_rows;
+
+                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    bool add_item = false;
+
+                    if(is_matching_search_text(cvi.value.last_name, key_compare))
+                    {
+                        add_item = true;
+                    }
+
+                    if(add_item)
+                    {
+                        result.rows.Add (cvi);
+                    }
+                
+                }
+
+
+                result.total_rows = result.rows.Count;
+                result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+
+                return result;
+                
+            }
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			}
+
+
+            return null;
+        }
+
+        public System.Dynamic.ExpandoObject GetCaseById(string case_id) 
+		{ 
+			try
+			{
+                string request_string = $"{config_couchdb_url}/{db_prefix}mmrds/_all_docs?include_docs=true";
+
+                if (!string.IsNullOrWhiteSpace (case_id)) 
+                {
+                    request_string = $"{config_couchdb_url}/{db_prefix}mmrds/{case_id}";
+					var case_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+					string responseFromServer = case_curl.execute();
+
+					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+					return result;
+
+                } 
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+			} 
+
+			return null;
+		} 
+
+        private bool is_matching_search_text(string p_val1, string p_val2)
+        {
+            var result = false;
+
+            if 
+            (
+                !string.IsNullOrWhiteSpace(p_val1) && 
+                p_val1.Length > 3 &&
+                (
+                    p_val2.IndexOf (p_val1, StringComparison.OrdinalIgnoreCase) > -1 ||
+                    p_val1.IndexOf (p_val2, StringComparison.OrdinalIgnoreCase) > -1
+                )
+            )
+            {
+                result = true;
+            }
+
+            return result;
         }
 
     }

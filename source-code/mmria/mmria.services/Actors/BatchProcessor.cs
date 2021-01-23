@@ -119,6 +119,7 @@ function validate_length(p_array, p_max_length)
                             var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
                             {
                                 cdc_unique_id = batch_item.CDCUniqueID,
+                                host_state = ReportingState,
                                 mor = row,
                                 nat = GetAssociatedNat(nat_list, batch_item.CDCUniqueID),
                                 fet = GetAssociatedFet(fet_list, batch_item.CDCUniqueID)
@@ -138,7 +139,7 @@ function validate_length(p_array, p_max_length)
             var batch = new mmria.common.ije.Batch()
             {
                 id = message.batch_id,
-                Status = mmria.common.ije.Batch.StatusEnum.InProcess,
+                Status = mmria.common.ije.Batch.StatusEnum.Validating,
                 reporting_state = ReportingState,
                 ImportDate = ImportDate,
                 mor_file_name = message.mor_file_name,

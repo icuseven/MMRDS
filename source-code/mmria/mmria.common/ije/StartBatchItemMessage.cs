@@ -6,6 +6,8 @@ namespace mmria.common.ije
     public class StartBatchItemMessage
     {
         public string cdc_unique_id { get; init;}
+
+        public string host_state { get; init; }
         public string mor { get; init; }
 
         public List<string> nat { get; init; }
