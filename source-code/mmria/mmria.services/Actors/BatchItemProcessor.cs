@@ -9,6 +9,24 @@ namespace RecordsProcessor_Worker.Actors
 {
     public class BatchItemProcessor : ReceiveActor
     {
+        static Dictionary<string,string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {  
+                { "DState","home_record/state" }, 
+//3 home_recode/date_of_death - DOD_YR, DOD_MO, DOD_DY
+                { "DOD_YR", "home_recode/date_of_death/year"}, 
+                { "DOD_MO", "home_recode/date_of_death/month"}, 
+                { "DOD_DY", "home_recode/date_of_death/day"},
+
+//4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
+                { "DOB_YR", "death_certificate/date_of_birth/year"}, 
+                { "DOB_MO", "death_certificate/date_of_birth/month"}, 
+                { "DOB_DY", "death_certificate/date_of_birth/day"},
+//5 home_record/last_name - LNAME  
+{ "LNAME", "home_record/last_name"}, 
+//6 home_record/first_name - GNAME*/}
+{ "GNAME", "home_record/first_name"}
+
+        };
         protected override void PreStart() => Console.WriteLine("Process_Message started");
         protected override void PostStop() => Console.WriteLine("Process_Message stopped");
             private string config_timer_user_name = null;
@@ -73,16 +91,28 @@ namespace RecordsProcessor_Worker.Actors
             var is_case_already_present = false;            
 
             var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
-
+            string mmria_id = null;
 
             if(case_view_response.total_rows > 0)
             {
                 int dod_yr = -1;
                 int dod_mo = -1;
+                int dod_dy = -1;
+                
+                int dob_yr = -1;
+                int dob_mo = -1;
+                int dob_dy = -1;
 
                 int.TryParse(mor_field_set["DOD_YR"], out dod_yr);
                 int.TryParse(mor_field_set["DOD_MO"], out dod_mo);
+                int.TryParse(mor_field_set["DOD_DY"], out dod_dy);
 
+                int.TryParse(mor_field_set["DOB_YR"], out dob_yr);
+                int.TryParse(mor_field_set["DOB_MO"], out dob_mo);
+                int.TryParse(mor_field_set["DOB_DY"], out dob_dy);
+
+
+                
                 foreach(var kvp in case_view_response.rows)
                 {
                     
@@ -100,8 +130,55 @@ namespace RecordsProcessor_Worker.Actors
                         var case_expando_object = GetCaseById(kvp.key);
                         if(case_expando_object != null)
                         {
-                            var getset = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
-                            
+                            var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
+
+                            migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(case_expando_object, "_id");
+					        mmria_id = value_result.result;
+
+
+                            var DSTATE_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DState"]); 
+                            var host_state_result = gs.get_value(case_expando_object, "host_state"); 
+                            var DOD_YR_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_YR"]);
+                            var DOD_MO_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_MO"]);
+                            var DOD_DY_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_DY"]);
+                            var DOB_YR_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_YR"]);
+                            var DOB_MO_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_MO"]);                            
+                            var DOB_DY_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_DY"]);
+                            var LNAME_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["LNAME"]);
+                            var GNAME_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["GNAME"]);
+
+                            if
+                            (
+                                DOD_YR_result.is_error == false &&
+                                host_state_result.is_error == false &&
+                                DOD_MO_result.is_error == false &&
+                                DOD_DY_result.is_error == false &&
+                                DOB_YR_result.is_error == false &&
+                                DOB_MO_result.is_error == false &&
+                                DOB_DY_result.is_error == false &&
+                                LNAME_result.is_error == false &&
+                                GNAME_result.is_error == false 
+                            )
+                            {
+                                if
+                                (
+                                    host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase)  &&
+                                    LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase)  &&
+                                    GNAME_result.result.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
+                                    DOD_YR_result.result == dod_yr &&
+                                    DOD_MO_result.result == dod_mo &&
+                                    DOD_DY_result.result == dod_dy &&
+                                    DOB_YR_result.result == dob_yr &&
+                                    DOB_MO_result.result == dob_mo &&
+                                    DOB_DY_result.result == dob_dy
+                                    
+                                )
+                                {
+                                        is_case_already_present = true;
+                                        break;
+                                }
+                            }
+
                         }
                     }
                 }
@@ -111,11 +188,48 @@ namespace RecordsProcessor_Worker.Actors
 
             if(is_case_already_present)
             {
+                var result = new mmria.common.ije.BatchItem()
+                {
+                    Status = mmria.common.ije.BatchItem.StatusEnum.ExistingCaseSkipped,
+                    CDCUniqueID = mor_field_set["SSN"],
+                    ImportDate = message.ImportDate,
+                    ImportFileName = message.ImportFileName,
+                    ReportingState = message.host_state,
+                    
+                    StateOfDeathRecord = mor_field_set["DSTATE"],
+                    DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                    DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                    LastName = mor_field_set["LNAME"],
+                    FirstName = mor_field_set["GNAME"],
+                    MMRIARecordID = mmria_id,
+                    StatusDetail = "matching case found in database"
+                };
 
+                Sender.Tell(result);
             }
             else
             {
+                mmria_id = System.Guid.NewGuid().ToString();
 
+                var result = new mmria.common.ije.BatchItem()
+                {
+                    Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
+                    CDCUniqueID = mor_field_set["SSN"],
+                    ImportDate = message.ImportDate,
+                    ImportFileName = message.ImportFileName,
+                    ReportingState = message.host_state,
+                    
+                    StateOfDeathRecord = mor_field_set["DSTATE"],
+                    DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                    DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                    LastName = mor_field_set["LNAME"],
+                    FirstName = mor_field_set["GNAME"],
+            
+                    MMRIARecordID = mmria_id,
+                    StatusDetail = "Inprocess of creating new case"
+                };
+
+                Sender.Tell(result);
             }
 
 
@@ -266,16 +380,16 @@ DOD_DY 239 2
 LNAME 78 50
 GNAME 27 50
 */
- result.Add("DState",row.Substring(5-1, 2));
- result.Add("DOD_YR",row.Substring(1-1, 4));
-  result.Add("DOD_MO",row.Substring(237-1, 2));
- result.Add("DOD_DY",row.Substring(239-1, 2));
-  result.Add("DOB_YR",row.Substring(205-1, 4));
-  result.Add("DOB_MO",row.Substring(209-1, 2));
- result.Add("DOB_DY",row.Substring(211-1, 2));
- result.Add("LNAME",row.Substring(78-1, 50));
- result.Add("GNAME",row.Substring(27-1, 50));
-  result.Add("SSN",row.Substring(191-1, 9));
+ result.Add("DState",row.Substring(5-1, 2).Trim());
+ result.Add("DOD_YR",row.Substring(1-1, 4).Trim());
+  result.Add("DOD_MO",row.Substring(237-1, 2).Trim());
+ result.Add("DOD_DY",row.Substring(239-1, 2).Trim());
+  result.Add("DOB_YR",row.Substring(205-1, 4).Trim());
+  result.Add("DOB_MO",row.Substring(209-1, 2).Trim());
+ result.Add("DOB_DY",row.Substring(211-1, 2).Trim());
+ result.Add("LNAME",row.Substring(78-1, 50).Trim());
+ result.Add("GNAME",row.Substring(27-1, 50).Trim());
+  result.Add("SSN",row.Substring(191-1, 9).Trim());
 
             return result;
 
@@ -332,38 +446,26 @@ GNAME 27 50
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append ($"{config_couchdb_url}/{db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
-
-                if (string.IsNullOrWhiteSpace (search_key))
+                if (skip > -1) 
                 {
-                    if (skip > -1) 
-                    {
-                        request_builder.Append ($"skip={skip}");
-                    } 
-                    else 
-                    {
-
-                        request_builder.Append ("skip=0");
-                    }
-
-                    if (take > -1) 
-                    {
-                        request_builder.Append ($"&limit={take}");
-                    }
-
-                    if (descending) 
-                    {
-                        request_builder.Append ("&descending=true");
-                    }
+                    request_builder.Append ($"skip={skip}");
                 } 
                 else 
                 {
-                    request_builder.Append ("skip=0");
 
-                    if (descending) 
-                    {
-                        request_builder.Append ("&descending=true");
-                    }
+                    request_builder.Append ("skip=0");
                 }
+
+                if (take > -1) 
+                {
+                    request_builder.Append ($"&limit={take}");
+                }
+
+                if (descending) 
+                {
+                    request_builder.Append ("&descending=true");
+                }
+
 
                 string request_string = request_builder.ToString();
                 var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);

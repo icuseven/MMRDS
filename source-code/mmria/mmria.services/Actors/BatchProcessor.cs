@@ -119,6 +119,8 @@ function validate_length(p_array, p_max_length)
                             var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
                             {
                                 cdc_unique_id = batch_item.CDCUniqueID,
+                                ImportDate = ImportDate,
+                                ImportFileName = message.mor_file_name,
                                 host_state = ReportingState,
                                 mor = row,
                                 nat = GetAssociatedNat(nat_list, batch_item.CDCUniqueID),
