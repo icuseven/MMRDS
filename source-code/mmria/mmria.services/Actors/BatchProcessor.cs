@@ -47,6 +47,9 @@ function validate_length(p_array, p_max_length)
         protected override void PreStart() => Console.WriteLine("Process_Message started");
         protected override void PostStop() => Console.WriteLine("Process_Message stopped");
 
+        private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
+
+        private mmria.common.ije.Batch batch;
         public BatchProcessor()
         {
             Receive<mmria.common.ije.NewIJESet_Message>(message =>
@@ -96,12 +99,13 @@ function validate_length(p_array, p_max_length)
 
             var ReportingState = get_state_from_file_name(message.mor_file_name);
             var ImportDate = DateTime.Now;
-            var record_result = new List<mmria.common.ije.BatchItem>();
+           
 
             var nat_list = message.nat.Split("\n");
             var fet_list = message.fet.Split("\n");
             
-
+            var duplicate_count = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+            var duplicate_is_found = false;
 
             if(status_builder.Length == 0)
             {
@@ -110,35 +114,64 @@ function validate_length(p_array, p_max_length)
                     if(row.Length == mor_max_length)
                     {
                         var batch_item = Convert(row, ImportDate, message.mor_file_name, ReportingState);
-
-                        record_result.Add(batch_item);
-
-                        try
+                        if(batch_item_set.ContainsKey(batch_item.CDCUniqueID))
                         {
-
-                            var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
-                            {
-                                cdc_unique_id = batch_item.CDCUniqueID,
-                                ImportDate = ImportDate,
-                                ImportFileName = message.mor_file_name,
-                                host_state = ReportingState,
-                                mor = row,
-                                nat = GetAssociatedNat(nat_list, batch_item.CDCUniqueID),
-                                fet = GetAssociatedFet(fet_list, batch_item.CDCUniqueID)
-                            };
-
-                            var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_item.CDCUniqueID);
-                            batch_item_processor.Tell(StartBatchItemMessage);
+                            duplicate_is_found = true;
+                            duplicate_count[batch_item.CDCUniqueID]+= 1;
+                            continue;
                         }
-                        catch(Exception ex)
-                        {
 
-                        }
+                        batch_item_set.Add(batch_item.CDCUniqueID, (row, batch_item));
+                        duplicate_count[batch_item.CDCUniqueID] = 1;
+
+            
                     }
                 }
             }
 
-            var batch = new mmria.common.ije.Batch()
+            if(duplicate_is_found)
+            {
+                status_builder.AppendLine("Invalid batch duplicates were found:");
+                foreach(var kvp in duplicate_count)
+                {
+                    if(kvp.Value > 1)
+                    {
+                        status_builder.AppendLine($"duplicate {kvp.Key}: {kvp.Value}");
+                    }
+                }
+            }
+
+            //if(status_builder.Length == 0)
+            {
+                foreach(var kvp in batch_item_set)
+                {
+                    var batch_tuple = kvp.Value;
+                    
+                    try
+                    {
+                        var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
+                        {
+                            cdc_unique_id = batch_tuple.Item2.CDCUniqueID,
+                            ImportDate = ImportDate,
+                            ImportFileName = message.mor_file_name,
+                            host_state = ReportingState,
+                            mor = batch_tuple.Item1,
+                            nat = GetAssociatedNat(nat_list, batch_tuple.Item2.CDCUniqueID),
+                            fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID)
+                        };
+
+                        var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_tuple.Item2.CDCUniqueID);
+                        batch_item_processor.Tell(StartBatchItemMessage);
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                    
+                }
+            }
+
+            batch = new mmria.common.ije.Batch()
             {
                 id = message.batch_id,
                 Status = mmria.common.ije.Batch.StatusEnum.Validating,
@@ -148,16 +181,46 @@ function validate_length(p_array, p_max_length)
                 nat_file_name = message.nat_file_name,
                 fet_file_name = message.fet_file_name,
                 StatusInfo = status_builder.ToString(),
-                record_result = record_result
+                record_result = Convert(batch_item_set)
 
             };
 
             mmria.services.vitalsimport.Program.BatchSet[batch.id] = batch;
         }
 
+
+        private List<mmria.common.ije.BatchItem> Convert(Dictionary<string,(string, mmria.common.ije.BatchItem)> p_val)
+        {
+            List<mmria.common.ije.BatchItem> result = new();
+
+            foreach(var kvp in p_val)
+            {
+                result.Add(kvp.Value.Item2);
+            }
+
+            return result;
+        }
         private void Process_Message(mmria.common.ije.BatchItem message)
         {
-            var batch = mmria.services.vitalsimport.Program.BatchSet[_id];
+            var new_item = (batch_item_set[message.CDCUniqueID].Item1, message);
+            batch_item_set[message.CDCUniqueID] = new_item;
+
+            var new_batch = new mmria.common.ije.Batch()
+            {
+                id = batch.id,
+                Status = batch.Status,
+                reporting_state = batch.reporting_state,
+                ImportDate = batch.ImportDate,
+                mor_file_name = batch.mor_file_name,
+                nat_file_name = batch.nat_file_name,
+                fet_file_name = batch.fet_file_name,
+                StatusInfo = batch.StatusInfo,
+                record_result = Convert(batch_item_set)
+
+            };
+
+            batch = new_batch;
+            mmria.services.vitalsimport.Program.BatchSet[batch.id] =  batch;
         }
 
         private bool validate_length(IList<string> p_array, int p_max_length)
