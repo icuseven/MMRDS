@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace getset
+namespace mmria.services.vitalsimport
 {
     public class default_case
     {
-        
+        static public void create(mmria.common.metadata.app p_metadata, IDictionary<string,object> p_parent, bool p_create_grid = false)
+        {
+            p_parent["_id"] = System.Guid.NewGuid().ToString();
+            for(var i = 0; i < p_metadata.children.Length; i++)
+            {
+                var child = p_metadata.children[i];
+                create(child, p_parent, p_create_grid);
+            }
+        }
         static public void create(mmria.common.metadata.node p_metadata, IDictionary<string,object> p_parent, bool p_create_grid = false)
         {
             switch(p_metadata.type.ToLower())
@@ -33,7 +41,7 @@ namespace getset
                 for(var i = 0; i < p_metadata.children.Length; i++)
                 {
                     var child = p_metadata.children[i];
-                    create(child, temp_object);
+                    create(child, temp_object, p_create_grid);
                 }
 
                 if(!string.IsNullOrWhiteSpace(p_metadata.cardinality))
@@ -72,7 +80,7 @@ namespace getset
                 for(var i = 0; i < p_metadata.children.Length; i++)
                 {
                     var child = p_metadata.children[i];
-                    create(child, group);
+                    create(child, group, p_create_grid);
                     
                 }
                 p_parent[p_metadata.name] = group;
@@ -82,7 +90,7 @@ namespace getset
                     for(var i = 0; i < p_metadata.children.Length; i++)
                     {
                         var child = p_metadata.children[i];
-                        create(child, p_parent);
+                        create(child, p_parent, p_create_grid);
                     }
                 //p_parent["host_state"] = sanitize_encodeHTML(window.location.host.split("-")[0]);
                 break;

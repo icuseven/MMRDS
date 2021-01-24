@@ -93,6 +93,9 @@ namespace RecordsProcessor_Worker.Actors
             var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
             string mmria_id = null;
 
+            var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
+
+
             if(case_view_response.total_rows > 0)
             {
                 int dod_yr = -1;
@@ -130,7 +133,6 @@ namespace RecordsProcessor_Worker.Actors
                         var case_expando_object = GetCaseById(kvp.key);
                         if(case_expando_object != null)
                         {
-                            var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
 
                             migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(case_expando_object, "_id");
 					        mmria_id = value_result.result;
@@ -211,7 +213,7 @@ namespace RecordsProcessor_Worker.Actors
             {
                 mmria_id = System.Guid.NewGuid().ToString();
 
-                var result = new mmria.common.ije.BatchItem()
+                var current_status = new mmria.common.ije.BatchItem()
                 {
                     Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
                     CDCUniqueID = mor_field_set["SSN"],
@@ -229,7 +231,56 @@ namespace RecordsProcessor_Worker.Actors
                     StatusDetail = "Inprocess of creating new case"
                 };
 
-                Sender.Tell(result);
+                Sender.Tell(current_status);
+
+
+                var new_case = new System.Dynamic.ExpandoObject();
+                
+                mmria.services.vitalsimport.default_case.create(metadata, new_case);
+                
+                var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
+
+                gs.set_value("_id", mmria_id, new_case); 
+                gs.set_value("date_created", current_date_iso_string, new_case); 
+                gs.set_value("created_by", "vitals-import", new_case); 
+                gs.set_value("date_last_updated", current_date_iso_string, new_case); 
+                gs.set_value("last_updated_by", "vitals-import", new_case); 
+                gs.set_value("version", metadata.version, new_case); 
+                gs.set_value("host_state", message.host_state, new_case); 
+
+                var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case); 
+                var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
+                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], mor_field_set["DOD_MO"], new_case);
+                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], mor_field_set["DOD_DY"], new_case);
+                var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
+                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], mor_field_set["DOB_MO"], new_case);                            
+                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], mor_field_set["DOB_DY"], new_case);
+                var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);
+                var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
+
+
+                var case_dictionary = new_case as IDictionary<string,object>;
+
+                var finished = new mmria.common.ije.BatchItem()
+                {
+                    Status = mmria.common.ije.BatchItem.StatusEnum.NewCaseAdded,
+                    CDCUniqueID = mor_field_set["SSN"],
+                    ImportDate = message.ImportDate,
+                    ImportFileName = message.ImportFileName,
+                    ReportingState = message.host_state,
+                    
+                    StateOfDeathRecord = mor_field_set["DSTATE"],
+                    DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                    DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                    LastName = mor_field_set["LNAME"],
+                    FirstName = mor_field_set["GNAME"],
+            
+                    MMRIARecordID = mmria_id,
+                    StatusDetail = "Added new case"
+                };
+
+                Sender.Tell(finished);
+
             }
 
 
