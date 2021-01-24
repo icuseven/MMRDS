@@ -34,4 +34,10 @@ namespace mmria.common.ije
         public Batch.StatusEnum status {get;init;}
     }
 
+    public class BatchRemoveDataMessage
+    {
+        public string id {get;init;}
+        public DateTime date_of_removal {get;init;}
+    }
+
 }

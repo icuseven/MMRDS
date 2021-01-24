@@ -110,6 +110,7 @@ function render_report_click(p_index)
         <th>Date<br/>Of<br/>Birth</th>
         <th>Last<br/>Name</th>
         <th>First<br/>Name</th>
+        <th>_id</th>
         <th>MMRIA<br/>RecordID</th>
         <th>Status<br/>Detail</th>
         </tr>
@@ -122,7 +123,7 @@ firstName: "CHRISTIN                                          "
 importDate: "2021-01-14T15:16:01.804638-05:00"
 importFileName: "2020_11_05_KS.MOR"
 lastName: "CANTRELL                                          "
-mmriaRecordID: null
+mmria_id: null
 reportingState: "KS"
 stateOfDeathRecord: "KS"
 status: 0
@@ -143,7 +144,8 @@ statusDetail: null
             <td>${item.dateOfBirth}</td>
             <td>${item.lastName}</td>
             <td>${item.firstName}</td>
-            <td>${item.mmriaRecordID != null ? item.mmriaRecordID : "&nbsp;"}</td>
+            <td>${item.mmria_id != null ? item.mmria_id : "&nbsp;"}</td>
+            <td>${item.mmria_record_id != null ? item.mmria_record_id : "&nbsp;"}</td>
             <td>${item.statusDetail != null ? item.statusDetail: "currently processing"}</td>
             </tr>
         `);

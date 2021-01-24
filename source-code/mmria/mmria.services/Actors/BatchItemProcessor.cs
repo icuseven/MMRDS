@@ -203,7 +203,7 @@ namespace RecordsProcessor_Worker.Actors
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
-                    MMRIARecordID = mmria_id,
+                    mmria_id = mmria_id,
                     StatusDetail = "matching case found in database"
                 };
 
@@ -227,7 +227,7 @@ namespace RecordsProcessor_Worker.Actors
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
             
-                    MMRIARecordID = mmria_id,
+                    mmria_id = mmria_id,
                     StatusDetail = "Inprocess of creating new case"
                 };
 
@@ -275,11 +275,13 @@ namespace RecordsProcessor_Worker.Actors
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
             
-                    MMRIARecordID = mmria_id,
+                    mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
 
                 Sender.Tell(finished);
+
+                Context.Stop(this.Self);
 
             }
 

@@ -26,7 +26,9 @@ namespace mmria.common.ije
         public string DateOfBirth { get; init;}
         public string LastName { get; init;}
         public string FirstName { get; init;}
-        public string MMRIARecordID { get; init;}
+
+        public string mmria_record_id { get; init;}
+        public string mmria_id { get; init;}
 
         
         public string StatusDetail { get; init;}

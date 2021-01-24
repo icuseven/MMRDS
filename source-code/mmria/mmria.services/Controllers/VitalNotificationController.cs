@@ -43,7 +43,19 @@ namespace mmria.services.vitalsimport.Controllers
         {
             var  result = true;
 
-            mmria.services.vitalsimport.Program.BatchSet.Clear();
+            foreach(var kvp in mmria.services.vitalsimport.Program.BatchSet)
+            {
+                var message = new mmria.common.ije.BatchRemoveDataMessage()
+                {
+                    id = kvp.Key,
+                    date_of_removal = DateTime.Now
+                };
+
+                var bsr = _actorSystem.ActorSelection("user/batch-supervisor");
+                bsr.Tell(message);
+            }
+
+
             return result;
         }
 

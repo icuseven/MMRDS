@@ -54,17 +54,19 @@ function validate_length(p_array, p_max_length)
         {
             Receive<mmria.common.ije.NewIJESet_Message>(message =>
             {
-                Console.WriteLine("Message Recieved");
-                //Console.WriteLine(JsonConvert.SerializeObject(message));
-                //Sender.Tell("Message Recieved");
+
                 Process_Message(message);
             });
 
             Receive<mmria.common.ije.BatchItem>(message =>
             {
-                Console.WriteLine("Message Recieved");
-                //Console.WriteLine(JsonConvert.SerializeObject(message));
-                //Sender.Tell("Message Recieved");
+
+                Process_Message(message);
+            });
+
+            
+            Receive<mmria.common.ije.BatchRemoveDataMessage>(message =>
+            {
                 Process_Message(message);
             });
         }
@@ -186,6 +188,14 @@ function validate_length(p_array, p_max_length)
             };
 
             mmria.services.vitalsimport.Program.BatchSet[batch.id] = batch;
+
+            var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
+            {
+                id = batch.id,
+                status = batch.Status
+            };
+            Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+           
         }
 
 
@@ -205,10 +215,31 @@ function validate_length(p_array, p_max_length)
             var new_item = (batch_item_set[message.CDCUniqueID].Item1, message);
             batch_item_set[message.CDCUniqueID] = new_item;
 
+            var current_status = batch.Status;
+            int finished_count = 0;
+
+            foreach(var item in batch_item_set)
+            {
+                if
+                (
+                    item.Value.Item2.Status == mmria.common.ije.BatchItem.StatusEnum.NewCaseAdded ||
+                    item.Value.Item2.Status == mmria.common.ije.BatchItem.StatusEnum.ExistingCaseSkipped ||
+                    item.Value.Item2.Status == mmria.common.ije.BatchItem.StatusEnum.ImportFailed 
+                )
+                {
+                    finished_count += 1;
+                }
+            }          
+
+            if(finished_count == batch_item_set.Count)
+            {
+                current_status = mmria.common.ije.Batch.StatusEnum.Finished;
+            }
+
             var new_batch = new mmria.common.ije.Batch()
             {
                 id = batch.id,
-                Status = batch.Status,
+                Status = current_status,
                 reporting_state = batch.reporting_state,
                 ImportDate = batch.ImportDate,
                 mor_file_name = batch.mor_file_name,
@@ -221,6 +252,20 @@ function validate_length(p_array, p_max_length)
 
             batch = new_batch;
             mmria.services.vitalsimport.Program.BatchSet[batch.id] =  batch;
+
+            var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
+            {
+                id = batch.id,
+                status = batch.Status
+            };
+            Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+
+            if(current_status == mmria.common.ije.Batch.StatusEnum.Finished)
+            {
+                Context.Stop(this.Self);
+            }
+
+            
         }
 
         private bool validate_length(IList<string> p_array, int p_max_length)
@@ -366,6 +411,45 @@ GNAME 27 50
             }
 
             return result;
+        }
+
+        private void Process_Message(mmria.common.ije.BatchRemoveDataMessage message)
+        {
+            var config_timer_user_name = mmria.services.vitalsimport.Program.timer_user_name;
+            var config_timer_value = mmria.services.vitalsimport.Program.timer_value;
+
+            var config_couchdb_url = mmria.services.vitalsimport.Program.couchdb_url;
+            var db_prefix = "";
+
+            var  batch = mmria.services.vitalsimport.Program.BatchSet[message.id];
+            mmria.services.vitalsimport.Program.BatchSet.Remove(batch.id);
+            foreach(var item in batch.record_result)
+            {
+                // remove from db
+
+                try
+                {
+                    string request_string = $"{config_couchdb_url}/{db_prefix}mmrds/_all_docs?include_docs=true";
+
+                    var case_id = item.mmria_id;
+
+                    if (!string.IsNullOrWhiteSpace (case_id)) 
+                    {
+                        request_string = $"{config_couchdb_url}/{db_prefix}mmrds/{case_id}";
+                        //var case_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+                        //string responseFromServer = case_curl.execute();
+
+                        // to do synchronize
+                    } 
+
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine (ex);
+                } 
+
+            }
+
         }
    
     }
