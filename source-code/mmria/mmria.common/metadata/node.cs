@@ -18,6 +18,7 @@ namespace mmria.common.metadata
         public bool? is_hidden { get; set; } 
 
 		public bool? is_multiselect{ get; set; } 
+        
 		public bool? is_save_value_display_description { get; set; } 
 		public int? list_display_size { get; set; }
 
@@ -80,7 +81,9 @@ namespace mmria.common.metadata
 		public string padding { get; set; }
 		public string text_align { get; set; }
 
-
+        public bool? is_not_selectable { get; set; } 
+        public string sort_path_reference { get; set; }
+        public string sort_order { get; set; }
 
 		public node()
 		{

@@ -345,7 +345,15 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 
 		for(var i = 0; i < p_metadata.values.length; i++)
 		{
-			var child = p_metadata.values[i];
+            var child = p_metadata.values[i];
+            
+            if(child.is_not_selectable == null)
+            {
+                child.is_not_selectable = false;
+            }
+
+
+
 			result.push('<li path="');
 			result.push(p_path + "/" + "values/" + i);
 			result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> value: <input type="text" value="');
@@ -387,7 +395,10 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			}
 			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 			result.push(p_path  + "/" + "values/" + i + "/description");
-			result.push('" /> ');
+            result.push('"  /> ');
+            result.push(
+                `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_not_selectable" value="${child.is_not_selectable}" /> is NOT selectable`
+            )
 			//result.push(p_path  + "/" + "values/" + i);
 			result.push(' </li>');
 
@@ -695,6 +706,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 				}
 				break;
 			case "path_reference":
+            case "sort_path_reference":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : ');
@@ -1170,7 +1182,11 @@ function render_attribute_add_control(p_path, node_type)
 		{
 			result.push('<option>control_style</option>');
 			result.push('<option>path_reference</option>');
-		}
+        }
+        
+        result.push('<option>sort_order</option>');
+        result.push('<option>sort_path_reference</option>');
+        
 	}
 	result.push('</select>');
 	
@@ -1267,6 +1283,7 @@ function editor_set_value(e, p_ui)
 		case "is_required":
 		case "is_multiselect":
 		case "is_read_only":
+        case "is_not_selectable":
 		case "is_save_value_display_description":
 			eval(item_path + ' = !' + e.value);
 			window.dispatchEvent(metadata_changed_event);
