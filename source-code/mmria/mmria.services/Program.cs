@@ -33,6 +33,8 @@ namespace mmria.services.vitalsimport
         public static string central_timer_user_name = null;
         public static string central_timer_value = null;
 
+        public static string vitals_service_key = null;
+
         public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
         private static IConfiguration configuration;
@@ -58,7 +60,7 @@ namespace mmria.services.vitalsimport
                     central_couchdb_url = System.Environment.GetEnvironmentVariable ("central_couchdb_url");
                     central_timer_user_name = System.Environment.GetEnvironmentVariable ("central_timer_password");
                     central_timer_value = System.Environment.GetEnvironmentVariable ("central_timer_password");
-
+                    vitals_service_key = System.Environment.GetEnvironmentVariable ("vitals_service_key");
                     configuration["mmria_settings:web_site_url"] = config_web_site_url;
                     //Program.config_export_directory = configuration["mmria_settings:export_directory"];
                     configuration["mmria_settings:couchdb_url"] = couchdb_url;
@@ -68,6 +70,7 @@ namespace mmria.services.vitalsimport
                     configuration["mmria_settings:central_couchdb_url"] = central_couchdb_url;
                     configuration["mmria_settings:central_timer_password"] = central_timer_user_name;
                     configuration["mmria_settings:central_timer_password"] = central_timer_value;
+                    configuration["mmria_settings:vitals_service_key"] = vitals_service_key;
                 }
                 else 
                 {
@@ -81,6 +84,7 @@ namespace mmria.services.vitalsimport
                     central_couchdb_url = configuration["mmria_settings:central_couchdb_url"];
                     central_timer_user_name = configuration["mmria_settings:central_timer_password"];
                     central_timer_value = configuration["mmria_settings:central_timer_password"];
+                    vitals_service_key = configuration["mmria_settings:vitals_service_key"];
                 }
 
             CreateHostBuilder(args).Build().Run();
