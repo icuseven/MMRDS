@@ -8,6 +8,8 @@ namespace mmria.common.metadata
 		public string description { get; set; }
 		public string value { get; set; }
 
+        public bool? is_not_selectable { get; set; }
+
 
 		public value_node()
 		{

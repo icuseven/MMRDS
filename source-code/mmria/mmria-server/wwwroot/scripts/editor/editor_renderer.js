@@ -397,7 +397,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_path  + "/" + "values/" + i + "/description");
             result.push('"  /> ');
             result.push(
-                `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_not_selectable" value="${child.is_not_selectable}" /> is NOT selectable`
+                `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_not_selectable" value="${child.is_not_selectable}" ${child.is_not_selectable ? "checked" : "" }/> is NOT selectable`
             )
 			//result.push(p_path  + "/" + "values/" + i);
 			result.push(' </li>');
