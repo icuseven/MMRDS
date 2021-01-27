@@ -279,7 +279,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(item.value.replace(/'/g, "&#39;"));
                     p_result.push("' selected ");
                     let disabled_option_html = "disabled";
-                    if(g_data_is_checked_out || g_is_data_analyst_mode)
+                    if(g_data_is_checked_out || g_is_data_analyst_mode || (item.is_not_selectable!= null && item.is_not_selectable == true))
                     {
                         disabled_option_html = "";
                     }
@@ -365,6 +365,10 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     p_result.push(" disabled ");
                 }
+                else if(item.is_not_selectable!= null && item.is_not_selectable == true)
+                {
+                    p_result.push(" disabled ");
+                }
 
                 p_result.push(">");
                 if(item.display)
@@ -392,6 +396,10 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_metadata.name=="overall_case_status" && 
                     item.value == 9999
                 )
+                {
+                    p_result.push(" disabled ");
+                }
+                else if(item.is_not_selectable!= null && item.is_not_selectable == true)
                 {
                     p_result.push(" disabled ");
                 }
@@ -1226,7 +1234,13 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     let disabled_html = " disabled = 'disabled' ";
     if(g_data_is_checked_out)
     {
-        disabled_html = " ";
+        
+        if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
+        {
+            p_result.push(" disabled ");
+        }
+        else disabled_html = " ";
+
     }
     p_result.push(disabled_html);
 

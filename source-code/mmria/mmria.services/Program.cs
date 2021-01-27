@@ -29,6 +29,12 @@ namespace mmria.services.vitalsimport
         public static string timer_user_name;
         public static string timer_value;
 
+        public static string central_couchdb_url = null;
+        public static string central_timer_user_name = null;
+        public static string central_timer_value = null;
+
+        public static string vitals_service_key = null;
+
         public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
         private static IConfiguration configuration;
@@ -51,14 +57,20 @@ namespace mmria.services.vitalsimport
                     db_prefix = System.Environment.GetEnvironmentVariable ("db_prefix");
                     timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
                     timer_value = System.Environment.GetEnvironmentVariable ("timer_password");
-                    
-
+                    central_couchdb_url = System.Environment.GetEnvironmentVariable ("central_couchdb_url");
+                    central_timer_user_name = System.Environment.GetEnvironmentVariable ("central_timer_password");
+                    central_timer_value = System.Environment.GetEnvironmentVariable ("central_timer_password");
+                    vitals_service_key = System.Environment.GetEnvironmentVariable ("vitals_service_key");
                     configuration["mmria_settings:web_site_url"] = config_web_site_url;
                     //Program.config_export_directory = configuration["mmria_settings:export_directory"];
                     configuration["mmria_settings:couchdb_url"] = couchdb_url;
                     configuration["mmria_settings:db_prefix"] = db_prefix;
                     configuration["mmria_settings:timer_user_name"] = timer_user_name;
                     configuration["mmria_settings:timer_password"] = timer_value;
+                    configuration["mmria_settings:central_couchdb_url"] = central_couchdb_url;
+                    configuration["mmria_settings:central_timer_password"] = central_timer_user_name;
+                    configuration["mmria_settings:central_timer_password"] = central_timer_value;
+                    configuration["mmria_settings:vitals_service_key"] = vitals_service_key;
                 }
                 else 
                 {
@@ -68,6 +80,11 @@ namespace mmria.services.vitalsimport
                     db_prefix = configuration["mmria_settings:db_prefix"];
                     timer_user_name = configuration["mmria_settings:timer_user_name"];
                     timer_value = configuration["mmria_settings:timer_password"];
+
+                    central_couchdb_url = configuration["mmria_settings:central_couchdb_url"];
+                    central_timer_user_name = configuration["mmria_settings:central_timer_password"];
+                    central_timer_value = configuration["mmria_settings:central_timer_password"];
+                    vitals_service_key = configuration["mmria_settings:vitals_service_key"];
                 }
 
             CreateHostBuilder(args).Build().Run();
@@ -88,7 +105,6 @@ namespace mmria.services.vitalsimport
                     var provider = collection.BuildServiceProvider();
 
                     var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
-                    //actorSystem.ActorOf(actorSystem.DI().Props<RecordsProcessor_Worker.Actors.BatchSupervisor>(), "batch-supervisor");
                     actorSystem.ActorOf<RecordsProcessor_Worker.Actors.BatchSupervisor>("batch-supervisor");
                     
                     services.AddHostedService<Worker>();

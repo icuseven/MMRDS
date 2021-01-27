@@ -103,6 +103,11 @@ namespace mmria.server
             Program.config_vitals_url = Configuration["mmria_settings:vitals_url"];
         }
 
+        if (!string.IsNullOrEmpty(Configuration["mmria_settings:vitals_service_key"]))
+        {
+            Program.vitals_service_key = Configuration["mmria_settings:vitals_service_key"];
+        }
+
 
 
       var test_int = 0;
@@ -300,6 +305,12 @@ namespace mmria.server
           Program.config_cdc_instance_pull_db_url = Configuration["mmria_settings:cdc_instance_pull_db_url"];
         }
 
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("vitals_service_key")))
+        {
+          Configuration["mmria_settings:vitals_service_key"] = System.Environment.GetEnvironmentVariable("vitals_service_key");
+          Program.vitals_service_key = Configuration["mmria_settings:vitals_service_key"];
+        }
+
         /*
         Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
         Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
@@ -332,6 +343,11 @@ namespace mmria.server
       Log.Information("mmria_settings:app_instance_name: {0}", Configuration["mmria_settings:app_instance_name"]);
       Log.Information("mmria_settings:session_idle_timeout_minutes: {0}", Configuration["mmria_settings:session_idle_timeout_minutes"]);
       Log.Information("Program.config_session_idle_timeout_minutes: {0}", Program.config_session_idle_timeout_minutes);
+
+      if(!string.IsNullOrWhiteSpace(Program.vitals_service_key))
+      {
+          Log.Information("Program.config_vitals_service_key is present");
+      }
 
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
       services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
