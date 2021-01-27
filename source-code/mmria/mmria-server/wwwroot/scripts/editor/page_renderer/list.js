@@ -1234,7 +1234,13 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     let disabled_html = " disabled = 'disabled' ";
     if(g_data_is_checked_out)
     {
-        disabled_html = " ";
+        
+        if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
+        {
+            p_result.push(" disabled ");
+        }
+        else disabled_html = " ";
+
     }
     p_result.push(disabled_html);
 
