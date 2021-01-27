@@ -706,7 +706,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 				}
 				break;
 			case "path_reference":
-            case "sort_path_reference":
+
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : ');
@@ -797,6 +797,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 			case "description":
 			case "grid_template_areas":
 			case "pre_fill":
+            case "sort_order":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
@@ -1140,7 +1141,7 @@ function render_attribute_add_control(p_path, node_type)
 	}
 	else if(is_collection_node)
 	{
-		// do nothing
+        result.push('<option>sort_order</option>');
 	}
 	else
 	{
@@ -1184,8 +1185,7 @@ function render_attribute_add_control(p_path, node_type)
 			result.push('<option>path_reference</option>');
         }
         
-        result.push('<option>sort_order</option>');
-        result.push('<option>sort_path_reference</option>');
+
         
 	}
 	result.push('</select>');
@@ -1747,6 +1747,7 @@ function editor_add_to_attributes(e, p_ui)
 				break;
 			case "default_value":
 			case "description":
+            case "sort_order":
 			case "regex_pattern":
 			case "validation":
 			case "validation_description":

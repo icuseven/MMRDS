@@ -82,7 +82,6 @@ namespace mmria.common.metadata
 		public string text_align { get; set; }
 
         public bool? is_not_selectable { get; set; } 
-        public string sort_path_reference { get; set; }
         public string sort_order { get; set; }
 
 		public node()
