@@ -79,6 +79,109 @@ namespace migrate.set
             
 				this.lookup = get_look_up(metadata);
 
+				var eight_to_7_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				{
+
+				"dcd_eiua_force ",
+				"dcd_ioh_origi",
+				"dcd_e_level",
+				"dciai_wia_work",
+				"dciai_wsbi_use",
+				"dcdi_doi_hospi",
+				"dcdi_doo_hospi",
+				"dcdi_mo_death",
+				"dcdi_wa_perfo",
+				"dcdi_waufd_codin",
+				"dcdi_p_statu",
+				"dcdi_dtct_death",
+				"bfdcpfodd_whd_plann",
+				"bfdcpfodd_a_type",
+				"bfdcpfodd_wm_trans",
+				"bfdcpdof_e_level",
+				"bfdcpdof_ifoh_origi",
+				"bfdcpdofr_ro_fathe",
+				"bfdcpdom_m_marri",
+				"bfdcpdom_Imnmhpabsit_hospi",
+				"bfdcpdom_eiua_force",
+				"bfdcpdom_ioh_origi",
+				"bfdcpdom_e_level",
+				"bfdcppc_plura",
+				"bfdcppc_ww_used",
+				"bfdcpcs_non_speci",
+				"bfdcprf_rfit_pregn",
+				"bfdcp_ipotd_pregn",
+				"bfdcp_oo_labor",
+				"bfdcp_o_proce",
+				"bfdcp_cola_deliv",
+				"bfdcp_m_morbi",
+				"bcifs_im_gesta",
+				"bcifsbad_gende",
+				"bcifsbad_iilato_repor",
+				"bcifsbad_iibba_disch",
+				"bcifsbad_witw2_hours",
+				"bcifsmod_wdwfab_unsuc",
+				"bcifsmod_wdwveab_unsuc",
+				"bcifsmod_f_deliv",
+				"bcifsmod_framo_deliv",
+				"bcifsmod_icwtol_attem",
+				"bcifs_aco_newbo",
+				"arrc_r_type",
+				"art_level",
+				"pppcf_p_type",
+				"pppcf_iu_wic",
+				"p_hpe_condi",
+				"p_wtdmh_condi",
+				"pfmh_i_livin",
+				"p_eos_use",
+				"psug_scree",
+				"psug_c_educa",
+				"pphdg_in_livin",
+				"pi_wp_plann",
+				"pi_wpub_contr",
+				"pit_wproi_treat",
+				"pit_fe_drugs",
+				"pit_ar_techn",
+				"pcp_whd_plann",
+				"pcp_apv_alone",
+				"p_wtp_ident",
+				"p_wta_react",
+				"pmaddp_ia_react",
+				"p_wtpd_hospi",
+				"p_wmrt_other",
+				"pmr_wa_kept",
+				"posopc_place",
+				"evahmrbaadi_a_condi",
+				"evahmrbaadi_wrfa_hospi",
+				"evahmrbaadi_wtta_hospi",
+				"evahmrbaadi_dp_statu",
+				"evahmrbaadi_da_disch",
+				"evahmrnalf_mott_facil",
+				"evahmrnalf_oo_trave",
+				"evahmrlt_d_level",
+				"evahmrool_fd_route",
+				"evahmrool_m_gesta",
+				"evahmrba_title",
+				"evahmr_wtco_anest",
+				"evahmr_aa_react",
+				"evahmr_as_proce",
+				"evahmr_ab_trans",
+				"omovv_v_type",
+				"omovmcf_p_type",
+				"omovmcf_wtphppc_provi",
+				"omovlt_d_level",
+				"saepsec_so_incom",
+				"saepsec_e_statu",
+				"saepsec_cl_arran",
+				"saepsec_homel",
+				"saepmoh_relat",
+				"saepmoh_gende",
+				"saepsamr_compi",
+				"saep_ds_use",
+				"mhp_wtdpmh_cond",
+				"mhpwtdmhc_rf_treat"
+				};
+
+
 				all_list_set = get_metadata_node_by_type(metadata, "list");
 
 				single_form_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == false && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
@@ -100,7 +203,21 @@ namespace migrate.set
 
 				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
 
+				var sf = single_form_value_set.Where( x=> eight_to_7_list.Contains(x.sass_export_name)).ToList();
+				
+				Console.WriteLine("here");
 
+/*
+bcifsmod_framo_deliv +1 4 -> 7777
+ar_coa_infor -1 + 4 -> 2
+pppcf_pp_type -1 +1 3 -> 4
+posopc_p_type -1 +1 3->4
+omovmcf_provicer_type -1 +1 6->7
+omovdiaot_t_type -1 +8
+
+evahmrlt_d_level +4
+evahmrba_title +3
+*/
 
             // pmss migration - start
             // 24
@@ -287,6 +404,8 @@ mhpwtdmhc_rf_treat
 			public bool is_grid { get; set; }
 
 			public string path {get;set;}
+
+			public string sass_export_name {get;set;}
 			public mmria.common.metadata.node Node { get; set; }
 
 			public Dictionary<string,string> display_to_value { get; set; }
@@ -307,7 +426,8 @@ mhpwtdmhc_rf_treat
 						is_multiform = false,
 						is_grid = false,
 						path = node.name,
-						Node = node
+						Node = node,
+						sass_export_name = node.sass_export_name
 					});
 				}
 				else if(current_type == "form")
@@ -379,7 +499,8 @@ mhpwtdmhc_rf_treat
 					path = p_path,
 					Node = p_node,
 					value_to_display = value_to_display,
-					display_to_value = display_to_value
+					display_to_value = display_to_value,
+					sass_export_name = p_node.sass_export_name
 				});
 			}
 			else if(p_node.children != null)

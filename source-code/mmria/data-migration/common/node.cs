@@ -77,6 +77,7 @@ namespace mmria.common.metadata
 		public string padding { get; set; }
 		public string text_align { get; set; }
 
+		public string sass_export_name { get; set; }
 
 
 		public node()
