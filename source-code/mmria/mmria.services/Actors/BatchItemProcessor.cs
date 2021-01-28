@@ -29,69 +29,82 @@ namespace RecordsProcessor_Worker.Actors
                 //Rest of Mor mappings
                 //{"DOD_YR","home_record/date_of_death/Year"},
                 //{"DSTATE","/home_record/state_of_death_record"},
-                {"FILENO","death_certificate/certificate_identification/state_file_number"},
-                {"AUXNO","death_certificate/certificate_identification/local_file_number"},
+                { "FILENO","death_certificate/certificate_identification/state_file_number"},
+                { "AUXNO","death_certificate/certificate_identification/local_file_number"},
                 //{"GNAME","home_record/first_name"},
                 //{"LNAME","home_record/last_name"},
-                {"AGE ","death_certificate/demographics/age"},
+                { "AGE","death_certificate/demographics/age"},
                 //{"DOB_YR","death_certificate/demographics/date_of_birth/year"},
                 //{"DOB_MO","death_certificate/demographics/date_of_birth/month"},
                 //{"DOB_DY","death_certificate/demographics/date_of_birth/day"},
-                {"BPLACE_CNT","death_certificate/demographics/country_of_birth"},
-                {"BPLACE_ST","death_certificate/demographics/state_of_birth"},
-                {"STATEC","death_certificate/place_of_last_residence/state"},
-                {"COUNTRYC","death_certificate/place_of_last_residence/country_of_last_residence"},
-                {"MARITAL","death_certificate/demographics/marital_status"},
-                {"DPLACE","death_certificate/death_information/death_occured_in_hospital"},
-                {"DOD_MO","home_record/date_of_death/month"},
-                {"DOD_DY","home_record/date_of_death/day"},
+                { "BPLACE_CNT","death_certificate/demographics/country_of_birth"},
+                { "BPLACE_ST","death_certificate/demographics/state_of_birth"},
+                { "STATEC","death_certificate/place_of_last_residence/state"},
+                { "COUNTRYC","death_certificate/place_of_last_residence/country_of_last_residence"},
+                { "MARITAL","death_certificate/demographics/marital_status"},
+
+                { "DPLACE","death_certificate/death_information/death_occured_in_hospital"},
+
+                { "DOD_MO","home_record/date_of_death/month"},
+                { "DOD_DY","home_record/date_of_death/day"},
                 { "TOD","death_certificate/certificate_identification/time_of_death"},
                 { "DEDUC","death_certificate/demographics/education_level"},
-                { "DETHNIC1","/death_certificate/demographics/is_of_hispanic_origin"},
-                { "DETHNIC2","/death_certificate/demographics/is_of_hispanic_origin"},
-                { "DETHNIC3","/death_certificate/demographics/is_of_hispanic_origin"},
-                { "DETHNIC4","/death_certificate/demographics/is_of_hispanic_origin"},
+
+                { "DETHNIC_is_of_hispanic_origin","/death_certificate/demographics/is_of_hispanic_origin"},
+                //{ "DETHNIC1","/death_certificate/demographics/is_of_hispanic_origin"},
+                //{ "DETHNIC2","/death_certificate/demographics/is_of_hispanic_origin"},
+                //{ "DETHNIC3","/death_certificate/demographics/is_of_hispanic_origin"},
+                //{ "DETHNIC4","/death_certificate/demographics/is_of_hispanic_origin"},
 
                 //TODO: James I need the new MMRIA fields for these
                 { "DETHNIC5","Map to new MMRIA field for Other Hispanic, Specify. Add MMRIA path when available"},
 
-                { "RACE1","death_certificate/race/race "},
-                { "RACE2","death_certificate/race/race"},
-                { "RACE3","death_certificate/race/race"},
-                { "RACE4","death_certificate/race/race"},
-                { "RACE5","death_certificate/race/race"},
-                { "RACE6","death_certificate/race/race"},
-                { "RACE7","death_certificate/race/race"},
-                { "RACE8","death_certificate/race/race"},
-                { "RACE9","death_certificate/race/race"},
-                { "RACE10","death_certificate/race/race"},
-                { "RACE11","death_certificate/race/race"},
-                { "RACE12","death_certificate/race/race"},
-                { "RACE13","death_certificate/race/race"},
-                { "RACE14","death_certificate/race/race"},
-                { "RACE15","death_certificate/race/race"},
+                { "RACE","death_certificate/race/race"},
 
-                { "RACE16","/death_certificate/race/principle_tribe"},
-                { "RACE17","/death_certificate/race/principle_tribe"},
+                //{ "RACE1","death_certificate/race/race"},
+                //{ "RACE2","death_certificate/race/race"},
+                //{ "RACE3","death_certificate/race/race"},
+                //{ "RACE4","death_certificate/race/race"},
+                //{ "RACE5","death_certificate/race/race"},
+                //{ "RACE6","death_certificate/race/race"},
+                //{ "RACE7","death_certificate/race/race"},
+                //{ "RACE8","death_certificate/race/race"},
+                //{ "RACE9","death_certificate/race/race"},
+                //{ "RACE10","death_certificate/race/race"},
+                //{ "RACE11","death_certificate/race/race"},
+                //{ "RACE12","death_certificate/race/race"},
+                //{ "RACE13","death_certificate/race/race"},
+                //{ "RACE14","death_certificate/race/race"},
+                //{ "RACE15","death_certificate/race/race"},
 
-                { "RACE18","/death_certificate/race/other_asian"},
-                { "RACE19","/death_certificate/race/other_asian"},
+                { "RACE_Principal_Tribe","/death_certificate/race/principle_tribe"},
 
-                { "RACE20","/death_certificate/race/other_pacific_islander"},
-                { "RACE21","/death_certificate/race/other_pacific_islander"},
+                //{ "RACE16","/death_certificate/race/principle_tribe"},
+                //{ "RACE17","/death_certificate/race/principle_tribe"},
 
-                { "RACE22","/death_certificate/race/other_race"},
-                { "RACE23","/death_certificate/race/other_race"},
+                { "RACE_other_asian","/death_certificate/race/other_asian"},
 
-                {"OCCUP","/death_certificate/demographics/primary_occupation"},
-                {"INDUST","/death_certificate/demographics/occupation_business_industry"},
+                //{ "RACE18","/death_certificate/race/other_asian"},
+                //{ "RACE19","/death_certificate/race/other_asian"},
+
+                { "RACE_other_pacific_islander","/death_certificate/race/other_pacific_islander"},
+
+                //{ "RACE20","/death_certificate/race/other_pacific_islander"},
+                //{ "RACE21","/death_certificate/race/other_pacific_islander"},
+
+                { "RACE_other_race","/death_certificate/race/other_race"},
+
+                //{ "RACE22","/death_certificate/race/other_race"},
+                //{ "RACE23","/death_certificate/race/other_race"},
+
+                { "OCCUP","/death_certificate/demographics/primary_occupation"},
+                { "INDUST","/death_certificate/demographics/occupation_business_industry"},
                 { "MANNER","death_certificate/death_information/manner_of_death"},
 
-                //TODO: James I need the new MMRIA fields for these
-                { "MAN_UC","Map to new MMRIA read-only field for Manual Underlying Cause Add MMRIA path when available"},
-                { "ACME_UC","Map to new MMRIA read-only field for ACME Underlying Cause. Add MMRIA path when available"},
-                { "EAC","Map to new MMRIA read-only field for Entity - axis Codes. Add MMRIA path when available"},
-                { "RAC","Map to new MMRIA read-only field for  - axis Codes Add MMRIA path when available"},
+                { "MAN_UC","/death_certificate/vitals_import_group/man_uc"},
+                { "ACME_UC","/death_certificate/vitals_import_group/acme_uc"},
+                { "EAC","/death_certificate/vitals_import_group/eac"},
+                { "RAC","death_certificate/vitals_import_group/rac"},
 
                 { "AUTOP","death_certificate/death_information/was_autopsy_performed"},
                 { "AUTOPF","/death_certificate/death_information/was_autopsy_used_for_death_coding"},
@@ -107,53 +120,60 @@ namespace RecordsProcessor_Worker.Actors
 
                 { "ARMEDF","death_certificate/demographics/ever_in_us_armed_forces"},
                 { "DINSTI","death_certificate/address_of_death/place_of_death"},
-                { "STNUM_D","death_certificate/address_of_death/street"},
-                { "PREDIR_D","death_certificate/address_of_death/street"},
-                { "STNAME_D","death_certificate/address_of_death/street"},
-                { "STDESIG_D","death_certificate/address_of_death/street"},
-                {"POSTDIR_D","death_certificate/address_of_death/street"},
+
+                { "ADDRESS_OF_DEATH_street","death_certificate/address_of_death/street"},
+
+                //{ "STNUM_D","death_certificate/address_of_death/street"},
+                //{ "PREDIR_D","death_certificate/address_of_death/street"},
+                //{ "STNAME_D","death_certificate/address_of_death/street"},
+                //{ "STDESIG_D","death_certificate/address_of_death/street"},
+                //{"POSTDIR_D","death_certificate/address_of_death/street"},
+
                 { "CITYTEXT_D","death_certificate/address_of_death/city"},
                 { "STATETEXT_D","death_certificate/address_of_death/state"},
                 { "ZIP9_D","death_certificate/address_of_death/zip_code"},
                 { "COUNTYTEXT_D","death_certificate/address_of_death/county"},
-                { "STNUM_R","death_certificate/place_of_last_residence/street"},
-                { "PREDIR_R","death_certificate/place_of_last_residence/street"},
-                { "STNAME_R","death_certificate/place_of_last_residence/street"},
-                { "STDESIG_R","death_certificate/place_of_last_residence/street"},
-                { "POSTDIR_R","death_certificate/place_of_last_residence/street"},
+
+                { "PLACE_OF_LAST_RESIDENCE_street","death_certificate/place_of_last_residence/street"},
+
+                //{ "STNUM_R","death_certificate/place_of_last_residence/street"},
+                //{ "PREDIR_R","death_certificate/place_of_last_residence/street"},
+                //{ "STNAME_R","death_certificate/place_of_last_residence/street"},
+                //{ "STDESIG_R","death_certificate/place_of_last_residence/street"},
+                //{ "POSTDIR_R","death_certificate/place_of_last_residence/street"},
+
                 { "UNITNUM_R","death_certificate/place_of_last_residence/apartment"},
                 { "CITYTEXT_R","death_certificate/place_of_last_residence/city"},
                 { "ZIP9_R","death_certificate/place_of_last_residence/zip_code"},
                 { "COUNTYTEXT_R","death_certificate/place_of_last_residence/county"},
                 { "DMIDDLE","home_record/middle_name"},
                 { "POILITRL","death_certificate/injury_associated_information/place_of_injury"},
-                {"TRANSPRT","death_certificate/injury_associated_information/transportation_related_injury"},
+                { "TRANSPRT","death_certificate/injury_associated_information/transportation_related_injury"},
                 { "COUNTYTEXT_I","death_certificate/address_of_injury/county"},
                 { "CITYTEXT_I","death_certificate/address_of_injury/city"},
 
-                //TODO: James I need the new MMRIA fields for these
-                { "COD1A","New MMRIA fields; add paths when available"},
-                { "INTERVAL1A","New MMRIA fields; add paths when available"},
-                { "COD1B","New MMRIA fields; add paths when available"},
-                { "INTERVAL1B","New MMRIA fields; add paths when available"},
-                { "COD1C","New MMRIA fields; add paths when available"},
-                { "INTERVAL1C","New MMRIA fields; add paths when available"},
-                { "COD1D","New MMRIA fields; add paths when available"},
-                { "INTERVAL1D","New MMRIA fields; add paths when available"},
-                { "OTHERCONDITION","New MMRIA fields; add paths when available"},
+                { "COD1A","/death_certificate/vitals_import_group/cod1a"},
+                { "INTERVAL1A","/death_certificate/vitals_import_group/interval1a"},
+                { "COD1B","/death_certificate/vitals_import_group/cod1b"},
+                { "INTERVAL1B","/death_certificate/vitals_import_group/interval1b"},
+                { "COD1C","/death_certificate/vitals_import_group/cod1c"},
+                { "INTERVAL1C","/death_certificate/vitals_import_group/interval1c"},
+                { "COD1D","/death_certificate/vitals_import_group/cod1d"},
+                { "INTERVAL1D","/death_certificate/vitals_import_group/interfval1d"},
+                { "OTHERCONDITION","/death_certificate/vitals_import_group/othercondition"},
 
                 { "DBPLACECITY","death_certificate/demographics/city_of_birth"},
                 { "STINJURY","death_certificate/address_of_injury/state"},
 
-                { "VRO_STATUS","TBD"},
-                { "BC_DET_MATCH","TBD"},
+                //TODO: James I need the new MMRIA fields for these
+                { "VRO_STATUS","/home_record/automated_vitals_group/vro_status"},
+                { "BC_DET_MATCH","/home_record/automated_vitals_group/bc_det_match"},
                 { "FDC_DET_MATCH","TBD"},
                 { "BC_PROB_MATCH","TBD"},
-                { "FDC_PROB_MATCH","TBD"},
-                { "ICD10_MATCH","TBD"},
-                { "PREGCB_MATCH","TBD"},
-                { "LITERALCOD_MATCH","TBD"},
-
+                { "FDC_PROB_MATCH","/home_record/automated_vitals_group/fdc_prob_match"},
+                { "ICD10_MATCH","/home_record/automated_vitals_group/icd10_match"},
+                { "PREGCB_MATCH","/home_record/automated_vitals_group/pregcb_match"},
+                { "LITERALCOD_MATCH","/home_record/automated_vitals_group/literalcod_match"},
 
         };
         protected override void PreStart() => Console.WriteLine("Process_Message started");
@@ -399,35 +419,59 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["TOD"], mor_field_set["TOD"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DEDUC"], mor_field_set["DEDUC"], new_case);
 
-                gs.set_value(IJE_to_MMRIA_Path["DETHNIC1"], mor_field_set["DETHNIC1"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DETHNIC2"], mor_field_set["DETHNIC2"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DETHNIC3"], mor_field_set["DETHNIC3"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DETHNIC4"], mor_field_set["DETHNIC4"], new_case);
+
+
+                gs.set_value(IJE_to_MMRIA_Path["DETHNIC_is_of_hispanic_origin"], DETHNIC_Rule(mor_field_set["DETHNIC1"], mor_field_set["DETHNIC2"], mor_field_set["DETHNIC3"], mor_field_set["DETHNIC4"]) , new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["DETHNIC1"], mor_field_set["DETHNIC1"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["DETHNIC1"], mor_field_set["DETHNIC1"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["DETHNIC2"], mor_field_set["DETHNIC2"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["DETHNIC3"], mor_field_set["DETHNIC3"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["DETHNIC4"], mor_field_set["DETHNIC4"], new_case);
+
                 gs.set_value(IJE_to_MMRIA_Path["DETHNIC5"], mor_field_set["DETHNIC5"], new_case);
 
-                gs.set_value(IJE_to_MMRIA_Path["RACE1"], mor_field_set["RACE1"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE2"], mor_field_set["RACE2"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE3"], mor_field_set["RACE3"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE4"], mor_field_set["RACE4"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE5"], mor_field_set["RACE5"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE6"], mor_field_set["RACE6"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE7"], mor_field_set["RACE7"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE8"], mor_field_set["RACE8"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE9"], mor_field_set["RACE9"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE10"], mor_field_set["RACE10"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE11"], mor_field_set["RACE11"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE12"], mor_field_set["RACE12"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE13"], mor_field_set["RACE13"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE14"], mor_field_set["RACE14"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE15"], mor_field_set["RACE15"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE16"], mor_field_set["RACE16"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE17"], mor_field_set["RACE17"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE18"], mor_field_set["RACE18"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE19"], mor_field_set["RACE19"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE20"], mor_field_set["RACE20"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE21"], mor_field_set["RACE21"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE22"], mor_field_set["RACE22"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["RACE23"], mor_field_set["RACE23"], new_case);
+                gs.set_multi_value(IJE_to_MMRIA_Path["RACE"], 
+                    RACE_Rule(mor_field_set["RACE1"], mor_field_set["RACE2"], mor_field_set["RACE3"],
+                                mor_field_set["RACE4"], mor_field_set["RACE5"],
+                                mor_field_set["RACE6"], mor_field_set["RACE7"], mor_field_set["RACE8"],
+                                mor_field_set["RACE9"], mor_field_set["RACE10"], mor_field_set["RACE11"],
+                                mor_field_set["RACE12"], mor_field_set["RACE13"], mor_field_set["RACE14"], mor_field_set["RACE15"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["RACE1"], mor_field_set["RACE1"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE2"], mor_field_set["RACE2"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE3"], mor_field_set["RACE3"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE4"], mor_field_set["RACE4"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE5"], mor_field_set["RACE5"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE6"], mor_field_set["RACE6"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE7"], mor_field_set["RACE7"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE8"], mor_field_set["RACE8"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE9"], mor_field_set["RACE9"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE10"], mor_field_set["RACE10"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE11"], mor_field_set["RACE11"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE12"], mor_field_set["RACE12"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE13"], mor_field_set["RACE13"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE14"], mor_field_set["RACE14"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE15"], mor_field_set["RACE15"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["RACE_Principal_Tribe"], RACE_Principal_Tribe_Rule(mor_field_set["RACE16"], mor_field_set["RACE17"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["RACE16"], mor_field_set["RACE16"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE17"], mor_field_set["RACE17"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["RACE_other_asian"], RACE_other_asian_Rule(mor_field_set["RACE18"], mor_field_set["RACE19"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["RACE18"], mor_field_set["RACE18"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE19"], mor_field_set["RACE19"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["RACE_other_pacific_islander"], RACE_other_pacific_islander_Rule(mor_field_set["RACE20"], mor_field_set["RACE21"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["RACE20"], mor_field_set["RACE20"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE21"], mor_field_set["RACE21"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["RACE_other_race"], RACE_other_race_Rule(mor_field_set["RACE22"], mor_field_set["RACE23"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["RACE22"], mor_field_set["RACE22"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["RACE23"], mor_field_set["RACE23"], new_case);
 
                 gs.set_value(IJE_to_MMRIA_Path["OCCUP"], mor_field_set["OCCUP"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["INDUST"], mor_field_set["INDUST"], new_case);
@@ -449,21 +493,36 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["ARMEDF"], mor_field_set["ARMEDF"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DINSTI"], mor_field_set["DINSTI"], new_case);
 
-                gs.set_value(IJE_to_MMRIA_Path["STNUM_D"], mor_field_set["STNUM_D"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["PREDIR_D"], mor_field_set["PREDIR_D"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STNAME_D"], mor_field_set["STNAME_D"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STDESIG_D"], mor_field_set["STDESIG_D"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["POSTDIR_D"], mor_field_set["POSTDIR_D"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["ADDRESS_OF_DEATH_street"], ADDRESS_OF_DEATH_street_Rule(mor_field_set["STNUM_D"]
+                                                                                                    , mor_field_set["PREDIR_D"]
+                                                                                                    , mor_field_set["STNAME_D"]
+                                                                                                    , mor_field_set["STDESIG_D"]
+                                                                                                    , mor_field_set["POSTDIR_D"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["STNUM_D"], mor_field_set["STNUM_D"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["PREDIR_D"], mor_field_set["PREDIR_D"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["STNAME_D"], mor_field_set["STNAME_D"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["STDESIG_D"], mor_field_set["STDESIG_D"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["POSTDIR_D"], mor_field_set["POSTDIR_D"], new_case);
+
                 gs.set_value(IJE_to_MMRIA_Path["CITYTEXT_D"], mor_field_set["CITYTEXT_D"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STATETEXT_D"], mor_field_set["STATETEXT_D"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["STATETEXT_D"], STATETEXT_D_Rule(mor_field_set["STATETEXT_D"]), new_case);
                 gs.set_value(IJE_to_MMRIA_Path["ZIP9_D"], mor_field_set["ZIP9_D"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COUNTYTEXT_D"], mor_field_set["COUNTYTEXT_D"], new_case);
 
-                gs.set_value(IJE_to_MMRIA_Path["STNUM_R"], mor_field_set["STNUM_R"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["PREDIR_R"], mor_field_set["PREDIR_R"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STNAME_R"], mor_field_set["STNAME_R"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STDESIG_R"], mor_field_set["STDESIG_R"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["POSTDIR_R"], mor_field_set["POSTDIR_R"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PLACE_OF_LAST_RESIDENCE_street"], PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
+                                                                                    , mor_field_set["PREDIR_R"]
+                                                                                    , mor_field_set["STNAME_R"]
+                                                                                    , mor_field_set["STDESIG_R"]
+                                                                                    , mor_field_set["POSTDIR_R"]), new_case);
+
+                //gs.set_value(IJE_to_MMRIA_Path["STNUM_R"], mor_field_set["STNUM_R"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["PREDIR_R"], mor_field_set["PREDIR_R"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["STNAME_R"], mor_field_set["STNAME_R"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["STDESIG_R"], mor_field_set["STDESIG_R"], new_case);
+                //gs.set_value(IJE_to_MMRIA_Path["POSTDIR_R"], mor_field_set["POSTDIR_R"], new_case);
+
                 gs.set_value(IJE_to_MMRIA_Path["UNITNUM_R"], mor_field_set["UNITNUM_R"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["CITYTEXT_R"], mor_field_set["CITYTEXT_R"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["ZIP9_R"], mor_field_set["ZIP9_R"], new_case);
@@ -484,7 +543,7 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["INTERVAL1D"], mor_field_set["INTERVAL1D"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["OTHERCONDITION"], mor_field_set["OTHERCONDITION"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DBPLACECITY"], mor_field_set["DBPLACECITY"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["STINJURY"], mor_field_set["STINJURY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["STINJURY"], STINJURY_Rule(mor_field_set["STINJURY"]), new_case);
                 gs.set_value(IJE_to_MMRIA_Path["VRO_STATUS"], mor_field_set["VRO_STATUS"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["BC_DET_MATCH"], mor_field_set["BC_DET_MATCH"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["FDC_DET_MATCH"], mor_field_set["FDC_DET_MATCH"], new_case);
@@ -550,6 +609,7 @@ key fields - only exact matches are excluded
 
         }
 
+       
         struct Result_Struct
         {
             public System.Dynamic.ExpandoObject[] docs;
@@ -811,6 +871,227 @@ GNAME 27 50
 4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
 5 home_record/last_name - LNAME  
 6 home_record/first_name - GNAME*/
+        }
+
+        #region Rules Section
+
+        private string STINJURY_Rule(string value)
+        {
+            //TODO: James here is where we will need to do the State Display Name to Value translation
+
+            return value;
+        }
+
+        private string STATETEXT_D_Rule(string value)
+        {
+            //TODO: James here is where we will need to do the State Display Name to Value translation
+
+            return value;
+        }
+
+        private string PLACE_OF_LAST_RESIDENCE_street_Rule(string stnum_r, string predir_r, string stname_r, string stdesig_r, string postdir_r)
+        {
+            //Map to MMRIA field via Merge with other place of death street fields(STNUM_D, PREDIR_D, STNAME_D, STDESIG_D, POSTDIR_D) 1 of 5
+            string determinedValue = $"{stnum_r} {predir_r} {stname_r} {stdesig_r} {postdir_r}";
+
+            return determinedValue;
+        }
+
+        private string ADDRESS_OF_DEATH_street_Rule(string stnum_d, string predir_d, string stname_d, string stdesig_d, string postdir_d)
+        {
+            //Map to MMRIA field via Merge with other place of death street fields(STNUM_D, PREDIR_D, STNAME_D, STDESIG_D, POSTDIR_D) 1 of 5
+            string determinedValue = $"{stnum_d} {predir_d} {stname_d} {stdesig_d} {postdir_d}";
+
+            return determinedValue;
+        }
+
+        private string RACE_other_race_Rule(string race22, string race23)
+        {
+            //"Combine RACE22 and RACE23 into one field (dcr_o_race), separated by pipe delimiter. 
+            //1.Transfer string verbatim from RACE22 to MMRIA field.
+            //2.Transfer string verbatim from RACE23 and add to same MMRIA field.
+            //3.If both RACE22 and RACE23 are empty, leave MMRIA field empty(blank)."
+            string determinedValue = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(race22) && !string.IsNullOrWhiteSpace(race23))
+                determinedValue = $"{race22}|{race23}";
+            else if (!string.IsNullOrWhiteSpace(race22))
+                determinedValue = race22;
+            else if (!string.IsNullOrWhiteSpace(race23))
+                determinedValue = race23;
+
+            return determinedValue;
+        }
+
+        private string RACE_other_pacific_islander_Rule(string race20, string race21)
+        {
+            //"Combine RACE20 and RACE21 into one field (dcr_op_islan), separated by pipe delimiter. 
+            //1.Transfer string verbatim from RACE20 to MMRIA field.
+            //2.Transfer string verbatim from RACE21 and add to same MMRIA field.
+            //3.If both RACE20 and RACE21 are empty, leave MMRIA field empty(blank)."
+            string determinedValue = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(race20) && !string.IsNullOrWhiteSpace(race21))
+                determinedValue = $"{race20}|{race21}";
+            else if (!string.IsNullOrWhiteSpace(race20))
+                determinedValue = race20;
+            else if (!string.IsNullOrWhiteSpace(race21))
+                determinedValue = race21;
+
+            return determinedValue;
+        }
+
+        private string RACE_other_asian_Rule(string race18, string race19)
+        {
+            //"Combine RACE18 and RACE19 into one field (dcr_o_asian), separated by pipe delimiter.
+            //1.Transfer string verbatim from RACE18 to MMRIA field.
+            //2.Transfer string verbatim from RACE19 and add to same MMRIA field.
+            //3.If both RACE18 and RACE19 are empty, leave MMRIA field empty(blank)."
+            //Defaulting to blank
+            string determinedValue = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(race18) && !string.IsNullOrWhiteSpace(race19))
+                determinedValue = $"{race18}|{race19}";
+            else if (!string.IsNullOrWhiteSpace(race18))
+                determinedValue = race18;
+            else if (!string.IsNullOrWhiteSpace(race19))
+                determinedValue = race19;
+
+            return determinedValue;
+
+        }
+
+        private string RACE_Principal_Tribe_Rule(string race16, string race17)
+        {
+            //"Combine RACE16 and RACE17 into one field (dcr_p_tribe), separated by pipe delimiter. 
+            //1.Transfer string verbatim from RACE16 to MMRIA field.
+            //2.Transfer string verbatim from RACE17 and add to same MMRIA field.
+            //3.If both RACE16 and RACE17 are empty, leave MMRIA field empty(blank)."
+            //Defaulting to blank
+            string determinedValue = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(race16) && !string.IsNullOrWhiteSpace(race17))
+                determinedValue = $"{race16}|{race17}";
+            else if (!string.IsNullOrWhiteSpace(race16))
+                determinedValue = race16;
+            else if (!string.IsNullOrWhiteSpace(race17))
+                determinedValue = race17;
+
+            return determinedValue;
+        }
+
+        private string[] RACE_Rule(string race1, string race2, string race3,
+            string race4, string race5, string race6,
+            string race7, string race8, string race9,
+            string race10, string race11, string race12,
+            string race13, string race14, string race15)
+        {
+            //"Use values from RACE1 through RACE15 to populate MMRIA multi-select field (dcr_race).
+            //If every one of RACE1 through RACE15 is equal to ""N"", then dcr_race = 8888(Race Not Specified)"
+            //"Use values from RACE1 through RACE15 to populate MMRIA multi-select field (dcr_race).
+            //RACE1 = Y-- > dcr_race = 0
+            //RACE2 = Y-- > dcr_race = 1
+            //RACE3 = Y-- > dcr_race = 2
+            //RACE4 = Y-- > dcr_race = 7
+            //RACE5 = Y-- > dcr_race = 8
+            //RACE6 = Y-- > dcr_race = 9
+            //RACE7 = Y-- > dcr_race = 10
+            //RACE8 = Y-- > dcr_race = 11
+            //RACE9 = Y-- > dcr_race = 12
+            //RACE10 = Y-- > dcr_race = 13
+            //RACE11 = Y-- > dcr_race = 3
+            //RACE12 = Y-- > dcr_race = 4
+            //RACE13 = Y-- > dcr_race = 5
+            //RACE14 = Y-- > dcr_race = 6
+            //RACE15 = Y-- > dcr_race = 14
+
+            //Defaulting to blank
+            List<string> determinedValues = new List<string>();
+
+            if (race1 == "N" && race2 == "N" && race3 == "N" && race4 == "N"
+                && race5 == "N" && race6 == "N" && race7 == "N" && race8 == "N"
+                && race9 == "N" && race10 == "N" && race11 == "N" && race12 == "N"
+                && race13 == "N" && race14 == "N" && race15 == "N")
+                determinedValues.Add("8888");
+            else
+            {
+                if (race1 == "Y")
+                    determinedValues.Add("0");
+
+                if (race2 == "Y")
+                    determinedValues.Add("1");
+
+                if (race3 == "Y")
+                    determinedValues.Add("2");
+
+                if (race4 == "Y")
+                    determinedValues.Add("7");
+
+                if (race5 == "Y")
+                    determinedValues.Add("8");
+
+                if (race6 == "Y")
+                    determinedValues.Add("9");
+
+                if (race7 == "Y")
+                    determinedValues.Add("10");
+
+                if (race8 == "Y")
+                    determinedValues.Add("11");
+
+                if (race9 == "Y")
+                    determinedValues.Add("12");
+
+                if (race10 == "Y")
+                    determinedValues.Add("13");
+
+                if (race11 == "Y")
+                    determinedValues.Add("3");
+
+                if (race12 == "Y")
+                    determinedValues.Add("4");
+
+                if (race13 == "Y")
+                    determinedValues.Add("5");
+
+                if (race14 == "Y")
+                    determinedValues.Add("6");
+
+                if (race15 == "Y")
+                    determinedValues.Add("14");
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private string DETHNIC_Rule(string value1, string value2, string value3, string value4)
+        {
+            //"Use values of DETHNIC1, DETHNIC2, DETHNIC3, DETHNIC4 to fill out MMRIA field dcd_ioh_origi.
+            //If DETHNIC1 = N and DETHNIC2 = N and DETHNIC3 = N and DETHNIC 4 = N-- > dcd_ioh_origi = 0 No, Not Spanish/ Hispanic / Latino
+            //If DETHNIC1 = U and DETHNIC2 = U and DETHNIC3 = U and DETHNIC4 = U-- > dcd_ioh_origi = 7777 Unknown
+            //If DETHNIC1 = (empty)and DETHNIC2 = (empty)and DETHNIC3 = (empty)and DETHNIC4 = (empty)-- > dcd_ioh_origi = 9999(blank)"
+            //H-- > dcd_ioh_origi = 1 Yes, Mexican, Mexican American, Chicano
+            //H-- > dcd_ioh_origi = 2 Yes, Puerto Rican
+            //H-- > dcd_ioh_origi = 3 Yes, Cuban
+            //H-- > dcd_ioh_origi = 4 Yes, Other Spanish/ Hispanic / Latino
+
+            //Defaulting to blank
+            string determinedValue = "9999";
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
+                determinedValue = "0";
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
+                determinedValue = "7777";
+            else if (value1 == "H")
+                determinedValue = "1";
+            else if (value2 == "H")
+                determinedValue = "2";
+            else if (value3 == "H")
+                determinedValue = "3";
+            else if (value4 == "H")
+                determinedValue = "4";
+
+            return determinedValue;
         }
 
         private string MANNER_Rule(string value)
@@ -1309,6 +1590,8 @@ GNAME 27 50
 
             return value;
         }
+
+        #endregion
 
         private mmria.common.model.couchdb.case_view_response GetCaseView
         (
