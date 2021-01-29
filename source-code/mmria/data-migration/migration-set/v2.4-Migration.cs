@@ -70,14 +70,31 @@ namespace migrate.set
 			try
 			{
 				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-				//string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-20.07.13/metadata";
+				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
 
-				string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
+				//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
 				
 				cURL metadata_curl = new cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
 				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
             
 				this.lookup = get_look_up(metadata);
+
+				var pmss_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				{
+					"cr_p_mm",
+					"cr_pm_secon"
+				};
+
+				var miscellaneous_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				{
+					"bcifsmod_framo_deliv",
+					"ar_coa_infor",
+					"pppcf_pp_type",
+					"posopc_p_type",
+					"omovmcf_provicer_type",
+					"omovdiaot_t_type"
+				};
+
 
 				var eight_to_7_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 				{
@@ -201,11 +218,78 @@ namespace migrate.set
 				System.Console.WriteLine($"all_list_set.Count: {all_list_set.Count} total_count: {total_count}");
 				System.Console.WriteLine($"is count the same: {all_list_set.Count == single_form_value_set.Count + single_form_grid_value_set.Count + multiform_value_set.Count + multiform_grid_value_set.Count + single_form_multi_value_set.Count + single_form_grid_multi_value_list_set.Count + multiform_multi_value_set.Count + multiform_grid_multi_value_set.Count}");
 
-				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
 
-				var sf = single_form_value_set.Where( x=> eight_to_7_list.Contains(x.sass_export_name)).ToList();
+				var sf = single_form_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) ||
+					miscellaneous_list.Contains(x.sass_export_name) ||
+					pmss_list.Contains(x.sass_export_name)
+					
+				).ToList();
 				
-				Console.WriteLine("here");
+				foreach(var item in sf)
+				{
+					Console.WriteLine($"{item.sass_export_name} - {item.path}");
+				}
+
+
+				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
+				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
+				string responseFromServer = await case_curl.executeAsync();
+				
+				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
+
+				foreach(var case_item in case_response.rows)
+				{
+					var case_has_changed = false;
+					var case_change_count = 0;
+
+					var doc = case_item.doc;
+					
+					if(doc != null)
+					{
+
+						C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
+						var mmria_id = value_result.result;
+						if(mmria_id.IndexOf("_design") > -1)
+						{
+							continue;
+						}
+
+						foreach(var node in  sf)
+						{
+
+							bool is_blank = false;
+
+							value_result = gs.get_value(doc, node.path);
+							
+							if(!value_result.is_error)
+							{
+								var value = value_result.result;
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									continue;	
+								}
+
+								if(value.ToString() == "8888")
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+									
+									dynamic new_value = "7777";
+
+									case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+									var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+							}			
+						}
+					}
+				}
 
 /*
 bcifsmod_framo_deliv +1 4 -> 7777
