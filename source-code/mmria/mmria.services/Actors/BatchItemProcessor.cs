@@ -10,8 +10,9 @@ namespace RecordsProcessor_Worker.Actors
     public class BatchItemProcessor : ReceiveActor
     {
         static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "DState","home_record/state" }, 
+        {
+                #region MOR Mappings
+		{ "DState","home_record/state" }, 
                 //3 home_recode/date_of_death - DOD_YR, DOD_MO, DOD_DY
                 { "DOD_YR", "home_recode/date_of_death/year"},
                 { "DOD_MO", "home_recode/date_of_death/month"},
@@ -174,6 +175,100 @@ namespace RecordsProcessor_Worker.Actors
                 { "ICD10_MATCH","/home_record/automated_vitals_group/icd10_match"},
                 { "PREGCB_MATCH","/home_record/automated_vitals_group/pregcb_match"},
                 { "LITERALCOD_MATCH","/home_record/automated_vitals_group/literalcod_match"},
+            #endregion
+
+            #region NAT Mappings
+
+            {"IDOB_YR","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year"},
+
+            {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
+            {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
+
+            {"TB","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
+
+            {"IDOB_MO","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
+            {"IDOB_DY","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
+
+            {"FNPI","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/facility_npi_number"},
+            {"MDOB_YR","birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/year"},
+            {"MDOB_MO","birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/month"},
+            {"MDOB_DY","birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/day"},
+            {"FDOB_YR","birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/year"},
+            {"FDOB_MO","birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/month"},
+            {"MARN","/birth_fetal_death_certificate_parent/demographic_of_mother/mother_married"},
+            {"ACKN","birth_fetal_death_certificate_parent/demographic_of_mother/If_mother_not_married_has_paternity_acknowledgement_been_signed_in_the_hospital"},
+            {"MEDUC","birth_fetal_death_certificate_parent/demographic_of_mother/education_level"},
+
+            {"METHNIC5","New MMRIA Field: (for mother) Other Hispanic, specify (add MMRIA path when available)"},
+
+            {"FEDUC","birth_fetal_death_certificate_parent/demographic_of_father/education_level"},
+
+            {"FETHNIC5","New MMRIA Field: (for father) Other Hispanic, specify (add MMRIA path when available)"},
+
+            {"ATTEND","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_type"},
+            {"TRAN","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/was_mother_transferred"},
+            {"NPREV","birth_fetal_death_certificate_parent/prenatal_care/number_of_visits"},
+            {"HFT","birth_fetal_death_certificate_parent/maternal_biometrics/height_feet"},
+            {"HIN","birth_fetal_death_certificate_parent/maternal_biometrics/height_inches"},
+            {"PWGT","birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight"},
+            {"DWGT","birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery"},
+            {"WIC","birth_fetal_death_certificate_parent/prenatal_care/was_wic_used"},
+            {"PLBL","birth_fetal_death_certificate_parent/pregnancy_history/now_living"},
+            {"PLBD","birth_fetal_death_certificate_parent/pregnancy_history/now_dead"},
+            {"POPO","/birth_fetal_death_certificate_parent/pregnancy_history/other_outcomes"},
+            {"MLLB","birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month"},
+            {"YLLB","birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year"},
+            {"MOPO","/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/month"},
+            {"YOPO","/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/year"},
+            {"PAY","birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery "},
+            {"DLMP_YR","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/year"},
+            {"DLMP_MO","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/month"},
+            {"DLMP_DY","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/day"},
+            {"NPCES","/birth_fetal_death_certificate_parent/risk_factors/number_of_c_sections"},
+            {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
+            {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
+            {"PRES","birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery"},
+            {"ROUT","birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery"},
+            {"OWGEST","/birth_fetal_death_certificate_parent/prenatal_care/obsteric_estimate_of_gestation"},
+            {"APGAR5","birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_5"},
+            {"APGAR10","birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_10"},
+            {"SORD","birth_certificate_infant_fetal_section/birth_order"},
+            {"ITRAN","birth_certificate_infant_fetal_section/biometrics_and_demographics/was_infant_transferred_within_24_hours"},
+            {"ILIV","birth_certificate_infant_fetal_section/biometrics_and_demographics/is_infant_living_at_time_of_report"},
+            {"BFED","birth_certificate_infant_fetal_section/biometrics_and_demographics/is_infant_being_breastfed_at_discharge"},
+            {"BIRTH_CO","birth_fetal_death_certificate_parent/facility_of_delivery_location/county"},
+            {"BRTHCITY","birth_fetal_death_certificate_parent/facility_of_delivery_location/city"},
+            {"HOSP","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/facility_name"},
+            {"MOMFNAME","birth_fetal_death_certificate_parent/record_identification/first_name"},
+            {"MOMMIDDL","birth_fetal_death_certificate_parent/record_identification/middle_name"},
+            {"MOMLNAME","birth_fetal_death_certificate_parent/record_identification/last_name"},
+            {"MOMMAIDN","/birth_fetal_death_certificate_parent/record_identification/maiden_name"},
+
+            {"STNUM","birth_fetal_death_certificate_parent/location_of_residence/street"},
+            {"PREDIR","birth_fetal_death_certificate_parent/location_of_residence/street"},
+            {"STNAME","birth_fetal_death_certificate_parent/location_of_residence/street"},
+            {"STDESIG","birth_fetal_death_certificate_parent/location_of_residence/street"},
+            {"POSTDIR","birth_fetal_death_certificate_parent/location_of_residence/street"},
+
+            {"UNUM","birth_fetal_death_certificate_parent/location_of_residence/apartment"},
+            {"ZIPCODE","birth_fetal_death_certificate_parent/location_of_residence/zip_code"},
+            {"COUNTYTXT","birth_fetal_death_certificate_parent/location_of_residence/county"},
+            {"CITYTEXT","birth_fetal_death_certificate_parent/location_of_residence/city"},
+
+            {"MOM_OC_T","birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation"},
+            {"DAD_OC_T","birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation"},
+
+            {"MOM_IN_T","birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry"},
+            {"DAD_IN_T","birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry"},
+
+            {"HOSPFROM","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/transferred_from_where"},
+            {"HOSPTO","birth_certificate_infant_fetal_section/biometrics_and_demographics/facility_city_state"},
+            {"ATTEND_OTH_TXT","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/other_attendant_type"},
+            {"ATTEND_NPI","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_npi"},
+            {"INF_MED_REC_NUM","birth_certificate_infant_fetal_section/record_identification/newborn_medical_record_number"},
+            {"MOM_MED_REC_NUM","birth_fetal_death_certificate_parent/record_identification/medical_record_number"},
+
+            #endregion
 
         };
         protected override void PreStart() => Console.WriteLine("Process_Message started");
@@ -389,20 +484,21 @@ namespace RecordsProcessor_Worker.Actors
                 
                 var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
 
-                gs.set_value("_id", mmria_id, new_case); 
-                gs.set_value("date_created", current_date_iso_string, new_case); 
-                gs.set_value("created_by", "vitals-import", new_case); 
-                gs.set_value("date_last_updated", current_date_iso_string, new_case); 
-                gs.set_value("last_updated_by", "vitals-import", new_case); 
-                gs.set_value("version", metadata.version, new_case); 
-                gs.set_value("host_state", message.host_state, new_case); 
+                #region MOR Assignments
+                gs.set_value("_id", mmria_id, new_case);
+                gs.set_value("date_created", current_date_iso_string, new_case);
+                gs.set_value("created_by", "vitals-import", new_case);
+                gs.set_value("date_last_updated", current_date_iso_string, new_case);
+                gs.set_value("last_updated_by", "vitals-import", new_case);
+                gs.set_value("version", metadata.version, new_case);
+                gs.set_value("host_state", message.host_state, new_case);
 
-                var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case); 
+                var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
                 var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], mor_field_set["DOD_MO"], new_case);
                 var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], mor_field_set["DOD_DY"], new_case);
                 var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
-                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], mor_field_set["DOB_MO"], new_case);                            
+                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], mor_field_set["DOB_MO"], new_case);
                 var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], mor_field_set["DOB_DY"], new_case);
                 var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);
                 var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
@@ -421,7 +517,7 @@ namespace RecordsProcessor_Worker.Actors
 
 
 
-                gs.set_value(IJE_to_MMRIA_Path["DETHNIC_is_of_hispanic_origin"], DETHNIC_Rule(mor_field_set["DETHNIC1"], mor_field_set["DETHNIC2"], mor_field_set["DETHNIC3"], mor_field_set["DETHNIC4"]) , new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DETHNIC_is_of_hispanic_origin"], DETHNIC_Rule(mor_field_set["DETHNIC1"], mor_field_set["DETHNIC2"], mor_field_set["DETHNIC3"], mor_field_set["DETHNIC4"]), new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["DETHNIC1"], mor_field_set["DETHNIC1"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["DETHNIC1"], mor_field_set["DETHNIC1"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["DETHNIC2"], mor_field_set["DETHNIC2"], new_case);
@@ -430,7 +526,7 @@ namespace RecordsProcessor_Worker.Actors
 
                 gs.set_value(IJE_to_MMRIA_Path["DETHNIC5"], mor_field_set["DETHNIC5"], new_case);
 
-                gs.set_multi_value(IJE_to_MMRIA_Path["RACE"], 
+                gs.set_multi_value(IJE_to_MMRIA_Path["RACE"],
                     RACE_Rule(mor_field_set["RACE1"], mor_field_set["RACE2"], mor_field_set["RACE3"],
                                 mor_field_set["RACE4"], mor_field_set["RACE5"],
                                 mor_field_set["RACE6"], mor_field_set["RACE7"], mor_field_set["RACE8"],
@@ -553,7 +649,87 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["PREGCB_MATCH"], mor_field_set["PREGCB_MATCH"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["LITERALCOD_MATCH"], mor_field_set["LITERALCOD_MATCH"], new_case);
 
+                #endregion
 
+                #region NAT Assignments
+
+                gs.set_value(IJE_to_MMRIA_Path["IDOB_YR"], mor_field_set["IDOB_YR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FILENO"], mor_field_set["FILENO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["AUXNO"], mor_field_set["AUXNO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["TB"], mor_field_set["TB"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["IDOB_MO"], mor_field_set["IDOB_MO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["IDOB_DY"], mor_field_set["IDOB_DY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FNPI"], mor_field_set["FNPI"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MDOB_YR"], mor_field_set["MDOB_YR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MDOB_MO"], mor_field_set["MDOB_MO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MDOB_DY"], mor_field_set["MDOB_DY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FDOB_YR"], mor_field_set["FDOB_YR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FDOB_MO"], mor_field_set["FDOB_MO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MARN"], mor_field_set["MARN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ACKN"], mor_field_set["ACKN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MEDUC"], mor_field_set["MEDUC"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["METHNIC5"], mor_field_set["METHNIC5"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FEDUC"], mor_field_set["FEDUC"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["FETHNIC5"], mor_field_set["FETHNIC5"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ATTEND"], mor_field_set["ATTEND"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["TRAN"], mor_field_set["TRAN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["NPREV"], mor_field_set["NPREV"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["HFT"], mor_field_set["HFT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["HIN"], mor_field_set["HIN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PWGT"], mor_field_set["PWGT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DWGT"], mor_field_set["DWGT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["WIC"], mor_field_set["WIC"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PLBL"], mor_field_set["PLBL"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PLBD"], mor_field_set["PLBD"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["POPO"], mor_field_set["POPO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MLLB"], mor_field_set["MLLB"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["YLLB"], mor_field_set["YLLB"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOPO"], mor_field_set["MOPO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["YOPO"], mor_field_set["YOPO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PAY"], mor_field_set["PAY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DLMP_YR"], mor_field_set["DLMP_YR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DLMP_MO"], mor_field_set["DLMP_MO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DLMP_DY"], mor_field_set["DLMP_DY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["NPCES"], mor_field_set["NPCES"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ATTF"], mor_field_set["ATTF"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ATTV"], mor_field_set["ATTV"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PRES"], mor_field_set["PRES"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ROUT"], mor_field_set["ROUT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["OWGEST"], mor_field_set["OWGEST"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["APGAR5"], mor_field_set["APGAR5"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["APGAR10"], mor_field_set["APGAR10"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["SORD"], mor_field_set["SORD"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ITRAN"], mor_field_set["ITRAN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ILIV"], mor_field_set["ILIV"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["BFED"], mor_field_set["BFED"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["BIRTH_CO"], mor_field_set["BIRTH_CO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["BRTHCITY"], mor_field_set["BRTHCITY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["HOSP"], mor_field_set["HOSP"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOMFNAME"], mor_field_set["MOMFNAME"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOMMIDDL"], mor_field_set["MOMMIDDL"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOMLNAME"], mor_field_set["MOMLNAME"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOMMAIDN"], mor_field_set["MOMMAIDN"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["STNUM"], mor_field_set["STNUM"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["PREDIR"], mor_field_set["PREDIR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["STNAME"], mor_field_set["STNAME"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["STDESIG"], mor_field_set["STDESIG"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["POSTDIR"], mor_field_set["POSTDIR"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["UNUM"], mor_field_set["UNUM"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ZIPCODE"], mor_field_set["ZIPCODE"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["COUNTYTXT"], mor_field_set["COUNTYTXT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["CITYTEXT"], mor_field_set["CITYTEXT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOM_OC_T"], mor_field_set["MOM_OC_T"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DAD_OC_T"], mor_field_set["DAD_OC_T"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOM_IN_T"], mor_field_set["MOM_IN_T"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DAD_IN_T"], mor_field_set["DAD_IN_T"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["HOSPFROM"], mor_field_set["HOSPFROM"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["HOSPTO"], mor_field_set["HOSPTO"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], mor_field_set["ATTEND_OTH_TXT"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["ATTEND_NPI"], mor_field_set["ATTEND_NPI"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["INF_MED_REC_NUM"], mor_field_set["INF_MED_REC_NUM"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["MOM_MED_REC_NUM"], mor_field_set["MOM_MED_REC_NUM"], new_case);
+
+                #endregion
 
                 var case_dictionary = new_case as IDictionary<string,object>;
 
@@ -871,6 +1047,92 @@ GNAME 27 50
 4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
 5 home_record/last_name - LNAME  
 6 home_record/first_name - GNAME*/
+        }
+
+        private Dictionary<string, string> nat_get_header(string row)
+        { 
+
+            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            result.Add("IDOB_YR", row.Substring(0, 4).Trim());
+            result.Add("FILENO", row.Substring(6, 6).Trim());
+            result.Add("AUXNO", row.Substring(13, 12).Trim());
+            result.Add("TB", row.Substring(25, 4).Trim());
+            result.Add("IDOB_MO", row.Substring(30, 2).Trim());
+            result.Add("IDOB_DY", row.Substring(32, 2).Trim());
+            result.Add("FNPI", row.Substring(38, 12).Trim());
+            result.Add("MDOB_YR", row.Substring(54, 4).Trim());
+            result.Add("MDOB_MO", row.Substring(58, 2).Trim());
+            result.Add("MDOB_DY", row.Substring(60, 2).Trim());
+            result.Add("FDOB_YR", row.Substring(80, 4).Trim());
+            result.Add("FDOB_MO", row.Substring(84, 2).Trim());
+            result.Add("MARN", row.Substring(90, 1).Trim());
+            result.Add("ACKN", row.Substring(91, 1).Trim());
+            result.Add("MEDUC", row.Substring(92, 1).Trim());
+            result.Add("METHNIC5", row.Substring(98, 20).Trim());
+            result.Add("FEDUC", row.Substring(421, 1).Trim());
+            result.Add("FETHNIC5", row.Substring(427, 20).Trim());
+            result.Add("ATTEND", row.Substring(750, 1).Trim());
+            result.Add("TRAN", row.Substring(751, 1).Trim());
+            result.Add("NPREV", row.Substring(768, 2).Trim());
+            result.Add("HFT", row.Substring(771, 1).Trim());
+            result.Add("HIN", row.Substring(772, 2).Trim());
+            result.Add("PWGT", row.Substring(775, 3).Trim());
+            result.Add("DWGT", row.Substring(779, 3).Trim());
+            result.Add("WIC", row.Substring(783, 1).Trim());
+            result.Add("PLBL", row.Substring(784, 2).Trim());
+            result.Add("PLBD", row.Substring(786, 2).Trim());
+            result.Add("POPO", row.Substring(788, 2).Trim());
+            result.Add("MLLB", row.Substring(790, 2).Trim());
+            result.Add("YLLB", row.Substring(792, 4).Trim());
+            result.Add("MOPO", row.Substring(796, 2).Trim());
+            result.Add("YOPO", row.Substring(798, 4).Trim());
+            result.Add("PAY", row.Substring(810, 1).Trim());
+            result.Add("DLMP_YR", row.Substring(811, 4).Trim());
+            result.Add("DLMP_MO", row.Substring(815, 2).Trim());
+            result.Add("DLMP_DY", row.Substring(817, 2).Trim());
+            result.Add("NPCES", row.Substring(828, 2).Trim());
+            result.Add("ATTF", row.Substring(853, 1).Trim());
+            result.Add("ATTV", row.Substring(854, 1).Trim());
+            result.Add("PRES", row.Substring(855, 1).Trim());
+            result.Add("ROUT", row.Substring(856, 1).Trim());
+            result.Add("OWGEST", row.Substring(869, 2).Trim());
+            result.Add("APGAR5", row.Substring(872, 2).Trim());
+            result.Add("APGAR10", row.Substring(874, 2).Trim());
+            result.Add("SORD", row.Substring(878, 2).Trim());
+            result.Add("ITRAN", row.Substring(908, 1).Trim());
+            result.Add("ILIV", row.Substring(909, 1).Trim());
+            result.Add("BFED", row.Substring(910, 1).Trim());
+            result.Add("BIRTH_CO", row.Substring(1157, 25).Trim());
+            result.Add("BRTHCITY", row.Substring(1182, 50).Trim());
+            result.Add("HOSP", row.Substring(1232, 50).Trim());
+            result.Add("MOMFNAME", row.Substring(1282, 50).Trim());
+            result.Add("MOMMIDDL", row.Substring(1332, 50).Trim());
+            result.Add("MOMLNAME", row.Substring(1382, 50).Trim());
+            result.Add("MOMMAIDN", row.Substring(1539, 50).Trim());
+            result.Add("STNUM", row.Substring(1596, 10).Trim());
+            result.Add("PREDIR", row.Substring(1606, 10).Trim());
+            result.Add("STNAME", row.Substring(1616, 28).Trim());
+            result.Add("STDESIG", row.Substring(1644, 10).Trim());
+            result.Add("POSTDIR", row.Substring(1654, 10).Trim());
+            result.Add("UNUM", row.Substring(1664, 7).Trim());
+            result.Add("ZIPCODE", row.Substring(1721, 9).Trim());
+            result.Add("COUNTYTXT", row.Substring(1730, 28).Trim());
+            result.Add("CITYTEXT", row.Substring(1758, 28).Trim());
+            result.Add("MOM_OC_T", row.Substring(2021, 25).Trim());
+            result.Add("DAD_OC_T", row.Substring(2049, 25).Trim());
+            result.Add("MOM_IN_T", row.Substring(2077, 25).Trim());
+            result.Add("DAD_IN_T", row.Substring(2105, 25).Trim());
+            result.Add("HOSPFROM", row.Substring(2283, 50).Trim());
+            result.Add("HOSPTO", row.Substring(2333, 50).Trim());
+            result.Add("ATTEND_OTH_TXT", row.Substring(2383, 20).Trim());
+            result.Add("ATTEND_NPI", row.Substring(2826, 12).Trim());
+            result.Add("INF_MED_REC_NUM", row.Substring(2921, 15).Trim());
+            result.Add("MOM_MED_REC_NUM", row.Substring(2936, 15).Trim());
+
+
+            return result;
+
         }
 
         #region Rules Section
