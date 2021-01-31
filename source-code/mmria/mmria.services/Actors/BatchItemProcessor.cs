@@ -281,7 +281,7 @@ namespace RecordsProcessor_Worker.Actors
 
             private System.Dynamic.ExpandoObject case_expando_object = null;
 
-
+            private Dictionary<string,string> StateDisplayToValue;
         public BatchItemProcessor()
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
@@ -331,6 +331,13 @@ namespace RecordsProcessor_Worker.Actors
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
             var lookup = get_look_up(metadata);
+
+            StateDisplayToValue = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach(var kvp in lookup["state"])
+            {
+                StateDisplayToValue.Add(kvp.display, kvp.value);
+            }
 
             var is_case_already_present = false;            
 
@@ -1139,16 +1146,26 @@ GNAME 27 50
 
         private string STINJURY_Rule(string value)
         {
-            //TODO: James here is where we will need to do the State Display Name to Value translation
+            var result = value;
+            
+            if(StateDisplayToValue.ContainsKey(value))
+            {
+                result = StateDisplayToValue[value];
+            }
 
-            return value;
+            return result;
         }
 
         private string STATETEXT_D_Rule(string value)
         {
-            //TODO: James here is where we will need to do the State Display Name to Value translation
+            var result = value;
+            
+            if(StateDisplayToValue.ContainsKey(value))
+            {
+                result = StateDisplayToValue[value];
+            }
 
-            return value;
+            return result;
         }
 
         private string PLACE_OF_LAST_RESIDENCE_street_Rule(string stnum_r, string predir_r, string stname_r, string stdesig_r, string postdir_r)
