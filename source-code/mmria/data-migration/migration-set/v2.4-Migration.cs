@@ -218,7 +218,6 @@ namespace migrate.set
 				System.Console.WriteLine($"all_list_set.Count: {all_list_set.Count} total_count: {total_count}");
 				System.Console.WriteLine($"is count the same: {all_list_set.Count == single_form_value_set.Count + single_form_grid_value_set.Count + multiform_value_set.Count + multiform_grid_value_set.Count + single_form_multi_value_set.Count + single_form_grid_multi_value_list_set.Count + multiform_multi_value_set.Count + multiform_grid_multi_value_set.Count}");
 
-
 				var sf = single_form_value_set.Where
 				( 
 					x=> eight_to_7_list.Contains(x.sass_export_name) ||
@@ -226,11 +225,27 @@ namespace migrate.set
 					pmss_list.Contains(x.sass_export_name)
 					
 				).ToList();
-				
+
 				foreach(var item in sf)
 				{
 					Console.WriteLine($"{item.sass_export_name} - {item.path}");
 				}
+
+				var eight_to_7_sf = single_form_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+
+				var pmss_set  = single_form_value_set.Where
+				( 
+					x=> pmss_list.Contains(x.sass_export_name)
+					
+				).ToList();
+
+				
+				
 
 
 				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
@@ -256,7 +271,22 @@ namespace migrate.set
 							continue;
 						}
 
-						foreach(var node in  sf)
+						foreach(var node in  pmss_set)
+						{
+
+							bool is_blank = false;
+
+							value_result = gs.get_value(doc, node.path);
+							
+							if(!value_result.is_error)
+							{
+
+							}
+						}
+
+
+
+						foreach(var node in  eight_to_7_sf)
 						{
 
 							bool is_blank = false;

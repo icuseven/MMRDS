@@ -3022,3 +3022,77 @@ function gui_remove_broken_rule(p_object_id)
     //remove validation error from datetime control
     $(`#${p_object_id}-innerdiv`).removeClass('is-invalid');
 }
+
+
+
+function add_new_case_button_click()
+{
+    
+    let el = document.getElementById("app_summary");
+
+    let result = [];
+
+    result.push(
+        `
+        <h1>Add New Case - Generate MMRIA Record ID#</h1>
+        <p>All fields are required to generate record id number except Mother's Middle Name.</p>
+        <table>
+        <tr>
+        <td>
+        Mother's First Name<br/><input id="new_first_name" type="text" value="" />
+        </td>
+        <td>
+        Mother's Middle Name<br/><input id="new_middle_name" type="text" value="" />
+        </td>
+        <td>
+        Mother's Last Name<br/><input id="new_last_name" type="text" value="" />
+        </td>
+        <tr>
+        <tr>
+        <td colspan=2>
+            <fieldset>
+            <legend>Date of Death*</legend>
+            <table>
+            <tr>
+                <td>
+                Month<br/>
+                <select id="new_month_of_death" size=1>
+                </select>
+                </td>
+                <td>
+                Day<br/>
+                <select id="new_day_of_death" size=1>
+                </select>
+                </td>
+                <td>
+                Year<br/>
+                <select id="new_year_of_death" size=1>
+                </select>
+
+                </td>
+            </tr>
+            </table>
+            </fieldset>
+        </td>
+        <td>
+        State of Death Record*<br/>
+        <select id="new_state_of_death" size=1>
+        </select>
+        </td>
+        </tr>
+
+        <tr>
+        <td colspan=3>
+        <input type="button" value="Generate Record ID & Continue"/>
+        <input type="button" value="Cancel" onclick="g_render();"/>
+
+        </td>
+        </tr>
+        </table>
+        `
+
+    );
+
+
+    el.innerHTML = result.join("");
+}

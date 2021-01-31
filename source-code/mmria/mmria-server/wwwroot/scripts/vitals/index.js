@@ -66,7 +66,11 @@ function render_batch_list()
 {
     let html_builder = [];
     html_builder.push("<ul>");
-    if(g_batch_list.length > 0)
+    if(g_batch_list == null)
+    {
+        html_builder.push(`<li>Unable to connect to vitals service.</li>`);
+    }
+    else if(g_batch_list.length > 0)
     {
         for(let i = 0; i < g_batch_list.length; i++)
         {
