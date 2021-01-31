@@ -3025,74 +3025,156 @@ function gui_remove_broken_rule(p_object_id)
 
 
 
-function add_new_case_button_click()
+function add_new_case_button_click(p_input)
 {
     
-    let el = document.getElementById("app_summary");
+    let state = document.getElementById("add_new_state");
 
-    let result = [];
+    if(state == null)
+    {
+        let el = document.getElementById("app_summary");
+        
 
-    result.push(
-        `
-        <h1>Add New Case - Generate MMRIA Record ID#</h1>
-        <p>All fields are required to generate record id number except Mother's Middle Name.</p>
-        <table>
-        <tr>
-        <td>
-        Mother's First Name<br/><input id="new_first_name" type="text" value="" />
-        </td>
-        <td>
-        Mother's Middle Name<br/><input id="new_middle_name" type="text" value="" />
-        </td>
-        <td>
-        Mother's Last Name<br/><input id="new_last_name" type="text" value="" />
-        </td>
-        <tr>
-        <tr>
-        <td colspan=2>
-            <fieldset>
-            <legend>Date of Death*</legend>
-            <table>
+        let result = [];
+
+        result.push(
+            `
+            <input type="hidden" id="add_new_state" value="init" />
+            <dialog id="add_new_confirm_dialog">
+            <div style="background-color:#800080;color:#FFFFFF;">Generate Record ID?</div>
+
+            <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation:</p>
+            <p><strong>Date of Death: MM/DD/YYYY</strong></p>
+            
+            <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate" onclick="add_new_case_button_click('yes')"/> <input type="button" value="Cancel"  onclick="add_new_case_button_click('no')"/> 
+            </dialog>
+            <h1>Add New Case - Generate MMRIA Record ID#</h1>
+            <div id="new_validation_message_area">
+            <p>All fields are required to generate record id number except Mother's Middle Name.</p>
+            </div>
+            <br/>
+            <table id="new_case_table">
             <tr>
-                <td>
-                Month<br/>
-                <select id="new_month_of_death" size=1>
-                </select>
-                </td>
-                <td>
-                Day<br/>
-                <select id="new_day_of_death" size=1>
-                </select>
-                </td>
-                <td>
-                Year<br/>
-                <select id="new_year_of_death" size=1>
-                </select>
+            <td>
+            Mother's First Name<br/><input id="new_first_name" type="text" value="" />
+            </td>
+            <td>
+            Mother's Middle Name<br/><input id="new_middle_name" type="text" value="" />
+            </td>
+            <td>
+            Mother's Last Name<br/><input id="new_last_name" type="text" value="" />
+            </td>
+            <tr>
+            <tr>
+            <td colspan=2>
+                <fieldset>
+                <legend>Date of Death*</legend>
+                <table>
+                <tr>
+                    <td>
+                    Month<br/>
+                    <select id="new_month_of_death" size=1>
+                    </select>
+                    </td>
+                    <td>
+                    Day<br/>
+                    <select id="new_day_of_death" size=1>
+                    </select>
+                    </td>
+                    <td>
+                    Year<br/>
+                    <select id="new_year_of_death" size=1>
+                    </select>
 
-                </td>
+                    </td>
+                </tr>
+                </table>
+                </fieldset>
+            </td>
+            <td>
+            State of Death Record*<br/>
+            <select id="new_state_of_death" size=1>
+            </select>
+            </td>
+            </tr>
+
+            <tr>
+            <td colspan=3>
+            <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate Record ID & Continue" onclick="add_new_case_button_click()"/>
+            <input type="button" value="Cancel" onclick="g_render();"/>
+
+            </td>
             </tr>
             </table>
-            </fieldset>
-        </td>
-        <td>
-        State of Death Record*<br/>
-        <select id="new_state_of_death" size=1>
-        </select>
-        </td>
-        </tr>
+            `
 
-        <tr>
-        <td colspan=3>
-        <input type="button" value="Generate Record ID & Continue"/>
-        <input type="button" value="Cancel" onclick="g_render();"/>
-
-        </td>
-        </tr>
-        </table>
-        `
-
-    );
+        );
 
 
-    el.innerHTML = result.join("");
+        el.innerHTML = result.join("");
+    }
+    else if(state.value == "init")
+    {
+
+
+        let new_validation_message_area = document.getElementById("new_validation_message_area");
+        let new_first_name = document.getElementById("new_first_name");
+        let new_middle_name = document.getElementById("new_middle_name");
+        let new_last_name = document.getElementById("new_last_name");
+        let new_month_of_death = document.getElementById("new_month_of_death");
+        let new_day_of_death = document.getElementById("new_day_of_death");
+        let new_year_of_death = document.getElementById("new_year_of_death");
+        let new_state_of_death = document.getElementById("new_state_of_death");
+
+        //new_middle_name
+        /*
+        if(
+            new_first_name == null ||
+            new_last_name == null ||
+            new_month_of_death == null ||
+            new_day_of_death == null ||
+            new_year_of_death == null ||
+            new_state_of_death
+        )
+        {
+            new_validation_message_area.innerHTML = `
+            <p style="background-color:#E8ADAA">Please enter data for the requred fileds 
+            <strong>Mother's Last Name,
+            Mother's First Name,
+            Date of Death</strong> (MM, DD, YYYY) and <strong>State of Death Record</strong> and try again.
+            </p>`;
+        }
+        else */
+        {
+            state.value = "confirm";
+
+            let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+            add_new_confirm_dialog.innerHTML = `
+              <div style="background-color:#800080;color:#FFFFFF;">Generate Record ID?</div>
+
+            <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation:</p>
+            <p><strong>Date of Death: MM/DD/YYYY</strong></p>
+            
+            <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate" onclick="add_new_case_button_click('yes')"/> <input type="button" value="Cancel"  onclick="add_new_case_button_click('no')"/> 
+            `;
+            add_new_confirm_dialog.showModal();
+        } 
+        
+        
+    }
+    else if(state.value == "confirm")
+    {
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.close();
+        if(p_input == "yes")
+        {
+            new_validation_message_area.innerHTML = "generate confirmed";
+        }
+        else
+        {
+            new_validation_message_area.innerHTML = "cancelled generate";
+            state.value = "init";
+        }
+        
+    }
 }
