@@ -3033,7 +3033,61 @@ function add_new_case_button_click(p_input)
     if(state == null)
     {
         let el = document.getElementById("app_summary");
-        
+        let state_list = [];
+        let month_list = [];
+        let day_list = [];
+        let year_list = [];
+
+        let state_html = [];
+        let month_html = [];
+        let day_html = [];
+        let year_html = [];
+
+        for(let i = 0; i < g_metadata.lookup.length; i++)
+        {
+            let item = g_metadata.lookup[i];
+            switch(item.name.toLowerCase())
+            {
+                case "state":
+                    state_list = item;
+                    break;
+                case "month":
+                    month_list = item;
+                    break;
+                case "day":
+                    day_list = item;
+                    break;
+                case "year":
+                    year_list = item;
+                    break;
+            }
+        }
+
+        for(let i = 0; i < state_list.values.length; i++)
+        {
+            let item = state_list.values[i];
+
+            state_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+
+        for(let i = 0; i < month_list.values.length; i++)
+        {
+            let item = month_list.values[i];
+            month_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+
+
+        for(let i = 0; i < day_list.values.length; i++)
+        {
+            let item = day_list.values[i];
+            day_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+
+        for(let i = 0; i < year_list.values.length; i++)
+        {
+            let item = year_list.values[i];
+            year_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
 
         let result = [];
 
@@ -3074,16 +3128,19 @@ function add_new_case_button_click(p_input)
                     <td>
                     Month<br/>
                     <select id="new_month_of_death" size=1>
+                    ${month_html.join("")}
                     </select>
                     </td>
                     <td>
                     Day<br/>
                     <select id="new_day_of_death" size=1>
+                    ${day_html.join("")}
                     </select>
                     </td>
                     <td>
                     Year<br/>
                     <select id="new_year_of_death" size=1>
+                    ${year_html.join("")}
                     </select>
 
                     </td>
@@ -3094,6 +3151,7 @@ function add_new_case_button_click(p_input)
             <td>
             State of Death Record*<br/>
             <select id="new_state_of_death" size=1>
+            ${state_html.join("")}
             </select>
             </td>
             </tr>
@@ -3126,15 +3184,20 @@ function add_new_case_button_click(p_input)
         let new_year_of_death = document.getElementById("new_year_of_death");
         let new_state_of_death = document.getElementById("new_state_of_death");
 
-        //new_middle_name
-        /*
+        
         if(
             new_first_name == null ||
             new_last_name == null ||
             new_month_of_death == null ||
             new_day_of_death == null ||
             new_year_of_death == null ||
-            new_state_of_death
+            new_state_of_death == null ||
+            new_first_name.value.length < 3 ||
+            new_last_name.value.length < 3 ||
+            new_month_of_death.value == 9999 ||
+            new_day_of_death.value == 9999 ||
+            new_year_of_death.value == 9999 ||
+            new_state_of_death.value == 9999
         )
         {
             new_validation_message_area.innerHTML = `
@@ -3144,7 +3207,7 @@ function add_new_case_button_click(p_input)
             Date of Death</strong> (MM, DD, YYYY) and <strong>State of Death Record</strong> and try again.
             </p>`;
         }
-        else */
+        else
         {
             state.value = "confirm";
 
@@ -3152,9 +3215,14 @@ function add_new_case_button_click(p_input)
             add_new_confirm_dialog.innerHTML = `
               <div style="background-color:#800080;color:#FFFFFF;">Generate Record ID?</div>
 
-            <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation:</p>
-            <p><strong>Date of Death: MM/DD/YYYY</strong></p>
+
             
+            <br/>
+            <p><strong>Name:</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+            <p><strong>State of Death:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+            <p><strong>Date of Death: ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</strong></p>
+            <br/>
+            <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation:</p>
             <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate" onclick="add_new_case_button_click('yes')"/> <input type="button" value="Cancel"  onclick="add_new_case_button_click('no')"/> 
             `;
             add_new_confirm_dialog.showModal();
