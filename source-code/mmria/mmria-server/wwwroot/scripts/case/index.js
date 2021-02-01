@@ -766,7 +766,15 @@ var g_ui = {
     return result;
   },
 
-  add_new_case: function () 
+  add_new_case: function (
+    p_first_name,
+    p_middle_name,
+    p_last_name,
+    p_month_of_death,
+    p_day_of_death,
+    p_year_of_death,
+    p_state_of_death
+  ) 
   {
     if (g_autosave_interval != null) 
     {
@@ -796,8 +804,30 @@ var g_ui = {
       result.home_record.jurisdiction_id = '/';
     }
 
-    result.home_record.last_name = 'new-last-name';
-    result.home_record.first_name = 'new-first-name';
+    result.home_record.last_name = p_last_name;
+    result.home_record.first_name = p_first_name;
+    result.home_record.middle_name = p_middle_name;
+    result.home_record.state_of_death_record = p_state_of_death;
+    result.home_record.date_of_death.year = p_year_of_death;
+    result.home_record.date_of_death.month = p_month_of_death;
+    result.home_record.date_of_death.day = p_day_of_death;
+
+    if 
+    (
+        (
+            !result.home_record.record_id || 
+            result.home_record.record_id == ''
+        ) && 
+        result.home_record.state_of_death_record && 
+        result.home_record.state_of_death_record != '' && 
+        result.home_record.date_of_death.year && 
+        parseInt(result.home_record.date_of_death.year) > 999 && 
+        parseInt(result.home_record.date_of_death.year) < 2500
+    ) 
+    {
+        result.home_record.record_id = result.home_record.state_of_death_record.substring(0, 2) + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+
+    }
 
     var new_data = [];
 
@@ -805,8 +835,6 @@ var g_ui = {
     {
       new_data.push(g_ui.case_view_list[i]);
     }
-
-    var new_record_id = new Date().toISOString();
 
     new_data.push({
       id: result._id,
@@ -823,7 +851,7 @@ var g_ui = {
         date_last_updated: result.date_last_updated,
         last_updated_by: result.last_updated_by,
 
-        record_id: result.record_id,
+        record_id: result.home_record.record_id,
         agency_case_id: result.agency_case_id,
         date_of_committee_review: result.committee_review.date_of_review,
       },
@@ -3236,7 +3264,17 @@ function add_new_case_button_click(p_input)
         add_new_confirm_dialog.close();
         if(p_input == "yes")
         {
+            state.value = "generate_record";
             new_validation_message_area.innerHTML = "generate confirmed";
+
+            g_ui.add_new_case(
+                new_first_name.value,
+                new_middle_name.value,
+                new_last_name.value,
+                new_month_of_death.value,
+                new_day_of_death.value,
+                new_year_of_death.value,
+                new_state_of_death.value);
         }
         else
         {
@@ -3244,5 +3282,9 @@ function add_new_case_button_click(p_input)
             state.value = "init";
         }
         
+    }
+    else if("generate_record")
+    {
+
     }
 }
