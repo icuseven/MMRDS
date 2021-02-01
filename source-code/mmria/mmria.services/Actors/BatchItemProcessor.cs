@@ -1206,55 +1206,55 @@ GNAME 27 50
 
             var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            result.Add("IDOB_YR", row.Substring(0, 4).Trim());
+            result.Add("IDOB_YR", IDOB_YR_Rule(row.Substring(0, 4).Trim()));
             result.Add("FILENO", row.Substring(6, 6).Trim());
             result.Add("AUXNO", row.Substring(13, 12).Trim());
             result.Add("TB", row.Substring(25, 4).Trim());
-            result.Add("IDOB_MO", row.Substring(30, 2).Trim());
-            result.Add("IDOB_DY", row.Substring(32, 2).Trim());
+            result.Add("IDOB_MO", IDOB_MO_Rule(row.Substring(30, 2).Trim()));
+            result.Add("IDOB_DY", IDOB_DY_Rule(row.Substring(32, 2).Trim()));
             result.Add("FNPI", row.Substring(38, 12).Trim());
-            result.Add("MDOB_YR", row.Substring(54, 4).Trim());
-            result.Add("MDOB_MO", row.Substring(58, 2).Trim());
-            result.Add("MDOB_DY", row.Substring(60, 2).Trim());
-            result.Add("FDOB_YR", row.Substring(80, 4).Trim());
-            result.Add("FDOB_MO", row.Substring(84, 2).Trim());
-            result.Add("MARN", row.Substring(90, 1).Trim());
-            result.Add("ACKN", row.Substring(91, 1).Trim());
-            result.Add("MEDUC", row.Substring(92, 1).Trim());
+            result.Add("MDOB_YR", MDOB_YR_Rule(row.Substring(54, 4).Trim()));
+            result.Add("MDOB_MO", MDOB_MO_Rule(row.Substring(58, 2).Trim()));
+            result.Add("MDOB_DY", MDOB_DY_Rule(row.Substring(60, 2).Trim()));
+            result.Add("FDOB_YR", FDOB_YR_Rule(row.Substring(80, 4).Trim()));
+            result.Add("FDOB_MO", FDOB_MO_Rule(row.Substring(84, 2).Trim()));
+            result.Add("MARN", MARN_Rule(row.Substring(90, 1).Trim()));
+            result.Add("ACKN", ACKN_Rule(row.Substring(91, 1).Trim()));
+            result.Add("MEDUC", MEDUC_Rule(row.Substring(92, 1).Trim()));
             result.Add("METHNIC5", row.Substring(98, 20).Trim());
             result.Add("FEDUC", row.Substring(421, 1).Trim());
             result.Add("FETHNIC5", row.Substring(427, 20).Trim());
-            result.Add("ATTEND", row.Substring(750, 1).Trim());
-            result.Add("TRAN", row.Substring(751, 1).Trim());
-            result.Add("NPREV", row.Substring(768, 2).Trim());
-            result.Add("HFT", row.Substring(771, 1).Trim());
-            result.Add("HIN", row.Substring(772, 2).Trim());
-            result.Add("PWGT", row.Substring(775, 3).Trim());
-            result.Add("DWGT", row.Substring(779, 3).Trim());
-            result.Add("WIC", row.Substring(783, 1).Trim());
-            result.Add("PLBL", row.Substring(784, 2).Trim());
-            result.Add("PLBD", row.Substring(786, 2).Trim());
-            result.Add("POPO", row.Substring(788, 2).Trim());
-            result.Add("MLLB", row.Substring(790, 2).Trim());
-            result.Add("YLLB", row.Substring(792, 4).Trim());
-            result.Add("MOPO", row.Substring(796, 2).Trim());
-            result.Add("YOPO", row.Substring(798, 4).Trim());
-            result.Add("PAY", row.Substring(810, 1).Trim());
-            result.Add("DLMP_YR", row.Substring(811, 4).Trim());
-            result.Add("DLMP_MO", row.Substring(815, 2).Trim());
-            result.Add("DLMP_DY", row.Substring(817, 2).Trim());
-            result.Add("NPCES", row.Substring(828, 2).Trim());
-            result.Add("ATTF", row.Substring(853, 1).Trim());
-            result.Add("ATTV", row.Substring(854, 1).Trim());
-            result.Add("PRES", row.Substring(855, 1).Trim());
-            result.Add("ROUT", row.Substring(856, 1).Trim());
-            result.Add("OWGEST", row.Substring(869, 2).Trim());
-            result.Add("APGAR5", row.Substring(872, 2).Trim());
-            result.Add("APGAR10", row.Substring(874, 2).Trim());
-            result.Add("SORD", row.Substring(878, 2).Trim());
-            result.Add("ITRAN", row.Substring(908, 1).Trim());
-            result.Add("ILIV", row.Substring(909, 1).Trim());
-            result.Add("BFED", row.Substring(910, 1).Trim());
+            result.Add("ATTEND", ATTEND_Rule(row.Substring(750, 1).Trim()));
+            result.Add("TRAN", TRAN_Rule(row.Substring(751, 1).Trim()));
+            result.Add("NPREV", NPREV_Rule(row.Substring(768, 2).Trim()));
+            result.Add("HFT", HFT_Rule(row.Substring(771, 1).Trim()));
+            result.Add("HIN", HIN_Rule(row.Substring(772, 2).Trim()));
+            result.Add("PWGT", PWGT_Rule(row.Substring(775, 3).Trim()));
+            result.Add("DWGT", DWGT_Rule(row.Substring(779, 3).Trim()));
+            result.Add("WIC", WIC_Rule(row.Substring(783, 1).Trim()));
+            result.Add("PLBL", PLBL_Rule(row.Substring(784, 2).Trim()));
+            result.Add("PLBD", PLBD_Rule(row.Substring(786, 2).Trim()));
+            result.Add("POPO", POPO_Rule(row.Substring(788, 2).Trim()));
+            result.Add("MLLB", MLLB_Rule(row.Substring(790, 2).Trim()));
+            result.Add("YLLB", YLLB_Rule(row.Substring(792, 4).Trim()));
+            result.Add("MOPO", MOPO_Rule(row.Substring(796, 2).Trim()));
+            result.Add("YOPO", YOPO_Rule(row.Substring(798, 4).Trim()));
+            result.Add("PAY", PAY_Rule(row.Substring(810, 1).Trim()));
+            result.Add("DLMP_YR", DLMP_YR_Rule(row.Substring(811, 4).Trim()));
+            result.Add("DLMP_MO", DLMP_MO_Rule(row.Substring(815, 2).Trim()));
+            result.Add("DLMP_DY", DLMP_DY_Rule(row.Substring(817, 2).Trim()));
+            result.Add("NPCES", NPCES_Rule(row.Substring(828, 2).Trim()));
+            result.Add("ATTF", ATTF_Rule(row.Substring(853, 1).Trim()));
+            result.Add("ATTV", ATTV_Rule(row.Substring(854, 1).Trim()));
+            result.Add("PRES", PRES_Rule(row.Substring(855, 1).Trim()));
+            result.Add("ROUT", ROUT_Rule(row.Substring(856, 1).Trim()));
+            result.Add("OWGEST", OWGEST_Rule(row.Substring(869, 2).Trim()));
+            result.Add("APGAR5", APGAR5_Rule(row.Substring(872, 2).Trim()));
+            result.Add("APGAR10", APGAR10_Rule(row.Substring(874, 2).Trim()));
+            result.Add("SORD", SORD_Rule(row.Substring(878, 2).Trim()));
+            result.Add("ITRAN", ITRAN_Rule(row.Substring(908, 1).Trim()));
+            result.Add("ILIV", ILIV_Rule(row.Substring(909, 1).Trim()));
+            result.Add("BFED", BFED_Rule(row.Substring(910, 1).Trim()));
             result.Add("BIRTH_CO", row.Substring(1157, 25).Trim());
             result.Add("BRTHCITY", row.Substring(1182, 50).Trim());
             result.Add("HOSP", row.Substring(1232, 50).Trim());
@@ -1283,6 +1283,7 @@ GNAME 27 50
             result.Add("MOM_MED_REC_NUM", row.Substring(2936, 15).Trim());
 
 
+
             return result;
 
         }
@@ -1291,46 +1292,46 @@ GNAME 27 50
         {
             var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            result.Add("FDOD_YR", row.Substring(0, 4).Trim());
+            result.Add("FDOD_YR", FDOD_YR_FET_Rule(row.Substring(0, 4).Trim()));
             result.Add("FILENO", row.Substring(6, 6).Trim());
             result.Add("AUXNO", row.Substring(13, 12).Trim());
             result.Add("TD", row.Substring(25, 4).Trim());
-            result.Add("FDOD_MO", row.Substring(30, 2).Trim());
-            result.Add("FDOD_DY", row.Substring(32, 2).Trim());
+            result.Add("FDOD_MO", FDOD_MO_FET_Rule(row.Substring(30, 2).Trim()));
+            result.Add("FDOD_DY", FDOD_DY_FET_Rule(row.Substring(32, 2).Trim()));
             result.Add("FNPI", row.Substring(38, 12).Trim());
-            result.Add("MDOB_YR", row.Substring(54, 4).Trim());
-            result.Add("MDOB_MO", row.Substring(58, 2).Trim());
-            result.Add("MDOB_DY", row.Substring(60, 2).Trim());
-            result.Add("FDOB_YR", row.Substring(80, 4).Trim());
-            result.Add("FDOB_MO", row.Substring(84, 2).Trim());
-            result.Add("MARN", row.Substring(90, 1).Trim());
-            result.Add("MEDUC", row.Substring(92, 1).Trim());
+            result.Add("MDOB_YR", MDOB_YR_FET_Rule(row.Substring(54, 4).Trim()));
+            result.Add("MDOB_MO", MDOB_MO_FET_Rule(row.Substring(58, 2).Trim()));
+            result.Add("MDOB_DY", MDOB_DY_FET_Rule(row.Substring(60, 2).Trim()));
+            result.Add("FDOB_YR", FDOB_YR_FET_Rule(row.Substring(80, 4).Trim()));
+            result.Add("FDOB_MO", FDOB_MO_FET_Rule(row.Substring(84, 2).Trim()));
+            result.Add("MARN", MARN_FET_Rule(row.Substring(90, 1).Trim()));
+            result.Add("MEDUC", MEDUC_FET_Rule(row.Substring(92, 1).Trim()));
             result.Add("METHNIC5", row.Substring(98, 20).Trim());
-            result.Add("ATTEND", row.Substring(421, 1).Trim());
-            result.Add("TRAN", row.Substring(422, 1).Trim());
-            result.Add("NPREV", row.Substring(439, 2).Trim());
-            result.Add("HFT", row.Substring(442, 1).Trim());
-            result.Add("HIN", row.Substring(443, 2).Trim());
-            result.Add("PWGT", row.Substring(446, 3).Trim());
-            result.Add("DWGT", row.Substring(450, 3).Trim());
-            result.Add("WIC", row.Substring(454, 1).Trim());
-            result.Add("PLBL", row.Substring(455, 2).Trim());
-            result.Add("PLBD", row.Substring(457, 2).Trim());
-            result.Add("POPO", row.Substring(459, 2).Trim());
-            result.Add("MLLB", row.Substring(461, 2).Trim());
-            result.Add("YLLB", row.Substring(463, 4).Trim());
-            result.Add("MOPO", row.Substring(467, 2).Trim());
-            result.Add("YOPO", row.Substring(469, 4).Trim());
-            result.Add("DLMP_YR", row.Substring(481, 4).Trim());
-            result.Add("DLMP_MO", row.Substring(485, 2).Trim());
-            result.Add("DLMP_DY", row.Substring(487, 2).Trim());
-            result.Add("NPCES", row.Substring(498, 2).Trim());
-            result.Add("ATTF", row.Substring(511, 1).Trim());
-            result.Add("ATTV", row.Substring(512, 1).Trim());
-            result.Add("PRES", row.Substring(513, 1).Trim());
-            result.Add("ROUT", row.Substring(514, 1).Trim());
-            result.Add("OWGEST", row.Substring(528, 2).Trim());
-            result.Add("SORD", row.Substring(537, 2).Trim());
+            result.Add("ATTEND", ATTEND_FET_Rule(row.Substring(421, 1).Trim()));
+            result.Add("TRAN", TRAN_FET_Rule(row.Substring(422, 1).Trim()));
+            result.Add("NPREV", NPREV_FET_Rule(row.Substring(439, 2).Trim()));
+            result.Add("HFT", HFT_FET_Rule(row.Substring(442, 1).Trim()));
+            result.Add("HIN", HIN_FET_Rule(row.Substring(443, 2).Trim()));
+            result.Add("PWGT", PWGT_FET_Rule(row.Substring(446, 3).Trim()));
+            result.Add("DWGT", DWGT_FET_Rule(row.Substring(450, 3).Trim()));
+            result.Add("WIC", WIC_FET_Rule(row.Substring(454, 1).Trim()));
+            result.Add("PLBL", PLBL_FET_Rule(row.Substring(455, 2).Trim()));
+            result.Add("PLBD", PLBD_FET_Rule(row.Substring(457, 2).Trim()));
+            result.Add("POPO", POPO_FET_Rule(row.Substring(459, 2).Trim()));
+            result.Add("MLLB", MLLB_FET_Rule(row.Substring(461, 2).Trim()));
+            result.Add("YLLB", YLLB_FET_Rule(row.Substring(463, 4).Trim()));
+            result.Add("MOPO", MOPO_FET_Rule(row.Substring(467, 2).Trim()));
+            result.Add("YOPO", YOPO_FET_Rule(row.Substring(469, 4).Trim()));
+            result.Add("DLMP_YR", DLMP_YR_FET_Rule(row.Substring(481, 4).Trim()));
+            result.Add("DLMP_MO", DLMP_MO_FET_Rule(row.Substring(485, 2).Trim()));
+            result.Add("DLMP_DY", DLMP_DY_FET_Rule(row.Substring(487, 2).Trim()));
+            result.Add("NPCES", NPCES_FET_Rule(row.Substring(498, 2).Trim()));
+            result.Add("ATTF", ATTF_FET_Rule(row.Substring(511, 1).Trim()));
+            result.Add("ATTV", ATTV_FET_Rule(row.Substring(512, 1).Trim()));
+            result.Add("PRES", PRES_FET_Rule(row.Substring(513, 1).Trim()));
+            result.Add("ROUT", ROUT_FET_Rule(row.Substring(514, 1).Trim()));
+            result.Add("OWGEST", OWGEST_FET_Rule(row.Substring(528, 2).Trim()));
+            result.Add("SORD", SORD_FET_Rule(row.Substring(537, 2).Trim()));
             result.Add("HOSP_D", row.Substring(2904, 50).Trim());
             result.Add("ADDRESS_D", row.Substring(3051, 50).Trim());
             result.Add("ZIPCODE_D", row.Substring(3101, 9).Trim());
@@ -1353,22 +1354,25 @@ GNAME 27 50
             result.Add("DAD_OC_T", row.Substring(4088, 25).Trim());
             result.Add("MOM_IN_T", row.Substring(4116, 25).Trim());
             result.Add("DAD_IN_T", row.Substring(4144, 25).Trim());
-            result.Add("FEDUC", row.Substring(4288, 1).Trim());
+            result.Add("FEDUC", FEDUC_FET_Rule(row.Substring(4288, 1).Trim()));
             result.Add("FETHNIC5", row.Substring(4294, 20).Trim());
             result.Add("HOSPFROM", row.Substring(4763, 50).Trim());
             result.Add("ATTEND_NPI", row.Substring(4863, 12).Trim());
             result.Add("ATTEND_OTH_TXT", row.Substring(4875, 20).Trim());
+
 
             return result;
         }
 
         #region Rules Section
 
+        #region MOR Rules
+
         private string STINJURY_Rule(string value)
         {
             var result = value;
-            
-            if(StateDisplayToValue.ContainsKey(value))
+
+            if (StateDisplayToValue.ContainsKey(value))
             {
                 result = StateDisplayToValue[value];
             }
@@ -1379,8 +1383,8 @@ GNAME 27 50
         private string STATETEXT_D_Rule(string value)
         {
             var result = value;
-            
-            if(StateDisplayToValue.ContainsKey(value))
+
+            if (StateDisplayToValue.ContainsKey(value))
             {
                 result = StateDisplayToValue[value];
             }
@@ -2089,6 +2093,726 @@ GNAME 27 50
 
             return value;
         }
+
+        #endregion
+
+        #region NAT Rules
+
+        private string IDOB_YR_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field - date_of_delivery/year (bfdcpfodddod_year)
+            2. Merge 3 fields (IDOB_MO, IDOB_DY, IDOB_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+
+        private string IDOB_MO_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field -  date_of_delivery/month (bfdcpfodddod_month)
+            2. Merge 3 fields (IDOB_MO, IDOB_DY, IDOB_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+
+        private string IDOB_DY_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field - date_of_delivery/day (bfdcpfodddod_day)
+            2. Merge 3 fields (IDOB_MO, IDOB_DY, IDOB_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+
+        private string MDOB_YR_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string MDOB_MO_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string MDOB_DY_Rule(string value)
+        {
+            /*If value is in 01-31, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string FDOB_YR_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string FDOB_MO_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string MARN_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+
+        private string ACKN_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            X -> 2=Not Applicable
+            */
+            return value;
+        }
+
+        private string MEDUC_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = 8th Grade or Less
+            2  -> 1 = 9th-12th Grade; No Diploma
+            3  -> 2 = High School Grad or GED Completed 
+            4  -> 3 = Some college, but no degree
+            5  -> 4 = Associate Degree
+            6  -> 5 = Bachelor's Degree
+            7  -> 6 = Master's Degree
+            8  -> 7 = Doctorate or Professional Degree
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string METHNIC5_Rule(string value)
+        {
+            /*Transfer string verbatim to MMRIA field*/
+            return value;
+        }
+
+        private string FEDUC_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = 8th Grade or Less
+            2  -> 1 = 9th-12th Grade; No Diploma
+            3  -> 2 = High School Grad or GED Completed 
+            4  -> 3 = Some college, but no degree
+            5  -> 4 = Associate Degree
+            6  -> 5 = Bachelor's Degree
+            7  -> 6 = Master's Degree
+            8  -> 7 = Doctorate or Professional Degree
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string FETHNIC5_Rule(string value)
+        {
+            /*Transfer string verbatim to MMRIA field*/
+            return value;
+        }
+
+        private string ATTEND_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = MD
+            2 -> 1 = DO
+            3 -> 2 = CNM/CM
+            4 -> 3 = Other Midwife
+            5 -> 4 = Other 
+            9 -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string TRAN_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+
+        private string NPREV_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field. 
+
+            If value = 99, map to 9999 (blank)*/
+            return value;
+        }
+
+        private string HFT_Rule(string value)
+        {
+            /*If value is in 1-8, transfer number verbatim to MMRIA field. 
+
+            If value = 9, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string HIN_Rule(string value)
+        {
+            /*If value is in 00-11, transfer number verbatim to MMRIA field. 
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string PWGT_Rule(string value)
+        {
+            /*If value is in 050-400, transfer number verbatim to MMRIA field.
+
+            If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string DWGT_Rule(string value)
+        {
+            /*If value is in 050-450, transfer number verbatim to MMRIA field.  
+
+            If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string WIC_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+
+        private string PLBL_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.  
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string PLBD_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.  
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string POPO_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+
+        private string MLLB_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 88 or 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string YLLB_Rule(string value)
+        {
+            /*If value is not 8888 or 9999, transfer number verbatim to MMRIA field.
+
+            If value = 8888 or 9999, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string MOPO_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 88 or 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string YOPO_Rule(string value)
+        {
+            /*If value is not 8888 or 9999, transfer number verbatim to MMRIA field.  
+
+            If value = 8888 or 9999, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string PAY_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 1 = Medicaid
+            2 -> 0 = Private Insurance
+            3 -> 2 = Self-pay                                       
+            4 -> 4=Indian Health Service                     
+            5 -> 5=CHAMPUS/TRICARE                               
+            6 -> 6 = Other Government (Fed, State, Local)
+            8 -> 3 = Other                                          
+            9 -> 7777=Unknown*/
+            return value;
+        }
+
+        private string DLMP_YR_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string DLMP_MO_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string DLMP_DY_Rule(string value)
+        {
+            /*If value is in 01-31, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+
+        private string NPCES_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.  
+
+            If value = 99, leave the value empty/blank.*/
+            return value;
+        }
+
+        private string ATTF_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+
+        private string ATTV_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  -> 7777 = Unknown
+            */
+            return value;
+        }
+
+        private string PRES_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = Cephalic
+            2 -> 1 = Breech
+            3 -> 4 = Other
+            9 -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string ROUT_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = Vaginal/Spontaneous
+            2 -> 1 = Vaginal/Forceps
+            3  -> 2 = Vaginal/Vacuum
+            4  -> 3 = Cesarean
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string OWGEST_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field.
+
+            If value = 99, leave the value empty/blank. */
+            return value;
+        }
+
+        private string APGAR5_Rule(string value)
+        {
+            /*If value is in 00-10, transfer number verbatim to MMRIA field.  
+
+            If value = 99, leave the value empty/blank. */
+            return value;
+        }
+
+        private string APGAR10_Rule(string value)
+        {
+            /*If value is in 00-10, transfer number verbatim to MMRIA field.  
+
+            If value = 88 or 99, leave the value empty/blank. */
+            return value;
+        }
+
+        private string SORD_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.  
+
+            If value = 99, leave the MMRIA value empty/blank.*/
+            return value;
+        }
+
+        private string ITRAN_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 Yes
+            N  -> 0 No
+            U  -> 7777 = Unknown
+            */
+            return value;
+        }
+
+        private string ILIV_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 = Yes
+            N  -> 0 = No
+            U  -> 2 = Infant transferred, status unknown
+            */
+            return value;
+        }
+
+        private string BFED_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 Yes
+            N  -> 0 No
+            U  -> 7777 = Unknown
+            */
+            return value;
+        }
+
+
+
+        #endregion
+
+        #region FET Rules
+
+        private string FDOD_YR_FET_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field - date_of_delivery/year (bfdcpfodddod_year)
+            2. Merge 3 fields (FDOD_MO, FDOD_DY, FDOD_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+
+
+
+        private string FDOD_MO_FET_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field -  date_of_delivery/month (bfdcpfodddod_month)
+            2. Merge 3 fields (FDOD_MO, FDOD_DY, FDOD_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+        private string FDOD_DY_FET_Rule(string value)
+        {
+            /*1. Transfer number verbatim to MMRIA field - date_of_delivery/day (bfdcpfodddod_day)
+            2. Merge 3 fields (FDOD_MO, FDOD_DY, FDOD_YR) map resulting date to MMRIA field - date_of _delivery (bcifsri_do_deliv).*/
+            return value;
+        }
+
+        private string MDOB_YR_FET_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+        private string MDOB_MO_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.  
+
+            If value = 99, map to 9999 (blank). */
+            return value;
+        }
+        private string MDOB_DY_FET_Rule(string value) {/*If value is in 01-31, transfer number verbatim to MMRIA field.  If value = 99, map to 9999 (blank).*/return value; }
+
+        private string FDOB_YR_FET_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+        private string FDOB_MO_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+        private string MARN_FET_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+        private string MEDUC_FET_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = 8th Grade or Less
+            2  -> 1 = 9th-12th Grade; No Diploma
+            3  -> 2 = High School Grad or GED Completed 
+            4  -> 3 = Some college, but no degree
+            5  -> 4 = Associate Degree
+            6  -> 5 = Bachelor's Degree
+            7  -> 6 = Master's Degree
+            8  -> 7 = Doctorate or Professional Degree
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+
+        private string ATTEND_FET_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = MD
+            2 -> 1 = DO
+            3 -> 2 = CNM/CM
+            4 -> 3 = Other Midwife
+            5 -> 4 = Other 
+            9 -> 7777 = Unknown*/
+            return value;
+        }
+        private string TRAN_FET_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+        private string NPREV_FET_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field. 
+
+            If value = 99, map to 9999 (blank)*/
+            return value;
+        }
+        private string HFT_FET_Rule(string value)
+        {
+            /*If value is in 1-8, transfer number verbatim to MMRIA field. 
+
+            If value = 9, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string HIN_FET_Rule(string value)
+        {
+            /*If value is in 00-11, transfer number verbatim to MMRIA field. 
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string PWGT_FET_Rule(string value)
+        {
+            /*If value is in 050-400, transfer number verbatim to MMRIA field.
+
+            If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string DWGT_FET_Rule(string value)
+        {
+            /*If value is in 050-450, transfer number verbatim to MMRIA field.  
+
+            If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string WIC_FET_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+        private string PLBL_FET_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.  
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string PLBD_FET_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.  
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string POPO_FET_Rule(string value)
+        {
+            /*If value is in 00-30, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
+            return value;
+        }
+        private string MLLB_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 88 or 99, map to 9999 (blank).*/
+            return value;
+        }
+        private string YLLB_FET_Rule(string value)
+        {
+            /*If value is not 8888 or 9999, transfer number verbatim to MMRIA field.
+
+            If value = 8888 or 9999, map to 9999 (blank).*/
+            return value;
+        }
+        private string MOPO_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 88 or 99, map to 9999 (blank).*/
+            return value;
+        }
+        private string YOPO_FET_Rule(string value)
+        {
+            /*If value is not 8888 or 9999, transfer number verbatim to MMRIA field.  
+
+            If value = 8888 or 9999, map to 9999 (blank).*/
+            return value;
+        }
+        private string DLMP_YR_FET_Rule(string value)
+        {
+            /*If value is not 9999, transfer number verbatim to MMRIA field.
+
+            If value = 9999, map to 9999 (blank).*/
+            return value;
+        }
+        private string DLMP_MO_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+        private string DLMP_DY_FET_Rule(string value)
+        {
+            /*If value is in 01-31, transfer number verbatim to MMRIA field.
+
+            If value = 99, map to 9999 (blank).*/
+            return value;
+        }
+        private string NPCES_FET_Rule(string value)
+        {
+            /*Transfer number verbatim to MMRIA field.  Map 99 to 9999 (blank)*/
+            return value;
+        }
+        private string ATTF_FET_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  ->  7777 = Unknown
+            */
+            return value;
+        }
+        private string ATTV_FET_Rule(string value)
+        {
+            /*Map character to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            Y  -> 1 =Yes
+            N  -> 0 = No
+            U  -> 7777 = Unknown
+            */
+            return value;
+        }
+        private string PRES_FET_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = Cephalic
+            2 -> 1 = Breech
+            3 -> 4 = Other
+            9 -> 7777 = Unknown*/
+            return value;
+        }
+        private string ROUT_FET_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = Vaginal/Spontaneous
+            2 -> 1 = Vaginal/Forceps
+            3  -> 2 = Vaginal/Vacuum
+            4  -> 3 = Cesarean
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+        private string OWGEST_FET_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field.
+
+            If value = 99, leave the value empty/blank. */
+            return value;
+        }
+        private string SORD_FET_Rule(string value)
+        {
+            /*If value is in 01-12, transfer number verbatim to MMRIA field.  
+
+            If value = 99, leave the MMRIA value empty/blank.*/
+            return value;
+        }
+
+        private string FEDUC_FET_Rule(string value)
+        {
+            /*Map number to MMRIA code values as follows:
+            Blank fields -> 9999 (blank)
+            1 -> 0 = 8th Grade or Less
+            2  -> 1 = 9th-12th Grade; No Diploma
+            3  -> 2 = High School Grad or GED Completed 
+            4  -> 3 = Some college, but no degree
+            5  -> 4 = Associate Degree
+            6  -> 5 = Bachelor's Degree
+            7  -> 6 = Master's Degree
+            8  -> 7 = Doctorate or Professional Degree
+            9  -> 7777 = Unknown*/
+            return value;
+        }
+
+
+        #endregion
 
         #endregion
 
