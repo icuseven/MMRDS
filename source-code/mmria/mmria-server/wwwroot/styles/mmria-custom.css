@@ -322,6 +322,37 @@ button.link {
 	width: 22px;
 }
 
+/*
+~~~ CUSTOM BATCH STYLES
+*/
+.batch {
+    position: relative;
+}
+
+.batch__body {
+    border: 1px solid var(--neutral);
+    border-radius: 0px 4px 4px 4px;
+    padding: 10px;
+}
+
+.batch__title {
+    border: 1px solid var(--neutral);
+    border-radius: 4px 4px 0px 0px;
+    font-size: 17px;
+    font-weight: 700;
+    font-weight: bold;
+    left: 5px;
+    margin: 0;
+    padding-bottom: 4px;
+    padding-left: .75rem;
+    padding-right: .75rem;
+    padding-top: 4px;
+    position: absolute;
+    top: 0;
+    transform: translateY(-34px);    
+    width: auto;
+}
+
 .table {
   backface-visibility: hidden;
   border: none;
@@ -735,6 +766,14 @@ button.link {
 
 .modal-icons {
   padding-right: 1rem;
+}
+
+dialog {
+    border: none;
+}
+
+dialog::backdrop {
+    background-color: rgba(0,0,0,.5);
 }
 
 /*

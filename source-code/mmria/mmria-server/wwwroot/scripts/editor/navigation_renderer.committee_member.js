@@ -65,7 +65,7 @@ function navigation_render(p_metadata, p_level, p_ui)
 
         if (currHash === '' || currHash === '#/summary')
         {
-          result.push('<li id="summary-item" class="list-group-item nav-lvl1 ml-0 active selected"><a href="#/summary">Summary</a></li>');
+          result.push('<li id="summary-item" class="list-group-item nav-lvl1 ml-0 active selected"><a href="#/summary" onclick="g_render();">Summary</a></li>');
 
           if (breadcrumb_list.children().length >= 2)
           {
@@ -74,7 +74,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         }
         else
         {
-          result.push('<li id="summary-item" class="list-group-item nav-lvl1 ml-0 active"><a href="#/summary">Summary</a></li>');
+          result.push('<li id="summary-item" class="list-group-item nav-lvl1 ml-0 active"><a href="#/summary" onclick="g_render();">Summary</a></li>');
         }
 
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
