@@ -189,8 +189,9 @@ namespace RecordsProcessor_Worker.Actors
             {"DATE_OF_DELIVERY","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
 
             {"IDOB_YR","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year"},
-            {"IDOB_MO","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
-            {"IDOB_DY","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
+            {"IDOB_MO","/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month"},
+            {"IDOB_DY","/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day"},
+
 
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
@@ -289,8 +290,8 @@ namespace RecordsProcessor_Worker.Actors
             {"DATE_OF_DELIVERY","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
 
             {"FDOD_YR","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year"},
-            {"FDOD_MO","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
-            {"FDOD_DY","/birth_certificate_infant_fetal_section/record_identification/date_of_delivery"},
+            {"FDOD_MO","/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month"},
+            {"FDOD_DY","/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day"},
 
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
