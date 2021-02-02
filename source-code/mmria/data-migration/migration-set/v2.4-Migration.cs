@@ -271,6 +271,31 @@ namespace migrate.set
 							continue;
 						}
 
+// record_id - begin
+/*
+GetExistingRecordIds
+
+
+                    if 
+                    (
+                        (
+                            !result.home_record.record_id || 
+                            result.home_record.record_id == ''
+                        ) && 
+                        result.home_record.state_of_death_record && 
+                        result.home_record.state_of_death_record != '' && 
+                        result.home_record.date_of_death.year && 
+                        parseInt(result.home_record.date_of_death.year) > 999 && 
+                        parseInt(result.home_record.date_of_death.year) < 2500
+                    ) 
+                    {
+                        result.home_record.record_id = result.home_record.state_of_death_record.substring(0, 2) + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+
+                    }
+*/
+// record_id - end
+
+
 						var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
 						{
 							{ "10", "10.9"},
@@ -753,5 +778,36 @@ mhpwtdmhc_rf_treat
 			}
 			return result;
 		}	
+
+
+		public async Task<HashSet<string>> GetExistingRecordIds()
+		{
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+            try
+            {        
+				string request_string = $"{host_db_url}/{db_name}/_design/sortable/_view/by_date_created?skip=0&take=25000";
+
+                var case_view_curl = new cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+                string responseFromServer = await case_view_curl.executeAsync();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    result.Add(cvi.value.record_id);
+
+                }
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+    		return result;
+		} 
+
+
     }
 }
