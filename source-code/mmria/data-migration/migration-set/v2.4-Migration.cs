@@ -271,6 +271,34 @@ namespace migrate.set
 							continue;
 						}
 
+						var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+						{
+							{ "10", "10.9"},
+							{ "20", "20.9"},
+							{ "30", "30.1"},
+							{ "31", "31.1"},
+							{ "40", "40.1"},
+							{ "50", "50.1"},
+							{ "60", "60.1"},
+							{ "70", "70.1"},
+							{ "80", "80.9"},
+							{ "82", "82.9"},
+							{ "83", "83.9"},
+							{ "85", "85.1"},
+							{ "90", "90.9"},
+							{ "89", "89.9"},
+							{ "90", "90.9"},
+							{ "91", "91.9"},
+							{ "92", "92.9"},
+							{ "93", "93.9"},
+							{ "95", "95.1"},
+							{ "96", "96.9"},
+							{ "97", "97.9"},
+							{ "100", "100.9"},
+							{ "999", "999.1"}
+						};
+
+
 						foreach(var node in  pmss_set)
 						{
 
@@ -280,8 +308,28 @@ namespace migrate.set
 							
 							if(!value_result.is_error)
 							{
+								var value = value_result.result;
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									continue;	
+								}
+								var value_string = value.ToString();
+								if(pmss_map.ContainsKey(value_string))
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+									
+									dynamic new_value = pmss_map[value_string];
 
-							}
+									case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+									var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+							}		
 						}
 
 
