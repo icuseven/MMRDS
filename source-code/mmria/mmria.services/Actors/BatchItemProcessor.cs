@@ -45,6 +45,7 @@ namespace RecordsProcessor_Worker.Actors
             { "MARITAL","death_certificate/demographics/marital_status"},
 
             { "DPLACE","death_certificate/death_information/death_occured_in_hospital"},
+            { "DPLACE_Outside_of_hospital","/death_certificate/death_information/death_outside_of_hospital"},
 
             { "DOD_MO","home_record/date_of_death/month"},
             { "DOD_DY","home_record/date_of_death/day"},
@@ -149,7 +150,10 @@ namespace RecordsProcessor_Worker.Actors
             { "COUNTYTEXT_R","death_certificate/place_of_last_residence/county"},
             { "DMIDDLE","home_record/middle_name"},
             { "POILITRL","death_certificate/injury_associated_information/place_of_injury"},
+
             { "TRANSPRT","death_certificate/injury_associated_information/transportation_related_injury"},
+            { "TRANSPRT_other_specify","death_certificate/injury_associated_information/transport_related_other_specify"},
+
             { "COUNTYTEXT_I","death_certificate/address_of_injury/county"},
             { "CITYTEXT_I","death_certificate/address_of_injury/city"},
 
@@ -610,7 +614,10 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["STATEC"], mor_field_set["STATEC"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COUNTRYC"], mor_field_set["COUNTRYC"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["MARITAL"], mor_field_set["MARITAL"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DPLACE"], mor_field_set["DPLACE"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["DPLACE"], DPLACE_Rule(mor_field_set["DPLACE"]), new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DPLACE_Outside_of_hospital"], DPLACE_Outside_of_hospital_Rule(mor_field_set["DPLACE"]), new_case);
+
                 gs.set_value(IJE_to_MMRIA_Path["TOD"], mor_field_set["TOD"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DEDUC"], mor_field_set["DEDUC"], new_case);
 
@@ -725,7 +732,11 @@ namespace RecordsProcessor_Worker.Actors
 
                 gs.set_value(IJE_to_MMRIA_Path["DMIDDLE"], mor_field_set["DMIDDLE"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["POILITRL"], mor_field_set["POILITRL"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["TRANSPRT"], mor_field_set["TRANSPRT"], new_case);
+
+                gs.set_value(IJE_to_MMRIA_Path["TRANSPRT"], TRANSPRT_Rule(mor_field_set["TRANSPRT"]), new_case);
+                gs.set_value(IJE_to_MMRIA_Path["TRANSPRT_other_specify"], TRANSPRT_other_specify_Rule(mor_field_set["TRANSPRT"]), new_case);
+
+
                 gs.set_value(IJE_to_MMRIA_Path["COUNTYTEXT_I"], mor_field_set["COUNTYTEXT_I"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["CITYTEXT_I"], mor_field_set["CITYTEXT_I"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COD1A"], mor_field_set["COD1A"], new_case);
@@ -981,7 +992,7 @@ key fields - only exact matches are excluded
 
         }
 
-     
+       
         struct Result_Struct
         {
             public System.Dynamic.ExpandoObject[] docs;
@@ -1211,7 +1222,7 @@ GNAME 27 50
             result.Add("COUNTRYTEXT_R", row.Substring(1652, 28).Trim());
             result.Add("DMIDDLE", row.Substring(1807, 50).Trim());
             result.Add("POILITRL", row.Substring(2108, 50).Trim());
-            result.Add("TRANSPRT", TRANSPRT_Rule(row.Substring(2408, 30).Trim()));
+            result.Add("TRANSPRT", row.Substring(2408, 30).Trim());
             result.Add("COUNTYTEXT_I", row.Substring(2438, 28).Trim());
             result.Add("CITYTEXT_I", row.Substring(2469, 28).Trim());
             result.Add("COD1A", row.Substring(2541, 120).Trim());
@@ -1420,6 +1431,95 @@ GNAME 27 50
         #region Rules Section
 
         #region MOR Rules
+
+        private string DPLACE_Rule(string value)
+        {
+            /*"1 --> dcdi_doi_hospi = 0 and dcdi_doo_hospi = 9999 (blank)
+                2 --> dcdi_doi_hospi = 1 and dcdi_doo_hospi = 9999 (blank)
+                3 --> dcdi_doi_hospi = 2 and dcdi_doo_hospi = 9999 (blank)
+                4 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 2
+                5 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 0
+                6 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 1 
+                7 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 3
+                9 --> dcdi_doi_hosp = 7777 (unknown) and dcdi_doo_hospi = 7777 (unknown) "
+                 */
+            switch (value?.ToUpper())
+            {
+                case "1":
+                    value = "0";
+                    break;
+                case "2":
+                    value = "1";
+                    break;
+                case "3":
+                    value = "2";
+                    break;
+                case "4":
+                    value = "9999";
+                    break;
+                case "5":
+                    value = "9999";
+                    break;
+                case "6":
+                    value = "9999";
+                    break;
+                case "7":
+                    value = "9999";
+                    break;
+                case "9":
+                    value = "7777";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+
+            return value;
+        }
+
+        private string DPLACE_Outside_of_hospital_Rule(string value)
+        {
+            /*"1 --> dcdi_doi_hospi = 0 and dcdi_doo_hospi = 9999 (blank)
+                2 --> dcdi_doi_hospi = 1 and dcdi_doo_hospi = 9999 (blank)
+                3 --> dcdi_doi_hospi = 2 and dcdi_doo_hospi = 9999 (blank)
+                4 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 2
+                5 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 0
+                6 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 1 
+                7 --> dcdi_doi_hospi = 9999 (blank) and dcdi_doo_hospi = 3
+                9 --> dcdi_doi_hosp = 7777 (unknown) and dcdi_doo_hospi = 7777 (unknown) "
+                 */
+            switch (value?.ToUpper())
+            {
+                case "1":
+                    value = "9999";
+                    break;
+                case "2":
+                    value = "9999";
+                    break;
+                case "3":
+                    value = "9999";
+                    break;
+                case "4":
+                    value = "2";
+                    break;
+                case "5":
+                    value = "0";
+                    break;
+                case "6":
+                    value = "1";
+                    break;
+                case "7":
+                    value = "3";
+                    break;
+                case "9":
+                    value = "7777";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+            return value;
+        }
 
         private string STINJURY_Rule(string value)
         {
@@ -1951,6 +2051,41 @@ GNAME 27 50
 
             return value;
         }
+
+        private string TRANSPRT_other_specify_Rule(string value)
+        {
+            //"1. Map character to MMRIA code values as follows: 
+            //Blank fields -> 9999(blank)
+            //DR-> 0 = Driver / Operator
+            //PA-> 1 = Passenger
+            //PE-> 2 = Pedestrian
+            //Map any other text -> 3 = Other
+            //2.Map full text to MMRIA Specify Other field"
+
+            switch (value?.ToUpper())
+            {
+                case "DR":
+                    value = "";
+                    break;
+                case "PA":
+                    value = "";
+                    break;
+                case "PE":
+                    value = "";
+                    break;
+                case "":
+                    value = "";
+                    break;
+                default:
+                    //I know this looks weird, just coded it to show that the above values resolve this field to empty
+                    // but other text is passed through
+                    value = value;
+                    break;
+            }
+
+            return value;
+        }
+
 
         private string VRO_STATUS_Rule(string value)
         {
