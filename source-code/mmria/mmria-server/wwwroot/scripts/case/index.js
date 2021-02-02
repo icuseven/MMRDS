@@ -1493,6 +1493,7 @@ function window_on_hash_change(e)
       ) 
       {
 
+        g_apply_sort(g_metadata, g_data, "","", "");
         var case_id = g_data._id;
 
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)

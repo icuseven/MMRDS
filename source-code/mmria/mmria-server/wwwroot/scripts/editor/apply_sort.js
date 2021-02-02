@@ -2,7 +2,27 @@
 function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-     switch(p_metadata.type.toLowerCase())
+    function compareStringAsc(a, b) 
+    {
+        return a.compareTo(b);
+    }
+
+    function compareStringDesc(a, b) 
+    {
+        return a.compareTo(b) * -1;
+    }
+
+    function compareNumbersAsc(a, b) 
+    {
+        return a - b;
+    }
+
+    function compareNumbersDesc(a, b) 
+    {
+        return (a - b) *-1;
+    }
+
+    switch(p_metadata.type.toLowerCase())
 	{
 		case 'grid':
 
@@ -12,26 +32,55 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
                 p_metadata.sort_order.length !=0
             )
             {
-                
+                let metadata_path_list = [];
+                let metadata_node_list = [];
+                let sort_direction_list = [];
+                let sort_item_list = p_metadata.sort_order.split(",");
+                for(let i = 0; i < sort_item_list.length; i++)
+                {
+                    let item_array = sort_item_list[i].split(' ');
+                    metadata_path_list.push(`${p_dictionary_path}/${item_array[0].trim()}`);
+                    let node = g_find_metadata_node_by_path(p_metadata, p_dictionary_path, metadata_path_list[i]);
+                    metadata_node_list.push(node);
+                    if(item_array.length > 1)
+                    {
+                        let sort = item_array[1].toLowerCase().trim();
+                        switch(sort)
+                        {
+                            case "display":
+                            case "asc":
+                            case "desc":
+                                sort_direction_list.push(sort);
+                                break;
+                            default:
+                                sort_direction_list.push("asc");
+                                break;
+                        }
+                        
+                    }
+                    else
+                    {
+                        sort_direction_list.push("asc");
+                    }
+                }
+                console.log("here");
             }
 
-
-
-
-
-
-
-
-
-
-			grid_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
+			for (let i = 0; i < p_metadata.children.length; i++) 
+            {
+                let child = p_metadata.children[i];
+                if (p_data[child.name] != null) 
+                {
+                    g_apply_sort(child, p_data[child.name], p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name);
+                }
+            }
 			break;
 
 		case 'group':
             for (let i = 0; i < p_metadata.children.length; i++) 
             {
                 let child = p_metadata.children[i];
-                if (p_data[child.name] != nul) 
+                if (p_data[child.name] != null) 
                 {
                     g_apply_sort(child, p_data[child.name], p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name);
                 }
@@ -60,7 +109,7 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
                 for (let i = 0; i < p_metadata.children.length; i++) 
                 {
                     let child = p_metadata.children[i];
-                    if (p_data[child.name] != nul) 
+                    if (p_data[child.name] != null) 
                     {
                         g_apply_sort(child, p_data[child.name], p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name);
                     }
@@ -73,9 +122,9 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
             {
                 let child = p_metadata.children[i];
 
-                if (child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name) 
+                if (child.type.toLowerCase() == 'form') 
                 {
-                    if (p_data[child.name] != nul) 
+                    if (p_data[child.name] != null) 
                     {
                         g_apply_sort(child, p_data[child.name], p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name);
                     }
@@ -104,6 +153,94 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
 			break;
 	}
 
-	return result;
+}
+
+
+function g_find_metadata_node_by_path(p_metadata, p_dictionary_path, p_find_path)
+{
+    let result = null;
+
+    switch(p_metadata.type.toLowerCase())
+	{
+		case 'grid':
+			for (let i = 0; i < p_metadata.children.length; i++) 
+            {
+                let child = p_metadata.children[i];
+
+                result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                
+                if(result != null) break;
+            }
+			break;
+
+		case 'group':
+            for (let i = 0; i < p_metadata.children.length; i++) 
+            {
+                let child = p_metadata.children[i];
+                if (p_data[child.name] != null) 
+                {
+                    result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                }
+                if(result != null) break;
+            }
+			break;
+
+		case 'form':
+
+            for (let i = 0; i < p_metadata.children.length; i++) 
+            {
+                let child = p_metadata.children[i];
+                if (p_data[child.name] != null) 
+                {
+                    result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                }
+                if(result != null) break;
+            }
+            
+			break;
+
+		case 'app':
+            for (let i = 0; i < p_metadata.children.length; i++) 
+            {
+                let child = p_metadata.children[i];
+
+                if (child.type.toLowerCase() == 'form') 
+                {
+                    if (p_data[child.name] != null) 
+                    {
+                        result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                    }
+                    if(result != null) break;
+                }
+            }
+			break;
+
+		case 'label':
+		case 'button':
+		case 'string':
+		case 'address':
+		case 'textarea':
+		case 'number':
+		case 'boolean':
+		case 'list':
+		case 'date':
+		case 'datetime':
+		case 'time':
+		case 'chart':
+		case 'hidden':
+		case 'jurisdiction':
+            if(p_dictionary_path == p_find_path)
+            {
+                result = p_metadata;
+            }
+            break;
+
+		default:
+			console.log("page_render not processed", p_metadata);
+			break;
+    }
+    
+    return result;
+
 }
 
