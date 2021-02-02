@@ -304,20 +304,6 @@ function $get_current_multiform_index() {
     return result;
 }
 //----------------- Begin events ---------------------------------------------------
-//CREATE UNIQUE RECORD ID
-/*
-path=home_record/record_id
-event=onfocus
-*/
-function create_ID(p_control) 
-{
-    if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) 
-    {
-        this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
-        p_control.value = this.record_id;
-    }
-}
-
 
 // Case Status Value Change
 //4.	Review complete and decision entered, with associated Case Locked Date 
