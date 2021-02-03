@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "committee_member")]
+    [Authorize(Roles  = "cdc_analyst")]
     [Route("recover-case")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]

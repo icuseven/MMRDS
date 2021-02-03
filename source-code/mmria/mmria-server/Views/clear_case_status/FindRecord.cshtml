@@ -1,0 +1,92 @@
+@using System.Security.Claims;
+@model mmria.server.model.casestatus.CaseStatusRequestResponse
+@{ 
+    Layout = "_LayoutBase"; 
+    var userName = "";
+
+    
+    if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+    }
+
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+</head>
+<body>
+<a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
+mmria.server.model.casestatus.CaseStatusRequestResponse
+
+<table>
+    <tr>
+       <th>_id</th>
+       <th>RecordId</th>
+       <th>FirstName</th>
+       <th>LastName</th>
+       <th>MiddleName</th>
+       <th>Date Of death</th>
+       <th>State of Death</th>
+       <th>action</th>
+</tr>
+    <tr>
+       <td>_id</td>
+       <td>RecordId</td>
+       <td>FirstName</td>
+       <td>LastName</td>
+       <td>MiddleName</td>
+       <td>Date Of death</td>
+       <td>State of Death</td>
+       <td>
+           <form method="post" action="/clear_case_status/ConfirmClearCaseStatusRequest">
+                <input type="hidden" value="" />
+               <input type="submit" />
+           </form>
+        </td>
+</tr>
+<tr>
+       <td>_id</td>
+       <td>RecordId</td>
+       <td>FirstName</td>
+       <td>LastName</td>
+       <td>MiddleName</td>
+       <td>Date Of death</td>
+       <td>State of Death</td>
+       <td>
+           <form method="post" action="/clear_case_status/ClearCaseStatus">
+            <input type="hidden" value="" />
+               <input type="submit" />
+           </form>
+        </td>
+</tr>
+<tr>
+       <td>_id</td>
+       <td>RecordId</td>
+       <td>FirstName</td>
+       <td>LastName</td>
+       <td>MiddleName</td>
+       <td>Date Of death</td>
+       <td>State of Death</td>
+       <td>
+           <form method="post" action="/clear_case_status/ClearCaseStatus">
+               <input type="hidden" value="" />
+               <input type="submit" />
+           </form>
+        </td>
+</tr>
+</table>
+
+  <a href="/home">home</a> | <a href="/clear_case_status">search again</a><br/>
+
+</body>
+</html>
