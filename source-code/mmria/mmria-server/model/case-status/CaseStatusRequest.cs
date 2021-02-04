@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace mmria.server.model.casestatus
 {
@@ -20,11 +21,17 @@ namespace mmria.server.model.casestatus
 
         public string DateOfDeath { get; set; }
         public string StateOfDeath { get; set; }
+
+        public string CaseStatus { get; set; }
     }
 
     public class CaseStatusRequestResponse
     {
-        public CaseStatusDetail[] CaseStatusDetail { get; set; }
+        public CaseStatusRequestResponse()
+        {
+            CaseStatusDetail = new List<CaseStatusDetail>();
+        }
+        public List<CaseStatusDetail> CaseStatusDetail { get; set; }
 
     }
 

@@ -349,6 +349,11 @@ namespace mmria.server
           Log.Information("Program.config_vitals_service_key is present");
       }
 
+
+        var DbConfigSet = GetConfiguration();
+        services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+                   
+
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
       services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
@@ -868,7 +873,26 @@ namespace mmria.server
          */
       }
 
-      // ****   Quartz Timer - End
+      
+    }
+
+    private static mmria.common.couchdb.ConfigurationSet GetConfiguration()
+    {
+        var result = new mmria.common.couchdb.ConfigurationSet();
+        try
+        {
+            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.vitals_service_key}";
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = case_curl.execute();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return result;
     }
   }
 

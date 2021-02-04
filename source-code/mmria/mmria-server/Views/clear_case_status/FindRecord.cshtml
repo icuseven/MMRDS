@@ -26,9 +26,12 @@
 </head>
 <body>
 <a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
-mmria.server.model.casestatus.CaseStatusRequestResponse
+
 
 <table>
+    <tr>
+       <th align=center colspan=8>search results</th>
+</tr>
     <tr>
        <th>_id</th>
        <th>RecordId</th>
@@ -39,51 +42,24 @@ mmria.server.model.casestatus.CaseStatusRequestResponse
        <th>State of Death</th>
        <th>action</th>
 </tr>
+    @foreach (var item in Model.CaseStatusDetail)
+    {
     <tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
+       <td>@item._id</td>
+       <td>@item.RecordId</td>
+       <td>@item.FirstName</td>
+       <td>@item.LastName</td>
+       <td>@item.MiddleName</td>
+       <td>@item.DateOfDeath</td>
+       <td>@item.StateOfDeath</td>
        <td>
            <form method="post" action="/clear_case_status/ConfirmClearCaseStatusRequest">
-                <input type="hidden" value="" />
+                <input type="hidden" value="@item._id" />
                <input type="submit" />
            </form>
         </td>
-</tr>
-<tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
-       <td>
-           <form method="post" action="/clear_case_status/ClearCaseStatus">
-            <input type="hidden" value="" />
-               <input type="submit" />
-           </form>
-        </td>
-</tr>
-<tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
-       <td>
-           <form method="post" action="/clear_case_status/ClearCaseStatus">
-               <input type="hidden" value="" />
-               <input type="submit" />
-           </form>
-        </td>
-</tr>
+    </tr>
+    }
 </table>
 
   <a href="/home">home</a> | <a href="/clear_case_status">search again</a><br/>

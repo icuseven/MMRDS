@@ -1,10 +1,9 @@
 @using System.Security.Claims;
-@model mmria.server.model.casestatus.CaseStatusRequest
+@model mmria.common.couchdb.ConfigurationSet
 @{ 
     Layout = "_LayoutBase"; 
     var userName = "";
 
-    
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -33,9 +32,15 @@ Clear Case Status
 Search for your record<br/>
 <form method="post" action="/clear_case_status/FindRecord">
     StateDatabase:
-    <input asp-for="model.StateDatabase" />
+    <select name="StateDatabase">
+    @foreach (var item in Model.detail_list)
+    {
+        <option>@item.Key</option>
+    }
+</select>
+
     RecordId:
-    <input asp-for="model.RecordId" />
+    <input type="text" name="RecordId" value="Al-1920" />
     <input type="submit" />
 </form>
 
