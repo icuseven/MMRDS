@@ -30,11 +30,14 @@ var openFile = function(event) {
     reader.readAsText(input.files[0]);
   };
 
-function readmultifiles(files) 
+function readmultifiles(event, files) 
 {
-
+    const self = $(event.target);
     let ul_list = [];
     g_file_stat_list = [];
+
+    //show spinner
+    self.next('.spinner-inline').fadeIn();
 
     for(let i = 0; i < files.length; i++)
     {
@@ -43,7 +46,6 @@ function readmultifiles(files)
         g_file_stat_list.push({ name: item.name, index: i })
   
     }
-
 
     function readFile(index) 
     {
@@ -269,6 +271,7 @@ function render_file_list()
 
     let out = document.getElementById('output');
     let button = document.getElementById('process');
+
     if(g_validation_errors.length > 0)
     {
        out.value = g_validation_errors.join("\n");
@@ -279,6 +282,9 @@ function render_file_list()
         out.value = g_host_state + " ready to process";
         button.disabled = false;
     }
+
+    //hide the spinner when things are done
+    $('.spinner-inline').fadeOut();
 }
 
 function send_ije_set()
