@@ -1,70 +1,16 @@
 
 function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
-
-    function compareStringAsc(a, b) 
-    {
-        return a.compareTo(b);
-    }
-
-    function compareStringDesc(a, b) 
-    {
-        return a.compareTo(b) * -1;
-    }
-
-    function compareNumbersAsc(a, b) 
-    {
-        return a - b;
-    }
-
-    function compareNumbersDesc(a, b) 
-    {
-        return (a - b) *-1;
-    }
-
     switch(p_metadata.type.toLowerCase())
 	{
 		case 'grid':
+            let sort_function = g_apply_sort_create_sort(p_metadata, p_dictionary_path);
 
-            if
-            (
-                p_metadata.sort_order != null &&
-                p_metadata.sort_order.length !=0
-            )
+            if(sort_function != null)
             {
-                let metadata_path_list = [];
-                let metadata_node_list = [];
-                let sort_direction_list = [];
-                let sort_item_list = p_metadata.sort_order.split(",");
-                for(let i = 0; i < sort_item_list.length; i++)
-                {
-                    let item_array = sort_item_list[i].split(' ');
-                    metadata_path_list.push(`${p_dictionary_path}/${item_array[0].trim()}`);
-                    let node = g_find_metadata_node_by_path(p_metadata, p_dictionary_path, metadata_path_list[i]);
-                    metadata_node_list.push(node);
-                    if(item_array.length > 1)
-                    {
-                        let sort = item_array[1].toLowerCase().trim();
-                        switch(sort)
-                        {
-                            case "display":
-                            case "asc":
-                            case "desc":
-                                sort_direction_list.push(sort);
-                                break;
-                            default:
-                                sort_direction_list.push("asc");
-                                break;
-                        }
-                        
-                    }
-                    else
-                    {
-                        sort_direction_list.push("asc");
-                    }
-                }
-                console.log("here");
+                p_data.sort(sort_function);
             }
+            
 
 			for (let i = 0; i < p_metadata.children.length; i++) 
             {
@@ -90,6 +36,14 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
 		case 'form':
             if (p_metadata.cardinality == "+" || p_metadata.cardinality == "*") 
             {
+
+                let sort_function = g_apply_sort_create_sort(p_metadata, p_dictionary_path);
+
+                if(sort_function != null)
+                {
+                    p_data.sort(sort_function);
+                }
+
                 for (let i = 0; i < p_data.length; i++) 
                 {
                     let item = p_data[i];
@@ -177,10 +131,9 @@ function g_find_metadata_node_by_path(p_metadata, p_dictionary_path, p_find_path
             for (let i = 0; i < p_metadata.children.length; i++) 
             {
                 let child = p_metadata.children[i];
-                if (p_data[child.name] != null) 
-                {
-                    result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
-                }
+
+                result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                
                 if(result != null) break;
             }
 			break;
@@ -190,10 +143,8 @@ function g_find_metadata_node_by_path(p_metadata, p_dictionary_path, p_find_path
             for (let i = 0; i < p_metadata.children.length; i++) 
             {
                 let child = p_metadata.children[i];
-                if (p_data[child.name] != null) 
-                {
-                    result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
-                }
+                result = g_find_metadata_node_by_path(child, p_dictionary_path + "/" + child.name, p_find_path);
+                
                 if(result != null) break;
             }
             
@@ -244,3 +195,193 @@ function g_find_metadata_node_by_path(p_metadata, p_dictionary_path, p_find_path
 
 }
 
+function g_apply_sort_compareStringAsc(a, b) 
+{
+    return a.localeCompare(b);
+}
+
+function g_apply_sort_compareStringDesc(a, b) 
+{
+    return a.localeCompare(b) * -1;
+}
+
+function g_apply_sort_compareNumberAsc(x, y) 
+{
+    let a = new Number(x);
+    let b = new Number(y);
+    return a - b;
+}
+
+function g_apply_sort_compareNumberDesc(x, y) 
+{
+    let a = new Number(x);
+    let b = new Number(y);
+    return (a - b) *-1;
+}
+
+function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
+{
+    let result = null;
+    if
+    (
+        p_metadata.sort_order != null &&
+        p_metadata.sort_order.length !=0
+    )
+    {
+        let metadata_path_list = [];
+        let metadata_node_list = [];
+        let sort_direction_list = [];
+        let property_list = [];
+        let sort_item_list = p_metadata.sort_order.trim().split(",");
+        for(let i = 0; i < sort_item_list.length; i++)
+        {
+            let item_array = sort_item_list[i].trim().split(' ');
+            metadata_path_list.push(`${p_dictionary_path}/${item_array[0].trim()}`);
+            property_list.push(`.${item_array[0].trim().replace("/",".")}`);
+            
+            let node = g_find_metadata_node_by_path(p_metadata, p_dictionary_path, metadata_path_list[i]);
+            if(node == null)
+            {
+                break;
+            }
+            metadata_node_list.push(node);
+            if(item_array.length > 1)
+            {
+                let sort = item_array[1].toLowerCase().trim();
+                switch(sort)
+                {
+                    case "display":
+                    case "asc":
+                    case "desc":
+                        sort_direction_list.push(sort);
+                        break;
+                    default:
+                        sort_direction_list.push("asc");
+                        break;
+                }
+                
+            }
+            else
+            {
+                sort_direction_list.push("asc");
+            }
+        }
+
+
+        let function_body = [];
+        for(let i = 0; i < metadata_path_list.length; i++)
+        {
+            let data_type = "string";
+            if(metadata_node_list[i].type== "list")
+            {
+                data_type = metadata_node_list[i].data_type;
+            }
+            else
+            {
+                data_type = metadata_node_list[i].type;
+            }
+
+            let property_name = property_list[i];
+
+
+            if(i== 0)
+            {
+                switch(sort_direction_list[i])
+                {
+                    case "asc":
+                        switch(data_type)
+                        {
+                            case "number":
+                                function_body.push(`let result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name});`);
+                            break;
+                            case "string":
+                            default:
+                                function_body.push(`let result = g_apply_sort_compareStringAsc(x${property_name},y${property_name});`);
+                                break;
+                        }
+                        
+                    break;
+                    case "desc":
+                        switch(data_type)
+                        {
+                            case "number":
+                                function_body.push(`let result = g_apply_sort_compareNumberDesc(x${property_name}, y${property_name});`);
+                            break;
+                            case "string":
+                            default:
+                                function_body.push(`let result = g_apply_sort_compareStringDesc(x${property_name},y${property_name});`);
+                                break;
+                        }
+                    break;
+                    case "display":
+                        switch(data_type)
+                        {
+                            case "number":
+                                //function_body.push(`g_apply_sort_compareNumberAsc`);
+                                function_body.push(`let result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name});`);
+                            break;
+                            case "string":
+                            default:
+                                //function_body.push(`g_apply_sort_compareStringAsc`);
+                                function_body.push(`let result = g_apply_sort_compareStringAsc(x${property_name},y${property_name});`);
+                                break;
+                        }
+                    break;
+                }
+            }
+            else
+            {
+                
+                switch(sort_direction_list[i])
+                {
+                    case "asc":
+                        switch(data_type)
+                        {
+                            case "number":
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name}); }`);
+                            break;
+                            case "string":
+                            default:
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareStringAsc(x${property_name},y${property_name}); }`);
+                                break;
+                        }
+                        
+                    break;
+                    case "desc":
+                        switch(data_type)
+                        {
+                            case "number":
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareNumberDesc(x${property_name}, y${property_name}); }`);
+                            break;
+                            case "string":
+                            default:
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareStringDesc(x${property_name},y${property_name}); }`);
+                                break;
+                        }
+                    break;
+                    case "display":
+                        switch(data_type)
+                        {
+                            case "number":
+                                //function_body.push(`g_apply_sort_compareNumberAsc`);
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name}); }`);
+                            break;
+                            case "string":
+                            default:
+                                //function_body.push(`g_apply_sort_compareStringAsc`);
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareStringAsc(x${property_name},y${property_name}); }`);
+                                break;
+                        }
+                    break;
+                }
+            }
+        }
+            
+        function_body.push(" return result; ");
+        result = new Function('x', 'y', function_body.join("\n"));
+
+        //console.log(result);
+    }
+    
+    return result;
+}
