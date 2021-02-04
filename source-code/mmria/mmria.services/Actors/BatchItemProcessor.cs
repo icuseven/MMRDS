@@ -431,7 +431,7 @@ namespace RecordsProcessor_Worker.Actors
 
             StateDisplayToValue = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach(var kvp in lookup["lookup/state"])
+            foreach(var kvp in lookup["state"])
             {
                 StateDisplayToValue.Add(kvp.display, kvp.value);
             }
