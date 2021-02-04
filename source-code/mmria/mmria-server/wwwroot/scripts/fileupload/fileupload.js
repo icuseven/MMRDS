@@ -275,7 +275,6 @@ function render_file_list()
     if(g_validation_errors.length > 0)
     {
        out.value = g_validation_errors.join("\n");
-       button.disabled = true;
     }
     else
     {
@@ -289,7 +288,6 @@ function render_file_list()
 
 function send_ije_set()
 {
-
     let data = {
         mor: g_content_list[0],
         nat: g_content_list[1],
@@ -307,16 +305,21 @@ function send_ije_set()
         type: "POST"
     }).done(function(response) 
     {
+        const buttonNext = document.getElementById('process_next');
         let out = document.getElementById('output');
         var response_obj = eval(response);
+
         if(response_obj.ok)
         {
             out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
 
+            let button = document.getElementById('process_next');
+            buttonNext.style.display = 'inline-block';
         }
         else
         {
             out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
+            buttonNext.style.display = 'none';
         }
         
         let button = document.getElementById('process');

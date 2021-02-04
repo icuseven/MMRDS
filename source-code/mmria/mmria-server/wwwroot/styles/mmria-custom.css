@@ -919,6 +919,10 @@ dialog::backdrop {
   }
 }
 
+.report-section + .report-section {
+    margin-top: 30px;
+}
+
 /*
   PATTERNS
 */
