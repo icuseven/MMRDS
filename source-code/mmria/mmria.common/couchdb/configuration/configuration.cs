@@ -15,13 +15,17 @@ namespace mmria.common.couchdb
     }
     public class ConfigurationSet
     {
+        public ConfigurationSet()
+        {
+            this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
+        }
         public string _id { get; set;}
         public string _rev { get; set; }
+        public string service_key {get; set; }
 
         public string data_type { get; } = "configuration-set";
 
-        public DBConfigurationDetail DetailList { get;set; }
-
+        public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
 
 		public DateTime date_created { get; set; } 
 		public string created_by { get; set; } 

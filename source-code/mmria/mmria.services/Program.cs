@@ -35,6 +35,7 @@ namespace mmria.services.vitalsimport
 
         public static string vitals_service_key = null;
 
+        public static mmria.common.couchdb.ConfigurationSet DbConfigSet;
         public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
         private static IConfiguration configuration;
@@ -90,16 +91,41 @@ namespace mmria.services.vitalsimport
             CreateHostBuilder(args).Build().Run();
         }
 
+
+        private static mmria.common.couchdb.ConfigurationSet GetConfiguration()
+        {
+            var result = new mmria.common.couchdb.ConfigurationSet();
+            try
+            {
+                string request_string = $"{mmria.services.vitalsimport.Program.couchdb_url}/configuration/{mmria.services.vitalsimport.Program.vitals_service_key}";
+                var case_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+                string responseFromServer = case_curl.execute();
+			    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+            } 
+
+            return result;
+        }
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+              
+
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls(config_web_site_url);
                 }).ConfigureServices((hostContext, services) =>
                 {
-                    
+                    DbConfigSet = GetConfiguration();
+
                     var collection = new ServiceCollection();
+
+                    collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
                     collection.AddSingleton<IConfiguration>(configuration);
                     collection.AddLogging();
                     var provider = collection.BuildServiceProvider();
