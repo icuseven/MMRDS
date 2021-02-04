@@ -47,8 +47,6 @@ namespace RecordsProcessor_Worker.Actors
             { "DPLACE","death_certificate/death_information/death_occured_in_hospital"},
             { "DPLACE_Outside_of_hospital","/death_certificate/death_information/death_outside_of_hospital"},
 
-            { "DOD_MO","home_record/date_of_death/month"},
-            { "DOD_DY","home_record/date_of_death/day"},
             { "TOD","death_certificate/certificate_identification/time_of_death"},
             { "DEDUC","death_certificate/demographics/education_level"},
 
@@ -59,7 +57,7 @@ namespace RecordsProcessor_Worker.Actors
             //{ "DETHNIC4","/death_certificate/demographics/is_of_hispanic_origin"},
 
             //TODO: James I need the new MMRIA fields for these
-            { "DETHNIC5","Map to new MMRIA field for Other Hispanic, Specify. Add MMRIA path when available"},
+            { "DETHNIC5","/death_certificate/demographics/is_of_hispanic_origin_other_specify"},
 
             { "RACE","death_certificate/race/race"},
 
@@ -117,19 +115,11 @@ namespace RecordsProcessor_Worker.Actors
             { "DOI_YR","death_certificate/injury_associated_information/date_of_injury/year"},
             { "TOI_HR","death_certificate/injury_associated_information/time_of_injury"},
             { "WORKINJ","death_certificate/injury_associated_information/was_injury_at_work"},
-            //I think its safe to delete this one
-            { "BLANK",""},
 
             { "ARMEDF","death_certificate/demographics/ever_in_us_armed_forces"},
             { "DINSTI","death_certificate/address_of_death/place_of_death"},
 
             { "ADDRESS_OF_DEATH_street","death_certificate/address_of_death/street"},
-
-            //{ "STNUM_D","death_certificate/address_of_death/street"},
-            //{ "PREDIR_D","death_certificate/address_of_death/street"},
-            //{ "STNAME_D","death_certificate/address_of_death/street"},
-            //{ "STDESIG_D","death_certificate/address_of_death/street"},
-            //{"POSTDIR_D","death_certificate/address_of_death/street"},
 
             { "CITYTEXT_D","death_certificate/address_of_death/city"},
             { "STATETEXT_D","death_certificate/address_of_death/state"},
@@ -137,12 +127,6 @@ namespace RecordsProcessor_Worker.Actors
             { "COUNTYTEXT_D","death_certificate/address_of_death/county"},
 
             { "PLACE_OF_LAST_RESIDENCE_street","death_certificate/place_of_last_residence/street"},
-
-            //{ "STNUM_R","death_certificate/place_of_last_residence/street"},
-            //{ "PREDIR_R","death_certificate/place_of_last_residence/street"},
-            //{ "STNAME_R","death_certificate/place_of_last_residence/street"},
-            //{ "STDESIG_R","death_certificate/place_of_last_residence/street"},
-            //{ "POSTDIR_R","death_certificate/place_of_last_residence/street"},
 
             { "UNITNUM_R","death_certificate/place_of_last_residence/apartment"},
             { "CITYTEXT_R","death_certificate/place_of_last_residence/city"},
@@ -170,11 +154,10 @@ namespace RecordsProcessor_Worker.Actors
             { "DBPLACECITY","death_certificate/demographics/city_of_birth"},
             { "STINJURY","death_certificate/address_of_injury/state"},
 
-            //TODO: James I need the new MMRIA fields for these
             { "VRO_STATUS","/home_record/automated_vitals_group/vro_status"},
             { "BC_DET_MATCH","/home_record/automated_vitals_group/bc_det_match"},
-            { "FDC_DET_MATCH","TBD"},
-            { "BC_PROB_MATCH","TBD"},
+            { "FDC_DET_MATCH","/home_record/automated_vitals_group/fdc_det_match"},
+            { "BC_PROB_MATCH","/home_record/automated_vitals_group/bc_prob_match"},
             { "FDC_PROB_MATCH","/home_record/automated_vitals_group/fdc_prob_match"},
             { "ICD10_MATCH","/home_record/automated_vitals_group/icd10_match"},
             { "PREGCB_MATCH","/home_record/automated_vitals_group/pregcb_match"},
@@ -306,8 +289,8 @@ namespace RecordsProcessor_Worker.Actors
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
             {"TB","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
-            {"METHNIC5","New MMRIA Field: (for mother) Other Hispanic, specify (add MMRIA path when available)"},
-            {"FETHNIC5","New MMRIA Field: (for father) Other Hispanic, specify (add MMRIA path when available)"},
+            {"METHNIC5","/birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify	"},
+            {"FETHNIC5","/birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
             {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
             {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
             {"PRES","birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery"},
@@ -332,13 +315,13 @@ namespace RecordsProcessor_Worker.Actors
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
             {"TD","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
-            {"METHNIC5","New MMRIA Field: (for mother) Other Hispanic, specify (add MMRIA path when available)"},
+            {"METHNIC5","/birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
             {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
             {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
             {"PRES","birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery"},
             {"ROUT","birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery"},
             {"SORD","birth_certificate_infant_fetal_section/birth_order"},
-            {"FETHNIC5","New MMRIA Field: (for father) Other Hispanic, specify (add MMRIA path when available)"},
+            {"FETHNIC5","/birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
 
 	        #endregion
         };
@@ -672,7 +655,6 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["DOI_YR"], mor_field_set["DOI_YR"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["TOI_HR"], mor_field_set["TOI_HR"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["WORKINJ"], mor_field_set["WORKINJ"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["BLANK"], mor_field_set["BLANK"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["ARMEDF"], mor_field_set["ARMEDF"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DINSTI"], mor_field_set["DINSTI"], new_case);
 
