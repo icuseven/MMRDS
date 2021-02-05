@@ -980,6 +980,44 @@ namespace RecordsProcessor_Worker.Actors
                     StatusDetail = "Added new case"
                 };
 
+
+                var _dbConfigSet = mmria.services.vitalsimport.Program.DbConfigSet;
+                var db_info = _dbConfigSet.detail_list[message.host_state];
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{mmria_id}";
+
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(new_case, settings);
+
+                var document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+
+                var document_put_response = new mmria.common.model.couchdb.document_put_response();
+                try
+                {
+                    //var responseFromServer = document_curl.execute();
+                    //document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    finished = new mmria.common.ije.BatchItem()
+                    {
+                        Status = mmria.common.ije.BatchItem.StatusEnum.ImportFailed,
+                        CDCUniqueID = mor_field_set["SSN"],
+                        ImportDate = message.ImportDate,
+                        ImportFileName = message.ImportFileName,
+                        ReportingState = message.host_state,
+                        
+                        StateOfDeathRecord = mor_field_set["DSTATE"],
+                        DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                        DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                        LastName = mor_field_set["LNAME"],
+                        FirstName = mor_field_set["GNAME"],
+                
+                        mmria_id = mmria_id,
+                        StatusDetail = "Error\n" + ex.ToString()
+                    };
+                }
+
                 Sender.Tell(finished);
 
                 Context.Stop(this.Self);
