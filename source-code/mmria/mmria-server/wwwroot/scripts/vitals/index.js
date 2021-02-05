@@ -14,10 +14,15 @@ var g_view2_is_dirty = true;
 var g_opcode_dictionary = {};
 
 var batch_item_status = [
+    //_0
     "Validating",
+    //_1
     "InProcess",
+    //_2
     "NewCaseAdded",
+    //_3
     "ExistingCaseSkipped",
+    //_4
     "ImportFailed"
 ];
 
@@ -99,36 +104,9 @@ function render_batch_list()
 function render_report_click(p_index)
 {
     let batch = g_batch_list[p_index];
-    var batch_items_status_0 = [];
-    var batch_items_status_1 = [];
-    var batch_items_status_2 = [];
-    var batch_items_status_3 = [];
-    var batch_items_status_4 = [];
     let html_builder = [];
 
-    if (batch) {
-        for (let i = 0; i < batch.record_result.length; i++) {
-            let item = batch.record_result[i];
-            switch(item.status) {
-                case 0:
-                    batch_items_status_0.push(item)
-                    break;
-                case 1:
-                    batch_items_status_1.push(item)
-                    break;
-                case 2:
-                    batch_items_status_2.push(item)
-                    break;
-                case 3:
-                    batch_items_status_3.push(item)
-                    break;
-                case 4:
-                    batch_items_status_4.push(item)
-                    break;
-            }
-        }
-    }
-
+    /* START Report intro section */
     html_builder.push(`<p><strong>State:</strong> ${batch.reporting_state}</p>`);
     html_builder.push(`
         <p>
@@ -137,58 +115,44 @@ function render_report_click(p_index)
         </p>
     `);
     html_builder.push(`<p><strong>Import File Name:</strong> ${batch.mor_file_name}</p>`);
-
+    /* END Report intro section */
+    
+    //Create a "Local Scoped Object"
+    //This will be used to dynamically generate arrays to contain our different statuses
+    //For now they will be empty arrays, helps get clean renders every time when calling render_report_click() function
+    const batchedItemsByStatus = {};
     for (let i = 0; i < batch_item_status.length; i++) {
-        if (i = 0) {
-            if (batch_items_status_0.length > 0) {
-                renderTableGroup(i, batch_items_status_0);
-            }
-        }
-        if (i = 1) {
-            if (batch_items_status_1.length > 0) {
-                renderTableGroup(i, batch_items_status_1);
-            }
-        }
-        if (i = 2) {
-            if (batch_items_status_2.length > 0) {
-                renderTableGroup(i, batch_items_status_2);
-            }
-        }
-        if (i = 3) {
-            if (batch_items_status_3.length > 0) {
-                renderTableGroup(i, batch_items_status_3);
-            }
-        }
-        if (i = 4) {
-            if (batch_items_status_4.length > 0) {
-                renderTableGroup(i, batch_items_status_4);
-            }
-        }
+        batchedItemsByStatus[`batch_item_status_${i}`] = [];
+    }
+    
+    //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
+    for (let i = 0; i < batch.record_result.length; i++) {
+        let item = batch.record_result[i];
 
+        for (let j = 0; j < batch_item_status.length; j++) {
+            if (item.status === j) {
+                batchedItemsByStatus[`batch_item_status_${j}`].push(item);
+            }
+        }
     }
 
-    function renderTableGroup(index, batchette) {
-        // html_builder.push(`<p><strong>State:</strong> ${batchette.reporting_state}</p>`);
-        // html_builder.push(`
-        //     <p>
-        //         <strong>Import Date:</strong>
-        //         ${(new Date(batchette.importDate).getMonth()+1).toString().length < 2 ? `0${(new Date(batchette.importDate).getMonth()+1)}` : new Date(batchette.importDate).getMonth()+1}/${(new Date(batchette.importDate).getDay()+1).toString().length < 2 ? `0${(new Date(batchette.importDate).getDay())}` : new Date(batchette.importDate).getDay()+1}/${new Date(batchette.importDate).getFullYear()}
-        //     </p>
-        // `);
-        // html_builder.push(`<p><strong>Import File Name:</strong> ${batchette.mor_file_name}</p>`);
+    //Finally we will loop through each array inside batchedItemsByStatus to check if they actually have items
+    for (let i = 0; i < batch_item_status.length; i++) {
+        //and ONLY render the table if any items exist
+        if (batchedItemsByStatus[`batch_item_status_${i}`].length > 0) {
+            renderVitalsReportTable(i, batchedItemsByStatus[`batch_item_status_${i}`]);
+        }
+    }
 
+    function renderVitalsReportTable(index, items) {
         html_builder.push(`<div class="report-section">`);
-            html_builder.push(`<p>Total Records: <strong>${batchette.length}</strong></p>`);
+            html_builder.push(`<p>Total Records: <strong>${items.length}</strong></p>`);
             html_builder.push(`<table class="table">`);
                 html_builder.push(`
                     <thead class="thead">
                         <tr class="tr bg-tertiary">
                             <th class="th" colspan="99" scope="colgroup">
                                 <h4 class="m-0">${batch_item_status[index]}</h4>
-                                <!--
-                                <h4 class="m-0">${batchette.mor_file_name}</h4>
-                                Status: ${batch_status[batchette.status]} | Import Date: ${batchette.importDate}
-                                -->
                             </th>
                         </tr>
                     </thead>
@@ -203,20 +167,6 @@ function render_report_click(p_index)
                             <th class="th">Date of Death</th>
                             <th class="th">Reporting State</th>
                             <th class="th">State of Death Record</th>
-
-                            <!--
-                            <th class="th">#</th>
-                            <th class="th">Status</th>
-                            <th class="th">CDC<br/>Unique<br/>ID</th>
-                            <th class="th">State<br/>Of<br/>Death<br/>Record</th>
-                            <th class="th">Date<br/>Of<br/>Death</th>
-                            <th class="th">Date<br/>Of<br/>Birth</th>
-                            <th class="th">Last<br/>Name</th>
-                            <th class="th">First<br/>Name</th>
-                            <th class="th">_id</th>
-                            <th class="th">MMRIA<br/>RecordID</th>
-                            <th class="th">Status<br/>Detail</th>
-                            -->
                         </tr>
                     </thead>
                     <tbody class="tbody">
@@ -237,9 +187,9 @@ function render_report_click(p_index)
                 statusDetail: null
                 */
 
-                for(let i = 0; i < batchette.length; i++)
+                for(let i = 0; i < items.length; i++)
                 {
-                    let item = batchette[i];
+                    let item = items[i];
                     html_builder.push
                     (`
                         <tr class="tr">
@@ -256,29 +206,14 @@ function render_report_click(p_index)
                             </td>
                             <td class="td">${item.reportingState}</td>
                             <td class="td">${item.stateOfDeathRecord}</td>
-
-                            <!--
-                            <td class="td">${i+1}</td>
-                            <td class="td">${batch_item_status[item.status]}</td>
-                            <td class="td">${item.cdcUniqueID}</td>
-                            <td class="td">${item.stateOfDeathRecord}</td>
-                            <td class="td">${item.dateOfDeath}</td>
-                            <td class="td">${item.dateOfBirth}</td>
-                            <td class="td">${item.lastName}</td>
-                            <td class="td">${item.firstName}</td>
-                            <td class="td">${item.mmria_id != null ? item.mmria_id : "&nbsp;"}</td>
-                            <td class="td">${item.mmria_record_id != null ? item.mmria_record_id : "&nbsp;"}</td>
-                            <td class="td">${item.statusDetail != null ? item.statusDetail: "currently processing"}</td>
-                            -->
                         </tr>
                     `);
                 }
                 html_builder.push("</tbody>");
             html_builder.push("</table>");
-            html_builder.push(`<p>Total Records: <strong>${batchette.length}</strong></p>`);
+            html_builder.push(`<p>Total Records: <strong>${items.length}</strong></p>`);
         html_builder.push(`</div>`);
     }
-        
 
     let el = document.getElementById("report");
     el.innerHTML = html_builder.join("");
