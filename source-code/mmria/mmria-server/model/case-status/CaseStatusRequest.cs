@@ -23,6 +23,8 @@ namespace mmria.server.model.casestatus
         public string StateOfDeath { get; set; }
 
         public string CaseStatus { get; set; }
+
+        public string StateDatabase {get; set; }
     }
 
     public class CaseStatusRequestResponse

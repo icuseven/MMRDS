@@ -26,20 +26,33 @@
 </head>
 <body>
 <a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
-
+<br/><br/>
 <form method="post" action="/clear_case_status/ClearCaseStatus">
-    Are you sure you want to clear the case status for:
-       <p>_id: </p>
-       <p>RecordId: </p>
-       <p>FirstName: </p>
-       <p>LastName: </p>
-       <p>MiddleName: </p>
-       <p>Date Of death: </p>
-       <p>State of Death: </p>
-<input type="hidden" name="_id" value=""/>
-    <input type="submit" />
-</form>
+    Are you sure you want to clear the case status for:  @Model.FirstName Model.MiddleName @Model.LastName (@Model.RecordId)
+    <br/><br/>
+        <p><strong>Case Status:</strong> @Model.CaseStatus</p>
+       <p><strong>_id:</strong> @Model._id</p>
+       <p><strong>FirstName:</strong> @Model.FirstName</p>
+        <p><strong>MiddleName:</strong> @Model.MiddleName</p>
+       <p><strong>LastName:</strong> @Model.LastName</p>
 
+       <p><strong>Date Of death:</strong> @Model.DateOfDeath</p>
+       <p><strong>State of Death:</strong> @Model.StateOfDeath</p>
+        
+        <input type="hidden" name="_id" value="@Model._id"/>
+
+       <input type="hidden" name="RecordId" value="@Model.RecordId" />
+       <input type="hidden" name="FirstName" value="@Model.FirstName" />
+       <input type="hidden" name="LastName" value="@Model.LastName" />
+       <input type="hidden" name="MiddleName" value="@Model.MiddleName" />
+       <input type="hidden" name="DateOfDeath" value="@Model.DateOfDeath" />
+       <input type="hidden" name="StateOfDeath" value="@Model.StateOfDeath" />
+       <input type="hidden" name="CaseStatus" value="@Model.CaseStatus" />
+       <input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
+                
+    <input type="Submit" value="Confirm" /> | [ <a href="/clear_case_status">Cancel</a> ]
+</form>
+<br/><br/>
   <a href="/home">home</a> | <a href="/clear_case_status">search again</a><br/>
 
 </body>
