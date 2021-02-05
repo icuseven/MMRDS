@@ -63,6 +63,7 @@ namespace mmria.server.Controllers
                     if
                     (
                         item.value.record_id != null &&
+                        !string.IsNullOrWhiteSpace(Model.RecordId) &&
                         (
                             item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
                             Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
