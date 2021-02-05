@@ -626,9 +626,6 @@ function form_render(
 			p_result.push(p_metadata.prompt);
 			p_result.push(" <span>(Record " + (data_index + 1) + ")<span>");
             //p_result.push("</p>");
-            
-            var url = p_ui.url_state.path_array[0] + "/" + p_metadata.name;
-            p_result.push(` <a href="#${url}"> [ back to list ]</a></p>`);
 
 			if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
 				p_result.push(
@@ -695,7 +692,10 @@ function form_render(
 			p_result.push("</div>");
 			p_result.push("</div>");
 			p_result.push("</div> <!-- end .construct__controller -->");
-			p_result.push("</div>");
+            p_result.push("</div>");
+            
+            var url = p_ui.url_state.path_array[0] + "/" + p_metadata.name;
+            p_result.push(`<a class="construct__link" href="#${url}"><span class="construct__icon x16 fill-p cdc-icon-chevron-right"></span>Back to List of Records</a>`);
 
 			p_result.push("</header>");
 
