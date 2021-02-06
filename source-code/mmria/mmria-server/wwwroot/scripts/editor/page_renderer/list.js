@@ -1260,7 +1260,7 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push("></input>");
 }
 
-function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_path)
+function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
 {
     switch(p_metadata.type.toLowerCase())
     {
@@ -1271,7 +1271,7 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, p_name_to_value_lookup, child, p_path + "/" + child.name);
+                set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, child, p_path + "/" + child.name);
             }
 
             break;
@@ -1293,12 +1293,14 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_pa
     
                 p_list_lookup[p_path] = {};
                 p_name_to_value_lookup[p_path] = {};
+                p_value_to_index_number_lookup[p_path] = {};
 
                 for(let i = 0; i < data_value_list.length; i++)
                 {
                     let item = data_value_list[i];
                     p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
                     p_name_to_value_lookup[p_path][item.value] = item.display.toLowerCase();
+                    p_name_to_value_lookup[p_path][item.value] = i;
                 }
             }
             break;

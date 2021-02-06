@@ -314,18 +314,7 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         }
                     break;
                     case "display":
-                        switch(data_type)
-                        {
-                            case "number":
-                                //function_body.push(`g_apply_sort_compareNumberAsc`);
-                                function_body.push(`let result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name});`);
-                            break;
-                            case "string":
-                            default:
-                                //function_body.push(`g_apply_sort_compareStringAsc`);
-                                function_body.push(`let result = g_apply_sort_compareStringAsc(x${property_name},y${property_name});`);
-                                break;
-                        }
+                        function_body.push(`let result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookup[y${property_name}]);`);
                     break;
                 }
             }
@@ -360,18 +349,7 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         }
                     break;
                     case "display":
-                        switch(data_type)
-                        {
-                            case "number":
-                                //function_body.push(`g_apply_sort_compareNumberAsc`);
-                                function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name}); }`);
-                            break;
-                            case "string":
-                            default:
-                                //function_body.push(`g_apply_sort_compareStringAsc`);
-                                function_body.push(`if(result==0) { result = g_apply_sort_compareStringAsc(x${property_name},y${property_name}); }`);
-                                break;
-                        }
+                        function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookupy[y${property_name}]); }`);
                     break;
                 }
             }

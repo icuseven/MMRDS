@@ -28,6 +28,7 @@ var g_release_version = null;
 var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
+var g_value_to_index_number_lookup = {};
 var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
 var g_previous_case_status = null;
@@ -1412,6 +1413,7 @@ function get_metadata()
     set_list_lookup(
       g_display_to_value_lookup,
       g_value_to_display_lookup,
+      g_value_to_index_number_lookup,
       g_metadata,
       ''
     );
