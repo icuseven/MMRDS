@@ -817,7 +817,206 @@ namespace migrate.set
 								
 							}			
 						}
+
+						var mhp_wtdpmh_condi_path = "mental_health_profile/were_there_documented_preexisting_mental_health_conditions";
+						value_result = gs.get_value(doc, mhp_wtdpmh_condi_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "8888")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "7777";
+
+								case_has_changed = case_has_changed && gs.set_value(mhp_wtdpmh_condi_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{mhp_wtdpmh_condi_path} Converted 8888 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
 						
+						
+						{//bcifsmod_framo_deliv +1 4 -> 7777 	/birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery
+						var bcifsmod_framo_deliv_path = "birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery";
+						var multiform_value_result = gs.get_multiform_value(doc, bcifsmod_framo_deliv_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((index, "9999"));
+									continue;	
+								}
+
+								if(value.ToString() == "4")
+								{
+									is_list_changed = true;
+									new_list.Add((index, "7777"));
+								}
+								else
+								{
+									new_list.Add((index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, bcifsmod_framo_deliv_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 4 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+						//ar_coa_infor -1 + 4 -> 2 /autopsy_report/completeness_of_autopsy_information
+						var ar_coa_infor_path = "autopsy_report/completeness_of_autopsy_information";
+						value_result = gs.get_value(doc, ar_coa_infor_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "4")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "2";
+
+								case_has_changed = case_has_changed && gs.set_value(ar_coa_infor_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{ar_coa_infor_path} Converted 4 => 2";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
+						//pppcf_pp_type -1 +1 3 -> 4 	/prenatal/primary_prenatal_care_facility/primary_provider_type
+						var pppcf_pp_type_path = "prenatal/primary_prenatal_care_facility/primary_provider_type";
+						value_result = gs.get_value(doc, pppcf_pp_type_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "3")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "4";
+
+								case_has_changed = case_has_changed && gs.set_value(pppcf_pp_type_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{pppcf_pp_type_path} Converted 3 => 4";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
+
+
+
+						{
+						//posopc_p_type -1 +1 3->4 /prenatal/other_sources_of_prenatal_care/provider_type
+						var posopc_p_type_path = "prenatal/other_sources_of_prenatal_care/provider_type";
+						var grid_value_result = gs.get_grid_value(doc, posopc_p_type_path);
+						if(!grid_value_result.is_error)
+						{
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (index, value) in grid_value_result.result)
+							{
+							
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									new_list.Add((index, "9999"));
+									is_list_changed = true;
+								}
+								else if(value.ToString() == "3")
+								{
+									dynamic new_value = "4";
+									new_list.Add((index, new_value));
+									is_list_changed = true;
+								}
+								else
+								{
+									new_list.Add((index, value));
+								}
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								case_has_changed = case_has_changed && gs.set_grid_value(doc, posopc_p_type_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{posopc_p_type_path} Converted 3 => 4";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+//omovmcf_provicer_type -1 +1 6->7 Not found
+//omovmcf_p_sourc - no migration related to above?
+/*
+//omovdiaot_t_type -1 +8 	/other_medical_office_visits/diagnostic_imaging_and_other_technology/Procedure
+0 ->CT
+1 ->CVS
+2 -> ECG
+3 -> EEG
+4 ->MRI
+5 -> PET
+6 -> US
+7 ->Xray
+8 ->Other
+*/
+
+
+//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
+//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
+
+							
 /*  eight_to_7_sf 46
 eight_to_7_sfmv 8
  eight_to_7_sfgv 12
