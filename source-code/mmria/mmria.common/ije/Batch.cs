@@ -13,10 +13,18 @@ namespace mmria.common.ije
         {
             Validating,
             InProcess,
-            Finished
+            Finished,
+            FinishedSynchronized,
+            Deleted,
+            DeletedSynchronized
         }
         public StatusEnum Status { get; init;}
         public string id { get; init;}
+        public string _rev { get; init; }
+        public DateTime? date_created { get; init; } 
+		public string created_by { get; init; } 
+		public DateTime? date_last_updated { get; init; } 
+		public string last_updated_by { get; init; } 
 
         public string reporting_state { get; init;}
         public string mor_file_name { get; init;}

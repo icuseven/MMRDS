@@ -99,7 +99,7 @@ namespace migrate.set
 				var eight_to_7_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 				{
 
-				"dcd_eiua_force ",
+				"dcd_eiua_force",
 				"dcd_ioh_origi",
 				"dcd_e_level",
 				"dciai_wia_work",
@@ -231,12 +231,6 @@ namespace migrate.set
 					Console.WriteLine($"{item.sass_export_name} - {item.path}");
 				}
 
-				var eight_to_7_sf = single_form_value_set.Where
-				( 
-					x=> eight_to_7_list.Contains(x.sass_export_name) 
-					
-				).ToList();
-
 
 				var pmss_set  = single_form_value_set.Where
 				( 
@@ -244,14 +238,117 @@ namespace migrate.set
 					
 				).ToList();
 
+
 				
-				
+				var eight_to_7_sf = single_form_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+
+				var eight_to_7_sfmv = single_form_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_sfgv = single_form_grid_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_sfgmv = single_form_grid_multi_value_list_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_mv = multiform_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_mmv = multiform_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_mgv = multiform_grid_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_mgmv = multiform_grid_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_count = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+				eight_to_7_sf.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_sfmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_sfgv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_sfgmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_mv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_mmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_mgv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_mgmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+
+				foreach (var firstItem in eight_to_7_list)
+				{
+
+					if (!eight_to_7_count.Contains(firstItem))
+					{
+
+						Console.WriteLine(firstItem);
+					}
+				}
+
+				var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+				{
+					{ "10", "10.9"},
+					{ "20", "20.9"},
+					{ "30", "30.1"},
+					{ "31", "31.1"},
+					{ "40", "40.1"},
+					{ "50", "50.1"},
+					{ "60", "60.1"},
+					{ "70", "70.1"},
+					{ "80", "80.9"},
+					{ "82", "82.9"},
+					{ "83", "83.9"},
+					{ "85", "85.1"},
+					{ "89", "89.9"},
+					{ "90", "90.9"},
+					{ "91", "91.9"},
+					{ "92", "92.9"},
+					{ "93", "93.9"},
+					{ "95", "95.1"},
+					{ "96", "96.9"},
+					{ "97", "97.9"},
+					{ "100", "100.9"},
+					{ "999", "999.1"}
+				};
+
+
+
+				var ExistingRecordIds = await GetExistingRecordIds();
 
 
 				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
+
+
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
 				foreach(var case_item in case_response.rows)
@@ -271,57 +368,97 @@ namespace migrate.set
 							continue;
 						}
 
-// record_id - begin
-/*
-GetExistingRecordIds
-
-
-                    if 
+					// host_state  *** begin
+					var host_state = "TT";
+					value_result = gs.get_value(doc, "host_state");
+					var test_host_state_object = value_result.result;
+					if
                     (
-                        (
-                            !result.home_record.record_id || 
-                            result.home_record.record_id == ''
-                        ) && 
-                        result.home_record.state_of_death_record && 
-                        result.home_record.state_of_death_record != '' && 
-                        result.home_record.date_of_death.year && 
-                        parseInt(result.home_record.date_of_death.year) > 999 && 
-                        parseInt(result.home_record.date_of_death.year) < 2500
-                    ) 
-                    {
-                        result.home_record.record_id = result.home_record.state_of_death_record.substring(0, 2) + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
-
-                    }
-*/
-// record_id - end
-
-
-						var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+                        test_host_state_object == null || 
+                        string.IsNullOrWhiteSpace(test_host_state_object.ToString()) ||
+                        test_host_state_object.ToString().ToLower() == "central"
+                    )
+					{
+                        if(test_host_state_object.ToString().ToLower() == "central")
+                        {
+                            if(db_name.IndexOf("_") > -1)
+                            {
+                                host_state = db_name.Split("_")[0];
+                            }
+							else
+							{
+								host_state = test_host_state_object.ToString();
+							}
+                        }
+						else
 						{
-							{ "10", "10.9"},
-							{ "20", "20.9"},
-							{ "30", "30.1"},
-							{ "31", "31.1"},
-							{ "40", "40.1"},
-							{ "50", "50.1"},
-							{ "60", "60.1"},
-							{ "70", "70.1"},
-							{ "80", "80.9"},
-							{ "82", "82.9"},
-							{ "83", "83.9"},
-							{ "85", "85.1"},
-							{ "90", "90.9"},
-							{ "89", "89.9"},
-							{ "90", "90.9"},
-							{ "91", "91.9"},
-							{ "92", "92.9"},
-							{ "93", "93.9"},
-							{ "95", "95.1"},
-							{ "96", "96.9"},
-							{ "97", "97.9"},
-							{ "100", "100.9"},
-							{ "999", "999.1"}
-						};
+							host_state = test_host_state_object.ToString();
+						}
+
+						
+					}
+					// host_state  *** end
+
+
+					// record_id - begin
+					value_result = gs.get_value(doc, "home_record/record_id");
+					string year_of_death = "1900";
+					var year_of_death_value_result = gs.get_value(doc, "home_record/date_of_death/year");
+					if
+					(
+						!year_of_death_value_result.is_error &&
+						year_of_death_value_result.result != null &&
+						!string.IsNullOrWhiteSpace(year_of_death_value_result.result.ToString()) &&
+						year_of_death_value_result.result.ToString() != "9999"
+					)
+					{
+						year_of_death = year_of_death_value_result.result.ToString();
+					}
+					
+					if(!value_result.is_error)
+					{
+						if 
+                    	(
+							value_result.result == null ||
+							value_result.result.ToString() == ""
+						)
+                        {
+							string record_id = null;
+							do
+							{
+								record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
+							}
+							while(ExistingRecordIds.Contains(record_id));
+
+							if(case_change_count == 0)
+							{
+								case_change_count += 1;
+								case_has_changed = true;
+							}
+							
+							case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+						} 
+					} 
+					else
+					{
+						string record_id = null;
+						do
+						{
+							record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
+						}
+						while(ExistingRecordIds.Contains(record_id));
+
+						if(case_change_count == 0)
+						{
+							case_change_count += 1;
+							case_has_changed = true;
+						}
+						
+						case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+					}
+					// record_id - end
+
+
 
 
 						foreach(var node in  pmss_set)
@@ -391,6 +528,15 @@ GetExistingRecordIds
 								}
 							}			
 						}
+						/*
+ eight_to_7_sf 46
+ eight_to_7_sfmv 8
+ eight_to_7_sfgv 12
+ eight_to_7_mv 26
+ eight_to_7_mmv  1
+ eight_to_7_mgv 3
+*/
+
 					}
 				}
 
@@ -807,6 +953,14 @@ mhpwtdmhc_rf_treat
 
     		return result;
 		} 
+
+		private int GenerateRandomFourDigits()
+		{
+			int _min = 1000;
+			int _max = 9999;
+			Random _rdm = new Random();
+			return _rdm.Next(_min, _max);
+		}
 
 
     }
