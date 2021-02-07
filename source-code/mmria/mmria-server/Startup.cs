@@ -109,6 +109,13 @@ namespace mmria.server
         }
 
 
+        if (!string.IsNullOrEmpty(Configuration["mmria_settings:config_id"]))
+        {
+            Program.config_id = Configuration["mmria_settings:config_id"];
+        }
+
+
+
 
       var test_int = 0;
       //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
@@ -309,6 +316,12 @@ namespace mmria.server
         {
           Configuration["mmria_settings:vitals_service_key"] = System.Environment.GetEnvironmentVariable("vitals_service_key");
           Program.vitals_service_key = Configuration["mmria_settings:vitals_service_key"];
+        }
+
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("config_id")))
+        {
+          Configuration["mmria_settings:config_id"] = System.Environment.GetEnvironmentVariable("config_id");
+          Program.config_id = Configuration["mmria_settings:config_id"];
         }
 
         /*
@@ -881,7 +894,7 @@ namespace mmria.server
         var result = new mmria.common.couchdb.ConfigurationSet();
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.vitals_service_key}";
+            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);

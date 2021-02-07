@@ -34,6 +34,7 @@ namespace mmria.services.vitalsimport
         public static string central_timer_value = null;
 
         public static string vitals_service_key = null;
+        public static string config_id;
 
         public static mmria.common.couchdb.ConfigurationSet DbConfigSet;
         public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
@@ -62,6 +63,8 @@ namespace mmria.services.vitalsimport
                     central_timer_user_name = System.Environment.GetEnvironmentVariable ("central_timer_password");
                     central_timer_value = System.Environment.GetEnvironmentVariable ("central_timer_password");
                     vitals_service_key = System.Environment.GetEnvironmentVariable ("vitals_service_key");
+                    config_id = System.Environment.GetEnvironmentVariable ("config_id");
+
                     configuration["mmria_settings:web_site_url"] = config_web_site_url;
                     //Program.config_export_directory = configuration["mmria_settings:export_directory"];
                     configuration["mmria_settings:couchdb_url"] = couchdb_url;
@@ -72,6 +75,7 @@ namespace mmria.services.vitalsimport
                     configuration["mmria_settings:central_timer_password"] = central_timer_user_name;
                     configuration["mmria_settings:central_timer_password"] = central_timer_value;
                     configuration["mmria_settings:vitals_service_key"] = vitals_service_key;
+                    configuration["mmria_settings:config_id"] = config_id;
                 }
                 else 
                 {
@@ -86,6 +90,7 @@ namespace mmria.services.vitalsimport
                     central_timer_user_name = configuration["mmria_settings:central_timer_password"];
                     central_timer_value = configuration["mmria_settings:central_timer_password"];
                     vitals_service_key = configuration["mmria_settings:vitals_service_key"];
+                    config_id = configuration["mmria_settings:config_id"];
                 }
 
             CreateHostBuilder(args).Build().Run();
@@ -97,7 +102,7 @@ namespace mmria.services.vitalsimport
             var result = new mmria.common.couchdb.ConfigurationSet();
             try
             {
-                string request_string = $"{mmria.services.vitalsimport.Program.couchdb_url}/configuration/{mmria.services.vitalsimport.Program.vitals_service_key}";
+                string request_string = $"{mmria.services.vitalsimport.Program.couchdb_url}/configuration/{mmria.services.vitalsimport.Program.config_id}";
                 var case_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
                 string responseFromServer = case_curl.execute();
 			    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
