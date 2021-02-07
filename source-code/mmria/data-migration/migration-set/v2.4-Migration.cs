@@ -528,9 +528,147 @@ namespace migrate.set
 								}
 							}			
 						}
-						/*
- eight_to_7_sf 46
- eight_to_7_sfmv 8
+
+
+						foreach(var node in  eight_to_7_sfmv)
+						{
+
+							bool is_blank = false;
+
+							var multivalue_result = gs.get_value(doc, node.path);
+							
+							if(!multivalue_result.is_error)
+							{
+								var list =  multivalue_result.result as IList<dynamic>;
+
+								if(list != null)
+								{
+									List<int> new_list = new List<int>();
+									var is_list_changed = false;
+									for(int i = 0; i < list.Count; i++)
+									{
+										dynamic value = list[i];
+
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											new_list.Add(value);
+
+											continue;	
+										}
+
+										if(value.ToString() == "8888")
+										{
+											//if(case_change_count == 0)
+											//{
+											//	case_change_count += 1;
+											//	case_has_changed = true;
+											//}
+											is_list_changed = true;
+											dynamic new_value = 7777;
+
+											new_list.Add(new_value);
+
+											//case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+											//var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
+											//this.output_builder.AppendLine(output_text);
+											//Console.WriteLine(output_text);
+										}
+										else
+										{
+											new_list.Add(int.Parse(value));
+										}
+									}
+
+									if(is_list_changed)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+
+										case_has_changed = case_has_changed && gs.set_multi_value(node.path, new_list, doc);
+										var output_text = $"item record_id: {mmria_id} path:{node.path} Converted as list item 8888 => 7777";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									}
+								}
+							}			
+						}
+
+
+						foreach(var node in  eight_to_7_sfgv)
+						{
+
+							bool is_blank = false;
+
+							var grid_value_result = gs.get_grid_value(doc, node.path);
+							
+							if(!grid_value_result.is_error)
+							{
+								var list =  grid_value_result.result as IList<(int, dynamic)>;
+
+								if(list != null)
+								{
+									var new_list = new List<(int, dynamic)>();
+									var is_list_changed = false;
+									for(int i = 0; i < list.Count; i++)
+									{
+										(int, dynamic) tuple_value = list[i];
+										var value = tuple_value.Item2;
+
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											is_list_changed = true;
+											new_list.Add((tuple_value.Item1, "9999"));
+
+											continue;	
+										}
+
+										if(value.ToString() == "8888")
+										{
+											//if(case_change_count == 0)
+											//{
+											//	case_change_count += 1;
+											//	case_has_changed = true;
+											//}
+											is_list_changed = true;
+											dynamic new_value = 7777;
+
+											new_list.Add((tuple_value.Item1, new_value));
+
+											//case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+											//var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
+											//this.output_builder.AppendLine(output_text);
+											//Console.WriteLine(output_text);
+										}
+										else
+										{
+											new_list.Add((tuple_value.Item1, value));
+										}
+									}
+
+									if(is_list_changed)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+
+										case_has_changed = case_has_changed && gs.set_grid_value(doc, node.path, new_list);
+										var output_text = $"item record_id: {mmria_id} path:{node.path} Converted as grid item 8888 => 7777";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									}
+								}
+							}			
+						}
+						
+/*  eight_to_7_sf 46
+eight_to_7_sfmv 8
  eight_to_7_sfgv 12
  eight_to_7_mv 26
  eight_to_7_mmv  1
