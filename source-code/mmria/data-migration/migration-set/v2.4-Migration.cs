@@ -996,25 +996,238 @@ namespace migrate.set
 						}
 						}
 
+						{//omovmcf_provider_type -1 +1 6->7 Not found 	/other_medical_office_visits/medical_care_facility/provider_type
+						var omovmcf_provider_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
+						var multiform_value_result = gs.get_multiform_value(doc, omovmcf_provider_type_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((index, "9999"));
+									continue;	
+								}
 
-//omovmcf_provicer_type -1 +1 6->7 Not found
-//omovmcf_p_sourc - no migration related to above?
-/*
-//omovdiaot_t_type -1 +8 	/other_medical_office_visits/diagnostic_imaging_and_other_technology/Procedure
-0 ->CT
-1 ->CVS
-2 -> ECG
-3 -> EEG
-4 ->MRI
-5 -> PET
-6 -> US
-7 ->Xray
-8 ->Other
-*/
+								if(value.ToString() == "6")
+								{
+									is_list_changed = true;
+									new_list.Add((index, "7"));
+								}
+								else
+								{
+									new_list.Add((index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovmcf_provider_type_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{omovmcf_provider_type_path} Converted 4 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
 
 
-//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
-//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
+						{/*
+						omovdiaot_t_type -1 +8 	/other_medical_office_visits/diagnostic_imaging_and_other_technology/Procedure
+							0 ->CT
+							1 ->CVS
+							2 -> ECG
+							3 -> EEG
+							4 ->MRI
+							5 -> PET
+							6 -> US
+							7 ->Xray
+							8 ->Other
+							*/
+						var omovdiaot_t_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, omovdiaot_t_type_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (form_index, grid_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "9999"));
+									continue;	
+								}
+
+								switch(value.ToString())
+								{
+									case "0":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "CT"));
+									break;
+									case "1":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "CVS"));
+									break;
+									case "2":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "ECG"));
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "EEG"));
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "MRI"));
+									break;
+									case "5":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "PET"));
+									break;
+									case "6":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "US"));
+									break;
+									case "7":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "Xray"));
+									break;
+									case "8":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "Other"));
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, omovdiaot_t_type_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{omovdiaot_t_type_path} Converted 4 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+
+						{//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
+						var evahmrlt_d_level_path = "er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrlt_d_level_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((index, "9999"));
+									continue;	
+								}
+
+								if(value.ToString() == "4")
+								{
+									is_list_changed = true;
+									new_list.Add((index, "7777"));
+								}
+								else
+								{
+									new_list.Add((index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrlt_d_level_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{evahmrlt_d_level_path} Converted 4 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+						{//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
+						var evahmrba_title_path = "er_visit_and_hospital_medical_records/birth_attendant/title";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrba_title_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							foreach(var (index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((index, "9999"));
+									continue;	
+								}
+
+								if(value.ToString() == "4")
+								{
+									is_list_changed = true;
+									new_list.Add((index, "7777"));
+								}
+								else
+								{
+									new_list.Add((index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrba_title_path, new_list);
+								var output_text = $"item record_id: {mmria_id} path:{evahmrba_title_path} Converted 4 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
 
 							
 /*  eight_to_7_sf 46
