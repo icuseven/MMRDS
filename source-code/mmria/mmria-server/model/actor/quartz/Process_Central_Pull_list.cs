@@ -10,7 +10,7 @@ namespace mmria.server.model.actor.quartz
     public class Process_Central_Pull_list : UntypedActor
     {
         private static int run_count = 0;
-        private const int SkipCount = 2;
+        private const int SkipCount = 3;
         //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
         //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
 
