@@ -143,6 +143,9 @@ function validate_length(p_array, p_max_length)
                 }
             }
 
+
+
+
             //if(status_builder.Length == 0)
             {
                 foreach(var kvp in batch_item_set)
@@ -176,6 +179,10 @@ function validate_length(p_array, p_max_length)
             batch = new mmria.common.ije.Batch()
             {
                 id = message.batch_id,
+                date_created  = DateTime.UtcNow.ToString("o"),
+                created_by = "vital-import",
+                date_last_updated   = DateTime.UtcNow.ToString("o"),
+                last_updated_by = "vital-import", 
                 Status = mmria.common.ije.Batch.StatusEnum.Validating,
                 reporting_state = ReportingState,
                 ImportDate = ImportDate,
@@ -239,6 +246,10 @@ function validate_length(p_array, p_max_length)
             var new_batch = new mmria.common.ije.Batch()
             {
                 id = batch.id,
+                date_created  = batch.date_created,
+                created_by = batch.created_by,
+                date_last_updated  = DateTime.UtcNow.ToString("o"),
+                last_updated_by = batch.last_updated_by, 
                 Status = current_status,
                 reporting_state = batch.reporting_state,
                 ImportDate = batch.ImportDate,
@@ -262,12 +273,46 @@ function validate_length(p_array, p_max_length)
 
             if(current_status == mmria.common.ije.Batch.StatusEnum.Finished)
             {
+                if(save_batch("", batch))
+                {
+                }
                 Context.Stop(this.Self);
             }
 
             
         }
 
+
+        private bool save_batch(string p_host_db_url, mmria.common.ije.Batch batch)
+        {
+            bool result = false;
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(batch, settings);
+
+            string put_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/{this.batch.id}";
+            var document_curl = new mmria.server.cURL ("PUT", null, put_url, object_string, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+            try
+            {
+                var responseFromServer = document_curl.execute();
+                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                if(put_result.ok)
+                {
+                    result = true;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
         private bool validate_length(IList<string> p_array, int p_max_length)
         {
             var result = true;
@@ -451,6 +496,8 @@ GNAME 27 50
             }
 
         }
+
+
    
     }
 

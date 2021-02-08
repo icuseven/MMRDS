@@ -365,6 +365,8 @@ namespace mmria.server
 
         var DbConfigSet = GetConfiguration();
         services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+
+        Program.configuration_set = DbConfigSet;
                    
 
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
