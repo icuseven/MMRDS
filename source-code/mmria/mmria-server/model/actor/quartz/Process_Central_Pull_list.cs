@@ -95,19 +95,13 @@ namespace mmria.server.model.actor.quartz
                         }
                         catch (Exception ex)
                         {
-                        
+                            Console.WriteLine(ex);
                         }
                     
-
-                        var pre_db_server_url = Program.config_cdc_instance_pull_db_url;
                         var config_cdc_instance_pull_list = Program.config_cdc_instance_pull_list;
-
                         var cdc_instance_pull = config_cdc_instance_pull_list.Split(",");
-
                         var config_db = Program.configuration_set;
                                     
-                                    
-
                         for (var i = 0; i < cdc_instance_pull.Length; i++)
                         {
                             var db_name_split = cdc_instance_pull[i].Split("/");
@@ -116,12 +110,11 @@ namespace mmria.server.model.actor.quartz
 
                                 var instance_name = db_name_split[0];
                                 var db_name = db_name_split[1];
-
+                                try
+                                {
                                 if(config_db.detail_list.ContainsKey(instance_name))
                                 {
                                     var db_info = config_db.detail_list[instance_name];
-
-                                   
 
                                     string url = $"{db_info.url}/{db_info.prefix}mmrds/_all_docs?include_docs=true";
                                     var case_curl = new cURL("GET", null, url, null, db_info.user_name, db_info.user_value);
@@ -193,6 +186,12 @@ namespace mmria.server.model.actor.quartz
                                         }
 
                                     }
+                                }
+                                }
+                                catch(Exception ex)
+                                {
+                                    Console.WriteLine($"Problem pulling instance:{instance_name} db:{db_name}");
+                                    Console.WriteLine(ex);
                                 }
                             }
                         }
