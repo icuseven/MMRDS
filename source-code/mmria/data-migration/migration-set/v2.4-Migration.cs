@@ -1141,26 +1141,43 @@ namespace migrate.set
 						if(!multiform_value_result.is_error)
 						{
 							var list = multiform_value_result.result;
-							var new_list = new List<(int, dynamic)>();
+							var new_list = new List<(int, int, dynamic)>();
 							var is_list_changed = false;
-							foreach(var (index, value) in list)
+							foreach(var (form_index, grid_index, value) in list)
 							{
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									is_list_changed = true;
-									new_list.Add((index, "9999"));
+									new_list.Add((form_index, grid_index, "9999"));
 									continue;	
 								}
 
-								if(value.ToString() == "4")
+								switch(value.ToString())
 								{
+									case "8888":
 									is_list_changed = true;
-									new_list.Add((index, "7777"));
-								}
-								else
-								{
-									new_list.Add((index, value));
+									new_list.Add((form_index, grid_index, "7777"));
+									break;
+									case "1":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "2"));
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "2"));
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "5"));
+									break;
+									case "6":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "5"));
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
 								}
 							
 							}
@@ -1188,26 +1205,39 @@ namespace migrate.set
 						if(!multiform_value_result.is_error)
 						{
 							var list = multiform_value_result.result;
-							var new_list = new List<(int, dynamic)>();
+							var new_list = new List<(int, int, dynamic)>();
 							var is_list_changed = false;
-							foreach(var (index, value) in list)
+							foreach(var (form_index, grid_index, value) in list)
 							{
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									is_list_changed = true;
-									new_list.Add((index, "9999"));
+									new_list.Add((form_index, grid_index, "9999"));
 									continue;	
 								}
 
-								if(value.ToString() == "4")
+								switch(value.ToString())
 								{
+									case "8888":
 									is_list_changed = true;
-									new_list.Add((index, "7777"));
-								}
-								else
-								{
-									new_list.Add((index, value));
+									new_list.Add((form_index, grid_index, "7777"));
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "6"));
+									break;
+									case "5":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "6"));
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "7"));
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
 								}
 							
 							}
