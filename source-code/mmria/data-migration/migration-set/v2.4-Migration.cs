@@ -437,6 +437,9 @@ namespace migrate.set
 							}
 							
 							case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+							var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
 						} 
 					} 
 					else
@@ -455,6 +458,9 @@ namespace migrate.set
 						}
 						
 						case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+						var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
 					}
 					// record_id - end
 
@@ -536,6 +542,7 @@ namespace migrate.set
 								{
 									List<int> new_list = new List<int>();
 									var is_list_changed = false;
+									
 									for(int i = 0; i < list.Count; i++)
 									{
 										dynamic value = list[i];
@@ -601,6 +608,8 @@ namespace migrate.set
 								{
 									var new_list = new List<(int, dynamic)>();
 									var is_list_changed = false;
+
+									var output_text = new System.Text.StringBuilder();
 									for(int i = 0; i < list.Count; i++)
 									{
 										(int, dynamic) tuple_value = list[i];
@@ -610,7 +619,7 @@ namespace migrate.set
 										{
 											is_list_changed = true;
 											new_list.Add((tuple_value.Item1, "9999"));
-
+											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  null => 9999");
 											continue;	
 										}
 
@@ -625,6 +634,7 @@ namespace migrate.set
 											dynamic new_value = 7777;
 
 											new_list.Add((tuple_value.Item1, new_value));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  8888 => 7777");
 
 											//case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
 											//var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
@@ -647,8 +657,8 @@ namespace migrate.set
 										
 
 										case_has_changed = case_has_changed && gs.set_grid_value(doc, node.path, new_list);
-										var output_text = $"item record_id: {mmria_id} path:{node.path} Converted as grid item 8888 => 7777";
-										this.output_builder.AppendLine(output_text);
+										
+										this.output_builder.AppendLine(output_text.ToString());
 										Console.WriteLine(output_text);
 									}
 								}
@@ -665,6 +675,7 @@ namespace migrate.set
 								var new_list = new List<(int, dynamic)>();
 								var is_list_changed = false;
 
+								var output_text = new System.Text.StringBuilder();
 								for(var i = 0; i < list.Count; i++)
 								{
 									var index = list[i].Item1;
@@ -674,6 +685,7 @@ namespace migrate.set
 									{
 										is_list_changed = true;
 										new_list.Add((index, "9999"));
+										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted null => 9999");
 										continue;	
 									}
 
@@ -684,6 +696,7 @@ namespace migrate.set
 										dynamic new_value = "7777";
 										new_list.Add((index, new_value));
 										is_list_changed = true;
+										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted 8888 => 7777");
 									}
 									else
 									{
@@ -701,8 +714,8 @@ namespace migrate.set
 									}
 
 									case_has_changed = case_has_changed && gs.set_multiform_value(doc, node.path, new_list);
-									var output_text = $"item record_id: {mmria_id} path:{node.path} 8888 => 7777";
-									this.output_builder.AppendLine(output_text);
+									
+									this.output_builder.AppendLine(output_text.ToString());
 									Console.WriteLine(output_text);
 								}
 							}			
@@ -718,10 +731,10 @@ namespace migrate.set
 								var new_list = new List<(int, dynamic)>();
 								var is_list_changed = false;
 
-								for(var i = 0; i < list.Count; i++)
+								var output_text = new System.Text.StringBuilder();
+								foreach(var (form_index, original_value) in list)
 								{
-									var index = list[i].Item1;
-									var value_list = list[i].Item2 as IList<dynamic>;
+									var value_list = original_value as IList<dynamic>;
 									var new_value_list = new List<dynamic>();
 									foreach(var value in value_list)
 									{
@@ -729,6 +742,7 @@ namespace migrate.set
 										{
 											is_list_changed = true;
 											new_value_list.Add("9999");
+											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} null => 9999");
 											continue;	
 										}
 
@@ -739,13 +753,14 @@ namespace migrate.set
 											dynamic new_value = "7777";
 											new_value_list.Add(new_value);
 											is_list_changed = true;
+											output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} 8888 => 7777");
 										}
 										else
 										{
 											new_value_list.Add(value);
 										}
 									}
-									new_list.Add((index, new_value_list));
+									new_list.Add((form_index, new_value_list));
 								}
 
 
@@ -758,8 +773,8 @@ namespace migrate.set
 									}
 
 									case_has_changed = case_has_changed && gs.set_multiform_value(doc, node.path, new_list);
-									var output_text = $"item record_id: {mmria_id} path:{node.path} 8888 => 7777";
-									this.output_builder.AppendLine(output_text);
+									
+									this.output_builder.AppendLine(output_text.ToString());
 									Console.WriteLine(output_text);
 								}
 							}			
@@ -775,6 +790,8 @@ namespace migrate.set
 								var new_list = new List<(int, int, dynamic)>();
 								var is_list_changed = false;
 
+								var output_text = new System.Text.StringBuilder();
+
 								for(var i = 0; i < list.Count; i++)
 								{
 									var (form_index, grid_index, value) = list[i];
@@ -783,6 +800,7 @@ namespace migrate.set
 									{
 										is_list_changed = true;
 										new_list.Add((form_index, grid_index, "9999"));
+										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} null => 9999");
 										continue;	
 									}
 
@@ -793,6 +811,7 @@ namespace migrate.set
 										dynamic new_value = "7777";
 										new_list.Add((form_index, grid_index, new_value));
 										is_list_changed = true;
+										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} 8888 => 7777");
 									}
 									else
 									{
@@ -810,8 +829,8 @@ namespace migrate.set
 									}
 
 									case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, node.path, new_list);
-									var output_text = $"item record_id: {mmria_id} path:{node.path} 8888 => 7777";
-									this.output_builder.AppendLine(output_text);
+									
+									this.output_builder.AppendLine(output_text.ToString());
 									Console.WriteLine(output_text);
 								}
 								
@@ -855,24 +874,28 @@ namespace migrate.set
 							var list = multiform_value_result.result;
 							var new_list = new List<(int, dynamic)>();
 							var is_list_changed = false;
-							foreach(var (index, value) in list)
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, value) in list)
 							{
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									is_list_changed = true;
-									new_list.Add((index, "9999"));
+									new_list.Add((form_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted null => 9999");
 									continue;	
 								}
 
 								if(value.ToString() == "4")
 								{
 									is_list_changed = true;
-									new_list.Add((index, "7777"));
+									new_list.Add((form_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 4 => 7777");
 								}
 								else
 								{
-									new_list.Add((index, value));
+									new_list.Add((form_index, value));
 								}
 							
 							}
@@ -886,8 +909,8 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_value(doc, bcifsmod_framo_deliv_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 4 => 7777";
-								this.output_builder.AppendLine(output_text);
+								
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
@@ -960,23 +983,26 @@ namespace migrate.set
 						{
 							var new_list = new List<(int, dynamic)>();
 							var is_list_changed = false;
-							foreach(var (index, value) in grid_value_result.result)
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (grid_index, value) in grid_value_result.result)
 							{
 							
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									new_list.Add((index, "9999"));
+									new_list.Add((grid_index, "9999"));
 									is_list_changed = true;
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted null => 9999");
 								}
 								else if(value.ToString() == "3")
 								{
 									dynamic new_value = "4";
-									new_list.Add((index, new_value));
+									new_list.Add((grid_index, new_value));
 									is_list_changed = true;
+									output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted 3 => 4");
 								}
 								else
 								{
-									new_list.Add((index, value));
+									new_list.Add((grid_index, value));
 								}
 							}
 
@@ -989,8 +1015,8 @@ namespace migrate.set
 								}
 								
 								case_has_changed = case_has_changed && gs.set_grid_value(doc, posopc_p_type_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{posopc_p_type_path} Converted 3 => 4";
-								this.output_builder.AppendLine(output_text);
+								
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
@@ -1004,24 +1030,28 @@ namespace migrate.set
 							var list = multiform_value_result.result;
 							var new_list = new List<(int, dynamic)>();
 							var is_list_changed = false;
-							foreach(var (index, value) in list)
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, value) in list)
 							{
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									is_list_changed = true;
-									new_list.Add((index, "9999"));
+									new_list.Add((form_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted null => 9999");
 									continue;	
 								}
 
 								if(value.ToString() == "6")
 								{
 									is_list_changed = true;
-									new_list.Add((index, "7"));
+									new_list.Add((form_index, "7"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted 6 => 7");
 								}
 								else
 								{
-									new_list.Add((index, value));
+									new_list.Add((form_index, value));
 								}
 							
 							}
@@ -1035,8 +1065,8 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovmcf_provider_type_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{omovmcf_provider_type_path} Converted 4 => 7777";
-								this.output_builder.AppendLine(output_text);
+								
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
@@ -1062,6 +1092,9 @@ namespace migrate.set
 							var list = multiform_value_result.result;
 							var new_list = new List<(int, int, dynamic)>();
 							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+
 							foreach(var (form_index, grid_index, value) in list)
 							{
 			
@@ -1069,6 +1102,7 @@ namespace migrate.set
 								{
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
 								}
 
@@ -1077,38 +1111,47 @@ namespace migrate.set
 									case "0":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "CT"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 0 => CT");
 									break;
 									case "1":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "CVS"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 1 => CVS");
 									break;
 									case "2":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "ECG"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 2 => ECG");
 									break;
 									case "3":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "EEG"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => EEG");
 									break;
 									case "4":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "MRI"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => MRI");
 									break;
 									case "5":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "PET"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 5 => PET");
 									break;
 									case "6":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "US"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 6 => US");
 									break;
 									case "7":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "Xray"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 7 => Xray");
 									break;
 									case "8":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "Other"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 8 => Other");
 									break;
 									default:
 										new_list.Add((form_index, grid_index, value));
@@ -1126,8 +1169,8 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, omovdiaot_t_type_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{omovdiaot_t_type_path} Converted 4 => 7777";
-								this.output_builder.AppendLine(output_text);
+								
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
@@ -1143,6 +1186,8 @@ namespace migrate.set
 							var list = multiform_value_result.result;
 							var new_list = new List<(int, int, dynamic)>();
 							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
 							foreach(var (form_index, grid_index, value) in list)
 							{
 			
@@ -1150,6 +1195,7 @@ namespace migrate.set
 								{
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
 								}
 
@@ -1158,22 +1204,27 @@ namespace migrate.set
 									case "8888":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
 									break;
 									case "1":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "2"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 1 => 2");
 									break;
 									case "3":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "2"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 2");
 									break;
 									case "4":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "5"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 5");
 									break;
 									case "6":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "5"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 6 => 5");
 									break;
 									default:
 										new_list.Add((form_index, grid_index, value));
@@ -1191,8 +1242,7 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrlt_d_level_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{evahmrlt_d_level_path} Converted 4 => 7777";
-								this.output_builder.AppendLine(output_text);
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
@@ -1207,6 +1257,8 @@ namespace migrate.set
 							var list = multiform_value_result.result;
 							var new_list = new List<(int, int, dynamic)>();
 							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
 							foreach(var (form_index, grid_index, value) in list)
 							{
 			
@@ -1214,6 +1266,7 @@ namespace migrate.set
 								{
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
 								}
 
@@ -1222,18 +1275,22 @@ namespace migrate.set
 									case "8888":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
 									break;
 									case "3":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "6"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 6");
 									break;
 									case "5":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "6"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 5 => 6");
 									break;
 									case "4":
 									is_list_changed = true;
 									new_list.Add((form_index, grid_index, "7"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 7");
 									break;
 									default:
 										new_list.Add((form_index, grid_index, value));
@@ -1251,24 +1308,20 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrba_title_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{evahmrba_title_path} Converted 4 => 7777";
-								this.output_builder.AppendLine(output_text);
+								
+								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
 							}
 						}
 						}
 
-
-							
-/*  eight_to_7_sf 46
-eight_to_7_sfmv 8
- eight_to_7_sfgv 12
- eight_to_7_mv 26
- eight_to_7_mmv  1
- eight_to_7_mgv 3
-*/
-
 					}
+
+					if(!is_report_only_mode && case_has_changed)
+					{
+						var save_result = await save_case(doc);
+					}
+
 				}
 
 /*
@@ -1460,6 +1513,8 @@ mhpwtdmhc_rf_treat
             {
                 
             }
+
+			Console.WriteLine($"v2_4_Migration Finished {DateTime.Now}");
         }
         public class Metadata_Node
 		{
@@ -1512,6 +1567,44 @@ mhpwtdmhc_rf_treat
 			}
 			return result;
 		}
+
+		private async Task<bool> save_case(IDictionary<string, object> case_item)
+        {
+            bool result = false;
+			var gsv = new C_Get_Set_Value(this.output_builder);
+
+            //var case_item  = p_case_item as System.Collections.Generic.Dictionary<string, object>;
+
+            gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item);
+            gsv.set_value("last_updated_by", "migration_plan", case_item);
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
+
+            string put_url = $"{host_db_url}/{db_name}/{case_item["_id"]}";
+            cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
+
+            try
+            {
+                var responseFromServer = await document_curl.executeAsync();
+                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                if(put_result.ok)
+                {
+                    result = true;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
 
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
