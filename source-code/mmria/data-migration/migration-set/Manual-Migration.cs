@@ -412,7 +412,14 @@ namespace migrate.set
                         test_host_state_object.ToString().ToLower() == "central"
                     )
 					{
-                        if(test_host_state_object.ToString().ToLower() == "central")
+						if(test_host_state_object == null)
+						{
+							if(db_name.IndexOf("_") > -1)
+                            {
+                                host_state = db_name.Split("_")[0];
+                            }
+						}
+						else if(test_host_state_object != null && test_host_state_object.ToString().ToLower() == "central")
                         {
                             if(db_name.IndexOf("_") > -1)
                             {
