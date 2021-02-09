@@ -179,9 +179,9 @@ function validate_length(p_array, p_max_length)
             batch = new mmria.common.ije.Batch()
             {
                 id = message.batch_id,
-                date_created  = DateTime.UtcNow.ToString("o"),
+                date_created  = DateTime.UtcNow,
                 created_by = "vital-import",
-                date_last_updated   = DateTime.UtcNow.ToString("o"),
+                date_last_updated   = DateTime.UtcNow,
                 last_updated_by = "vital-import", 
                 Status = mmria.common.ije.Batch.StatusEnum.Validating,
                 reporting_state = ReportingState,
@@ -248,7 +248,7 @@ function validate_length(p_array, p_max_length)
                 id = batch.id,
                 date_created  = batch.date_created,
                 created_by = batch.created_by,
-                date_last_updated  = DateTime.UtcNow.ToString("o"),
+                date_last_updated  = DateTime.UtcNow,
                 last_updated_by = batch.last_updated_by, 
                 Status = current_status,
                 reporting_state = batch.reporting_state,
