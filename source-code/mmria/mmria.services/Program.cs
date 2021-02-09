@@ -37,14 +37,11 @@ namespace mmria.services.vitalsimport
         public static string config_id;
 
         public static mmria.common.couchdb.ConfigurationSet DbConfigSet;
-        public static Dictionary<string, mmria.common.ije.Batch> BatchSet;
 
         private static IConfiguration configuration;
 
         public static void Main(string[] args)
         {
-            BatchSet = new Dictionary<string, mmria.common.ije.Batch>(StringComparer.OrdinalIgnoreCase);
-            
             configuration = new ConfigurationBuilder()
                 .SetBasePath(System.IO.Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)

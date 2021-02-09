@@ -334,6 +334,8 @@ namespace RecordsProcessor_Worker.Actors
             private string config_couchdb_url = null;
             private string db_prefix = "";
 
+            mmria.common.couchdb.DBConfigurationDetail item_db_info;
+
             private System.Dynamic.ExpandoObject case_expando_object = null;
 
             private Dictionary<string,string> StateDisplayToValue;
@@ -357,6 +359,10 @@ namespace RecordsProcessor_Worker.Actors
             config_couchdb_url = mmria.services.vitalsimport.Program.couchdb_url;
             db_prefix = "";
             
+            mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
+            item_db_info = db_config_set.detail_list[message.host_state];
+
+
             var mor_field_set = mor_get_header(message.mor);
 
             //get parent header set fet/nat
@@ -386,6 +392,8 @@ namespace RecordsProcessor_Worker.Actors
                         };
                         */
 
+            
+
             string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
             var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -399,7 +407,10 @@ namespace RecordsProcessor_Worker.Actors
                 StateDisplayToValue.Add(kvp.display, kvp.value);
             }
 
-            var is_case_already_present = false;            
+            var is_case_already_present = false;      
+
+            
+      
 
             var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
             string mmria_id = null;
@@ -441,7 +452,7 @@ namespace RecordsProcessor_Worker.Actors
                         
                     )
                     {
-                        var case_expando_object = GetCaseById(kvp.key);
+                        var case_expando_object = GetCaseById(item_db_info, kvp.key);
                         if(case_expando_object != null)
                         {
 
@@ -3933,15 +3944,15 @@ GNAME 27 50
             return null;
         }
 
-        public System.Dynamic.ExpandoObject GetCaseById(string case_id) 
+        public System.Dynamic.ExpandoObject GetCaseById(mmria.common.couchdb.DBConfigurationDetail db_info, string case_id) 
 		{ 
 			try
 			{
-                string request_string = $"{config_couchdb_url}/{db_prefix}mmrds/_all_docs?include_docs=true";
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_all_docs?include_docs=true";
 
                 if (!string.IsNullOrWhiteSpace (case_id)) 
                 {
-                    request_string = $"{config_couchdb_url}/{db_prefix}mmrds/{case_id}";
+                    request_string = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
 					var case_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
 					string responseFromServer = case_curl.execute();
 
