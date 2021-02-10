@@ -919,6 +919,10 @@ dialog::backdrop {
   }
 }
 
+.report-section + .report-section {
+    margin-top: 40px;
+}
+
 /*
   PATTERNS
 */
@@ -1125,6 +1129,23 @@ dialog::backdrop {
   padding-left: 5px;
   position: absolute;
   width: 75%;
+}
+
+.construct__link {
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 6px;
+    text-decoration: none;
+}
+.construct__link:focus,
+.construct__link:hover {
+    text-decoration: underline;
+}
+
+.construct__link .construct__icon {
+    display: inline-block;
+    vertical-align: unset;
+    transform: rotate(180deg);
 }
 
 /*

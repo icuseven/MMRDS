@@ -111,6 +111,9 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string power_bi_link;
 
         public static string vitals_service_key;
+        public static string config_id;
+
+        public static mmria.common.couchdb.ConfigurationSet configuration_set;
 
         public static string config_cdc_instance_pull_list;
         public static string config_cdc_instance_pull_db_url;

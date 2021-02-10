@@ -109,6 +109,13 @@ namespace mmria.server
         }
 
 
+        if (!string.IsNullOrEmpty(Configuration["mmria_settings:config_id"]))
+        {
+            Program.config_id = Configuration["mmria_settings:config_id"];
+        }
+
+
+
 
       var test_int = 0;
       //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
@@ -311,6 +318,12 @@ namespace mmria.server
           Program.vitals_service_key = Configuration["mmria_settings:vitals_service_key"];
         }
 
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("config_id")))
+        {
+          Configuration["mmria_settings:config_id"] = System.Environment.GetEnvironmentVariable("config_id");
+          Program.config_id = Configuration["mmria_settings:config_id"];
+        }
+
         /*
         Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
         Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
@@ -348,6 +361,13 @@ namespace mmria.server
       {
           Log.Information("Program.config_vitals_service_key is present");
       }
+
+
+        var DbConfigSet = GetConfiguration();
+        services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+
+        Program.configuration_set = DbConfigSet;
+                   
 
       Program.actorSystem = ActorSystem.Create("mmria-actor-system");
       services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
@@ -868,7 +888,26 @@ namespace mmria.server
          */
       }
 
-      // ****   Quartz Timer - End
+      
+    }
+
+    private static mmria.common.couchdb.ConfigurationSet GetConfiguration()
+    {
+        var result = new mmria.common.couchdb.ConfigurationSet();
+        try
+        {
+            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = case_curl.execute();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return result;
     }
   }
 

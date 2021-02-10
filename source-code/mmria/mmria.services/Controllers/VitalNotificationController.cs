@@ -29,10 +29,26 @@ namespace mmria.services.vitalsimport.Controllers
         {
             var  result = new List<mmria.common.ije.Batch>();
 
-            foreach(var kvp in mmria.services.vitalsimport.Program.BatchSet)
+            string url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/_all_docs?include_docs=true";
+            var document_curl = new mmria.server.cURL ("GET", null, url, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+            try
             {
-                result.Add(kvp.Value);
+                var responseFromServer = document_curl.execute();
+                var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
+    
+                foreach(var item in alldocs.rows)
+                {
+                    result.Add(item.doc);
+                }
+                
             }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+ 
 
             return result;
         }
@@ -43,11 +59,32 @@ namespace mmria.services.vitalsimport.Controllers
         {
             var  result = true;
 
-            foreach(var kvp in mmria.services.vitalsimport.Program.BatchSet)
+            var  batch_list = new List<mmria.common.ije.Batch>();
+
+            string url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/_all_docs?include_docs=true";
+            var document_curl = new mmria.server.cURL ("GET", null, url, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+            try
+            {
+                var responseFromServer = document_curl.execute();
+                var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
+    
+                foreach(var item in alldocs.rows)
+                {
+                    batch_list.Add(item.doc);
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+            foreach(var item in batch_list)
             {
                 var message = new mmria.common.ije.BatchRemoveDataMessage()
                 {
-                    id = kvp.Key,
+                    id = item.id,
                     date_of_removal = DateTime.Now
                 };
 

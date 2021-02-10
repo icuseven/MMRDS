@@ -167,16 +167,17 @@ function renderCheckedOutCases(p_cases)
 
 						const lockedBy = item.value.last_checked_out_by;
 						const currentCaseStatus = item.value.case_status;
-						//TODO: Load the below dynamically
-						const caseStatuses = [
-							'Abstracting (incomplete)',
-							'Abstraction Complete',
-							'Ready For Review',
-							'Review complete and decision entered',
-							'Out of Scope and death certificate entered',
-							'False Positive and death certificate entered',
-							'(blank)'
-						];
+                        
+                        const caseStatuses = {
+                            "9999":"(blank)",	
+                            "1":"Abstracting (Incomplete)",
+                            "2":"Abstraction Complete",
+                            "3":"Ready for Review",
+                            "4":"Review Complete and Decision Entered",
+                            "5":"Out of Scope and Death Certificate Entered",
+                            "6":"False Positive and Death Certificate Entered",
+                            "0":"Vitals Import"
+                        }; 
 
 						return (
 							`<tr class="tr" data-id="${caseID}">
@@ -189,7 +190,7 @@ function renderCheckedOutCases(p_cases)
 								<td class="td" scope="col">${lastUpdatedDate && lastUpdatedDate || ''}</td>
 								<td class="td" scope="col">${timeLocked && `${timeLocked} minutes` || ''}</td>
 								<td class="td" scope="col">${lockedBy && lockedBy || ''}</td>
-								<td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus === '9999' ? '(blank)' : caseStatuses[parseInt(currentCaseStatus)-1]}</td>
+								<td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus == null ? '(blank)' : caseStatuses[currentCaseStatus.toString()]}</td>
 								<td class="td text-center" scope="col"><button class="anti-btn link" onclick="handleCaseRelease('${caseID}')">Release</button></td>
 							</tr>`
 						)

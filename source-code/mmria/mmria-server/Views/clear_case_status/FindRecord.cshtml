@@ -26,64 +26,48 @@
 </head>
 <body>
 <a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
-mmria.server.model.casestatus.CaseStatusRequestResponse
+
 
 <table>
     <tr>
+       <th align=center colspan=8>search results</th>
+</tr>
+    <tr>
        <th>_id</th>
+       <th>Case Status</th>
        <th>RecordId</th>
-       <th>FirstName</th>
-       <th>LastName</th>
-       <th>MiddleName</th>
+       <th>First Middle Last</th>
        <th>Date Of death</th>
        <th>State of Death</th>
        <th>action</th>
 </tr>
+    @foreach (var item in Model.CaseStatusDetail)
+    {
     <tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
+       <td>@item._id</td>
+       <td>@item.CaseStatus</td>
+       <td>@item.RecordId</td>
+       <td>@item.FirstName @item.MiddleName @item.LastName</td>
+       <td>@item.DateOfDeath</td>
+       <td>@item.StateOfDeath</td>
        <td>
            <form method="post" action="/clear_case_status/ConfirmClearCaseStatusRequest">
-                <input type="hidden" value="" />
+                
+                <input type="hidden" name="_id" value="@item._id" />
+       <input type="hidden" name="RecordId" value="@item.RecordId" />
+       <input type="hidden" name="FirstName" value="@item.FirstName" />
+       <input type="hidden" name="LastName" value="@item.LastName" />
+       <input type="hidden" name="MiddleName" value="@item.MiddleName" />
+       <input type="hidden" name="DateOfDeath" value="@item.DateOfDeath" />
+       <input type="hidden" name="StateOfDeath" value="@item.StateOfDeath" />
+       <input type="hidden" name="CaseStatus" value="@item.CaseStatus" />
+       <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />
+                
                <input type="submit" />
            </form>
         </td>
-</tr>
-<tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
-       <td>
-           <form method="post" action="/clear_case_status/ClearCaseStatus">
-            <input type="hidden" value="" />
-               <input type="submit" />
-           </form>
-        </td>
-</tr>
-<tr>
-       <td>_id</td>
-       <td>RecordId</td>
-       <td>FirstName</td>
-       <td>LastName</td>
-       <td>MiddleName</td>
-       <td>Date Of death</td>
-       <td>State of Death</td>
-       <td>
-           <form method="post" action="/clear_case_status/ClearCaseStatus">
-               <input type="hidden" value="" />
-               <input type="submit" />
-           </form>
-        </td>
-</tr>
+    </tr>
+    }
 </table>
 
   <a href="/home">home</a> | <a href="/clear_case_status">search again</a><br/>

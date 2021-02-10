@@ -99,7 +99,7 @@ namespace migrate.set
 				var eight_to_7_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 				{
 
-				"dcd_eiua_force ",
+				"dcd_eiua_force",
 				"dcd_ioh_origi",
 				"dcd_e_level",
 				"dciai_wia_work",
@@ -231,12 +231,6 @@ namespace migrate.set
 					Console.WriteLine($"{item.sass_export_name} - {item.path}");
 				}
 
-				var eight_to_7_sf = single_form_value_set.Where
-				( 
-					x=> eight_to_7_list.Contains(x.sass_export_name) 
-					
-				).ToList();
-
 
 				var pmss_set  = single_form_value_set.Where
 				( 
@@ -244,14 +238,117 @@ namespace migrate.set
 					
 				).ToList();
 
+
 				
-				
+				var eight_to_7_sf = single_form_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+
+				var eight_to_7_sfmv = single_form_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_sfgv = single_form_grid_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_sfgmv = single_form_grid_multi_value_list_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_mv = multiform_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_mmv = multiform_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_mgv = multiform_grid_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+				var eight_to_7_mgmv = multiform_grid_multi_value_set.Where
+				( 
+					x=> eight_to_7_list.Contains(x.sass_export_name) 
+					
+				).ToList();
+
+				var eight_to_7_count = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+				eight_to_7_sf.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_sfmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_sfgv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_sfgmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_mv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_mmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+				eight_to_7_mgv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+				eight_to_7_mgmv.Select(x=>eight_to_7_count.Add(x.Node.sass_export_name)).ToList();
+
+
+				foreach (var firstItem in eight_to_7_list)
+				{
+
+					if (!eight_to_7_count.Contains(firstItem))
+					{
+
+						Console.WriteLine(firstItem);
+					}
+				}
+
+				var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+				{
+					{ "10", "10.9"},
+					{ "20", "20.9"},
+					{ "30", "30.1"},
+					{ "31", "31.1"},
+					{ "40", "40.1"},
+					{ "50", "50.1"},
+					{ "60", "60.1"},
+					{ "70", "70.1"},
+					{ "80", "80.9"},
+					{ "82", "82.9"},
+					{ "83", "83.9"},
+					{ "85", "85.1"},
+					{ "89", "89.9"},
+					{ "90", "90.9"},
+					{ "91", "91.9"},
+					{ "92", "92.9"},
+					{ "93", "93.9"},
+					{ "95", "95.1"},
+					{ "96", "96.9"},
+					{ "97", "97.9"},
+					{ "100", "100.9"},
+					{ "999", "999.1"}
+				};
+
+
+
+				var ExistingRecordIds = await GetExistingRecordIds();
 
 
 				string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
+
+
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
 				foreach(var case_item in case_response.rows)
@@ -271,64 +368,108 @@ namespace migrate.set
 							continue;
 						}
 
-// record_id - begin
-/*
-GetExistingRecordIds
-
-
-                    if 
+					// host_state  *** begin
+					var host_state = "TT";
+					value_result = gs.get_value(doc, "host_state");
+					var test_host_state_object = value_result.result;
+					if
                     (
-                        (
-                            !result.home_record.record_id || 
-                            result.home_record.record_id == ''
-                        ) && 
-                        result.home_record.state_of_death_record && 
-                        result.home_record.state_of_death_record != '' && 
-                        result.home_record.date_of_death.year && 
-                        parseInt(result.home_record.date_of_death.year) > 999 && 
-                        parseInt(result.home_record.date_of_death.year) < 2500
-                    ) 
-                    {
-                        result.home_record.record_id = result.home_record.state_of_death_record.substring(0, 2) + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
-
-                    }
-*/
-// record_id - end
-
-
-						var pmss_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+                        test_host_state_object == null || 
+                        string.IsNullOrWhiteSpace(test_host_state_object.ToString()) ||
+                        test_host_state_object.ToString().ToLower() == "central"
+                    )
+					{
+                        if(test_host_state_object.ToString().ToLower() == "central")
+                        {
+                            if(db_name.IndexOf("_") > -1)
+                            {
+                                host_state = db_name.Split("_")[0];
+                            }
+							else
+							{
+								host_state = test_host_state_object.ToString();
+							}
+                        }
+						else
 						{
-							{ "10", "10.9"},
-							{ "20", "20.9"},
-							{ "30", "30.1"},
-							{ "31", "31.1"},
-							{ "40", "40.1"},
-							{ "50", "50.1"},
-							{ "60", "60.1"},
-							{ "70", "70.1"},
-							{ "80", "80.9"},
-							{ "82", "82.9"},
-							{ "83", "83.9"},
-							{ "85", "85.1"},
-							{ "90", "90.9"},
-							{ "89", "89.9"},
-							{ "90", "90.9"},
-							{ "91", "91.9"},
-							{ "92", "92.9"},
-							{ "93", "93.9"},
-							{ "95", "95.1"},
-							{ "96", "96.9"},
-							{ "97", "97.9"},
-							{ "100", "100.9"},
-							{ "999", "999.1"}
-						};
+							host_state = test_host_state_object.ToString();
+						}
+
+						
+					}
+					// host_state  *** end
+
+
+					// record_id - begin
+					value_result = gs.get_value(doc, "home_record/record_id");
+					string year_of_death = "1900";
+					var year_of_death_value_result = gs.get_value(doc, "home_record/date_of_death/year");
+					if
+					(
+						!year_of_death_value_result.is_error &&
+						year_of_death_value_result.result != null &&
+						!string.IsNullOrWhiteSpace(year_of_death_value_result.result.ToString()) &&
+						year_of_death_value_result.result.ToString() != "9999"
+					)
+					{
+						year_of_death = year_of_death_value_result.result.ToString();
+					}
+					
+					if(!value_result.is_error)
+					{
+						if 
+                    	(
+							value_result.result == null ||
+							value_result.result.ToString() == ""
+						)
+                        {
+							string record_id = null;
+							do
+							{
+								record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
+							}
+							while(ExistingRecordIds.Contains(record_id));
+							ExistingRecordIds.Add(record_id);
+							if(case_change_count == 0)
+							{
+								case_change_count += 1;
+								case_has_changed = true;
+							}
+							
+							case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+							var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+						} 
+					} 
+					else
+					{
+						string record_id = null;
+						do
+						{
+							record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
+						}
+						while(ExistingRecordIds.Contains(record_id));
+						ExistingRecordIds.Add(record_id);
+
+						if(case_change_count == 0)
+						{
+							case_change_count += 1;
+							case_has_changed = true;
+						}
+						
+						case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+						var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
+					}
+					// record_id - end
+
+
 
 
 						foreach(var node in  pmss_set)
 						{
-
-							bool is_blank = false;
-
 							value_result = gs.get_value(doc, node.path);
 							
 							if(!value_result.is_error)
@@ -361,9 +502,6 @@ GetExistingRecordIds
 
 						foreach(var node in  eight_to_7_sf)
 						{
-
-							bool is_blank = false;
-
 							value_result = gs.get_value(doc, node.path);
 							
 							if(!value_result.is_error)
@@ -391,7 +529,800 @@ GetExistingRecordIds
 								}
 							}			
 						}
+
+
+						foreach(var node in  eight_to_7_sfmv)
+						{
+							var multivalue_result = gs.get_value(doc, node.path);
+							
+							if(!multivalue_result.is_error)
+							{
+								var list =  multivalue_result.result as IList<dynamic>;
+
+								if(list != null)
+								{
+									List<int> new_list = new List<int>();
+									var is_list_changed = false;
+									
+									for(int i = 0; i < list.Count; i++)
+									{
+										dynamic value = list[i];
+
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											new_list.Add(value);
+
+											continue;	
+										}
+
+										if(value.ToString() == "8888")
+										{
+											//if(case_change_count == 0)
+											//{
+											//	case_change_count += 1;
+											//	case_has_changed = true;
+											//}
+											is_list_changed = true;
+											dynamic new_value = 7777;
+
+											new_list.Add(new_value);
+
+											//case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+											//var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
+											//this.output_builder.AppendLine(output_text);
+											//Console.WriteLine(output_text);
+										}
+										else
+										{
+											new_list.Add(int.Parse(value));
+										}
+									}
+
+									if(is_list_changed)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+
+										case_has_changed = case_has_changed && gs.set_multi_value(node.path, new_list, doc);
+										var output_text = $"item record_id: {mmria_id} path:{node.path} Converted as list item 8888 => 7777";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									}
+								}
+							}			
+						}
+
+
+						foreach(var node in  eight_to_7_sfgv)
+						{
+							var grid_value_result = gs.get_grid_value(doc, node.path);
+							
+							if(!grid_value_result.is_error)
+							{
+								var list =  grid_value_result.result as IList<(int, dynamic)>;
+
+								if(list != null)
+								{
+									var new_list = new List<(int, dynamic)>();
+									var is_list_changed = false;
+
+									var output_text = new System.Text.StringBuilder();
+									for(int i = 0; i < list.Count; i++)
+									{
+										(int, dynamic) tuple_value = list[i];
+										var value = tuple_value.Item2;
+
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											is_list_changed = true;
+											new_list.Add((tuple_value.Item1, "9999"));
+											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  null => 9999");
+											continue;	
+										}
+
+										if(value.ToString() == "8888")
+										{
+											//if(case_change_count == 0)
+											//{
+											//	case_change_count += 1;
+											//	case_has_changed = true;
+											//}
+											is_list_changed = true;
+											dynamic new_value = 7777;
+
+											new_list.Add((tuple_value.Item1, new_value));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  8888 => 7777");
+
+											//case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
+											//var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
+											//this.output_builder.AppendLine(output_text);
+											//Console.WriteLine(output_text);
+										}
+										else
+										{
+											new_list.Add((tuple_value.Item1, value));
+										}
+									}
+
+									if(is_list_changed)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+
+										case_has_changed = case_has_changed && gs.set_grid_value(doc, node.path, new_list);
+										
+										this.output_builder.AppendLine(output_text.ToString());
+										Console.WriteLine(output_text);
+									}
+								}
+							}			
+						}
+
+						foreach(var node in  eight_to_7_mv)
+						{
+							var multiform_value_result = gs.get_multiform_value(doc, node.path);
+							
+							if(!multiform_value_result.is_error)
+							{
+								var list = multiform_value_result.result as IList<(int, dynamic)>;
+								var new_list = new List<(int, dynamic)>();
+								var is_list_changed = false;
+
+								var output_text = new System.Text.StringBuilder();
+								for(var i = 0; i < list.Count; i++)
+								{
+									var index = list[i].Item1;
+									var value = list[i].Item2;
+									
+									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+									{
+										is_list_changed = true;
+										new_list.Add((index, "9999"));
+										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted null => 9999");
+										continue;	
+									}
+
+									if(value.ToString() == "8888")
+									{
+										
+										
+										dynamic new_value = "7777";
+										new_list.Add((index, new_value));
+										is_list_changed = true;
+										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted 8888 => 7777");
+									}
+									else
+									{
+										new_list.Add((index, value));
+									}
+								}
+
+
+								if(is_list_changed)
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+
+									case_has_changed = case_has_changed && gs.set_multiform_value(doc, node.path, new_list);
+									
+									this.output_builder.AppendLine(output_text.ToString());
+									Console.WriteLine(output_text);
+								}
+							}			
+						}
+
+						foreach(var node in  eight_to_7_mmv)
+						{
+							var multiform_value_result = gs.get_multiform_value(doc, node.path);
+							
+							if(!multiform_value_result.is_error)
+							{
+								var list = multiform_value_result.result as IList<(int, dynamic)>;
+								var new_list = new List<(int, dynamic)>();
+								var is_list_changed = false;
+
+								var output_text = new System.Text.StringBuilder();
+								foreach(var (form_index, original_value) in list)
+								{
+									var value_list = original_value as IList<dynamic>;
+									var new_value_list = new List<dynamic>();
+									foreach(var value in value_list)
+									{
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											is_list_changed = true;
+											new_value_list.Add("9999");
+											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} null => 9999");
+											continue;	
+										}
+
+										if(value.ToString() == "8888")
+										{
+											
+											
+											dynamic new_value = "7777";
+											new_value_list.Add(new_value);
+											is_list_changed = true;
+											output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} 8888 => 7777");
+										}
+										else
+										{
+											new_value_list.Add(value);
+										}
+									}
+									new_list.Add((form_index, new_value_list));
+								}
+
+
+								if(is_list_changed)
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+
+									case_has_changed = case_has_changed && gs.set_multiform_value(doc, node.path, new_list);
+									
+									this.output_builder.AppendLine(output_text.ToString());
+									Console.WriteLine(output_text);
+								}
+							}			
+						}
+
+						foreach(var node in  eight_to_7_mgv)
+						{
+							var multiform_grid_value_result = gs.get_multiform_grid_value(doc, node.path);
+							
+							if(!multiform_grid_value_result.is_error)
+							{
+								var list = multiform_grid_value_result.result as IList<(int, int, dynamic)>;
+								var new_list = new List<(int, int, dynamic)>();
+								var is_list_changed = false;
+
+								var output_text = new System.Text.StringBuilder();
+
+								for(var i = 0; i < list.Count; i++)
+								{
+									var (form_index, grid_index, value) = list[i];
+									
+									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+									{
+										is_list_changed = true;
+										new_list.Add((form_index, grid_index, "9999"));
+										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} null => 9999");
+										continue;	
+									}
+
+									if(value.ToString() == "8888")
+									{
+										
+										
+										dynamic new_value = "7777";
+										new_list.Add((form_index, grid_index, new_value));
+										is_list_changed = true;
+										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} 8888 => 7777");
+									}
+									else
+									{
+										new_list.Add((form_index, grid_index, value));
+									}
+								}
+
+
+								if(is_list_changed)
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+
+									case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, node.path, new_list);
+									
+									this.output_builder.AppendLine(output_text.ToString());
+									Console.WriteLine(output_text);
+								}
+								
+							}			
+						}
+
+						var mhp_wtdpmh_condi_path = "mental_health_profile/were_there_documented_preexisting_mental_health_conditions";
+						value_result = gs.get_value(doc, mhp_wtdpmh_condi_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "8888")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "7777";
+
+								case_has_changed = case_has_changed && gs.set_value(mhp_wtdpmh_condi_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{mhp_wtdpmh_condi_path} Converted 8888 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
+						
+						
+						{//bcifsmod_framo_deliv +1 4 -> 7777 	/birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery
+						var bcifsmod_framo_deliv_path = "birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery";
+						var multiform_value_result = gs.get_multiform_value(doc, bcifsmod_framo_deliv_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted null => 9999");
+									continue;	
+								}
+
+								if(value.ToString() == "4")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 4 => 7777");
+								}
+								else
+								{
+									new_list.Add((form_index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, bcifsmod_framo_deliv_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+						//ar_coa_infor -1 + 4 -> 2 /autopsy_report/completeness_of_autopsy_information
+						var ar_coa_infor_path = "autopsy_report/completeness_of_autopsy_information";
+						value_result = gs.get_value(doc, ar_coa_infor_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "4")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "2";
+
+								case_has_changed = case_has_changed && gs.set_value(ar_coa_infor_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{ar_coa_infor_path} Converted 4 => 2";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
+						//pppcf_pp_type -1 +1 3 -> 4 	/prenatal/primary_prenatal_care_facility/primary_provider_type
+						var pppcf_pp_type_path = "prenatal/primary_prenatal_care_facility/primary_provider_type";
+						value_result = gs.get_value(doc, pppcf_pp_type_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "3")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "4";
+
+								case_has_changed = case_has_changed && gs.set_value(pppcf_pp_type_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{pppcf_pp_type_path} Converted 3 => 4";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+
+
+
+
+						{
+						//posopc_p_type -1 +1 3->4 /prenatal/other_sources_of_prenatal_care/provider_type
+						var posopc_p_type_path = "prenatal/other_sources_of_prenatal_care/provider_type";
+						var grid_value_result = gs.get_grid_value(doc, posopc_p_type_path);
+						if(!grid_value_result.is_error)
+						{
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (grid_index, value) in grid_value_result.result)
+							{
+							
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									new_list.Add((grid_index, "9999"));
+									is_list_changed = true;
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted null => 9999");
+								}
+								else if(value.ToString() == "3")
+								{
+									dynamic new_value = "4";
+									new_list.Add((grid_index, new_value));
+									is_list_changed = true;
+									output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted 3 => 4");
+								}
+								else
+								{
+									new_list.Add((grid_index, value));
+								}
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								case_has_changed = case_has_changed && gs.set_grid_value(doc, posopc_p_type_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+						{//omovmcf_provider_type -1 +1 6->7 Not found 	/other_medical_office_visits/medical_care_facility/provider_type
+						var omovmcf_provider_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
+						var multiform_value_result = gs.get_multiform_value(doc, omovmcf_provider_type_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted null => 9999");
+									continue;	
+								}
+
+								if(value.ToString() == "6")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, "7"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else
+								{
+									new_list.Add((form_index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovmcf_provider_type_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+						{/*
+						omovdiaot_t_type -1 +8 	/other_medical_office_visits/diagnostic_imaging_and_other_technology/Procedure
+							0 ->CT
+							1 ->CVS
+							2 -> ECG
+							3 -> EEG
+							4 ->MRI
+							5 -> PET
+							6 -> US
+							7 ->Xray
+							8 ->Other
+							*/
+						var omovdiaot_t_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, omovdiaot_t_type_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+
+							foreach(var (form_index, grid_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
+									continue;	
+								}
+
+								switch(value.ToString())
+								{
+									case "0":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "CT"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 0 => CT");
+									break;
+									case "1":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "CVS"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 1 => CVS");
+									break;
+									case "2":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "ECG"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 2 => ECG");
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "EEG"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => EEG");
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "MRI"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => MRI");
+									break;
+									case "5":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "PET"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 5 => PET");
+									break;
+									case "6":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "US"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 6 => US");
+									break;
+									case "7":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "Xray"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 7 => Xray");
+									break;
+									case "8":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "Other"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted 8 => Other");
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, omovdiaot_t_type_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+
+						{//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
+						var evahmrlt_d_level_path = "er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrlt_d_level_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, grid_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
+									continue;	
+								}
+
+								switch(value.ToString())
+								{
+									case "8888":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
+									break;
+									case "1":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "2"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 1 => 2");
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "2"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 2");
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "5"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 5");
+									break;
+									case "6":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "5"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 6 => 5");
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrlt_d_level_path, new_list);
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
+
+						{//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
+						var evahmrba_title_path = "er_visit_and_hospital_medical_records/birth_attendant/title";
+						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrba_title_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, grid_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "9999"));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
+									continue;	
+								}
+
+								switch(value.ToString())
+								{
+									case "8888":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "7777"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
+									break;
+									case "3":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "6"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 6");
+									break;
+									case "5":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "6"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 5 => 6");
+									break;
+									case "4":
+									is_list_changed = true;
+									new_list.Add((form_index, grid_index, "7"));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 7");
+									break;
+									default:
+										new_list.Add((form_index, grid_index, value));
+										break;
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, evahmrba_title_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+						}
+
 					}
+
+					if(!is_report_only_mode && case_has_changed)
+					{
+						var save_result = await save_case(doc);
+					}
+
 				}
 
 /*
@@ -583,6 +1514,8 @@ mhpwtdmhc_rf_treat
             {
                 
             }
+
+			Console.WriteLine($"v2_4_Migration Finished {DateTime.Now}");
         }
         public class Metadata_Node
 		{
@@ -635,6 +1568,44 @@ mhpwtdmhc_rf_treat
 			}
 			return result;
 		}
+
+		private async Task<bool> save_case(IDictionary<string, object> case_item)
+        {
+            bool result = false;
+			var gsv = new C_Get_Set_Value(this.output_builder);
+
+            //var case_item  = p_case_item as System.Collections.Generic.Dictionary<string, object>;
+
+            gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item);
+            gsv.set_value("last_updated_by", "migration_plan", case_item);
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
+
+            string put_url = $"{host_db_url}/{db_name}/{case_item["_id"]}";
+            cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
+
+            try
+            {
+                var responseFromServer = await document_curl.executeAsync();
+                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+                if(put_result.ok)
+                {
+                    result = true;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                //Console.Write("auth_session_token: {0}", auth_session_token);
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
 
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
@@ -807,6 +1778,14 @@ mhpwtdmhc_rf_treat
 
     		return result;
 		} 
+
+		private int GenerateRandomFourDigits()
+		{
+			int _min = 1000;
+			int _max = 9999;
+			Random _rdm = new Random();
+			return _rdm.Next(_min, _max);
+		}
 
 
     }

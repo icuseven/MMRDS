@@ -334,6 +334,10 @@ namespace RecordsProcessor_Worker.Actors
             private string config_couchdb_url = null;
             private string db_prefix = "";
 
+            HashSet<string> ExistingRecordIds = null;
+
+            mmria.common.couchdb.DBConfigurationDetail item_db_info;
+
             private System.Dynamic.ExpandoObject case_expando_object = null;
 
             private Dictionary<string,string> StateDisplayToValue;
@@ -357,6 +361,10 @@ namespace RecordsProcessor_Worker.Actors
             config_couchdb_url = mmria.services.vitalsimport.Program.couchdb_url;
             db_prefix = "";
             
+            mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
+            item_db_info = db_config_set.detail_list[message.host_state];
+
+
             var mor_field_set = mor_get_header(message.mor);
 
             //get parent header set fet/nat
@@ -386,6 +394,8 @@ namespace RecordsProcessor_Worker.Actors
                         };
                         */
 
+            
+
             string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
             var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -399,7 +409,10 @@ namespace RecordsProcessor_Worker.Actors
                 StateDisplayToValue.Add(kvp.display, kvp.value);
             }
 
-            var is_case_already_present = false;            
+            var is_case_already_present = false;      
+
+            
+      
 
             var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
             string mmria_id = null;
@@ -441,7 +454,7 @@ namespace RecordsProcessor_Worker.Actors
                         
                     )
                     {
-                        var case_expando_object = GetCaseById(kvp.key);
+                        var case_expando_object = GetCaseById(item_db_info, kvp.key);
                         if(case_expando_object != null)
                         {
 
@@ -559,6 +572,20 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("last_updated_by", "vitals-import", new_case);
                 gs.set_value("version", metadata.version, new_case);
                 gs.set_value("host_state", message.host_state, new_case);
+
+                var VitalsImportStatusValue  = "0";
+                gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
+                
+                ExistingRecordIds = GetExistingRecordIds();
+                string record_id = null;
+                do
+                {
+                    record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
+                }
+                while(ExistingRecordIds.Contains(record_id));
+                gs.set_value("home_record/record_id", record_id, new_case);
+                
+
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -979,6 +1006,44 @@ namespace RecordsProcessor_Worker.Actors
                     mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
+
+
+                var _dbConfigSet = mmria.services.vitalsimport.Program.DbConfigSet;
+                var db_info = _dbConfigSet.detail_list[message.host_state];
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{mmria_id}";
+
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(new_case, settings);
+
+                var document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+
+                var document_put_response = new mmria.common.model.couchdb.document_put_response();
+                try
+                {
+                    var responseFromServer = document_curl.execute();
+                    document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    finished = new mmria.common.ije.BatchItem()
+                    {
+                        Status = mmria.common.ije.BatchItem.StatusEnum.ImportFailed,
+                        CDCUniqueID = mor_field_set["SSN"],
+                        ImportDate = message.ImportDate,
+                        ImportFileName = message.ImportFileName,
+                        ReportingState = message.host_state,
+                        
+                        StateOfDeathRecord = mor_field_set["DSTATE"],
+                        DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                        DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                        LastName = mor_field_set["LNAME"],
+                        FirstName = mor_field_set["GNAME"],
+                
+                        mmria_id = mmria_id,
+                        StatusDetail = "Error\n" + ex.ToString()
+                    };
+                }
 
                 Sender.Tell(finished);
 
@@ -3895,16 +3960,16 @@ GNAME 27 50
             return null;
         }
 
-        public System.Dynamic.ExpandoObject GetCaseById(string case_id) 
+        public System.Dynamic.ExpandoObject GetCaseById(mmria.common.couchdb.DBConfigurationDetail db_info, string case_id) 
 		{ 
 			try
 			{
-                string request_string = $"{config_couchdb_url}/{db_prefix}mmrds/_all_docs?include_docs=true";
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_all_docs?include_docs=true";
 
                 if (!string.IsNullOrWhiteSpace (case_id)) 
                 {
-                    request_string = $"{config_couchdb_url}/{db_prefix}mmrds/{case_id}";
-					var case_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+                    request_string = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
+					var case_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
 					string responseFromServer = case_curl.execute();
 
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
@@ -3941,6 +4006,42 @@ GNAME 27 50
 
             return result;
         }
+
+        public HashSet<string> GetExistingRecordIds()
+		{
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+            try
+            {        
+				string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+                string responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    result.Add(cvi.value.record_id);
+
+                }
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+    		return result;
+		} 
+
+		private int GenerateRandomFourDigits()
+		{
+			int _min = 1000;
+			int _max = 9999;
+			Random _rdm = new Random(System.DateTime.Now.Millisecond);
+			return _rdm.Next(_min, _max);
+		}
 
     }
 }

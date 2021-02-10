@@ -28,6 +28,8 @@ var g_release_version = null;
 var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
+var g_value_to_index_number_lookup = {};
+var g_name_to_value_lookup = {};
 var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
 var g_previous_case_status = null;
@@ -1412,6 +1414,7 @@ function get_metadata()
     set_list_lookup(
       g_display_to_value_lookup,
       g_value_to_display_lookup,
+      g_value_to_index_number_lookup,
       g_metadata,
       ''
     );
@@ -3304,23 +3307,12 @@ function add_new_case_button_click(p_input)
             let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
             add_new_confirm_dialog.innerHTML = `
                 <h3 class="mt-0">Generate Record ID?</h3>
-                <p><strong>Name:</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
-                <p><strong>State of Death:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                <p><strong>Mother’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
                 <p><strong>Date of Death: ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</strong></p>
+                <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
                 <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation.</p>
                 <button class="btn btn-primary" onclick="add_new_case_button_click('yes')">Generate</button>
                 <button class="btn btn-light" onclick="add_new_case_button_click('no')">Cancel</button>
-
-                <!--
-                <div style="background-color:#800080;color:#FFFFFF;">Generate Record ID?</div>
-                <br/>
-                <p><strong>Name:</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
-                <p><strong>State of Death:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
-                <p><strong>Date of Death: ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</strong></p>
-                <br/>
-                <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation:</p>
-                <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate" onclick="add_new_case_button_click('yes')"/> <input type="button" value="Cancel"  onclick="add_new_case_button_click('no')"/> 
-                -->
             `;
             add_new_confirm_dialog.showModal();
         } 
