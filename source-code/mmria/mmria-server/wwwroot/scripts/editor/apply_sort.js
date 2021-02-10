@@ -349,7 +349,7 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         }
                     break;
                     case "display":
-                        function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookupy[y${property_name}]); }`);
+                        function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookup[y${property_name}]); }`);
                     break;
                 }
             }
