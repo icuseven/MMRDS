@@ -15,6 +15,7 @@
       "launchUrl": "weatherforecast",
       "environmentVariables": {
         "CSV_DESTINATION": "C:\\MMRIA\\csv",
+        "couchdb_url": "http://localhost:5984",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
