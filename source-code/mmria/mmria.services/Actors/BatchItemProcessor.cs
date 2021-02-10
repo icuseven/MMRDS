@@ -571,6 +571,10 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("version", metadata.version, new_case);
                 gs.set_value("host_state", message.host_state, new_case);
 
+                var VitalsImportStatusValue  = "0";
+                gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
+                
+
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
                 var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], mor_field_set["DOD_MO"], new_case);
