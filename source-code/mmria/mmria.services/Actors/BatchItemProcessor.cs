@@ -334,6 +334,8 @@ namespace RecordsProcessor_Worker.Actors
             private string config_couchdb_url = null;
             private string db_prefix = "";
 
+            HashSet<string> ExistingRecordIds = null;
+
             mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
             private System.Dynamic.ExpandoObject case_expando_object = null;
@@ -574,6 +576,16 @@ namespace RecordsProcessor_Worker.Actors
                 var VitalsImportStatusValue  = "0";
                 gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
                 
+                ExistingRecordIds = GetExistingRecordIds();
+                string record_id = null;
+                do
+                {
+                    record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
+                }
+                while(ExistingRecordIds.Contains(record_id));
+                gs.set_value("home_record/record_id", record_id, new_case);
+                
+
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -3994,6 +4006,42 @@ GNAME 27 50
 
             return result;
         }
+
+        public HashSet<string> GetExistingRecordIds()
+		{
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+            try
+            {        
+				string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+                string responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    result.Add(cvi.value.record_id);
+
+                }
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+    		return result;
+		} 
+
+		private int GenerateRandomFourDigits()
+		{
+			int _min = 1000;
+			int _max = 9999;
+			Random _rdm = new Random(System.DateTime.Now.Millisecond);
+			return _rdm.Next(_min, _max);
+		}
 
     }
 }

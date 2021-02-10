@@ -429,7 +429,7 @@ namespace migrate.set
 								record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
 							}
 							while(ExistingRecordIds.Contains(record_id));
-
+							ExistingRecordIds.Add(record_id);
 							if(case_change_count == 0)
 							{
 								case_change_count += 1;
@@ -450,6 +450,7 @@ namespace migrate.set
 							record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
 						}
 						while(ExistingRecordIds.Contains(record_id));
+						ExistingRecordIds.Add(record_id);
 
 						if(case_change_count == 0)
 						{

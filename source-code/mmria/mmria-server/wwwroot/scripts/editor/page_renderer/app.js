@@ -165,16 +165,17 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         delete_enabled_html = ' disabled = "disabled" ';
                     }
 
-                    //TODO: Get/Set dynamically
-                    const caseStatuses = [
-                        'Abstracting (incomplete)',
-                        'Abstraction Complete',
-                        'Ready For Review',
-                        'Review complete and decision entered',
-                        'Out of Scope and death certificate entered',
-                        'False Positive and death certificate entered',
-                        '(blank)'
-                    ]; 
+                    
+                    const caseStatuses = {
+                        "9999":"(blank)",	
+                        "1":"Abstracting (Incomplete)",
+                        "2":"Abstraction Complete",
+                        "3":"Ready for Review",
+                        "4":"Review Complete and Decision Entered",
+                        "5":"Out of Scope and Death Certificate Entered",
+                        "6":"False Positive and Death Certificate Entered",
+                        "0":"Vitals Import"
+                    }; 
                     const caseID = item.id;
                     const hostState = item.value.host_state;
                     const jurisdictionID = item.value.jurisdiction_id;
@@ -185,7 +186,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     const createdBy = item.value.created_by;
                     const lastUpdatedBy = item.value.last_updated_by;
                     const lockedBy = item.value.last_checked_out_by;
-                    const currentCaseStatus = item.value.case_status === 9999 ? '(blank)' : caseStatuses[+item.value.case_status-1];
+                    const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
                     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                     
@@ -402,9 +403,14 @@ function renderSortCaseStatus(p_case_view)
             value : '9999',
             display : '(blank)'
         },
+        ,
         {
             value : '1',
             display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
         },
         {
             value : '2',
