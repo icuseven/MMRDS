@@ -3185,68 +3185,7 @@ function add_new_case_button_click(p_input)
             </div>
 
             <dialog id="add_new_confirm_dialog"></dialog>
-
-            <!--
-                <br/>
-                <table id="new_case_table">
-                <tr>
-                <td>
-                Mother's First Name<br/><input id="new_first_name" type="text" value="" />
-                </td>
-                <td>
-                Mother's Middle Name<br/><input id="new_middle_name" type="text" value="" />
-                </td>
-                <td>
-                Mother's Last Name<br/><input id="new_last_name" type="text" value="" />
-                </td>
-                <tr>
-                <tr>
-                <td colspan=2>
-                    <fieldset>
-                    <legend>Date of Death*</legend>
-                    <table>
-                    <tr>
-                        <td>
-                        Month<br/>
-                        <select id="new_month_of_death" size=1>
-                        ${month_html.join("")}
-                        </select>
-                        </td>
-                        <td>
-                        Day<br/>
-                        <select id="new_day_of_death" size=1>
-                        ${day_html.join("")}
-                        </select>
-                        </td>
-                        <td>
-                        Year<br/>
-                        <select id="new_year_of_death" size=1>
-                        ${year_html.join("")}
-                        </select>
-
-                        </td>
-                    </tr>
-                    </table>
-                    </fieldset>
-                </td>
-                <td>
-                State of Death Record*<br/>
-                <select id="new_state_of_death" size=1>
-                ${state_html.join("")}
-                </select>
-                </td>
-                </tr>
-
-                <tr>
-                <td colspan=3>
-                <input style="background-color:#800080;color:#FFFFFF;" type="button" value="Generate Record ID & Continue" onclick="add_new_case_button_click()"/>
-                <input type="button" value="Cancel" onclick="g_render();"/>
-
-                </td>
-                </tr>
-                </table>
-            -->
-            `);
+        `);
 
 
         el.innerHTML = result.join("");
@@ -3290,15 +3229,7 @@ function add_new_case_button_click(p_input)
                         </ul>
                     </div>
                 </div>
-                <!--
-                <p style="background-color:#E8ADAA">Please enter data for the requred fileds 
-                <strong>Mother's Last Name,
-                Mother's First Name,
-                Date of Death</strong> (MM, DD, YYYY) and <strong>State of Death Record</strong> and try again.
-                </p>
-                -->
-            `
-            ;
+            `;
         }
         else
         {
