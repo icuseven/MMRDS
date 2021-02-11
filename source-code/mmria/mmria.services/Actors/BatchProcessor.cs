@@ -287,7 +287,7 @@ function validate_length(p_array, p_max_length)
         }
 
 
-        private bool save_batch(mmria.common.ije.Batch batch)
+        private bool save_batch(mmria.common.ije.Batch p_batch)
         {
             bool result = false;
 
@@ -296,7 +296,7 @@ function validate_length(p_array, p_max_length)
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(batch, settings);
 
-            string put_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/{this.batch.id}";
+            string put_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/{p_batch.id}";
             var document_curl = new mmria.server.cURL ("PUT", null, put_url, object_string, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
             try
             {
@@ -306,6 +306,27 @@ function validate_length(p_array, p_max_length)
                 if(put_result.ok)
                 {
                     result = true;
+
+
+                    var new_batch = new mmria.common.ije.Batch()
+                    {
+                        id = batch.id,
+                        date_created  = batch.date_created,
+                        created_by = batch.created_by,
+                        date_last_updated  = DateTime.UtcNow,
+                        last_updated_by = batch.last_updated_by, 
+                        Status = p_batch.Status,
+                        reporting_state = batch.reporting_state,
+                        ImportDate = batch.ImportDate,
+                        mor_file_name = batch.mor_file_name,
+                        nat_file_name = batch.nat_file_name,
+                        fet_file_name = batch.fet_file_name,
+                        StatusInfo = batch.StatusInfo,
+                        record_result = Convert(batch_item_set)
+
+                    };
+
+                    batch = new_batch;
                 }
                 
             }
