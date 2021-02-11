@@ -13,10 +13,10 @@ namespace RecordsProcessor_Worker.Actors
         {
             #region MOR Mappings
 	        { "DState","home_record/state" }, 
-            //3 home_recode/date_of_death - DOD_YR, DOD_MO, DOD_DY
-            { "DOD_YR", "home_recode/date_of_death/year"},
-            { "DOD_MO", "home_recode/date_of_death/month"},
-            { "DOD_DY", "home_recode/date_of_death/day"},
+            //3 home_record/date_of_death - DOD_YR, DOD_MO, DOD_DY
+            { "DOD_YR", "home_record/date_of_death/year"},
+            { "DOD_MO", "home_record/date_of_death/month"},
+            { "DOD_DY", "home_record/date_of_death/day"},
 
             //4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
             { "DOB_YR", "death_certificate/date_of_birth/year"},
@@ -328,19 +328,19 @@ namespace RecordsProcessor_Worker.Actors
 
         protected override void PreStart() => Console.WriteLine("Process_Message started");
         protected override void PostStop() => Console.WriteLine("Process_Message stopped");
-            private string config_timer_user_name = null;
-            private string config_timer_value = null;
+        private string config_timer_user_name = null;
+        private string config_timer_value = null;
 
-            private string config_couchdb_url = null;
-            private string db_prefix = "";
+        private string config_couchdb_url = null;
+        private string db_prefix = "";
 
-            HashSet<string> ExistingRecordIds = null;
+        HashSet<string> ExistingRecordIds = null;
 
-            mmria.common.couchdb.DBConfigurationDetail item_db_info;
+        mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
-            private System.Dynamic.ExpandoObject case_expando_object = null;
+        private System.Dynamic.ExpandoObject case_expando_object = null;
 
-            private Dictionary<string,string> StateDisplayToValue;
+        private Dictionary<string, string> StateDisplayToValue;
         public BatchItemProcessor()
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
@@ -360,7 +360,7 @@ namespace RecordsProcessor_Worker.Actors
 
             config_couchdb_url = mmria.services.vitalsimport.Program.couchdb_url;
             db_prefix = "";
-            
+
             mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
             item_db_info = db_config_set.detail_list[message.host_state];
 
@@ -394,7 +394,7 @@ namespace RecordsProcessor_Worker.Actors
                         };
                         */
 
-            
+
 
             string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
             var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
@@ -404,15 +404,15 @@ namespace RecordsProcessor_Worker.Actors
 
             StateDisplayToValue = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach(var kvp in lookup["lookup/state"])
+            foreach (var kvp in lookup["lookup/state"])
             {
                 StateDisplayToValue.Add(kvp.display, kvp.value);
             }
 
-            var is_case_already_present = false;      
+            var is_case_already_present = false;
 
-            
-      
+
+
 
             var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
             string mmria_id = null;
@@ -420,12 +420,12 @@ namespace RecordsProcessor_Worker.Actors
             var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
 
 
-            if(case_view_response.total_rows > 0)
+            if (case_view_response.total_rows > 0)
             {
                 int dod_yr = -1;
                 int dod_mo = -1;
                 int dod_dy = -1;
-                
+
                 int dob_yr = -1;
                 int dob_mo = -1;
                 int dob_dy = -1;
@@ -439,36 +439,36 @@ namespace RecordsProcessor_Worker.Actors
                 int.TryParse(mor_field_set["DOB_DY"], out dob_dy);
 
 
-                
-                foreach(var kvp in case_view_response.rows)
+
+                foreach (var kvp in case_view_response.rows)
                 {
-                    
+
 
                     if
                     (
-                        kvp.value.host_state.Equals(message.host_state, StringComparison.OrdinalIgnoreCase)  &&
-                        kvp.value.last_name.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase)  &&
+                        kvp.value.host_state.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
+                        kvp.value.last_name.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
                         kvp.value.first_name.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
                         kvp.value.date_of_death_year == dod_yr &&
                         kvp.value.date_of_death_month == dod_mo
-                        
+
                     )
                     {
                         var case_expando_object = GetCaseById(item_db_info, kvp.key);
-                        if(case_expando_object != null)
+                        if (case_expando_object != null)
                         {
 
                             migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(case_expando_object, "_id");
-					        mmria_id = value_result.result;
+                            mmria_id = value_result.result;
 
 
-                            var DSTATE_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DState"]); 
-                            var host_state_result = gs.get_value(case_expando_object, "host_state"); 
+                            var DSTATE_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DState"]);
+                            var host_state_result = gs.get_value(case_expando_object, "host_state");
                             var DOD_YR_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_YR"]);
                             var DOD_MO_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_MO"]);
                             var DOD_DY_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOD_DY"]);
                             var DOB_YR_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_YR"]);
-                            var DOB_MO_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_MO"]);                            
+                            var DOB_MO_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_MO"]);
                             var DOB_DY_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DOB_DY"]);
                             var LNAME_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["LNAME"]);
                             var GNAME_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["GNAME"]);
@@ -483,13 +483,13 @@ namespace RecordsProcessor_Worker.Actors
                                 DOB_MO_result.is_error == false &&
                                 DOB_DY_result.is_error == false &&
                                 LNAME_result.is_error == false &&
-                                GNAME_result.is_error == false 
+                                GNAME_result.is_error == false
                             )
                             {
                                 if
                                 (
-                                    host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase)  &&
-                                    LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase)  &&
+                                    host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
+                                    LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
                                     GNAME_result.result.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
                                     DOD_YR_result.result == dod_yr &&
                                     DOD_MO_result.result == dod_mo &&
@@ -497,22 +497,22 @@ namespace RecordsProcessor_Worker.Actors
                                     DOB_YR_result.result == dob_yr &&
                                     DOB_MO_result.result == dob_mo &&
                                     DOB_DY_result.result == dob_dy
-                                    
+
                                 )
                                 {
-                                        is_case_already_present = true;
-                                        break;
+                                    is_case_already_present = true;
+                                    break;
                                 }
                             }
 
                         }
                     }
                 }
-                
+
             }
 
 
-            if(is_case_already_present)
+            if (is_case_already_present)
             {
                 var result = new mmria.common.ije.BatchItem()
                 {
@@ -521,7 +521,7 @@ namespace RecordsProcessor_Worker.Actors
                     ImportDate = message.ImportDate,
                     ImportFileName = message.ImportFileName,
                     ReportingState = message.host_state,
-                    
+
                     StateOfDeathRecord = mor_field_set["DSTATE"],
                     DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
@@ -544,13 +544,13 @@ namespace RecordsProcessor_Worker.Actors
                     ImportDate = message.ImportDate,
                     ImportFileName = message.ImportFileName,
                     ReportingState = message.host_state,
-                    
+
                     StateOfDeathRecord = mor_field_set["DSTATE"],
                     DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
-            
+
                     mmria_id = mmria_id,
                     StatusDetail = "Inprocess of creating new case"
                 };
@@ -559,9 +559,9 @@ namespace RecordsProcessor_Worker.Actors
 
 
                 var new_case = new System.Dynamic.ExpandoObject();
-                
+
                 mmria.services.vitalsimport.default_case.create(metadata, new_case);
-                
+
                 var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
 
                 #region MOR Assignments
@@ -573,18 +573,18 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("version", metadata.version, new_case);
                 gs.set_value("host_state", message.host_state, new_case);
 
-                var VitalsImportStatusValue  = "0";
+                var VitalsImportStatusValue = "0";
                 gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
-                
+
                 ExistingRecordIds = GetExistingRecordIds();
                 string record_id = null;
                 do
                 {
                     record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
                 }
-                while(ExistingRecordIds.Contains(record_id));
+                while (ExistingRecordIds.Contains(record_id));
                 gs.set_value("home_record/record_id", record_id, new_case);
-                
+
 
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
@@ -703,11 +703,29 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["ZIP9_D"], mor_field_set["ZIP9_D"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COUNTYTEXT_D"], mor_field_set["COUNTYTEXT_D"], new_case);
 
+                Set_address_of_death_Gecocode(gs, get_geocode_info(ADDRESS_OF_DEATH_street_Rule(mor_field_set["STNUM_D"]
+                                                                                                    , mor_field_set["PREDIR_D"]
+                                                                                                    , mor_field_set["STNAME_D"]
+                                                                                                    , mor_field_set["STDESIG_D"]
+                                                                                                    , mor_field_set["POSTDIR_D"])
+                                                                                                    , mor_field_set["CITYTEXT_D"]
+                                                                                                    , STATETEXT_D_Rule(mor_field_set["STATETEXT_D"])
+                                                                                                    , mor_field_set["ZIP9_D"]), new_case);
+
                 gs.set_value(IJE_to_MMRIA_Path["PLACE_OF_LAST_RESIDENCE_street"], PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
                                                                                     , mor_field_set["PREDIR_R"]
                                                                                     , mor_field_set["STNAME_R"]
                                                                                     , mor_field_set["STDESIG_R"]
                                                                                     , mor_field_set["POSTDIR_R"]), new_case);
+
+                //var geocode = get_geocode_info(PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
+                //                                                                    , mor_field_set["PREDIR_R"]
+                //                                                                    , mor_field_set["STNAME_R"]
+                //                                                                    , mor_field_set["STDESIG_R"]
+                //                                                                    , mor_field_set["POSTDIR_R"])
+                //    , mor_field_set["CITYTEXT_R"]
+                //    , mor_field_set["ZIP9_R"]
+                //    , mor_field_set["COUNTYTEXT_R"]);
 
                 //gs.set_value(IJE_to_MMRIA_Path["STNUM_R"], mor_field_set["STNUM_R"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["PREDIR_R"], mor_field_set["PREDIR_R"], new_case);
@@ -753,7 +771,7 @@ namespace RecordsProcessor_Worker.Actors
 
                 #region ParentForm Section
 
-                if(nat_field_set != null && nat_field_set.Count > 0)
+                if (nat_field_set != null && nat_field_set.Count > 0)
                 {
                     var field_set = nat_field_set.First();
 
@@ -888,7 +906,7 @@ namespace RecordsProcessor_Worker.Actors
                 for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
                 {
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index,  nat_field_set[nat_index]["HOSPTO"])});
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
@@ -959,16 +977,16 @@ namespace RecordsProcessor_Worker.Actors
                 for (int fet_index = 0; fet_index < fet_field_set?.Count; fet_index++)
                 {
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["IDOB_YR"], fet_field_set[fet_index]["IDOB_MO"], fet_field_set[fet_index]["IDOB_DY"])) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["METHNIC5"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["METHNIC5"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"])});
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"] , new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"])});
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["METHNIC5"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
                 }
 
                 //foreach (var field_set in fet_field_set)
@@ -987,7 +1005,7 @@ namespace RecordsProcessor_Worker.Actors
                 //}
                 #endregion
 
-                var case_dictionary = new_case as IDictionary<string,object>;
+                var case_dictionary = new_case as IDictionary<string, object>;
 
                 var finished = new mmria.common.ije.BatchItem()
                 {
@@ -996,13 +1014,13 @@ namespace RecordsProcessor_Worker.Actors
                     ImportDate = message.ImportDate,
                     ImportFileName = message.ImportFileName,
                     ReportingState = message.host_state,
-                    
+
                     StateOfDeathRecord = mor_field_set["DSTATE"],
                     DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
-            
+
                     mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
@@ -1012,11 +1030,11 @@ namespace RecordsProcessor_Worker.Actors
                 var db_info = _dbConfigSet.detail_list[message.host_state];
                 string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{mmria_id}";
 
-                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(new_case, settings);
 
-                var document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+                var document_curl = new mmria.server.cURL("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
 
                 var document_put_response = new mmria.common.model.couchdb.document_put_response();
                 try
@@ -1024,7 +1042,7 @@ namespace RecordsProcessor_Worker.Actors
                     var responseFromServer = document_curl.execute();
                     document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     finished = new mmria.common.ije.BatchItem()
                     {
@@ -1033,13 +1051,13 @@ namespace RecordsProcessor_Worker.Actors
                         ImportDate = message.ImportDate,
                         ImportFileName = message.ImportFileName,
                         ReportingState = message.host_state,
-                        
+
                         StateOfDeathRecord = mor_field_set["DSTATE"],
                         DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                         DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                         LastName = mor_field_set["LNAME"],
                         FirstName = mor_field_set["GNAME"],
-                
+
                         mmria_id = mmria_id,
                         StatusDetail = "Error\n" + ex.ToString()
                     };
@@ -1053,33 +1071,191 @@ namespace RecordsProcessor_Worker.Actors
 
 
 
-				//all_list_set = get_metadata_node_by_type(metadata, "list");
+            //all_list_set = get_metadata_node_by_type(metadata, "list");
 
 
-/*
-fail if three records do NOT match file names record in report
+            /*
+            fail if three records do NOT match file names record in report
 
-exclude any records that do NOT have - content validation failed
+            exclude any records that do NOT have - content validation failed
 
-1.	Date of Death
-2.	SODR
-3.	CDC generated Unique ID
+            1.	Date of Death
+            2.	SODR
+            3.	CDC generated Unique ID
 
-key fields - only exact matches are excluded
+            key fields - only exact matches are excluded
 
-1 mmria site/host/ reporting state - file-name ? or 2.	SODR
-2 home_record/state of death - DState
-3 home_recode/date_of_death - DOD_YR, DOD_MO, DOD_DY
-4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_BY
-5 home_record/last_name - LNAME  
-6 home_record/first_name - GNAME
+            1 mmria site/host/ reporting state - file-name ? or 2.	SODR
+            2 home_record/state of death - DState
+            3 home_record/date_of_death - DOD_YR, DOD_MO, DOD_DY
+            4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_BY
+            5 home_record/last_name - LNAME  
+            6 home_record/first_name - GNAME
 
-*/
+            */
 
 
         }
 
-       
+        private void Set_address_of_death_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
+        {
+            string urban_status = null;
+            string state_county_fips = null;
+
+            var outputGeocode_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode;
+            var censusValues_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.CensusValues?.FirstOrDefault()?.CensusValue1;
+
+            if (outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            {
+                string latitude = outputGeocode_data.Latitude;
+                string longitude = outputGeocode_data.Longitude;
+                string feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
+                string naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
+                string naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
+                string naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
+                string naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
+                string census_state_fips = censusValues_data.CensusStateFips;
+                string census_county_fips = censusValues_data.CensusCountyFips;
+                string census_tract_fips = censusValues_data.CensusTract;
+                string census_cbsa_fips = censusValues_data.CensusCbsaFips;
+                string census_cbsa_micro = censusValues_data.CensusCbsaMicro;
+                string census_met_div_fips = censusValues_data.CensusMetDivFips;
+                // calculate urban_status
+
+                
+                if
+                (
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) > 0 &&
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) < 7 &&
+                    censusValues_data.CensusCbsaFips == ""
+                )
+                {
+                    urban_status = "Rural";
+                }
+                else if
+                (
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) > 0 &&
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) < 7 &&
+                    int.Parse(censusValues_data.CensusCbsaFips) > 0
+                )
+                {
+                    if (!string.IsNullOrEmpty(censusValues_data.CensusMetDivFips))
+                    {
+                        urban_status = "Metropolitan Division";
+                    }
+                    else if (int.Parse(censusValues_data.CensusCbsaMicro) == 0)
+                    {
+                        urban_status = "Metropolitan";
+                    }
+                    else if (int.Parse(censusValues_data.CensusCbsaMicro) == 1)
+                    {
+                        urban_status = "Micropolitan";
+                    }
+                }
+                else
+                {
+                    urban_status = "Undetermined";
+                }
+
+                // calculate state_county_fips
+                if (!String.IsNullOrEmpty(censusValues_data.CensusStateFips) && !String.IsNullOrEmpty(censusValues_data.CensusCountyFips))
+                {
+                    state_county_fips = censusValues_data.CensusStateFips + censusValues_data.CensusCountyFips;
+                }
+
+                gs.set_value("death_certificate/place_of_last_residence/latitude", latitude, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/longitude", longitude, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_state_fips", census_state_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_county_fips", census_county_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_tract_fips", census_tract_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_cbsa_fips", census_cbsa_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_cbsa_micro", census_cbsa_micro, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
+            }
+            else
+            {
+                string feature_matching_geography_type = "Unmatchable";
+                string latitude = "";
+                string longitude = "";
+                string naaccr_gis_coordinate_quality_code = "";
+                string naaccr_gis_coordinate_quality_type = "";
+                string naaccr_census_tract_certainty_code = "";
+                string naaccr_census_tract_certainty_type = "";
+                string census_state_fips = "";
+                string census_county_fips = "";
+                string census_tract_fips = "";
+                string census_cbsa_fips = "";
+                string census_cbsa_micro = "";
+                string census_met_div_fips = "";
+                urban_status = "";
+                state_county_fips = "";
+                gs.set_value("death_certificate/place_of_last_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/latitude", latitude, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/longitude", longitude, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_state_fips", census_state_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_county_fips", census_county_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_tract_fips", census_tract_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_cbsa_fips", census_cbsa_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_cbsa_micro", census_cbsa_micro, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
+                gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
+
+            }
+        }
+
+        private Geocode_Response get_geocode_info(string street, string city, string state, string zip)
+        {
+            var response = new Geocode_Response();
+
+            if (!string.IsNullOrEmpty(state))
+            {
+                var check_state = state.Split("-");
+                state = check_state[0];
+            }
+
+            var geoservices_baseURL = "https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress=";
+            var apikey = "7c39ae93786d4aa3adb806cb66de51b8";
+            var format = "json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01";
+
+            var requestURL = $"{geoservices_baseURL}{street}&city={city}&state={state}&zip={zip}&apikey={apikey}&format={format}";
+
+            var document_curl = new mmria.server.cURL("GET", null, requestURL, null);
+
+            var curl_response = document_curl.execute();
+            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Geocode_Response>(curl_response);
+
+            if (data != null 
+                && data.FeatureMatchingResultType != null
+                && data.OutputGeocodes != null
+                && data.OutputGeocodes.Count > 0
+                && data.OutputGeocodes.FirstOrDefault() != null
+                && data.OutputGeocodes.FirstOrDefault().outputGeocode != null
+                && data.OutputGeocodes.FirstOrDefault().outputGeocode.FeatureMatchingResultType != null
+                && !(data?.FeatureMatchingResultType?.Contains("Unmatchable") == true
+                    || data?.FeatureMatchingResultType?.Contains("ExceptionOccurred") == true 
+                    || data?.FeatureMatchingResultType?.Contains("0") == true)
+                && !(data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode?.FeatureMatchingResultType?.Contains("Unmatchable") == true
+                     || data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode?.FeatureMatchingResultType?.Contains("ExceptionOccurred") == true))
+                {
+                //If the data passes checks and there was a match return it.
+                response = data;
+            }
+
+            return response;
+        }
+
         struct Result_Struct
         {
             public System.Dynamic.ExpandoObject[] docs;
@@ -1088,7 +1264,7 @@ key fields - only exact matches are excluded
         struct Selector_Struc
         {
             //public System.Dynamic.ExpandoObject selector;
-            public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
+            public System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> selector;
             public string[] fields;
 
             public int limit;
@@ -1102,29 +1278,29 @@ key fields - only exact matches are excluded
             try
             {
 
-            	var selector_struc = new Selector_Struc();
-				selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
-				selector_struc.limit = 10000;
-				selector_struc.selector.Add(p_selector, new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
-				selector_struc.selector[p_selector].Add("$eq", p_find_value);
+                var selector_struc = new Selector_Struc();
+                selector_struc.selector = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+                selector_struc.limit = 10000;
+                selector_struc.selector.Add(p_selector, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+                selector_struc.selector[p_selector].Add("$eq", p_find_value);
 
-            	Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
+                settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject(selector_struc, settings);
 
-				System.Console.WriteLine(selector_struc_string);
+                System.Console.WriteLine(selector_struc_string);
 
-/*
-				string find_url = $"{db_server_url}/{db_name}/_find";
+                /*
+                                string find_url = $"{db_server_url}/{db_name}/_find";
 
-				var case_curl = new mmria.server.cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
-				string responseFromServer = await case_curl.executeAsync();
-				
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
-*/
-				System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
+                                var case_curl = new mmria.server.cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
+                                string responseFromServer = await case_curl.executeAsync();
+
+                                result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+                */
+                System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -1132,20 +1308,20 @@ key fields - only exact matches are excluded
             return result;
         }
 
-        private Dictionary<string,mmria.common.metadata.value_node[]> get_look_up(mmria.common.metadata.app p_metadata)
+        private Dictionary<string, mmria.common.metadata.value_node[]> get_look_up(mmria.common.metadata.app p_metadata)
         {
-			var result = new Dictionary<string,mmria.common.metadata.value_node[]>(StringComparer.OrdinalIgnoreCase);
+            var result = new Dictionary<string, mmria.common.metadata.value_node[]>(StringComparer.OrdinalIgnoreCase);
 
-			foreach(var node in p_metadata.lookup)
-			{
-				result.Add("lookup/" + node.name, node.values);
-			}
-			return result;
-		}	
+            foreach (var node in p_metadata.lookup)
+            {
+                result.Add("lookup/" + node.name, node.values);
+            }
+            return result;
+        }
 
         private mmria.common.ije.BatchItem Convert
         (
-                string LineItem, 
+                string LineItem,
                 DateTime ImportDate,
                 string ImportFileName,
                 string ReportingState
@@ -1173,7 +1349,7 @@ key fields - only exact matches are excluded
                 ImportDate = ImportDate,
                 ImportFileName = ImportFileName,
                 ReportingState = ReportingState,
-                
+
                 StateOfDeathRecord = x["DSTATE"],
                 DateOfDeath = $"{x["DOD_YR"]}-{x["DOD_MO"]}-{x["DOD_DY"]}",
                 DateOfBirth = $"{x["DOB_YR"]}-{x["DOB_MO"]}-{x["DOB_DY"]}",
@@ -1186,10 +1362,10 @@ key fields - only exact matches are excluded
             return result;
         }
 
-        private Dictionary<string,string> mor_get_header(string row)
+        private Dictionary<string, string> mor_get_header(string row)
         {
-                var result = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-                /*
+            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            /*
 DState 5 2
 DOD_YR 1 4, 
 DOD_MO 237 2, 
@@ -1200,16 +1376,16 @@ DOD_DY 239 2
 LNAME 78 50
 GNAME 27 50
 */
- //result.Add("DState",row.Substring(5-1, 2).Trim());
- //result.Add("DOD_YR",row.Substring(1-1, 4).Trim());
-  //result.Add("DOD_MO",row.Substring(237-1, 2).Trim());
- //result.Add("DOD_DY",row.Substring(239-1, 2).Trim());
-  //result.Add("DOB_YR",row.Substring(205-1, 4).Trim());
-  //result.Add("DOB_MO",row.Substring(209-1, 2).Trim());
- //result.Add("DOB_DY",row.Substring(211-1, 2).Trim());
- //result.Add("LNAME",row.Substring(78-1, 50).Trim());
- //result.Add("GNAME",row.Substring(27-1, 50).Trim());
-  //result.Add("SSN",row.Substring(191-1, 9).Trim());
+            //result.Add("DState",row.Substring(5-1, 2).Trim());
+            //result.Add("DOD_YR",row.Substring(1-1, 4).Trim());
+            //result.Add("DOD_MO",row.Substring(237-1, 2).Trim());
+            //result.Add("DOD_DY",row.Substring(239-1, 2).Trim());
+            //result.Add("DOB_YR",row.Substring(205-1, 4).Trim());
+            //result.Add("DOB_MO",row.Substring(209-1, 2).Trim());
+            //result.Add("DOB_DY",row.Substring(211-1, 2).Trim());
+            //result.Add("LNAME",row.Substring(78-1, 50).Trim());
+            //result.Add("GNAME",row.Substring(27-1, 50).Trim());
+            //result.Add("SSN",row.Substring(191-1, 9).Trim());
 
             result.Add("DOD_YR", DOD_YR_Rule(row.Substring(0, 4).Trim()));
             result.Add("DSTATE", row.Substring(4, 2).Trim());
@@ -1337,7 +1513,7 @@ GNAME 27 50
 
             /*
             2 home_record/state of death - DState
-3 home_recode/date_of_death - DOD_YR, DOD_MO, DOD_DY
+3 home_record/date_of_death - DOD_YR, DOD_MO, DOD_DY
 4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
 5 home_record/last_name - LNAME  
 6 home_record/first_name - GNAME*/
@@ -2404,7 +2580,7 @@ GNAME 27 50
 
             if (value == "9999")
                 value = "9999";
-            
+
             return value;
         }
 
@@ -2721,7 +2897,7 @@ GNAME 27 50
 
             If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "99" )
+            if (value == "99")
                 value = "";
 
             return value;
@@ -3243,7 +3419,7 @@ GNAME 27 50
             If value = 9999, map to 9999 (blank).*/
             if (value == "9999")
                 value = "9999";
-            
+
             return value;
         }
 
@@ -3861,7 +4037,7 @@ GNAME 27 50
             string case_status = "all"
         )
         {
-            string sort_view = sort.ToLower ();
+            string sort_view = sort.ToLower();
             switch (sort_view)
             {
                 case "by_date_created":
@@ -3877,40 +4053,40 @@ GNAME 27 50
                 case "by_state_of_death":
                 case "by_date_last_checked_out":
                 case "by_last_checked_out_by":
-                
+
                 case "by_case_status":
                     break;
 
                 default:
                     sort_view = "by_date_created";
-                break;
+                    break;
             }
 
 
 
-			try
-			{
-                System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-                request_builder.Append ($"{config_couchdb_url}/{db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+            try
+            {
+                System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
+                request_builder.Append($"{config_couchdb_url}/{db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
-                if (skip > -1) 
+                if (skip > -1)
                 {
-                    request_builder.Append ($"skip={skip}");
-                } 
-                else 
+                    request_builder.Append($"skip={skip}");
+                }
+                else
                 {
 
-                    request_builder.Append ("skip=0");
+                    request_builder.Append("skip=0");
                 }
 
-                if (take > -1) 
+                if (take > -1)
                 {
-                    request_builder.Append ($"&limit={take}");
+                    request_builder.Append($"&limit={take}");
                 }
 
-                if (descending) 
+                if (descending)
                 {
-                    request_builder.Append ("&descending=true");
+                    request_builder.Append("&descending=true");
                 }
 
 
@@ -3920,84 +4096,84 @@ GNAME 27 50
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-                
-                string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
+
+                string key_compare = search_key.ToLower().Trim(new char[] { '"' });
 
                 mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
                 result.offset = case_view_response.offset;
                 result.total_rows = case_view_response.total_rows;
 
-                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                 {
                     bool add_item = false;
 
-                    if(is_matching_search_text(cvi.value.last_name, key_compare))
+                    if (is_matching_search_text(cvi.value.last_name, key_compare))
                     {
                         add_item = true;
                     }
 
-                    if(add_item)
+                    if (add_item)
                     {
-                        result.rows.Add (cvi);
+                        result.rows.Add(cvi);
                     }
-                
+
                 }
 
 
                 result.total_rows = result.rows.Count;
-                result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+                result.rows = result.rows.Skip(skip).Take(take).ToList();
 
                 return result;
-                
-            }
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
 
-			}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+            }
 
 
             return null;
         }
 
-        public System.Dynamic.ExpandoObject GetCaseById(mmria.common.couchdb.DBConfigurationDetail db_info, string case_id) 
-		{ 
-			try
-			{
+        public System.Dynamic.ExpandoObject GetCaseById(mmria.common.couchdb.DBConfigurationDetail db_info, string case_id)
+        {
+            try
+            {
                 string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_all_docs?include_docs=true";
 
-                if (!string.IsNullOrWhiteSpace (case_id)) 
+                if (!string.IsNullOrWhiteSpace(case_id))
                 {
                     request_string = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
-					var case_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
-					string responseFromServer = case_curl.execute();
+                    var case_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                    string responseFromServer = case_curl.execute();
 
-					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 
-					return result;
+                    return result;
 
-                } 
+                }
 
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
-			} 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
 
-			return null;
-		} 
+            return null;
+        }
 
         private bool is_matching_search_text(string p_val1, string p_val2)
         {
             var result = false;
 
-            if 
+            if
             (
-                !string.IsNullOrWhiteSpace(p_val1) && 
+                !string.IsNullOrWhiteSpace(p_val1) &&
                 p_val1.Length > 3 &&
                 (
-                    p_val2.IndexOf (p_val1, StringComparison.OrdinalIgnoreCase) > -1 ||
-                    p_val1.IndexOf (p_val2, StringComparison.OrdinalIgnoreCase) > -1
+                    p_val2.IndexOf(p_val1, StringComparison.OrdinalIgnoreCase) > -1 ||
+                    p_val1.IndexOf(p_val2, StringComparison.OrdinalIgnoreCase) > -1
                 )
             )
             {
@@ -4008,40 +4184,172 @@ GNAME 27 50
         }
 
         public HashSet<string> GetExistingRecordIds()
-		{
+        {
             var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 
             try
-            {        
-				string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+            {
+                string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
 
                 var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
                 string responseFromServer = case_view_curl.execute();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-                foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                 {
                     result.Add(cvi.value.record_id);
 
                 }
-			}
-			catch(Exception ex) 
-			{
-				Console.WriteLine (ex);
-			}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
 
-    		return result;
-		} 
+            return result;
+        }
 
-		private int GenerateRandomFourDigits()
-		{
-			int _min = 1000;
-			int _max = 9999;
-			Random _rdm = new Random(System.DateTime.Now.Millisecond);
-			return _rdm.Next(_min, _max);
-		}
+        private int GenerateRandomFourDigits()
+        {
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random(System.DateTime.Now.Millisecond);
+            return _rdm.Next(_min, _max);
+        }
 
+        public class jsonDeseralizedGeocode_response : mmria.common.model.geocode_response
+        {
+            public jsonDeseralizedGeocode_response(IEnumerable<mmria.common.model.OutputGeocode> outputGeocodes)
+            {
+                OutputGeocodes = outputGeocodes?.ToArray();
+            }
+        }
+
+        public class jsonObjectArrayForGeoCode
+        {
+
+        }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+        public class InputAddress
+        {
+            public string StreetAddress { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string Zip { get; set; }
+        }
+
+        public class OutputGeocode2
+        {
+            public string Latitude { get; set; }
+            public string Longitude { get; set; }
+            public string NAACCRGISCoordinateQualityCode { get; set; }
+            public string NAACCRGISCoordinateQualityType { get; set; }
+            public string MatchScore { get; set; }
+            public string MatchType { get; set; }
+            public string FeatureMatchingResultType { get; set; }
+            public string FeatureMatchingResultCount { get; set; }
+            public string FeatureMatchingGeographyType { get; set; }
+            public string RegionSize { get; set; }
+            public string RegionSizeUnits { get; set; }
+            public string MatchedLocationType { get; set; }
+            public string ExceptionOccured { get; set; }
+            public string Exception { get; set; }
+            public string ErrorMessage { get; set; }
+        }
+
+        public class CensusValue1
+        {
+            public string CensusYear { get; set; }
+            public string CensusTimeTaken { get; set; }
+            public string NAACCRCensusTractCertaintyCode { get; set; }
+            public string NAACCRCensusTractCertaintyType { get; set; }
+            public string CensusBlock { get; set; }
+            public string CensusBlockGroup { get; set; }
+            public string CensusTract { get; set; }
+            public string CensusCountyFips { get; set; }
+            public string CensusStateFips { get; set; }
+            public string CensusCbsaFips { get; set; }
+            public string CensusCbsaMicro { get; set; }
+            public string CensusMcdFips { get; set; }
+            public string CensusMetDivFips { get; set; }
+            public string CensusMsaFips { get; set; }
+            public string CensusPlaceFips { get; set; }
+            public string ExceptionOccured { get; set; }
+            public string Exception { get; set; }
+            public string ErrorMessage { get; set; }
+        }
+
+        public class CensusValue
+        {
+            public CensusValue1 CensusValue1 { get; set; }
+        }
+
+        public class OutputGeocodes
+        {
+            public OutputGeocode2 outputGeocode { get; set; }
+            public List<CensusValue> CensusValues { get; set; }
+        }
+
+        public class Geocode_Response
+        {
+            public string version { get; set; }
+            public string TransactionId { get; set; }
+            public string Version { get; set; }
+            public string QueryStatusCodeValue { get; set; }
+            public string FeatureMatchingResultType { get; set; }
+            public string FeatureMatchingResultCount { get; set; }
+            public string TimeTaken { get; set; }
+            public string ExceptionOccured { get; set; }
+            public string Exception { get; set; }
+            public InputAddress InputAddress { get; set; }
+            public List<OutputGeocodes> OutputGeocodes { get; set; }
+        }
+
+
+
+
+        //public class OutputGeocode : OutputGeocodeItem
+        //{
+        //    public OutputGeocode() { }
+
+        //    public string Latitude { get; set; }
+        //    public string Longitude { get; set; }
+        //    public string NAACCRGISCoordinateQualityCode { get; set; }
+        //    public string NAACCRGISCoordinateQualityType { get; set; }
+        //    public string MatchScore { get; set; }
+        //    public string MatchType { get; set; }
+        //    public string FeatureMatchingResultType { get; set; }
+        //    public string FeatureMatchingResultCount { get; set; }
+        //    public string FeatureMatchingGeographyType { get; set; }
+        //    public string RegionSize { get; set; }
+        //    public string RegionSizeUnits { get; set; }
+        //    public string MatchedLocationType { get; set; }
+        //    public string ExceptionOccured { get; set; }
+        //    public string Exception { get; set; }
+        //    public string ErrorMessage { get; set; }
+
+        //}
+        //public class geocode_response
+        //{
+        //    public geocode_response()
+        //    {
+        //    }
+
+        //    //public string version { get; set; }
+        //    public string TransactionId { get; set; }
+        //    public string Version { get; set; }
+        //    public string QueryStatusCodeValue { get; set; }
+        //    public string FeatureMatchingResultType { get; set; }
+        //    public string FeatureMatchingResultCount { get; set; }
+        //    public string TimeTaken { get; set; }
+        //    public string ExceptionOccured { get; set; }
+        //    public string Exception { get; set; }
+        //    public InputAddress InputAddress { get; set; }
+        //    public OutputGeocodeItem[] OutputGeocodes { get; set; }
+
+        //}
     }
 }
