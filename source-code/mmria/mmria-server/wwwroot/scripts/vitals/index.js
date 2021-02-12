@@ -255,13 +255,17 @@ function render_report_click(p_batch, p_index)
             batchedItemsByStatus[`batch_item_status_${i}`] = [];
         }
         
-        //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
-        for (let i = 0; i < p_batch.record_result.length; i++) {
-            let item = p_batch.record_result[i];
+        for (let i = 0; i < p_batch.length; i++) {
+            let newBatch = p_batch[i];
 
-            for (let j = 0; j < batch_item_status.length; j++) {
-                if (item.status === j) {
-                    batchedItemsByStatus[`batch_item_status_${j}`].push(item);
+            //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
+            for (let j = 0; j < newBatch.record_result.length; j++) {
+                let newBatchItem = newBatch.record_result[j];
+
+                for (let k = 0; k < batch_item_status.length; k++) {
+                    if (newBatchItem.status === k) {
+                        batchedItemsByStatus[`batch_item_status_${k}`].push(newBatchItem);
+                    }
                 }
             }
         }
