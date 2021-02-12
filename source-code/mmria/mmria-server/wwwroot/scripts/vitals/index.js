@@ -276,8 +276,11 @@ function render_report_click(p_batch, p_index)
     }
 
     function renderVitalsReportTable(index, items) {
+        //Lets sort our batched items by descending order
+        const sortedItems = items.slice().sort((a,b) => new Date(b.importDate) - new Date(a.importDate));
+
         html_builder.push(`<div class="report-section">`);
-            html_builder.push(`<p>Total Records: <strong>${items.length}</strong></p>`);
+            html_builder.push(`<p>Total Records: <strong>${sortedItems.length}</strong></p>`);
             html_builder.push(`<table class="table">`);
                 html_builder.push(`
                     <thead class="thead">
@@ -318,12 +321,12 @@ function render_report_click(p_batch, p_index)
                 statusDetail: null
                 */
 
-                for(let i = 0; i < items.length; i++)
+                for(let i = 0; i < sortedItems.length; i++)
                 {
-                    let item = items[i];
+                    let item = sortedItems[i];
                     html_builder.push
                     (`
-                        <tr class="tr">
+                        <tr class="tr" data-import-date="${item.importDate}">
                             <td class="td text-align-center">${i+1}</td>
                             <td class="td">${item.mmria_record_id}</td>
                             <td class="td">${item.cdcUniqueID}</td>
@@ -342,7 +345,7 @@ function render_report_click(p_batch, p_index)
                 }
                 html_builder.push("</tbody>");
             html_builder.push("</table>");
-            html_builder.push(`<p>Total Records: <strong>${items.length}</strong></p>`);
+            html_builder.push(`<p>Total Records: <strong>${sortedItems.length}</strong></p>`);
         html_builder.push(`</div>`);
     }
 
