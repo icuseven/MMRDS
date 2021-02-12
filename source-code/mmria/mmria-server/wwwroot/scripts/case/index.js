@@ -3284,3 +3284,9 @@ function add_new_case_button_click(p_input)
 
     }
 }
+
+function case_progress_info_id_click()
+{
+    let el = document.getElementById("case-progress-info-id");
+    el.close();
+}
