@@ -170,7 +170,9 @@ function renderReportByState(p_value, callback)
     p_value === 'all' ? batchedStates = g_batch_list : batchedStates.push(g_batch_list.filter(item => item.reporting_state === p_value));
     
     for (let i = 0; i < batchedStates.length; i++) {
-        render_report_click(batchedStates, i)
+        let batchedStateItem = batchedStates[i];
+
+        render_report_click(batchedStateItem, i)
     }
 
     if (callback) {
@@ -231,7 +233,7 @@ function render_report_click(p_batch, p_index)
 {
     let html_builder = [];
 
-    if (p_batch < 1) {
+    if (p_batch.length < 1) {
         html_builder.push("");
     } else {
         let batch = g_batch_list[p_index];
@@ -256,11 +258,11 @@ function render_report_click(p_batch, p_index)
         }
         
         for (let i = 0; i < p_batch.length; i++) {
-            let newBatch = p_batch[i];
+            let newBatchGroup = p_batch[i];
 
             //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
-            for (let j = 0; j < newBatch.record_result.length; j++) {
-                let newBatchItem = newBatch.record_result[j];
+            for (let j = 0; j < newBatchGroup.record_result.length; j++) {
+                let newBatchItem = newBatchGroup.record_result[j];
 
                 for (let k = 0; k < batch_item_status.length; k++) {
                     if (newBatchItem.status === k) {
