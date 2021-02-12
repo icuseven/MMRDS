@@ -66,30 +66,68 @@ function clear_all_data_click()
 	});
 }
 
+var g_current_state_batch = '';
+
 function render_batch_list()
 {
     let html_builder = [];
-    html_builder.push("<ul>");
+
+    html_builder.push("<ul class='pl-0'>");
     if(g_batch_list == null)
     {
         html_builder.push(`<li>Unable to connect to vitals service.</li>`);
     }
     else if(g_batch_list.length > 0)
     {
-        for(let i = 0; i < g_batch_list.length; i++)
-        {
-            let item = g_batch_list[i];
+        //empty array to hold all the different state variations
+        let batchedStateOptions = [];
+
+        for (let j = 0; j < g_batch_list.length; j++) {
+            let item = g_batch_list[j];
+            let itemState = item.reporting_state;
+            
+            if (batchedStateOptions.indexOf(itemState) === -1) {
+                batchedStateOptions.push(itemState)
+            }
+        }
+        batchedStateOptions.sort();
+
+        //Render the State options dynamica
+        //Render the begining Date options
+        if (batchedStateOptions.length > 0) {
             html_builder.push(`
-                <li>
-                    <strong>${item.mor_file_name}</strong> (${batch_status[item.status]}) - ${item.importDate}
-                    <button class="btn btn-outline" onclick="render_report_click(${i})">View</button>
-                    <!--<input type="button" value="view report" onclick="render_report_click(${i})" />-->
-                    <!--|-->
-                    <button class="btn btn-outline" onclick="refresh_click(${i})">Refresh</button>
-                    <!--<input type="button" value="refresh" onclick="refresh_click(${i})" />-->
-                </li>
+                <div class="form-inline">
+                    <label class="justify-content-start" style="width: 110px" for="batch-by-state"><strong>State:</strong></label>
+                    <select id="batch-by-state" class="form-control" onchange="javascript:renderReportByState(this.value, () => renderStateImportDateOptions(this.value))">
+                        <option value="">Select State</option>
+                        <option value="all">All</option>
+                        ${batchedStateOptions.map(state => `<option value="${state}">${state}</option>`)}
+                    </select>
+                </div>
+
+                <div class="form-inline mt-3">
+                    <label class="justify-content-start" style="width: 110px" for="batch-by-state-date"><strong>Import Date:</strong></label>
+                    <select id="batch-by-state-date" class="form-control" disabled onchange="javascript:renderReportByStateImportDate(this.value)">
+                        <option value="">Select Date</option>
+                        <option value="all">All</option>
+                    </select>
+                </div>
             `);
         }
+        
+        // //Original code that was working
+        // //Keeping for legacy and reference
+        // for(let i = 0; i < g_batch_list.length; i++)
+        // {
+        //     let item = g_batch_list[i];
+        //     html_builder.push(`
+        //         <li>
+        //             <strong>${item.mor_file_name}</strong> (${batch_status[item.status]}) - ${item.importDate}
+        //             <button class="btn btn-outline" onclick="render_report_click(${i})">View</button>
+        //             <button class="btn btn-outline" onclick="refresh_click(${i})">Refresh</button>
+        //         </li>
+        //     `);
+        // }
     }
     else
     {
@@ -101,46 +139,116 @@ function render_batch_list()
     el.innerHTML = html_builder.join("");
 }
 
-function render_report_click(p_index)
+function renderReportByState(p_value, callback)
 {
-    let batch = g_batch_list[p_index];
-    let html_builder = [];
+    let batchedStates = [];
 
-    /* START Report intro section */
-    html_builder.push(`<p><strong>State:</strong> ${batch.reporting_state}</p>`);
-    html_builder.push(`
-        <p>
-            <strong>Import Date:</strong>
-            ${(new Date(batch.importDate).getMonth()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getMonth()+1)}` : new Date(batch.importDate).getMonth()+1}/${(new Date(batch.importDate).getDay()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getDay())}` : new Date(batch.importDate).getDay()+1}/${new Date(batch.importDate).getFullYear()}
-        </p>
-    `);
-    html_builder.push(`<p><strong>Import File Name:</strong> ${batch.mor_file_name}</p>`);
-    /* END Report intro section */
+    g_current_state_batch = p_value;
+    p_value === 'all' ? batchedStates = g_batch_list : batchedStates.push(g_batch_list.filter(item => item.reporting_state === p_value));
     
-    //Create a "Local Scoped Object"
-    //This will be used to dynamically generate arrays to contain our different statuses
-    //For now they will be empty arrays, helps get clean renders every time when calling render_report_click() function
-    const batchedItemsByStatus = {};
-    for (let i = 0; i < batch_item_status.length; i++) {
-        batchedItemsByStatus[`batch_item_status_${i}`] = [];
+    for (let i = 0; i < batchedStates.length; i++) {
+        render_report_click(batchedStates, i)
     }
-    
-    //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
-    for (let i = 0; i < batch.record_result.length; i++) {
-        let item = batch.record_result[i];
 
-        for (let j = 0; j < batch_item_status.length; j++) {
-            if (item.status === j) {
-                batchedItemsByStatus[`batch_item_status_${j}`].push(item);
+    if (callback) {
+        callback();
+    }
+}
+
+function renderReportByStateImportDate(p_value, callback) {
+    let batchedDates = [];
+
+    p_value === 'all' || p_value === '' ?
+        batchedDates.push(g_batch_list.filter(item => item.reporting_state === g_current_state_batch))
+        :
+        batchedDates.push(g_batch_list.filter(item => item.reporting_state === g_current_state_batch && item.importDate.split('T')[0] === p_value))
+    
+    for (let i = 0; i < batchedDates.length; i++) {
+        render_report_click(batchedDates, i)
+    }
+
+    if (callback) {
+        callback();
+    }
+}
+
+function renderStateImportDateOptions(p_value)
+{
+    //empty array to hold all the different date variations
+    const dateElement = $('#batch-by-state-date');
+    let batchedDateOptions = [];
+
+    dateElement.find('option').slice(2).remove();
+
+    if (p_value === 'all' || p_value ==='') {
+        dateElement.prop('disabled', true)
+    } else {
+        dateElement.prop('disabled', false);
+
+        for (let j = 0; j < g_batch_list.length; j++) {
+            let item = g_batch_list[j];
+            let itemImportDate = item.importDate;
+            
+            if (batchedDateOptions.indexOf(itemImportDate) === -1) {
+                itemImportDate = itemImportDate.split('T')[0];
+                batchedDateOptions.push(itemImportDate);
+                
+                let mm = itemImportDate.split('-')[1];
+                let dd = itemImportDate.split('-')[2];
+                let yyyy = itemImportDate.split('-')[0];
+                let dateDisplay = `${mm}/${dd}/${yyyy}`;
+
+                dateElement.append(`<option value="${itemImportDate}">${dateDisplay}</option>`);
             }
         }
     }
+}
 
-    //Finally we will loop through each array inside batchedItemsByStatus to check if they actually have items
-    for (let i = 0; i < batch_item_status.length; i++) {
-        //and ONLY render the table if any items exist
-        if (batchedItemsByStatus[`batch_item_status_${i}`].length > 0) {
-            renderVitalsReportTable(i, batchedItemsByStatus[`batch_item_status_${i}`]);
+function render_report_click(p_batch, p_index)
+{
+    let html_builder = [];
+
+    if (p_batch < 1) {
+        html_builder.push("");
+    } else {
+        let batch = g_batch_list[p_index];
+
+        // html_builder.push(`<p><strong>State:</strong> ${p_state.toUpperCase()}</p>`);
+        // if (p_state !== 'all') {
+        //     html_builder.push(`
+        //         <p>
+        //             <strong>Import Date:</strong>
+        //             ${(new Date(batch.importDate).getMonth()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getMonth()+1)}` : new Date(batch.importDate).getMonth()+1}/${(new Date(batch.importDate).getDay()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getDay())}` : new Date(batch.importDate).getDay()+1}/${new Date(batch.importDate).getFullYear()}
+        //         </p>
+        //     `);
+        //     html_builder.push(`<p><strong>Import File Name:</strong> ${batch.mor_file_name}</p>`);
+        // }
+        
+        //Create a "Local Scoped Object"
+        //This will be used to dynamically generate arrays to contain our different statuses
+        //For now they will be empty arrays, helps get clean renders every time when calling render_report_click() function
+        const batchedItemsByStatus = {};
+        for (let i = 0; i < batch_item_status.length; i++) {
+            batchedItemsByStatus[`batch_item_status_${i}`] = [];
+        }
+        
+        //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
+        for (let i = 0; i < batch.record_result.length; i++) {
+            let item = batch.record_result[i];
+
+            for (let j = 0; j < batch_item_status.length; j++) {
+                if (item.status === j) {
+                    batchedItemsByStatus[`batch_item_status_${j}`].push(item);
+                }
+            }
+        }
+
+        //Finally we will loop through each array inside batchedItemsByStatus to check if they actually have items
+        for (let i = 0; i < batch_item_status.length; i++) {
+            //and ONLY render the table if any items exist
+            if (batchedItemsByStatus[`batch_item_status_${i}`].length > 0) {
+                renderVitalsReportTable(i, batchedItemsByStatus[`batch_item_status_${i}`]);
+            }
         }
     }
 
