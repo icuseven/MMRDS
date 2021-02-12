@@ -26,6 +26,19 @@ var batch_item_status = [
     "ImportFailed"
 ];
 
+var batch_item_status_display = [
+    //_0
+    "Validating",
+    //_1
+    "InProcess",
+    //_2
+    "New Case Added",
+    //_3
+    "Existing Case Skipped",
+    //_4
+    "Import Failed"
+];
+
 var batch_status = [
     "Validating",
     "InProcess",
@@ -270,7 +283,7 @@ function render_report_click(p_batch, p_index)
                     <thead class="thead">
                         <tr class="tr bg-tertiary">
                             <th class="th" colspan="99" scope="colgroup">
-                                <h4 class="m-0">${batch_item_status[index]}</h4>
+                                <h4 class="m-0">${batch_item_status_display[index]}</h4>
                             </th>
                         </tr>
                     </thead>
