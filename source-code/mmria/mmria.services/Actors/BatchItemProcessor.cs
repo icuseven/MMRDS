@@ -9,7 +9,7 @@ namespace RecordsProcessor_Worker.Actors
 {
     public class BatchItemProcessor : ReceiveActor
     {
-
+        static int CurrentCount = 0;
         Dictionary<string, mmria.common.metadata.value_node[]> lookup;
         static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -336,7 +336,7 @@ namespace RecordsProcessor_Worker.Actors
         private string config_couchdb_url = null;
         private string db_prefix = "";
 
-        HashSet<string> ExistingRecordIds = null;
+        static HashSet<string> ExistingRecordIds = null;
 
         mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
@@ -347,6 +347,7 @@ namespace RecordsProcessor_Worker.Actors
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
             {
+                CurrentCount++;
                 Console.WriteLine("Message Recieved");
                 //Console.WriteLine(JsonConvert.SerializeObject(message));
                 Sender.Tell("Message Recieved");
@@ -615,14 +616,18 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
 
 
+                if(ExistingRecordIds == null)
+                {
+                    ExistingRecordIds = GetExistingRecordIds();
+                }
 
-                ExistingRecordIds = GetExistingRecordIds();
-                
                 do
                 {
                     record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
                 }
                 while (ExistingRecordIds.Contains(record_id));
+                ExistingRecordIds.Add(record_id);
+                
                 gs.set_value("home_record/record_id", record_id, new_case);
 
                 //  Vital Report Start
@@ -4333,7 +4338,7 @@ GNAME 27 50
         {
             int _min = 1000;
             int _max = 9999;
-            Random _rdm = new Random(System.DateTime.Now.Millisecond);
+            Random _rdm = new Random(System.DateTime.Now.Millisecond + CurrentCount);
             return _rdm.Next(_min, _max);
         }
 
