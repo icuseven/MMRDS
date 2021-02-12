@@ -72,10 +72,15 @@ function render_batch_list()
 {
     let html_builder = [];
 
-    html_builder.push("<ul class='pl-0'>");
+    // html_builder.push("<ul>");
     if(g_batch_list == null)
     {
-        html_builder.push(`<li>Unable to connect to vitals service.</li>`);
+        html_builder.push(`
+            <div class="card-body bg-tertiary set-radius">
+                <p class="mb-0">Unable to connect to vitals service. Please reload the page or come back later.</p>
+            </div>
+        `);
+        // html_builder.push(`<li>Unable to connect to vitals service.</li>`);
     }
     else if(g_batch_list.length > 0)
     {
@@ -131,9 +136,14 @@ function render_batch_list()
     }
     else
     {
-        html_builder.push(`<li>No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</li>`);
+        html_builder.push(`
+            <div class="card-body bg-tertiary set-radius">
+                <p class="mb-0">No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</p>
+            </div>
+        `);
+        // html_builder.push(`<li>No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</li>`);
     }
-    html_builder.push("</ul>");
+    // html_builder.push("</ul>");
 
     let el = document.getElementById("batch_list");
     el.innerHTML = html_builder.join("");
@@ -192,7 +202,7 @@ function renderStateImportDateOptions(p_value)
             if (batchedDateOptions.indexOf(itemImportDate) === -1) {
                 itemImportDate = itemImportDate.split('T')[0];
                 batchedDateOptions.push(itemImportDate);
-                
+
                 let mm = itemImportDate.split('-')[1];
                 let dd = itemImportDate.split('-')[2];
                 let yyyy = itemImportDate.split('-')[0];
@@ -301,7 +311,7 @@ function render_report_click(p_batch, p_index)
                     html_builder.push
                     (`
                         <tr class="tr">
-                            <td class="td">${i+1}</td>
+                            <td class="td text-align-center">${i+1}</td>
                             <td class="td">${item.mmria_record_id}</td>
                             <td class="td">${item.cdcUniqueID}</td>
                             <td class="td">${item.lastName}</td>
