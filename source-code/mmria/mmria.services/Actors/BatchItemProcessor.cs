@@ -9,6 +9,8 @@ namespace RecordsProcessor_Worker.Actors
 {
     public class BatchItemProcessor : ReceiveActor
     {
+
+        Dictionary<string, mmria.common.metadata.value_node[]> lookup;
         static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             #region MOR Mappings
@@ -400,7 +402,7 @@ namespace RecordsProcessor_Worker.Actors
             var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
-            var lookup = get_look_up(metadata);
+            lookup = get_look_up(metadata);
 
             StateDisplayToValue = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -614,8 +616,6 @@ namespace RecordsProcessor_Worker.Actors
 
 
 
-
-
                 ExistingRecordIds = GetExistingRecordIds();
                 
                 do
@@ -625,21 +625,40 @@ namespace RecordsProcessor_Worker.Actors
                 while (ExistingRecordIds.Contains(record_id));
                 gs.set_value("home_record/record_id", record_id, new_case);
 
+                //  Vital Report Start
+                var hr_cdc_match_det_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_det_match", metadata);
+                var hr_cdc_match_det_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_det_match", metadata);
+                var hr_cdc_match_prob_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_prob_match", metadata);
+                var hr_cdc_match_prob_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_prob_match", metadata);
+                var hr_cdc_icd_values = get_metadata_value_node("home_record/automated_vitals_group/icd10_match", metadata);
+                var hr_cdc_checkbox_values = get_metadata_value_node("home_record/automated_vitals_group/pregcb_match", metadata);
+                var hr_cdc_literalcod_values = get_metadata_value_node("home_record/automated_vitals_group/literalcod_match", metadata);
+
+
+                var hr_cdc_match_det_bc = hr_cdc_match_det_bc_values.Where(x=> x.value == mor_field_set["BC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_det_fdc = hr_cdc_match_det_fdc_values.Where(x=> x.value == mor_field_set["FDC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_prob_bc = hr_cdc_match_prob_bc_values.Where(x=> x.value == mor_field_set["BC_PROB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_prob_fdc = hr_cdc_match_prob_fdc_values.Where(x=> x.value == mor_field_set["FDC_PROB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_icd = hr_cdc_icd_values.Where(x=> x.value == mor_field_set["ICD10_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_checkbox = hr_cdc_checkbox_values.Where(x=> x.value == mor_field_set["PREGCB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
+
 
                 var import_info_builder = new System.Text.StringBuilder();
                 
                 
                 import_info_builder.AppendLine($"Vitals Import Date:  {DateTime.Now.ToString("MM/dd/yyyy")}\n");
 
-                import_info_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {mor_field_set["BC_DET_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {mor_field_set["FDC_DET_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {mor_field_set["BC_PROB_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {mor_field_set["FDC_PROB_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {mor_field_set["ICD10_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {mor_field_set["PREGCB_MATCH"]} decoded-response\n");
-                import_info_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {mor_field_set["LITERALCOD_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {hr_cdc_match_det_bc}");
+                import_info_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {hr_cdc_match_det_fdc}");
+                import_info_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {hr_cdc_match_prob_bc}");
+                import_info_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {hr_cdc_match_prob_fdc}");
+                import_info_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {hr_cdc_icd}");
+                import_info_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {hr_cdc_checkbox}");
+                import_info_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {hr_cdc_literalcod}");
                 
                 gs.set_value("home_record/automated_vitals_group/vital_report", import_info_builder.ToString(), new_case);
+                //  Vital Report End
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -1375,6 +1394,45 @@ namespace RecordsProcessor_Worker.Actors
             foreach (var node in p_metadata.lookup)
             {
                 result.Add("lookup/" + node.name, node.values);
+            }
+            return result;
+        }
+
+
+        private  mmria.common.metadata.value_node[] get_metadata_value_node(string search_path, mmria.common.metadata.app p_metadata, string path = "")
+        {
+            mmria.common.metadata.value_node[] result = null;
+
+            foreach (var node in p_metadata.children)
+            {
+                result = get_metadata_value_node(search_path, node, node.name);
+                if(result != null) break;
+            }
+            return result;
+        }
+
+        private mmria.common.metadata.value_node[] get_metadata_value_node(string search_path, mmria.common.metadata.node p_metadata, string path = "")
+        {
+            mmria.common.metadata.value_node[] result = null;
+            string key = $"{path}/{p_metadata.name}";
+            if(search_path.Equals(path, StringComparison.OrdinalIgnoreCase))
+            {
+                if(! string.IsNullOrWhiteSpace(p_metadata.path_reference))
+                {
+                    result = lookup[p_metadata.path_reference];
+                }
+                else
+                {
+                    result = p_metadata.values;
+                }
+            }
+            else if(p_metadata.children!= null)
+            {
+                foreach (var node in p_metadata.children)
+                {
+                    result = get_metadata_value_node(search_path, node, $"{path}/{node.name}");
+                    if(result != null) break;
+                }
             }
             return result;
         }
