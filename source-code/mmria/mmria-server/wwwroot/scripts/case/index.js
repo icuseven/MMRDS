@@ -3220,13 +3220,14 @@ function add_new_case_button_click(p_input)
                 <div class="construct__header-alert row no-gutters p-2 mb-3">
                     <span class="left-col x32 fill-p cdc-icon-alert_02"></span>
                     <div class="right-col pl-3">
-                        <p class="mb-1">Please enter data for the required fields and try again:</p>
+                        <p>Please enter data for the required fields below and try again:</p>
                         <ul id="validation_summary_list" class="mb-0">
                             <li><strong>Mother's Last Name</strong></li>
                             <li><strong>Mother's First Name</strong></li>
                             <li><strong>Date of Death (MM, DD, YYYY)</strong></li>
                             <li><strong>State of Death Record</strong></li>
                         </ul>
+                        <p>The only field not required to create a new case form is <strong>Mother's Middle Name</strong>.</p>
                     </div>
                 </div>
             `;
@@ -3239,10 +3240,10 @@ function add_new_case_button_click(p_input)
             add_new_confirm_dialog.innerHTML = `
                 <h3 class="mt-0">Generate Record ID?</h3>
                 <p><strong>Mother’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
-                <p><strong>Date of Death: ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</strong></p>
+                <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
                 <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
-                <p>Please note the year entered for the Date of Death will be unavailable for edit after Record ID generation.</p>
-                <button class="btn btn-primary" onclick="add_new_case_button_click('yes')">Generate</button>
+                <p class="card-body bg-gray-l2 set-radius">Please note the year entered for <strong>Date of Death</strong> will be unavailable for edit after Record ID generation.</p>
+                <button class="btn btn-primary mr-1" onclick="add_new_case_button_click('yes')">OK</button>
                 <button class="btn btn-light" onclick="add_new_case_button_click('no')">Cancel</button>
             `;
             add_new_confirm_dialog.showModal();

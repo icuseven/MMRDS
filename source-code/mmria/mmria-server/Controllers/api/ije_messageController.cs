@@ -59,9 +59,9 @@ namespace mmria.server
 
         [Authorize(Roles  = "cdc_analyst")]
 		[HttpDelete]
-		public async Task<IList<mmria.common.ije.Batch>> Delete() 
+		public async Task<bool> Delete() 
 		{ 
-            IList<mmria.common.ije.Batch> result = null;
+            bool result = false;
             try
 			{
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
@@ -72,7 +72,7 @@ namespace mmria.server
 
 				var user_curl = new cURL("DELETE", null, user_db_url, null);
 				var responseFromServer = await user_curl.executeAsync();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.ije.Batch>>(responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseFromServer);
 
 			}
 			catch(Exception ex) 

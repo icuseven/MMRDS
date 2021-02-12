@@ -9,6 +9,8 @@ namespace RecordsProcessor_Worker.Actors
 {
     public class BatchItemProcessor : ReceiveActor
     {
+        static int CurrentCount = 0;
+        Dictionary<string, mmria.common.metadata.value_node[]> lookup;
         static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             #region MOR Mappings
@@ -23,13 +25,9 @@ namespace RecordsProcessor_Worker.Actors
 
 
             //4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
-            //{ "DOB_YR", "death_certificate/date_of_birth/year"},
-            //{ "DOB_MO", "death_certificate/date_of_birth/month"},
-            //{ "DOB_DY", "death_certificate/date_of_birth/day"},
-            {"DOB_YR","death_certificate/demographics/date_of_birth/year"},
-            {"DOB_MO","death_certificate/demographics/date_of_birth/month"},
-            {"DOB_DY","death_certificate/demographics/date_of_birth/day"},
-
+            { "DOB_YR", "death_certificate/demographics/date_of_birth/year"},
+            { "DOB_MO", "death_certificate/demographics/date_of_birth/month"},
+            { "DOB_DY", "death_certificate/demographics/date_of_birth/day"},
             //5 home_record/last_name - LNAME  
             { "LNAME", "home_record/last_name"}, 
             //6 home_record/first_name - GNAME*/}
@@ -344,7 +342,8 @@ namespace RecordsProcessor_Worker.Actors
         private string config_couchdb_url = null;
         private string db_prefix = "";
 
-        HashSet<string> ExistingRecordIds = null;
+        private int my_count = -1;
+        static HashSet<string> ExistingRecordIds = null;
 
         mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
@@ -355,6 +354,10 @@ namespace RecordsProcessor_Worker.Actors
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
             {
+                my_count = CurrentCount;
+
+                CurrentCount++;
+                
                 Console.WriteLine("Message Recieved");
                 //Console.WriteLine(JsonConvert.SerializeObject(message));
                 Sender.Tell("Message Recieved");
@@ -410,7 +413,7 @@ namespace RecordsProcessor_Worker.Actors
             var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
-            var lookup = get_look_up(metadata);
+            lookup = get_look_up(metadata);
 
             StateDisplayToValue = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -429,6 +432,7 @@ namespace RecordsProcessor_Worker.Actors
 
             var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
 
+            string record_id = null;
 
             if (case_view_response.total_rows > 0)
             {
@@ -464,7 +468,7 @@ namespace RecordsProcessor_Worker.Actors
 
                     )
                     {
-                        var case_expando_object = GetCaseById(item_db_info, kvp.key);
+                        var case_expando_object = GetCaseById(item_db_info, kvp.id);
                         if (case_expando_object != null)
                         {
 
@@ -501,17 +505,49 @@ namespace RecordsProcessor_Worker.Actors
                                     host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
                                     LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
                                     GNAME_result.result.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
-                                    DOD_YR_result.result == dod_yr &&
-                                    DOD_MO_result.result == dod_mo &&
-                                    DOD_DY_result.result == dod_dy &&
-                                    DOB_YR_result.result == dob_yr &&
-                                    DOB_MO_result.result == dob_mo &&
-                                    DOB_DY_result.result == dob_dy
+                                    DOD_YR_result.result!= null &&
+                                    DOD_MO_result.result!= null &&
+                                    DOD_DY_result.result!= null &&
+                                    DOB_YR_result.result!= null &&
+                                    DOB_MO_result.result!= null &&
+                                    DOB_DY_result.result!= null
+                                    
 
                                 )
                                 {
-                                    is_case_already_present = true;
-                                    break;
+
+                                    int DOD_YR_result_Check = -1;
+                                    int DOD_MO_result_Check = -1;
+                                    int DOD_DY_result_Check = -1;
+                                    int DOB_YR_result_Check = -1;
+                                    int DOB_MO_result_Check = -1;
+                                    int DOB_DY_result_Check = -1;
+
+
+
+                                    if(
+                                        int.TryParse(DOD_YR_result.result.ToString(), out DOD_YR_result_Check) &&
+                                        int.TryParse(DOD_MO_result.result.ToString(), out DOD_MO_result_Check) &&
+                                        int.TryParse(DOD_DY_result.result.ToString(), out DOD_DY_result_Check) &&
+                                        int.TryParse(DOB_YR_result.result.ToString(), out DOB_YR_result_Check) &&
+                                        int.TryParse(DOB_MO_result.result.ToString(), out DOB_MO_result_Check) &&
+                                        int.TryParse(DOB_DY_result.result.ToString(), out DOB_DY_result_Check) &&
+                                        DOD_YR_result_Check == dod_yr &&
+                                        DOD_MO_result_Check == dod_mo &&
+                                        DOD_DY_result_Check == dod_dy &&
+                                        DOB_YR_result_Check == dob_yr &&
+                                        DOB_MO_result_Check == dob_mo &&
+                                        DOB_DY_result_Check == dob_dy 
+                                    )
+                                    {
+                                        var record_id_result = gs.get_value(case_expando_object, "home_record/record_id");
+                                        if(!record_id_result.is_error && record_id_result.result!= null)
+                                        {
+                                            record_id = record_id_result.result.ToString();
+                                        }
+                                        is_case_already_present = true;
+                                        break;
+                                    }
                                 }
                             }
 
@@ -537,6 +573,7 @@ namespace RecordsProcessor_Worker.Actors
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
+                    mmria_record_id = record_id,
                     mmria_id = mmria_id,
                     StatusDetail = "matching case found in database"
                 };
@@ -586,16 +623,57 @@ namespace RecordsProcessor_Worker.Actors
                 var VitalsImportStatusValue = "0";
                 gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
 
-                ExistingRecordIds = GetExistingRecordIds();
-                string record_id = null;
+                gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
+
+
+                if(ExistingRecordIds == null)
+                {
+                    ExistingRecordIds = GetExistingRecordIds();
+                }
+
                 do
                 {
                     record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
                 }
                 while (ExistingRecordIds.Contains(record_id));
+                ExistingRecordIds.Add(record_id);
+                
                 gs.set_value("home_record/record_id", record_id, new_case);
 
+                //  Vital Report Start
+                var hr_cdc_match_det_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_det_match", metadata);
+                var hr_cdc_match_det_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_det_match", metadata);
+                var hr_cdc_match_prob_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_prob_match", metadata);
+                var hr_cdc_match_prob_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_prob_match", metadata);
+                var hr_cdc_icd_values = get_metadata_value_node("home_record/automated_vitals_group/icd10_match", metadata);
+                var hr_cdc_checkbox_values = get_metadata_value_node("home_record/automated_vitals_group/pregcb_match", metadata);
+                var hr_cdc_literalcod_values = get_metadata_value_node("home_record/automated_vitals_group/literalcod_match", metadata);
 
+
+                var hr_cdc_match_det_bc = hr_cdc_match_det_bc_values.Where(x=> x.value == mor_field_set["BC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_det_fdc = hr_cdc_match_det_fdc_values.Where(x=> x.value == mor_field_set["FDC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_prob_bc = hr_cdc_match_prob_bc_values.Where(x=> x.value == mor_field_set["BC_PROB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_match_prob_fdc = hr_cdc_match_prob_fdc_values.Where(x=> x.value == mor_field_set["FDC_PROB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_icd = hr_cdc_icd_values.Where(x=> x.value == mor_field_set["ICD10_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_checkbox = hr_cdc_checkbox_values.Where(x=> x.value == mor_field_set["PREGCB_MATCH"]).Select(x=> x.display).FirstOrDefault();
+                var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
+
+
+                var import_info_builder = new System.Text.StringBuilder();
+                
+                
+                import_info_builder.AppendLine($"Vitals Import Date:  {DateTime.Now.ToString("MM/dd/yyyy")}\n");
+
+                import_info_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {hr_cdc_match_det_bc}");
+                import_info_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {hr_cdc_match_det_fdc}");
+                import_info_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {hr_cdc_match_prob_bc}");
+                import_info_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {hr_cdc_match_prob_fdc}");
+                import_info_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {hr_cdc_icd}");
+                import_info_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {hr_cdc_checkbox}");
+                import_info_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {hr_cdc_literalcod}");
+                
+                gs.set_value("home_record/automated_vitals_group/vital_report", import_info_builder.ToString(), new_case);
+                //  Vital Report End
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -989,7 +1067,8 @@ namespace RecordsProcessor_Worker.Actors
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
-
+                    
+                    mmria_record_id = record_id,
                     mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
@@ -1026,7 +1105,7 @@ namespace RecordsProcessor_Worker.Actors
                         DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                         LastName = mor_field_set["LNAME"],
                         FirstName = mor_field_set["GNAME"],
-
+                        mmria_record_id = record_id,
                         mmria_id = mmria_id,
                         StatusDetail = "Error\n" + ex.ToString()
                     };
@@ -1636,6 +1715,45 @@ namespace RecordsProcessor_Worker.Actors
             foreach (var node in p_metadata.lookup)
             {
                 result.Add("lookup/" + node.name, node.values);
+            }
+            return result;
+        }
+
+
+        private  mmria.common.metadata.value_node[] get_metadata_value_node(string search_path, mmria.common.metadata.app p_metadata, string path = "")
+        {
+            mmria.common.metadata.value_node[] result = null;
+
+            foreach (var node in p_metadata.children)
+            {
+                result = get_metadata_value_node(search_path, node, node.name);
+                if(result != null) break;
+            }
+            return result;
+        }
+
+        private mmria.common.metadata.value_node[] get_metadata_value_node(string search_path, mmria.common.metadata.node p_metadata, string path = "")
+        {
+            mmria.common.metadata.value_node[] result = null;
+            string key = $"{path}/{p_metadata.name}";
+            if(search_path.Equals(path, StringComparison.OrdinalIgnoreCase))
+            {
+                if(! string.IsNullOrWhiteSpace(p_metadata.path_reference))
+                {
+                    result = lookup[p_metadata.path_reference];
+                }
+                else
+                {
+                    result = p_metadata.values;
+                }
+            }
+            else if(p_metadata.children!= null)
+            {
+                foreach (var node in p_metadata.children)
+                {
+                    result = get_metadata_value_node(search_path, node, $"{path}/{node.name}");
+                    if(result != null) break;
+                }
             }
             return result;
         }
@@ -4551,7 +4669,7 @@ GNAME 27 50
         {
             int _min = 1000;
             int _max = 9999;
-            Random _rdm = new Random(System.DateTime.Now.Millisecond);
+            Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
             return _rdm.Next(_min, _max);
         }
 

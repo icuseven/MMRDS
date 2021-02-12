@@ -212,12 +212,28 @@ function g_apply_sort_compareNumberAsc(x, y)
     return a - b;
 }
 
+
 function g_apply_sort_compareNumberDesc(x, y) 
 {
     let a = new Number(x);
     let b = new Number(y);
     return (a - b) *-1;
 }
+
+function g_apply_sort_compareDateAsc(x, y) 
+{
+    let a = new Date(x);
+    let b = new Date(y);
+    return a - b;
+}
+
+function g_apply_sort_compareDate(x, y) 
+{
+    let a = new Date(x);
+    let b = new Date(y);
+    return (a - b) *-1;
+}
+
 
 function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
 {
@@ -286,13 +302,18 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
 
             if(i== 0)
             {
-                switch(sort_direction_list[i])
+                switch(sort_direction_list[i].toLocaleLowerCase())
                 {
                     case "asc":
-                        switch(data_type)
+                        switch(data_type.toLocaleLowerCase())
                         {
                             case "number":
                                 function_body.push(`let result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name});`);
+                            break;
+                            case "date":
+                            case "datetime":
+                            case "time":
+                                function_body.push(`let result = g_apply_sort_compareDateAsc(x${property_name}, y${property_name});`);
                             break;
                             case "string":
                             default:
@@ -302,10 +323,15 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         
                     break;
                     case "desc":
-                        switch(data_type)
+                        switch(data_type.toLocaleLowerCase())
                         {
                             case "number":
                                 function_body.push(`let result = g_apply_sort_compareNumberDesc(x${property_name}, y${property_name});`);
+                            break;
+                            case "date":
+                            case "datetime":
+                            case "time":
+                                function_body.push(`let result = g_apply_sort_compareDateDesc(x${property_name}, y${property_name});`);
                             break;
                             case "string":
                             default:
@@ -321,13 +347,18 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
             else
             {
                 
-                switch(sort_direction_list[i])
+                switch(sort_direction_list[i].toLocaleLowerCase())
                 {
                     case "asc":
-                        switch(data_type)
+                        switch(data_type.toLocaleLowerCase())
                         {
                             case "number":
                                 function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(x${property_name}, y${property_name}); }`);
+                            break;
+                            case "date":
+                            case "datetime":
+                            case "time":
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareDateAsc(x${property_name}, y${property_name}); }`);
                             break;
                             case "string":
                             default:
@@ -337,10 +368,15 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         
                     break;
                     case "desc":
-                        switch(data_type)
+                        switch(data_type.toLocaleLowerCase())
                         {
                             case "number":
                                 function_body.push(`if(result==0) { result = g_apply_sort_compareNumberDesc(x${property_name}, y${property_name}); }`);
+                            break;
+                            case "date":
+                            case "datetime":
+                            case "time":
+                                function_body.push(`if(result==0) { result = g_apply_sort_compareDateDesc(x${property_name}, y${property_name}); }`);
                             break;
                             case "string":
                             default:
