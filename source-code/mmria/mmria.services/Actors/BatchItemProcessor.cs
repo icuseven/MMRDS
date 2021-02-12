@@ -1157,6 +1157,33 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
+        private void birth_distance(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string latitude, string longitude, string facility_of_delivery_location_latitude, string facility_of_delivery_location_longitude)
+        {
+            double? dist = null;
+            float.TryParse(latitude, out float res_lat);
+            float.TryParse(longitude, out float res_lon);
+            float.TryParse(facility_of_delivery_location_latitude, out float hos_lat);
+            float.TryParse(facility_of_delivery_location_longitude, out float hos_lon);
+            if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180)
+            {
+                dist = calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+                gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence", dist?.ToString(), new_case);
+            }
+        }
+
+        private double calc_distance(float lat1, float lon1, float lat2, float lon2)
+        {
+            var radlat1 = Math.PI * lat1 / 180;
+            var radlat2 = Math.PI * lat2 / 180;
+            var theta = lon1 - lon2;
+            var radtheta = Math.PI * theta / 180;
+            var dist = Math.Sin(radlat1) * Math.Sin(radlat2) + Math.Cos(radlat1) * Math.Cos(radlat2) * Math.Cos(radtheta);
+            dist = Math.Acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = Math.Round(dist * 60 * 1.1515 * 100) / 100;
+            return dist;
+        }
+
         private void omb_race_recode_dc(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
         {
             string race_recode = null;
