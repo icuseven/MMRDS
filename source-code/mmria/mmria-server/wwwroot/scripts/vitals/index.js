@@ -189,7 +189,9 @@ function renderReportByStateImportDate(p_value, callback) {
         batchedDates.push(g_batch_list.filter(item => item.reporting_state === g_current_state_batch && item.importDate.split('T')[0] === p_value))
     
     for (let i = 0; i < batchedDates.length; i++) {
-        render_report_click(batchedDates, i)
+        let batchedDateItem = batchedDates[i];
+
+        render_report_click(batchedDateItem, i)
     }
 
     if (callback) {
