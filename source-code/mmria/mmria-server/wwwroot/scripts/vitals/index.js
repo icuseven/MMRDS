@@ -256,8 +256,8 @@ function render_report_click(p_batch, p_index)
         }
         
         //Push batch items to appropriate already generated arrays in batchedItemsByStatus object
-        for (let i = 0; i < batch.record_result.length; i++) {
-            let item = batch.record_result[i];
+        for (let i = 0; i < p_batch.record_result.length; i++) {
+            let item = p_batch.record_result[i];
 
             for (let j = 0; j < batch_item_status.length; j++) {
                 if (item.status === j) {
@@ -276,6 +276,7 @@ function render_report_click(p_batch, p_index)
     }
 
     function renderVitalsReportTable(index, items) {
+        
         //Lets sort our batched items by descending order
         const sortedItems = items.slice().sort((a,b) => new Date(b.importDate) - new Date(a.importDate));
 
