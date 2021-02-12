@@ -359,10 +359,98 @@ event=onchange
 */
 function case_status_value_change(p_control) 
 {
+//home_record/case_status/case_status_info
+//4	Review Complete and Decision Entered
+/*
+the Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”. 
+2)	User must click the OK button in the 
+
+9999	(blank)	
+0	Not Started	
+1	In Progress	
+2	Completed	
+3	Not Available	
+4	Not Applicable
+
+home_record/case_progress_report/death_certificate
+home_record/case_progress_report/autopsy_report
+home_record/case_progress_report/birth_certificate_parent_section
+home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section
+home_record/case_progress_report/prenatal_care_record
+home_record/case_progress_report/er_visits_and_hospitalizations
+home_record/case_progress_report/other_medical_visits
+home_record/case_progress_report/medical_transport
+home_record/case_progress_report/social_and_psychological_profile
+home_record/case_progress_report/mental_health_profile
+home_record/case_progress_report/informant_interviews	
+home_record/case_progress_report/case_narrative
+home_record/case_progress_report/committe_review_worksheet
+g_data
+
+
+*/
 
     let selected_value = new Number(p_control.value);
     g_previous_case_status = this.overall_case_status;
     this.overall_case_status = selected_value;
+
+    let is_valid_status = false;
+    if(selected_value == 4)
+    {
+        let is_correct_staus = {
+            "2":true,
+            "3":true,
+            "4":true,
+        }
+        
+
+        if(
+            is_correct_staus[g_data.home_record.case_progress_report.death_certificate] &&
+            is_correct_staus[g_data.home_record.case_progress_report.autopsy_report] &&
+            is_correct_staus[g_data.home_record.case_progress_report.birth_certificate_parent_section] &&
+            is_correct_staus[g_data.home_record.case_progress_report.birth_certificate_infant_or_fetal_death_section] &&
+            is_correct_staus[g_data.home_record.case_progress_report.prenatal_care_record] &&
+            is_correct_staus[g_data.home_record.case_progress_report.er_visits_and_hospitalizations] &&
+            is_correct_staus[g_data.home_record.case_progress_report.other_medical_visits] &&
+            is_correct_staus[g_data.home_record.case_progress_report.medical_transport] &&
+            is_correct_staus[g_data.home_record.case_progress_report.social_and_psychological_profile] &&
+            is_correct_staus[g_data.home_record.case_progress_report.mental_health_profile] &&
+            is_correct_staus[g_data.home_record.case_progress_report.informant_interviews	] &&
+            is_correct_staus[g_data.home_record.case_progress_report.case_narrative] &&
+            is_correct_staus[g_data.home_record.case_progress_report.committe_review_worksheet]
+        )
+        {
+            is_valid_status = true;
+        }
+       
+        if(is_valid_status)
+        {
+            console.log(is_valid_status);
+        }
+        else
+        {
+            g_data.home_record.case_status.overall_case_status = g_previous_case_status;   
+            $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
+            let element = document.getElementById("case-progress-info-id");
+            if(element == null)
+            {
+                element = document.createElement("dialog");
+            
+                let html = [];
+                html.push('<h3 class="mt-0">Invalid Status Selection</h3>');
+                html.push('<p><strong>Case Progress</p>');
+                html.push('<p class="card-body bg-gray-l2 set-radius">The Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
+                html.push('<button class="btn btn-primary mr-1" onclick="case_progress_info_id_click()">OK</button>');
+                element.innerHTML = html.join("");
+                element.setAttribute("id", "case-progress-info-id");
+
+                document.firstElementChild.appendChild(element);
+            }
+
+            element.showModal();
+        }
+    }
+    
     if 
     (
         (
@@ -371,7 +459,7 @@ function case_status_value_change(p_control)
         ) 
         &&
         (
-            selected_value == 4 ||
+            (selected_value == 4 && is_valid_status) ||
             selected_value == 5 ||
             selected_value == 6
         )
