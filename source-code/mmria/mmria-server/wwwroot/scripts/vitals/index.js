@@ -167,11 +167,11 @@ function renderReportByState(p_value, callback)
     let batchedStates = [];
 
     g_current_state_batch = p_value;
-    p_value === 'all' ? batchedStates = g_batch_list : batchedStates.push(g_batch_list.filter(item => item.reporting_state === p_value));
+    p_value === 'all' ? batchedStates = batchedStates.push(g_batch_list) : batchedStates.push(g_batch_list.filter(item => item.reporting_state === p_value));
     
     for (let i = 0; i < batchedStates.length; i++) {
         let batchedStateItem = batchedStates[i];
-
+        
         render_report_click(batchedStateItem, i)
     }
 
