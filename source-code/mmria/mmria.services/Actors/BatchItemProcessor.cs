@@ -718,6 +718,12 @@ namespace RecordsProcessor_Worker.Actors
                                 mor_field_set["RACE9"], mor_field_set["RACE10"], mor_field_set["RACE11"],
                                 mor_field_set["RACE12"], mor_field_set["RACE13"], mor_field_set["RACE14"], mor_field_set["RACE15"]), new_case);
 
+                omb_race_recode_dc(gs, new_case, RACE_Rule(mor_field_set["RACE1"], mor_field_set["RACE2"], mor_field_set["RACE3"],
+                                mor_field_set["RACE4"], mor_field_set["RACE5"],
+                                mor_field_set["RACE6"], mor_field_set["RACE7"], mor_field_set["RACE8"],
+                                mor_field_set["RACE9"], mor_field_set["RACE10"], mor_field_set["RACE11"],
+                                mor_field_set["RACE12"], mor_field_set["RACE13"], mor_field_set["RACE14"], mor_field_set["RACE15"]));
+
                 //gs.set_value(IJE_to_MMRIA_Path["RACE1"], mor_field_set["RACE1"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["RACE2"], mor_field_set["RACE2"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["RACE3"], mor_field_set["RACE3"], new_case);
@@ -1151,6 +1157,120 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
+        private void omb_race_recode_dc(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
+        {
+            string race_recode = null;
+            race_recode = calculate_omb_recode(race);
+            gs.set_value("death_certificate/race/omb_race_recode", race_recode, new_case);
+        }
+
+        private string calculate_omb_recode(string[] p_value_list)
+        {
+            string result = null;
+            var asian_list = new string[7]{ 
+                    "Asian Indian",
+                    "Chinese",
+                    "Filipino",
+                    "Japanese",
+                    "Korean",
+                    "Vietnamese",
+                    "Other Asian"
+                };
+            var islander_list = new string[4]{
+                    "Native Hawaiian",
+                    "Guamanian or Chamorro",
+                    "Samoan",
+                    "Other Pacific Islander"
+                };
+            if (p_value_list.Length == 0)
+            {
+            }
+            else if (p_value_list.Length == 1)
+            {
+                if (get_intersection(p_value_list, asian_list)?.Length > 0) {
+                    result = "Asian";
+                } else if (get_intersection(p_value_list, islander_list)?.Length > 0) {
+                    result = "Pacific Islander";
+                } else
+                {
+                    result = p_value_list[0];
+                }
+            }
+            else
+            {
+                if (p_value_list.Contains("Race Not Specified"))
+                {
+                    result = "Race Not Specified";
+                }
+                else
+                {
+                    var asian_intersection_count = get_intersection(p_value_list, asian_list)?.Length;
+                    var is_asian = 0;
+                    var islander_intersection_count = get_intersection(p_value_list, islander_list)?.Length;
+                    var is_islander = 0;
+                    if (asian_intersection_count > 0)
+                        is_asian = 1;
+                    if (islander_intersection_count > 0)
+                        is_islander = 1;
+                    var number_not_in_asian_or_islander_categories = p_value_list.Length - asian_intersection_count - islander_intersection_count;
+                    var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
+                    switch (total_unique_items)
+                    {
+                        case 1:
+                            if (is_asian == 1)
+                            {
+                                result = "Asian";
+                            }
+                            else if (is_islander == 1)
+                            {
+                                result = "Pacific Islander";
+                            }
+                            else
+                            {
+                                Console.WriteLine("This should never happen bug");
+                            }
+                            break;
+                        case 2:
+                            result = "Bi-Racial";
+                            break;
+                        default:
+                            result = "Multi-Racial";
+                            break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public string[] get_intersection(string[] p_list_1, string[] p_list_2)
+        {
+            var result = p_list_1.Intersect(p_list_2)?.ToArray();
+
+            //var a = p_list_1;
+            //var b = p_list_2;
+            //a.sort();
+            //b.sort();
+            //var ai = 0, bi = 0;
+            //var result = [];
+            //while (ai < a.length && bi < b.length)
+            //{
+            //    if (a[ai] < b[bi])
+            //    {
+            //        ai++;
+            //    }
+            //    else if (a[ai] > b[bi])
+            //    {
+            //        bi++;
+            //    }
+            //    else
+            //    {
+            //        result.push(a[ai]);
+            //        ai++;
+            //        bi++;
+            //    }
+            //}
+            return result;
+        }
 
         private void birth_2_death(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case
             , string date_of_delivery_year, string date_of_delivery_month, string date_of_delivery_day
