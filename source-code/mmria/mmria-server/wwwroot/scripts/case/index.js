@@ -3220,13 +3220,14 @@ function add_new_case_button_click(p_input)
                 <div class="construct__header-alert row no-gutters p-2 mb-3">
                     <span class="left-col x32 fill-p cdc-icon-alert_02"></span>
                     <div class="right-col pl-3">
-                        <p class="mb-1">Please enter data for the required fields and try again:</p>
+                        <p>Please enter data for the required fields below and try again:</p>
                         <ul id="validation_summary_list" class="mb-0">
                             <li><strong>Mother's Last Name</strong></li>
                             <li><strong>Mother's First Name</strong></li>
                             <li><strong>Date of Death (MM, DD, YYYY)</strong></li>
                             <li><strong>State of Death Record</strong></li>
                         </ul>
+                        <p>The only field not required to create a new case form is <strong>Mother's Middle Name</strong>.</p>
                     </div>
                 </div>
             `;
