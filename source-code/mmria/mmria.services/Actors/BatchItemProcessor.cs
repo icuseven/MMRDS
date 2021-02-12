@@ -336,6 +336,7 @@ namespace RecordsProcessor_Worker.Actors
         private string config_couchdb_url = null;
         private string db_prefix = "";
 
+        private int my_count = -1;
         static HashSet<string> ExistingRecordIds = null;
 
         mmria.common.couchdb.DBConfigurationDetail item_db_info;
@@ -347,7 +348,10 @@ namespace RecordsProcessor_Worker.Actors
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
             {
+                my_count = CurrentCount;
+
                 CurrentCount++;
+                
                 Console.WriteLine("Message Recieved");
                 //Console.WriteLine(JsonConvert.SerializeObject(message));
                 Sender.Tell("Message Recieved");
@@ -4338,7 +4342,7 @@ GNAME 27 50
         {
             int _min = 1000;
             int _max = 9999;
-            Random _rdm = new Random(System.DateTime.Now.Millisecond + CurrentCount);
+            Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
             return _rdm.Next(_min, _max);
         }
 
