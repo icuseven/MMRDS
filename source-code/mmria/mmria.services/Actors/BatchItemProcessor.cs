@@ -19,9 +19,9 @@ namespace RecordsProcessor_Worker.Actors
             { "DOD_DY", "home_record/date_of_death/day"},
 
             //4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
-            { "DOB_YR", "death_certificate/date_of_birth/year"},
-            { "DOB_MO", "death_certificate/date_of_birth/month"},
-            { "DOB_DY", "death_certificate/date_of_birth/day"},
+            { "DOB_YR", "death_certificate/demographics/date_of_birth/year"},
+            { "DOB_MO", "death_certificate/demographics/date_of_birth/month"},
+            { "DOB_DY", "death_certificate/demographics/date_of_birth/day"},
             //5 home_record/last_name - LNAME  
             { "LNAME", "home_record/last_name"}, 
             //6 home_record/first_name - GNAME*/}
@@ -491,17 +491,45 @@ namespace RecordsProcessor_Worker.Actors
                                     host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
                                     LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
                                     GNAME_result.result.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
-                                    DOD_YR_result.result == dod_yr &&
-                                    DOD_MO_result.result == dod_mo &&
-                                    DOD_DY_result.result == dod_dy &&
-                                    DOB_YR_result.result == dob_yr &&
-                                    DOB_MO_result.result == dob_mo &&
-                                    DOB_DY_result.result == dob_dy
+                                    DOD_YR_result.result!= null &&
+                                    DOD_MO_result.result!= null &&
+                                    DOD_DY_result.result!= null &&
+                                    DOB_YR_result.result!= null &&
+                                    DOB_MO_result.result!= null &&
+                                    DOB_DY_result.result!= null
+                                    
 
                                 )
                                 {
-                                    is_case_already_present = true;
-                                    break;
+
+                                    int DOD_YR_result_Check = -1;
+                                    int DOD_MO_result_Check = -1;
+                                    int DOD_DY_result_Check = -1;
+                                    int DOB_YR_result_Check = -1;
+                                    int DOB_MO_result_Check = -1;
+                                    int DOB_DY_result_Check = -1;
+
+
+
+                                    if(
+                                        int.TryParse(DOD_YR_result.result.ToString(), out DOD_YR_result_Check) &&
+                                        int.TryParse(DOD_MO_result.result.ToString(), out DOD_MO_result_Check) &&
+                                        int.TryParse(DOD_DY_result.result.ToString(), out DOD_DY_result_Check) &&
+                                        int.TryParse(DOB_YR_result.result.ToString(), out DOB_YR_result_Check) &&
+                                        int.TryParse(DOB_MO_result.result.ToString(), out DOB_MO_result_Check) &&
+                                        int.TryParse(DOB_DY_result.result.ToString(), out DOB_DY_result_Check) &&
+                                        DOD_YR_result_Check == dod_yr &&
+                                        DOD_MO_result_Check == dod_mo &&
+                                        DOD_DY_result_Check == dod_dy &&
+                                        DOB_YR_result_Check == dob_yr &&
+                                        DOB_MO_result_Check == dob_mo &&
+                                        DOB_DY_result_Check == dob_dy 
+                                    )
+                                    {
+
+                                        is_case_already_present = true;
+                                        break;
+                                    }
                                 }
                             }
 
