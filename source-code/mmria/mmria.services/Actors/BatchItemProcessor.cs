@@ -924,6 +924,10 @@ namespace RecordsProcessor_Worker.Actors
                                                                                                                     , field_set["ZIPCODE"]), new_case);
 
 
+                    birth_2_death(gs, new_case, field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]
+                        , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
+
+
                 }
                 else if (fet_field_set != null && fet_field_set.Count > 0)
                 {
@@ -1002,6 +1006,8 @@ namespace RecordsProcessor_Worker.Actors
                                                                         , field_set["STATEC"]
                                                                         , field_set["ZIPCODE"]), new_case);
 
+                    birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
+                        , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
 
                 }
 
@@ -1143,6 +1149,32 @@ namespace RecordsProcessor_Worker.Actors
             */
 
 
+        }
+
+
+        private void birth_2_death(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case
+            , string date_of_delivery_year, string date_of_delivery_month, string date_of_delivery_day
+            , string date_of_death_year, string date_of_death_month, string date_of_death_day)
+        {
+                double? length_between_child_birth_and_death_of_mother = null;
+                int.TryParse(date_of_delivery_year, out int start_year);
+                int.TryParse(date_of_delivery_month, out int start_month);
+                int.TryParse(date_of_delivery_day, out int start_day);
+                int.TryParse(date_of_death_year, out int end_year);
+                int.TryParse(date_of_death_month, out int end_month);
+                int.TryParse(date_of_death_day, out int end_day);
+
+                if (DateTime.TryParse($"{start_year}/{start_month}/{start_day}", out DateTime startDateTest) == true 
+                    && DateTime.TryParse($"{end_year}/{end_month}/{end_day}", out DateTime endDateTest) == true) 
+                {
+                    var start_date = new DateTime(start_year, start_month - 1, start_day);
+                    var end_date = new DateTime(end_year, end_month - 1, end_day);
+                    //var days = $global.calc_days(start_date, end_date);
+                    var days = end_date.Subtract(start_date).TotalDays;
+                    length_between_child_birth_and_death_of_mother = days;
+                }
+
+                gs.set_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", length_between_child_birth_and_death_of_mother?.ToString(), new_case);
         }
 
         private void Set_facility_of_delivery_location_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
