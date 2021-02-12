@@ -115,8 +115,8 @@ function render_batch_list()
         if (batchedStateOptions.length > 0) {
             html_builder.push(`
                 <div class="form-inline">
-                    <label class="justify-content-start" style="width: 110px" for="batch-by-state"><strong>State:</strong></label>
-                    <select id="batch-by-state" class="form-control" onchange="javascript:renderReportByState(this.value, () => renderStateImportDateOptions(this.value))">
+                    <label class="justify-content-start" style="width: 130px" for="batch-by-state"><strong>State:</strong></label>
+                    <select id="batch-by-state" class="form-control" style="width: 300px" onchange="javascript:renderReportByState(this.value, () => renderStateImportDateOptions(this.value))">
                         <option value="">Select State</option>
                         <option value="all">All</option>
                         ${batchedStateOptions.map(state => `<option value="${state}">${state}</option>`)}
@@ -124,8 +124,8 @@ function render_batch_list()
                 </div>
 
                 <div class="form-inline mt-3">
-                    <label class="justify-content-start" style="width: 110px" for="batch-by-state-date"><strong>Import Date:</strong></label>
-                    <select id="batch-by-state-date" class="form-control" disabled onchange="javascript:renderReportByStateImportDate(this.value)">
+                    <label class="justify-content-start" style="width: 130px" for="batch-by-state-date"><strong>Import Date:</strong></label>
+                    <select id="batch-by-state-date" class="form-control" style="width: 300px" disabled onchange="javascript:renderReportByStateImportDate(this.value)">
                         <option value="">Select Date</option>
                         <option value="all">All</option>
                     </select>
