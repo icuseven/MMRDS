@@ -454,7 +454,7 @@ namespace RecordsProcessor_Worker.Actors
 
                     )
                     {
-                        var case_expando_object = GetCaseById(item_db_info, kvp.key);
+                        var case_expando_object = GetCaseById(item_db_info, kvp.id);
                         if (case_expando_object != null)
                         {
 
@@ -1020,7 +1020,8 @@ namespace RecordsProcessor_Worker.Actors
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
-
+                    
+                    mmria_record_id = record_id,
                     mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
@@ -1057,7 +1058,7 @@ namespace RecordsProcessor_Worker.Actors
                         DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                         LastName = mor_field_set["LNAME"],
                         FirstName = mor_field_set["GNAME"],
-
+                        mmria_record_id = record_id,
                         mmria_id = mmria_id,
                         StatusDetail = "Error\n" + ex.ToString()
                     };
