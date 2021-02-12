@@ -86,7 +86,6 @@ function render_batch_list()
 {
     let html_builder = [];
 
-    // html_builder.push("<ul>");
     //if no batch objects, serve up error
     if(g_batch_list == null)
     {
@@ -95,7 +94,6 @@ function render_batch_list()
                 <p class="mb-0">Unable to connect to vitals service. Please reload the page or come back later.</p>
             </div>
         `);
-        // html_builder.push(`<li>Unable to connect to vitals service.</li>`);
     }
     //if batch items exist
     else if(g_batch_list.length > 0)
@@ -163,9 +161,7 @@ function render_batch_list()
                 <p class="mb-0">No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</p>
             </div>
         `);
-        // html_builder.push(`<li>No history of IJE uploads found. Please use the <a href="./vitals/FileUpload">IJE Uploader</a> to load a set of IJE files.</li>`);
     }
-    // html_builder.push("</ul>");
 
     //Render the html
     let el = document.getElementById("batch_list");
