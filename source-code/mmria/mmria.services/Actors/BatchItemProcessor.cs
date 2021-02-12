@@ -419,6 +419,7 @@ namespace RecordsProcessor_Worker.Actors
 
             var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
 
+            string record_id = null;
 
             if (case_view_response.total_rows > 0)
             {
@@ -526,7 +527,11 @@ namespace RecordsProcessor_Worker.Actors
                                         DOB_DY_result_Check == dob_dy 
                                     )
                                     {
-
+                                        var record_id_result = gs.get_value(case_expando_object, "home_record/record_id");
+                                        if(!record_id_result.is_error && record_id_result.result!= null)
+                                        {
+                                            record_id = record_id_result.result.ToString();
+                                        }
                                         is_case_already_present = true;
                                         break;
                                     }
@@ -555,6 +560,7 @@ namespace RecordsProcessor_Worker.Actors
                     DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
+                    mmria_record_id = record_id,
                     mmria_id = mmria_id,
                     StatusDetail = "matching case found in database"
                 };
@@ -604,8 +610,14 @@ namespace RecordsProcessor_Worker.Actors
                 var VitalsImportStatusValue = "0";
                 gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
 
+                gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
+
+
+
+
+
                 ExistingRecordIds = GetExistingRecordIds();
-                string record_id = null;
+                
                 do
                 {
                     record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
@@ -614,6 +626,20 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("home_record/record_id", record_id, new_case);
 
 
+                var import_info_builder = new System.Text.StringBuilder();
+                
+                
+                import_info_builder.AppendLine($"Vitals Import Date:  {DateTime.Now.ToString("MM/dd/yyyy")}\n");
+
+                import_info_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {mor_field_set["BC_DET_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {mor_field_set["FDC_DET_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {mor_field_set["BC_PROB_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {mor_field_set["FDC_PROB_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {mor_field_set["ICD10_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {mor_field_set["PREGCB_MATCH"]} decoded-response\n");
+                import_info_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {mor_field_set["LITERALCOD_MATCH"]} decoded-response\n");
+                
+                gs.set_value("home_record/automated_vitals_group/vital_report", import_info_builder.ToString(), new_case);
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -760,6 +786,11 @@ namespace RecordsProcessor_Worker.Actors
                 //gs.set_value(IJE_to_MMRIA_Path["STNAME_R"], mor_field_set["STNAME_R"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["STDESIG_R"], mor_field_set["STDESIG_R"], new_case);
                 //gs.set_value(IJE_to_MMRIA_Path["POSTDIR_R"], mor_field_set["POSTDIR_R"], new_case);
+
+
+
+
+
 
                 gs.set_value(IJE_to_MMRIA_Path["UNITNUM_R"], mor_field_set["UNITNUM_R"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["CITYTEXT_R"], mor_field_set["CITYTEXT_R"], new_case);
