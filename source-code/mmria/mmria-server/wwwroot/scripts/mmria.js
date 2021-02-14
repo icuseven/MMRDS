@@ -343,6 +343,30 @@ var $mmria = function()
             
             $("#mmria_dialog").dialog("open");
             // $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
+        },
+        info_dialog_show: function (p_title, p_header, p_inner_html){
+        let element = document.getElementById("case-progress-info-id");
+            if(element == null)
+            {
+                element = document.createElement("dialog");
+            
+                let html = [];
+                html.push(`<h3 class="mt-0">${p_title}</h3>`);
+                html.push(`<p><strong>${p_header}</p>`);
+                html.push(`${p_inner_html}`);
+                html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
+                element.innerHTML = html.join("");
+                element.setAttribute("id", "case-progress-info-id");
+
+                document.firstElementChild.appendChild(element);
+            }
+
+            element.showModal();
+        },
+        info_dialog_click: function ()
+        {
+            let el = document.getElementById("case-progress-info-id");
+            el.close();
         }
     };
 

@@ -10,6 +10,7 @@ namespace mmria.common.metadata
 
         public bool? is_not_selectable { get; set; }
 
+        public bool? is_mutually_exclusive { get; set; }
 
 		public value_node()
 		{

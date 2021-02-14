@@ -431,23 +431,8 @@ g_data
         {
             g_data.home_record.case_status.overall_case_status = g_previous_case_status;   
             $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
-            let element = document.getElementById("case-progress-info-id");
-            if(element == null)
-            {
-                element = document.createElement("dialog");
-            
-                let html = [];
-                html.push('<h3 class="mt-0">Invalid Status Selection</h3>');
-                html.push('<p><strong>Case Progress</p>');
-                html.push('<p class="card-body bg-gray-l2 set-radius">The Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
-                html.push('<button class="btn btn-primary mr-1" onclick="case_progress_info_id_click()">OK</button>');
-                element.innerHTML = html.join("");
-                element.setAttribute("id", "case-progress-info-id");
 
-                document.firstElementChild.appendChild(element);
-            }
-
-            element.showModal();
+            $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", '<p class="card-body bg-gray-l2 set-radius">The Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
         }
     }
     

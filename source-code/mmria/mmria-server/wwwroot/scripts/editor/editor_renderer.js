@@ -352,6 +352,20 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
                 child.is_not_selectable = false;
             }
 
+            if
+            (
+                (
+                    p_metadata.is_multiselect!= null &&
+                    p_metadata.is_multiselect == true ||
+                    p_metadata.name == "race" 
+                )  &&
+                child.is_mutually_exclusive == null
+
+            )
+            {
+                child.is_mutually_exclusive == false;
+            }
+
 
 
 			result.push('<li path="');
@@ -396,10 +410,24 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 			result.push(p_path  + "/" + "values/" + i + "/description");
             result.push('"  /> ');
+
             result.push(
-                `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_not_selectable" value="${child.is_not_selectable}" ${child.is_not_selectable ? "checked" : "" }/> is NOT selectable`
+                `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_not_selectable" value="${child.is_not_selectable}" ${child.is_not_selectable ? "checked" : "" }/> is NOT selectable `
             )
-			//result.push(p_path  + "/" + "values/" + i);
+            
+            if
+            (
+                
+                p_metadata.is_multiselect!= null &&
+                p_metadata.is_multiselect == true ||
+                p_metadata.name == "race" 
+            )
+            {
+                result.push(
+                    `<input type="checkbox" onChange="editor_set_value(this, g_ui)"  path="${p_path}/values/${i}/is_mutually_exclusive" value="${child.is_mutually_exclusive}" ${child.is_mutually_exclusive ? "checked" : "" }/> is mutually exclusive`
+                )
+            }
+
 			result.push(' </li>');
 
 		}
@@ -1284,6 +1312,7 @@ function editor_set_value(e, p_ui)
 		case "is_multiselect":
 		case "is_read_only":
         case "is_not_selectable":
+        case "is_mutually_exclusive":
 		case "is_save_value_display_description":
 			eval(item_path + ' = !' + e.value);
 			window.dispatchEvent(metadata_changed_event);
