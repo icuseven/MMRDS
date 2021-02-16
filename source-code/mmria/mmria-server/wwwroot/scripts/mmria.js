@@ -349,12 +349,31 @@ var $mmria = function()
             if(element == null)
             {
                 element = document.createElement("dialog");
+                element.classList.add('p-0');
+                element.classList.add('set-radius');
             
                 let html = [];
-                html.push(`<h3 class="mt-0">${p_title}</h3>`);
-                html.push(`<p><strong>${p_header}</p>`);
-                html.push(`${p_inner_html}`);
-                html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                            <p><strong>${p_header}</strong></p>
+                            ${p_inner_html}
+                        </div>
+                        <footer class="modal-footer">
+                            <button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>
+                        </footer>
+                    </div>
+                `);
+
+                // html.push(`<h3 class="mt-0">${p_title}</h3>`);
+                // html.push(`<p><strong>${p_header}</p>`);
+                // html.push(`${p_inner_html}`);
+                // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
+                
                 element.innerHTML = html.join("");
                 element.setAttribute("id", "case-progress-info-id");
 
