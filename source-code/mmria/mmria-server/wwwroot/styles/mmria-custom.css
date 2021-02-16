@@ -774,6 +774,8 @@ button.link {
 
 dialog {
     border: none;
+    max-width: 600px;
+    transform: translateY(-35%);
 }
 
 dialog::backdrop {
