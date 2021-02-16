@@ -1370,6 +1370,18 @@ function geocode_dc_last_res(p_control)
                 urban_status = 'Undetermined';
             }
 
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
+
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
@@ -1496,6 +1508,18 @@ function geocode_dc_injury_place(p_control)
             {
                 urban_status = 'Undetermined';
             }
+
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
 
             g_data.death_certificate.address_of_injury.urban_status = urban_status;
             // calculate state_county_fips
@@ -1624,6 +1648,18 @@ function geocode_dc_death_place(p_control)
                 urban_status = 'Undetermined';
             }
 
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
+
             g_data.death_certificate.address_of_death.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
@@ -1750,6 +1786,18 @@ function geocode_bc_delivery_place(p_control)
             {
                 urban_status = 'Undetermined';
             }
+
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
 
             g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.urban_status = urban_status;
             // calculate state_county_fips
@@ -1878,6 +1926,18 @@ function geocode_bc_residence(p_control)
                 urban_status = 'Undetermined';
             }
 
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
+
             g_data.birth_fetal_death_certificate_parent.location_of_residence.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
@@ -2004,6 +2064,18 @@ function geocode_pc_primary_care_location(p_control)
             {
                 urban_status = 'Undetermined';
             }
+
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
 
             g_data.prenatal.location_of_primary_prenatal_care_facility.urban_status = urban_status;
             // calculate state_county_fips
@@ -2133,6 +2205,18 @@ function geocode_erh_location(p_control)
                 urban_status = 'Undetermined';
             }
 
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
+
             g_data.er_visit_and_hospital_medical_records[current_erh_index].name_and_location_facility.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
@@ -2260,6 +2344,18 @@ function geocode_omov_location(p_control)
             {
                 urban_status = 'Undetermined';
             }
+
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
 
             g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.urban_status = urban_status;
             // calculate state_county_fips
@@ -2897,6 +2993,18 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
                 urban_status = 'Undetermined';
             }
 
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+            }
+            
+
             g_data.medical_transport.origin_information.address.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
@@ -3062,6 +3170,17 @@ function medical_transport_destination_information_address_get_coordinates(p_con
 	        else  
             {
                 urban_status = 'Undetermined';
+            }
+
+            let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
+            if(
+                census_track_certainty_code == 3 ||
+                census_track_certainty_code == 4 ||
+                census_track_certainty_code == 9
+            )
+            {
+
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
             }
 
             g_data.medical_transport.destination_information.address.urban_status = urban_status;
