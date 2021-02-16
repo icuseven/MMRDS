@@ -403,7 +403,7 @@ function render_report_click(p_batch, p_index)
                     let item = sortedItems[i];
                     html_builder.push
                     (`
-                        <tr class="tr" data-import-date="${item.importDate}">
+                        <tr class="tr" data-import-state="${item.reportingState}" data-import-date="${item.importDate}">
                             <td class="td text-align-center">${i+1}</td>
                             <td class="td">${item.mmria_record_id}</td>
                             <td class="td">${item.cdcUniqueID}</td>
