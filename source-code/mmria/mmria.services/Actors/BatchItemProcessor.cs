@@ -19,7 +19,7 @@ namespace RecordsProcessor_Worker.Actors
             //{ "DOD_YR", "home_record/date_of_death/year"},
             //{ "DOD_MO", "home_record/date_of_death/month"},
             //{ "DOD_DY", "home_record/date_of_death/day"},
-            {"DOD_YR","home_record/date_of_death/Year"},
+            {"DOD_YR","home_record/date_of_death/year"},
             {"DOD_MO","home_record/date_of_death/month"},
             {"DOD_DY","home_record/date_of_death/day"},
 
@@ -688,12 +688,12 @@ namespace RecordsProcessor_Worker.Actors
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
-                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], mor_field_set["DOD_MO"], new_case);
-                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], mor_field_set["DOD_DY"], new_case);
+                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_9999(mor_field_set["DOD_MO"]), new_case);
+                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_9999(mor_field_set["DOD_DY"]), new_case);
                 var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
-                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], mor_field_set["DOB_MO"], new_case);
-                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], mor_field_set["DOB_DY"], new_case);
-                var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);
+                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_9999(mor_field_set["DOB_MO"]), new_case);
+                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_9999(mor_field_set["DOB_DY"]), new_case);
+                var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);           
                 var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
 
                 gs.set_value(IJE_to_MMRIA_Path["FILENO"], mor_field_set["FILENO"], new_case);
@@ -1169,6 +1169,18 @@ namespace RecordsProcessor_Worker.Actors
             */
 
 
+        }
+
+        private string TryPaseToIntOr_9999(string value)
+        {
+            string result = "9999";
+
+            if(int.TryParse(value, out int value_result))
+            {
+                result = value_result.ToString();
+            }
+
+            return result;
         }
 
         private void death_distance(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case)
