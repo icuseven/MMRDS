@@ -1312,7 +1312,7 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
                     let item = data_value_list[i];
                     p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
                     p_name_to_value_lookup[p_path][item.value] = item.display.toLowerCase();
-                    p_name_to_value_lookup[p_path][item.value] = i;
+                    p_value_to_index_number_lookup[p_path][item.value] = i;
                 }
             }
             break;

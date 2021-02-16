@@ -340,7 +340,7 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         }
                     break;
                     case "display":
-                        function_body.push(`let result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookup[y${property_name}]);`);
+                        function_body.push(`let result = g_apply_sort_compareNumberAsc(g_value_to_index_number_lookup['${metadata_path_list[i]}'][x${property_name}], g_value_to_index_number_lookup['${metadata_path_list[i]}'][y${property_name}]);`);
                     break;
                 }
             }
@@ -385,7 +385,7 @@ function g_apply_sort_create_sort(p_metadata, p_dictionary_path)
                         }
                     break;
                     case "display":
-                        function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(g_name_to_value_lookup[x${property_name}], g_name_to_value_lookup[y${property_name}]); }`);
+                        function_body.push(`if(result==0) { result = g_apply_sort_compareNumberAsc(g_value_to_index_number_lookup['${metadata_path_list[i]}'][x${property_name}], g_value_to_index_number_lookup['${metadata_path_list[i]}'][y${property_name}]); }`);
                     break;
                 }
             }

@@ -27,6 +27,7 @@ var g_look_up = {};
 var g_release_version = null;
 var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
+var g_name_to_value_lookup = {};
 var g_display_to_value_lookup = {};
 var g_value_to_index_number_lookup = {};
 var g_name_to_value_lookup = {};
