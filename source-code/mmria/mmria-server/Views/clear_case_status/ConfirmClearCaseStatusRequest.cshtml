@@ -28,7 +28,7 @@
 <a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
 <br/><br/>
 <form method="post" action="/clear_case_status/ClearCaseStatus">
-    Are you sure you want to clear the case status for:  @Model.FirstName Model.MiddleName @Model.LastName (@Model.RecordId)
+    Are you sure you want to clear the case status for:  <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>
     <br/><br/>
         <p><strong>Case Status:</strong> @Model.CaseStatus</p>
        <p><strong>_id:</strong> @Model._id</p>
