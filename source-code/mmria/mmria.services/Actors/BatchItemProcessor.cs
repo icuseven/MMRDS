@@ -19,7 +19,7 @@ namespace RecordsProcessor_Worker.Actors
             //{ "DOD_YR", "home_record/date_of_death/year"},
             //{ "DOD_MO", "home_record/date_of_death/month"},
             //{ "DOD_DY", "home_record/date_of_death/day"},
-            {"DOD_YR","home_record/date_of_death/Year"},
+            {"DOD_YR","home_record/date_of_death/year"},
             {"DOD_MO","home_record/date_of_death/month"},
             {"DOD_DY","home_record/date_of_death/day"},
 
@@ -350,6 +350,17 @@ namespace RecordsProcessor_Worker.Actors
         private System.Dynamic.ExpandoObject case_expando_object = null;
 
         private Dictionary<string, string> StateDisplayToValue;
+
+        private string location_of_residence_latitude = null;
+        private string location_of_residence_longitude = null;
+        private string facility_of_delivery_location_latitude = null;
+        private string facility_of_delivery_location_longitude = null;
+
+        private string death_certificate_place_of_last_residence_latitude = null;
+        private string death_certificate_place_of_last_residence_longitude = null;
+        private string death_certificate_address_of_death_latitude = null;
+        private string death_certificate_address_of_death_longitude = null;
+
         public BatchItemProcessor()
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
@@ -677,12 +688,12 @@ namespace RecordsProcessor_Worker.Actors
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
-                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], mor_field_set["DOD_MO"], new_case);
-                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], mor_field_set["DOD_DY"], new_case);
+                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_9999(mor_field_set["DOD_MO"]), new_case);
+                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_9999(mor_field_set["DOD_DY"]), new_case);
                 var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
-                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], mor_field_set["DOB_MO"], new_case);
-                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], mor_field_set["DOB_DY"], new_case);
-                var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);
+                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_9999(mor_field_set["DOB_MO"]), new_case);
+                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_9999(mor_field_set["DOB_DY"]), new_case);
+                var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);           
                 var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
 
                 gs.set_value(IJE_to_MMRIA_Path["FILENO"], mor_field_set["FILENO"], new_case);
@@ -1017,6 +1028,9 @@ namespace RecordsProcessor_Worker.Actors
 
                 }
 
+                birth_distance(gs, new_case);
+                death_distance(gs, new_case);
+
                 #endregion
 
                 #region NAT Assignments
@@ -1157,17 +1171,56 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
-        private void birth_distance(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string latitude, string longitude, string facility_of_delivery_location_latitude, string facility_of_delivery_location_longitude)
+        private string TryPaseToIntOr_9999(string value)
         {
-            double? dist = null;
-            float.TryParse(latitude, out float res_lat);
-            float.TryParse(longitude, out float res_lon);
-            float.TryParse(facility_of_delivery_location_latitude, out float hos_lat);
-            float.TryParse(facility_of_delivery_location_longitude, out float hos_lon);
-            if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180)
+            string result = "9999";
+
+            if(int.TryParse(value, out int value_result))
             {
-                dist = calc_distance(res_lat, res_lon, hos_lat, hos_lon);
-                gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence", dist?.ToString(), new_case);
+                result = value_result.ToString();
+            }
+
+            return result;
+        }
+
+        private void death_distance(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case)
+        {
+            if (!string.IsNullOrWhiteSpace(death_certificate_place_of_last_residence_latitude)
+               && !string.IsNullOrWhiteSpace(death_certificate_place_of_last_residence_longitude)
+               && !string.IsNullOrWhiteSpace(death_certificate_address_of_death_latitude)
+               && !string.IsNullOrWhiteSpace(death_certificate_address_of_death_longitude))
+            {
+                double? dist = null;
+                float.TryParse(death_certificate_place_of_last_residence_latitude, out float res_lat);
+                float.TryParse(death_certificate_place_of_last_residence_longitude, out float res_lon);
+                float.TryParse(death_certificate_address_of_death_latitude, out float hos_lat);
+                float.TryParse(death_certificate_address_of_death_longitude, out float hos_lon);
+                if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180)
+                {
+                    dist = calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+                    gs.set_value("death_certificate/address_of_death/estimated_death_distance_from_residence", dist?.ToString(), new_case);
+                }
+            }
+        }
+
+        private void birth_distance(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case)
+        {
+            if (!string.IsNullOrWhiteSpace(location_of_residence_latitude)
+                && !string.IsNullOrWhiteSpace(location_of_residence_longitude)
+                && !string.IsNullOrWhiteSpace(facility_of_delivery_location_latitude)
+                && !string.IsNullOrWhiteSpace(facility_of_delivery_location_longitude))
+            {
+
+                double? dist = null;
+                float.TryParse(location_of_residence_latitude, out float res_lat);
+                float.TryParse(location_of_residence_longitude, out float res_lon);
+                float.TryParse(facility_of_delivery_location_latitude, out float hos_lat);
+                float.TryParse(facility_of_delivery_location_longitude, out float hos_lon);
+                if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180)
+                {
+                    dist = calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+                    gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence", dist?.ToString(), new_case);
+                }
             }
         }
 
@@ -1403,6 +1456,9 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
+
+                facility_of_delivery_location_latitude = latitude;
+                facility_of_delivery_location_longitude = longitude;
             }
             else
             {
@@ -1520,6 +1576,9 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_met_div_fips", census_met_div_fips, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/urban_status", urban_status, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/state_county_fips", state_county_fips, new_case);
+
+                location_of_residence_latitude = latitude;
+                location_of_residence_longitude = longitude;
             }
             else
             {
@@ -1638,6 +1697,9 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
                 gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
                 gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
+
+                death_certificate_place_of_last_residence_latitude = latitude;
+                death_certificate_place_of_last_residence_longitude = longitude;
             }
             else
             {
@@ -1757,6 +1819,9 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
                 gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
                 gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
+
+                death_certificate_address_of_death_latitude = latitude;
+                death_certificate_address_of_death_longitude = longitude;
             }
             else
             {
