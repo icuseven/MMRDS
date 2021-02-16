@@ -130,7 +130,7 @@ function validate_length(p_array, p_max_length)
                             continue;
                         }
 
-                        batch_item_set.Add(batch_item.CDCUniqueID, (row, batch_item));
+                        batch_item_set.Add(batch_item.CDCUniqueID?.Trim(), (row, batch_item));
                         duplicate_count[batch_item.CDCUniqueID] = 1;
 
             
@@ -172,7 +172,7 @@ function validate_length(p_array, p_max_length)
                             fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID)
                         };
 
-                        var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_tuple.Item2.CDCUniqueID);
+                        var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_tuple.Item2.CDCUniqueID?.Trim());
                         batch_item_processor.Tell(StartBatchItemMessage);
                     }
                     catch(Exception ex)
