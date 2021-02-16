@@ -28,23 +28,38 @@
 Clear Case Status
 
 
-<br/>
-Search for your record<br/>
+<br/><br/>
+<h3>Search for your record by record_id</h3><br/><br/>
 <form method="post" action="/clear_case_status/FindRecord">
-    StateDatabase:
-    <select name="StateDatabase">
-    @foreach (var item in Model.detail_list)
-    {
-        <option>@item.Key</option>
-    }
-</select>
-
-    RecordId:
-    <input type="text" name="RecordId" value="" />
-    <input type="Submit" value="select"/>
+<table>
+    <tr>
+        <td align="right">Select Site Database:</td>
+    <td>
+        <select name="StateDatabase">
+        @foreach (var item in Model.detail_list)
+        {
+            <option>@item.Key</option>
+        }
+        </select>
+    </td>
+</tr>
+<tr>
+    <td align="right">Enter Record_Id Search Text:</td>
+    <td>
+        <input type="text" name="RecordId" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <input type="Submit" value="Find matching cases" />
+        </td>
+    </tr>
+</table>
 </form>
 
+<br/>
   <a href="/home">home</a><br/>
-
+<br/>
 </body>
 </html>
