@@ -1,148 +1,5 @@
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
-    // data migration - start
-    let data_migration_list = p_metadata.values;
-
-    if(p_metadata.path_reference && p_metadata.path_reference != "")
-    {
-        data_migration_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-        if(data_migration_list == null)	
-        {
-            data_migration_list = p_metadata.values;
-        }
-    }
-
-    if(Array.isArray(p_data))
-    {
-        for(let item_index = 0; item_index < p_data.length; item_index++)
-        {
-            let array_item = p_data[item_index];
-            let is_found = false;
-
-            for(let i = 0; i < data_migration_list.length; i++)
-            {
-                let item = data_migration_list[i];
-
-                if(item.value == array_item)
-                {
-                    is_found = true;
-                    break;
-                }
-            }
-
-            if(!is_found)
-            {
-                for(let i = 0; i < data_migration_list.length; i++)
-                {
-                    let item = data_migration_list[i];
-        
-                    if(item.value == 9999 && array_item == null || array_item == "")
-                    {
-                        p_data[item_index] = item.value;
-                        break;
-                    }
-                    if(item.display && item.display == array_item)
-                    {
-                        p_data[item_index] = item.value;
-                        break;
-                    }
-                }   
-            }
-        }
-    }
-    else
-    {
-        let is_found = false;
-
-        for(let i = 0; i < data_migration_list.length; i++)
-        {
-            let item = data_migration_list[i];
-
-            if(item.value == p_data)
-            {
-                is_found = true;
-                break;
-            }
-        }
-
-        if(!is_found)
-        {
-
-            if(p_metadata.name.indexOf("pmss") > -1)
-            {
-                for(let i = 0; i < data_migration_list.length; i++)
-                {
-                    let item = data_migration_list[i];
-
-                    if(item.value == 9999 && p_data == null || p_data == "")
-                    {
-                        p_data = item.value;
-                        break;
-                    }
-                    else if(item.display && item.display == p_data)
-                    {
-                        p_data = item.value;
-                        break;
-                    }
-                }   
-
-            }
-            else if(p_metadata.data_type == "string")
-            {
-                for(let i = 0; i < data_migration_list.length; i++)
-                {
-                    let item = data_migration_list[i];
-                    let name_value = p_data.split("-");
-
-                    if(name_value.lenght > 1)
-                    {
-                        
-                        let value = name_value[0].trim();
-                        let display = name_value[1].trim();                    
-            
-                        if(item.value == 9999 && p_data == null || p_data == "")
-                        {
-                            p_data = item.value;
-                            break;
-                        }
-                        else if(display && display == item.display)
-                        {
-                            p_data = item.value;
-                            break;
-                        }
-                    }
-                    else if(item.value == 9999 && p_data == null || p_data == "")
-                    {
-                        p_data = item.value;
-                        break;
-                    }
-
-                }   
-
-            }
-            else
-            {
-                for(let i = 0; i < data_migration_list.length; i++)
-                {
-                    let item = data_migration_list[i];
-        
-                    if(item.value == 9999 && p_data == null || p_data == "")
-                    {
-                        p_data = item.value;
-                        break;
-                    }
-                    else if(item.display && item.display == p_data)
-                    {
-                        p_data = item.value;
-                        break;
-                    }
-                }   
-            }
-        }
-    }
-    // data migration - end
-
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
@@ -1159,9 +1016,36 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         }
     }
 
+    let has_mutually_exclusive_items = false;
+    let mutually_exclusive_items = [];
     for(let i = 0; i < data_value_list.length; i++)
     {
-        var item = data_value_list[i];
+        let item = data_value_list[i];
+        if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
+        {
+            has_mutually_exclusive_items = true;
+            mutually_exclusive_items.push(data_value_list[i].value);
+        }
+    }
+
+    let is_mutually_exclusive_item_selected = false;
+    let mutually_exclusive_item = null;
+
+    for(let i = 0; i < mutually_exclusive_items.length; i++)
+    {
+        let item = mutually_exclusive_items[i];
+        if (p_data.indexOf(item) > -1)
+        {
+            is_mutually_exclusive_item_selected = true;
+            mutually_exclusive_item = item;
+            break;
+        }
+    }
+
+
+    for(let i = 0; i < data_value_list.length; i++)
+    {
+        let item = data_value_list[i];
         let item_key = null;
 
         if(item.value == null | item.value == "")
@@ -1176,7 +1060,17 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         let item_style = g_default_ui_specification.form_design[item_key];
         let is_selected = "";
 
-        if (p_data.indexOf(item.value) > -1)
+
+
+        if(is_mutually_exclusive_item_selected)
+        {
+            if (item.value == mutually_exclusive_item)
+            {
+                is_selected = " checked ";
+            }
+    
+        }
+        else if (p_data.indexOf(item.value) > -1)
         {
             is_selected = " checked ";
         }
@@ -1190,6 +1084,15 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_metadata.is_read_only == true
             ) ||
             p_metadata.mirror_reference
+        )
+        {
+            is_read_only= " disabled=true ";
+        }
+        else if
+        (
+            is_mutually_exclusive_item_selected && 
+            item.value != mutually_exclusive_item &&
+            is_read_only == ""
         )
         {
             is_read_only= " disabled=true ";
