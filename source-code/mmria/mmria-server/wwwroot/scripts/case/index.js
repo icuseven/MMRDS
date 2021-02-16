@@ -814,6 +814,8 @@ var g_ui = {
     result.home_record.date_of_death.month = p_month_of_death;
     result.home_record.date_of_death.day = p_day_of_death;
 
+    let reporting_state = sanitize_encodeHTML(window.location.host.split("-")[0]);
+
     if 
     (
         (
@@ -827,8 +829,7 @@ var g_ui = {
         parseInt(result.home_record.date_of_death.year) < 2500
     ) 
     {
-        result.home_record.record_id = result.home_record.state_of_death_record.substring(0, 2) + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
-
+        result.home_record.record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
     }
 
     var new_data = [];
