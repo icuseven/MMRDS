@@ -61,7 +61,7 @@ namespace migrate.set
 
         public async Task execute()
         {
-			this.output_builder.AppendLine($"v2.3 Data Migration started at: {DateTime.Now.ToString("o")}");
+			this.output_builder.AppendLine($"v2.4 Data Migration started at: {DateTime.Now.ToString("o")}");
 			DateTime begin_time = System.DateTime.Now;
 			
 			this.output_builder.AppendLine($"v2_4_Migration started at: {begin_time.ToString("o")}");
@@ -618,7 +618,7 @@ namespace migrate.set
 
 										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 										{
-											is_list_changed = true;
+											//is_list_changed = true;
 											new_list.Add((tuple_value.Item1, "9999"));
 											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  null => 9999");
 											continue;	
@@ -684,7 +684,7 @@ namespace migrate.set
 									
 									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 									{
-										is_list_changed = true;
+										//is_list_changed = true;
 										new_list.Add((index, "9999"));
 										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted null => 9999");
 										continue;	
@@ -741,7 +741,7 @@ namespace migrate.set
 									{
 										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 										{
-											is_list_changed = true;
+											//is_list_changed = true;
 											new_value_list.Add("9999");
 											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} null => 9999");
 											continue;	
@@ -799,7 +799,7 @@ namespace migrate.set
 									
 									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 									{
-										is_list_changed = true;
+										//is_list_changed = true;
 										new_list.Add((form_index, grid_index, "9999"));
 										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} null => 9999");
 										continue;	
@@ -882,7 +882,7 @@ namespace migrate.set
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									is_list_changed = true;
+									//is_list_changed = true;
 									new_list.Add((form_index, "9999"));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted null => 9999");
 									continue;	
@@ -991,7 +991,7 @@ namespace migrate.set
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									new_list.Add((grid_index, "9999"));
-									is_list_changed = true;
+									//is_list_changed = true;
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted null => 9999");
 								}
 								else if(value.ToString() == "3")
@@ -1038,7 +1038,7 @@ namespace migrate.set
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									is_list_changed = true;
+									//is_list_changed = true;
 									new_list.Add((form_index, "9999"));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted null => 9999");
 									continue;	
@@ -1101,7 +1101,7 @@ namespace migrate.set
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									is_list_changed = true;
+									//is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovdiaot_t_type_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
@@ -1194,7 +1194,7 @@ namespace migrate.set
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									is_list_changed = true;
+									//is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
@@ -1265,7 +1265,7 @@ namespace migrate.set
 			
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									is_list_changed = true;
+									//is_list_changed = true;
 									new_list.Add((form_index, grid_index, "9999"));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	

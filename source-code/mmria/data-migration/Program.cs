@@ -14,7 +14,6 @@ namespace migrate
 
 	struct Selector_Struc
 	{
-		//public System.Dynamic.ExpandoObject selector;
 		public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
 		public string[] fields;
 
@@ -24,6 +23,8 @@ namespace migrate
     class Program
     {
 		 static private IConfiguration Configuration;
+
+		 static private mmria.common.couchdb.ConfigurationSet ConfigurationSet;
 
 		static private string config_timer_user_name;
 		static private string config_timer_value;
@@ -38,8 +39,11 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"ok",
-			/*"qa",
+			"fl",
+
+			/*"test",
+			"hi",
+			"qa",
 			"uat",
 			"cdc",
 			"tn",*/
@@ -50,7 +54,7 @@ namespace migrate
 			"nc"*/
 		};
 
-
+/**/
 		static List<string> prefix_list = new List<string>()
 		{
 			/*
@@ -117,6 +121,8 @@ namespace migrate
 
 		};
 
+		/*
+
 		static Dictionary<string,bool> central_db = new Dictionary<string,bool>(StringComparer.OrdinalIgnoreCase)
 		{
 			
@@ -144,7 +150,13 @@ namespace migrate
 {"ri", true},
 {"sd", true}
 
-		};
+		};*/
+
+		enum OnBoardingEnum
+		{
+			OnBoarding,
+			DataMigration
+		}
 
         static async Task Main(string[] args)
         {
@@ -154,20 +166,31 @@ namespace migrate
                 .AddUserSecrets<Program>()
                 .Build();
 
-
-			config_couchdb_url = Configuration["mmria_settings:central_couchdb_url"];
-			config_timer_user_name = Configuration["mmria_settings:timer_user_name"];
-			config_timer_value = Configuration["mmria_settings:timer_password"];
-			config_metadata_version = Configuration["mmria_settings:metadata_version"];
-
-			config_metadata_user_name = Configuration["mmria_settings:metadata_timer_user_name"];
-			config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
-
-
-
-			bool is_test_list = false;
+			var config_id = Configuration["data_migration:config_id"];
+			config_couchdb_url = Configuration["data_migration:couchdb_url"];
+			config_timer_user_name = Configuration["data_migration:timer_user_name"];
+			config_timer_value = Configuration["data_migration:timer_password"];
 			
-			bool is_report_only_mode = true;
+			ConfigurationSet = GetConfiguration(config_id);
+
+			
+			config_metadata_version = Configuration["data_migration:metadata_version"];
+			/*config_metadata_user_name = Configuration["mmria_settings:metadata_timer_user_name"];
+			config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
+			*/
+
+
+
+
+			bool is_test_list = true;
+			
+			bool is_report_only_mode = false;
+
+			bool is_localhost_dev = true;
+
+			OnBoardingEnum MigrationType = OnBoardingEnum.DataMigration;
+
+			
 
             string path = System.IO.Directory.GetCurrentDirectory();
             string target = System.IO.Path.Combine(path, "output");
@@ -182,6 +205,9 @@ namespace migrate
 
 
             Console.WriteLine("The current directory is {0}", path);
+
+
+			
 
             if (!System.IO.Directory.Exists(backup_directory)) 
             {
@@ -220,20 +246,29 @@ namespace migrate
 			foreach(var prefix in run_list)
 			{
 
-				config_couchdb_url = Configuration["mmria_settings:central_couchdb_url"].Replace("{prefix}", prefix);
+				mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+				if(ConfigurationSet.detail_list.ContainsKey(prefix))
+				{
+					 db_config = ConfigurationSet.detail_list[prefix];
+				}
+
+				if(db_config == null)
+				{
+					continue;
+				}
+
 				var db_name = "mmrds";
 
-				if(central_db.ContainsKey(prefix) && central_db[prefix])
+				config_couchdb_url = db_config.url; 
+				
+				config_timer_user_name = db_config.user_name; 
+				config_timer_value = db_config.user_value;
+				if(! string.IsNullOrWhiteSpace(db_config.prefix))
 				{
-					config_couchdb_url = "https://couchdb-central-mmria.services.cdc.gov";
-					db_name = $"{prefix}_mmrds";
+					db_name = $"{db_config.prefix}mmrds";
 				}
-				//var db_name = "{prefix}_mmrds".Replace("{prefix}",prefix);
-				if(is_test_list)
-				{
 
-
-				}
 
 				if (!is_test_list && !is_report_only_mode)
 				{
@@ -261,24 +296,43 @@ namespace migrate
 					Console.WriteLine($"Process_Migrate_Data Begin {System.DateTime.Now}");
 					
 
-					var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-					await crpr.execute();
+					switch(MigrationType)
+					{
+						case OnBoardingEnum.OnBoarding:
+						Console.WriteLine("This is an OnBoarding data migration.");
+						output_string_builder["main"]["main"].AppendLine("This is an OnBoarding data migration.");
+						break;
 
-					
-					var el = new migrate.set.editable_list(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["editable_list"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-					await el.execute();
+						case OnBoardingEnum.DataMigration:
+						Console.WriteLine("This is a Version upgrade data migration");
+						output_string_builder["main"]["main"].AppendLine("This is a Version upgrade data migration");
+						break;
+					}
 
-					
-					var mm = new migrate.set.Manual_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Manual_Migration"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-					await mm.execute();
+					if(MigrationType == OnBoardingEnum.OnBoarding)
+					{
+						var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await crpr.execute();
 
-					
-					var pctn = new migrate.set.Process_Migrate_Charactor_to_Numeric(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-					await pctn.execute();
+						var el = new migrate.set.editable_list(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["editable_list"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await el.execute();
 
-					var v2_3 = new migrate.set.v2_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-					await v2_3.execute();
+						
+						var mm = new migrate.set.Manual_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Manual_Migration"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await mm.execute();
 
+						
+						var pctn = new migrate.set.Process_Migrate_Charactor_to_Numeric(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await pctn.execute();
+
+						var v2_3 = new migrate.set.v2_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_3.execute();
+					}
+					else
+					{
+						var v2_4 = new migrate.set.v2_4_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_4.execute();
+					}
 
 					foreach(var kvp in summary_value_dictionary[prefix])
 					{
@@ -316,9 +370,6 @@ namespace migrate
 								}
 							}
 						}
-
-
-
 					}
 
 
@@ -612,5 +663,61 @@ namespace migrate
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
+
+		private static mmria.common.couchdb.ConfigurationSet GetConfiguration(string config_id)
+        {
+            var result = new mmria.common.couchdb.ConfigurationSet();
+            try
+            {
+                string request_string = $"{Program.config_couchdb_url}/configuration/{config_id}";
+                var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string responseFromServer = case_curl.execute();
+			    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+            } 
+
+            return result;
+        }
+
+    }
+}
+
+namespace mmria.common.couchdb
+{
+    public class DBConfigurationDetail
+    {
+        public string prefix { get; set;}
+        public string url { get; set; }
+
+        public string user_name { get; set; }
+
+        public string user_value { get; set; }
+
+    }
+    public class ConfigurationSet
+    {
+        public ConfigurationSet()
+        {
+            this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
+			this.name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        }
+        public string _id { get; set;}
+        public string _rev { get; set; }
+        public string service_key {get; set; }
+
+        public string data_type { get; } = "configuration-set";
+
+public Dictionary<string, string> name_value { get;set; }
+        public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
+
+		public DateTime date_created { get; set; } 
+		public string created_by { get; set; } 
+		public DateTime date_last_updated { get; set; } 
+		public string last_updated_by { get; set; } 
+
     }
 }
