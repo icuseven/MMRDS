@@ -1,7 +1,8 @@
 @using System.Security.Claims;
 @model mmria.common.couchdb.ConfigurationSet
 @{ 
-    Layout = "_LayoutBase"; 
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
     var userName = "";
 
     if(User.Identity != null && User.Identity.IsAuthenticated)
@@ -10,11 +11,35 @@
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
-
-    
 }
 
-<!DOCTYPE html>
+<h1 class="h2" tabindex="-1">Clear Case Status</h1>
+<p class="mb-4">Select database and enter the Record ID. Click the button to search for matching case(s).</p>
+
+<form method="post" action="/clear_case_status/FindRecord">
+    <div class="d-flex align-items-center form-group">
+        <label for="StateDatabase" class="d-block text-right mb-0 mr-3" style="width: 156px">Select Site Database:</label>
+        <select id="StateDatabase" class="form-control w-auto" name="StateDatabase">
+            <option value="">Select Database</option>
+            @foreach (var item in Model.detail_list)
+            {
+                <option value="@item.Key">@item.Key</option>
+            }
+        </select>
+    </div>
+
+    <div class="d-flex align-items-center form-group">
+        <label for="RecordId" class="d-block text-right mb-0 mr-3" style="width: 156px">Record ID:</label>
+        <input id="RecordId" class="form-control w-auto" type="text" name="RecordId" value="" />
+    </div>
+
+    <div class="d-flex align-items-center form-group">
+        <span class="d-block mr-3" style="width: 156px">&nbsp;</span>
+        <input class="btn btn-primary w-auto" type="Submit" value="Find Matching Cases" />
+    </div>
+</form>
+
+@*<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -62,4 +87,4 @@ Clear Case Status
   <a href="/home">home</a><br/>
 <br/>
 </body>
-</html>
+</html>*@

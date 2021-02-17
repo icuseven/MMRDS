@@ -759,7 +759,7 @@ button.link {
 }
 
 .modal.fade .modal-dialog {
-  transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
+  transform: 0.1s ease-out;
 }
 
 .modal .close:focus,
