@@ -1271,7 +1271,7 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
             "Mutually Exculsive",
             "other items will be removed",
             new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}");`),
-            $mmria.confirm_dialog_confirm_close
+            new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}");`)
         
         );
     }
@@ -1281,6 +1281,8 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
 
     }
 
+
+    
 
 
     console.log("here");
@@ -1302,6 +1304,18 @@ function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_pa
 {
     eval(p_object_path + "=[];");
     g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    $mmria.confirm_dialog_confirm_close();
+        
+}
+
+function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+{
+   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
+   if(checkbox_input!= null)
+   {
+        checkbox_input.checked = false;
+   }
+    
     $mmria.confirm_dialog_confirm_close();
         
 }
