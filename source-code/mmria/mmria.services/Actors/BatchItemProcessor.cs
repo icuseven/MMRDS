@@ -688,11 +688,11 @@ namespace RecordsProcessor_Worker.Actors
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
-                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_9999(mor_field_set["DOD_MO"]), new_case);
-                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_9999(mor_field_set["DOD_DY"]), new_case);
+                var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_MO"]), new_case);
+                var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_DY"]), new_case);
                 var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
-                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_9999(mor_field_set["DOB_MO"]), new_case);
-                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_9999(mor_field_set["DOB_DY"]), new_case);
+                var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_MO"]), new_case);
+                var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_DY"]), new_case);
                 var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);           
                 var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
 
@@ -782,8 +782,8 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["AUTOPF"], mor_field_set["AUTOPF"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["TOBAC"], mor_field_set["TOBAC"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["PREG"], mor_field_set["PREG"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DOI_MO"], mor_field_set["DOI_MO"], new_case);
-                gs.set_value(IJE_to_MMRIA_Path["DOI_DY"], mor_field_set["DOI_DY"], new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DOI_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOI_MO"]), new_case);
+                gs.set_value(IJE_to_MMRIA_Path["DOI_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOI_DY"]), new_case);
                 gs.set_value(IJE_to_MMRIA_Path["DOI_YR"], mor_field_set["DOI_YR"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["TOI_HR"], mor_field_set["TOI_HR"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["WORKINJ"], mor_field_set["WORKINJ"], new_case);
@@ -871,38 +871,38 @@ namespace RecordsProcessor_Worker.Actors
 
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_YR"], field_set["IDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_MO"], field_set["IDOB_MO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_DY"], field_set["IDOB_DY"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_MO"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_DY"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_MO"], field_set["MDOB_MO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_DY"], field_set["MDOB_DY"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_MO"], field_set["FDOB_MO"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ACKN"], field_set["ACKN"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPREV"], field_set["NPREV"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HIN"], field_set["HIN"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBL"], field_set["PLBL"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBD"], field_set["PLBD"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["POPO"], field_set["POPO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], field_set["MLLB"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], field_set["MOPO"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PAY"], field_set["PAY"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], field_set["DLMP_MO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_DY"], field_set["DLMP_DY"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], field_set["NPCES"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["OWGEST"], field_set["OWGEST"], new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BIRTH_CO"], field_set["BIRTH_CO"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BRTHCITY"], field_set["BRTHCITY"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HOSP"], field_set["HOSP"], new_case);
@@ -952,36 +952,36 @@ namespace RecordsProcessor_Worker.Actors
 
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_YR"], field_set["FDOD_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_MO"], field_set["FDOD_MO"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_DY"], field_set["FDOD_DY"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_MO"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_DY"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_DY"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_MO"], field_set["MDOB_MO"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_DY"], field_set["MDOB_DY"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_MO"], field_set["FDOB_MO"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPREV"], field_set["NPREV"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HIN"], field_set["HIN"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBL"], field_set["PLBL"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBD"], field_set["PLBD"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["POPO"], field_set["POPO"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MLLB"], field_set["MLLB"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOPO"], field_set["MOPO"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YLLB"], TryPaseToIntOr_DefaultBlank(field_set["YLLB"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], field_set["DLMP_MO"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], field_set["DLMP_DY"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], field_set["NPCES"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OWGEST"], field_set["OWGEST"], new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSP_D"], field_set["HOSP_D"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ADDRESS_D"], field_set["ADDRESS_D"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ZIPCODE_D"], field_set["ZIPCODE_D"], new_case);
@@ -1047,9 +1047,9 @@ namespace RecordsProcessor_Worker.Actors
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["APGAR5"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["APGAR10"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["SORD"])) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
@@ -1171,9 +1171,9 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
-        private string TryPaseToIntOr_9999(string value)
+        private string TryPaseToIntOr_DefaultBlank(string value, string defaultString = "99")
         {
-            string result = "9999";
+            string result = defaultString;
 
             if(int.TryParse(value, out int value_result))
             {
