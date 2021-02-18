@@ -2531,7 +2531,7 @@ function omb_race_recode_dc(p_control) {
 
 // OMB RACE RECODE FOR MOM ON BC FORM
 /*
-path=birth_fetal_death_certificate_parent/race/cmd_recode
+path=birth_fetal_death_certificate_parent/race/race_of_mother
 event=onclick
 */
 function omb_mrace_recode_bc(p_control) {
@@ -2544,7 +2544,7 @@ function omb_mrace_recode_bc(p_control) {
 }
 // OMB RACE RECODE FOR DAD ON BC FORM
 /*
-path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode
+path=birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
 event=onclick
 */
 function omb_frace_recode_bc(p_control) {
@@ -2556,26 +2556,6 @@ function omb_frace_recode_bc(p_control) {
     $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
 }
 
-// CLEAR OMB RACE RECODE FOR MOM ON BC FORM
-/*
-path=birth_fetal_death_certificate_parent/race/cmd_recode_clear
-event=onclick
-*/
-function omb_mrace_clear_bc(p_control) {
-    this.omb_race_recode = '';
-    $mmria.save_current_record();
-    $mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
-}
-// CLEAR OMB RACE RECODE FOR DAD ON BC FORM
-/*
-path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode_clear
-event=onclick
-*/
-function omb_frace_clear_bc(p_control) {
-    this.omb_race_recode = '';
-    $mmria.save_current_record();
-    $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
-}
 // CLEAR DISTANCE BETWEEN LAST RESIDENCE AND HOSPITAL OF DEATH ON DC FORM
 /*
 path=death_certificate/address_of_death/cmd_calculate_distance_clear
