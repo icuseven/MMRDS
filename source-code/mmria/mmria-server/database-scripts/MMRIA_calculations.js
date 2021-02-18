@@ -2918,21 +2918,22 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
     {
         let urban_status = null;
         let state_county_fips = null;
+        var current_mt_index = $global.get_current_multiform_index();
         if (geo_data && geo_data.FeatureMatchingResultType) 
         {
-            g_data.medical_transport.origin_information.address.latitude = geo_data.latitude;
-            g_data.medical_transport.origin_information.address.longitude = geo_data.longitude;
-            g_data.medical_transport.origin_information.address.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
-            g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
-            g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
-            g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
-            g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
-            g_data.medical_transport.origin_information.address.census_state_fips = geo_data.CensusStateFips;
-            g_data.medical_transport.origin_information.address.census_county_fips = geo_data.CensusCountyFips;
-            g_data.medical_transport.origin_information.address.census_tract_fips = geo_data.CensusTract;
-            g_data.medical_transport.origin_information.address.census_cbsa_fips = geo_data.CensusCbsaFips;
-            g_data.medical_transport.origin_information.address.census_cbsa_micro = geo_data.CensusCbsaMicro;
-            g_data.medical_transport.origin_information.address.census_met_div_fips = geo_data.CensusMetDivFips;
+            g_data.medical_transport[current_mt_index].origin_information.address.latitude = geo_data.latitude;
+            g_data.medical_transport[current_mt_index].origin_information.address.longitude = geo_data.longitude;
+            g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
+            g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
+            g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
+            g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
+            g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips = geo_data.CensusStateFips;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips = geo_data.CensusCountyFips;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips = geo_data.CensusTract;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips = geo_data.CensusCbsaFips;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro = geo_data.CensusCbsaMicro;
+            g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips = geo_data.CensusMetDivFips;
             // calculate urban_status
             if 
             (
@@ -2980,64 +2981,64 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
             }
             
 
-            g_data.medical_transport.origin_information.address.urban_status = urban_status;
+            g_data.medical_transport[current_mt_index].origin_information.address.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
 			{
                 state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
-            g_data.medical_transport.origin_information.address.state_county_fips = state_county_fips;
+            g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips = state_county_fips;
 
             $mmria.save_current_record();
-            $mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-            $mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-            $mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-            $mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-            $mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-            $mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.medical_transport[current_mt_index].origin_information.address.latitude);
+            $mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.medical_transport[current_mt_index].origin_information.address.longitude);
+            $mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type);
+            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code);
+            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type);
+            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code);
+            $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro);
+            $mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips);
+            $mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.medical_transport[current_mt_index].origin_information.address.urban_status);
+            $mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips);
 		}
 		else
 		{
-			g_data.medical_transport.origin_information.address.feature_matching_geography_type = 'Unmatchable';
-			g_data.medical_transport.origin_information.address.latitude = '';
-			g_data.medical_transport.origin_information.address.longitude = '';
-			g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_code = '';
-			g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_type = '';
-			g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_code = '';
-			g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_type = '';
-			g_data.medical_transport.origin_information.address.census_state_fips = '';
-			g_data.medical_transport.origin_information.address.census_county_fips = '';
-			g_data.medical_transport.origin_information.address.census_tract_fips = '';
-			g_data.medical_transport.origin_information.address.census_cbsa_fips = '';
-			g_data.medical_transport.origin_information.address.census_cbsa_micro = '';
-			g_data.medical_transport.origin_information.address.census_met_div_fips = '';
-			g_data.medical_transport.origin_information.address.urban_status = '';
-			g_data.medical_transport.origin_information.address.state_county_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type = 'Unmatchable';
+			g_data.medical_transport[current_mt_index].origin_information.address.latitude = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.longitude = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips = '';
+			g_data.medical_transport[current_mt_index].origin_information.address.urban_status = '';
+            g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips = '';
 			$mmria.save_current_record();
-			$mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-			$mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-			$mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-			$mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-			$mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-			$mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type);
+			$mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.medical_transport[current_mt_index].origin_information.address.latitude);
+			$mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.medical_transport[current_mt_index].origin_information.address.longitude);
+			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code);
+			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type);
+			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code);
+			$mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro);
+			$mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips);
+			$mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.medical_transport[current_mt_index].origin_information.address.urban_status);
+			$mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips);
 
 		}
     });
@@ -3049,37 +3050,39 @@ event=onclick
 */
 function medical_transport_origin_information_address_get_coordinates_clear(p_control) 
 {
-    g_data.medical_transport.origin_information.address.feature_matching_geography_type = '';
-    g_data.medical_transport.origin_information.address.latitude = '';
-    g_data.medical_transport.origin_information.address.longitude = '';
-    g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_code = '';
-    g_data.medical_transport.origin_information.address.naaccr_gis_coordinate_quality_type = '';
-    g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_code = '';
-    g_data.medical_transport.origin_information.address.naaccr_census_tract_certainty_type = '';
-    g_data.medical_transport.origin_information.address.census_state_fips = '';
-    g_data.medical_transport.origin_information.address.census_county_fips = '';
-    g_data.medical_transport.origin_information.address.census_tract_fips = '';
-    g_data.medical_transport.origin_information.address.census_cbsa_fips = '';
-    g_data.medical_transport.origin_information.address.census_cbsa_micro = '';
-    g_data.medical_transport.origin_information.address.census_met_div_fips = '';
-	g_data.medical_transport.origin_information.address.urban_status = '';
-    g_data.medical_transport.origin_information.address.state_county_fips = '';
+    var current_mt_index = $global.get_current_multiform_index();
+
+    g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.latitude = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.longitude = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips = '';
+	g_data.medical_transport[current_mt_index].origin_information.address.urban_status = '';
+    g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips = '';
     $mmria.save_current_record();
-    $mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-    $mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-    $mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-    $mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-	$mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-    $mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+    $mmria.set_control_value('medical_transport/origin_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].origin_information.address.feature_matching_geography_type);
+    $mmria.set_control_value('medical_transport/origin_information/address/latitude', g_data.medical_transport[current_mt_index].origin_information.address.latitude);
+    $mmria.set_control_value('medical_transport/origin_information/address/longitude', g_data.medical_transport[current_mt_index].origin_information.address.longitude);
+    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_code);
+    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_gis_coordinate_quality_type);
+    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_code);
+    $mmria.set_control_value('medical_transport/origin_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].origin_information.address.naaccr_census_tract_certainty_type);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_state_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_state_fips);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_county_fips);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_tract_fips);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_fips);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].origin_information.address.census_cbsa_micro);
+    $mmria.set_control_value('medical_transport/origin_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].origin_information.address.census_met_div_fips);
+	$mmria.set_control_value('medical_transport/origin_information/address/urban_status', g_data.medical_transport[current_mt_index].origin_information.address.urban_status);
+    $mmria.set_control_value('medical_transport/origin_information/address/state_county_fips', g_data.medical_transport[current_mt_index].origin_information.address.state_county_fips);
 }
 
 
@@ -3097,21 +3100,22 @@ function medical_transport_destination_information_address_get_coordinates(p_con
     {
         let urban_status = null;
         let state_county_fips = null;
+        var current_mt_index = $global.get_current_multiform_index();
         if (geo_data && geo_data.FeatureMatchingResultType) 
         {
-            g_data.medical_transport.destination_information.address.latitude = geo_data.latitude;
-            g_data.medical_transport.destination_information.address.longitude = geo_data.longitude;
-            g_data.medical_transport.destination_information.address.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
-            g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
-            g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
-            g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
-            g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
-            g_data.medical_transport.destination_information.address.census_state_fips = geo_data.CensusStateFips;
-            g_data.medical_transport.destination_information.address.census_county_fips = geo_data.CensusCountyFips;
-            g_data.medical_transport.destination_information.address.census_tract_fips = geo_data.CensusTract;
-            g_data.medical_transport.destination_information.address.census_cbsa_fips = geo_data.CensusCbsaFips;
-            g_data.medical_transport.destination_information.address.census_cbsa_micro = geo_data.CensusCbsaMicro;
-            g_data.medical_transport.destination_information.address.census_met_div_fips = geo_data.CensusMetDivFips;
+            g_data.medical_transport[current_mt_index].destination_information.address.latitude = geo_data.latitude;
+            g_data.medical_transport[current_mt_index].destination_information.address.longitude = geo_data.longitude;
+            g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
+            g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
+            g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
+            g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
+            g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips = geo_data.CensusStateFips;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips = geo_data.CensusCountyFips;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips = geo_data.CensusTract;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips = geo_data.CensusCbsaFips;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro = geo_data.CensusCbsaMicro;
+            g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips = geo_data.CensusMetDivFips;
             // calculate urban_status
             if 
             (
@@ -3158,64 +3162,64 @@ function medical_transport_destination_information_address_get_coordinates(p_con
                 $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
             }
 
-            g_data.medical_transport.destination_information.address.urban_status = urban_status;
+            g_data.medical_transport[current_mt_index].destination_information.address.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
 			{
                 state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
-            g_data.medical_transport.destination_information.address.state_county_fips = state_county_fips;
+            g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips = state_county_fips;
 
             $mmria.save_current_record();
-            $mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-            $mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-            $mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-            $mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-            $mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-            $mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.medical_transport[current_mt_index].destination_information.address.latitude);
+            $mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.medical_transport[current_mt_index].destination_information.address.longitude);
+            $mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type);
+            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code);
+            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type);
+            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code);
+            $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro);
+            $mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips);
+            $mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.medical_transport[current_mt_index].destination_information.address.urban_status);
+            $mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips);
 		}
 		else
 		{
-			g_data.medical_transport.destination_information.address.feature_matching_geography_type = 'Unmatchable';
-			g_data.medical_transport.destination_information.address.latitude = '';
-			g_data.medical_transport.destination_information.address.longitude = '';
-			g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_code = '';
-			g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_type = '';
-			g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_code = '';
-			g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_type = '';
-			g_data.medical_transport.destination_information.address.census_state_fips = '';
-			g_data.medical_transport.destination_information.address.census_county_fips = '';
-			g_data.medical_transport.destination_information.address.census_tract_fips = '';
-			g_data.medical_transport.destination_information.address.census_cbsa_fips = '';
-			g_data.medical_transport.destination_information.address.census_cbsa_micro = '';
-			g_data.medical_transport.destination_information.address.census_met_div_fips = '';
-			g_data.medical_transport.destination_information.address.urban_status = '';
-			g_data.medical_transport.destination_information.address.state_county_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type = 'Unmatchable';
+			g_data.medical_transport[current_mt_index].destination_information.address.latitude = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.longitude = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.urban_status = '';
+			g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips = '';
 			$mmria.save_current_record();
-			$mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-			$mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-			$mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-			$mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-			$mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-			$mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type);
+			$mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.medical_transport[current_mt_index].destination_information.address.latitude);
+			$mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.medical_transport[current_mt_index].destination_information.address.longitude);
+			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code);
+			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type);
+			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code);
+			$mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro);
+			$mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips);
+			$mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.medical_transport[current_mt_index].destination_information.address.urban_status);
+			$mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips);
 
 		}
     });
@@ -3229,37 +3233,39 @@ event=onclick
 */
 function medical_transport_destination_information_address_get_coordinates_clear(p_control) 
 {
-    g_data.medical_transport.destination_information.address.feature_matching_geography_type = '';
-    g_data.medical_transport.destination_information.address.latitude = '';
-    g_data.medical_transport.destination_information.address.longitude = '';
-    g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_code = '';
-    g_data.medical_transport.destination_information.address.naaccr_gis_coordinate_quality_type = '';
-    g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_code = '';
-    g_data.medical_transport.destination_information.address.naaccr_census_tract_certainty_type = '';
-    g_data.medical_transport.destination_information.address.census_state_fips = '';
-    g_data.medical_transport.destination_information.address.census_county_fips = '';
-    g_data.medical_transport.destination_information.address.census_tract_fips = '';
-    g_data.medical_transport.destination_information.address.census_cbsa_fips = '';
-    g_data.medical_transport.destination_information.address.census_cbsa_micro = '';
-    g_data.medical_transport.destination_information.address.census_met_div_fips = '';
-	g_data.medical_transport.destination_information.address.urban_status = '';
-    g_data.medical_transport.destination_information.address.state_county_fips = '';
+    var current_mt_index = $global.get_current_multiform_index();
+
+    g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.latitude = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.longitude = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips = '';
+	g_data.medical_transport[current_mt_index].destination_information.address.urban_status = '';
+    g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips = '';
     $mmria.save_current_record();
-    $mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
-    $mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.death_certificate.place_of_last_residence.latitude);
-    $mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
-    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
-    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
-    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.death_certificate.place_of_last_residence.census_state_fips);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.death_certificate.place_of_last_residence.census_county_fips);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.death_certificate.place_of_last_residence.census_tract_fips);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.death_certificate.place_of_last_residence.census_cbsa_fips);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.death_certificate.place_of_last_residence.census_cbsa_micro);
-    $mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
-	$mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
-    $mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
+    $mmria.set_control_value('medical_transport/destination_information/address/feature_matching_geography_type', g_data.medical_transport[current_mt_index].destination_information.address.feature_matching_geography_type);
+    $mmria.set_control_value('medical_transport/destination_information/address/latitude', g_data.medical_transport[current_mt_index].destination_information.address.latitude);
+    $mmria.set_control_value('medical_transport/destination_information/address/longitude', g_data.medical_transport[current_mt_index].destination_information.address.longitude);
+    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_code);
+    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_gis_coordinate_quality_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_gis_coordinate_quality_type);
+    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_code', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_code);
+    $mmria.set_control_value('medical_transport/destination_information/address/naaccr_census_tract_certainty_type', g_data.medical_transport[current_mt_index].destination_information.address.naaccr_census_tract_certainty_type);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_state_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_state_fips);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_county_fips);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_tract_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_tract_fips);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_fips);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_cbsa_micro', g_data.medical_transport[current_mt_index].destination_information.address.census_cbsa_micro);
+    $mmria.set_control_value('medical_transport/destination_information/address/census_met_div_fips', g_data.medical_transport[current_mt_index].destination_information.address.census_met_div_fips);
+	$mmria.set_control_value('medical_transport/destination_information/address/urban_status', g_data.medical_transport[current_mt_index].destination_information.address.urban_status);
+    $mmria.set_control_value('medical_transport/destination_information/address/state_county_fips', g_data.medical_transport[current_mt_index].destination_information.address.state_county_fips);
 }
 
 
@@ -3270,8 +3276,9 @@ event=onclick
 function medical_transport_destination_information_address_calculated_distance(p_control) 
 {
     let dist = null;
-    let res_lat = parseFloat(g_data.medical_transport.destination_information.address.latitude);
-    let res_lon = parseFloat(g_data.medical_transport.destination_information.address.longitude);
+    var current_mt_index = $global.get_current_multiform_index();
+    let res_lat = parseFloat(g_data.medical_transport[current_mt_index].destination_information.address.latitude);
+    let res_lon = parseFloat(g_data.medical_transport[current_mt_index].destination_information.address.longitude);
     let hos_lat = parseFloat(this.latitude);
     let hos_lon = parseFloat(this.longitude);
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
