@@ -1167,6 +1167,16 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
 
         if(p_is_read_only == null || p_is_read_only == "")
         {
+
+            let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+            let click_code = [];
+
+			if(path_to_onclick_map[p_metadata_path])
+			{
+				page_render_create_event(click_code, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+			}
+
+
             p_result.push(" onclick=g_set_data_object_from_path(\'");
             p_result.push(p_object_path);
             p_result.push("\',\'");
@@ -1212,6 +1222,15 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
 
     if(p_is_read_only == null || p_is_read_only == "")
     {
+        /*
+        let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+        let click_code = [];
+
+        if(path_to_onclick_map[p_metadata_path])
+        {
+            page_render_create_event(click_code, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+        }*/
+
         p_result.push(" onclick=list_checkbox_mutually_exclusive_input_click(\'");
         p_result.push(p_object_path);
         p_result.push("\',\'");
@@ -1254,8 +1273,21 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
         }
     }
 
-    //let is_mutually_exclusive_item_selected = false;
-    //let mutually_exclusive_item = null;
+
+    let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    let click_code = [];
+
+    if(path_to_onclick_map[p_metadata_path])
+    {
+        page_render_create_event(click_code, "onclick", "", p_metadata_path, p_object_path, p_dictionary_path);
+    }
+
+    let index_of_function = 3;
+    let onclick_function = "";
+    if(click_code.length > index_of_function)
+    {
+        onclick_function = click_code[index_of_function];
+    }
 
     if 
     (
@@ -1263,29 +1295,28 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
         current_data_array.length > 1
     )
     {
-        
+
 
         $mmria.confirm_dialog_show
         (
             "Mutually Exclusive", 
             "Mutually Exculsive",
             "other items will be removed",
-            new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}");`),
-            new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}");`)
+            new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
+            new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
         
         );
     }
     else
     {
         g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path, p_data);
+        if(onclick_function.length > 0)
+        {
+            eval(onclick_function);
+        }
 
     }
 
-
-    
-
-
-    console.log("here");
     /*
     p_result.push(" onclick=g_set_data_object_from_path(\'");
     p_result.push(p_object_path);
