@@ -1572,6 +1572,33 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         }
     }
 
+    let has_mutually_exclusive_items = false;
+    let mutually_exclusive_items = [];
+    for(let i = 0; i < data_value_list.length; i++)
+    {
+        let item = data_value_list[i];
+        if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
+        {
+            has_mutually_exclusive_items = true;
+            mutually_exclusive_items.push(data_value_list[i].value);
+        }
+    }
+
+    let is_mutually_exclusive_item_selected = false;
+    let mutually_exclusive_item = null;
+
+    for(let i = 0; i < mutually_exclusive_items.length; i++)
+    {
+        let item = mutually_exclusive_items[i];
+        if (p_data.indexOf(item) > -1)
+        {
+            is_mutually_exclusive_item_selected = true;
+            mutually_exclusive_item = item;
+            break;
+        }
+    }
+
+
     for(let i = 0; i < data_value_list.length; i++)
     {
         var item = data_value_list[i];
@@ -1589,7 +1616,15 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         let item_style = g_default_ui_specification.form_design[item_key];
         let is_selected = "";
 
-        if (p_data.indexOf(item.value) > -1)
+        if(is_mutually_exclusive_item_selected)
+        {
+            if (item.value == mutually_exclusive_item)
+            {
+                is_selected = " checked ";
+            }
+    
+        }
+        else if (p_data.indexOf(item.value) > -1)
         {
             is_selected = " checked ";
         }
@@ -1608,6 +1643,15 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         {
             is_read_only= " disabled=true ";
         }
+        else if
+        (
+            is_mutually_exclusive_item_selected && 
+            item.value != mutually_exclusive_item &&
+            is_read_only == ""
+        )
+        {
+            is_read_only= " disabled=true ";
+        }
 
         //let object_id = ;
         let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
@@ -1615,19 +1659,19 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         if (item.display) 
         {
             p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
+            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only, has_mutually_exclusive_items);
             p_result.push("<span class='choice-control-info'> " + item.display + "</span></label>");
         }
         else if(item.value == 9999)
         {
             p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
+            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only, has_mutually_exclusive_items);
             p_result.push("<span class='choice-control-info'> (blank)</span></label>");
         }
         else 
         {
             p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
+            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only, has_mutually_exclusive_items);
             p_result.push("<span class='choice-control-info'> " + item.value + "</span></label>");
         }
     }
@@ -1637,27 +1681,34 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
     
 }
 
-function render_search_text_list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected, p_is_read_only)
+function render_search_text_list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected, p_is_read_only, p_is_mutually_exclusive)
 {
-    p_result.push("<input id='");
-    p_result.push(p_id);
-    p_result.push("' type='checkbox' ");
-    p_result.push(" value='");
-    p_result.push(p_item.value);
-    p_result.push("' ");
-
-    if(p_is_read_only == null || p_is_read_only == "")
+    if(p_is_mutually_exclusive)
     {
-        p_result.push(" onclick=g_set_data_object_from_path(\'");
-        p_result.push(p_object_path);
-        p_result.push("\',\'");
-        p_result.push(p_metadata_path);
-        p_result.push("\',\'");
-        p_result.push(p_dictionary_path);
-        p_result.push("\',this.value) ");
+        list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected, p_is_read_only, p_is_mutually_exclusive);
     }
+    else
+    {
+        p_result.push("<input id='");
+        p_result.push(p_id);
+        p_result.push("' type='checkbox' ");
+        p_result.push(" value='");
+        p_result.push(p_item.value);
+        p_result.push("' ");
 
-    p_result.push(p_is_selected);
-    p_result.push(p_is_read_only);
-    p_result.push("></input>");
+        if(p_is_read_only == null || p_is_read_only == "")
+        {
+            p_result.push(" onclick=g_set_data_object_from_path(\'");
+            p_result.push(p_object_path);
+            p_result.push("\',\'");
+            p_result.push(p_metadata_path);
+            p_result.push("\',\'");
+            p_result.push(p_dictionary_path);
+            p_result.push("\',this.value) ");
+        }
+
+        p_result.push(p_is_selected);
+        p_result.push(p_is_read_only);
+        p_result.push("></input>");
+    }
 }
