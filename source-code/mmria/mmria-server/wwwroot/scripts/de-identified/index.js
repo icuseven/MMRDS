@@ -24,6 +24,7 @@ var g_release_version = null;
 
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
+var g_value_to_index_number_lookup = {};
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
 {
@@ -529,7 +530,7 @@ function get_metadata()
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 
-      set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_metadata, "");      
+      set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_value_to_index_number_lookup, g_metadata, "");      
 
       get_case_set();
       
