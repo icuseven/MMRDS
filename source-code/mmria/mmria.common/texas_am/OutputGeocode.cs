@@ -1,6 +1,7 @@
 ﻿using System;
-namespace mmria.common
+namespace mmria.common.texas_am
 {
+    /*
 	public class OutputGeocode
 	{
 		public OutputGeocode()
@@ -26,4 +27,5 @@ namespace mmria.common
 
 
 	}
+    */
 }

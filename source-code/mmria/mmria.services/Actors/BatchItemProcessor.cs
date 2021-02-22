@@ -347,6 +347,8 @@ namespace RecordsProcessor_Worker.Actors
 
         mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
+        string geocode_api_key =  "";
+
         private System.Dynamic.ExpandoObject case_expando_object = null;
 
         private Dictionary<string, string> StateDisplayToValue;
@@ -387,7 +389,7 @@ namespace RecordsProcessor_Worker.Actors
 
             mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
             item_db_info = db_config_set.detail_list[message.host_state];
-
+            geocode_api_key = db_config_set.name_value["geocode_api_key"];
 
             var mor_field_set = mor_get_header(message.mor);
 
@@ -1377,29 +1379,45 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", length_between_child_birth_and_death_of_mother?.ToString(), new_case);
         }
 
-        private void Set_facility_of_delivery_location_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
+        private void Set_facility_of_delivery_location_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
         {
             string urban_status = null;
             string state_county_fips = null;
 
-            var outputGeocode_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode;
-            var censusValues_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.CensusValues?.FirstOrDefault()?.CensusValue1;
+            string feature_matching_geography_type = "Unmatchable";
+            string latitude = "";
+            string longitude = "";
+            string naaccr_gis_coordinate_quality_code = "";
+            string naaccr_gis_coordinate_quality_type = "";
+            string naaccr_census_tract_certainty_code = "";
+            string naaccr_census_tract_certainty_type = "";
+            string census_state_fips = "";
+            string census_county_fips = "";
+            string census_tract_fips = "";
+            string census_cbsa_fips = "";
+            string census_cbsa_micro = "";
+            string census_met_div_fips = "";
+            urban_status = "";
+            state_county_fips = "";
 
-            if (outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            var outputGeocode_data = geocode_data.OutputGeocode;
+            var censusValues_data = geocode_data.Census_Value;
+            
+            if(outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
             {
-                string latitude = outputGeocode_data.Latitude;
-                string longitude = outputGeocode_data.Longitude;
-                string feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
-                string naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
-                string naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
-                string naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
-                string naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
-                string census_state_fips = censusValues_data.CensusStateFips;
-                string census_county_fips = censusValues_data.CensusCountyFips;
-                string census_tract_fips = censusValues_data.CensusTract;
-                string census_cbsa_fips = censusValues_data.CensusCbsaFips;
-                string census_cbsa_micro = censusValues_data.CensusCbsaMicro;
-                string census_met_div_fips = censusValues_data.CensusMetDivFips;
+                latitude = outputGeocode_data.Latitude;
+                longitude = outputGeocode_data.Longitude;
+                feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
+                naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
+                naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
+                naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
+                naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
+                census_state_fips = censusValues_data.CensusStateFips;
+                census_county_fips = censusValues_data.CensusCountyFips;
+                census_tract_fips = censusValues_data.CensusTract;
+                census_cbsa_fips = censusValues_data.CensusCbsaFips;
+                census_cbsa_micro = censusValues_data.CensusCbsaMicro;
+                census_met_div_fips = censusValues_data.CensusMetDivFips;
                 // calculate urban_status
                 if
                 (
@@ -1411,11 +1429,11 @@ namespace RecordsProcessor_Worker.Actors
                     urban_status = "Rural";
                 }
                 else if
-               (
-                   int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) > 0 &&
-                   int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) < 7 &&
-                   int.Parse(censusValues_data.CensusCbsaFips) > 0
-               )
+                (
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) > 0 &&
+                    int.Parse(censusValues_data.NAACCRCensusTractCertaintyCode) < 7 &&
+                    int.Parse(censusValues_data.CensusCbsaFips) > 0
+                )
                 {
                     if (!string.IsNullOrEmpty(censusValues_data.CensusMetDivFips))
                     {
@@ -1462,21 +1480,6 @@ namespace RecordsProcessor_Worker.Actors
             }
             else
             {
-                string feature_matching_geography_type = "Unmatchable";
-                string latitude = "";
-                string longitude = "";
-                string naaccr_gis_coordinate_quality_code = "";
-                string naaccr_gis_coordinate_quality_type = "";
-                string naaccr_census_tract_certainty_code = "";
-                string naaccr_census_tract_certainty_type = "";
-                string census_state_fips = "";
-                string census_county_fips = "";
-                string census_tract_fips = "";
-                string census_cbsa_fips = "";
-                string census_cbsa_micro = "";
-                string census_met_div_fips = "";
-                urban_status = "";
-                state_county_fips = "";
 
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type", feature_matching_geography_type, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude", latitude, new_case);
@@ -1493,12 +1496,12 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
-
             }
         }
 
-        private void Set_location_of_residence_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
+        private void Set_location_of_residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
         {
+            /*
             string urban_status = null;
             string state_county_fips = null;
 
@@ -1614,11 +1617,12 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/urban_status", urban_status, new_case);
                 gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/state_county_fips", state_county_fips, new_case);
 
-            }
+            }*/
         }
 
-        private void Set_place_of_last_residence_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
+        private void Set_place_of_last_residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
         {
+            /*
             string urban_status = null;
             string state_county_fips = null;
 
@@ -1735,32 +1739,44 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
                 gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
 
-            }
+            }*/
         }
 
-        private void Set_address_of_death_Gecocode(migrate.C_Get_Set_Value gs, Geocode_Response geocode_data, System.Dynamic.ExpandoObject new_case)
+        private void Set_address_of_death_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
         {
+            
             string urban_status = null;
             string state_county_fips = null;
 
-            var outputGeocode_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode;
-            var censusValues_data = geocode_data?.OutputGeocodes?.FirstOrDefault()?.CensusValues?.FirstOrDefault()?.CensusValue1;
+            string feature_matching_geography_type = "Unmatchable";
+            string latitude = "";
+            string longitude = "";
+            string naaccr_gis_coordinate_quality_code = "";
+            string naaccr_gis_coordinate_quality_type = "";
+            string naaccr_census_tract_certainty_code = "";
+            string naaccr_census_tract_certainty_type = "";
+            string census_state_fips = "";
+            string census_county_fips = "";
+            string census_tract_fips = "";
+            string census_cbsa_fips = "";
+            string census_cbsa_micro = "";
+            string census_met_div_fips = "";
 
-            if (outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            var outputGeocode_data = geocode_data.OutputGeocode;
+            var censusValues_data = geocode_data.Census_Value;
+            
+
+
+
+
+            if 
+            (
+                outputGeocode_data != null && 
+                outputGeocode_data.FeatureMatchingResultType != null &&
+                !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
+            )
             {
-                string latitude = outputGeocode_data.Latitude;
-                string longitude = outputGeocode_data.Longitude;
-                string feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
-                string naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
-                string naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
-                string naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
-                string naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
-                string census_state_fips = censusValues_data.CensusStateFips;
-                string census_county_fips = censusValues_data.CensusCountyFips;
-                string census_tract_fips = censusValues_data.CensusTract;
-                string census_cbsa_fips = censusValues_data.CensusCbsaFips;
-                string census_cbsa_micro = censusValues_data.CensusCbsaMicro;
-                string census_met_div_fips = censusValues_data.CensusMetDivFips;
+
                 // calculate urban_status
 
                 
@@ -1825,19 +1841,7 @@ namespace RecordsProcessor_Worker.Actors
             }
             else
             {
-                string feature_matching_geography_type = "Unmatchable";
-                string latitude = "";
-                string longitude = "";
-                string naaccr_gis_coordinate_quality_code = "";
-                string naaccr_gis_coordinate_quality_type = "";
-                string naaccr_census_tract_certainty_code = "";
-                string naaccr_census_tract_certainty_type = "";
-                string census_state_fips = "";
-                string census_county_fips = "";
-                string census_tract_fips = "";
-                string census_cbsa_fips = "";
-                string census_cbsa_micro = "";
-                string census_met_div_fips = "";
+
                 urban_status = "";
                 state_county_fips = "";
                 gs.set_value("death_certificate/place_of_last_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
@@ -1859,9 +1863,19 @@ namespace RecordsProcessor_Worker.Actors
             }
         }
 
-        private Geocode_Response get_geocode_info(string street, string city, string state, string zip)
+        public class GeocodeTuple
         {
-            var response = new Geocode_Response();
+            public GeocodeTuple(){}
+
+            public mmria.common.texas_am.OutputGeocode OutputGeocode {get;set;}
+            public mmria.common.texas_am.CensusValue Census_Value {get;set;}
+
+        }
+
+        private GeocodeTuple get_geocode_info(string street, string city, string state, string zip)
+        {
+
+            var result = new GeocodeTuple();
 
             if (!string.IsNullOrEmpty(state))
             {
@@ -1869,35 +1883,25 @@ namespace RecordsProcessor_Worker.Actors
                 state = check_state[0];
             }
 
-            var geoservices_baseURL = "https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress=";
-            var apikey = "7c39ae93786d4aa3adb806cb66de51b8";
-            var format = "json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01";
+            var TAMUGeocoder = new mmria.services.vitalsimport.Utilities.TAMUGeoCode();
 
-            var requestURL = $"{geoservices_baseURL}{street}&city={city}&state={state}&zip={zip}&apikey={apikey}&format={format}";
+            var response = TAMUGeocoder.execute(geocode_api_key, street, city, state, zip);
+            
+            if(response.OutputGeocodes.Length > 0)
+            {
+                result.OutputGeocode = response.OutputGeocodes[0].OutputGeocode;
 
-            var document_curl = new mmria.server.cURL("GET", null, requestURL, null);
-
-            var curl_response = document_curl.execute();
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Geocode_Response>(curl_response);
-
-            if (data != null 
-                && data.FeatureMatchingResultType != null
-                && data.OutputGeocodes != null
-                && data.OutputGeocodes.Count > 0
-                && data.OutputGeocodes.FirstOrDefault() != null
-                && data.OutputGeocodes.FirstOrDefault().outputGeocode != null
-                && data.OutputGeocodes.FirstOrDefault().outputGeocode.FeatureMatchingResultType != null
-                && !(data?.FeatureMatchingResultType?.Contains("Unmatchable") == true
-                    || data?.FeatureMatchingResultType?.Contains("ExceptionOccurred") == true 
-                    || data?.FeatureMatchingResultType?.Contains("0") == true)
-                && !(data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode?.FeatureMatchingResultType?.Contains("Unmatchable") == true
-                     || data?.OutputGeocodes?.FirstOrDefault()?.outputGeocode?.FeatureMatchingResultType?.Contains("ExceptionOccurred") == true))
+                if(response.OutputGeocodes[0].CensusValues.Count > 0)
                 {
-                //If the data passes checks and there was a match return it.
-                response = data;
+                    if(response.OutputGeocodes[0].CensusValues[0].ContainsKey("CensusValue1"))
+                    {
+                        result.Census_Value = response.OutputGeocodes[0].CensusValues[0]["CensusValue1"];
+                    }
+                    
+                }
             }
 
-            return response;
+            return result;
         }
 
         struct Result_Struct
@@ -4916,10 +4920,10 @@ GNAME 27 50
             Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
             return _rdm.Next(_min, _max);
         }
-
-        public class jsonDeseralizedGeocode_response : mmria.common.model.geocode_response
+ /*
+        public class jsonDeseralizedgeocode_response : mmria.common.model.geocode_response
         {
-            public jsonDeseralizedGeocode_response(IEnumerable<mmria.common.model.OutputGeocode> outputGeocodes)
+            public jsonDeseralizedgeocode_response(IEnumerable<mmria.common.model.OutputGeocode> outputGeocodes)
             {
                 OutputGeocodes = outputGeocodes?.ToArray();
             }
@@ -4929,6 +4933,8 @@ GNAME 27 50
         {
 
         }
+
+       
 
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
         public class InputAddress
@@ -4991,7 +4997,7 @@ GNAME 27 50
             public List<CensusValue> CensusValues { get; set; }
         }
 
-        public class Geocode_Response
+        public class geocode_response
         {
             public string version { get; set; }
             public string TransactionId { get; set; }
@@ -5005,6 +5011,8 @@ GNAME 27 50
             public InputAddress InputAddress { get; set; }
             public List<OutputGeocodes> OutputGeocodes { get; set; }
         }
+
+        */
 
 
 

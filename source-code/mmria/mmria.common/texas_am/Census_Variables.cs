@@ -1,5 +1,5 @@
 ﻿using System;
-namespace mmria.common.model.census
+namespace mmria.common.texas_am
 {
 	public class Census_Variable
 	{

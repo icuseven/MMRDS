@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.common.model
+namespace mmria.common.texas_am
 {
 	public class address_normalization_response
 	{

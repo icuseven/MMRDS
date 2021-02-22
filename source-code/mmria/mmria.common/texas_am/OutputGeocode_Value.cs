@@ -1,5 +1,5 @@
 ﻿using System;
-namespace mmria.common
+namespace mmria.common.texas_am
 {
 	public class OutputGeocode_Value
 	{
@@ -22,7 +22,7 @@ namespace mmria.common
 		public string ExceptionOccured { get; set; }
 		public string Exception { get; set; }
 		public string ErrorMessage { get; set; }
-		public System.Collections.Generic.KeyValuePair<string, census_value>[] CensusValues { get; set; }
+		public System.Collections.Generic.KeyValuePair<string, CensusValue>[] CensusValues { get; set; }
 
 
 	}

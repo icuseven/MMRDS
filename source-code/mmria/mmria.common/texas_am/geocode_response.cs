@@ -1,9 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace mmria.common.model
+namespace mmria.common.texas_am
 {
-	public interface OutputGeocodeItem{}
-	public class CensusValue : OutputGeocodeItem
+	public class OutputGeocodeItem{
+
+
+        public OutputGeocodeItem()
+        {
+            CensusValues = new List<Dictionary<string, CensusValue>>();
+        }
+
+        public OutputGeocode OutputGeocode {get; set;}
+
+        public List<Dictionary<string, CensusValue>> CensusValues {get;set;}
+    }
+	public class CensusValue
 	{
 		public CensusValue(){}
 		public string CensusYear { get;set;}
@@ -25,7 +37,7 @@ namespace mmria.common.model
 		public string Exception { get;set;}
 		public string ErrorMessage { get;set;}
 	}
-	public class OutputGeocode : OutputGeocodeItem
+	public class OutputGeocode
 	{
 		public OutputGeocode(){}
 

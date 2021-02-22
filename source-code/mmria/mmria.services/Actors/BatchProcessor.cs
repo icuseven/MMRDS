@@ -95,6 +95,8 @@ function validate_length(p_array, p_max_length)
 
             var status_builder = new System.Text.StringBuilder();
 
+            var is_valid_file_name = false;
+
             var mor_length_is_valid = validate_length(message.mor.Split("\n"), mor_max_length);
             var nat_length_is_valid = validate_length(message.nat.Split("\n"), nat_max_length);
             var fet_length_is_valid = validate_length(message.fet.Split("\n"), fet_max_length);
@@ -108,7 +110,18 @@ function validate_length(p_array, p_max_length)
             var ImportDate = DateTime.Now;
            
             mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
-            item_db_info = db_config_set.detail_list[ReportingState];
+            if(db_config_set.detail_list.ContainsKey(ReportingState))
+            {
+                is_valid_file_name = true;
+                
+                item_db_info = db_config_set.detail_list[ReportingState];
+            }
+            else
+            {
+                status_builder.AppendLine($"Invalid reporting state {ReportingState}");
+            }
+
+            
 
             var nat_list = message.nat.Split("\n");
             var fet_list = message.fet.Split("\n");
@@ -153,7 +166,7 @@ function validate_length(p_array, p_max_length)
 
 
 
-            //if(status_builder.Length == 0)
+            if(status_builder.Length == 0)
             {
                 foreach(var kvp in batch_item_set)
                 {

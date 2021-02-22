@@ -1,5 +1,5 @@
 ﻿using System;
-namespace mmria.common
+namespace mmria.common.texas_am
 {
 	public class InputAddress
 	{

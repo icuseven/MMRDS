@@ -1,7 +1,8 @@
 ﻿using System;
-namespace mmria.common
+namespace mmria.common.texas_am
 {
-	public class census_value
+    /*
+	public class Census_Value
 	{
 		public string CensusYear { get; set; }
 		public string CensusTimeTaken { get; set; }
@@ -22,10 +23,10 @@ namespace mmria.common
 		public string Exception { get; set; }
 		public string ErrorMessage { get; set; }
 
-		public census_value()
+		public Census_Value()
 		{
 		}
-/*
+/ *
 
 
 {
@@ -52,6 +53,6 @@ namespace mmria.common
 
 
 
-*/
-	}
+
+	}*/
 }
