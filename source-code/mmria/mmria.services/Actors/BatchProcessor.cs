@@ -181,8 +181,8 @@ function validate_length(p_array, p_max_length)
                             ImportFileName = message.mor_file_name,
                             host_state = ReportingState,
                             mor = batch_tuple.Item1,
-                            nat = GetAssociatedNat(nat_list, batch_tuple.Item2.CDCUniqueID),
-                            fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID)
+                            nat = GetAssociatedNat(nat_list, batch_tuple.Item2.CDCUniqueID?.Trim()),
+                            fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID?.Trim())
                         };
 
                         var batch_item_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchItemProcessor>(batch_tuple.Item2.CDCUniqueID?.Trim());
@@ -442,7 +442,7 @@ function validate_length(p_array, p_max_length)
             var result = new mmria.common.ije.BatchItem()
             {
                 Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
-                CDCUniqueID = x["SSN"],
+                CDCUniqueID = x["SSN"]?.Trim(),
                 ImportDate = ImportDate,
                 ImportFileName = ImportFileName,
                 ReportingState = ReportingState,
@@ -494,7 +494,7 @@ GNAME 27 50
  result.Add("DOB_DY",row.Substring(211-1, 2));
  result.Add("LNAME",row.Substring(78-1, 50));
  result.Add("GNAME",row.Substring(27-1, 50));
-  result.Add("SSN",row.Substring(191-1, 9));
+  result.Add("SSN",row.Substring(191-1, 9)?.Trim());
 
             return result;
 
@@ -509,12 +509,12 @@ GNAME 27 50
         private List<string> GetAssociatedNat(string[] p_nat_list, string p_cdc_unique_id)
         {
             var result = new List<string>();
-            int mom_ssn_start = 2000;
+            int mom_ssn_start = 2000-1;
             foreach(var item in p_nat_list)
             {
                 if(item.Length > mom_ssn_start + 9)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9);
+                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
                     if(mom_ssn == p_cdc_unique_id)
                     {
                         result.Add(item);
@@ -528,12 +528,12 @@ GNAME 27 50
         private List<string> GetAssociatedFet(string[] p_fet_list, string p_cdc_unique_id)
         {
             var result = new List<string>();
-            int mom_ssn_start = 4039;
+            int mom_ssn_start = 4039-1;
             foreach(var item in p_fet_list)
             {
                 if(item.Length > mom_ssn_start + 9)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9);
+                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
                     if(mom_ssn == p_cdc_unique_id)
                     {
                         result.Add(item);

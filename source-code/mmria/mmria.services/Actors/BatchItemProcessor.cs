@@ -894,215 +894,243 @@ namespace RecordsProcessor_Worker.Actors
 
                 #region ParentForm Section
 
-mmria.services.vitalsimport.default_case.create(metadata, new_case);
+                var natal_fetal_metadata = new mmria.common.metadata.node();
 
-                if (nat_field_set != null && nat_field_set.Count > 0)
+                foreach(var child in metadata.children)
                 {
-                    var field_set = nat_field_set.First();
-
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_YR"], field_set["IDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_MO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_DY"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ACKN"], field_set["ACKN"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PAY"], field_set["PAY"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BIRTH_CO"], field_set["BIRTH_CO"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BRTHCITY"], field_set["BRTHCITY"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HOSP"], field_set["HOSP"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMFNAME"], field_set["MOMFNAME"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMMIDDL"], field_set["MOMMIDDL"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMLNAME"], field_set["MOMLNAME"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMMAIDN"], field_set["MOMMAIDN"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["UNUM"], field_set["UNUM"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ZIPCODE"], field_set["ZIPCODE"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["COUNTYTXT"], field_set["COUNTYTXT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CITYTEXT"], field_set["CITYTEXT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_OC_T"], field_set["MOM_OC_T"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DAD_OC_T"], field_set["DAD_OC_T"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_IN_T"], field_set["MOM_IN_T"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DAD_IN_T"], field_set["DAD_IN_T"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HOSPFROM"], field_set["HOSPFROM"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND_NPI"], field_set["ATTEND_NPI"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_MED_REC_NUM"], field_set["MOM_MED_REC_NUM"], new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
-
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                      , field_set["PREDIR"]
-                      , field_set["STNAME"]
-                      , field_set["STDESIG"]
-                      , field_set["POSTDIR"]), new_case);
-
-
-                    Set_location_of_residence_Gecocode(gs, get_geocode_info(LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"])
-                                                                                                                    , field_set["CITYTEXT"]
-                                                                                                                    , field_set["STATEC"]
-                                                                                                                    , field_set["ZIPCODE"]), new_case);
-
-
-                    birth_2_death(gs, new_case, field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]
-                        , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
-
-
-                }
-                else if (fet_field_set != null && fet_field_set.Count > 0)
-                {
-                    var field_set = fet_field_set.First();
-
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_YR"], field_set["FDOD_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_MO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_DY"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_DY"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YLLB"], TryPaseToIntOr_DefaultBlank(field_set["YLLB"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSP_D"], field_set["HOSP_D"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ADDRESS_D"], field_set["ADDRESS_D"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ZIPCODE_D"], field_set["ZIPCODE_D"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CNTY_D"], field_set["CNTY_D"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CITY_D"], field_set["CITY_D"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMFNAME"], field_set["MOMFNAME"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMMNAME"], field_set["MOMMNAME"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMLNAME"], field_set["MOMLNAME"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMMAIDN"], field_set["MOMMAIDN"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["APTNUMB"], field_set["APTNUMB"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ZIPCODE"], field_set["ZIPCODE"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["COUNTYTXT"], field_set["COUNTYTXT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CITYTXT"], field_set["CITYTXT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOM_OC_T"], field_set["MOM_OC_T"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DAD_OC_T"], field_set["DAD_OC_T"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOM_IN_T"], field_set["MOM_IN_T"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DAD_IN_T"], field_set["DAD_IN_T"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSPFROM"], field_set["HOSPFROM"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_NPI"], field_set["ATTEND_NPI"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"]), new_case);
-
-                    Set_location_of_residence_Gecocode(gs, get_geocode_info(FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"])
-                                                                                                                    , field_set["CITYTEXT"]
-                                                                                                                    , field_set["STATEC"]
-                                                                                                                    , field_set["ZIPCODE"]), new_case);
-
-                    Set_facility_of_delivery_location_Gecocode(gs, get_geocode_info(field_set["ADDRESS_D"]
-                                                                        , field_set["CITYTEXT"]
-                                                                        , field_set["STATEC"]
-                                                                        , field_set["ZIPCODE"]), new_case);
-
-                    birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
-                        , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
-
+                    if(child.name.Equals("birth_certificate_infant_fetal_section", StringComparison.OrdinalIgnoreCase))
+                    {
+                        natal_fetal_metadata = child;
+                    }
                 }
 
+                var new_case_dictionary = new_case as IDictionary<string, object>;
 
-
-                #endregion
-
-                #region NAT Assignments
-                for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
+                if(new_case_dictionary != null)
                 {
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["METHNIC5"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FETHNIC5"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTF"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["SORD"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
-                }
+                    var natal_fetal_list = new List<Dictionary<string,object>>();
 
-                #endregion
+                    if (nat_field_set != null && nat_field_set.Count > 0)
+                    {
+                        var field_set = nat_field_set.First();
 
-                #region FET Assignments
+                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
+                        natal_fetal_list.Add(new_natal_fetal_form);
+                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
 
-                for (int fet_index = 0; fet_index < fet_field_set?.Count; fet_index++)
-                {
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["IDOB_YR"], fet_field_set[fet_index]["IDOB_MO"], fet_field_set[fet_index]["IDOB_DY"])) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["METHNIC5"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
+
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_YR"], field_set["IDOB_YR"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_MO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["IDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["IDOB_DY"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ACKN"], field_set["ACKN"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PAY"], field_set["PAY"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BIRTH_CO"], field_set["BIRTH_CO"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BRTHCITY"], field_set["BRTHCITY"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HOSP"], field_set["HOSP"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMFNAME"], field_set["MOMFNAME"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMMIDDL"], field_set["MOMMIDDL"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMLNAME"], field_set["MOMLNAME"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOMMAIDN"], field_set["MOMMAIDN"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["UNUM"], field_set["UNUM"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ZIPCODE"], field_set["ZIPCODE"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["COUNTYTXT"], field_set["COUNTYTXT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CITYTEXT"], field_set["CITYTEXT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_OC_T"], field_set["MOM_OC_T"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DAD_OC_T"], field_set["DAD_OC_T"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_IN_T"], field_set["MOM_IN_T"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DAD_IN_T"], field_set["DAD_IN_T"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["HOSPFROM"], field_set["HOSPFROM"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND_NPI"], field_set["ATTEND_NPI"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_MED_REC_NUM"], field_set["MOM_MED_REC_NUM"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
+
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
+                        , field_set["PREDIR"]
+                        , field_set["STNAME"]
+                        , field_set["STDESIG"]
+                        , field_set["POSTDIR"]), new_case);
+
+
+                        Set_location_of_residence_Gecocode(gs, get_geocode_info(LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
+                                                                                                                            , field_set["PREDIR"]
+                                                                                                                            , field_set["STNAME"]
+                                                                                                                            , field_set["STDESIG"]
+                                                                                                                            , field_set["POSTDIR"])
+                                                                                                                        , field_set["CITYTEXT"]
+                                                                                                                        , field_set["STATEC"]
+                                                                                                                        , field_set["ZIPCODE"]), new_case);
+
+
+                        birth_2_death(gs, new_case, field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]
+                            , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
+
+
+                    }
+                    else if (fet_field_set != null && fet_field_set.Count > 0)
+                    {
+                        var field_set = fet_field_set.First();
+
+                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
+                        natal_fetal_list.Add(new_natal_fetal_form);
+                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
+
+
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["STATEC"], mor_field_set["STATEC"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_YR"], field_set["FDOD_YR"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOD_DY"], TryPaseToIntOr_DefaultBlank(field_set["FDOD_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_YR"], field_set["MDOB_YR"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MDOB_DY"], TryPaseToIntOr_DefaultBlank(field_set["MDOB_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_YR"], field_set["FDOB_YR"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FDOB_MO"], TryPaseToIntOr_DefaultBlank(field_set["FDOB_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HFT"], field_set["HFT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HIN"], TryPaseToIntOr_DefaultBlank(field_set["HIN"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PWGT"], field_set["PWGT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DWGT"], field_set["DWGT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["WIC"], field_set["WIC"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBL"], TryPaseToIntOr_DefaultBlank(field_set["PLBL"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLBD"], TryPaseToIntOr_DefaultBlank(field_set["PLBD"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["POPO"], TryPaseToIntOr_DefaultBlank(field_set["POPO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YLLB"], TryPaseToIntOr_DefaultBlank(field_set["YLLB"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSP_D"], field_set["HOSP_D"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ADDRESS_D"], field_set["ADDRESS_D"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ZIPCODE_D"], field_set["ZIPCODE_D"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CNTY_D"], field_set["CNTY_D"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CITY_D"], field_set["CITY_D"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMFNAME"], field_set["MOMFNAME"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMMNAME"], field_set["MOMMNAME"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMLNAME"], field_set["MOMLNAME"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOMMAIDN"], field_set["MOMMAIDN"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["APTNUMB"], field_set["APTNUMB"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ZIPCODE"], field_set["ZIPCODE"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["COUNTYTXT"], field_set["COUNTYTXT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CITYTXT"], field_set["CITYTXT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOM_OC_T"], field_set["MOM_OC_T"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DAD_OC_T"], field_set["DAD_OC_T"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOM_IN_T"], field_set["MOM_IN_T"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DAD_IN_T"], field_set["DAD_IN_T"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSPFROM"], field_set["HOSPFROM"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_NPI"], field_set["ATTEND_NPI"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
+                                                                                                                            , field_set["PREDIR"]
+                                                                                                                            , field_set["STNAME"]
+                                                                                                                            , field_set["STDESIG"]
+                                                                                                                            , field_set["POSTDIR"]), new_case);
+
+                        Set_location_of_residence_Gecocode(gs, get_geocode_info(FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
+                                                                                                                            , field_set["PREDIR"]
+                                                                                                                            , field_set["STNAME"]
+                                                                                                                            , field_set["STDESIG"]
+                                                                                                                            , field_set["POSTDIR"])
+                                                                                                                        , field_set["CITYTXT"]
+                                                                                                                        , mor_field_set["STATEC"]
+                                                                                                                        , field_set["ZIPCODE"]), new_case);
+
+                        Set_facility_of_delivery_location_Gecocode(gs, get_geocode_info(field_set["ADDRESS_D"]
+                                                                            , field_set["CITYTXT"]
+                                                                            , mor_field_set["STATEC"]
+                                                                            , field_set["ZIPCODE"]), new_case);
+
+                        birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
+                            , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
+
+                    }
+
+
+
+                    #endregion
+
+                    #region NAT Assignments
+                    for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
+                    {
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["METHNIC5"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FETHNIC5"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTF"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"])) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"])) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["SORD"])) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
+                    }
+
+                    #endregion
+
+                    #region FET Assignments
+
+                    for (int fet_index = 0; fet_index < fet_field_set?.Count; fet_index++)
+                    {
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["FDOD_YR"], fet_field_set[fet_index]["FDOD_MO"], fet_field_set[fet_index]["FDOD_DY"])) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["METHNIC5"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
+                    }
                 }
 
                 birth_distance(gs, new_case);
@@ -1394,11 +1422,11 @@ mmria.services.vitalsimport.default_case.create(metadata, new_case);
                 if (DateTime.TryParse($"{start_year}/{start_month}/{start_day}", out DateTime startDateTest) == true 
                     && DateTime.TryParse($"{end_year}/{end_month}/{end_day}", out DateTime endDateTest) == true) 
                 {
-                    var start_date = new DateTime(start_year, start_month - 1, start_day);
-                    var end_date = new DateTime(end_year, end_month - 1, end_day);
+                    var time_span = endDateTest - startDateTest;
+
                     //var days = $global.calc_days(start_date, end_date);
-                    var days = end_date.Subtract(start_date).TotalDays;
-                    length_between_child_birth_and_death_of_mother = days;
+                    var days = time_span.Days;
+                    length_between_child_birth_and_death_of_mother = (double) days;
                 }
 
                 gs.set_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", length_between_child_birth_and_death_of_mother?.ToString(), new_case);
@@ -1880,7 +1908,7 @@ mmria.services.vitalsimport.default_case.create(metadata, new_case);
 
             var response = TAMUGeocoder.execute(geocode_api_key, street, city, state, zip);
             
-            if(response.OutputGeocodes.Length > 0)
+            if(response!= null && response.OutputGeocodes?.Length > 0)
             {
                 result.OutputGeocode = response.OutputGeocodes[0].OutputGeocode;
 
