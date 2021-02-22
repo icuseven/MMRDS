@@ -650,21 +650,23 @@ namespace RecordsProcessor_Worker.Actors
                 var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
 
 
-                var import_info_builder = new System.Text.StringBuilder();
+                var string_builder = new System.Text.StringBuilder();
                 
                 
-                import_info_builder.AppendLine($"Vitals Import Date:  {DateTime.Now.ToString("MM/dd/yyyy")}\n");
+                string_builder.AppendLine($"Vitals Import Date:  {DateTime.Now.ToString("MM/dd/yyyy")}\n");
 
-                import_info_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {hr_cdc_match_det_bc}");
-                import_info_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {hr_cdc_match_det_fdc}");
-                import_info_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {hr_cdc_match_prob_bc}");
-                import_info_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {hr_cdc_match_prob_fdc}");
-                import_info_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {hr_cdc_icd}");
-                import_info_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {hr_cdc_checkbox}");
-                import_info_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {hr_cdc_literalcod}");
+                string_builder.AppendLine($"1) CDC Deterministic Linkage with Infant Birth Certificate: {hr_cdc_match_det_bc}");
+                string_builder.AppendLine($"2) CDC Deterministic Linkage with Fetal Death Certificate: {hr_cdc_match_det_fdc}");
+                string_builder.AppendLine($"3) CDC Probabilistic Linkage with Infant Birth Certificate: {hr_cdc_match_prob_bc}");
+                string_builder.AppendLine($"4) CDC Probabilistic Linkage with Fetal Death Certificate: {hr_cdc_match_prob_fdc}");
+                string_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {hr_cdc_icd}");
+                string_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {hr_cdc_checkbox}");
+                string_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {hr_cdc_literalcod}");
                 
-                gs.set_value("home_record/automated_vitals_group/vital_report", import_info_builder.ToString(), new_case);
+                gs.set_value("home_record/automated_vitals_group/vital_report", string_builder.ToString(), new_case);
                 //  Vital Report End
+
+
 
                 var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
                 var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
@@ -783,14 +785,24 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["ZIP9_D"], mor_field_set["ZIP9_D"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COUNTYTEXT_D"], mor_field_set["COUNTYTEXT_D"], new_case);
 
-                Set_address_of_death_Gecocode(gs, get_geocode_info(ADDRESS_OF_DEATH_street_Rule(mor_field_set["STNUM_D"]
-                                                                                                    , mor_field_set["PREDIR_D"]
-                                                                                                    , mor_field_set["STNAME_D"]
-                                                                                                    , mor_field_set["STDESIG_D"]
-                                                                                                    , mor_field_set["POSTDIR_D"])
-                                                                                                    , mor_field_set["CITYTEXT_D"]
-                                                                                                    , STATETEXT_D_Rule(mor_field_set["STATETEXT_D"])
-                                                                                                    , mor_field_set["ZIP9_D"]), new_case);
+                Set_address_of_death_Gecocode
+                (
+                    gs, 
+                    get_geocode_info
+                    (
+                    ADDRESS_OF_DEATH_street_Rule
+                    (
+                        mor_field_set["STNUM_D"],
+                        mor_field_set["PREDIR_D"],
+                        mor_field_set["STNAME_D"],
+                        mor_field_set["STDESIG_D"],
+                        mor_field_set["POSTDIR_D"]
+                    ), 
+                    mor_field_set["CITYTEXT_D"],
+                    STATETEXT_D_Rule(mor_field_set["STATETEXT_D"]),
+                    mor_field_set["ZIP9_D"]), 
+                    new_case
+                );
 
                 gs.set_value(IJE_to_MMRIA_Path["PLACE_OF_LAST_RESIDENCE_street"], PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
                                                                                     , mor_field_set["PREDIR_R"]
@@ -803,14 +815,25 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["ZIP9_R"], mor_field_set["ZIP9_R"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["COUNTYTEXT_R"], mor_field_set["COUNTYTEXT_R"], new_case);
 
-                Set_place_of_last_residence_Gecocode(gs, get_geocode_info(PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
-                                                                                                    , mor_field_set["PREDIR_R"]
-                                                                                                    , mor_field_set["STNAME_R"]
-                                                                                                    , mor_field_set["STDESIG_R"]
-                                                                                                    , mor_field_set["POSTDIR_R"])
-                                                                                                    , mor_field_set["CITYTEXT_R"]
-                                                                                                    , mor_field_set["STATEC"]
-                                                                                                    , mor_field_set["ZIP9_R"]), new_case);
+                Set_place_of_last_residence_Gecocode
+                (
+                    gs,
+                    get_geocode_info
+                    (
+                        PLACE_OF_LAST_RESIDENCE_street_Rule
+                        (
+                            mor_field_set["STNUM_R"], 
+                            mor_field_set["PREDIR_R"],
+                            mor_field_set["STNAME_R"],
+                            mor_field_set["STDESIG_R"],
+                            mor_field_set["POSTDIR_R"]
+                        ), 
+                        mor_field_set["CITYTEXT_R"],
+                        mor_field_set["STATEC"],
+                        mor_field_set["ZIP9_R"]
+                    ), 
+                    new_case
+                );
 
                 gs.set_value(IJE_to_MMRIA_Path["DMIDDLE"], mor_field_set["DMIDDLE"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["POILITRL"], mor_field_set["POILITRL"], new_case);
@@ -840,6 +863,32 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value(IJE_to_MMRIA_Path["ICD10_MATCH"], mor_field_set["ICD10_MATCH"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["PREGCB_MATCH"], mor_field_set["PREGCB_MATCH"], new_case);
                 gs.set_value(IJE_to_MMRIA_Path["LITERALCOD_MATCH"], mor_field_set["LITERALCOD_MATCH"], new_case);
+
+
+                // death_certificate/vitals_import_group/vital_summary_text - begin
+                string_builder.Clear();
+
+                string_builder.AppendLine($"Cause of Death:");
+                string_builder.AppendLine($"01) Part I Line A: {mor_field_set["COD1A"]}");
+                string_builder.AppendLine($"02) Part I Interval, Line A: {mor_field_set["INTERVAL1A"]}");
+                string_builder.AppendLine($"03) Part I Line B: {mor_field_set["COD1B"]}");
+                string_builder.AppendLine($"04) Part I Interval, Line B: {mor_field_set["INTERVAL1B"]}");
+                string_builder.AppendLine($"05) Part I Line C: {mor_field_set["COD1C"]}");
+                string_builder.AppendLine($"06) Part I Interval, Line C: {mor_field_set["INTERVAL1C"]}");
+                string_builder.AppendLine($"07) Part I Line D: {mor_field_set["COD1D"]}");
+                string_builder.AppendLine($"08) Part I Interval, Line D: {mor_field_set["INTERVAL1D"]}");
+                string_builder.AppendLine($"09) Part II: {mor_field_set["OTHERCONDITION"]}");
+                string_builder.AppendLine($"");
+                string_builder.AppendLine($"Codes:");
+                string_builder.AppendLine($"10) Manual Underlying Cause: {mor_field_set["MAN_UC"]}");
+                string_builder.AppendLine($"11) ACME Underlying Cause: {mor_field_set["ACME_UC"]}");
+                string_builder.AppendLine($"12) Entity-axis Codes: {mor_field_set["EAC"]}");
+                string_builder.AppendLine($"13) Record-axis codes: {mor_field_set["RAC"]}");
+
+                gs.set_value("death_certificate/vitals_import_group/vital_summary_text", string_builder.ToString(), new_case);
+
+
+                // death_certificate/vitals_import_group/vital_summary_text - end
 
                 #endregion
 
@@ -1008,8 +1057,7 @@ namespace RecordsProcessor_Worker.Actors
 
                 }
 
-                birth_distance(gs, new_case);
-                death_distance(gs, new_case);
+
 
                 #endregion
 
@@ -1055,7 +1103,8 @@ namespace RecordsProcessor_Worker.Actors
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
                 }
 
-               
+                birth_distance(gs, new_case);
+                death_distance(gs, new_case);
                 #endregion
 
                 var case_dictionary = new_case as IDictionary<string, object>;
@@ -1377,7 +1426,12 @@ namespace RecordsProcessor_Worker.Actors
             var outputGeocode_data = geocode_data.OutputGeocode;
             var censusValues_data = geocode_data.Census_Value;
             
-            if(outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            if
+            (
+                outputGeocode_data != null && 
+                outputGeocode_data.FeatureMatchingResultType != null &&
+                !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
+            )
             {
                 latitude = outputGeocode_data.Latitude;
                 longitude = outputGeocode_data.Longitude;
@@ -1433,44 +1487,26 @@ namespace RecordsProcessor_Worker.Actors
                     state_county_fips = censusValues_data.CensusStateFips + censusValues_data.CensusCountyFips;
                 }
 
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude", latitude, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude", longitude, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type", feature_matching_geography_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips", census_state_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips", census_county_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips", census_tract_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips", census_cbsa_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro", census_cbsa_micro, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
-
                 facility_of_delivery_location_latitude = latitude;
                 facility_of_delivery_location_longitude = longitude;
             }
-            else
-            {
 
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type", feature_matching_geography_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude", latitude, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude", longitude, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips", census_state_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips", census_county_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips", census_tract_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips", census_cbsa_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro", census_cbsa_micro, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
-                gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
-            }
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type", feature_matching_geography_type, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude", latitude, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude", longitude, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips", census_state_fips, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips", census_county_fips, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips", census_tract_fips, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips", census_cbsa_fips, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro", census_cbsa_micro, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
+            gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
+            
         }
 
         private void Set_location_of_residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
@@ -1497,8 +1533,27 @@ namespace RecordsProcessor_Worker.Actors
             var outputGeocode_data = geocode_data.OutputGeocode;
             var censusValues_data = geocode_data.Census_Value;
 
-            if (outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            if 
+            (
+                outputGeocode_data != null && 
+                outputGeocode_data.FeatureMatchingResultType != null &&
+                !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
+            )
             {
+                latitude = outputGeocode_data.Latitude;
+                longitude = outputGeocode_data.Longitude;
+                feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
+                naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
+                naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
+                naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
+                naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
+                census_state_fips = censusValues_data.CensusStateFips;
+                census_county_fips = censusValues_data.CensusCountyFips;
+                census_tract_fips = censusValues_data.CensusTract;
+                census_cbsa_fips = censusValues_data.CensusCbsaFips;
+                census_cbsa_micro = censusValues_data.CensusCbsaMicro;
+                census_met_div_fips = censusValues_data.CensusMetDivFips;
+
                 // calculate urban_status
                 if
                 (
@@ -1596,8 +1651,27 @@ namespace RecordsProcessor_Worker.Actors
             var outputGeocode_data = geocode_data.OutputGeocode;
             var censusValues_data = geocode_data.Census_Value;
             
-            if (outputGeocode_data != null && outputGeocode_data.FeatureMatchingResultType != null)
+            if
+            (
+                outputGeocode_data != null && 
+                outputGeocode_data.FeatureMatchingResultType != null &&
+                !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
+            )
             {
+
+                latitude = outputGeocode_data.Latitude;
+                longitude = outputGeocode_data.Longitude;
+                feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
+                naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
+                naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
+                naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
+                naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
+                census_state_fips = censusValues_data.CensusStateFips;
+                census_county_fips = censusValues_data.CensusCountyFips;
+                census_tract_fips = censusValues_data.CensusTract;
+                census_cbsa_fips = censusValues_data.CensusCbsaFips;
+                census_cbsa_micro = censusValues_data.CensusCbsaMicro;
+                census_met_div_fips = censusValues_data.CensusMetDivFips;
 
                 // calculate urban_status
 
@@ -1696,6 +1770,19 @@ namespace RecordsProcessor_Worker.Actors
                 !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
             )
             {
+                latitude = outputGeocode_data.Latitude;
+                longitude = outputGeocode_data.Longitude;
+                feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
+                naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
+                naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
+                naaccr_census_tract_certainty_code = censusValues_data.NAACCRCensusTractCertaintyCode;
+                naaccr_census_tract_certainty_type = censusValues_data.NAACCRCensusTractCertaintyType;
+                census_state_fips = censusValues_data.CensusStateFips;
+                census_county_fips = censusValues_data.CensusCountyFips;
+                census_tract_fips = censusValues_data.CensusTract;
+                census_cbsa_fips = censusValues_data.CensusCbsaFips;
+                census_cbsa_micro = censusValues_data.CensusCbsaMicro;
+                census_met_div_fips = censusValues_data.CensusMetDivFips;
 
                 // calculate urban_status
                 if
@@ -1749,21 +1836,21 @@ namespace RecordsProcessor_Worker.Actors
 
             }
 
-            gs.set_value("death_certificate/place_of_last_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/latitude", latitude, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/longitude", longitude, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_state_fips", census_state_fips, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_county_fips", census_county_fips, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_tract_fips", census_tract_fips, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_cbsa_fips", census_cbsa_fips, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_cbsa_micro", census_cbsa_micro, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
-            gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/feature_matching_geography_type", feature_matching_geography_type, new_case);
+            gs.set_value("death_certificate/address_of_death/latitude", latitude, new_case);
+            gs.set_value("death_certificate/address_of_death/longitude", longitude, new_case);
+            gs.set_value("death_certificate/address_of_death/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+            gs.set_value("death_certificate/address_of_death/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+            gs.set_value("death_certificate/address_of_death/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+            gs.set_value("death_certificate/address_of_death/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+            gs.set_value("death_certificate/address_of_death/census_state_fips", census_state_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/census_county_fips", census_county_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/census_tract_fips", census_tract_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/census_cbsa_fips", census_cbsa_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/census_cbsa_micro", census_cbsa_micro, new_case);
+            gs.set_value("death_certificate/address_of_death/census_met_div_fips", census_met_div_fips, new_case);
+            gs.set_value("death_certificate/address_of_death/urban_status", urban_status, new_case);
+            gs.set_value("death_certificate/address_of_death/state_county_fips", state_county_fips, new_case);
 
         }
 
@@ -1918,19 +2005,6 @@ namespace RecordsProcessor_Worker.Actors
                 string ReportingState
         )
         {
-            /*
-            CDCUniqueID
-                ImportDate
-                ImportFileName
-                ReportingState
-                StateOfDeathRecord
-                DateOfDeath
-                DateOfBirth
-                LastName
-                FirstName
-                MMRIARecordID
-                StatusDetail
-                */
 
             var x = mor_get_header(LineItem);
             var result = new mmria.common.ije.BatchItem()
