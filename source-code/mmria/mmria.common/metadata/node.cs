@@ -74,6 +74,8 @@ namespace mmria.common.metadata
 		public string grid_column { get; set; } 
         public string grid_area { get; set; }
 
+
+        public string other_specify_list { get;set;}
 		public string top { get; set; }
 		public string left { get; set; }
 		public string width { get; set; }

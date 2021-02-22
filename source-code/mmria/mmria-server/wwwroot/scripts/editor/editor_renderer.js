@@ -321,25 +321,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		{
 			result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" style="    background-color: blanchedalmond;" /> ');
 		}
-		
-		/*
-		if(p_metadata.name.indexOf("pmss_mm") > -1)
-		{
-			result.push(' <input type="button" value="upgrade to pmss/display" onclick="editor_upgrade_pmss_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
-		}
-		else if
-		(
-			p_metadata.name == "state" ||
-			p_metadata.name == "country"
-		)
-		{
-			result.push(' <input type="button" value="upgrade to string/display" onclick="editor_upgrade_string_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
-		}
-		else
-		{
-			result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
-		}
-		*/
+
 		result.push(' <ul>');
 
 
@@ -506,31 +488,31 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
   {
     switch(p_metadata.type.toLowerCase())
     {
-      case "string":
-      case "hidden":
-      case "number":
-      case "datetime":
-      case "date":
-      case "list":
-      case "time":
-      case "textarea":
-      case "boolean":
-      case "jurisdiction":
-        if(p_metadata.sass_export_name == null)
-        { 
-          p_metadata.sass_export_name = "";
-        }
+        case "string":
+        case "hidden":
+        case "number":
+        case "datetime":
+        case "date":
+        case "list":
+        case "time":
+        case "textarea":     
+        case "boolean":
+        case "jurisdiction":
+            if(p_metadata.sass_export_name == null)
+            { 
+            p_metadata.sass_export_name = "";
+            }
 
-        if(p_metadata.sass_export_name == "" && p_object_path!= null)
-        {
-          //g_path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
-          
-          let new_name = g_path_to_csv_all[p_object_path.replace("app/", "/")]; 
-          if (new_name != null)
-          {
-            p_metadata.sass_export_name = new_name.field_name;
-          }
-        }
+            if(p_metadata.sass_export_name == "" && p_object_path!= null)
+            {
+            //g_path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
+            
+            let new_name = g_path_to_csv_all[p_object_path.replace("app/", "/")]; 
+            if (new_name != null)
+            {
+                p_metadata.sass_export_name = new_name.field_name;
+            }
+            }
         break;
 
       /*
@@ -823,6 +805,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 				break;
 			case "validation_description":
 			case "description":
+            case "other_specify_list":     
 			case "grid_template_areas":
 			case "pre_fill":
             case "sort_order":
@@ -1106,6 +1089,7 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('">');
 	result.push('<option></option>');
     result.push('<option>description</option>');
+    result.push('<option>other_specify_list</option>');
     result.push('<option>is_hidden</option>');
 
 	if(node_type.toLowerCase()== "chart")
@@ -1156,27 +1140,11 @@ function render_attribute_add_control(p_path, node_type)
 	}
 
 
-	if(node_type.toLowerCase()== "group")
-	{
-		result.push('<option>grid_template</option>');
-		result.push('<option>grid_gap</option>');
-		result.push('<option>grid_auto_flow</option>');
-		result.push('<option>grid_template_areas</option>');
-		result.push('<option>grid_area</option>');
-		result.push('<option>grid_row</option>');
-		result.push('<option>grid_column</option>');
-		
-	}
-	else if(is_collection_node)
+    if(is_collection_node)
 	{
         result.push('<option>sort_order</option>');
 	}
-	else
-	{
-		result.push('<option>grid_area</option>');
-		result.push('<option>grid_row</option>');
-		result.push('<option>grid_column</option>');
-	}
+
 
 	if(node_type.toLowerCase()== "app")
 	{
@@ -1776,6 +1744,7 @@ function editor_add_to_attributes(e, p_ui)
 				break;
 			case "default_value":
 			case "description":
+            case "other_specify_list":
             case "sort_order":
 			case "regex_pattern":
 			case "validation":

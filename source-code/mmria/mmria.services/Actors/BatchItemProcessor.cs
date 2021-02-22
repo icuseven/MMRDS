@@ -894,6 +894,8 @@ namespace RecordsProcessor_Worker.Actors
 
                 #region ParentForm Section
 
+mmria.services.vitalsimport.default_case.create(metadata, new_case);
+
                 if (nat_field_set != null && nat_field_set.Count > 0)
                 {
                     var field_set = nat_field_set.First();
