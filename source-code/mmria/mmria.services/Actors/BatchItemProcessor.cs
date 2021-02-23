@@ -1162,7 +1162,10 @@ namespace RecordsProcessor_Worker.Actors
                     {
                         var new_natal_fetal_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                         mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
-                        natal_fetal_list.Add(new_natal_fetal_form);
+                        
+                        var list = new_natal_fetal_form["birth_certificate_infant_fetal_section"] as IList<object>;
+                        
+                        natal_fetal_list.Add(list[0]);
                         new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
                         
                         var live_birth = "0";
@@ -1289,7 +1292,9 @@ namespace RecordsProcessor_Worker.Actors
                     {
                         var new_natal_fetal_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                         mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
-                        natal_fetal_list.Add(new_natal_fetal_form);
+                        var list = new_natal_fetal_form["birth_certificate_infant_fetal_section"] as IList<object>;
+                        
+                        natal_fetal_list.Add(list[0]);
                         new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
 
 //gs.set_multiform_value(p_object,p_path, list_change_set);
