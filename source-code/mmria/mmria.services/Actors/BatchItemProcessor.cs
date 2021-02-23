@@ -1140,12 +1140,12 @@ namespace RecordsProcessor_Worker.Actors
                                                                                                                             , field_set["STDESIG"]
                                                                                                                             , field_set["POSTDIR"])
                                                                                                                         , field_set["CITYTXT"]
-                                                                                                                        , mor_field_set["STATEC"]
+                                                                                                                        , field_set["STATEC"]
                                                                                                                         , field_set["ZIPCODE"]), new_case);
 
                         Set_facility_of_delivery_location_Gecocode(gs, get_geocode_info(field_set["ADDRESS_D"]
                                                                             , field_set["CITYTXT"]
-                                                                            , mor_field_set["STATEC"]
+                                                                            , field_set["STATEC"]
                                                                             , field_set["ZIPCODE"]), new_case);
 
                         birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
@@ -2642,6 +2642,7 @@ GNAME 27 50
                 result.Add("MDOB_YR", MDOB_YR_FET_Rule(row.Substring(54, 4).Trim()));
                 result.Add("MDOB_MO", MDOB_MO_FET_Rule(row.Substring(58, 2).Trim()));
                 result.Add("MDOB_DY", MDOB_DY_FET_Rule(row.Substring(60, 2).Trim()));
+                result.Add("STATEC", STATEC_FET_Rule(row.Substring(75, 2).Trim()));
                 result.Add("FDOB_YR", FDOB_YR_FET_Rule(row.Substring(80, 4).Trim()));
                 result.Add("FDOB_MO", FDOB_MO_FET_Rule(row.Substring(84, 2).Trim()));
                 result.Add("MARN", MARN_FET_Rule(row.Substring(90, 1).Trim()));
@@ -2743,6 +2744,18 @@ GNAME 27 50
             }
 
             return listResults;
+        }
+
+        private string STATEC_FET_Rule(string value)
+        {
+            //"Map XX --> 9999 (blank)
+            //Map ZZ --> 9999(blank)
+            //Map all other values to MMRIA field state listing"
+
+            if (value == "XX" || value == "ZZ")
+                value = "9999";
+
+            return value;
         }
 
         #region Rules Section
