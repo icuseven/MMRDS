@@ -914,10 +914,6 @@ namespace RecordsProcessor_Worker.Actors
                     {
                         var field_set = nat_field_set.First();
 
-                        var new_natal_fetal_form = new Dictionary<string,object>();
-                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
-                        natal_fetal_list.Add(new_natal_fetal_form);
-                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
 
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
@@ -1000,11 +996,6 @@ namespace RecordsProcessor_Worker.Actors
                     else if (fet_field_set != null && fet_field_set.Count > 0)
                     {
                         var field_set = fet_field_set.First();
-
-                        var new_natal_fetal_form = new Dictionary<string,object>();
-                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
-                        natal_fetal_list.Add(new_natal_fetal_form);
-                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
 
 
 
@@ -1093,6 +1084,13 @@ namespace RecordsProcessor_Worker.Actors
                     #region NAT Assignments
                     for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
                     {
+                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
+                        natal_fetal_list.Add(new_natal_fetal_form);
+                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
+
+
+
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
@@ -1119,6 +1117,12 @@ namespace RecordsProcessor_Worker.Actors
 
                     for (int fet_index = 0; fet_index < fet_field_set?.Count; fet_index++)
                     {
+                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
+                        natal_fetal_list.Add(new_natal_fetal_form);
+                        new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
+
+
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["FDOD_YR"], fet_field_set[fet_index]["FDOD_MO"], fet_field_set[fet_index]["FDOD_DY"])) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
