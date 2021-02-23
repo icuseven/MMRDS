@@ -312,6 +312,44 @@ namespace RecordsProcessor_Worker.Actors
             {"HOSPTO","birth_certificate_infant_fetal_section/biometrics_and_demographics/facility_city_state"},
             {"INF_MED_REC_NUM","birth_certificate_infant_fetal_section/record_identification/newborn_medical_record_number"},
 
+{"COD18a1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a1"},
+{"COD18a2", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a2"},
+{"COD18a3", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a3"},
+{"COD18a4", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a4"},
+{"COD18a5", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a5"},
+{"COD18a6", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a6"},
+{"COD18a7", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a7"},
+{"COD18a8", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a8"},
+{"COD18a9", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a9"},
+{"COD18a10", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a10"},
+{"COD18a11", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a11"},
+{"COD18a12", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a12"},
+{"COD18a13", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a13"},
+{"COD18a14", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a14"},
+{"COD18b1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b1"},
+{"COD18b2", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b2"},
+{"COD18b3", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b3"},
+{"COD18b4", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b4"},
+{"COD18b5", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b5"},
+{"COD18b6", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b6"},
+{"COD18b7", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b7"},
+{"COD18b8", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b8"},
+{"COD18b9", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b9"},
+{"COD18b10", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b10"},
+{"COD18b11", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b11"},
+{"COD18b12", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b12"},
+{"COD18b13", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b13"},
+{"COD18b14", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b14"},
+{"ICOD", "birth_certificate_infant_fetal_section/vitals_import_group/icod"},
+{"OCOD1", "birth_certificate_infant_fetal_section/vitals_import_group/ocod1"},
+{"OCOD2", "birth_certificate_infant_fetal_section/vitals_import_group/ocod2"},
+{"OCOD3", "birth_certificate_infant_fetal_section/vitals_import_group/ocod3"},
+{"OCOD4", "birth_certificate_infant_fetal_section/vitals_import_group/ocod4"},
+{"OCOD5", "birth_certificate_infant_fetal_section/vitals_import_group/ocod5"},
+{"OCOD6", "birth_certificate_infant_fetal_section/vitals_import_group/ocod6"},
+{"OCOD7", "birth_certificate_infant_fetal_section/vitals_import_group/ocod7"}
+
+
             #endregion
         };
 
@@ -330,6 +368,44 @@ namespace RecordsProcessor_Worker.Actors
             {"ROUT","birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery"},
             {"SORD","birth_certificate_infant_fetal_section/birth_order"},
             {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
+
+
+{"COD18a1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a1"},
+{"COD18a2", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a2"},
+{"COD18a3", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a3"},
+{"COD18a4", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a4"},
+{"COD18a5", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a5"},
+{"COD18a6", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a6"},
+{"COD18a7", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a7"},
+{"COD18a8", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a8"},
+{"COD18a9", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a9"},
+{"COD18a10", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a10"},
+{"COD18a11", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a11"},
+{"COD18a12", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a12"},
+{"COD18a13", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a13"},
+{"COD18a14", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a14"},
+{"COD18b1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b1"},
+{"COD18b2", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b2"},
+{"COD18b3", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b3"},
+{"COD18b4", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b4"},
+{"COD18b5", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b5"},
+{"COD18b6", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b6"},
+{"COD18b7", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b7"},
+{"COD18b8", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b8"},
+{"COD18b9", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b9"},
+{"COD18b10", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b10"},
+{"COD18b11", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b11"},
+{"COD18b12", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b12"},
+{"COD18b13", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b13"},
+{"COD18b14", "birth_certificate_infant_fetal_section/vitals_import_group/cod18b14"},
+{"ICOD", "birth_certificate_infant_fetal_section/vitals_import_group/icod"},
+{"OCOD1", "birth_certificate_infant_fetal_section/vitals_import_group/ocod1"},
+{"OCOD2", "birth_certificate_infant_fetal_section/vitals_import_group/ocod2"},
+{"OCOD3", "birth_certificate_infant_fetal_section/vitals_import_group/ocod3"},
+{"OCOD4", "birth_certificate_infant_fetal_section/vitals_import_group/ocod4"},
+{"OCOD5", "birth_certificate_infant_fetal_section/vitals_import_group/ocod5"},
+{"OCOD6", "birth_certificate_infant_fetal_section/vitals_import_group/ocod6"},
+{"OCOD7", "birth_certificate_infant_fetal_section/vitals_import_group/ocod7"}
 
 	        #endregion
         };
@@ -908,7 +984,7 @@ namespace RecordsProcessor_Worker.Actors
 
                 if(new_case_dictionary != null)
                 {
-                    var natal_fetal_list = new List<Dictionary<string,object>>();
+                    var natal_fetal_list = new List<object>();
 
                     if (nat_field_set != null && nat_field_set.Count > 0)
                     {
@@ -1084,12 +1160,13 @@ namespace RecordsProcessor_Worker.Actors
                     #region NAT Assignments
                     for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
                     {
-                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        var new_natal_fetal_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                         mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
                         natal_fetal_list.Add(new_natal_fetal_form);
                         new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
-
-
+                        
+                        var live_birth = "0";
+                        gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, dynamic)>() { (nat_index,  live_birth) });
 
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
@@ -1109,6 +1186,99 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
+
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a1"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a1"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a2"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a2"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a3"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a3"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a4"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a4"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a5"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a6"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a6"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a7"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a7"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a8"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a8"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a9"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a9"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a10"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a10"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a11"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a11"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a12"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a12"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a13"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a13"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a14"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a14"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b1"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b1"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b2"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b2"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b3"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b3"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b4"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b4"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b5"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b6"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b6"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b7"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b7"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b8"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b8"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b9"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b9"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b10"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b10"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b11"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b11"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b12"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b12"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b13"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b13"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18b14"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18b14"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ICOD"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ICOD"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD1"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD1"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD2"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD2"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD3"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD3"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD4"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD4"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD5"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD6"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD6"]) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["OCOD7"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["OCOD7"]) });
+
+
+                        string_builder.Clear();
+
+                        string_builder.AppendLine($"Initiating cause/condition:");
+                        string_builder.AppendLine($"01) Rupture of membranes prior to onset of labor: {nat_field_set[nat_index]["COD18a1"]}");
+                        string_builder.AppendLine($"02) Abruptio placenta: {nat_field_set[nat_index]["COD18a2"]}");
+                        string_builder.AppendLine($"03) Placental insufficiency: {nat_field_set[nat_index]["COD18a3"]}");
+                        string_builder.AppendLine($"04) Prolapsed cord: {nat_field_set[nat_index]["COD18a4"]}");
+                        string_builder.AppendLine($"05) Chorioamnionitis: {nat_field_set[nat_index]["COD18a5"]}");
+                        string_builder.AppendLine($"06) Other complications of placenta, cord, or membranes: {nat_field_set[nat_index]["COD18a6"]}");
+                        string_builder.AppendLine($"07) Unknown: {nat_field_set[nat_index]["COD18a7"]}");
+                        string_builder.AppendLine($"08) Maternal conditions/diseases literal: {nat_field_set[nat_index]["COD18a8"]}");
+                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes literal: {nat_field_set[nat_index]["COD18a9"]}");
+                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications literal: {nat_field_set[nat_index]["COD18a10"]}");
+                        string_builder.AppendLine($"11) Fetal anomaly literal: {nat_field_set[nat_index]["COD18a11"]}");
+                        string_builder.AppendLine($"12) Fetal injury literal: {nat_field_set[nat_index]["COD18a12"]}");
+                        string_builder.AppendLine($"13) Fetal infection literal: {nat_field_set[nat_index]["COD18a13"]}");
+                        string_builder.AppendLine($"14) Other fetal conditions/disorders literal: {nat_field_set[nat_index]["COD18a14"]}");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"Other significant causes or conditions:");
+                        string_builder.AppendLine($"01) Rupture of membranes prior to onset of labor: {nat_field_set[nat_index]["COD18b1"]} ");
+                        string_builder.AppendLine($"02) Abruptio placenta: {nat_field_set[nat_index]["COD18b2"]}");
+                        string_builder.AppendLine($"03) Placental insufficiency: {nat_field_set[nat_index]["COD18b3"]}");
+                        string_builder.AppendLine($"04) Prolapsed cord: {nat_field_set[nat_index]["COD18b4"]}");
+                        string_builder.AppendLine($"05) Chorioamnionitis: {nat_field_set[nat_index]["COD18b5"]}");
+                        string_builder.AppendLine($"06) Other complications of placenta, cord, or membranes: {nat_field_set[nat_index]["COD18b6"]}");
+                        string_builder.AppendLine($"07) Unknown: {nat_field_set[nat_index]["COD18b7"]}");
+                        string_builder.AppendLine($"08) Maternal conditions/diseases literal: {nat_field_set[nat_index]["COD18b8"]}");
+                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes literal: {nat_field_set[nat_index]["COD18b9"]}");
+                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications literal: {nat_field_set[nat_index]["COD18b10"]}");
+                        string_builder.AppendLine($"11) Fetal anomaly literal: {nat_field_set[nat_index]["COD18b11"]}");
+                        string_builder.AppendLine($"12) Fetal injury literal: {nat_field_set[nat_index]["COD18b12"]}");
+                        string_builder.AppendLine($"13) Fetal infection literal: {nat_field_set[nat_index]["COD18b13"]}");
+                        string_builder.AppendLine($"14) Other fetal conditions/disorders literal: {nat_field_set[nat_index]["COD18b14"]}");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"Coded initiating cause/condition: {nat_field_set[nat_index]["ICOD"]}");
+                        string_builder.AppendLine($"Coded other significant causes or conditions:");
+                        string_builder.AppendLine($"01) First mentioned: {nat_field_set[nat_index]["OCOD1"]} ");
+                        string_builder.AppendLine($"02) Second mentioned: {nat_field_set[nat_index]["OCOD2"]}");
+                        string_builder.AppendLine($"03) Third mentioned: {nat_field_set[nat_index]["OCOD3"]}");
+                        string_builder.AppendLine($"04) Fourth mentioned: {nat_field_set[nat_index]["OCOD4"]}");
+                        string_builder.AppendLine($"05) Fifth mentioned: {nat_field_set[nat_index]["OCOD5"]}");
+                        string_builder.AppendLine($"06) Sixth mentioned: {nat_field_set[nat_index]["OCOD6"]}");
+                        string_builder.AppendLine($"07) Seventh mentioned: {nat_field_set[nat_index]["OCOD7"]}");
+
+                        var res = gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/vitals_import_group/summary_text",new List<(int, dynamic)>(){ (nat_index, string_builder.ToString())});
+
+                        if(!res)
+                        {
+                            Console.WriteLine("error");
+                        }
+
+
+
                     }
 
                     #endregion
@@ -1117,11 +1287,14 @@ namespace RecordsProcessor_Worker.Actors
 
                     for (int fet_index = 0; fet_index < fet_field_set?.Count; fet_index++)
                     {
-                        var new_natal_fetal_form = new Dictionary<string,object>();
+                        var new_natal_fetal_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                         mmria.services.vitalsimport.default_case.create(natal_fetal_metadata, new_natal_fetal_form, true);
                         natal_fetal_list.Add(new_natal_fetal_form);
                         new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
 
+//gs.set_multiform_value(p_object,p_path, list_change_set);
+                        var fetal_death = "1";
+                        gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, dynamic)>() { (fet_index,  fetal_death) });
 
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["FDOD_YR"], fet_field_set[fet_index]["FDOD_MO"], fet_field_set[fet_index]["FDOD_DY"])) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
@@ -1134,6 +1307,100 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
+
+
+
+
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a1"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a2"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a3"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a4"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a5"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a6"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a7"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a8"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a8"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a9"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a9"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a10"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a10"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a11"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a11"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a12"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a12"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a13"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a13"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a14"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a14"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b1"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b2"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b3"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b4"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b5"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b6"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b7"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b8"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b8"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b9"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b9"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b10"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b10"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b11"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b11"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b12"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b12"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b13"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b13"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b14"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b14"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ICOD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ICOD"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD1"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD2"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD3"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD4"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD5"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD6"]) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD7"]) });
+
+
+
+                        string_builder.Clear();
+                        string_builder.AppendLine($"Initiating cause/condition:");
+                        string_builder.AppendLine($"01) Rupture of membranes prior to onset of labor: {fet_field_set[fet_index]["COD18a1"]}");
+                        string_builder.AppendLine($"02) Abruptio placenta: {fet_field_set[fet_index]["COD18a2"]}");
+                        string_builder.AppendLine($"03) Placental insufficiency: {fet_field_set[fet_index]["COD18a3"]}");
+                        string_builder.AppendLine($"04) Prolapsed cord: {fet_field_set[fet_index]["COD18a4"]}");
+                        string_builder.AppendLine($"05) Chorioamnionitis: {fet_field_set[fet_index]["COD18a5"]}");
+                        string_builder.AppendLine($"06) Other complications of placenta, cord, or membranes: {fet_field_set[fet_index]["COD18a6"]}");
+                        string_builder.AppendLine($"07) Unknown: {fet_field_set[fet_index]["COD18a7"]}");
+                        string_builder.AppendLine($"08) Maternal conditions/diseases literal: {fet_field_set[fet_index]["COD18a8"]}");
+                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes literal: {fet_field_set[fet_index]["COD18a9"]}");
+                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications literal: {fet_field_set[fet_index]["COD18a10"]}");
+                        string_builder.AppendLine($"11) Fetal anomaly literal: {fet_field_set[fet_index]["COD18a11"]}");
+                        string_builder.AppendLine($"12) Fetal injury literal: {fet_field_set[fet_index]["COD18a12"]}");
+                        string_builder.AppendLine($"13) Fetal infection literal: {fet_field_set[fet_index]["COD18a13"]}");
+                        string_builder.AppendLine($"14) Other fetal conditions/disorders literal: {fet_field_set[fet_index]["COD18a14"]}");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"Other significant causes or conditions:");
+                        string_builder.AppendLine($"01) Rupture of membranes prior to onset of labor: {fet_field_set[fet_index]["COD18b1"]} ");
+                        string_builder.AppendLine($"02) Abruptio placenta: {fet_field_set[fet_index]["COD18b2"]}");
+                        string_builder.AppendLine($"03) Placental insufficiency: {fet_field_set[fet_index]["COD18b3"]}");
+                        string_builder.AppendLine($"04) Prolapsed cord: {fet_field_set[fet_index]["COD18b4"]}");
+                        string_builder.AppendLine($"05) Chorioamnionitis: {fet_field_set[fet_index]["COD18b5"]}");
+                        string_builder.AppendLine($"06) Other complications of placenta, cord, or membranes: {fet_field_set[fet_index]["COD18b6"]}");
+                        string_builder.AppendLine($"07) Unknown: {fet_field_set[fet_index]["COD18b7"]}");
+                        string_builder.AppendLine($"08) Maternal conditions/diseases literal: {fet_field_set[fet_index]["COD18b8"]}");
+                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes literal: {fet_field_set[fet_index]["COD18b9"]}");
+                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications literal: {fet_field_set[fet_index]["COD18b10"]}");
+                        string_builder.AppendLine($"11) Fetal anomaly literal: {fet_field_set[fet_index]["COD18b11"]}");
+                        string_builder.AppendLine($"12) Fetal injury literal: {fet_field_set[fet_index]["COD18b12"]}");
+                        string_builder.AppendLine($"13) Fetal infection literal: {fet_field_set[fet_index]["COD18b13"]}");
+                        string_builder.AppendLine($"14) Other fetal conditions/disorders literal: {fet_field_set[fet_index]["COD18b14"]}");
+                        string_builder.AppendLine($"");
+                        string_builder.AppendLine($"Coded initiating cause/condition: {fet_field_set[fet_index]["ICOD"]}");
+                        string_builder.AppendLine($"Coded other significant causes or conditions:");
+                        string_builder.AppendLine($"01) First mentioned: {fet_field_set[fet_index]["OCOD1"]} ");
+                        string_builder.AppendLine($"02) Second mentioned: {fet_field_set[fet_index]["OCOD2"]}");
+                        string_builder.AppendLine($"03) Third mentioned: {fet_field_set[fet_index]["OCOD3"]}");
+                        string_builder.AppendLine($"04) Fourth mentioned: {fet_field_set[fet_index]["OCOD4"]}");
+                        string_builder.AppendLine($"05) Fifth mentioned: {fet_field_set[fet_index]["OCOD5"]}");
+                        string_builder.AppendLine($"06) Sixth mentioned: {fet_field_set[fet_index]["OCOD6"]}");
+                        string_builder.AppendLine($"07) Seventh mentioned: {fet_field_set[fet_index]["OCOD7"]}");
+
+                        var res = gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/vitals_import_group/summary_text",new List<(int, dynamic)>(){ (fet_index, string_builder.ToString())});
+
+                        if(!res)
+                        {
+                            Console.WriteLine("error");
+                        }
+
                     }
                 }
 
@@ -2303,6 +2570,47 @@ GNAME 27 50
                 result.Add("INF_MED_REC_NUM", row.Substring(2921, 15).Trim());
                 result.Add("MOM_MED_REC_NUM", row.Substring(2936, 15).Trim());
 
+
+                result.Add("COD18a1", row.Substring(587-1, 1).Trim());
+                result.Add("COD18a2", row.Substring(588-1, 1).Trim());
+                result.Add("COD18a3", row.Substring(589-1, 1).Trim());
+                result.Add("COD18a4", row.Substring(591-1, 1).Trim());
+                result.Add("COD18a5", row.Substring(592-1, 1).Trim());
+                result.Add("COD18a6", row.Substring(593-1, 1).Trim());
+                result.Add("COD18a7", row.Substring(594-1, 60).Trim());
+                result.Add("COD18a8", row.Substring(654-1, 60).Trim());
+                result.Add("COD18a9", row.Substring(714-1, 60).Trim());
+                result.Add("COD18a10", row.Substring(774-1, 60).Trim());
+                result.Add("COD18a11", row.Substring(834-1, 60).Trim());
+                result.Add("COD18a12", row.Substring(894-1, 60).Trim());
+                result.Add("COD18a13", row.Substring(954-1, 60).Trim());
+                result.Add("COD18a14", row.Substring(1014-1, 1).Trim());
+                result.Add("COD18b1", row.Substring(1015-1, 1).Trim());
+                result.Add("COD18b2", row.Substring(1016-1, 1).Trim());
+                result.Add("COD18b3", row.Substring(1017-1, 1).Trim());
+                result.Add("COD18b4", row.Substring(1018-1, 1).Trim());
+                result.Add("COD18b5", row.Substring(1019-1, 1).Trim());
+                result.Add("COD18b6", row.Substring(1020-1, 1).Trim());
+                result.Add("COD18b7", row.Substring(1021-1, 240).Trim());
+                result.Add("COD18b8", row.Substring(1261-1, 240).Trim());
+                result.Add("COD18b9", row.Substring(1501-1, 240).Trim());
+                result.Add("COD18b10", row.Substring(1741-1, 240).Trim());
+                result.Add("COD18b11", row.Substring(1981-1, 240).Trim());
+                result.Add("COD18b12", row.Substring(2221-1, 240).Trim());
+                result.Add("COD18b13", row.Substring(2461-1, 240).Trim());
+                result.Add("COD18b14", row.Substring(2701-1, 5).Trim());
+                result.Add("ICOD", row.Substring(2706-1, 5).Trim());
+                result.Add("OCOD1", row.Substring(2711-1, 5).Trim());
+                result.Add("OCOD2", row.Substring(2716-1, 5).Trim());
+                result.Add("OCOD3", row.Substring(2721-1, 5).Trim());
+                result.Add("OCOD4", row.Substring(2726-1, 5).Trim());
+                result.Add("OCOD5", row.Substring(2731-1, 5).Trim());
+                result.Add("OCOD6", row.Substring(2736-1, 5).Trim());
+                result.Add("OCOD7", row.Substring(2741-1, 1).Trim());
+
+
+
+
                 listResults.Add(result);
             }
 
@@ -2386,6 +2694,45 @@ GNAME 27 50
                 result.Add("HOSPFROM", row.Substring(4763, 50).Trim());
                 result.Add("ATTEND_NPI", row.Substring(4863, 12).Trim());
                 result.Add("ATTEND_OTH_TXT", row.Substring(4875, 20).Trim());
+
+
+                
+                result.Add("COD18a1", row.Substring(587-1, 1).Trim());
+                result.Add("COD18a2", row.Substring(588-1, 1).Trim());
+                result.Add("COD18a3", row.Substring(589-1, 1).Trim());
+                result.Add("COD18a4", row.Substring(591-1, 1).Trim());
+                result.Add("COD18a5", row.Substring(592-1, 1).Trim());
+                result.Add("COD18a6", row.Substring(593-1, 1).Trim());
+                result.Add("COD18a7", row.Substring(594-1, 60).Trim());
+                result.Add("COD18a8", row.Substring(654-1, 60).Trim());
+                result.Add("COD18a9", row.Substring(714-1, 60).Trim());
+                result.Add("COD18a10", row.Substring(774-1, 60).Trim());
+                result.Add("COD18a11", row.Substring(834-1, 60).Trim());
+                result.Add("COD18a12", row.Substring(894-1, 60).Trim());
+                result.Add("COD18a13", row.Substring(954-1, 60).Trim());
+                result.Add("COD18a14", row.Substring(1014-1, 1).Trim());
+                result.Add("COD18b1", row.Substring(1015-1, 1).Trim());
+                result.Add("COD18b2", row.Substring(1016-1, 1).Trim());
+                result.Add("COD18b3", row.Substring(1017-1, 1).Trim());
+                result.Add("COD18b4", row.Substring(1018-1, 1).Trim());
+                result.Add("COD18b5", row.Substring(1019-1, 1).Trim());
+                result.Add("COD18b6", row.Substring(1020-1, 1).Trim());
+                result.Add("COD18b7", row.Substring(1021-1, 240).Trim());
+                result.Add("COD18b8", row.Substring(1261-1, 240).Trim());
+                result.Add("COD18b9", row.Substring(1501-1, 240).Trim());
+                result.Add("COD18b10", row.Substring(1741-1, 240).Trim());
+                result.Add("COD18b11", row.Substring(1981-1, 240).Trim());
+                result.Add("COD18b12", row.Substring(2221-1, 240).Trim());
+                result.Add("COD18b13", row.Substring(2461-1, 240).Trim());
+                result.Add("COD18b14", row.Substring(2701-1, 5).Trim());
+                result.Add("ICOD", row.Substring(2706-1, 5).Trim());
+                result.Add("OCOD1", row.Substring(2711-1, 5).Trim());
+                result.Add("OCOD2", row.Substring(2716-1, 5).Trim());
+                result.Add("OCOD3", row.Substring(2721-1, 5).Trim());
+                result.Add("OCOD4", row.Substring(2726-1, 5).Trim());
+                result.Add("OCOD5", row.Substring(2731-1, 5).Trim());
+                result.Add("OCOD6", row.Substring(2736-1, 5).Trim());
+                result.Add("OCOD7", row.Substring(2741-1, 1).Trim());
 
                 listResults.Add(result);
             }
