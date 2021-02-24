@@ -156,7 +156,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
     }
 
-
     for(let i = 0; i < other_specify_list_key.length; i++)
     {
         let item = other_specify_list_key[i];
@@ -174,6 +173,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
         }
     }
+    
     // other specify - end
 
     for(let i = 0; i < metadata_value_list.length; i++)
@@ -565,42 +565,9 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         
         p_post_html_render.push(" editable_list_set_visibility('" + p_data + "','" + p_object_path + "_other');");
 
-    //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
-    //{
-        // p_result.push("<label>");
-        /*
-        p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
-        p_result.push("<input placeholder='Specify Other' id='"+p_metadata.name+"' class='list-control-input mt-1' type='text3' name='");
-        p_result.push(p_metadata.name);
-        p_result.push("' value='");
-        p_result.push(p_data);
-        p_result.push("' ");
-
-        if
-        (
-            (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            p_result.push(" readonly=true ");
-        }
-        else
-        {
-            p_result.push(" onblur='g_set_data_object_from_path(\"");
-            p_result.push(p_object_path);
-            p_result.push("\",\"");
-            p_result.push(p_metadata_path);
-            p_result.push("\",\"");
-            p_result.push(p_dictionary_path);
-            p_result.push("\",this.value)' /> ");
-            // p_result.push("</label>");
-        }*/
         p_result.push("</div>");
         
-    //}
+
     }
 
     p_result.push(`${render_editable_list_confirm_modal(p_metadata, p_object_path)}`);
@@ -1101,15 +1068,14 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             }
         }
     
-    
+
         for(let i = 0; i < other_specify_list_key.length; i++)
         {
             let item = other_specify_list_key[i];
             let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
-            if(p_data == item)
+            if(p_data.indexOf(item) > -1)
             {
                 other_specify_list_key_show.push(true);
-                //"g_data.death_certificate.demographics.is_of_hispanic_origin"
                 p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
     
             }

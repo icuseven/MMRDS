@@ -34,7 +34,7 @@ var g_name_to_value_lookup = {};
 var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
 var g_previous_case_status = null;
-
+var g_other_specify_lookup = {};
 
 function g_set_data_object_from_path
 (
@@ -1412,6 +1412,8 @@ function get_metadata()
     g_metadata = response;
     metadata_summary(g_metadata_summary, g_metadata, 'g_metadata', 0, 0);
     default_object = create_default_object(g_metadata, {});
+
+    build_other_specify_lookup(g_other_specify_lookup, g_metadata);
 
     set_list_lookup(
       g_display_to_value_lookup,
@@ -3296,5 +3298,80 @@ function add_new_case_button_click(p_input)
     else if("generate_record")
     {
 
+    }
+}
+
+
+function build_other_specify_lookup(p_result, p_metadata, p_path = "")
+{
+    switch(p_metadata.type.toLocaleLowerCase())
+    {
+        case "app":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+
+                build_other_specify_lookup(p_result, child, `${child.name}`);
+            }
+            break;
+        case "form":
+        case "group":
+        case "grid":
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+
+                    build_other_specify_lookup(p_result, child, `${p_path}/${child.name}`);
+                }
+            break;
+        case "list":
+            let other_specify_list_key = [];
+            let other_specify_list_path = [];
+
+            if
+            (
+                p_metadata.other_specify_list != null && 
+                p_metadata.other_specify_list.trim().length > 0
+            )
+            {
+                let item_list = p_metadata.other_specify_list.split(',');
+                for(let i = 0; i < item_list.length; i++)
+                {
+                    let kvp = item_list[i].split(' ');
+                    if
+                    (
+                        kvp.length > 1 &&
+                        kvp[0] != null &&
+                        kvp[0].trim().length > 0 &&
+                        kvp[1] != null &&
+                        kvp[1].trim().length > 0
+                    )
+                    {
+                        let key = kvp[0].trim();
+                        let path = kvp[1].trim();
+
+                        p_result[path] = { list: `${p_path}`, value: key }
+                        
+                    }
+                }
+            }
+
+
+            for(let i = 0; i < other_specify_list_key.length; i++)
+            {
+                let item = other_specify_list_key[i];
+                let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+                
+            }
+        break;
+        case "string":
+        case "number":
+        case "time":
+        case "date":
+        case "datetime":
+        case "textarea":
+        default:
+            break;
     }
 }
