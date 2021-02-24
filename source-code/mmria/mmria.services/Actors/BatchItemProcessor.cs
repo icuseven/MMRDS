@@ -311,7 +311,7 @@ namespace RecordsProcessor_Worker.Actors
             {"BFED","birth_certificate_infant_fetal_section/biometrics_and_demographics/is_infant_being_breastfed_at_discharge"},
             {"HOSPTO","birth_certificate_infant_fetal_section/biometrics_and_demographics/facility_city_state"},
             {"INF_MED_REC_NUM","birth_certificate_infant_fetal_section/record_identification/newborn_medical_record_number"},
-
+/*
 {"COD18a1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a1"},
 {"COD18a2", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a2"},
 {"COD18a3", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a3"},
@@ -348,7 +348,7 @@ namespace RecordsProcessor_Worker.Actors
 {"OCOD5", "birth_certificate_infant_fetal_section/vitals_import_group/ocod5"},
 {"OCOD6", "birth_certificate_infant_fetal_section/vitals_import_group/ocod6"},
 {"OCOD7", "birth_certificate_infant_fetal_section/vitals_import_group/ocod7"}
-
+*/
 
             #endregion
         };
@@ -1189,7 +1189,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
-
+/*
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a1"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a1"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a2"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a2"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["COD18a3"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["COD18a3"]) });
@@ -1279,6 +1279,7 @@ namespace RecordsProcessor_Worker.Actors
                         {
                             Console.WriteLine("error");
                         }
+                        */
 
 
 
