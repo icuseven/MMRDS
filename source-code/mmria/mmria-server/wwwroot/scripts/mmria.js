@@ -210,6 +210,20 @@ var $mmria = function()
             var control = document.querySelector(jq.join(""));
             control.value = p_value;
         },
+        set_control_visibility: function(p_element_id, p_value)
+        {
+            switch(p_value.toLowerCase())
+            {
+                case "none":
+                case "block":
+                var control = document.getElementById(p_element_id);
+                if(control != null)
+                {
+                    control.style.display = p_value;
+                }
+                break;
+            }
+        },
         save_current_record: function(p_call_back)
         {
 

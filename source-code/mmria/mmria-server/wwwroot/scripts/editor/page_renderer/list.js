@@ -111,176 +111,148 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
     }
 
-    if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+    p_result.push(">");
+
+
+    var metadata_value_list = p_metadata.values;
+
+    if(p_metadata.path_reference && p_metadata.path_reference != "")
     {
-        p_result.push(" multiple>");
-        var metadata_value_list = p_metadata.values;
+        metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
 
-        if(p_metadata.path_reference && p_metadata.path_reference != "")
+        if(metadata_value_list == null)	
         {
-            metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-            if(metadata_value_list == null)	
-            {
-                metadata_value_list = p_metadata.values;
-            }
+            metadata_value_list = p_metadata.values;
         }
-
-        for(var i = 0; i < metadata_value_list.length; i++)
-        {
-            var item = metadata_value_list[i];
-
-            if(p_data && p_data.indexOf(item.value) > -1)
-            {
-                    p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
-                    p_result.push("' selected ");
-                    let disabled_option_html = "disabled";
-                    if(g_data_is_checked_out || g_is_data_analyst_mode || (item.is_not_selectable!= null && item.is_not_selectable == true))
-                    {
-                        disabled_option_html = "";
-                    }
-                    p_result.push(disabled_option_html);
-                    p_result.push(">");
-                    if(item.display)
-                    {
-                        p_result.push(item.display);
-                    }
-                    else if(item.value == 9999)
-                    {
-                        p_result.push("(blank)");
-                    }
-                    else
-                    {
-                        p_result.push(item.value);
-                    }
-                    p_result.push("</option>");
-            }
-            else
-            {
-                    p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
-                    p_result.push("' ");
-                    let disabled_option_html = "disabled";
-                    if(g_data_is_checked_out || g_is_data_analyst_mode)
-                    {
-                        disabled_option_html = "";
-                    }
-                    p_result.push(disabled_option_html);
-                    p_result.push(">");
-                    if(item.displa)
-                    {
-                        p_result.push(item.display);
-                    }
-                    else if(item.value == 9999)
-                    {
-                        p_result.push("(blank)");
-                    }
-                    else
-                    {
-                        p_result.push(item.value);
-                    }
-                    p_result.push("</option>");
-            }
-        }
-        p_result.push("</select>");
-        
-        p_result.push("</div>");
     }
-    else
+
+    // other specify - begin
+    let other_specify_list_key = [];
+    let other_specify_list_path = [];
+    let other_specify_list_key_show = [];
+    if
+    (
+        p_metadata.other_specify_list != null && 
+        p_metadata.other_specify_list.trim().length > 0
+    )
     {
-        p_result.push(">");
-
-
-        var metadata_value_list = p_metadata.values;
-
-        if(p_metadata.path_reference && p_metadata.path_reference != "")
+        let item_list = p_metadata.other_specify_list.split(',');
+        for(let i = 0; i < item_list.length; i++)
         {
-            metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-            if(metadata_value_list == null)	
+            let kvp = item_list[i].split(' ');
+            if
+            (
+                kvp.length > 1 &&
+                kvp[0] != null &&
+                kvp[0].trim().length > 0 &&
+                kvp[1] != null &&
+                kvp[1].trim().length > 0
+            )
             {
-                metadata_value_list = p_metadata.values;
-            }
-        }
-
-        for(var i = 0; i < metadata_value_list.length; i++)
-        {
-            var item = metadata_value_list[i];
-
-            if(p_data == item.value)
-            {
-                p_result.push("<option value='");
-                p_result.push(item.value.replace(/'/g, "&#39;"));
-                p_result.push("' selected ");
-           
-                if
-                (
-                    p_metadata.name=="overall_case_status" && 
-                    item.value == 9999
-                )
-                {
-                    p_result.push(" disabled ");
-                }
-                else if(item.is_not_selectable!= null && item.is_not_selectable == true)
-                {
-                    p_result.push(" disabled ");
-                }
-
-                p_result.push(">");
-                if(item.display)
-                {
-                    p_result.push(item.display);
-                }
-                else if(item.value == 9999)
-                {
-                    p_result.push("(blank)");
-                }
-                else
-                {
-                    p_result.push(item.value);
-                }
-                p_result.push("</option>");
-            }
-            else
-            {
-                p_result.push("<option value='");
-                p_result.push(item.value.replace(/'/g, "&#39;"));
-                p_result.push("' ");
-
-                if
-                (
-                    p_metadata.name=="overall_case_status" && 
-                    item.value == 9999
-                )
-                {
-                    p_result.push(" disabled ");
-                }
-                else if(item.is_not_selectable!= null && item.is_not_selectable == true)
-                {
-                    p_result.push(" disabled ");
-                }
+                other_specify_list_key.push(kvp[0].trim());
+                other_specify_list_path.push(kvp[1].trim());
                 
-                p_result.push(">");
-                if(item.display)
-                {
-                    p_result.push(item.display);
-                }
-                else if(item.value == 9999)
-                {
-                    p_result.push("(blank)");
-                }
-                else
-                {
-                    p_result.push(item.value);
-                }
-                p_result.push("</option>");
             }
         }
-        p_result.push("</select>");
-        
-        p_result.push("</div>");
     }
+
+
+    for(let i = 0; i < other_specify_list_key.length; i++)
+    {
+        let item = other_specify_list_key[i];
+        let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+        if(p_data == item)
+        {
+            other_specify_list_key_show.push(true);
+            //"g_data.death_certificate.demographics.is_of_hispanic_origin"
+            p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
+
+        }
+        else
+        {
+            other_specify_list_key_show.push(false);
+            p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
+        }
+    }
+    // other specify - end
+
+    for(let i = 0; i < metadata_value_list.length; i++)
+    {
+        let item = metadata_value_list[i];
+
+        if(p_data == item.value)
+        {
+            p_result.push("<option value='");
+            p_result.push(item.value.replace(/'/g, "&#39;"));
+            p_result.push("' selected ");
+        
+            if
+            (
+                p_metadata.name=="overall_case_status" && 
+                item.value == 9999
+            )
+            {
+                p_result.push(" disabled ");
+            }
+            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
+            {
+                p_result.push(" disabled ");
+            }
+
+            p_result.push(">");
+            if(item.display)
+            {
+                p_result.push(item.display);
+            }
+            else if(item.value == 9999)
+            {
+                p_result.push("(blank)");
+            }
+            else
+            {
+                p_result.push(item.value);
+            }
+            p_result.push("</option>");
+        }
+        else
+        {
+            p_result.push("<option value='");
+            p_result.push(item.value.replace(/'/g, "&#39;"));
+            p_result.push("' ");
+
+            if
+            (
+                p_metadata.name=="overall_case_status" && 
+                item.value == 9999
+            )
+            {
+                p_result.push(" disabled ");
+            }
+            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
+            {
+                p_result.push(" disabled ");
+            }
+            
+            p_result.push(">");
+            if(item.display)
+            {
+                p_result.push(item.display);
+            }
+            else if(item.value == 9999)
+            {
+                p_result.push("(blank)");
+            }
+            else
+            {
+                p_result.push(item.value);
+            }
+            p_result.push("</option>");
+        }
+    }
+    p_result.push("</select>");
+    
+    p_result.push("</div>");
+
 
 }
 
@@ -1043,6 +1015,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     }
 
 
+
     for(let i = 0; i < data_value_list.length; i++)
     {
         let item = data_value_list[i];
@@ -1098,9 +1071,58 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             is_read_only= " disabled=true ";
         }
 
-        //let object_id = ;
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
+        // other specify - begin
+        let other_specify_list_key = [];
+        let other_specify_list_path = [];
+        let other_specify_list_key_show = [];
+        if
+        (
+            p_metadata.other_specify_list != null && 
+            p_metadata.other_specify_list.trim().length > 0
+        )
+        {
+            let item_list = p_metadata.other_specify_list.split(',');
+            for(let i = 0; i < item_list.length; i++)
+            {
+                let kvp = item_list[i].split(' ');
+                if
+                (
+                    kvp.length > 1 &&
+                    kvp[0] != null &&
+                    kvp[0].trim().length > 0 &&
+                    kvp[1] != null &&
+                    kvp[1].trim().length > 0
+                )
+                {
+                    other_specify_list_key.push(kvp[0].trim());
+                    other_specify_list_path.push(kvp[1].trim());
+                    
+                }
+            }
+        }
+    
+    
+        for(let i = 0; i < other_specify_list_key.length; i++)
+        {
+            let item = other_specify_list_key[i];
+            let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+            if(p_data == item)
+            {
+                other_specify_list_key_show.push(true);
+                //"g_data.death_certificate.demographics.is_of_hispanic_origin"
+                p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
+    
+            }
+            else
+            {
+                other_specify_list_key_show.push(false);
+                p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
+            }
+        }
+        // other specify - end
 
+    
+        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
         if (item.display) 
         {
             p_result.push(`<label for="${convert_object_path_to_jquery_id(p_object_path)}_${item.value}" class='choice-control' style="${get_style_string(item_style.prompt.style)}">`);
@@ -1350,6 +1372,27 @@ function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictio
     $mmria.confirm_dialog_confirm_close();
         
 }
+
+/*
+function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+{
+    eval(p_object_path + "=[];");
+    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    $mmria.confirm_dialog_confirm_close();
+        
+}
+
+function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+{
+   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
+   if(checkbox_input!= null)
+   {
+        checkbox_input.checked = false;
+   }
+    
+    $mmria.confirm_dialog_confirm_close();
+        
+}*/
 
 function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
 {
