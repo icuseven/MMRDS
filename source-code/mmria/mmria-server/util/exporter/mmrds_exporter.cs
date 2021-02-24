@@ -430,6 +430,17 @@ namespace mmria.server.util
                         }
                       }
 
+
+                      //Check if list can be sorted and list lookup has key
+                      if(temp2?.Count > 1 && List_Look_Up.ContainsKey("/" + path))
+                      {
+                            //Get list lookup
+                            var look_up_list = List_Look_Up["/" + path];
+
+                            //Set sorted list back to the value to contiune regular flow
+                            temp2 = SortListAgainstDictionary(temp2, look_up_list);
+                      }
+
                       string file_field_name = path_to_field_name_map[path];
                       row[file_field_name] = string.Join("|", temp2);
                       /*
@@ -1015,6 +1026,16 @@ namespace mmria.server.util
                             }
                           }
 
+                          //Check if list can be sorted and list lookup has key
+                          if (temp2?.Count > 1 && List_Look_Up.ContainsKey("/" + path))
+                          {
+                              //Get list lookup
+                              var look_up_list = List_Look_Up["/" + path];
+                          
+                              //Set sorted list back to the value to contiune regular flow
+                              temp2 = SortListAgainstDictionary(temp2, look_up_list);
+                          }
+                          
                           string file_field_name = path_to_field_name_map[path];
                           form_row[file_field_name] = string.Join("|", temp2);
 
@@ -1474,9 +1495,23 @@ namespace mmria.server.util
       }
     }
 
+        private List<string> SortListAgainstDictionary(List<string> temp2, Dictionary<string, string> look_up_list)
+        {
+            var sortedList = new List<string>();
 
+            //Itterate through the order of the lookup
+            foreach (var item in look_up_list)
+            {
+                //If the list contains the lookupvalue, add it to the sorted list
+                if (temp2.Contains(item.Value))
+                    sortedList.Add(temp2.Where(x => x == item.Value).FirstOrDefault());
+            }
 
-    private void Get_List_Look_Up
+            //Set sorted list back to the value to contiune regular flow
+            return sortedList;
+        }
+
+        private void Get_List_Look_Up
     (
       System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> p_result,
       mmria.common.metadata.node[] p_lookup,
