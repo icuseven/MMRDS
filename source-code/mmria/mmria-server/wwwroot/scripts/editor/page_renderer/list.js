@@ -272,64 +272,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
 }
 
-function list_other_specify_onchange(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
-{
-
-    
-    // other specify - end
-
-    // other specify - begin
-    let other_specify_list_key = [];
-    let other_specify_list_path = [];
-    let other_specify_list_key_show = [];
-    if
-    (
-        p_metadata.other_specify_list != null && 
-        p_metadata.other_specify_list.trim().length > 0
-    )
-    {
-        let item_list = p_metadata.other_specify_list.split(',');
-        for(let i = 0; i < item_list.length; i++)
-        {
-            let kvp = item_list[i].split(' ');
-            if
-            (
-                kvp.length > 1 &&
-                kvp[0] != null &&
-                kvp[0].trim().length > 0 &&
-                kvp[1] != null &&
-                kvp[1].trim().length > 0
-            )
-            {
-                other_specify_list_key.push(kvp[0].trim());
-                other_specify_list_path.push(kvp[1].trim());
-                
-            }
-        }
-    }
-
-    for(let i = 0; i < other_specify_list_key.length; i++)
-    {
-        let item = other_specify_list_key[i];
-        let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
-        if(p_data == item)
-        {
-            other_specify_list_key_show.push(true);
-            //"g_data.death_certificate.demographics.is_of_hispanic_origin"
-            //p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
-
-        }
-        else
-        {
-            other_specify_list_key_show.push(false);
-            //p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
-        }
-    }
-
-    // other specify - end
-}
-
-
 function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
@@ -1517,7 +1459,7 @@ function list_other_specify_create_event(p_result, p_event_name, p_code_json, p_
 	
 }
 
-function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
+function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 
 	if(p_metadata.onblur && p_metadata.onblur != "")
@@ -1530,11 +1472,9 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
 		code_array.push(", p_control);\n");
 		
-		code_array.push("g_set_data_object_from_path(\"");
-		code_array.push(p_object_path);
-		code_array.push("\",\"");
-		code_array.push(p_metadata_path);
-		code_array.push("\",p_control.value);\n}).call(");
+
+
+        code_array.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_is_grid_context}",p_control.value);\n}).call(`);
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
 		code_array.push(", event.target);");
 
@@ -1544,19 +1484,91 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 	}
 	else
 	{
-		p_result.push(" onblur='g_set_data_object_from_path(\"");
-		p_result.push(p_object_path);
-		p_result.push("\",\"");
-		p_result.push(p_metadata_path);
+		
 		if(p_metadata.type=="boolean")
 		{
-			p_result.push("\",this.checked)'");
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.checked)'`);
+			
 		}
 		else
 		{
-			p_result.push("\",this.value)'");
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.value)'`);
 		}
 		
 	}
 	
+}
+
+
+function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control)
+{
+
+    //p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx
+    
+    // other specify - end
+    let p_metadata = eval(p_metadata_path);
+
+
+    // other specify - begin
+    let other_specify_list_key = [];
+    let other_specify_list_path = [];
+    let other_specify_list_key_show = [];
+    if
+    (
+        p_metadata.other_specify_list != null && 
+        p_metadata.other_specify_list.trim().length > 0
+    )
+    {
+        let item_list = p_metadata.other_specify_list.split(',');
+        for(let i = 0; i < item_list.length; i++)
+        {
+            let kvp = item_list[i].split(' ');
+            if
+            (
+                kvp.length > 1 &&
+                kvp[0] != null &&
+                kvp[0].trim().length > 0 &&
+                kvp[1] != null &&
+                kvp[1].trim().length > 0
+            )
+            {
+                other_specify_list_key.push(kvp[0].trim());
+                other_specify_list_path.push(kvp[1].trim());
+                
+            }
+        }
+    }
+
+    for(let i = 0; i < other_specify_list_key.length; i++)
+    {
+        let item = other_specify_list_key[i];
+        let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+        let p_data = eval(p_object_path);
+        if(p_control == item)
+        {
+            //other_specify_list_key_show.push(true);
+            //"g_data.death_certificate.demographics.is_of_hispanic_origin"
+            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'block');
+
+        }
+        else
+        {
+            //other_specify_list_key_show.push(false);
+            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'none');
+        }
+    }
+
+    if(p_metadata.type=="boolean")
+	{
+        //g_set_data_object_from_path(p_object_path,p_metadata_path,p_control.checked);
+    }
+    else
+    {
+        //g_set_data_object_from_path(p_object_path,p_metadata_path,p_control.value);
+    }
+
+
+
+
+    // other specify - end
 }
