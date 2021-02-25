@@ -21,6 +21,8 @@ namespace mmria.server.model.casestatus
 
         public string DateOfDeath { get; set; }
         public string StateOfDeath { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public DateTime? DateLastUpdated { get; set; }
 
         public string CaseStatus { get; set; }
 
