@@ -20,6 +20,49 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         return;
     }
 
+
+    var metadata_value_list = p_metadata.values;
+
+    if(p_metadata.path_reference && p_metadata.path_reference != "")
+    {
+        metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+        if(metadata_value_list == null)	
+        {
+            metadata_value_list = p_metadata.values;
+        }
+    }
+
+
+    let other_specify_list_key = [];
+    let other_specify_list_path = [];
+    let other_specify_list_key_show = [];
+    if
+    (
+        p_metadata.other_specify_list != null && 
+        p_metadata.other_specify_list.trim().length > 0
+    )
+    {
+        let item_list = p_metadata.other_specify_list.split(',');
+        for(let i = 0; i < item_list.length; i++)
+        {
+            let kvp = item_list[i].split(' ');
+            if
+            (
+                kvp.length > 1 &&
+                kvp[0] != null &&
+                kvp[0].trim().length > 0 &&
+                kvp[1] != null &&
+                kvp[1].trim().length > 0
+            )
+            {
+                other_specify_list_key.push(kvp[0].trim());
+                other_specify_list_path.push(kvp[1].trim());
+                
+            }
+        }
+    }
+
     p_result.push(`<div class="list" id="${convert_object_path_to_jquery_id(p_object_path)}" mpath="${p_metadata_path}">`);
     
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
@@ -96,15 +139,32 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         if (g_data_is_checked_out)
         {
-            if (path_to_int_map[p_metadata_path])
+            if(other_specify_list_key.length > 0)
             {
+                if (path_to_int_map[p_metadata_path])
+                {
 
-				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-				if(path_to_onchange_map[p_metadata_path])
-				{
-					page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-				}
-				
+                    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+                    if(path_to_onchange_map[p_metadata_path])
+                    {
+                        list_other_specify_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                    }
+                }
+
+                list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
+            }
+            else
+            {
+                if (path_to_int_map[p_metadata_path])
+                {
+
+                    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+                    if(path_to_onchange_map[p_metadata_path])
+                    {
+                        page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                    }
+                }
 
                 page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
             }
@@ -114,17 +174,109 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push(">");
 
 
-    var metadata_value_list = p_metadata.values;
+   
 
-    if(p_metadata.path_reference && p_metadata.path_reference != "")
+
+
+    for(let i = 0; i < metadata_value_list.length; i++)
     {
-        metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+        let item = metadata_value_list[i];
 
-        if(metadata_value_list == null)	
+        if(p_data == item.value)
         {
-            metadata_value_list = p_metadata.values;
+            p_result.push("<option value='");
+            p_result.push(item.value.replace(/'/g, "&#39;"));
+            p_result.push("' selected ");
+        
+            if
+            (
+                p_metadata.name=="overall_case_status" && 
+                item.value == 9999
+            )
+            {
+                p_result.push(" disabled ");
+            }
+            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
+            {
+                p_result.push(" disabled ");
+            }
+
+            p_result.push(">");
+            if(item.display)
+            {
+                if(item.display == "(blank)")
+                {
+                    p_result.push("(Select Value)");
+                }
+                else
+                {
+                    p_result.push(item.display);
+                }
+            }
+            else if(item.value == 9999)
+            {
+                p_result.push("(Select Value)");
+            }
+            else
+            {
+                p_result.push(item.value);
+            }
+            p_result.push("</option>");
+        }
+        else
+        {
+            p_result.push("<option value='");
+            p_result.push(item.value.replace(/'/g, "&#39;"));
+            p_result.push("' ");
+
+            if
+            (
+                p_metadata.name=="overall_case_status" && 
+                item.value == 9999
+            )
+            {
+                p_result.push(" disabled ");
+            }
+            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
+            {
+                p_result.push(" disabled ");
+            }
+            
+            p_result.push(">");
+            if(item.display)
+            {
+                if(item.display == "(blank)")
+                {
+                    p_result.push("(Select Value)");
+                }
+                else
+                {
+                    p_result.push(item.display);
+                }
+            }
+            else if(item.value == 9999)
+            {
+                p_result.push("(Select Value)");
+            }
+            else
+            {
+                p_result.push(item.value);
+            }
+            p_result.push("</option>");
         }
     }
+    p_result.push("</select>");
+    
+    p_result.push("</div>");
+
+
+}
+
+function list_other_specify_onchange(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
+{
+
+    
+    // other specify - end
 
     // other specify - begin
     let other_specify_list_key = [];
@@ -164,96 +316,17 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             other_specify_list_key_show.push(true);
             //"g_data.death_certificate.demographics.is_of_hispanic_origin"
-            p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
+            //p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'block');`);
 
         }
         else
         {
             other_specify_list_key_show.push(false);
-            p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
+            //p_post_html_render.push(`$mmria.set_control_visibility('${convert_object_path_to_jquery_id(object_path)}', 'none');`);
         }
     }
-    
+
     // other specify - end
-
-    for(let i = 0; i < metadata_value_list.length; i++)
-    {
-        let item = metadata_value_list[i];
-
-        if(p_data == item.value)
-        {
-            p_result.push("<option value='");
-            p_result.push(item.value.replace(/'/g, "&#39;"));
-            p_result.push("' selected ");
-        
-            if
-            (
-                p_metadata.name=="overall_case_status" && 
-                item.value == 9999
-            )
-            {
-                p_result.push(" disabled ");
-            }
-            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
-            {
-                p_result.push(" disabled ");
-            }
-
-            p_result.push(">");
-            if(item.display)
-            {
-                p_result.push(item.display);
-            }
-            else if(item.value == 9999)
-            {
-                p_result.push("(blank)");
-            }
-            else
-            {
-                p_result.push(item.value);
-            }
-            p_result.push("</option>");
-        }
-        else
-        {
-            p_result.push("<option value='");
-            p_result.push(item.value.replace(/'/g, "&#39;"));
-            p_result.push("' ");
-
-            if
-            (
-                p_metadata.name=="overall_case_status" && 
-                item.value == 9999
-            )
-            {
-                p_result.push(" disabled ");
-            }
-            else if(item.is_not_selectable!= null && item.is_not_selectable == true)
-            {
-                p_result.push(" disabled ");
-            }
-            
-            p_result.push(">");
-            if(item.display)
-            {
-                p_result.push(item.display);
-            }
-            else if(item.value == 9999)
-            {
-                p_result.push("(blank)");
-            }
-            else
-            {
-                p_result.push(item.value);
-            }
-            p_result.push("</option>");
-        }
-    }
-    p_result.push("</select>");
-    
-    p_result.push("</div>");
-
-
 }
 
 
@@ -1405,4 +1478,85 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
             }
             break;
     }
+}
+
+
+
+function list_other_specify_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+{
+	var post_fix = null;
+
+	switch(p_event_name)
+	{
+		case "onfocus":
+			post_fix = "_of";
+			break;
+		case "onchange":
+			post_fix = "_och";
+			break;
+		case "onclick":
+			post_fix = "_ocl";
+			break;
+		default:
+			console.log("page_render_create_event - missing case: " + p_event_name);
+			break;
+	}
+
+	var code_array = [];
+	
+	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
+	code_array.push(".call(");
+	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+	code_array.push(", this);");
+
+	p_result.push(" ");
+	p_result.push(p_event_name);
+	p_result.push("='");
+	p_result.push(code_array.join('').replace(/'/g,"\""));
+	p_result.push("'");
+	
+}
+
+function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
+{
+
+	if(p_metadata.onblur && p_metadata.onblur != "")
+	{
+		var code_array = [];
+		
+		code_array.push("(function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
+		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_ob");
+		code_array.push(".call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", p_control);\n");
+		
+		code_array.push("g_set_data_object_from_path(\"");
+		code_array.push(p_object_path);
+		code_array.push("\",\"");
+		code_array.push(p_metadata_path);
+		code_array.push("\",p_control.value);\n}).call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", event.target);");
+
+		p_result.push(" onblur='");
+		p_result.push(code_array.join('').replace(/'/g,"\""));
+		p_result.push("'");
+	}
+	else
+	{
+		p_result.push(" onblur='g_set_data_object_from_path(\"");
+		p_result.push(p_object_path);
+		p_result.push("\",\"");
+		p_result.push(p_metadata_path);
+		if(p_metadata.type=="boolean")
+		{
+			p_result.push("\",this.checked)'");
+		}
+		else
+		{
+			p_result.push("\",this.value)'");
+		}
+		
+	}
+	
 }

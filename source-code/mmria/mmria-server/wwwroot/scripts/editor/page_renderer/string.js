@@ -27,7 +27,7 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         }
         else
         {
-            if(p_data == other_data)
+            if(other_specify.value == other_data)
             {
                 visibility_html = 'display:block;';
             }
