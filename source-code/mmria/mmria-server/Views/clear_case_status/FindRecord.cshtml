@@ -13,7 +13,7 @@
     }
 }
 
-<h1 class="h2" tabindex="-1">Clear Case Status</h1>
+<h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
 <p>Chose case from the table resutls below.</p>
 <a class="btn btn-secondary mb-3" href="/clear_case_status">Search Again</a>
 
@@ -22,12 +22,11 @@
     <thead class="thead">
         <tr class="tr">
             <th class="th">#</th>
-            <th class="th">ID</th>
+            <th class="th">MMRIA Record ID</th>
             <th class="th">Case Status</th>
-            <th class="th">Record ID</th>
-            <th class="th">First Middle Last</th>
+            <th class="th">Name (First, Middle, Last Name)</th>
             <th class="th">Date Of Death</th>
-            <th class="th">State of Death</th>
+            <th class="th">Last Updated</th>
             <th class="th">Actions</th>
         </tr>
     </thead>
@@ -64,62 +63,3 @@
         }
     </tbody>
 </table>
-
-@*<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
-<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-</head>
-<body>
-<a href="/home">home</a> | <a href="/clear_case_status">search again</a></a><br/>
-
-<table>
-    <tr>
-       <th align=center colspan=8>search results</th>
-</tr>
-    <tr>
-       <th>_id</th>
-       <th>Case Status</th>
-       <th>RecordId</th>
-       <th>First Middle Last</th>
-       <th>Date Of death</th>
-       <th>State of Death</th>
-       <th>action</th>
-</tr>
-    @foreach (var item in Model.CaseStatusDetail)
-    {
-    <tr>
-       <td>@item._id</td>
-       <td>@item.CaseStatus</td>
-       <td>@item.RecordId</td>
-       <td>@item.FirstName @item.MiddleName @item.LastName</td>
-       <td>@item.DateOfDeath</td>
-       <td>@item.StateOfDeath</td>
-       <td>
-           <form method="post" action="/clear_case_status/ConfirmClearCaseStatusRequest">
-                
-                <input type="hidden" name="_id" value="@item._id" />
-       <input type="hidden" name="RecordId" value="@item.RecordId" />
-       <input type="hidden" name="FirstName" value="@item.FirstName" />
-       <input type="hidden" name="LastName" value="@item.LastName" />
-       <input type="hidden" name="MiddleName" value="@item.MiddleName" />
-       <input type="hidden" name="DateOfDeath" value="@item.DateOfDeath" />
-       <input type="hidden" name="StateOfDeath" value="@item.StateOfDeath" />
-       <input type="hidden" name="CaseStatus" value="@item.CaseStatus" />
-       <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />
-                
-               <input type="submit" value="select ..." />
-           </form>
-        </td>
-    </tr>
-    }
-</table>
-
-  <a href="/home">home</a> | <a href="/clear_case_status">search again</a><br/>
-
-</body>
-</html>*@
