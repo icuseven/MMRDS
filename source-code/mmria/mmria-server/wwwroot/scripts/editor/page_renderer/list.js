@@ -649,30 +649,8 @@ function editable_list_events(p_select_list, p_object_path)
         // console.log('X canceled');
         editable_list_other_callback(p_select_list, false, p_object_path);
     });
-
-    // If clicked anywhere on document
-    /*
-    $(document).on('click', function(event) {
-        const container = $('#' + selector + ' .modal-content'); // find the modal content container
-
-        // if clicked on anywhere outside container &&
-        // container doesn't have a click event binded &&
-        // modal is ACTIVE
-        if
-        (
-            !container.is(event.target) &&
-            container.has(event.target).length === 0 &&
-            $('body').hasClass('modal-open')
-        ){
-            // console.log('clicked outside'); // X clicked
-
-            editable_list_other_callback(false, p_object_path);
-        }
-    });
-    */
 }
 
-// Callback that returns true or false
 function editable_list_other_callback(p_select_list, confirm, p_object_path)
 {
     let query_path = convert_object_path_to_jquery_id(p_object_path);
@@ -702,7 +680,7 @@ function editable_list_other_callback(p_select_list, confirm, p_object_path)
     }
 }
 
-// Function to simply hide and deactivate the modal
+
 function editable_list_other_hide_all_confirm()
 {
     $('.modal').modal('hide') // Closes all active modals showing
@@ -1183,190 +1161,6 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
     p_result.push("></input>");
 }
 
-function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_path,  p_dictionary_path, p_data)
-{   
-    let metadata = eval(p_metadata_path);
-    let current_data_array = eval(p_object_path);
-
-    let data_value_list = metadata.values;
-
-    if(metadata.path_reference && metadata.path_reference != "")
-    {
-        data_value_list = eval(convert_dictionary_path_to_lookup_object(metadata.path_reference));
-
-        if(data_value_list == null)	
-        {
-            data_value_list = metadata.values;
-        }
-    }
-
-    let mutually_exclusive_items = [];
-    for(let i = 0; i < data_value_list.length; i++)
-    {
-        let item = data_value_list[i];
-        if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
-        {
-            has_mutually_exclusive_items = true;
-            mutually_exclusive_items.push(data_value_list[i].value);
-        }
-    }
-
-
-// other specify - end
-let p_metadata = eval(p_metadata_path);
-
-
-// other specify - begin
-let other_specify_list_key = [];
-let other_specify_list_path = [];
-let other_specify_list_key_show = [];
-if
-(
-    p_metadata.other_specify_list != null && 
-    p_metadata.other_specify_list.trim().length > 0
-)
-{
-    let item_list = p_metadata.other_specify_list.split(',');
-    for(let i = 0; i < item_list.length; i++)
-    {
-        let kvp = item_list[i].split(' ');
-        if
-        (
-            kvp.length > 1 &&
-            kvp[0] != null &&
-            kvp[0].trim().length > 0 &&
-            kvp[1] != null &&
-            kvp[1].trim().length > 0
-        )
-        {
-            other_specify_list_key.push(kvp[0].trim());
-            other_specify_list_path.push(kvp[1].trim());
-            
-        }
-    }
-}
-
-for(let i = 0; i < other_specify_list_key.length; i++)
-{
-    let item = other_specify_list_key[i];
-    let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
-    let current_data = eval(p_object_path);
-
-    
-    if(p_data.indexOf(item) > -1)
-    {
-        if(current_data.indexOf(item) > -1)
-        {
-
-            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'none');
-    
-        }
-        else
-        {
-            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'block');
-        }
-    }
-}
-// other specify - end
-
-
-    let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-    let click_code = [];
-
-    if(path_to_onclick_map[p_metadata_path])
-    {
-        page_render_create_event(click_code, "onclick", "", p_metadata_path, p_object_path, p_dictionary_path);
-    }
-
-    let index_of_function = 3;
-    let onclick_function = "";
-    if(click_code.length > index_of_function)
-    {
-        onclick_function = click_code[index_of_function];
-    }
-
-    if 
-    (
-        mutually_exclusive_items.indexOf(p_data) > -1 &&
-        current_data_array.length > 1
-    )
-    {
-
-
-        $mmria.confirm_dialog_show
-        (
-            "Mutually Exclusive", 
-            "Mutually Exculsive",
-            "other items will be removed",
-            new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
-            new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
-        
-        );
-    }
-    else
-    {
-        g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path, p_data);
-        if(onclick_function.length > 0)
-        {
-            eval(onclick_function);
-        }
-
-    }
-
-    /*
-    p_result.push(" onclick=g_set_data_object_from_path(\'");
-    p_result.push(p_object_path);
-    p_result.push("\',\'");
-    p_result.push(p_metadata_path);
-    p_result.push("\',\'");
-    p_result.push(p_dictionary_path);
-    p_result.push("\',this.value) ");
-    */
-
-
-
-}
-
-function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
-{
-    eval(p_object_path + "=[];");
-    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
-    $mmria.confirm_dialog_confirm_close();
-        
-}
-
-function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
-{
-   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
-   if(checkbox_input!= null)
-   {
-        checkbox_input.checked = false;
-   }
-    
-    $mmria.confirm_dialog_confirm_close();
-        
-}
-
-/*
-function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
-{
-    eval(p_object_path + "=[];");
-    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
-    $mmria.confirm_dialog_confirm_close();
-        
-}
-
-function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
-{
-   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
-   if(checkbox_input!= null)
-   {
-        checkbox_input.checked = false;
-   }
-    
-    $mmria.confirm_dialog_confirm_close();
-        
-}*/
 
 function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
 {
@@ -1498,7 +1292,6 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
 
     //p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx
     
-    // other specify - end
     let p_metadata = eval(p_metadata_path);
 
 
@@ -1536,7 +1329,7 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
     {
         let item = other_specify_list_key[i];
         let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
-        let p_data = eval(p_object_path);
+        let other_specify_value = eval(object_path);
         if(p_control_value == item)
         {
             //other_specify_list_key_show.push(true);
@@ -1546,22 +1339,248 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
         }
         else
         {
-            //other_specify_list_key_show.push(false);
-            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'none');
+            if(other_specify_value!= null && other_specify_value.trim().length > 0)
+            {
+                $mmria.confirm_dialog_show
+                (
+                    "Other Specify", 
+                    "Other Specify Has A Value",
+                    "By confirming your Other Specify Value will be cleared out. Do you want to clear your Other Specify Value?",
+                    new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_control_value}");`),
+                    new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_control_value}");`)
+                
+                );
+
+                return;
+            }
+            else
+            {
+                $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'none');
+            }
         }
     }
-
+/*
     if(p_metadata.type=="boolean")
 	{
         //g_set_data_object_from_path(p_object_path,p_metadata_path,p_control.checked);
     }
     else
-    {
-        //g_set_data_object_from_path(p_object_path,p_metadata_path,p_control.value);
-    }
+    {}*/
+        g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_control_value);
+    
 
 
 
 
     // other specify - end
+}
+
+function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_path,  p_dictionary_path, p_data)
+{   
+    let metadata = eval(p_metadata_path);
+    let current_data_array = eval(p_object_path);
+
+    let data_value_list = metadata.values;
+
+    if(metadata.path_reference && metadata.path_reference != "")
+    {
+        data_value_list = eval(convert_dictionary_path_to_lookup_object(metadata.path_reference));
+
+        if(data_value_list == null)	
+        {
+            data_value_list = metadata.values;
+        }
+    }
+
+    let mutually_exclusive_items = [];
+    for(let i = 0; i < data_value_list.length; i++)
+    {
+        let item = data_value_list[i];
+        if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
+        {
+            has_mutually_exclusive_items = true;
+            mutually_exclusive_items.push(data_value_list[i].value);
+        }
+    }
+
+
+// other specify - end
+let p_metadata = eval(p_metadata_path);
+
+
+// other specify - begin
+let other_specify_list_key = [];
+let other_specify_list_path = [];
+let other_specify_list_key_show = [];
+if
+(
+    p_metadata.other_specify_list != null && 
+    p_metadata.other_specify_list.trim().length > 0
+)
+{
+    let item_list = p_metadata.other_specify_list.split(',');
+    for(let i = 0; i < item_list.length; i++)
+    {
+        let kvp = item_list[i].split(' ');
+        if
+        (
+            kvp.length > 1 &&
+            kvp[0] != null &&
+            kvp[0].trim().length > 0 &&
+            kvp[1] != null &&
+            kvp[1].trim().length > 0
+        )
+        {
+            other_specify_list_key.push(kvp[0].trim());
+            other_specify_list_path.push(kvp[1].trim());
+            
+        }
+    }
+}
+
+for(let i = 0; i < other_specify_list_key.length; i++)
+{
+    let item = other_specify_list_key[i];
+    let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+    let current_data = eval(p_object_path);
+
+    
+    if(p_data.indexOf(item) > -1)
+    {
+        if(current_data.indexOf(item) > -1)
+        {
+            let other_specify_value = eval(object_path);
+            if
+            (
+                other_specify_value!=null &&
+                other_specify_value.trim().length > 0
+            )
+            {
+                $mmria.confirm_dialog_show
+                (
+                    "Other Specify", 
+                    "Other Specify Has A Value",
+                    "By confirming your Other Specify Value will be cleared out. Do you want to clear your Other Specify Value?",
+                    new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_data}");`),
+                    new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_data}");`)
+                
+                );
+
+                return;
+            }
+            else
+            {
+                $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'none');
+            }
+    
+        }
+        else
+        {
+            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'block');
+        }
+    }
+}
+// other specify - end
+
+
+    let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    let click_code = [];
+
+    if(path_to_onclick_map[p_metadata_path])
+    {
+        page_render_create_event(click_code, "onclick", "", p_metadata_path, p_object_path, p_dictionary_path);
+    }
+
+    let index_of_function = 3;
+    let onclick_function = "";
+    if(click_code.length > index_of_function)
+    {
+        onclick_function = click_code[index_of_function];
+    }
+
+    if 
+    (
+        mutually_exclusive_items.indexOf(p_data) > -1 &&
+        current_data_array.length > 1
+    )
+    {
+
+
+        $mmria.confirm_dialog_show
+        (
+            "Mutually Exclusive", 
+            "Mutually Exculsive",
+            "other items will be removed",
+            new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
+            new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
+        
+        );
+    }
+    else
+    {
+        g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path, p_data);
+        if(onclick_function.length > 0)
+        {
+            eval(onclick_function);
+        }
+
+    }
+
+    /*
+    p_result.push(" onclick=g_set_data_object_from_path(\'");
+    p_result.push(p_object_path);
+    p_result.push("\',\'");
+    p_result.push(p_metadata_path);
+    p_result.push("\',\'");
+    p_result.push(p_dictionary_path);
+    p_result.push("\',this.value) ");
+    */
+
+
+
+}
+
+function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+{
+    eval(p_object_path + "=[];");
+    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    $mmria.confirm_dialog_confirm_close();
+        
+}
+
+function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+{
+   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
+   if(checkbox_input!= null)
+   {
+        checkbox_input.checked = false;
+   }
+    
+    $mmria.confirm_dialog_confirm_close();
+        
+}
+
+
+function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_other_specify_dictionary_path, p_data)
+{
+    eval(p_other_specify_object_path + " = '';");
+    
+    $mmria.set_control_value(p_other_specify_dictionary_path, "");
+    $mmria.set_control_visibility(convert_object_path_to_jquery_id(p_other_specify_object_path), "none");
+    $mmria.confirm_dialog_confirm_close();
+    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    
+        
+}
+
+function list_clear_other_specify_cancel(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_data)
+{
+   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
+   if(checkbox_input!= null && checkbox_input.checked!= null)
+   {
+        checkbox_input.checked = true;
+   }
+    
+    $mmria.confirm_dialog_confirm_close();
+        
 }
