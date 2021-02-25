@@ -1500,7 +1500,7 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 }
 
 
-function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control)
+function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control_value)
 {
 
     //p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx
@@ -1544,7 +1544,7 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
         let item = other_specify_list_key[i];
         let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
         let p_data = eval(p_object_path);
-        if(p_control == item)
+        if(p_control_value == item)
         {
             //other_specify_list_key_show.push(true);
             //"g_data.death_certificate.demographics.is_of_hispanic_origin"

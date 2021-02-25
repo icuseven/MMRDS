@@ -2375,9 +2375,9 @@ function openTab(pageRoute, tabName, p_section, p_number)
   }
 }
 
-function add_new_form_click(p_metadata_path, p_object_path) 
+function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path) 
 {
-  console.log('add_new_form_click: ' + p_metadata_path + ' , ' + p_object_path);
+  //console.log('add_new_form_click: ' + p_metadata_path + ' , ' + p_object_path);
 
   var metadata = eval(p_metadata_path);
   var form_array = eval(p_object_path);
@@ -2385,6 +2385,8 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var item = new_form[metadata.name][0];
 
   form_array.push(item);
+
+  g_apply_sort(metadata, form_array, p_metadata_path, p_object_path, p_dictionary_path);
 
     save_case
     (
@@ -3253,7 +3255,7 @@ function add_new_case_button_click(p_input)
                         <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
                         <p class="d-flex align-items-start mb-0">
                             <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
-                            <span>Please note the year entered for <strong>Date of Death</strong> will be unavailable for edit after Record ID generation.</span>
+                            <span>After you generate the MMRIA Record ID#, you will <strong>not</strong> be able to edit the Year of Death.</span>
                         </p>
                     </div>
                     <footer class="modal-footer">

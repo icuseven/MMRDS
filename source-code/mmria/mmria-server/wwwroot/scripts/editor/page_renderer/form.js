@@ -201,7 +201,10 @@ function form_render(
 						p_metadata_path +
 						"','" +
 						p_object_path +
-						" ') })\" />"
+                        "','" +
+						p_dictionary_path +
+						"') })\" />"
+
 				);
 			}
 			p_result.push(
