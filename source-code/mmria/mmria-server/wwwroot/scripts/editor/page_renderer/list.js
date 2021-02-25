@@ -1350,6 +1350,8 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
                     new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_control_value}");`)
                 
                 );
+
+                return;
             }
             else
             {
@@ -1459,11 +1461,12 @@ for(let i = 0; i < other_specify_list_key.length; i++)
                     "Other Specify", 
                     "Other Specify Has A Value",
                     "By confirming your Other Specify Value will be cleared out. Do you want to clear your Other Specify Value?",
-                    new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_data}"); ${onclick_function}`),
-                    new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_data}"); ${onclick_function}`)
+                    new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_data}");`),
+                    new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_data}");`)
                 
                 );
 
+                return;
             }
             else
             {
@@ -1575,7 +1578,7 @@ function list_clear_other_specify_cancel(p_object_path,p_metadata_path,p_diction
    let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
    if(checkbox_input!= null && checkbox_input.checked!= null)
    {
-        checkbox_input.checked = false;
+        checkbox_input.checked = true;
    }
     
     $mmria.confirm_dialog_confirm_close();
