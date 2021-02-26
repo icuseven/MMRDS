@@ -686,6 +686,8 @@ namespace RecordsProcessor_Worker.Actors
                 gs.set_value("last_updated_by", "vitals-import", new_case);
                 gs.set_value("version", metadata.version, new_case);
                 gs.set_value("host_state", message.host_state, new_case);
+                gs.set_value("home_record/state_of_death_record", message.host_state, new_case);
+                
 
                 var VitalsImportStatusValue = "0";
                 gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);

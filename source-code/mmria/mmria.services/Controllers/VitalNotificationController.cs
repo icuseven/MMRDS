@@ -25,7 +25,7 @@ namespace mmria.services.vitalsimport.Controllers
         }
 
         [HttpGet]
-        public List<mmria.common.ije.Batch> Get()
+        public async Task<List<mmria.common.ije.Batch>> Get()
         {
             var  result = new List<mmria.common.ije.Batch>();
 
@@ -33,7 +33,7 @@ namespace mmria.services.vitalsimport.Controllers
             var document_curl = new mmria.server.cURL ("GET", null, url, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
             try
             {
-                var responseFromServer = document_curl.execute();
+                var responseFromServer = await document_curl.executeAsync();
                 var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
     
                 foreach(var item in alldocs.rows)
@@ -55,7 +55,7 @@ namespace mmria.services.vitalsimport.Controllers
 
 
         [HttpDelete]
-        public bool Delete()
+        public async Task<bool> Delete()
         {
             var  result = true;
 
@@ -65,7 +65,7 @@ namespace mmria.services.vitalsimport.Controllers
             var document_curl = new mmria.server.cURL ("GET", null, url, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
             try
             {
-                var responseFromServer = document_curl.execute();
+                var responseFromServer = await document_curl.executeAsync();
                 var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
     
                 foreach(var item in alldocs.rows)
