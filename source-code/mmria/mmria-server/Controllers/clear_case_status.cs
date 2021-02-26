@@ -88,7 +88,12 @@ namespace mmria.server.Controllers
                                 DateOfDeath = $"{item.value?.date_of_death_month}/{item.value.date_of_death_year}",
                                 StateOfDeath = item.value?.host_state,
 
+                                LastUpdatedBy = item.value?.last_updated_by,
+
+                                DateLastUpdated = item.value?.date_last_updated,
+
                                 CaseStatus = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
+
                                 StateDatabase = Model.StateDatabase
                             };
 

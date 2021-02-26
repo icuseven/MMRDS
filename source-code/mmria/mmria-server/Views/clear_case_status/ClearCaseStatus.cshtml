@@ -20,12 +20,13 @@
 
 <h3 class="h4">Case Status has been set to: <strong>@Model.CaseStatus</strong>?</h3>
 <p><strong>Case Status:</strong> @Model.CaseStatus</p>
-<p><strong>ID:</strong> @Model._id</p>
+<p><strong>MMRIA Record ID:</strong> @Model._id</p>
 <p><strong>First Name:</strong> @Model.FirstName</p>
 <p><strong>Middle Name:</strong> @Model.MiddleName</p>
 <p><strong>Last Name:</strong> @Model.LastName</p>
 <p><strong>Deate of Death:</strong> @Model.DateOfDeath</p>
-<p><strong>State of Death:</strong> @Model.StateOfDeath</p>
+<p><strong>Last Updated By:</strong> @Model.LastUpdatedBy</p>
+<p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
 
 <input type="hidden" name="_id" value="@Model._id"/>
 <input type="hidden" name="RecordId" value="@Model.RecordId" />
@@ -33,6 +34,8 @@
 <input type="hidden" name="LastName" value="@Model.LastName" />
 <input type="hidden" name="MiddleName" value="@Model.MiddleName" />
 <input type="hidden" name="DateOfDeath" value="@Model.DateOfDeath" />
+<input type="hidden" name="LastUpdatedBy" value="@Model.LastUpdatedBy" />
+<input type="hidden" name="DateLastUpdated" value="@Model.DateLastUpdated" />
 <input type="hidden" name="StateOfDeath" value="@Model.StateOfDeath" />
 <input type="hidden" name="CaseStatus" value="@Model.CaseStatus" />
 <input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
