@@ -23,16 +23,18 @@ namespace mmria.server
 	public class ije_messageController: ControllerBase 
 	{ 
         IConfiguration configuration;
-        public ije_messageController(IConfiguration p_configuration)
+        mmria.common.couchdb.ConfigurationSet ConfigDB;
+        public ije_messageController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
         {
             configuration = p_configuration;
+            ConfigDB = p_config_db;
         }
 		
         [Authorize(Roles  = "cdc_analyst")]
 		[HttpGet]
-		public async Task<IList<mmria.common.ije.Batch>> Get(string case_id) 
+		public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
 		{ 
-            IList<mmria.common.ije.Batch> result = null;
+            mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch> result = null;
 
             try
 			{
@@ -40,11 +42,15 @@ namespace mmria.server
                 //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
-				string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
+				//string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
+                var config = ConfigDB.detail_list["vital_import"];
+                
+                string url = $"{config.url}/vital_import/_all_docs?include_docs=true";
 
-				var user_curl = new cURL("GET", null, user_db_url, null);
+
+				var user_curl = new cURL("GET", null, url, null, config.user_name, config.user_value);
 				var responseFromServer = await user_curl.executeAsync();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.ije.Batch>>(responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
 
 			}
 			catch(Exception ex) 

@@ -60,7 +60,12 @@ function get_batch_set()
 	$.ajax({
 		url: location.protocol + '//' + location.host + `/api/ije_message`
 	}).done(function(response) {
-        g_batch_list = response;
+        g_batch_list = [];
+        for(let i = 0; i < response.rows.length; i++)
+        {
+            let item = response.rows[i].doc;
+            g_batch_list.push(item);
+        }
 
 
         initialize_ui()

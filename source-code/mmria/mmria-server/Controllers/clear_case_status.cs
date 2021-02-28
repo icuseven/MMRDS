@@ -23,6 +23,11 @@ namespace mmria.server.Controllers
             _authorizationService = authorizationService;
             _dbConfigSet = DbConfigurationSet;
 
+            if(_dbConfigSet.detail_list.ContainsKey("vital_import"))
+            {
+                _dbConfigSet.detail_list.Remove("vital_import");
+            }
+
             CaseStatusToDisplay = new System.Collections.Generic.Dictionary<string, string>();
             CaseStatusToDisplay["9999"] = "(blank)";
             CaseStatusToDisplay["1"] = "Abstracting (Incomplete)";	

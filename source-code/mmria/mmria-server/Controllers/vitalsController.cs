@@ -40,7 +40,7 @@ using VitalsImport_FileUpload.Models;
 
 namespace VitalsImport_FileUpload.Controllers
 {
-    [Authorize(Roles = "cdc_analyst")]
+    [Authorize(Roles = "abstractor,cdc_analyst")]
     public class vitalsController : Controller
     {
         private readonly ILogger<vitalsController> _logger;
@@ -63,7 +63,7 @@ namespace VitalsImport_FileUpload.Controllers
             var model = new FileUploadModel();
             return View(model);
         }
-
+/*
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> FileIndex(FileUploadModel model)
@@ -175,5 +175,6 @@ namespace VitalsImport_FileUpload.Controllers
                 }
             }
         }
+        */
     }
 }
