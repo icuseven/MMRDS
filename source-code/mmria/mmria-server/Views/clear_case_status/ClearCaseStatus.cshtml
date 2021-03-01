@@ -1,9 +1,9 @@
 @using System.Security.Claims;
 @model mmria.server.model.casestatus.CaseStatusDetail
 @{ 
-    Layout = "_LayoutBase"; 
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
     var userName = "";
-
     
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
@@ -11,8 +11,6 @@
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
-
-    
 }
 
 <h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
@@ -20,7 +18,7 @@
 
 <h3 class="h4">Case Status has been set to: <strong>@Model.CaseStatus</strong>?</h3>
 <p><strong>Case Status:</strong> @Model.CaseStatus</p>
-<p><strong>MMRIA Record ID:</strong> @Model._id</p>
+<p><strong>MMRIA Record ID:</strong> @Model.RecordId</p>
 <p><strong>First Name:</strong> @Model.FirstName</p>
 <p><strong>Middle Name:</strong> @Model.MiddleName</p>
 <p><strong>Last Name:</strong> @Model.LastName</p>
