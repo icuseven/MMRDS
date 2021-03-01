@@ -1,17 +1,10 @@
 'use strict';
 
 var g_batch_list = [];
-var g_release_version = null;
-var g_release_version_specification = null;
-var g_selected_version = null;
-var g_version_list = null;
-var g_list_one_selected_item = "";
-var g_list_two_selected_item = "";
-var g_is_inline = 0;
-var g_view_type_is_dirty = false;
-var g_view1_is_dirty = true;
-var g_view2_is_dirty = true;
-var g_opcode_dictionary = {};
+var g_batch_item_list = [];
+var g_state_list = [];
+var g_state_date_list = {};
+var g_date_list = [];
 
 
 var batch_item_status = [
@@ -64,7 +57,48 @@ function get_batch_set()
         for(let i = 0; i < response.rows.length; i++)
         {
             let item = response.rows[i].doc;
+
+
+            let reporting_state = item.reporting_state.toUpperCase();
+
+            if(g_state_list.indexOf(reporting_state) < 0)
+            {
+                g_state_list.push(reporting_state);
+            }
+
+            
+            if(g_state_date_list[reporting_state] == null)
+            {
+                g_state_date_list[reporting_state] = [];
+            }
+
+            let import_date = `${item.importDate.substr(5, 2)}/${item.importDate.substr(8, 2)}/${item.importDate.substr(0, 4)}`
+
+            if( g_state_date_list[reporting_state].indexOf(import_date) < 0)
+            {
+                g_state_date_list[reporting_state].push(import_date);
+            }
+
+            
+            if(g_date_list.indexOf(import_date) < 0)
+            {
+                g_date_list.push(import_date);
+            }
+
+            item.import_date = import_date;
+            item.reporting_state = reporting_state;
+
+            for(let j = 0; j < item.record_result.length; j++)
+            {
+                let batch_item = item.record_result[j];
+
+                batch_item.import_date = import_date;
+                batch_item.reporting_state = reporting_state;
+
+                g_batch_item_list.push(batch_item);
+            }
             g_batch_list.push(item);
+
         }
 
 
@@ -135,42 +169,27 @@ function render_batch_list()
             }
         }
 
-        batchedStateOptions.sort();
+        g_state_list.sort();
 
-        if (batchedStateOptions.length > 0) {
-            html_builder.push(`
-                <div class="form-inline">
-                    <label class="justify-content-start" style="width: 130px" for="batch-by-state"><strong>State:</strong></label>
-                    <select id="batch-by-state" class="form-control" style="width: 300px" onchange="javascript:renderReportByState(this.value, () => renderStateImportDateOptions(this.value))">
-                        <option value="">Select State</option>
-                        <option value="all">All</option>
-                        ${batchedStateOptions.map(state => `<option value="${state}">${state}</option>`)}
-                    </select>
-                </div>
 
-                <div class="form-inline mt-3">
-                    <label class="justify-content-start" style="width: 130px" for="batch-by-state-date"><strong>Import Date:</strong></label>
-                    <select id="batch-by-state-date" class="form-control" style="width: 300px" disabled onchange="javascript:renderReportByStateImportDate(this.value)">
-                        <option value="">Select Date</option>
-                        <option value="all">All</option>
-                    </select>
-                </div>
-            `);
-        }
-        
-        // //Original code that was working
-        // //Keeping for legacy and reference
-        // for(let i = 0; i < g_batch_list.length; i++)
-        // {
-        //     let item = g_batch_list[i];
-        //     html_builder.push(`
-        //         <li>
-        //             <strong>${item.mor_file_name}</strong> (${batch_status[item.status]}) - ${item.importDate}
-        //             <button class="btn btn-outline" onclick="render_report_click(${i})">View</button>
-        //             <button class="btn btn-outline" onclick="refresh_click(${i})">Refresh</button>
-        //         </li>
-        //     `);
-        // }
+        html_builder.push(`
+            <div class="form-inline">
+                <label class="justify-content-start" style="width: 130px" for="state-list"><strong>State:</strong></label>
+                <select id="state-list" class="form-control" style="width: 300px" onchange="javascript:state_list_onchange(this.value)">
+                    <option value="">Select State</option>
+                    <option value="all">All</option>
+                    ${g_state_list.map(state => `<option value="${state}">${state}</option>`)}
+                </select>
+            </div>
+
+            <div class="form-inline mt-3">
+                <label class="justify-content-start" style="width: 130px" for="date-list"><strong>Import Date:</strong></label>
+                <select id="date-list" class="form-control" style="width: 300px" onchange="javascript:date_list_onchange(this.value)">
+                    <option value="all" selected>All</option>
+                    ${g_date_list.map(date => `<option value="${date}">${date}</option>`)}
+                </select>
+            </div>
+        `);
     }
     else
     {
@@ -188,122 +207,100 @@ function render_batch_list()
     el.innerHTML = html_builder.join("");
 }
 
-function renderReportByState(p_value, callback)
+function state_list_onchange(p_value)
 {
-
-    let batchedStates = [];
-
-    g_current_state_batch = p_value;
-
-    p_value === 'all' ? batchedStates.push(g_batch_list) : batchedStates.push(g_batch_list.filter(item => item.reporting_state === p_value));
+    let el = document.getElementById('date-list');
+    let html = [];
     
-    
-    for (let i = 0; i < batchedStates.length; i++) 
-    {
-        let batchedStateItem = batchedStates[i];
-        render_report_click(batchedStateItem, i)
-    }
+    html.push(`<option value="all">All</option>`);
 
-    if (callback && typeof(callback) === 'function') {
-        callback();
-    }
-}
-
-function renderReportByStateImportDate(p_value, callback) 
-{
-
-    let batchedDates = [];
-
-    if(p_value === 'all' || p_value === '' )
-    {
-        batchedDates.push(g_batch_list.filter(item => item.reporting_state === g_current_state_batch))
+    if(p_value == 'all')
+    { 
+        for (let i = 0; i < g_date_list.length; i++) 
+        {
+            let item = g_date_list[i];
+            html.push(`<option value="${item}">${item}</option>`);
+        }
     }
     else
     {
-        batchedDates.push(g_batch_list.filter(item => item.reporting_state === g_current_state_batch && item.importDate.split('T')[0] === p_value))
-    }
-    
-    for (let i = 0; i < batchedDates.length; i++) 
-    {
-        let batchedDateItem = batchedDates[0];
-
-        render_report_click(batchedDateItem, i)
-    }
-
-    if (callback) {
-        callback();
-    }
-}
-
-function renderStateImportDateOptions(p_value)
-{
-    const dateElement = $('#batch-by-state-date');
-
-    let batchedDateOptions = [];
-
-    dateElement.find('option').slice(2).remove();
-
-    if (p_value === 'all' || p_value ==='') 
-    {
-        dateElement.prop('disabled', true)
-    }
-    else 
-    {
-        dateElement.prop('disabled', false);
-
-        for (let j = 0; j < g_batch_list.length; j++) 
+        let list = g_state_date_list[p_value];
+        for (let i = 0; i < list.length; i++) 
         {
-
-            let item = g_batch_list[j];
-
-            let itemImportDate = item.importDate;
-            
-
-            if (batchedDateOptions.indexOf(itemImportDate) === -1) 
-            {
-                
-                itemImportDate = itemImportDate.split('T')[0];
-
-                batchedDateOptions.push(itemImportDate);
-
-
-                let mm = itemImportDate.split('-')[1];
-
-                let dd = itemImportDate.split('-')[2];
-
-                let yyyy = itemImportDate.split('-')[0];
-
-                let dateDisplay = `${mm}/${dd}/${yyyy}`;
-
-                dateElement.append(`<option value="${itemImportDate}">${dateDisplay}</option>`);
-            }
+            let item = list[i];
+            html.push(`<option value="${item}">${item}</option>`);
         }
     }
+
+    el.innerHTML = html.join("");
+    prepare_batch();
+
 }
 
-function render_report_click(p_batch, p_index)
+
+
+function date_list_onchange(p_value) 
+{
+
+    prepare_batch();
+
+}
+
+function prepare_batch()
+{
+    let state_value = document.getElementById('state-list').value;
+    let date_value = document.getElementById('date-list').value;
+
+    let batch = [];
+    for (let i = 0; i < g_batch_item_list.length; i++) 
+    {
+        let item = g_batch_item_list[i];
+
+        let is_valid_state = false;
+        let is_valid_date = false;
+
+        if(state_value == "all")
+        {
+            is_valid_state = true;
+        }
+        else if(item.reporting_state == state_value)
+        {
+            is_valid_state = true;
+        }
+
+
+        if(date_value == "all")
+        {
+            is_valid_date = true;
+        }
+        else if(item.import_date == date_value)
+        {
+            is_valid_date = true;
+        }
+
+        if(is_valid_state && is_valid_date)
+        {
+            batch.push(item);
+        }
+
+        
+    }
+
+
+    render_batch(batch);
+}
+
+
+function render_batch(p_batch)
 {
     let html_builder = [];
 
     if (p_batch.length < 1) 
     {
         html_builder.push("");
-    } else 
+    } 
+    else 
     {
-        //get our global batch list
-        //TODO: May not need this since refactoring has made it not necessary, leaving for reference sakes
-        // let batch = g_batch_list[p_index];
-
-        // html_builder.push(`<p><strong>State:</strong> ${p_state.toUpperCase()}</p>`);
-        // if (p_state !== 'all') {
-        //     html_builder.push(`
-        //         <p>
-        //             <strong>Import Date:</strong>
-        //             ${(new Date(batch.importDate).getMonth()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getMonth()+1)}` : new Date(batch.importDate).getMonth()+1}/${(new Date(batch.importDate).getDay()+1).toString().length < 2 ? `0${(new Date(batch.importDate).getDay())}` : new Date(batch.importDate).getDay()+1}/${new Date(batch.importDate).getFullYear()}
-        //         </p>
-        //     `);
-        //     html_builder.push(`<p><strong>Import File Name:</strong> ${batch.mor_file_name}</p>`);
-        // }
         
         const batchedItemsByStatus = {};
 
@@ -314,20 +311,16 @@ function render_report_click(p_batch, p_index)
         
         for (let i = 0; i < p_batch.length; i++) 
         {
-            let newBatchGroup = p_batch[i];
 
-            for (let j = 0; j < newBatchGroup.record_result.length; j++) 
+            let item = p_batch[i];
+            for (let k = 0; k < batch_item_status.length; k++) 
             {
-                let newBatchItem = newBatchGroup.record_result[j];
-
-                for (let k = 0; k < batch_item_status.length; k++) 
+                if (item.status === k) 
                 {
-                    if (newBatchItem.status === k) 
-                    {
-                        batchedItemsByStatus[`batch_item_status_${k}`].push(newBatchItem);
-                    }
+                    batchedItemsByStatus[`batch_item_status_${k}`].push(item);
                 }
             }
+            
         }
 
        for (let i = 0; i < batch_item_status.length; i++) 
@@ -360,34 +353,22 @@ function render_report_click(p_batch, p_index)
                     </thead>
                     <thead class="thead">
                         <tr class="tr" align="center">
-                            <th class="th">#</th>
+                            <th class="th" width=65px>#</th>
                             <th class="th">MMRIA Record ID</th>
                             <th class="th">CDC Unique ID</th>
                             <th class="th">Last Name</th>
                             <th class="th">First Name</th>
-                            <th class="th">Date of Birth</th>
-                            <th class="th">Date of Death</th>
+                            <th class="th" width=120px>Date of Birth</th>
+                            <th class="th" width=120px>Date of Death</th>
                             <th class="th">Reporting State</th>
-                            <th class="th">State of Death Record</th>
+                            <th class="th">State of<br/>Death Record</th>
+                            <th class="th">Status Detail</th>
                         </tr>
                     </thead>
                     <tbody class="tbody">
                 `);
                 
-                /*
-                cdcUniqueID: null
-                dateOfBirth: "1989-03-14"
-                dateOfDeath: "2018-01-04"
-                firstName: "CHRISTIN                                          "
-                importDate: "2021-01-14T15:16:01.804638-05:00"
-                importFileName: "2020_11_05_KS.MOR"
-                lastName: "CANTRELL                                          "
-                mmria_id: null
-                reportingState: "KS"
-                stateOfDeathRecord: "KS"
-                status: 0
-                statusDetail: null
-                */
+
 
                 for(let i = 0; i < sortedItems.length; i++)
                 {
@@ -408,6 +389,7 @@ function render_report_click(p_batch, p_index)
                             </td>
                             <td class="td">${item.reportingState}</td>
                             <td class="td">${item.stateOfDeathRecord}</td>
+                            <td class="td"><span title="${item.statusDetail}">${item.statusDetail.substring(0,20)}</span></td>
                         </tr>
                     `);
                 }
