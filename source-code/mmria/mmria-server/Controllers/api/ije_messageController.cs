@@ -30,7 +30,7 @@ namespace mmria.server
             ConfigDB = p_config_db;
         }
 		
-        [Authorize(Roles  = "cdc_analyst")]
+        [Authorize(Roles  = "abstractor,cdc_analyst")]
 		[HttpGet]
 		public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
 		{ 
