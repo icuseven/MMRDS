@@ -4,8 +4,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	var stack = [];
 	var result = [];
 
-
-	switch(p_metadata.type.toLowerCase())
+    if(p_metadata.is_hidden != null && p_metadata.is_hidden == true)
+    {
+        hidden_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
+    }
+    else switch(p_metadata.type.toLowerCase())
   	{
 		case 'grid':
 			grid_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
