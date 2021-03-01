@@ -25,6 +25,7 @@ var g_release_version = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 var g_value_to_index_number_lookup = {};
+var g_other_specify_lookup = {};
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
 {
