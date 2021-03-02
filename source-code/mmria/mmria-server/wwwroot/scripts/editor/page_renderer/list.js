@@ -1510,7 +1510,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
         (
             "Mutually Exclusive", 
             "Mutually Exculsive",
-            "other items will be removed",
+            "Are you sure you want to select this item? Other <strong>checkbox selections</strong> will be removed, and any <strong>Other Specify</strong> text will be cleared.",
             new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
             new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
         
@@ -1545,6 +1545,53 @@ function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_pa
     eval(p_object_path + "=[];");
     g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
     $mmria.confirm_dialog_confirm_close();
+
+    let p_metadata = eval(p_metadata_path);
+
+// other specify - begin
+let other_specify_list_key = [];
+let other_specify_list_path = [];
+let other_specify_list_key_show = [];
+if
+(
+    p_metadata.other_specify_list != null && 
+    p_metadata.other_specify_list.trim().length > 0
+)
+{
+    let item_list = p_metadata.other_specify_list.split(',');
+    for(let i = 0; i < item_list.length; i++)
+    {
+        let kvp = item_list[i].split(' ');
+        if
+        (
+            kvp.length > 1 &&
+            kvp[0] != null &&
+            kvp[0].trim().length > 0 &&
+            kvp[1] != null &&
+            kvp[1].trim().length > 0
+        )
+        {
+            other_specify_list_key.push(kvp[0].trim());
+            other_specify_list_path.push(kvp[1].trim());
+
+
+            let item = other_specify_list_key[i];
+            let p_other_specify_dictionary_path = other_specify_list_path[i];
+
+            let p_other_specify_object_path = `g_data.${p_other_specify_dictionary_path.replace(/\//g,".")}`;
+            let current_data = eval(p_other_specify_object_path);
+
+            if(current_data!= null && current_data.toString().length > 0)
+            {
+                eval(p_other_specify_object_path + "=''");
+                $mmria.set_control_value(p_other_specify_dictionary_path, "");
+                $mmria.set_control_visibility(convert_object_path_to_jquery_id(p_other_specify_object_path), "none");
+            }
+            
+        }
+    }
+}
+
         
 }
 
