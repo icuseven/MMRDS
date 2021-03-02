@@ -957,8 +957,6 @@ namespace mmria.server.util
                     continue;
                   }
 
-                  //System.Console.WriteLine("path {0}", path);
-
                   string[] temp_path = path.Split('/');
                   List<string> form_path_list = new List<string>();
                   for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
@@ -1497,18 +1495,19 @@ namespace mmria.server.util
 
         private List<string> SortListAgainstDictionary(List<string> temp2, Dictionary<string, string> look_up_list)
         {
-            var sortedList = new List<string>();
+            var result = new List<string>();
 
-            //Itterate through the order of the lookup
             foreach (var item in look_up_list)
             {
-                //If the list contains the lookupvalue, add it to the sorted list
+
                 if (temp2.Contains(item.Value))
-                    sortedList.Add(temp2.Where(x => x == item.Value).FirstOrDefault());
+                {
+                    result.Add(item.Value);
+                }
+                   
             }
 
-            //Set sorted list back to the value to contiune regular flow
-            return sortedList;
+            return result;
         }
 
         private void Get_List_Look_Up
