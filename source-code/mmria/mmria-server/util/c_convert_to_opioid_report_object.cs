@@ -231,6 +231,10 @@ namespace mmria.server.util
 			result.Add("mIncarHx MHxIncar5", get_new_struct("mIncarHx MHxIncar5"));
 			result.Add("mIncarHx MHxIncar6", get_new_struct("mIncarHx MHxIncar6"));
 			result.Add("mIncarHx MHxIncar7", get_new_struct("mIncarHx MHxIncar7"));
+            result.Add("mIncarHx MHxIncar8", get_new_struct("mIncarHx MHxIncar8"));
+            result.Add("mIncarHx MHxIncar9", get_new_struct("mIncarHx MHxIncar9"));
+            result.Add("mIncarHx MHxIncar10", get_new_struct("mIncarHx MHxIncar10"));
+            
 			result.Add("mHxofEmoStress MEmoStress1", get_new_struct("mHxofEmoStress MEmoStress1"));
 			result.Add("mHxofEmoStress MEmoStress2", get_new_struct("mHxofEmoStress MEmoStress2"));
 			result.Add("mHxofEmoStress MEmoStress3", get_new_struct("mHxofEmoStress MEmoStress3"));
@@ -2991,108 +2995,123 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 /*
 social_and_environmental_profile/socio_economic_characteristics/homelessness
 */
+            dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 
+            if(dynamic_val != null && !(dynamic_val is IList<object>))
+            {
+                return;
+            }
 
-//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+            var object_list = dynamic_val as IList<object>;
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mHomeless";
-					curr.field_id = "MHomeless1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+            foreach(var object_val in object_list)
+            {
+                string val_1 = null;
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mHomeless";
-					curr.field_id = "MHomeless2";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+                if(object_val != null)
+                {
+                    val_1 = object_val.ToString();
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mHomeless";
-					curr.field_id = "MHomeless3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+                try
+                {	
+                   
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mHomeless";
-					curr.field_id = "MHomeless4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
-				
-				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mHomeless";
-					curr.field_id = "MHomeless5";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
 
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless4";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless5";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            }
 
 		}
 
@@ -3508,142 +3527,199 @@ foreach(var item in val_list)
 
 //social_and_environmental_profile/previous_or_current_incarcerations
 
-//mIncarHx	Incarceration History	MHxIncar1	Never Incarcerated	1	social_and_environmental_profile/previous_or_current_incarcerations=Never	social_and_environmental_profile/previous_or_current_incarcerations=0
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar1";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mIncarHx	Incarceration History	MHxIncar2	Was Incarcerated	2	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy or During Pregnancy or After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3)
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 1 && test_int <= 3)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar2";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mIncarHx	Incarceration History	MHxIncar3	Incarcerated Before Current Pregnancy	3	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=1
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar3";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mIncarHx	Incarceration History	MHxIncar4	Incarcerated During Current Pregnancy	4	social_and_environmental_profile/previous_or_current_incarcerations=During Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=2
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar4";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-//mIncarHx	Incarceration History	MHxIncar5	Incarcerated After Current Pregnancy	5	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=3
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar5";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
+            dynamic val_list = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar7";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
+            if(val_list != null && !(val_list is IList<object>))
+            {
+                return;
 
-//mIncarHx	Incarceration History	MHxIncar6	Incarcerated 2 or more timepoints	6	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy and Before Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy  OR social_and_environmental_profile/previous_or_current_incarcerations=Before Pregnancy and During Pregnancy and After Pregnancy	(social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 2)  OR (social_and_environmental_profile/previous_or_current_incarcerations = 3 and social_and_environmental_profile/previous_or_current_incarcerations = 1) OR (social_and_environmental_profile/previous_or_current_incarcerations = 2 and social_and_environmental_profile/previous_or_current_incarcerations = 1)  OR (social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3))
-/*
-			try
-			{	
-				string val_1 = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
-				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
-				{
-					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-					curr.indicator_id = "mIncarHx";
-					curr.field_id = "MHxIncar6";
-					curr.value = 1;
-					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-				}
-				
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-			*/
+            }
+
+            foreach(var val_object in val_list)
+            {
+                string val_1 = null;
+
+                if(val_object != null)
+                {
+                    val_1 = val_object.ToString();
+                }
+    //mIncarHx	Incarceration History	MHxIncar1	Never Incarcerated	1	social_and_environmental_profile/previous_or_current_incarcerations=Never	social_and_environmental_profile/previous_or_current_incarcerations=0
+                try
+                {	
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mIncarHx	Incarceration History	MHxIncar2	Was Incarcerated	2	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy or During Pregnancy or After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations in (1, 2, 3)
+                /*
+                try
+                {	
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 1 && test_int <= 3)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }*/
+    //mIncarHx	Incarceration History	MHxIncar3	Incarcerated Before Current Pregnancy	3	social_and_environmental_profile/previous_or_current_incarcerations=Before pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=1
+                try
+                {	
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mIncarHx	Incarceration History	MHxIncar4	Incarcerated During Current Pregnancy	4	social_and_environmental_profile/previous_or_current_incarcerations=During Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=2
+                try
+                {	
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar4";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mIncarHx	Incarceration History	MHxIncar5	Incarcerated After Current Pregnancy	5	social_and_environmental_profile/previous_or_current_incarcerations=After Pregnancy	social_and_environmental_profile/previous_or_current_incarcerations=3
+                try
+                {	
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar5";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar7";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    /*
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar1	Never incarcerated
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar8	More than 1 year prior to pregnancy
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar9	Within 1 year prior to pregnancy
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar4	During current pregnancy
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar5	After current pregnancy
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar3	Before current pregnancy (obsolete)
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar10	Unknown
+    mIncarHx	Number of deaths by mother’s incarceration history in relation to pregnancy	Mother’s Incarceration History	MHxIncar7	(blank)
+    */
+
+                try
+                {
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar8";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                 try
+                {
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar9";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+
+                 try
+                {
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7777)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mIncarHx";
+                        curr.field_id = "MHxIncar10";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+                
+
+            }
 		}
 
 		private void popluate_mLivingArrange (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
@@ -3788,6 +3864,7 @@ foreach(var item in val_list)
 				System.Console.WriteLine (ex);
 			}
 		}
+
 
 		private void popluate_mMHTxTiming (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{

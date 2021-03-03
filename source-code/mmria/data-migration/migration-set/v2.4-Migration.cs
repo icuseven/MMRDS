@@ -710,7 +710,7 @@ namespace migrate.set
 
 										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 										{
-											new_list.Add(value);
+											new_list.Add(9999);
 
 											continue;	
 										}
@@ -738,7 +738,7 @@ namespace migrate.set
 										}
 										else
 										{
-											new_list.Add(int.Parse(value));
+											new_list.Add(int.Parse(value.ToString()));
 										}
 									}
 
