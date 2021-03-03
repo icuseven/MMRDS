@@ -368,61 +368,92 @@ namespace migrate.set
 							continue;
 						}
 
-					// host_state  *** begin
-					var host_state = "TT";
-					value_result = gs.get_value(doc, "host_state");
-					var test_host_state_object = value_result.result;
-					if
-                    (
-                        test_host_state_object == null || 
-                        string.IsNullOrWhiteSpace(test_host_state_object.ToString()) ||
-                        test_host_state_object.ToString().ToLower() == "central"
-                    )
-					{
-                        if(test_host_state_object.ToString().ToLower() == "central")
-                        {
-                            if(db_name.IndexOf("_") > -1)
-                            {
-                                host_state = db_name.Split("_")[0];
-                            }
-							else
-							{
-								host_state = test_host_state_object.ToString();
-							}
-                        }
-						else
+						var host_state = "TT";
+						// host_state  *** begin
+						try
 						{
-							host_state = test_host_state_object.ToString();
-						}
+							
+							value_result = gs.get_value(doc, "host_state");
+							var test_host_state_object = value_result.result;
+							if
+							(
+								test_host_state_object == null || 
+								string.IsNullOrWhiteSpace(test_host_state_object.ToString()) ||
+								test_host_state_object.ToString().ToLower() == "central"
+							)
+							{
+								if(test_host_state_object.ToString().ToLower() == "central")
+								{
+									if(db_name.IndexOf("_") > -1)
+									{
+										host_state = db_name.Split("_")[0];
+									}
+									else
+									{
+										host_state = test_host_state_object.ToString();
+									}
+								}
+								else
+								{
+									host_state = test_host_state_object.ToString();
+								}
 
-						
-					}
-					// host_state  *** end
+								
+							}
+						}
+						catch(Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
+						// host_state  *** end
 
 
 					// record_id - begin
-					value_result = gs.get_value(doc, "home_record/record_id");
-					string year_of_death = "1900";
-					var year_of_death_value_result = gs.get_value(doc, "home_record/date_of_death/year");
-					if
-					(
-						!year_of_death_value_result.is_error &&
-						year_of_death_value_result.result != null &&
-						!string.IsNullOrWhiteSpace(year_of_death_value_result.result.ToString()) &&
-						year_of_death_value_result.result.ToString() != "9999"
-					)
+					try
 					{
-						year_of_death = year_of_death_value_result.result.ToString();
-					}
-					
-					if(!value_result.is_error)
-					{
-						if 
-                    	(
-							value_result.result == null ||
-							value_result.result.ToString() == ""
+						value_result = gs.get_value(doc, "home_record/record_id");
+						string year_of_death = "1900";
+						var year_of_death_value_result = gs.get_value(doc, "home_record/date_of_death/year");
+						if
+						(
+							!year_of_death_value_result.is_error &&
+							year_of_death_value_result.result != null &&
+							!string.IsNullOrWhiteSpace(year_of_death_value_result.result.ToString()) &&
+							year_of_death_value_result.result.ToString() != "9999"
 						)
-                        {
+						{
+							year_of_death = year_of_death_value_result.result.ToString();
+						}
+						
+						if(!value_result.is_error)
+						{
+							if 
+							(
+								value_result.result == null ||
+								value_result.result.ToString() == ""
+							)
+							{
+								string record_id = null;
+								do
+								{
+									record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
+								}
+								while(ExistingRecordIds.Contains(record_id));
+								ExistingRecordIds.Add(record_id);
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
+								var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							} 
+						} 
+						else
+						{
 							string record_id = null;
 							do
 							{
@@ -430,6 +461,7 @@ namespace migrate.set
 							}
 							while(ExistingRecordIds.Contains(record_id));
 							ExistingRecordIds.Add(record_id);
+
 							if(case_change_count == 0)
 							{
 								case_change_count += 1;
@@ -440,38 +472,153 @@ namespace migrate.set
 							var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
 							this.output_builder.AppendLine(output_text);
 							Console.WriteLine(output_text);
-						} 
-					} 
-					else
+						}
+					}
+					catch(Exception ex)
 					{
-						string record_id = null;
-						do
-						{
-							record_id = $"{host_state.ToUpper()}-{year_of_death}-{GenerateRandomFourDigits().ToString()}";
-						}
-						while(ExistingRecordIds.Contains(record_id));
-						ExistingRecordIds.Add(record_id);
-
-						if(case_change_count == 0)
-						{
-							case_change_count += 1;
-							case_has_changed = true;
-						}
-						
-						case_has_changed = case_has_changed && gs.set_value("home_record/record_id", record_id, doc);
-						var output_text = $"item record_id: {mmria_id} Generated new record_id {record_id}";
-						this.output_builder.AppendLine(output_text);
-						Console.WriteLine(output_text);
+						Console.WriteLine(ex);
 					}
 					// record_id - end
 
 
 
 
-						foreach(var node in  pmss_set)
+					// converted from single value to multivalue - begin
+					try
+					{
+						//saepsec_homel social_and_environmental_profile/socio_economic_characteristics/homelessness
+						var saepsec_homel_path = "social_and_environmental_profile/socio_economic_characteristics/homelessness";
+						value_result = gs.get_value(doc, saepsec_homel_path);
+						if (!value_result.is_error)
 						{
-							value_result = gs.get_value(doc, node.path);
-							
+							if(value_result.result == null)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								dynamic new_value_list = new List<object>(){ 9999 };
+
+								case_has_changed = case_has_changed && gs.set_multi_value(saepsec_homel_path, new_value_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{saepsec_homel_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+							else if
+							(
+								value_result.result is string ||
+								value_result.result is int
+							)
+							{
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								dynamic new_value = value_result.result;
+								if(new_value.ToString() == "8888")
+								{
+									new_value = "7777";
+								}
+
+
+								dynamic new_value_list = new List<object>(){
+									new_value
+								};
+
+								case_has_changed = case_has_changed && gs.set_multi_value(saepsec_homel_path, new_value_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{saepsec_homel_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+							else
+							{
+								System.Console.WriteLine("here");
+
+							}
+
+
+						}
+						else
+						{
+							// do nothing
+							//System.Console.WriteLine("Do nothing missing form");
+
+						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+					try
+					{
+						//saep_poc_incar social_and_environmental_profile/previous_or_current_incarcerations
+						var saep_poc_incar_path = "social_and_environmental_profile/previous_or_current_incarcerations";
+						value_result = gs.get_value(doc, saep_poc_incar_path);
+						if (!value_result.is_error)
+						{
+							if (value_result.result == null)
+							{	
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								dynamic new_value_list = new List<object>(){ 9999 };
+
+								case_has_changed = case_has_changed && gs.set_multi_value(saep_poc_incar_path, new_value_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{saep_poc_incar_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+							else if
+							(
+									value_result.result is string ||
+									value_result.result is int
+							)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								dynamic new_value_list = new List<object>(){
+									value_result.result
+								};
+
+								case_has_changed = case_has_changed && gs.set_multi_value(saep_poc_incar_path, new_value_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{saep_poc_incar_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+							else
+							{
+								System.Console.WriteLine("here");
+
+							}
+
+						}
+						else
+						{
+							// Do nothing
+							//System.Console.WriteLine("Do nothing missing form");
+
+						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+					// converted from single value to multivalue - end
+
+					foreach(var node in  pmss_set)
+					{
+						value_result = gs.get_value(doc, node.path);
+						try
+						{
 							if(!value_result.is_error)
 							{
 								var value = value_result.result;
@@ -495,15 +642,21 @@ namespace migrate.set
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 								}
-							}		
+							}	
 						}
-
-
-
-						foreach(var node in  eight_to_7_sf)
+						catch(Exception ex)
 						{
-							value_result = gs.get_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}	
+					}
+
+
+
+					foreach(var node in  eight_to_7_sf)
+					{
+						value_result = gs.get_value(doc, node.path);
+						try
+						{
 							if(!value_result.is_error)
 							{
 								var value = value_result.result;
@@ -527,14 +680,21 @@ namespace migrate.set
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 								}
-							}			
+							}	
 						}
-
-
-						foreach(var node in  eight_to_7_sfmv)
+						catch(Exception ex)
 						{
-							var multivalue_result = gs.get_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}		
+					}
+
+
+					foreach(var node in  eight_to_7_sfmv)
+					{
+						var multivalue_result = gs.get_value(doc, node.path);
+
+						try
+						{
 							if(!multivalue_result.is_error)
 							{
 								var list =  multivalue_result.result as IList<dynamic>;
@@ -572,6 +732,10 @@ namespace migrate.set
 											//this.output_builder.AppendLine(output_text);
 											//Console.WriteLine(output_text);
 										}
+										else if(value.ToString()=="American Indian\\/Alaska Native")
+										{
+											new_list.Add(2);
+										}
 										else
 										{
 											new_list.Add(int.Parse(value));
@@ -593,14 +757,20 @@ namespace migrate.set
 										Console.WriteLine(output_text);
 									}
 								}
-							}			
+							}	
 						}
-
-
-						foreach(var node in  eight_to_7_sfgv)
+						catch(Exception ex)
 						{
-							var grid_value_result = gs.get_grid_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}		
+					}
+
+
+					foreach(var node in  eight_to_7_sfgv)
+					{
+						var grid_value_result = gs.get_grid_value(doc, node.path);
+						try
+						{	
 							if(!grid_value_result.is_error)
 							{
 								var list =  grid_value_result.result as IList<(int, dynamic)>;
@@ -619,7 +789,7 @@ namespace migrate.set
 										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 										{
 											//is_list_changed = true;
-											new_list.Add((tuple_value.Item1, "9999"));
+											new_list.Add((tuple_value.Item1, 9999));
 											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  null => 9999");
 											continue;	
 										}
@@ -663,13 +833,20 @@ namespace migrate.set
 										Console.WriteLine(output_text);
 									}
 								}
-							}			
+							}
 						}
-
-						foreach(var node in  eight_to_7_mv)
+						catch(Exception ex)
 						{
-							var multiform_value_result = gs.get_multiform_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}			
+					}
+
+					foreach(var node in  eight_to_7_mv)
+					{
+						var multiform_value_result = gs.get_multiform_value(doc, node.path);
+						
+						try
+						{
 							if(!multiform_value_result.is_error)
 							{
 								var list = multiform_value_result.result as IList<(int, dynamic)>;
@@ -685,7 +862,7 @@ namespace migrate.set
 									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 									{
 										//is_list_changed = true;
-										new_list.Add((index, "9999"));
+										new_list.Add((index, 9999));
 										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted null => 9999");
 										continue;	
 									}
@@ -694,7 +871,7 @@ namespace migrate.set
 									{
 										
 										
-										dynamic new_value = "7777";
+										dynamic new_value = 7777;
 										new_list.Add((index, new_value));
 										is_list_changed = true;
 										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted 8888 => 7777");
@@ -719,13 +896,20 @@ namespace migrate.set
 									this.output_builder.AppendLine(output_text.ToString());
 									Console.WriteLine(output_text);
 								}
-							}			
+							}
 						}
-
-						foreach(var node in  eight_to_7_mmv)
+						catch(Exception ex)
 						{
-							var multiform_value_result = gs.get_multiform_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}	
+					}
+
+					foreach(var node in  eight_to_7_mmv)
+					{
+						var multiform_value_result = gs.get_multiform_value(doc, node.path);
+
+						try
+						{	
 							if(!multiform_value_result.is_error)
 							{
 								var list = multiform_value_result.result as IList<(int, dynamic)>;
@@ -736,13 +920,17 @@ namespace migrate.set
 								foreach(var (form_index, original_value) in list)
 								{
 									var value_list = original_value as IList<dynamic>;
+									if(value_list == null)
+									{
+										value_list = new List<dynamic>();
+									}
 									var new_value_list = new List<dynamic>();
 									foreach(var value in value_list)
 									{
 										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 										{
 											//is_list_changed = true;
-											new_value_list.Add("9999");
+											new_value_list.Add(9999);
 											//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} null => 9999");
 											continue;	
 										}
@@ -751,7 +939,7 @@ namespace migrate.set
 										{
 											
 											
-											dynamic new_value = "7777";
+											dynamic new_value = 7777;
 											new_value_list.Add(new_value);
 											is_list_changed = true;
 											output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} 8888 => 7777");
@@ -778,13 +966,20 @@ namespace migrate.set
 									this.output_builder.AppendLine(output_text.ToString());
 									Console.WriteLine(output_text);
 								}
-							}			
+							}
 						}
-
-						foreach(var node in  eight_to_7_mgv)
+						catch(Exception ex)
 						{
-							var multiform_grid_value_result = gs.get_multiform_grid_value(doc, node.path);
-							
+							Console.WriteLine(ex);
+						}		
+					}
+
+					foreach(var node in  eight_to_7_mgv)
+					{
+						var multiform_grid_value_result = gs.get_multiform_grid_value(doc, node.path);
+						
+						try
+						{
 							if(!multiform_grid_value_result.is_error)
 							{
 								var list = multiform_grid_value_result.result as IList<(int, int, dynamic)>;
@@ -800,7 +995,7 @@ namespace migrate.set
 									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 									{
 										//is_list_changed = true;
-										new_list.Add((form_index, grid_index, "9999"));
+										new_list.Add((form_index, grid_index, 9999));
 										//output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} null => 9999");
 										continue;	
 									}
@@ -809,7 +1004,7 @@ namespace migrate.set
 									{
 										
 										
-										dynamic new_value = "7777";
+										dynamic new_value = 7777;
 										new_list.Add((form_index, grid_index, new_value));
 										is_list_changed = true;
 										output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} 8888 => 7777");
@@ -835,9 +1030,16 @@ namespace migrate.set
 									Console.WriteLine(output_text);
 								}
 								
-							}			
+							}
 						}
+						catch(Exception ex)
+						{
+							Console.WriteLine(ex);
+						}		
+					}
 
+					try
+					{
 						var mhp_wtdpmh_condi_path = "mental_health_profile/were_there_documented_preexisting_mental_health_conditions";
 						value_result = gs.get_value(doc, mhp_wtdpmh_condi_path);
 						if(!value_result.is_error)
@@ -864,10 +1066,15 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
-						
-						
-						{//bcifsmod_framo_deliv +1 4 -> 7777 	/birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery
+					try
+					{
+						//bcifsmod_framo_deliv +1 4 -> 7777 	/birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery
 						var bcifsmod_framo_deliv_path = "birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery";
 						var multiform_value_result = gs.get_multiform_value(doc, bcifsmod_framo_deliv_path);
 						if(!multiform_value_result.is_error)
@@ -883,7 +1090,7 @@ namespace migrate.set
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									//is_list_changed = true;
-									new_list.Add((form_index, "9999"));
+									new_list.Add((form_index, 9999));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted null => 9999");
 									continue;	
 								}
@@ -891,7 +1098,7 @@ namespace migrate.set
 								if(value.ToString() == "4")
 								{
 									is_list_changed = true;
-									new_list.Add((form_index, "7777"));
+									new_list.Add((form_index, 7777));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 4 => 7777");
 								}
 								else
@@ -915,8 +1122,14 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
+					try
+					{
 						//ar_coa_infor -1 + 4 -> 2 /autopsy_report/completeness_of_autopsy_information
 						var ar_coa_infor_path = "autopsy_report/completeness_of_autopsy_information";
 						value_result = gs.get_value(doc, ar_coa_infor_path);
@@ -944,7 +1157,14 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
+					try
+					{
 						//pppcf_pp_type -1 +1 3 -> 4 	/prenatal/primary_prenatal_care_facility/primary_provider_type
 						var pppcf_pp_type_path = "prenatal/primary_prenatal_care_facility/primary_provider_type";
 						value_result = gs.get_value(doc, pppcf_pp_type_path);
@@ -972,11 +1192,17 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
 
 
 
-						{
+					try
+					{
 						//posopc_p_type -1 +1 3->4 /prenatal/other_sources_of_prenatal_care/provider_type
 						var posopc_p_type_path = "prenatal/other_sources_of_prenatal_care/provider_type";
 						var grid_value_result = gs.get_grid_value(doc, posopc_p_type_path);
@@ -990,13 +1216,13 @@ namespace migrate.set
 							
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
-									new_list.Add((grid_index, "9999"));
+									new_list.Add((grid_index, 9999));
 									//is_list_changed = true;
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted null => 9999");
 								}
 								else if(value.ToString() == "3")
 								{
-									dynamic new_value = "4";
+									dynamic new_value = 4;
 									new_list.Add((grid_index, new_value));
 									is_list_changed = true;
 									output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted 3 => 4");
@@ -1021,9 +1247,16 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
-						{//omovmcf_provider_type -1 +1 6->7 Not found 	/other_medical_office_visits/medical_care_facility/provider_type
+						
+					try
+					{
+						//omovmcf_provider_type -1 +1 6->7 Not found 	/other_medical_office_visits/medical_care_facility/provider_type
 						var omovmcf_provider_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
 						var multiform_value_result = gs.get_multiform_value(doc, omovmcf_provider_type_path);
 						if(!multiform_value_result.is_error)
@@ -1039,7 +1272,7 @@ namespace migrate.set
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									//is_list_changed = true;
-									new_list.Add((form_index, "9999"));
+									new_list.Add((form_index, 9999));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted null => 9999");
 									continue;	
 								}
@@ -1047,7 +1280,7 @@ namespace migrate.set
 								if(value.ToString() == "6")
 								{
 									is_list_changed = true;
-									new_list.Add((form_index, "7"));
+									new_list.Add((form_index, 7));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{omovmcf_provider_type_path} form_index:{form_index} Converted 6 => 7");
 								}
 								else
@@ -1071,10 +1304,16 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
 
-						{/*
+					try
+					{
+						/*
 						omovdiaot_t_type -1 +8 	/other_medical_office_visits/diagnostic_imaging_and_other_technology/Procedure
 							0 ->CT
 							1 ->CVS
@@ -1175,11 +1414,17 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
 
 
-						{//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
+					try
+					{
+						//evahmrlt_d_level +4 /er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level
 						var evahmrlt_d_level_path = "er_visit_and_hospital_medical_records/labratory_tests/diagnostic_level";
 						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrlt_d_level_path);
 						if(!multiform_value_result.is_error)
@@ -1195,7 +1440,7 @@ namespace migrate.set
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									//is_list_changed = true;
-									new_list.Add((form_index, grid_index, "9999"));
+									new_list.Add((form_index, grid_index, 9999));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
 								}
@@ -1204,27 +1449,27 @@ namespace migrate.set
 								{
 									case "8888":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "7777"));
+									new_list.Add((form_index, grid_index, 7777));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
 									break;
 									case "1":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "2"));
+									new_list.Add((form_index, grid_index, 2));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 1 => 2");
 									break;
 									case "3":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "2"));
+									new_list.Add((form_index, grid_index, 2));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 2");
 									break;
 									case "4":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "5"));
+									new_list.Add((form_index, grid_index, 5));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 5");
 									break;
 									case "6":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "5"));
+									new_list.Add((form_index, grid_index, 5));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrlt_d_level_path} form_index:{form_index} grid_index:{grid_index} Converted 6 => 5");
 									break;
 									default:
@@ -1247,10 +1492,17 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
 
-						{//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
+						
+					try
+					{
+						//evahmrba_title +3 /er_visit_and_hospital_medical_records/birth_attendant/title
 						var evahmrba_title_path = "er_visit_and_hospital_medical_records/birth_attendant/title";
 						var multiform_value_result = gs.get_multiform_grid_value(doc, evahmrba_title_path);
 						if(!multiform_value_result.is_error)
@@ -1266,7 +1518,7 @@ namespace migrate.set
 								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 								{
 									//is_list_changed = true;
-									new_list.Add((form_index, grid_index, "9999"));
+									new_list.Add((form_index, grid_index, 9999));
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted null => 9999");
 									continue;	
 								}
@@ -1275,22 +1527,22 @@ namespace migrate.set
 								{
 									case "8888":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "7777"));
+									new_list.Add((form_index, grid_index, 7777));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 8888 => 7777");
 									break;
 									case "3":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "6"));
+									new_list.Add((form_index, grid_index, 6));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 3 => 6");
 									break;
 									case "5":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "6"));
+									new_list.Add((form_index, grid_index, 6));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 5 => 6");
 									break;
 									case "4":
 									is_list_changed = true;
-									new_list.Add((form_index, grid_index, "7"));
+									new_list.Add((form_index, grid_index, 7));
 									output_text.AppendLine($"item record_id: {mmria_id} path:{evahmrba_title_path} form_index:{form_index} grid_index:{grid_index} Converted 4 => 7");
 									break;
 									default:
@@ -1314,8 +1566,12 @@ namespace migrate.set
 								Console.WriteLine(output_text);
 							}
 						}
-						}
+						
 
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
 					}
 
 					if(!is_report_only_mode && case_has_changed)
@@ -1325,198 +1581,16 @@ namespace migrate.set
 
 				}
 
-/*
-bcifsmod_framo_deliv +1 4 -> 7777
-ar_coa_infor -1 + 4 -> 2
-pppcf_pp_type -1 +1 3 -> 4
-posopc_p_type -1 +1 3->4
-omovmcf_provicer_type -1 +1 6->7
-omovdiaot_t_type -1 +8
-
-evahmrlt_d_level +4
-evahmrba_title +3
-*/
-
-            // pmss migration - start
-            // 24
-/*
-            Migrate 10 -> 10.9
-            Migrate Existing 20->20.9)
-            Migrate Existing 30->30.1)
-            Migrate Existing 31->31.1)
-            Migrate Existing 60->60.1)
-            Migrate Existing 40->40.1)
-            Migrate Existing 50->50.1)
-            Migrate Existing 70->70.1)
-            Migrate Existing 80->80.9)
-            Migrate Existing 82->82.9)
-            Migrate Existing 83->83.9)
-            Migrate Existing 85->85.1)
-Migrate Existing 90->90.9)
-Migrate Existing 89->89.9)
-Migrate Existing 90->90.9)
-Migrate Existing 91->91.9)
- Migrate Existing 92->92.9)
-Migrate Existing 93->93.9)
-Migrate Existing 95->95.1)
-Migrate Existing 96->96.9)
-Migrate Existing 97->97.9)
-Migrate Existing 100->100.9)
-Migrate Existing 999->999.1)
-*/
-
-            // pmss migration - end
-
-// migration list
-// 4.	Map existing Not Specified (#8888) -> Unknown (#7777)
-/*
-
-dcd_eiua_force 
-dcd_ioh_origi
-dcd_e_level
-dciai_wia_work
-dciai_wsbi_use
-dcdi_doi_hospi
-dcdi_doo_hospi
-dcdi_mo_death
-dcdi_wa_perfo
-dcdi_waufd_codin
-dcdi_p_statu
-dcdi_dtct_death
-bfdcpfodd_whd_plann
-bfdcpfodd_a_type
-bfdcpfodd_wm_trans
-bfdcpdof_e_level
-bfdcpdof_ifoh_origi
-bfdcpdofr_ro_fathe
-bfdcpdom_m_marri
-bfdcpdom_Imnmhpabsit_hospi
-bfdcpdom_eiua_force
-bfdcpdom_ioh_origi
-bfdcpdom_e_level
-bfdcppc_plura
-bfdcppc_ww_used
-bfdcpcs_non_speci
-bfdcprf_rfit_pregn
-bfdcp_ipotd_pregn
-bfdcp_oo_labor
-bfdcp_o_proce
-bfdcp_cola_deliv
-bfdcp_m_morbi
-bcifs_im_gesta
-bcifsbad_gende
-bcifsbad_iilato_repor
-bcifsbad_iibba_disch
-bcifsbad_witw2_hours
-bcifsmod_wdwfab_unsuc
-bcifsmod_wdwveab_unsuc
-bcifsmod_f_deliv
-bcifsmod_framo_deliv +1 4 -> 7777
-bcifsmod_icwtol_attem
-bcifs_aco_newbo
-
-ar_coa_infor -1 + 4 -> 2
-arrc_r_type
-art_level
-pppcf_p_type
-
-pppcf_pp_type -1 +1 3 -> 4
-pppcf_iu_wic
-p_hpe_condi
-p_wtdmh_condi
-pfmh_i_livin
-p_eos_use
-psug_scree
-psug_c_educa
-pphdg_in_livin
-pi_wp_plann
-pi_wpub_contr
-pit_wproi_treat
-pit_fe_drugs
-pit_ar_techn
-pcp_whd_plann
-pcp_apv_alone
-p_wtp_ident
-p_wta_react
-pmaddp_ia_react
-p_wtpd_hospi
-p_wmrt_other
-pmr_wa_kept
-posopc_place
-posopc_p_type -1 +1 3->4
-
-evahmrbaadi_a_condi
-evahmrbaadi_wrfa_hospi
-evahmrbaadi_wtta_hospi
-evahmrbaadi_dp_statu
-evahmrbaadi_da_disch
-evahmrnalf_mott_facil
-evahmrnalf_oo_trave
-
-evahmrlt_d_level +4
-    1->2
-    3->2
-    4->5
-    6->5
-
-evahmrool_fd_route
-evahmrool_m_gesta
-
-evahmrba_title +3
-    3->6
-    5->6
-    4->7
-
-evahmr_wtco_anest
-evahmr_aa_react
-evahmr_as_proce
-evahmr_ab_trans
-omovv_v_type
-omovmcf_p_type
-
-omovmcf_provicer_type -1 +1 6->7
-omovmcf_wtphppc_provi
-
-omovlt_d_level +4
-    1->2
-    3->2
-    4->5
-    6->5
-
-
-
-omovdiaot_t_type -1 +8
-0 ->CT
-1 ->CVS
-2 -> ECG
-3 -> EEG
-4 ->MRI
-5 -> PET
-6 -> US
-7 ->Xray
-8 ->Other
-
-saepsec_so_incom
-saepsec_e_statu
-saepsec_cl_arran
-saepsec_homel
-saepmoh_relat
-saepmoh_gende
-saepsamr_compi
-saep_ds_use
-mhp_wtdpmh_cond
-mhpwtdmhc_rf_treat
-
-            */
             
-            }
-            catch(Exception ex)
-            {
-                
-            }
+			}
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine(ex);
+		}
 
-			Console.WriteLine($"v2_4_Migration Finished {DateTime.Now}");
-        }
+		Console.WriteLine($"v2_4_Migration Finished {DateTime.Now}");
+    }
         public class Metadata_Node
 		{
 			public Metadata_Node(){}
@@ -1790,3 +1864,188 @@ mhpwtdmhc_rf_treat
 
     }
 }
+
+
+/*
+bcifsmod_framo_deliv +1 4 -> 7777
+ar_coa_infor -1 + 4 -> 2
+pppcf_pp_type -1 +1 3 -> 4
+posopc_p_type -1 +1 3->4
+omovmcf_provicer_type -1 +1 6->7
+omovdiaot_t_type -1 +8
+
+evahmrlt_d_level +4
+evahmrba_title +3
+*/
+
+            // pmss migration - start
+            // 24
+/*
+            Migrate 10 -> 10.9
+            Migrate Existing 20->20.9)
+            Migrate Existing 30->30.1)
+            Migrate Existing 31->31.1)
+            Migrate Existing 60->60.1)
+            Migrate Existing 40->40.1)
+            Migrate Existing 50->50.1)
+            Migrate Existing 70->70.1)
+            Migrate Existing 80->80.9)
+            Migrate Existing 82->82.9)
+            Migrate Existing 83->83.9)
+            Migrate Existing 85->85.1)
+Migrate Existing 90->90.9)
+Migrate Existing 89->89.9)
+Migrate Existing 90->90.9)
+Migrate Existing 91->91.9)
+ Migrate Existing 92->92.9)
+Migrate Existing 93->93.9)
+Migrate Existing 95->95.1)
+Migrate Existing 96->96.9)
+Migrate Existing 97->97.9)
+Migrate Existing 100->100.9)
+Migrate Existing 999->999.1)
+*/
+
+            // pmss migration - end
+
+// migration list
+// 4.	Map existing Not Specified (#8888) -> Unknown (#7777)
+/*
+
+dcd_eiua_force 
+dcd_ioh_origi
+dcd_e_level
+dciai_wia_work
+dciai_wsbi_use
+dcdi_doi_hospi
+dcdi_doo_hospi
+dcdi_mo_death
+dcdi_wa_perfo
+dcdi_waufd_codin
+dcdi_p_statu
+dcdi_dtct_death
+bfdcpfodd_whd_plann
+bfdcpfodd_a_type
+bfdcpfodd_wm_trans
+bfdcpdof_e_level
+bfdcpdof_ifoh_origi
+bfdcpdofr_ro_fathe
+bfdcpdom_m_marri
+bfdcpdom_Imnmhpabsit_hospi
+bfdcpdom_eiua_force
+bfdcpdom_ioh_origi
+bfdcpdom_e_level
+bfdcppc_plura
+bfdcppc_ww_used
+bfdcpcs_non_speci
+bfdcprf_rfit_pregn
+bfdcp_ipotd_pregn
+bfdcp_oo_labor
+bfdcp_o_proce
+bfdcp_cola_deliv
+bfdcp_m_morbi
+bcifs_im_gesta
+bcifsbad_gende
+bcifsbad_iilato_repor
+bcifsbad_iibba_disch
+bcifsbad_witw2_hours
+bcifsmod_wdwfab_unsuc
+bcifsmod_wdwveab_unsuc
+bcifsmod_f_deliv
+bcifsmod_framo_deliv +1 4 -> 7777
+bcifsmod_icwtol_attem
+bcifs_aco_newbo
+
+ar_coa_infor -1 + 4 -> 2
+arrc_r_type
+art_level
+pppcf_p_type
+
+pppcf_pp_type -1 +1 3 -> 4
+pppcf_iu_wic
+p_hpe_condi
+p_wtdmh_condi
+pfmh_i_livin
+p_eos_use
+psug_scree
+psug_c_educa
+pphdg_in_livin
+pi_wp_plann
+pi_wpub_contr
+pit_wproi_treat
+pit_fe_drugs
+pit_ar_techn
+pcp_whd_plann
+pcp_apv_alone
+p_wtp_ident
+p_wta_react
+pmaddp_ia_react
+p_wtpd_hospi
+p_wmrt_other
+pmr_wa_kept
+posopc_place
+posopc_p_type -1 +1 3->4
+
+evahmrbaadi_a_condi
+evahmrbaadi_wrfa_hospi
+evahmrbaadi_wtta_hospi
+evahmrbaadi_dp_statu
+evahmrbaadi_da_disch
+evahmrnalf_mott_facil
+evahmrnalf_oo_trave
+
+evahmrlt_d_level +4
+    1->2
+    3->2
+    4->5
+    6->5
+
+evahmrool_fd_route
+evahmrool_m_gesta
+
+evahmrba_title +3
+    3->6
+    5->6
+    4->7
+
+evahmr_wtco_anest
+evahmr_aa_react
+evahmr_as_proce
+evahmr_ab_trans
+omovv_v_type
+omovmcf_p_type
+
+omovmcf_provicer_type -1 +1 6->7
+omovmcf_wtphppc_provi
+
+omovlt_d_level +4
+    1->2
+    3->2
+    4->5
+    6->5
+
+
+
+omovdiaot_t_type -1 +8
+0 ->CT
+1 ->CVS
+2 -> ECG
+3 -> EEG
+4 ->MRI
+5 -> PET
+6 -> US
+7 ->Xray
+8 ->Other
+
+saepsec_so_incom
+saepsec_e_statu
+saepsec_cl_arran
+saepsec_homel
+saepmoh_relat
+saepmoh_gende
+saepsamr_compi
+saep_ds_use
+mhp_wtdpmh_cond
+mhpwtdmhc_rf_treat
+
+            */

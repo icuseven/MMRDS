@@ -297,14 +297,14 @@ namespace migrate.set
 						if(!is_report_only_mode && case_has_changed)
 						{
 							var gsv = new C_Get_Set_Value(this.output_builder);
-							gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_response_item);
-							gsv.set_value("last_updated_by", "migration_plan", case_response_item);
+							gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), doc);
+							gsv.set_value("last_updated_by", "migration_plan", doc);
 
 							settings = new Newtonsoft.Json.JsonSerializerSettings ();
 							settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-							var changed_object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response_item, settings);
+							var changed_object_string = Newtonsoft.Json.JsonConvert.SerializeObject(doc, settings);
 
-							IDictionary<string, object> doc_item = case_response_item as IDictionary<string, object>;
+							IDictionary<string, object> doc_item = doc as IDictionary<string, object>;
 
 							string put_url = $"{db_server_url}/{db_name}/{doc_item["_id"]}";
 							cURL document_curl = new cURL ("PUT", null, put_url, changed_object_string, config_timer_user_name, config_timer_value);
