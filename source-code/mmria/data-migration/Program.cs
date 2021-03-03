@@ -39,7 +39,7 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"fl",
+			"localhost",
 
 			/*"test",
 			"hi",
