@@ -51,7 +51,7 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
                     for (let i = 0; i < p_metadata.children.length; i++) 
                     {
                         let child = p_metadata.children[i];
-                        if (p_data[child.name] != null) 
+                        if (item[child.name] != null) 
                         {
                             g_apply_sort(child, item[child.name], p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name);
                         }

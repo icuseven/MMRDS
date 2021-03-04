@@ -400,6 +400,10 @@ namespace migrate.set
 
 								
 							}
+							else
+							{
+								host_state = test_host_state_object.ToString();
+							}
 						}
 						catch(Exception ex)
 						{
@@ -1047,10 +1051,9 @@ namespace migrate.set
 							var value = value_result.result;
 							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 							{
-								continue;	
+								//do nothing;	
 							}
-
-							if(value.ToString() == "8888")
+							else if(value.ToString() == "8888")
 							{
 								if(case_change_count == 0)
 								{
@@ -1138,10 +1141,9 @@ namespace migrate.set
 							var value = value_result.result;
 							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 							{
-								continue;	
+								// do nothing
 							}
-
-							if(value.ToString() == "4")
+							else if(value.ToString() == "4")
 							{
 								if(case_change_count == 0)
 								{
@@ -1173,10 +1175,9 @@ namespace migrate.set
 							var value = value_result.result;
 							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 							{
-								continue;	
+								// do nothing
 							}
-
-							if(value.ToString() == "3")
+							else if(value.ToString() == "3")
 							{
 								if(case_change_count == 0)
 								{
