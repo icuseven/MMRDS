@@ -10,9 +10,13 @@ using mmria.services.vitalsimport.Messages;
 using System;
 using System.IO;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace mmria.services.vitalsimport.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VitalNotificationController : ControllerBase
@@ -25,6 +29,7 @@ namespace mmria.services.vitalsimport.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public async Task<List<mmria.common.ije.Batch>> Get()
         {
             var  result = new List<mmria.common.ije.Batch>();
@@ -55,6 +60,7 @@ namespace mmria.services.vitalsimport.Controllers
 
 
         [HttpDelete]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public async Task<bool> Delete()
         {
             var  result = true;

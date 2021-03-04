@@ -8,22 +8,29 @@ using mmria.services.vitalsimport.Messages;
 using System;
 using System.IO;
 using System.Net.Http;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace mmria.services.vitalsimport.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
     {
         private ActorSystem _actorSystem;
+        private IConfiguration _configurationSet;
 
-        public MessageController(ActorSystem actorSystem)
+        public MessageController(ActorSystem actorSystem, IConfiguration configurationSet)
         {
             _actorSystem = actorSystem;
+            _configurationSet = configurationSet;
         }
 
+
         [HttpGet("_health")]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public ObjectResult _health()
         {
             string health = string.Empty;
@@ -64,6 +71,7 @@ namespace mmria.services.vitalsimport.Controllers
         }
 
         [HttpPost("Read")]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public void ReadMessage([FromBody]RecordUpload_Message body)
         {
             var processor = _actorSystem.ActorOf<Recieve_Import_Actor>();
@@ -112,8 +120,9 @@ namespace mmria.services.vitalsimport.Controllers
             //}
         }
 
-        
+
         [HttpPut("IJESet")]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public mmria.common.ije.NewIJESet_MessageResponse ReadMessage([FromBody] mmria.common.ije.NewIJESet_MessageDTO body)
         {
             var processor = _actorSystem.ActorSelection("user/batch-supervisor");

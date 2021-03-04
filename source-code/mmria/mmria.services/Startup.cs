@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Akka.Actor;
+using Microsoft.AspNetCore.Authentication;
+using mmria.services.Classes;
 
 namespace mmria.services.vitalsimport
 {
@@ -27,6 +29,10 @@ namespace mmria.services.vitalsimport
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, HeaderAuthenticationHandler>("BasicAuthentication", null);
+            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

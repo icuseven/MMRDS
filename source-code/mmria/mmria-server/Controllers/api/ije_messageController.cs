@@ -49,6 +49,7 @@ namespace mmria.server
 
 
 				var user_curl = new cURL("GET", null, url, null, config.user_name, config.user_value);
+				user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
 
@@ -77,6 +78,7 @@ namespace mmria.server
 				string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
 
 				var user_curl = new cURL("DELETE", null, user_db_url, null);
+				user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseFromServer);
 
@@ -109,6 +111,7 @@ namespace mmria.server
 				string user_db_url = configuration["mmria_settings:vitals_url"];
 
 				var user_curl = new cURL("PUT", null, user_db_url, object_string);
+				user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
 
