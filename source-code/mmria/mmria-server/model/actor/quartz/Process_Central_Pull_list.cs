@@ -46,13 +46,7 @@ namespace mmria.server.model.actor.quartz
                         }
                     }
                 
-/*  */  
-                    if 
-                    (
-                        //run_count == 2 &&
-                        !string.IsNullOrWhiteSpace(Program.config_cdc_instance_pull_db_url) &&
-                        !string.IsNullOrWhiteSpace(Program.config_cdc_instance_pull_list)
-                    )
+                    if (!string.IsNullOrWhiteSpace(Program.config_cdc_instance_pull_list))
                     {
                     
                         try
@@ -97,6 +91,89 @@ namespace mmria.server.model.actor.quartz
                         {
                             Console.WriteLine(ex);
                         }
+
+
+                        try
+                        {
+
+                            var delete_de_id_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
+                            delete_de_id_curl.execute();
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
+                        
+
+                        try
+                        {
+                            var delete_report_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
+                            delete_report_curl.execute();
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
+
+
+                        try
+                        {
+                            var create_de_id_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
+                            create_de_id_curl.execute();
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
+
+                        try 
+                        {
+                            
+                            string current_directory = AppContext.BaseDirectory;
+                            if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+                            {
+                                current_directory = System.IO.Directory.GetCurrentDirectory();
+                            }
+
+                            using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
+                            {
+                                string result = sr.ReadToEnd();
+                                var create_de_id_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_design/sortable", result, Program.config_timer_user_name, Program.config_timer_value);
+                                create_de_id_curl.execute();					
+                            }
+
+            
+                        } 
+                        catch (Exception ex) 
+                        {
+
+                        }
+
+
+
+                        try
+                        {
+                            var create_report_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
+                            create_report_curl.execute();	
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
+
+
+                        try
+                        {
+                            var Report_Opioid_Index = new mmria.server.util.c_document_sync_all.Report_Opioid_Index_Struct();
+                            string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
+                            var create_report_index_curl = new cURL ("POST", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_index", index_json, Program.config_timer_user_name, Program.config_timer_value);
+                            create_report_index_curl.execute();
+                        }
+                        catch (Exception ex)
+                        {
+                        
+                        }
+
                     
                         var config_cdc_instance_pull_list = Program.config_cdc_instance_pull_list;
                         var cdc_instance_pull = config_cdc_instance_pull_list.Split(",");
@@ -104,14 +181,10 @@ namespace mmria.server.model.actor.quartz
                                     
                         for (var i = 0; i < cdc_instance_pull.Length; i++)
                         {
-                            var db_name_split = cdc_instance_pull[i].Split("/");
-                            if(db_name_split.Length > 1)
-                            {
 
-                                var instance_name = db_name_split[0];
-                                var db_name = db_name_split[1];
-                                try
-                                {
+                            var instance_name = cdc_instance_pull[i];
+                            try
+                            {
                                 if(config_db.detail_list.ContainsKey(instance_name))
                                 {
                                     var db_info = config_db.detail_list[instance_name];
@@ -187,13 +260,13 @@ namespace mmria.server.model.actor.quartz
 
                                     }
                                 }
-                                }
-                                catch(Exception ex)
-                                {
-                                    Console.WriteLine($"Problem pulling instance:{instance_name} db:{db_name}");
-                                    Console.WriteLine(ex);
-                                }
                             }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine($"Problem pulling instance:{instance_name}");
+                                Console.WriteLine(ex);
+                            }
+                            
                         }
                     }
 
