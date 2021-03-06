@@ -268,15 +268,15 @@ namespace mmria.server.model.actor.quartz
                             }
                             
                         }
+
+
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                        PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
                     }
-
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-
 
                     break;
             }
