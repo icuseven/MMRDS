@@ -97,9 +97,9 @@ function validate_length(p_array, p_max_length)
 
             var is_valid_file_name = false;
 
-            var mor_length_is_valid = validate_length(message.mor.Split("\n"), mor_max_length);
-            var nat_length_is_valid = validate_length(message.nat.Split("\n"), nat_max_length);
-            var fet_length_is_valid = validate_length(message.fet.Split("\n"), fet_max_length);
+            var mor_length_is_valid = validate_length(message?.mor?.Split("\n"), mor_max_length);
+            var nat_length_is_valid = validate_length(message?.nat?.Split("\n"), nat_max_length);
+            var fet_length_is_valid = validate_length(message?.fet?.Split("\n"), fet_max_length);
 
             if(!mor_length_is_valid) status_builder.AppendLine("mor length is invalid.");
             if(!nat_length_is_valid) status_builder.AppendLine("nat length is invalid.");
@@ -123,8 +123,8 @@ function validate_length(p_array, p_max_length)
 
             
 
-            var nat_list = message.nat.Split("\n");
-            var fet_list = message.fet.Split("\n");
+            var nat_list = message?.nat?.Split("\n");
+            var fet_list = message?.fet?.Split("\n");
             
             var duplicate_count = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
             var duplicate_is_found = false;
@@ -403,15 +403,16 @@ function validate_length(p_array, p_max_length)
         {
             var result = true;
 
-            for(var i = 0; i < p_array.Count; i++)
-            {
-                var item = p_array[i];
-                if(item.Length > 0 && item.Length != p_max_length)
+            if(p_array != null)
+                for(var i = 0; i < p_array.Count; i++)
                 {
-                    result = false;
-                    break;
+                    var item = p_array[i];
+                    if(item.Length > 0 && item.Length != p_max_length)
+                    {
+                        result = false;
+                        break;
+                    }
                 }
-            }
 
             return result;
         }
@@ -510,17 +511,18 @@ GNAME 27 50
         {
             var result = new List<string>();
             int mom_ssn_start = 2000-1;
-            foreach(var item in p_nat_list)
-            {
-                if(item.Length > mom_ssn_start + 9)
+            if (p_nat_list != null)
+                foreach (var item in p_nat_list)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                    if(mom_ssn == p_cdc_unique_id)
+                    if (item.Length > mom_ssn_start + 9)
                     {
-                        result.Add(item);
+                        var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
+                        if (mom_ssn == p_cdc_unique_id)
+                        {
+                            result.Add(item);
+                        }
                     }
                 }
-            }
 
             return result;
         }
@@ -529,17 +531,18 @@ GNAME 27 50
         {
             var result = new List<string>();
             int mom_ssn_start = 4039-1;
-            foreach(var item in p_fet_list)
-            {
-                if(item.Length > mom_ssn_start + 9)
+            if(p_fet_list != null)
+                foreach(var item in p_fet_list)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                    if(mom_ssn == p_cdc_unique_id)
+                    if(item.Length > mom_ssn_start + 9)
                     {
-                        result.Add(item);
+                        var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
+                        if(mom_ssn == p_cdc_unique_id)
+                        {
+                            result.Add(item);
+                        }
                     }
                 }
-            }
 
             return result;
         }
