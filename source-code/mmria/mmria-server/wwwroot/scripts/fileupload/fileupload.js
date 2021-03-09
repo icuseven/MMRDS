@@ -97,6 +97,11 @@ function setup_file_list() {
                 is_mor = true;
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
+                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.mor");
+
+                if (!patt.test(item.name.toLowerCase())) {
+                    g_validation_errors.push("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
+                }
 
                 if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) {
                     g_validation_errors.push("mor File Length !=" + mor_max_length);
