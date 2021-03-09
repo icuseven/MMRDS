@@ -35,6 +35,7 @@ var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
+var g_record_id_list = {};
 
 function g_set_data_object_from_path
 (
@@ -784,6 +785,8 @@ var g_ui = {
       window.clearInterval(g_autosave_interval);
     }
 
+    
+
     g_autosave_interval = window.setInterval(autosave, 10000);
 
     var result = create_default_object(g_metadata, {});
@@ -830,7 +833,14 @@ var g_ui = {
         parseInt(result.home_record.date_of_death.year) < 2500
     ) 
     {
-        result.home_record.record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        
+        let new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        while(g_record_id_list[new_record_id] != null)
+        {
+            new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        }
+
+        result.home_record.record_id = new_record_id;
     }
 
     var new_data = [];
@@ -1149,6 +1159,33 @@ function load_values()
     {
         g_couchdb_url = response.couchdb_url;
         load_jurisdiction_tree();
+    }
+  );
+}
+
+function Get_Record_Id_List(p_call_back) 
+{
+  $.ajax
+  ({
+    url: location.protocol + '//' + location.host + '/api/case_view/record-id-list',
+  })
+  .done
+  (
+    function (response) 
+    {
+        if(response!= null)
+        {
+            for(var i = 0; i < response.length; i++)
+            {
+                let item = response[i];
+                g_record_id_list[item] = true;
+            }
+
+            if(p_call_back!= null)
+            {
+                p_call_back();
+            }
+        }
     }
   );
 }
@@ -3278,7 +3315,10 @@ function add_new_case_button_click(p_input)
             state.value = "generate_record";
             new_validation_message_area.innerHTML = "generate confirmed";
 
-            g_ui.add_new_case(
+            Get_Record_Id_List(
+
+            function () {
+                g_ui.add_new_case(
                 new_first_name.value,
                 new_middle_name.value,
                 new_last_name.value,
@@ -3286,6 +3326,7 @@ function add_new_case_button_click(p_input)
                 new_day_of_death.value,
                 new_year_of_death.value,
                 new_state_of_death.value);
+            });
         }
         else
         {
