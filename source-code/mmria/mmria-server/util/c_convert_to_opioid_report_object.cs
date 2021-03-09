@@ -224,6 +224,10 @@ namespace mmria.server.util
 			result.Add("mHomeless MHomeless3", get_new_struct("mHomeless MHomeless3"));
 			result.Add("mHomeless MHomeless4", get_new_struct("mHomeless MHomeless4"));
 			result.Add("mHomeless MHomeless5", get_new_struct("mHomeless MHomeless5"));
+            result.Add("mHomeless MHomeless6", get_new_struct("mHomeless MHomeless6"));
+            result.Add("mHomeless MHomeless7", get_new_struct("mHomeless MHomeless7"));
+            result.Add("mHomeless MHomeless8", get_new_struct("mHomeless MHomeless8"));
+            result.Add("mHomeless MHomeless9", get_new_struct("mHomeless MHomeless9"));
 			result.Add("mIncarHx MHxIncar1", get_new_struct("mIncarHx MHxIncar1"));
 			result.Add("mIncarHx MHxIncar2", get_new_struct("mIncarHx MHxIncar2"));
 			result.Add("mIncarHx MHxIncar3", get_new_struct("mIncarHx MHxIncar3"));
@@ -3102,6 +3106,82 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
                         var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                         curr.indicator_id = "mHomeless";
                         curr.field_id = "MHomeless5";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless6";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless7";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless8";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless9";
                         curr.value = 1;
                         this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
                     }

@@ -684,6 +684,37 @@ by_state_of_death
 
             return null;
         }
+
+
+
+        [HttpGet("record-id-list")]
+        public async Task<HashSet<string>> GetExistingRecordIds()
+        {
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+            try
+            {
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string responseFromServer = await case_view_curl.executeAsync();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    result.Add(cvi.value.record_id);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
 	} 
 }
 
