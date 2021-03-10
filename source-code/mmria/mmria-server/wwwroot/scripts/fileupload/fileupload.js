@@ -17,9 +17,11 @@ fet 6000
 
 */
 
-var openFile = function (event) {
+var openFile = function (event) 
+{
 
     var input = event.target;
+
 
     var reader = new FileReader();
     reader.onload = function () {
@@ -30,7 +32,8 @@ var openFile = function (event) {
     reader.readAsText(input.files[0]);
 };
 
-function readmultifiles(event, files) {
+function readmultifiles(event, files) 
+{
     const self = $(event.target);
     let ul_list = [];
     g_file_stat_list = [];
@@ -38,14 +41,16 @@ function readmultifiles(event, files) {
     //show spinner
     self.next('.spinner-inline').fadeIn();
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i++) 
+    {
         let item = files[i];
         readFile(i);
         g_file_stat_list.push({ name: item.name, index: i })
 
     }
 
-    function readFile(index) {
+    function readFile(index) 
+    {
         if (index >= files.length) return;
 
         var file = files[index];
@@ -63,18 +68,24 @@ function readmultifiles(event, files) {
 }
 
 
-window.onload = function () {
+window.onload = function () 
+{
     let process_button = document.getElementById("process");
     process_button.onclick = process_button_click;
     process_button.disabled = true;
 }
 
 
-function process_button_click() {
+function process_button_click() 
+{
     send_ije_set();
 }
 
-function setup_file_list() {
+function setup_file_list() 
+{
+    var el = document.getElementById("files");
+    el.disabled = "disabled";
+
     g_host_state = null;
 
     let result = false;
@@ -86,32 +97,40 @@ function setup_file_list() {
     let temp = [];
     let temp_contents = [];
 
-    if (g_file_stat_list.length < 2) {
+    if (g_file_stat_list.length < 2) 
+    {
         g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
     }
 
-    for (let i = 0; i < g_file_stat_list.length; i++) {
+    for (let i = 0; i < g_file_stat_list.length; i++) 
+    {
         let item = g_file_stat_list[i];
         if (typeof item !== "undefined") {
-            if (item.name.toLowerCase().endsWith(".mor")) {
+            if (item.name.toLowerCase().endsWith(".mor")) 
+            {
                 is_mor = true;
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
+
                 var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.mor");
 
-                if (!patt.test(item.name.toLowerCase())) {
+                if (!patt.test(item.name.toLowerCase())) 
+                {
                     g_validation_errors.push("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
                 }
 
-                if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) {
+                if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
+                {
                     g_validation_errors.push("mor File Length !=" + mor_max_length);
                 }
-                else {
+                else 
+                {
                     var copy = g_content_list[i];
                     var morRows = copy.split("\n");
                     var listOfCdcIdentifier = [];
 
-                    for (var j = 0; morRows.length > j; j++) {
+                    for (var j = 0; morRows.length > j; j++) 
+                    {
                         var cdcIdentifier = morRows[j].substring(190, 199);
 
                         listOfCdcIdentifier.push(cdcIdentifier);
@@ -122,12 +141,14 @@ function setup_file_list() {
 
 
 
-                    if (duplicates.length > 0) {
+                    if (duplicates.length > 0) 
+                    {
                         var counts = {};
                         var duplicatesMessage = "";
                         duplicates.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
 
-                        for (var k = 0; k < Object.keys(counts).length; k++) {
+                        for (var k = 0; k < Object.keys(counts).length; k++) 
+                        {
                             duplicatesMessage += "\n" + Object.keys(counts)[k] + ', ' + Object.values(counts)[k]
                         }
 
@@ -135,21 +156,25 @@ function setup_file_list() {
                     }
                 }
             }
-            else if (item.name.toLowerCase().endsWith(".nat")) {
+            else if (item.name.toLowerCase().endsWith(".nat")) 
+            {
                 is_nat = true;
                 temp[1] = item;
                 temp_contents[1] = g_content_list[i];
 
-                if (!validate_length(g_content_list[i].split("\n"), nat_max_length)) {
+                if (!validate_length(g_content_list[i].split("\n"), nat_max_length)) 
+                {
                     g_validation_errors.push("nat File Length !=" + nat_max_length);
                 }
             }
-            else if (item.name.toLowerCase().endsWith(".fet")) {
+            else if (item.name.toLowerCase().endsWith(".fet")) 
+            {
                 is_fet = true;
                 temp[2] = item;
                 temp_contents[2] = g_content_list[i];
 
-                if (!validate_length(g_content_list[i].split("\n"), fet_max_length)) {
+                if (!validate_length(g_content_list[i].split("\n"), fet_max_length)) 
+                {
                     g_validation_errors.push("fet File Length !=" + fet_max_length);
                 }
             }
@@ -158,7 +183,8 @@ function setup_file_list() {
 
 
 
-    if (is_mor && (is_nat || is_fet)) {
+    if (is_mor && (is_nat || is_fet)) 
+    {
         if
             (!(
 
@@ -167,20 +193,24 @@ function setup_file_list() {
                 (typeof g_file_stat_list[2] === "undefined" || get_state_from_file_name(g_file_stat_list[2].name))
             )
 
-        ) {
+        ) 
+        {
             g_validation_errors.push("all IJE files must have same state");
         }
-        else {
+        else 
+        {
             g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
         }
 
 
     }
-    else {
+    else
+    {
         g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
     }
 
-    if (!is_mor) {
+    if (!is_mor) 
+    {
         g_validation_errors.push("missing .MOR IJE file")
     }
 
@@ -206,12 +236,15 @@ function setup_file_list() {
 }
 
 
-function validate_length(p_array, p_max_length) {
+function validate_length(p_array, p_max_length) 
+{
     let result = true;
 
-    for (let i = 0; i < p_array.length; i++) {
+    for (let i = 0; i < p_array.length; i++) 
+    {
         let item = p_array[i];
-        if (item.length > 0 && item.length != p_max_length) {
+        if (item.length > 0 && item.length != p_max_length) 
+        {
             result = false;
             break;
         }
@@ -220,11 +253,14 @@ function validate_length(p_array, p_max_length) {
     return result;
 }
 
-function get_state_from_file_name(p_val) {
-    if (p_val.length > 15) {
+function get_state_from_file_name(p_val) 
+{
+    if (p_val.length > 15) 
+    {
         return p_val.substr(11, p_val.length - 15);
     }
-    else {
+    else 
+    {
         return p_val;
     }
 }
@@ -235,29 +271,37 @@ function render_file_list() {
 
     let ul_list = [];
     ul_list.push("<ul>");
-    for (let i = 0; i < g_file_stat_list.length; i++) {
+    for (let i = 0; i < g_file_stat_list.length; i++) 
+    {
         let item = g_file_stat_list[i];
         let number_of_lines = 0;
 
-        if (typeof item !== "undefined") {
-            if (g_content_list.length > i && g_content_list[i]) {
+        if (typeof item !== "undefined") 
+        {
+            if (g_content_list.length > i && g_content_list[i]) 
+            {
+
                 let lines = g_content_list[i].split('\n');
-                for (let j = 0; j < lines.length; j++) {
+                for (let j = 0; j < lines.length; j++) 
+                {
                     let line = lines[j];
                     if (line.trim().length > 0) number_of_lines += 1;
                 }
 
             }
 
-            if (item.name.toLowerCase().endsWith(".mor")) {
+            if (item.name.toLowerCase().endsWith(".mor")) 
+            {
                 let out = document.getElementById('mor_output')
                 out.value = g_content_list[i];
             }
-            else if (item.name.toLowerCase().endsWith(".nat")) {
+            else if (item.name.toLowerCase().endsWith(".nat")) 
+            {
                 let out = document.getElementById('nat_output')
                 out.value = g_content_list[i];
             }
-            else if (item.name.toLowerCase().endsWith(".fet")) {
+            else if (item.name.toLowerCase().endsWith(".fet")) 
+            {
                 let out = document.getElementById('fet_output')
                 out.value = g_content_list[i];
             }
@@ -277,10 +321,12 @@ function render_file_list() {
     let out = document.getElementById('output');
     let button = document.getElementById('process');
 
-    if (g_validation_errors.length > 0) {
+    if (g_validation_errors.length > 0) 
+    {
         out.value = g_validation_errors.join("\n");
     }
-    else {
+    else 
+    {
         out.value = g_host_state + " ready to process";
         button.disabled = false;
     }
@@ -289,15 +335,18 @@ function render_file_list() {
     $('.spinner-inline').fadeOut();
 }
 
-function send_ije_set() {
+function send_ije_set() 
+{
     var filename1 = "";
     var filename2 = ""
 
-    if (typeof g_file_stat_list[1] !== "undefined") {
+    if (typeof g_file_stat_list[1] !== "undefined") 
+    {
         filename1 = g_file_stat_list[1].name;
     }
 
-    if (typeof g_file_stat_list[2] !== "undefined") {
+    if (typeof g_file_stat_list[2] !== "undefined") 
+    {
         filename2 = g_file_stat_list[2].name;
     }
 
@@ -321,13 +370,15 @@ function send_ije_set() {
         let out = document.getElementById('output');
         var response_obj = eval(response);
 
-        if (response_obj.ok) {
+        if (response_obj.ok) 
+        {
             out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
 
             let button = document.getElementById('process_next');
             buttonNext.style.display = 'inline-block';
         }
-        else {
+        else 
+        {
             out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
             buttonNext.style.display = 'none';
         }
@@ -337,13 +388,18 @@ function send_ije_set() {
     });
 }
 
-function hasDuplicates(arr) {
+function hasDuplicates(arr) 
+{
     var counts = [];
 
-    for (var i = 0; i <= arr.length; i++) {
-        if (counts[arr[i]] === undefined) {
+    for (var i = 0; i <= arr.length; i++) 
+    {
+        if (counts[arr[i]] === undefined) 
+        {
             counts[arr[i]] = 1;
-        } else {
+        } 
+        else 
+        {
             return true;
         }
     }

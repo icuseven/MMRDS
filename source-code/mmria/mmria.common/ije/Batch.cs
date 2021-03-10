@@ -16,7 +16,9 @@ namespace mmria.common.ije
             Finished,
             FinishedSynchronized,
             Deleted,
-            DeletedSynchronized
+            DeletedSynchronized,
+
+            BatchRejected
         }
         public StatusEnum Status { get; init;}
         public string id { get; init;}

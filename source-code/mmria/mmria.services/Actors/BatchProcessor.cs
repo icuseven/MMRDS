@@ -101,6 +101,14 @@ function validate_length(p_array, p_max_length)
             var nat_length_is_valid = validate_length(message?.nat?.Split("\n"), nat_max_length);
             var fet_length_is_valid = validate_length(message?.fet?.Split("\n"), fet_max_length);
 
+
+            var patt = new System.Text.RegularExpressions.Regex("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.mor");
+
+            if (patt.Match(message.mor_file_name).Length == 0) 
+            {
+                status_builder.AppendLine("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
+            }
+
             if(!mor_length_is_valid) status_builder.AppendLine("mor length is invalid.");
             if(!nat_length_is_valid) status_builder.AppendLine("nat length is invalid.");
             if(!fet_length_is_valid) status_builder.AppendLine("fet length is invalid.");
@@ -129,27 +137,25 @@ function validate_length(p_array, p_max_length)
             var duplicate_count = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
             var duplicate_is_found = false;
 
-            if(status_builder.Length == 0)
+            foreach(var row in mor_set)
             {
-                foreach(var row in mor_set)
+                if(row.Length == mor_max_length)
                 {
-                    if(row.Length == mor_max_length)
+                    var batch_item = Convert(row, ImportDate, message.mor_file_name, ReportingState);
+                    if(batch_item_set.ContainsKey(batch_item.CDCUniqueID))
                     {
-                        var batch_item = Convert(row, ImportDate, message.mor_file_name, ReportingState);
-                        if(batch_item_set.ContainsKey(batch_item.CDCUniqueID))
-                        {
-                            duplicate_is_found = true;
-                            duplicate_count[batch_item.CDCUniqueID]+= 1;
-                            continue;
-                        }
-
-                        batch_item_set.Add(batch_item.CDCUniqueID?.Trim(), (row, batch_item));
-                        duplicate_count[batch_item.CDCUniqueID] = 1;
-
-            
+                        duplicate_is_found = true;
+                        duplicate_count[batch_item.CDCUniqueID]+= 1;
+                        continue;
                     }
+
+                    batch_item_set.Add(batch_item.CDCUniqueID?.Trim(), (row, batch_item));
+                    duplicate_count[batch_item.CDCUniqueID] = 1;
+
+        
                 }
             }
+            
 
             if(duplicate_is_found)
             {
@@ -162,9 +168,6 @@ function validate_length(p_array, p_max_length)
                     }
                 }
             }
-
-
-
 
             if(status_builder.Length == 0)
             {
@@ -194,32 +197,72 @@ function validate_length(p_array, p_max_length)
                     }
                     
                 }
+
+
+                batch = new mmria.common.ije.Batch()
+                {
+                    id = message.batch_id,
+                    date_created  = DateTime.UtcNow,
+                    created_by = "vital-import",
+                    date_last_updated   = DateTime.UtcNow,
+                    last_updated_by = "vital-import", 
+                    Status = mmria.common.ije.Batch.StatusEnum.Validating,
+                    reporting_state = ReportingState,
+                    ImportDate = ImportDate,
+                    mor_file_name = message.mor_file_name,
+                    nat_file_name = message.nat_file_name,
+                    fet_file_name = message.fet_file_name,
+                    StatusInfo = status_builder.ToString(),
+                    record_result = Convert(batch_item_set)
+
+                };
+
+                var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
+                {
+                    id = batch.id,
+                    status = batch.Status
+                };
+                Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+            }
+            else
+            {
+                
+                batch = new mmria.common.ije.Batch()
+                {
+                    id = message.batch_id,
+                    date_created  = DateTime.UtcNow,
+                    created_by = "vital-import",
+                    date_last_updated   = DateTime.UtcNow,
+                    last_updated_by = "vital-import", 
+                    Status = mmria.common.ije.Batch.StatusEnum.BatchRejected,
+                    reporting_state = ReportingState,
+                    ImportDate = ImportDate,
+                    mor_file_name = message.mor_file_name,
+                    nat_file_name = message.nat_file_name,
+                    fet_file_name = message.fet_file_name,
+                    StatusInfo = status_builder.ToString(),
+                    record_result = Convert(batch_item_set)
+
+                };
+
+                var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
+                {
+                    id = batch.id,
+                    status = batch.Status
+                };
+                Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+
+                if(save_batch(batch))
+                {
+                }
+                Context.Stop(this.Self);
+        
+
             }
 
-            batch = new mmria.common.ije.Batch()
-            {
-                id = message.batch_id,
-                date_created  = DateTime.UtcNow,
-                created_by = "vital-import",
-                date_last_updated   = DateTime.UtcNow,
-                last_updated_by = "vital-import", 
-                Status = mmria.common.ije.Batch.StatusEnum.Validating,
-                reporting_state = ReportingState,
-                ImportDate = ImportDate,
-                mor_file_name = message.mor_file_name,
-                nat_file_name = message.nat_file_name,
-                fet_file_name = message.fet_file_name,
-                StatusInfo = status_builder.ToString(),
-                record_result = Convert(batch_item_set)
+            
 
-            };
-
-            var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
-            {
-                id = batch.id,
-                status = batch.Status
-            };
-            Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+           
            
         }
 
@@ -281,6 +324,7 @@ function validate_length(p_array, p_max_length)
 
             batch = new_batch;
 
+
             var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
             {
                 id = batch.id,
@@ -288,7 +332,11 @@ function validate_length(p_array, p_max_length)
             };
             Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
 
-            if(current_status == mmria.common.ije.Batch.StatusEnum.Finished)
+            if
+            (
+                current_status == mmria.common.ije.Batch.StatusEnum.Finished ||
+                current_status == mmria.common.ije.Batch.StatusEnum.BatchRejected
+            )
             {
                 if(save_batch(batch))
                 {
@@ -560,39 +608,42 @@ GNAME 27 50
             mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
             item_db_info = db_config_set.detail_list[batch.reporting_state];
             
-            foreach(var item in batch.record_result)
+            if(batch.Status != mmria.common.ije.Batch.StatusEnum.BatchRejected)
             {
-                // remove from db
-
-                try
+                foreach(var item in batch.record_result)
                 {
-                    string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_all_docs?include_docs=true";
+                    // remove from db
 
-                    var case_id = item.mmria_id;
-
-                    var case_expando = GetCaseById(item_db_info, case_id);
-                    var rev_dynamic = ((IDictionary<string,object>)case_expando)["_rev"];
-                    string rev = null;
-                    if(rev_dynamic != null)
+                    try
                     {
-                        rev = rev_dynamic.ToString();
+                        string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_all_docs?include_docs=true";
+
+                        var case_id = item.mmria_id;
+
+                        var case_expando = GetCaseById(item_db_info, case_id);
+                        var rev_dynamic = ((IDictionary<string,object>)case_expando)["_rev"];
+                        string rev = null;
+                        if(rev_dynamic != null)
+                        {
+                            rev = rev_dynamic.ToString();
+                        }
+
+                        if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace(rev)) 
+                        {
+                            request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/{case_id}?rev={rev}";
+                            var case_curl = new mmria.server.cURL("DELETE", null, request_string, null, item_db_info.user_name, item_db_info.user_value);
+                            string responseFromServer = case_curl.execute();
+
+                            // to do synchronize
+                        } 
+
                     }
-
-                    if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace(rev)) 
+                    catch(Exception ex)
                     {
-                        request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/{case_id}?rev={rev}";
-                        var case_curl = new mmria.server.cURL("DELETE", null, request_string, null, item_db_info.user_name, item_db_info.user_value);
-                        string responseFromServer = case_curl.execute();
-
-                        // to do synchronize
+                        Console.WriteLine (ex);
                     } 
 
                 }
-                catch(Exception ex)
-                {
-                    Console.WriteLine (ex);
-                } 
-
             }
 
             Delete_batch(message.id);

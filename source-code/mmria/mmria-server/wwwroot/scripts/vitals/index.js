@@ -12,7 +12,8 @@ var batch_item_status = [
     "InProcess",
     "NewCaseAdded",
     "ExistingCaseSkipped",
-    "ImportFailed"
+    "ImportFailed",
+    "BatchRejected"
 ];
 
 
@@ -21,13 +22,18 @@ var batch_item_status_display = [
     "In Process",
     "New Case Added",
     "Existing Case Skipped",
-    "Import Failed"
+    "Import Failed",
+    "Batch Rejected - Import Failed"
 ];
 
 var batch_status = [
     "Validating",
     "InProcess",
-    "Finished"
+    "Finished",
+    "FinishedSynchronized",
+    "Deleted",
+    "DeletedSynchronized",
+    "BatchRejected"
 ];
 
 
@@ -80,6 +86,7 @@ function get_batch_set()
             }
 
             
+            
             if(g_date_list.indexOf(import_date) < 0)
             {
                 g_date_list.push(import_date);
@@ -88,6 +95,12 @@ function get_batch_set()
             item.import_date = import_date;
             item.reporting_state = reporting_state;
 
+            let is_batch_rejected  = false;
+            if(item.status == 6)
+            {
+                is_batch_rejected = true;
+            }
+
             for(let j = 0; j < item.record_result.length; j++)
             {
                 let batch_item = item.record_result[j];
@@ -95,9 +108,19 @@ function get_batch_set()
                 batch_item.import_date = import_date;
                 batch_item.reporting_state = reporting_state;
 
+                if(is_batch_rejected)
+                {
+                    batch_item.status = 5;
+                    batch_item.statusDetail = "Whole batch rejected";
+                }
+
                 g_batch_item_list.push(batch_item);
             }
-            g_batch_list.push(item);
+            
+            if(item.record_result.length > 0)
+            {
+                g_batch_list.push(item);
+            }
 
         }
 
@@ -377,7 +400,7 @@ function render_batch(p_batch)
                     (`
                         <tr class="tr" data-import-state="${item.reportingState}" data-import-date="${item.importDate}">
                             <td class="td text-align-center">${i+1}</td>
-                            <td class="td">${item.mmria_record_id}</td>
+                            <td class="td">${item.mmria_record_id == null? "": item.mmria_record_id}</td>
                             <td class="td">${item.cdcUniqueID}</td>
                             <td class="td">${item.lastName}</td>
                             <td class="td">${item.firstName}</td>
@@ -389,7 +412,7 @@ function render_batch(p_batch)
                             </td>
                             <td class="td">${item.reportingState}</td>
                             <td class="td">${item.stateOfDeathRecord}</td>
-                            <td class="td"><span title="${item.statusDetail}">${item.statusDetail.substring(0,20)}</span></td>
+                            <td class="td"><span title="${item.statusDetail==null?"": item.statusDetail}">${item.statusDetail == null ? "" : item.statusDetail.substring(0,20)}</span></td>
                         </tr>
                     `);
                 }

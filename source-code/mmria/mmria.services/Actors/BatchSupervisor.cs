@@ -54,7 +54,11 @@ namespace RecordsProcessor_Worker.Actors
             {
                 if(batch_id_list.ContainsKey(message.id))
                 {
-                    if(batch_id_list[message.id] == mmria.common.ije.Batch.StatusEnum.Finished)
+                    if
+                    (
+                        batch_id_list[message.id] == mmria.common.ije.Batch.StatusEnum.Finished ||
+                        batch_id_list[message.id] == mmria.common.ije.Batch.StatusEnum.BatchRejected
+                    )
                     {
                         var batch_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchProcessor>(message.id);
                         batch_processor.Tell(message);
