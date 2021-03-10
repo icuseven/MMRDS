@@ -1583,6 +1583,8 @@ function window_on_hash_change(e)
             g_data.last_checked_out_by = null;
             g_data_is_checked_out = false;
 
+            g_apply_sort(g_metadata, g_data, "","", "");
+
             save_case(g_data, function () {
             g_data = null;
             get_case_set(function () {

@@ -231,6 +231,13 @@ function g_apply_sort_compareDate(x, y)
 {
     let a = new Date(x);
     let b = new Date(y);
+    return (a - b);
+}
+
+function g_apply_sort_compareDateDesc(x, y) 
+{
+    let a = new Date(x);
+    let b = new Date(y);
     return (a - b) *-1;
 }
 
