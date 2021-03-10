@@ -1501,7 +1501,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
     if 
     (
         mutually_exclusive_items.indexOf(p_data) > -1 &&
-        current_data_array.length > 1
+        current_data_array.length > 0
     )
     {
 
