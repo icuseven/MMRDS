@@ -2468,7 +2468,8 @@ function enable_edit_click()
 
 function save_form_click() 
 {
-  save_case(g_data, create_save_message);
+    
+    save_case(g_data, create_save_message);
 }
 
 function save_and_finish_click() 
@@ -2477,6 +2478,7 @@ function save_and_finish_click()
   g_data.date_last_checked_out = null;
   g_data.last_checked_out_by = null;
   g_data_is_checked_out = false;
+  g_apply_sort(g_metadata, g_data, "","", "");
   save_case(g_data, create_save_message);
   g_render();
   window.clearInterval(g_autosave_interval);
