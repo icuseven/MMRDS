@@ -91,7 +91,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     }
 
                     p_result.push("<div class='grid-control-action-icn row no-gutters'>");
-                    if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
+                    if(p_metadata.is_read_only == null || p_metadata.is_read_only != true)
                     {
                         let disable_html = " disabled='disabled' ";
 
