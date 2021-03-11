@@ -2519,7 +2519,8 @@ function duration_of_labor(p_control)
 path=death_certificate/race/race
 event=onclick
 */
-function omb_race_recode_dc(p_control) {
+function omb_race_recode_dc(p_control) 
+{
     var race_recode = null;
     var race = this.race;
     race_recode = $global.calculate_omb_recode(race);
@@ -2534,7 +2535,8 @@ function omb_race_recode_dc(p_control) {
 path=birth_fetal_death_certificate_parent/race/race_of_mother
 event=onclick
 */
-function omb_mrace_recode_bc(p_control) {
+function omb_mrace_recode_bc(p_control) 
+{
     var race_recode = null;
     var race = this.race_of_mother;
     race_recode = $global.calculate_omb_recode(race);
@@ -2547,7 +2549,8 @@ function omb_mrace_recode_bc(p_control) {
 path=birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
 event=onclick
 */
-function omb_frace_recode_bc(p_control) {
+function omb_frace_recode_bc(p_control) 
+{
     var race_recode = null;
     var race = this.race_of_father;
     race_recode = $global.calculate_omb_recode(race);
@@ -2561,7 +2564,8 @@ function omb_frace_recode_bc(p_control) {
 path=death_certificate/address_of_death/cmd_calculate_distance_clear
 event=onclick
 */
-function distance_clear_dc(p_control) {
+function distance_clear_dc(p_control) 
+{
     this.estimated_death_distance_from_residence = '';
     $mmria.save_current_record();
     $mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
@@ -2571,7 +2575,8 @@ function distance_clear_dc(p_control) {
 path=birth_fetal_death_certificate_parent/location_of_residence/cmd_calc_distance_clear
 event=onclick
 */
-function distance_clear_bc(p_control) {
+function distance_clear_bc(p_control) 
+{
     this.estimated_distance_from_residence = '';
     $mmria.save_current_record();
     $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
@@ -2581,7 +2586,8 @@ function distance_clear_bc(p_control) {
 path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother_clear
 event=onclick
 */
-function days_clear_bc(p_control) {
+function days_clear_bc(p_control) 
+{
     this.length_between_child_birth_and_death_of_mother = '';
     $mmria.save_current_record();
     $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
@@ -2591,7 +2597,8 @@ function days_clear_bc(p_control) {
 path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival_clear
 event=onclick
 */
-function hours_clear_mr(p_control) {
+function hours_clear_mr(p_control) 
+{
     this.duration_of_labor_prior_to_arrival = '';
     $mmria.save_current_record();
     $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
@@ -2601,7 +2608,8 @@ function hours_clear_mr(p_control) {
 path=death_certificate/place_of_last_residence/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_res_dc(p_control) {
+function coordinates_clear_res_dc(p_control) 
+{
     g_data.death_certificate.place_of_last_residence.feature_matching_geography_type = '';
     g_data.death_certificate.place_of_last_residence.latitude = '';
     g_data.death_certificate.place_of_last_residence.longitude = '';
@@ -2639,7 +2647,8 @@ function coordinates_clear_res_dc(p_control) {
 path=death_certificate/address_of_injury/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_inj_dc(p_control) {
+function coordinates_clear_inj_dc(p_control) 
+{
     g_data.death_certificate.address_of_injury.feature_matching_geography_type = '';
     g_data.death_certificate.address_of_injury.latitude = '';
     g_data.death_certificate.address_of_injury.longitude = '';
@@ -2677,7 +2686,8 @@ function coordinates_clear_inj_dc(p_control) {
 path=death_certificate/address_of_death/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_death_loc_dc(p_control) {
+function coordinates_clear_death_loc_dc(p_control) 
+{
     g_data.death_certificate.address_of_death.feature_matching_geography_type = '';
     g_data.death_certificate.address_of_death.latitude = '';
     g_data.death_certificate.address_of_death.longitude = '';
@@ -2715,7 +2725,8 @@ function coordinates_clear_death_loc_dc(p_control) {
 path=birth_fetal_death_certificate_parent/facility_of_delivery_location/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_delivery_loc_bc(p_control) {
+function coordinates_clear_delivery_loc_bc(p_control) 
+{
     g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.feature_matching_geography_type = '';
     g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.latitude = '';
     g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.longitude = '';
@@ -2753,7 +2764,8 @@ function coordinates_clear_delivery_loc_bc(p_control) {
 path=birth_fetal_death_certificate_parent/location_of_residence/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_residence_bc(p_control) {
+function coordinates_clear_residence_bc(p_control) 
+{
     g_data.birth_fetal_death_certificate_parent.location_of_residence.feature_matching_geography_type = '';
     g_data.birth_fetal_death_certificate_parent.location_of_residence.latitude = '';
     g_data.birth_fetal_death_certificate_parent.location_of_residence.longitude = '';
@@ -2791,7 +2803,8 @@ function coordinates_clear_residence_bc(p_control) {
 path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_pnc_loc_pc(p_control) {
+function coordinates_clear_pnc_loc_pc(p_control) 
+{
     g_data.prenatal.location_of_primary_prenatal_care_facility.feature_matching_geography_type = '';
     g_data.prenatal.location_of_primary_prenatal_care_facility.latitude = '';
     g_data.prenatal.location_of_primary_prenatal_care_facility.longitude = '';
@@ -2829,7 +2842,8 @@ function coordinates_clear_pnc_loc_pc(p_control) {
 path=er_visit_and_hospital_medical_records/name_and_location_facility/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_hos_loc_mr(p_control) {
+function coordinates_clear_hos_loc_mr(p_control) 
+{
     var current_erh_index = $global.get_current_multiform_index();
     g_data.er_visit_and_hospital_medical_records[current_erh_index].name_and_location_facility.feature_matching_geography_type = '';
     g_data.er_visit_and_hospital_medical_records[current_erh_index].name_and_location_facility.latitude = '';
@@ -2868,7 +2882,8 @@ function coordinates_clear_hos_loc_mr(p_control) {
 path=other_medical_office_visits/location_of_medical_care_facility/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_office_loc_mv(p_control) {
+function coordinates_clear_office_loc_mv(p_control) 
+{
     var current_omov_index = $global.get_current_multiform_index();
     g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.feature_matching_geography_type = '';
     g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.latitude = '';
@@ -3277,15 +3292,15 @@ function medical_transport_destination_information_address_calculated_distance(p
 {
     let dist = null;
     var current_mt_index = $global.get_current_multiform_index();
-    let res_lat = parseFloat(g_data.medical_transport[current_mt_index].destination_information.address.latitude);
-    let res_lon = parseFloat(g_data.medical_transport[current_mt_index].destination_information.address.longitude);
+    let res_lat = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.latitude);
+    let res_lon = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.longitude);
     let hos_lat = parseFloat(this.latitude);
     let hos_lon = parseFloat(this.longitude);
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
         this.estimated_death_distance_from_residence = dist;
         $mmria.save_current_record();
-        $mmria.set_control_value('medical_transport/destination_information/address/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
+        $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_death_distance_from_residence);
     }
 }
 
