@@ -1393,6 +1393,7 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
     }
 
     let mutually_exclusive_items = [];
+    let mutually_exclusive_display_items = [];
     for(let i = 0; i < data_value_list.length; i++)
     {
         let item = data_value_list[i];
@@ -1400,6 +1401,7 @@ function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_
         {
             has_mutually_exclusive_items = true;
             mutually_exclusive_items.push(data_value_list[i].value);
+            mutually_exclusive_display_items.push(data_value_list[i].display);
         }
     }
 
@@ -1458,9 +1460,9 @@ for(let i = 0; i < other_specify_list_key.length; i++)
             {
                 $mmria.confirm_dialog_show
                 (
-                    "Other Specify", 
-                    "Other Specify Has A Value",
-                    "By confirming your Other Specify Value will be cleared out. Do you want to clear your Other Specify Value?",
+                    "Confirm Selection", 
+                    "",
+                    `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection? The text in the associated [Specify Other] textbox will be cleared.`,
                     new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_data}");`),
                     new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_data}");`)
                 
@@ -1498,20 +1500,21 @@ for(let i = 0; i < other_specify_list_key.length; i++)
         onclick_function = click_code[index_of_function];
     }
 
+    let mutually_exclusive_index = mutually_exclusive_items.indexOf(p_data);
     if 
     (
-        mutually_exclusive_items.indexOf(p_data) > -1 &&
+        mutually_exclusive_index > -1 &&
         current_data_array.length > 0 &&
         current_data_array.indexOf(p_data) < 0
     )
     {
 
-
+        //mutually_exclusive_display_items;
         $mmria.confirm_dialog_show
         (
-            "Mutually Exclusive", 
-            "Mutually Exculsive",
-            "Are you sure you want to select this item? Other <strong>checkbox selections</strong> will be removed, and any <strong>Other Specify</strong> text will be cleared.",
+            "Confirm Selection", 
+            "",
+            `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection to [<strong>${mutually_exclusive_display_items[mutually_exclusive_index]}</strong>]? Other checkbox selections will be removed, and the text in Other Specify textbox(s) will be cleared, if applicable.`,
             new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
             new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
         

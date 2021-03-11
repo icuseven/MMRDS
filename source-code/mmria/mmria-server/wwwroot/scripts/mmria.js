@@ -421,7 +421,7 @@ var $mmria = function()
                             ${p_inner_html}
                         </div>
                         <footer class="modal-footer">
-                            <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Confirm</button> |
+                            <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Yes, change my selection</button> |
                             <button id="confirm-dialog-id-cancel-button"  class="btn btn-primary mr-1" >Cancel</button>
                         </footer>
                     </div>
