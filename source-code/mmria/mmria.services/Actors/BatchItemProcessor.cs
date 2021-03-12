@@ -2755,7 +2755,7 @@ GNAME 27 50
             //Map ZZ --> 9999(blank)
             //Map all other values to MMRIA field state listing"
 
-            if (value == "XX" || value == "ZZ")
+            if (string.IsNullOrWhiteSpace(value) || value == "XX" || value == "ZZ")
                 value = "9999";
 
             return value;
@@ -3537,7 +3537,7 @@ GNAME 27 50
                     value = "4";
                     break;
                 case "U":
-                    value = "7";
+                    value = "7777";
                     break;
                 default:
                     value = "9999";
@@ -3552,7 +3552,7 @@ GNAME 27 50
             //Map to MMRIA field Country listing 
             //Map XX to 9999(blank)
             //Map ZZ to 9999(blank)
-            if (value == "XX" || value == "ZZ")
+            if (string.IsNullOrWhiteSpace(value) || value == "XX" || value == "ZZ")
                 value = "9999";
 
             return value;
@@ -3563,7 +3563,7 @@ GNAME 27 50
         {
             // Map to MMRIA field state listing.
             //Map XX to 9999(blank)
-            if (value == "XX")
+            if (string.IsNullOrWhiteSpace(value) || value == "XX" || value == "ZZ")
                 value = "9999";
 
             return value;
@@ -3573,7 +3573,7 @@ GNAME 27 50
         {
             // Map to MMRIA field state listing.
             //Map XX to 9999(blank)
-            if (value == "XX")
+            if (string.IsNullOrWhiteSpace(value) || value == "XX" || value == "ZZ")
                 value = "9999";
 
             return value;
@@ -3708,7 +3708,7 @@ GNAME 27 50
             //Map ZZ --> 9999(blank)
             //Map all other values to MMRIA field state listing"
 
-            if (value == "XX" || value == "ZZ")
+            if (string.IsNullOrWhiteSpace(value) || value == "XX" || value == "ZZ")
                 value = "9999";
 
             return value;
