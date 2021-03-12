@@ -1413,7 +1413,7 @@ let p_metadata = eval(p_metadata_path);
 // other specify - begin
 let other_specify_list_key = [];
 let other_specify_list_path = [];
-let other_specify_list_key_show = [];
+
 if
 (
     p_metadata.other_specify_list != null && 
@@ -1514,7 +1514,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
         (
             "Confirm Selection", 
             "",
-            `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection to [<strong>${mutually_exclusive_display_items[mutually_exclusive_index]}</strong>]? Other checkbox selections will be removed, and the text in Other Specify textbox(s) will be cleared, if applicable.`,
+            `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection to [<strong>${mutually_exclusive_display_items[mutually_exclusive_index]}</strong>]? Other <strong>checkbox selections</strong> will be removed, and the text in Other Specify textbox(s) will be cleared, if applicable.`,
             new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
             new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
         
