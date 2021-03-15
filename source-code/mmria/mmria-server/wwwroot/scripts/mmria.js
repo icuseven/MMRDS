@@ -417,7 +417,7 @@ var $mmria = function()
             html.push(`
                 <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
                     <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
                 <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
@@ -425,24 +425,22 @@ var $mmria = function()
                         ${p_inner_html}
                     </div>
                     <footer class="modal-footer">
-                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Yes, change my selection</button> |
-                        <button id="confirm-dialog-id-cancel-button"  class="btn btn-primary mr-1" >Cancel</button>
+                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Yes, change my selection</button> 
+                        <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
                     </footer>
                 </div>
             `);
-
-            // html.push(`<h3 class="mt-0">${p_title}</h3>`);
-            // html.push(`<p><strong>${p_header}</p>`);
-            // html.push(`${p_inner_html}`);
-            // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
             
             element.innerHTML = html.join("");
 
             let confirm_button = document.getElementById("confirm-dialog-id-confirm-button");
             let canel_button = document.getElementById("confirm-dialog-id-cancel-button");
+            let modal_confirm_cancel_icon = document.getElementById("modal_confirm_cancel_icon");
 
+            
             confirm_button.onclick =  p_confirm_dialog_confirm_callback;
             canel_button.onclick = p_confirm_dialog_cancel_callback;
+            modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
 
             element.showModal();
         },
