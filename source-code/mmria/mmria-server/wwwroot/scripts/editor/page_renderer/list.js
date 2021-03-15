@@ -1447,7 +1447,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
     let current_data = eval(p_object_path);
 
     
-    if(p_data.indexOf(item) > -1)
+    if(p_data == item)
     {
         if(current_data.indexOf(item) > -1)
         {
