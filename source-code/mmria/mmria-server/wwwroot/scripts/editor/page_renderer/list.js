@@ -1462,7 +1462,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
                 (
                     "Confirm Selection", 
                     "",
-                    `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection? The text in the associated [Specify Other] textbox will be cleared.`,
+                    `Are you sure you want to change the <strong>${p_metadata.prompt}</strong> selection? The text in the <strong>Specify Other</strong> textbox will be cleared.`,
                     new Function(`list_clear_other_specify_confirm("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${other_specify_list_path[i]}", "${p_data}");`),
                     new Function(`list_clear_other_specify_cancel("${p_object_path}","${p_metadata_path}","${p_dictionary_path}","${object_path}", "${p_data}");`)
                 
@@ -1514,7 +1514,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
         (
             "Confirm Selection", 
             "",
-            `Are you sure you want to change the [<strong>${p_metadata.prompt}</strong>] selection to [<strong>${mutually_exclusive_display_items[mutually_exclusive_index]}</strong>]? Other <strong>checkbox selections</strong> will be removed, and the text in Other Specify textbox(s) will be cleared, if applicable.`,
+            `Are you sure you want to change the <strong>${p_metadata.prompt}</strong> selection to <strong>${mutually_exclusive_display_items[mutually_exclusive_index]}</strong>? Other <strong>checkbox selections</strong> will be removed, and the text in <strong>Other Specify</strong> textbox(es) will be cleared, if applicable.`,
             new Function(`set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`),
             new Function(`cancel_set_to_mutually_exclusive("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_data}"); ${onclick_function}`)
         
