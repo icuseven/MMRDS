@@ -381,6 +381,127 @@ namespace RecordsProcessor_Worker.Actors
             {"HOSPFROM","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/transferred_from_where"},
             {"ATTEND_NPI","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_npi"},
             {"ATTEND_OTH_TXT","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/other_attendant_type"},
+
+
+
+
+            {"DSTATE","birth_fetal_death_certificate_parent/facility_of_delivery_location/state"},
+            {"DPLACE","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/type_of_place"},
+            {"DPLACE_was_home_delivery_planned","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/was_home_delivery_planned"},
+            {"BPLACEC_ST_TER","birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth"},
+            {"BPLACEC_CNT","birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth"},
+
+
+            {"METHNIC","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin"},
+
+
+            {"MRACE","birth_fetal_death_certificate_parent/race/race_of_mother"},
+
+            {"MRACE16_17","/birth_fetal_death_certificate_parent/race/principle_tribe"},
+
+            {"MRACE18_19","birth_fetal_death_certificate_parent/race/other_asian"},
+
+            {"MRACE20_21","birth_fetal_death_certificate_parent/race/other_pacific_islander"},
+
+            {"MRACE22_23","birth_fetal_death_certificate_parent/race/other_race"},
+
+
+
+            {"DOFP_MO","birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/month" },
+            {"DOFP_MO_trimester_of_1st_prenatal_care_visit","birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"DOFP_DY","birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/day"},
+            {"DOFP_DY_trimester_of_1st_prenatal_care_visit","birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"DOFP_YR","birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/year"},
+            {"DOFP_YR_trimester_of_1st_prenatal_care_visit","birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"DOLP_MO","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/month"},
+            {"DOLP_MO_trimester_of_1st_prenatal_care_visit","birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"DOLP_DY","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/day"},
+            {"DOLP_DY_trimester_of_1st_prenatal_care_visit","bbirth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"DOLP_YR","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/year"},
+            {"DOLP_YR_trimester_of_1st_prenatal_care_visit","birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit"},
+            {"CIGPN","birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months"},
+            {"CIGPN_prior_3_months_type","birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months_type"},
+            {"CIGPN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+            {"CIGFN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st"},
+            {"CIGFN_trimester_1st_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st_type"},
+            {"CIGFN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+            {"CIGSN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd"},
+            {"CIGSN_trimester_2nd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd_type"},
+            {"CIGSN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+            {"CIGLN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd"},
+            {"CIGLN_trimester_3rd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd_type"},
+            {"CIGLN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+
+            {"risk_factors_in_this_pregnancy","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+
+            {"infections_present_or_treated_during_pregnancy","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+
+            //{"obstetric_procedures","/birth_fetal_death_certificate_parent/obstetric_procedures"},
+
+            //{"onset_of_labor","birth_fetal_death_certificate_parent/onset_of_labor"},
+
+            //{"characteristics_of_labor_and_delivery","/birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery"},
+
+            {"maternal_morbidity","birth_fetal_death_certificate_parent/maternal_morbidity"},
+
+//{"PDIAB","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"GDIAB","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"PHYPE","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"GHYPE","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"PPB","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"PPO","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"INFT","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+//{"PCES","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+
+//{"GON","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"SYPH","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"HSV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"CHAM","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"LM","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"GBS","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"CMV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"B19","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"TOXO","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"OTHERI","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+
+//{"MTR","birth_fetal_death_certificate_parent/maternal_morbidity"},
+//{"PLAC","birth_fetal_death_certificate_parent/maternal_morbidity"},
+//{"RUT","birth_fetal_death_certificate_parent/maternal_morbidity"},
+//{"UHYS","birth_fetal_death_certificate_parent/maternal_morbidity"},
+//{"AINT","birth_fetal_death_certificate_parent/maternal_morbidity"},
+
+
+            {"PLUR","birth_fetal_death_certificate_parent/prenatal_care/plurality"},
+            {"PLUR_specify_if_greater_than_3","birth_fetal_death_certificate_parent/prenatal_care/specify_if_greater_than_3"},
+            //{"UOPR","birth_fetal_death_certificate_parent/maternal_morbidity"},
+
+            {"MAGER","birth_fetal_death_certificate_parent/demographic_of_mother/age"},
+            {"FAGER","birth_fetal_death_certificate_parent/demographic_of_father/age"},
+            //{"EHYPE","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+            //{"INFT_DRG","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+            //{"INFT_ART","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
+            {"HSV1","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"HIV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"FBPLACD_ST_TER_C","birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth"},
+            {"FBPLACE_CNT_C","birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth"},
+
+
+            {"FETHNIC","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin"},
+
+            {"FRACE","birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father"},
+
+            {"FRACE16_17","birth_fetal_death_certificate_parent/demographic_of_father/race/principle_tribe"},
+
+            {"FRACE18_19","birth_fetal_death_certificate_parent/demographic_of_father/race/other_asian"},
+
+            {"FRACE20_21","birth_fetal_death_certificate_parent/demographic_of_father/race/other_pacific_islander"},
+
+            {"FRACE22_23","birth_fetal_death_certificate_parent/demographic_of_father/race/other_race"},
+
         };
 
         static Dictionary<string, string> NAT_IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -517,7 +638,28 @@ namespace RecordsProcessor_Worker.Actors
 {"OCOD6", "birth_certificate_infant_fetal_section/vitals_import_group/ocod6"},
 {"OCOD7", "birth_certificate_infant_fetal_section/vitals_import_group/ocod7"},
 
-                
+                {"FSEX","birth_certificate_infant_fetal_section/biometrics_and_demographics/gender"},
+                {"TLAB","birth_certificate_infant_fetal_section/method_of_delivery/if_cesarean_was_trial_of_labor_attempted"},
+                {"FWG","birth_certificate_infant_fetal_section/biometrics_and_demographics/birth_weight/grams_or_pounds"},
+                {"FWG_unit_of_measurement","birth_certificate_infant_fetal_section/biometrics_and_demographics/birth_weight/unit_of_measurement"},
+                {"PLUR_is_multiple_gestation","birth_certificate_infant_fetal_section/is_multiple_gestation"},
+
+                {"congenital_anomalies","birth_certificate_infant_fetal_section/congenital_anomalies"},
+
+                //{"ANEN","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"MNSB","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"CCHD","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"CDH","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"OMPH","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"GAST","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"LIMB","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"CL","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"CP","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"DOWT","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"CDIT","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                //{"HYPO","birth_certificate_infant_fetal_section/congenital_anomalies"},
+                {"RECORD_TYPE","birth_certificate_infant_fetal_section/record_type"},
+
 
 	        #endregion
         };
@@ -1427,6 +1569,146 @@ namespace RecordsProcessor_Worker.Actors
                         birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
                             , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
 
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DSTATE"], field_set["DSTATE"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DPLACE"], field_set["DPLACE"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["BPLACEC_ST_TER"], field_set["BPLACEC_ST_TER"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["BPLACEC_CNT"], field_set["BPLACEC_CNT"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["METHNIC"], FET_METHNIC_Rule(field_set["METHNIC1"], field_set["METHNIC2"], field_set["METHNIC3"], field_set["METHNIC4"]), new_case);
+
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE"], MRACE_NAT_Rule(field_set["MRACE1"],
+                            field_set["MRACE2"],
+                            field_set["MRACE3"],
+                            field_set["MRACE4"],
+                            field_set["MRACE5"],
+                            field_set["MRACE6"],
+                            field_set["MRACE7"],
+                            field_set["MRACE8"],
+                            field_set["MRACE9"],
+                            field_set["MRACE10"],
+                            field_set["MRACE11"],
+                            field_set["MRACE12"],
+                            field_set["MRACE13"],
+                            field_set["MRACE14"],
+                            field_set["MRACE15"])
+                            , new_case);
+
+
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_FET_Rule(field_set["MRACE16"], field_set["MRACE16"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE18_19"], MRACE18_19_FET_Rule(field_set["MRACE18"], field_set["MRACE19"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE20_21"], MRACE20_21_FET_Rule(field_set["MRACE20"], field_set["MRACE21"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE22_23"], MRACE22_23_FET_Rule(field_set["MRACE22"], field_set["MRACE23"]), new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FETHNIC"],
+                            FETHNIC_FET_Rule(field_set["FETHNIC1"]
+                            , field_set["FETHNIC2"]
+                            , field_set["FETHNIC3"]
+                            , field_set["FETHNIC4"])
+                            , new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE"], FRACE_FET_Rule(field_set["FRACE1"],
+                            field_set["FRACE2"],
+                            field_set["FRACE3"],
+                            field_set["FRACE4"],
+                            field_set["FRACE5"],
+                            field_set["FRACE6"],
+                            field_set["FRACE7"],
+                            field_set["FRACE8"],
+                            field_set["FRACE9"],
+                            field_set["FRACE10"],
+                            field_set["FRACE11"],
+                            field_set["FRACE12"],
+                            field_set["FRACE13"],
+                            field_set["FRACE14"],
+                            field_set["FRACE15"])
+                            , new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE16_17"], FRACE16_17_FET_Rule(field_set["FRACE16"], field_set["FRACE16"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE18_19"], FRACE18_19_FET_Rule(field_set["FRACE18"], field_set["FRACE19"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE20_21"], FRACE20_21_FET_Rule(field_set["FRACE20"], field_set["FRACE21"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE22_23"], FRACE22_23_FET_Rule(field_set["FRACE22"], field_set["FRACE23"]), new_case);
+
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"]), new_case);
+
+                       
+                       
+
+                    
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLUR"], field_set["PLUR"], new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MAGER"], field_set["MAGER"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FAGER"], field_set["FAGER"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["INFT_DRG"], field_set["INFT_DRG"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["INFT_ART"], field_set["INFT_ART"], new_case);
+                       
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FBPLACD_ST_TER_C"], field_set["FBPLACD_ST_TER_C"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FBPLACE_CNT_C"], field_set["FBPLACE_CNT_C"], new_case);
+
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGPN"], CIGPN_Custom_FET_Rule(field_set["CIGPN"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGPN_prior_3_months_type"], CIGPN_Type_FET_Rule(field_set["CIGPN"]), new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGFN"], CIGFN_Custom_FET_Rule(field_set["CIGFN"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGFN_trimester_1st_type"], CIGFN_Type_FET_Rule(field_set["CIGFN"]), new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGSN"], CIGSN_Custom_FET_Rule(field_set["CIGSN"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGSN_trimester_2nd_type"], CIGSN_Type_FET_Rule(field_set["CIGSN"]), new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGLN"], CIGLN_Custom_FET_Rule(field_set["CIGLN"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGLN_trimester_3rd_type"], CIGLN_Type_FET_Rule(field_set["CIGLN"]), new_case);
+
+
+                        gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["risk_factors_in_this_pregnancy"],
+                                FET_risk_factors_in_this_pregnancy_Rule(
+                                    field_set["PDIAB"],
+                                    field_set["GDIAB"],
+                                    field_set["PHYPE"],
+                                    field_set["GHYPE"],
+                                    field_set["PPB"],
+                                    field_set["PPO"],
+                                    field_set["INFT"],
+                                    field_set["PCES"],
+                                    field_set["EHYPE"]
+                                ), new_case);
+
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["GON"],    field_set["GON"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["SYPH"],   field_set["SYPH"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CHAM"],   field_set["CHAM"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["LM"],     field_set["LM"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["GBS"],    field_set["GBS"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CMV"],    field_set["CMV"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["B19"],    field_set["B19"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["TOXO"],   field_set["TOXO"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HSV"],    field_set["HSV"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HSV1"],   field_set["HSV1"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HIV"],    field_set["HIV"], new_case);
+                        //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OTHERI"], field_set["OTHERI"], new_case);
+
+                        gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["infections_present_or_treated_during_pregnancy"],
+                                FET_infections_present_or_treated_during_pregnancy_Rule(
+                                   field_set["GON"], 
+                                   field_set["SYPH"],
+                                   field_set["CHAM"],
+                                   field_set["LM"], 
+                                   field_set["GBS"], 
+                                   field_set["CMV"], 
+                                   field_set["B19"], 
+                                   field_set["TOXO"],
+                                   field_set["HSV"], 
+                                   field_set["HSV1"],
+                                   field_set["HIV"], 
+                                   field_set["OTHERI"]
+                                ), new_case);
                     }
 
 
@@ -1666,7 +1948,40 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD6"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD7"]) });
 
-                        
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FSEX"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FSEX"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TLAB"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FWG"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PLUR"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ANEN"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ANEN"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["MNSB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["MNSB"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CCHD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CCHD"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CDH"],  new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CDH"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OMPH"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OMPH"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["GAST"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["GAST"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["LIMB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["LIMB"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CL"],   new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CL"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CP"],   new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CP"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DOWT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["DOWT"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CDIT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CDIT"]) });
+                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["HYPO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["HYPO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
+
+                        gs.set_objectvalue(FET_IJE_to_MMRIA_Path["congenital_anomalies"],
+                           FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
+                            , fet_field_set[fet_index]["MNSB"]
+                            , fet_field_set[fet_index]["CCHD"]
+                            , fet_field_set[fet_index]["CDH"]
+                            , fet_field_set[fet_index]["OMPH"]
+                            , fet_field_set[fet_index]["GAST"]
+                            , fet_field_set[fet_index]["LIMB"]
+                            , fet_field_set[fet_index]["CL"]
+                            , fet_field_set[fet_index]["CP"]
+                            , fet_field_set[fet_index]["DOWT"]
+                            , fet_field_set[fet_index]["CDIT"]
+                            , fet_field_set[fet_index]["HYPO"]
+                           ),
+                           new_case, fet_index);
+
                         string_builder.Clear();
                         string_builder.AppendLine($"Initiating cause/condition:");
                         string_builder.AppendLine($"01) Rupture of membranes prior to onset of labor: {fet_field_set[fet_index]["COD18a1"]}");
@@ -1813,6 +2128,8 @@ namespace RecordsProcessor_Worker.Actors
 
 
         }
+
+       
 
         private string TryPaseToIntOr_DefaultBlank(string value, string defaultString = "99")
         {
@@ -3135,7 +3452,7 @@ GNAME 27 50
                 result.Add("MDOB_YR", MDOB_YR_FET_Rule(row.Substring(54, 4).Trim()));
                 result.Add("MDOB_MO", MDOB_MO_FET_Rule(row.Substring(58, 2).Trim()));
                 result.Add("MDOB_DY", MDOB_DY_FET_Rule(row.Substring(60, 2).Trim()));
-                result.Add("STATEC", STATEC_FET_Rule(row.Substring(75, 2).Trim()));
+                result.Add("STATEC", (row.Substring(75, 2).Trim()));
                 result.Add("FDOB_YR", FDOB_YR_FET_Rule(row.Substring(80, 4).Trim()));
                 result.Add("FDOB_MO", FDOB_MO_FET_Rule(row.Substring(84, 2).Trim()));
                 result.Add("MARN", MARN_FET_Rule(row.Substring(90, 1).Trim()));
@@ -3231,7 +3548,133 @@ GNAME 27 50
                 result.Add("OCOD6", row.Substring(2731-1, 5).Trim());
                 result.Add("OCOD7", row.Substring(2736-1, 1).Trim());
 
-                
+                result.Add("DSTATE", (row.Substring(4, 2).Trim()));
+                result.Add("FSEX", FSEX_FET_Rule(row.Substring(29, 1).Trim()));
+                result.Add("DPLACE", (row.Substring(37, 1).Trim()));
+                result.Add("BPLACEC_ST_TER", BPLACEC_ST_TER_FET_Rule(row.Substring(63, 2).Trim()));
+                result.Add("BPLACEC_CNT", BPLACEC_CNT_FET_Rule(row.Substring(65, 2).Trim()));
+
+                result.Add("METHNIC1", (row.Substring(94, 1).Trim()));
+                result.Add("METHNIC2", (row.Substring(95, 1).Trim()));
+                result.Add("METHNIC3", (row.Substring(96, 1).Trim()));
+                result.Add("METHNIC4", (row.Substring(97, 1).Trim()));
+
+                result.Add("MRACE1", (row.Substring(118, 1).Trim()));
+                result.Add("MRACE2", (row.Substring(119, 1).Trim()));
+                result.Add("MRACE3", (row.Substring(120, 1).Trim()));
+                result.Add("MRACE4", (row.Substring(121, 1).Trim()));
+                result.Add("MRACE5", (row.Substring(122, 1).Trim()));
+                result.Add("MRACE6", (row.Substring(123, 1).Trim()));
+                result.Add("MRACE7", (row.Substring(124, 1).Trim()));
+                result.Add("MRACE8", (row.Substring(125, 1).Trim()));
+                result.Add("MRACE9", (row.Substring(126, 1).Trim()));
+                result.Add("MRACE10", (row.Substring(127, 1).Trim()));
+                result.Add("MRACE11", (row.Substring(128, 1).Trim()));
+                result.Add("MRACE12", (row.Substring(129, 1).Trim()));
+                result.Add("MRACE13", (row.Substring(130, 1).Trim()));
+                result.Add("MRACE14", (row.Substring(131, 1).Trim()));
+                result.Add("MRACE15", (row.Substring(132, 1).Trim()));
+                result.Add("MRACE16", (row.Substring(133, 30).Trim()));
+                result.Add("MRACE17", (row.Substring(163, 30).Trim()));
+                result.Add("MRACE18", (row.Substring(193, 30).Trim()));
+                result.Add("MRACE19", (row.Substring(223, 30).Trim()));
+                result.Add("MRACE20", (row.Substring(253, 30).Trim()));
+                result.Add("MRACE21", (row.Substring(283, 30).Trim()));
+                result.Add("MRACE22", (row.Substring(313, 30).Trim()));
+                result.Add("MRACE23", (row.Substring(343, 30).Trim()));
+
+                result.Add("DOFP_MO", DOFP_MO_FET_Rule(row.Substring(423, 2).Trim()));
+                result.Add("DOFP_DY", DOFP_DY_FET_Rule(row.Substring(425, 2).Trim()));
+                result.Add("DOFP_YR", DOFP_YR_FET_Rule(row.Substring(427, 4).Trim()));
+                result.Add("DOLP_MO", DOLP_MO_FET_Rule(row.Substring(431, 2).Trim()));
+                result.Add("DOLP_DY", DOLP_DY_FET_Rule(row.Substring(433, 2).Trim()));
+                result.Add("DOLP_YR", DOLP_YR_FET_Rule(row.Substring(435, 4).Trim()));
+
+                result.Add("CIGPN", (row.Substring(473, 2).Trim()));
+                result.Add("CIGFN", (row.Substring(475, 2).Trim()));
+                result.Add("CIGSN", (row.Substring(477, 2).Trim()));
+                result.Add("CIGLN", (row.Substring(479, 2).Trim()));
+                result.Add("PDIAB", PDIAB_FET_Rule(row.Substring(489, 1).Trim()));
+                result.Add("GDIAB", GDIAB_FET_Rule(row.Substring(490, 1).Trim()));
+                result.Add("PHYPE", PHYPE_FET_Rule(row.Substring(491, 1).Trim()));
+                result.Add("GHYPE", GHYPE_FET_Rule(row.Substring(492, 1).Trim()));
+                result.Add("PPB", PPB_FET_Rule(row.Substring(493, 1).Trim()));
+                result.Add("PPO", PPO_FET_Rule(row.Substring(494, 1).Trim()));
+                result.Add("INFT", INFT_FET_Rule(row.Substring(496, 1).Trim()));
+                result.Add("PCES", PCES_FET_Rule(row.Substring(497, 1).Trim()));
+                result.Add("GON", GON_FET_Rule(row.Substring(501, 1).Trim()));
+                result.Add("SYPH", SYPH_FET_Rule(row.Substring(502, 1).Trim()));
+                result.Add("HSV", HSV_FET_Rule(row.Substring(503, 1).Trim()));
+                result.Add("CHAM", CHAM_FET_Rule(row.Substring(504, 1).Trim()));
+                result.Add("LM", LM_FET_Rule(row.Substring(505, 1).Trim()));
+                result.Add("GBS", GBS_FET_Rule(row.Substring(506, 1).Trim()));
+                result.Add("CMV", CMV_FET_Rule(row.Substring(507, 1).Trim()));
+                result.Add("B19", B19_FET_Rule(row.Substring(508, 1).Trim()));
+                result.Add("TOXO", TOXO_FET_Rule(row.Substring(509, 1).Trim()));
+                result.Add("OTHERI", OTHERI_FET_Rule(row.Substring(510, 1).Trim()));
+                result.Add("TLAB", TLAB_FET_Rule(row.Substring(515, 1).Trim()));
+                result.Add("MTR", MTR_FET_Rule(row.Substring(517, 1).Trim()));
+                result.Add("PLAC", PLAC_FET_Rule(row.Substring(518, 1).Trim()));
+                result.Add("RUT", RUT_FET_Rule(row.Substring(519, 1).Trim()));
+                result.Add("UHYS", UHYS_FET_Rule(row.Substring(520, 1).Trim()));
+                result.Add("AINT", AINT_FET_Rule(row.Substring(521, 1).Trim()));
+                result.Add("UOPR", UOPR_FET_Rule(row.Substring(522, 1).Trim()));
+                result.Add("FWG", (row.Substring(523, 4).Trim()));
+                result.Add("PLUR", PLUR_FET_Rule(row.Substring(535, 2).Trim()));
+                result.Add("ANEN", ANEN_FET_Rule(row.Substring(548, 1).Trim()));
+                result.Add("MNSB", MNSB_FET_Rule(row.Substring(549, 1).Trim()));
+                result.Add("CCHD", CCHD_FET_Rule(row.Substring(550, 1).Trim()));
+                result.Add("CDH", CDH_FET_Rule(row.Substring(551, 1).Trim()));
+                result.Add("OMPH", OMPH_FET_Rule(row.Substring(552, 1).Trim()));
+                result.Add("GAST", GAST_FET_Rule(row.Substring(553, 1).Trim()));
+                result.Add("LIMB", LIMB_FET_Rule(row.Substring(554, 1).Trim()));
+                result.Add("CL", CL_FET_Rule(row.Substring(555, 1).Trim()));
+                result.Add("CP", CP_FET_Rule(row.Substring(556, 1).Trim()));
+                result.Add("DOWT", DOWT_FET_Rule(row.Substring(557, 1).Trim()));
+                result.Add("CDIT", CDIT_FET_Rule(row.Substring(558, 1).Trim()));
+                result.Add("HYPO", HYPO_FET_Rule(row.Substring(559, 1).Trim()));
+                result.Add("MAGER", MAGER_FET_Rule(row.Substring(568, 2).Trim()));
+                result.Add("FAGER", FAGER_FET_Rule(row.Substring(570, 2).Trim()));
+                result.Add("EHYPE", EHYPE_FET_Rule(row.Substring(572, 1).Trim()));
+                result.Add("INFT_DRG", INFT_DRG_FET_Rule(row.Substring(573, 1).Trim()));
+                result.Add("INFT_ART", INFT_ART_FET_Rule(row.Substring(574, 1).Trim()));
+                result.Add("HSV1", HSV1_FET_Rule(row.Substring(2740, 1).Trim()));
+                result.Add("HIV", HIV_FET_Rule(row.Substring(2741, 1).Trim()));
+                result.Add("FBPLACD_ST_TER_C", FBPLACD_ST_TER_C_FET_Rule(row.Substring(4172, 2).Trim()));
+                result.Add("FBPLACE_CNT_C", FBPLACE_CNT_C_FET_Rule(row.Substring(4174, 2).Trim()));
+
+                result.Add("FETHNIC1", (row.Substring(4290, 1).Trim()));
+                result.Add("FETHNIC2", (row.Substring(4291, 1).Trim()));
+                result.Add("FETHNIC3", (row.Substring(4292, 1).Trim()));
+                result.Add("FETHNIC4", (row.Substring(4293, 1).Trim()));
+
+                result.Add("FRACE1", (row.Substring(4314, 1).Trim()));
+                result.Add("FRACE2", (row.Substring(4315, 1).Trim()));
+                result.Add("FRACE3", (row.Substring(4316, 1).Trim()));
+                result.Add("FRACE4", (row.Substring(4317, 1).Trim()));
+                result.Add("FRACE5", (row.Substring(4318, 1).Trim()));
+                result.Add("FRACE6", (row.Substring(4319, 1).Trim()));
+                result.Add("FRACE7", (row.Substring(4320, 1).Trim()));
+                result.Add("FRACE8", (row.Substring(4321, 1).Trim()));
+                result.Add("FRACE9", (row.Substring(4322, 1).Trim()));
+                result.Add("FRACE10",(row.Substring(4323, 1).Trim()));
+                result.Add("FRACE11",(row.Substring(4324, 1).Trim()));
+                result.Add("FRACE12",(row.Substring(4325, 1).Trim()));
+                result.Add("FRACE13",(row.Substring(4326, 1).Trim()));
+                result.Add("FRACE14",(row.Substring(4327, 1).Trim()));
+                result.Add("FRACE15",(row.Substring(4328, 1).Trim()));
+                result.Add("FRACE16",(row.Substring(4329, 30).Trim()));
+                result.Add("FRACE17",(row.Substring(4359, 30).Trim()));
+                result.Add("FRACE18",(row.Substring(4389, 30).Trim()));
+                result.Add("FRACE19",(row.Substring(4419, 30).Trim()));
+                result.Add("FRACE20",(row.Substring(4449, 30).Trim()));
+                result.Add("FRACE21",(row.Substring(4479, 30).Trim()));
+                result.Add("FRACE22",(row.Substring(4509, 30).Trim()));
+                result.Add("FRACE23",(row.Substring(4539, 30).Trim()));
+
+                result.Add("RECORD_TYPE", (row.Substring(5999, 1).Trim()));
+
+
 
                 listResults.Add(result);
             }
@@ -7378,6 +7821,384 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
         #region FET Rules
 
+        private object FET_maternal_morbidity_Rule(string value1, string value2, string value3, string value4, string value5, string value6)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            MTR = Y --> bfdcp_m_morbi = 0 Maternal transfusion
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N")
+                determinedValues.Add("6");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_characteristics_of_labor_and_delivery_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, string value9)
+        {
+            /*Use values from 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT, ESAN] to populate MMRIA multi-select field (bfdcp_cola_deliv). 
+
+INDL = Y --> bfdcp_cola_deliv = 0 Induction of labor
+
+If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT, ESAN] is equal to "N", then bfdcp_cola_deliv = 9 None of the above
+
+If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT, ESAN] is equal to "U" then bfdcp_cola_deliv = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+                 && value9 == "N")
+                determinedValues.Add("9");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
+                 && value9 == "U")
+                determinedValues.Add("777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+                if (int.TryParse(value7, out result))
+                    determinedValues.Add(value7);
+
+                if (int.TryParse(value8, out result))
+                    determinedValues.Add(value8);
+
+                if (int.TryParse(value9, out result))
+                    determinedValues.Add(value9);
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_onset_of_labor_Rule(string value1, string value2, string value3)
+        {
+            /*Use values from 3 IJE fields [PROM, PRIC, PROL] to populate MMRIA multi-select field (bfdcp_oo_labor). 
+
+PROM = Y --> bfdcp_oo_labor = 0 Premature Rupture of Membranes (Prolonged)
+
+If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "N", then bfdcp_oo_labor = 3 None of the above
+
+If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "U" then bfdcp_oo_labor = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N")
+                determinedValues.Add("3");
+            else if (value1 == "U" && value2 == "U" && value3 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_obstetric_procedures_Rule(string value1, string value2, string value3, string value4)
+        {
+            /*Use values from 4 IJE fields [CERV, TOC, ECVS, ECVF] to populate MMRIA multi-select field (bfdcp_o_proce). 
+
+CERV = Y --> bfdcp_o_proce = 0 Cervical Cerclage
+
+If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "N", then bfdcp_o_proce = 4 None of the above
+
+If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bfdcp_o_proce = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
+                determinedValues.Add("4");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+            }
+
+            return determinedValues.ToArray();
+        }
+
+
+        private object FET_infections_present_or_treated_during_pregnancy_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, string value9, string value10, string value11, string value12)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+           GON = Y --> bfdcp_ipotd_pregn = 2 Gonorrhea
+
+           If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+           If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+                 && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
+                determinedValues.Add("17");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
+                 && value9 == "U" && value10 == "U" && value11 == "U" && value12 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+                if (int.TryParse(value7, out result))
+                    determinedValues.Add(value7);
+
+                if (int.TryParse(value8, out result))
+                    determinedValues.Add(value8);
+
+                if (int.TryParse(value9, out result))
+                    determinedValues.Add(value9);
+
+                if (int.TryParse(value10, out result))
+                    determinedValues.Add(value10);
+
+                if (int.TryParse(value11, out result))
+                    determinedValues.Add(value11);
+
+                if (int.TryParse(value12, out result))
+                    determinedValues.Add(value12);
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_risk_factors_in_this_pregnancy_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, string value9)
+        {
+            //    /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            //   EHYPE = Y --> bfdcprf_rfit_pregn = 4 Eclampsia Hypertension
+
+            //   If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            //   If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            //   *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+                && value9 == "N")
+                determinedValues.Add("11");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
+                && value9 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+                if (int.TryParse(value7, out result))
+                    determinedValues.Add(value7);
+
+                if (int.TryParse(value8, out result))
+                    determinedValues.Add(value8);
+
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_congenital_Rule(string value1, string value2, string value3, string value4, string value5
+            , string value6, string value7, string value8, string value9
+            , string value10, string value11, string value12)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+                 && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
+                determinedValues.Add("17");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
+                 && value9 == "U" && value10 == "U" && value11 == "U" && value12 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+                if (int.TryParse(value7, out result))
+                    determinedValues.Add(value7);
+
+                if (int.TryParse(value8, out result))
+                    determinedValues.Add(value8);
+
+                if (int.TryParse(value9, out result))
+                    determinedValues.Add(value9);
+
+                if (int.TryParse(value10, out result))
+                    determinedValues.Add(value10);
+
+                if (int.TryParse(value11, out result))
+                    determinedValues.Add(value11);
+
+                if (int.TryParse(value12, out result))
+                    determinedValues.Add(value12);
+            }
+
+            return determinedValues.ToArray();
+        }
+
+        private object FET_abnormal_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7)
+        {
+            /*Use values from 7 IJE fields [AVEN1, AVEN6, NICU, SURF, ANTI, SEIZ, BINJ] to populate MMRIA multi-select field (bcifs_aco_newbo). 
+
+            If every one of the 7 IJE fields [AVEN1, AVEN6, NICU, SURF, ANTI, SEIZ, BINJ] is equal to "N", then bcifs_aco_newbo = 8 None of the above
+
+            If every one of the 7 IJE fields [AVEN1, AVEN6, NICU, SURF, ANTI, SEIZ, BINJ] is equal to "U" then bcifs_aco_newbo = 7777 Unknown*/
+            List<string> determinedValues = new List<string>();
+
+            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+                && value5 == "N" && value6 == "N" && value7 == "N")
+                determinedValues.Add("8");
+            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+                && value5 == "U" && value6 == "U" && value7 == "U")
+                determinedValues.Add("7777");
+            else
+            {
+                if (int.TryParse(value1, out int result))
+                    determinedValues.Add(value1);
+
+                if (int.TryParse(value2, out result))
+                    determinedValues.Add(value2);
+
+                if (int.TryParse(value3, out result))
+                    determinedValues.Add(value3);
+
+                if (int.TryParse(value4, out result))
+                    determinedValues.Add(value4);
+
+                if (int.TryParse(value5, out result))
+                    determinedValues.Add(value5);
+
+                if (int.TryParse(value6, out result))
+                    determinedValues.Add(value6);
+
+                if (int.TryParse(value7, out result))
+                    determinedValues.Add(value7);
+            }
+
+            return determinedValues.ToArray();
+        }
+
         private string FET_LOCATION_OF_RESIDENCE_street_Rule(string stnum_r, string predir_r, string stname_r, string stdesig_r, string postdir_r)
         {
             //Map to MMRIA field via Merge with other place of death street fields(STNUM_D, PREDIR_D, STNAME_D, STDESIG_D, POSTDIR_D) 1 of 5
@@ -8002,9 +8823,1868 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return value;
         }
 
-        
-        
+        private string FSEX_FET_Rule(string value)
+        {
+            /*M = Male -> 0 Male
+            F = Female -> 1 Female
+            U = Unknown -> 7777 Unknown
 
+            Map empty rows to 9999 (blank)
+            */
+            switch (value?.ToUpper())
+            {
+                case "Y":
+                    value = "1";
+                    break;
+                case "N":
+                    value = "0";
+                    break;
+                case "U":
+                    value = "7777";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+            return value;
+        }
+        private string DPLACE_Custom_FET_Rule(string value)
+        {
+            /*1 = Hospital -> bfdcpfodd_to_place = 0 Hospital & bfdcpfodd_whd_plann = 9999 (blank)
+
+            2 = Freestanding Birth Center -> bfdcpfodd_to_place = 1 Free Standing Birth Center & bfdcpfodd_whd_plann = 9999 (blank)
+
+            3 = Home (Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 1 Yes
+
+            4 = Home (Not Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 0 No
+
+            5 = Home (Unknown if Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 7777 Unknown
+
+            6 = Clinic/Doctor's Office -> bfdcpfodd_to_place = 3 Clinic/Doctor's office & bfdcpfodd_whd_plann = 9999 (blank)
+
+            7 = Other -> bfdcpfodd_to_place = 4 Other & bfdcpfodd_whd_plann = 9999 (blank)
+
+            9 = Unknown --> bfdcpfodd_to_place = 7777 Unknown & bfdcpfodd_whd_plann = 9999 (blank)*/
+            switch (value?.ToUpper())
+            {
+                case "1":
+                    value = "0";
+                    break;
+                case "2":
+                    value = "1";
+                    break;
+                case "3":
+                    value = "2";
+                    break;
+                case "4":
+                    value = "2";
+                    break;
+                case "5":
+                    value = "2";
+                    break;
+                case "6":
+                    value = "3";
+                    break;
+                case "7":
+                    value = "4";
+                    break;
+                case "9":
+                    value = "7777";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+
+            return value;
+        }
+        private string DPLACE_plann_Rule(string value)
+        {
+            /*1 = Hospital -> bfdcpfodd_to_place = 0 Hospital & bfdcpfodd_whd_plann = 9999 (blank)
+
+                2 = Freestanding Birth Center -> bfdcpfodd_to_place = 1 Free Standing Birth Center & bfdcpfodd_whd_plann = 9999 (blank)
+
+                3 = Home (Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 1 Yes
+
+                4 = Home (Not Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 0 No
+
+                5 = Home (Unknown if Intended) -> bfdcpfodd_to_place = 2 Home Birth & bfdcpfodd_whd_plann = 7777 Unknown
+
+                6 = Clinic/Doctor's Office -> bfdcpfodd_to_place = 3 Clinic/Doctor's office & bfdcpfodd_whd_plann = 9999 (blank)
+
+                7 = Other -> bfdcpfodd_to_place = 4 Other & bfdcpfodd_whd_plann = 9999 (blank)
+
+                9 = Unknown --> bfdcpfodd_to_place = 7777 Unknown & bfdcpfodd_whd_plann = 9999 (blank)*/
+            switch (value?.ToUpper())
+            {
+                case "1":
+                    value = "9999";
+                    break;
+                case "2":
+                    value = "9999";
+                    break;
+                case "3":
+                    value = "1";
+                    break;
+                case "4":
+                    value = "0";
+                    break;
+                case "5":
+                    value = "7777";
+                    break;
+                case "6":
+                    value = "9999";
+                    break;
+                case "7":
+                    value = "9999";
+                    break;
+                case "9":
+                    value = "9999";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+            return value;
+        }
+
+        private string BPLACEC_ST_TER_FET_Rule(string value)
+        {
+            /*Map XX --> 9999 (blank)
+            Map ZZ --> 9999 (blank)
+
+            Map all other values to MMRIA field state listing*/
+            if (value == "XX" || value == "ZZ")
+                value = "9999";
+
+            return value;
+        }
+        private string BPLACEC_CNT_FET_Rule(string value)
+        {
+            /*Map to MMRIA field country listing 
+
+            Map XX --> 9999 (blank)
+            Map ZZ --> 9999 (blank)*/
+            if (value == "XX" || value == "ZZ")
+                value = "9999";
+
+            return value;
+        }
+        
+        private string METHNIC_FET_Rule(string value1, string value2, string value3, string value4)
+        {
+            /*Use values of METHNIC1, METHNIC2, METHNIC3, METHNIC4 to populate MMRIA field bfdcpdom_ioh_origi.
+
+            H --> bfdcpdom_ioh_origi = 1 Yes, Mexican, Mexican American, Chicano
+            H --> bfdcpdom_ioh_origi = 2 Yes, Puerto Rican
+            H --> bfdcpdom_ioh_origi = 3 Yes, Cuban
+            H --> bfdcpdom_ioh_origi = 4 Yes, Other Spanish/Hispanic/Latino
+
+
+            If METHNIC1 = N and METHNIC2 = N and METHNIC3 = N and METHNIC 4 = N --> bfdcpdom_ioh_origi = 0 No, Not Spanish/Hispanic/Latino
+
+            If METHNIC1 = U and METHNIC2 = U and METHNIC3 = U and METHNIC4 = U --> bfdcpdom_ioh_origi = 7777 Unknown
+
+            If METHNIC1 = (empty) and METHNIC2 = (empty) and METHNIC3 = (empty) and METHNIC4 = (empty) --> bfdcpdom_ioh_origi = 9999 (blank)*/
+            string determinedValue;
+
+            if (value1?.ToUpper() == "H")
+            {
+                determinedValue = "1";
+            }
+            else if (value2?.ToUpper() == "H")
+            {
+                determinedValue = "2";
+            }
+            else if (value3?.ToUpper() == "H")
+            {
+                determinedValue = "3";
+            }
+            else if (value4?.ToUpper() == "H")
+            {
+                determinedValue = "4";
+            }
+            else if (value1?.ToUpper() == "N" && value2?.ToUpper() == "N" && value3?.ToUpper() == "N" && value4?.ToUpper() == "N")
+            {
+                determinedValue = "0";
+            }
+            else if (value1?.ToUpper() == "U" && value2?.ToUpper() == "U" && value3?.ToUpper() == "U" && value4?.ToUpper() == "U")
+            {
+                determinedValue = "7777";
+            }
+            else
+            {
+                determinedValue = "9999";
+            }
+
+            return determinedValue;
+        }
+
+        private string MRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
+            string value6, string value7, string value8, string value9, string value10,
+            string value11, string value12, string value13, string value14, string value15)
+        {
+            /*Use values from MRACE1 through MRACE15 to populate MMRIA multi-select field (bfdcpr_ro_mothe).
+
+            MRACE1 = Y --> bfdcpr_ro_mothe = 0 White
+            MRACE2 = Y --> bfdcpr_ro_mothe = 1 Black or African American
+            MRACE3 = Y --> bfdcpr_ro_mothe = 2 American Indian or Alaska Native
+            MRACE4 = Y --> bfdcpr_ro_mothe = 7 Asian Indian
+            MRACE5 = Y --> bfdcpr_ro_mothe = 8 Chinese
+            MRACE6 = Y --> bfdcpr_ro_mothe = 9 Filipino
+            MRACE7 = Y --> bfdcpr_ro_mothe = 10 Japanese
+            MRACE8 = Y --> bfdcpr_ro_mothe = 11 Korean
+            MRACE9 = Y --> bfdcpr_ro_mothe = 12 Vietnamese
+            MRACE10 = Y --> bfdcpr_ro_mothe = 13 Other Asian
+            MRACE11 = Y --> bfdcpr_ro_mothe = 3 Native Hawaiian
+            MRACE12 = Y --> bfdcpr_ro_mothe = 4 Guamanian or Chamorro
+            MRACE13 = Y --> bfdcpr_ro_mothe = 5 Samoan
+            MRACE14 = Y --> bfdcpr_ro_mothe = 6 Other Pacific Islander
+            MRACE15 = Y --> bfdcpr_ro_mothe = 14 Other Race
+
+            If every one of MRACE1 through MRACE15 is equal to "N", then bfdcpr_ro_mothe = 8888 (Race Not Specified)*/
+
+            string determinedValue;
+
+            if (value1?.ToUpper() == "Y")
+            {
+                determinedValue = "0";
+            }
+            else if (value2?.ToUpper() == "Y")
+            {
+                determinedValue = "1";
+            }
+            else if (value3?.ToUpper() == "Y")
+            {
+                determinedValue = "2";
+            }
+            else if (value4?.ToUpper() == "Y")
+            {
+                determinedValue = "7";
+            }
+            else if (value5?.ToUpper() == "Y")
+            {
+                determinedValue = "8";
+            }
+            else if (value6?.ToUpper() == "Y")
+            {
+                determinedValue = "9";
+            }
+            else if (value7?.ToUpper() == "Y")
+            {
+                determinedValue = "10";
+            }
+            else if (value8?.ToUpper() == "Y")
+            {
+                determinedValue = "11";
+            }
+            else if (value9?.ToUpper() == "Y")
+            {
+                determinedValue = "12";
+            }
+            else if (value10?.ToUpper() == "Y")
+            {
+                determinedValue = "13";
+            }
+            else if (value11?.ToUpper() == "Y")
+            {
+                determinedValue = "3";
+            }
+            else if (value12?.ToUpper() == "Y")
+            {
+                determinedValue = "4";
+            }
+            else if (value13?.ToUpper() == "Y")
+            {
+                determinedValue = "5";
+            }
+            else if (value14?.ToUpper() == "Y")
+            {
+                determinedValue = "6";
+            }
+            else if (value15?.ToUpper() == "Y")
+            {
+                determinedValue = "14";
+            }
+            else
+            {
+                determinedValue = "8888";
+            }
+            return determinedValue;
+        }
+
+        private string MRACE16_17_FET_Rule(string value16, string value17)
+        {
+            /*Combine MRACE16 and MRACE17 into one field (bfdcpr_p_tribe), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from MRACE16 to MMRIA field.
+            2. Transfer string verbatim from MRACE17 and add to same MMRIA field.
+            3. If both MRACE16 and MRACE17 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value16) || string.IsNullOrWhiteSpace(value17)))
+            {
+                value = $"{value16}|{value17}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value16))
+            {
+                value = $"{value16}";
+            }
+            else
+            {
+                value = $"{value17}";
+            }
+
+            return value;
+        }
+       
+        private string MRACE18_19_FET_Rule(string value18, string value19)
+        {
+            /*Combine MRACE18 and MRACE19 into one field (bfdcpr_o_asian), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from MRACE18 to MMRIA field.
+            2. Transfer string verbatim from MRACE19 and add to same MMRIA field.
+            3. If both MRACE18 and MRACE19 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value18) || string.IsNullOrWhiteSpace(value19)))
+            {
+                value = $"{value18}|{value19}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value18))
+            {
+                value = $"{value18}";
+            }
+            else
+            {
+                value = $"{value19}";
+            }
+
+            return value;
+            return value;
+        }
+      
+        private string MRACE20_21_FET_Rule(string value20, string value21)
+        {
+            /*Combine MRACE20 and MRACE21 into one field (bfdcpr_op_islan), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from MRACE20 to MMRIA field.
+            2. Transfer string verbatim from MRACE21 and add to same MMRIA field.
+            3. If both MRACE20 and MRACE21 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value20) || string.IsNullOrWhiteSpace(value21)))
+            {
+                value = $"{value20}|{value21}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value20))
+            {
+                value = $"{value20}";
+            }
+            else
+            {
+                value = $"{value21}";
+            }
+
+            return value;
+        }
+       
+        private string MRACE22_23_FET_Rule(string value22, string value23)
+        {
+            /*Combine MRACE22 and MRACE23 into one field (bfdcpr_o_race), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from MRACE22 to MMRIA field.
+            2. Transfer string verbatim from MRACE23 and add to same MMRIA field.
+            3. If both MRACE22 and MRACE23 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value22) || string.IsNullOrWhiteSpace(value23)))
+            {
+                value = $"{value22}|{value23}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value22))
+            {
+                value = $"{value22}";
+            }
+            else
+            {
+                value = $"{value23}";
+            }
+
+            return value;
+        }
+        
+        private string DOFP_MO_FET_Rule(string value)
+        {
+            /*
+            If DOFP_MO is in 01-12, transfer number verbatim to MMRIA field (bfdcppcdo1pv_month).
+
+            If DOFP_MO = 99 --> bfdcppcdo1pv_month = 9999 (blank).
+
+            If DOFP_MO = 88 and DOFP_DY = 88 and DOFP_YR = 8888, then do the following:
+            1. bfdcppcdo1pv_month = 9999 (blank) 
+            2. bfdcppcdo1pv_day = 9999 (blank)
+            3. bfdcppcdo1pv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.
+
+            No other values are populated for bfdcppc_to1pc_visit from IJE fields.*/
+            if (value == "88" || value == "99")
+                value = "9999";
+
+            return value; 
+        }
+
+        private string DOFP_DY_FET_Rule(string value)
+        {
+            /*If DOFP_DY is in 01-31, transfer number verbatim to MMRIA field (bfdcppcdo1pv_day).
+
+            If DOFP_DY = 99 --> bfdcppcdo1pv_day = 9999 (blank).
+
+            If DOFP_MO = 88 and DOFP_DY = 88 and DOFP_YR = 8888, then do the following:
+            1. bfdcppcdo1pv_month = 9999 (blank) 
+            2. bfdcppcdo1pv_day = 9999 (blank)
+            3. bfdcppcdo1pv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.
+
+            No other values are populated for bfdcppc_to1pc_visit from IJE fields.*/
+            if (value == "88" || value == "99")
+                value = "9999";
+
+            return value;
+        }
+
+        private string DOFP_YR_FET_Rule(string value)
+        {
+            /*If DOFP_YR is not equal to 8888 or 9999, transfer number verbatim to MMRIA field (bfdcppcdo1pv_year).
+
+            If DOFP_YR = 9999 --> bfdcppcdo1pv_year = 9999 (blank).
+
+            If DOFP_MO = 88 and DOFP_DY = 88 and DOFP_YR = 8888, then do the following:
+            1. bfdcppcdo1pv_month = 9999 (blank) 
+            2. bfdcppcdo1pv_day = 9999 (blank)
+            3. bfdcppcdo1pv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.
+
+            No other values are populated for bfdcppc_to1pc_visit from IJE fields.*/
+            if (value == "8888" || value == "9999")
+                value = "9999";
+
+            return value;
+        }
+
+        private string DOLP_MO_FET_Rule(string value)
+        {
+            /*If DOLP_MO is in 01-12, transfer number verbatim to MMRIA field (bfdcppcdolpv_month).
+
+            If DOLP_MO = 99 --> bfdcppcdolpv_month = 9999 (blank).
+
+            If DOLP_MO = 88 and DOLP_DY = 88 and DOLP_YR = 8888, then do the following:
+            1. bfdcppcdolpv_month = 9999 (blank)
+            2. bfdcppcdolpv_day = 9999 (blank)
+            3. bfdcppcdolpv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.
+
+            No other values are populated for bfdcppc_to1pc_visit from IJE fields.*/
+            if (value == "88" || value == "99")
+                value = "9999";
+
+            return value; 
+        }
+
+        private string DOLP_DY_FET_Rule(string value)
+        {
+            /*If DOLP_DY is in 01-31, transfer number verbatim to MMRIA field (bfdcppcdolpv_day).
+
+            If DOLP_DY = 99 --> bfdcppcdolpv_day = 9999 (blank).
+
+            If DOLP_MO = 88 and DOLP_DY = 88 and DOLP_YR = 8888, then do the following:
+            1. bfdcppcdolpv_month = 9999 (blank)
+            2. bfdcppcdolpv_day = 9999 (blank)
+            3. bfdcppcdolpv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.*/
+            if (value == "88" || value == "99")
+                value = "9999";
+
+            return value;
+        }
+
+        private string DOLP_YR_FET_Rule(string value)
+        {
+            /*If DOLP_YR is not equal to 8888 or 9999, transfer number verbatim to MMRIA field (bfdcppcdolpv_year).
+
+            If DOLP_YR = 9999 --> bfdcppcdolpv_year = 9999 (blank).
+
+            If DOLP_MO = 88 and DOLP_DY = 88 and DOLP_YR = 8888, then do the following:
+            1. bfdcppcdolpv_month = 9999 (blank)
+            2. bfdcppcdolpv_day = 9999 (blank)
+            3. bfdcppcdolpv_year = 9999 (blank)
+            4. bfdcppc_to1pc_visit = 0 No Prenatal Care.
+
+            No other values are populated for bfdcppc_to1pc_visit from IJE fields.*/
+            if (value == "8888" || value == "9999")
+                value = "9999";
+
+            return value;
+        }
+
+        private string CIGPN_Custom_FET_Rule(string value)
+        {
+            /*If CIGPN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_p3_month. 
+            2. bfdcpcs_p3m_type = 0 Cigarette(s). 
+
+            If CIGPN = 99, then do:
+            1. bfdcpcs_p3_month = 9999 (blank).
+            2. bfdcpcs_p3m_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+
+            return value;
+        }
+      
+        private string CIGPN_Type_FET_Rule(string value)
+        {
+            /*If CIGPN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_p3_month. 
+            2. bfdcpcs_p3m_type = 0 Cigarette(s). 
+
+            If CIGPN = 99, then do:
+            1. bfdcpcs_p3_month = 9999 (blank).
+            2. bfdcpcs_p3m_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+
+            if (value == "99")
+                value = "9999";
+            else
+                value = "0";
+
+            return value;
+        }
+
+        private string CIGFN_Custom_FET_Rule(string value)
+        {
+            /*If CIGFN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_1st. 
+            2. bfdcpcs_t1_type = 0 Cigarette(s). 
+
+            If CIGFN = 99, then do:
+            1. bfdcpcs_t_1st = 9999 (blank).
+            2. bfdcpcs_t1_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+
+            return value;
+        }
+        private string CIGFN_Type_FET_Rule(string value)
+        {
+            /*If CIGFN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_1st. 
+            2. bfdcpcs_t1_type = 0 Cigarette(s). 
+
+            If CIGFN = 99, then do:
+            1. bfdcpcs_t_1st = 9999 (blank).
+            2. bfdcpcs_t1_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+            else
+                value = "0";
+
+            return value;
+        }
+
+        private string CIGSN_Type_FET_Rule(string value)
+        {
+            /*If CIGSN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_2nd. 
+            2. bfdcpcs_t2_type = 0 Cigarette(s). 
+
+            If CIGSN = 99, then do:
+            1. bfdcpcs_t_2nd = 9999 (blank).
+            2. bfdcpcs_t2_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+            else
+                value = "0";
+
+            return value;
+        }
+        private string CIGSN_Custom_FET_Rule(string value)
+        {
+            /*If CIGSN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_2nd. 
+            2. bfdcpcs_t2_type = 0 Cigarette(s). 
+
+            If CIGSN = 99, then do:
+            1. bfdcpcs_t_2nd = 9999 (blank).
+            2. bfdcpcs_t2_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+
+            return value;
+        }
+
+        private string CIGLN_Type_FET_Rule(string value)
+        {
+            /*If CIGLN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_3rd. 
+            2. bfdcpcs_t3_type = 0 Cigarette(s). 
+
+            If CIGLN = 99, then do:
+            1. bfdcpcs_t_3rd = 9999 (blank).
+            2. bfdcpcs_t3_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+            else
+                value = "0";
+
+            return value;
+        }
+        private string CIGLN_Custom_FET_Rule(string value)
+        {
+            /*If CIGLN value in 00-98, then do:
+            1. Transfer number verbatim to MMRIA field bfdcpcs_t_3rd. 
+            2. bfdcpcs_t3_type = 0 Cigarette(s). 
+
+            If CIGLN = 99, then do:
+            1. bfdcpcs_t_3rd = 9999 (blank).
+            2. bfdcpcs_t3_type = 9999 (blank) 
+
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            if (value == "99")
+                value = "9999";
+
+            return value;
+        }
+
+        private string PDIAB_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            PDIAB = Y --> bfdcprf_rfit_pregn = 0 Prepregnancy Diabetes
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. 
+            */
+            if (value == "Y")
+                value = "0";
+
+            return value;
+        }
+        private string GDIAB_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            GDIAB = Y --> bfdcprf_rfit_pregn = 1 Gestational Diabetes
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "1";
+
+            return value;
+        }
+        private string PHYPE_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            PHYPE = Y --> bfdcprf_rfit_pregn = 2 Prepregnacy Hypertension
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. 
+            */
+            if (value == "Y")
+                value = "2";
+
+            return value;
+        }
+        private string GHYPE_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            GHYPE = Y --> bfdcprf_rfit_pregn = 3 Gestational Hypertension
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "3";
+
+            return value;
+        }
+        private string PPB_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            PPB = Y --> bfdcprf_rfit_pregn = 5 Previous Preterm Birth
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "5";
+
+            return value;
+        }
+        private string PPO_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            PPO = Y --> bfdcprf_rfit_pregn = 6 Other Previous Poor Outcome
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "6";
+
+            return value;
+        }
+        private string INFT_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            INFT = Y --> bfdcprf_rfit_pregn = 7 Pregnancy Resulted from Infertility Treatment
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "7";
+
+            return value;
+        }
+        private string PCES_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            PCES = Y --> bfdcprf_rfit_pregn = 10 Mother had a Previous Cesarean Delivery
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. 
+            */
+            if (value == "Y")
+                value = "10";
+
+            return value;
+        }
+        private string GON_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            GON = Y --> bfdcp_ipotd_pregn = 2 Gonorrhea
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "2";
+
+            return value;
+        }
+        private string SYPH_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            SYPH = Y --> bfdcp_ipotd_pregn = 3 Syphilis
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "3";
+
+            return value;
+        }
+        private string HSV_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            HSV = Y --> bfdcp_ipotd_pregn = 11 Herpes Simplex [HSV]
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "11";
+
+            return value;
+        }
+        private string CHAM_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            CHAM = Y --> bfdcp_ipotd_pregn = 6 Chlamydia
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "6";
+
+            return value;
+        }
+        private string LM_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            LM = Y --> bfdcp_ipotd_pregn = 4 Listeria
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "4";
+
+            return value;
+        }
+        private string GBS_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            GBS = Y --> bfdcp_ipotd_pregn = 8 Group B Streptococcus (fetal death(s) only)
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "8";
+
+            return value;
+        }
+        private string CMV_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            CMV = Y --> bfdcp_ipotd_pregn = 5 Cytomegalovirus
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "5";
+
+            return value;
+        }
+        private string B19_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            B19 = Y --> bfdcp_ipotd_pregn = 7 Parvovirus
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "7";
+
+            return value;
+        }
+        private string TOXO_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            TOXO = Y --> bfdcp_ipotd_pregn = 9 Toxoplasmosis (fetal death(s) only)
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "9";
+
+            return value;
+        }
+        private string OTHERI_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            OTHERI = Y --> bfdcp_ipotd_pregn = 14 Other
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "14";
+
+            return value;
+        }
+        private string TLAB_FET_Rule(string value)
+        {
+            /*Y = Yes -> 1 Yes
+            N = No -> 0 No
+            U = Unknown -> 7777 Unknown
+            X = Not Applicable -> 2 Not Applicable
+
+            Map empty rows to 9999 (blank)
+            */
+            switch (value?.ToUpper())
+            {
+                case "Y":
+                    value = "1";
+                    break;
+                case "N":
+                    value = "0";
+                    break;
+                case "U":
+                    value = "7777";
+                    break;
+                case "X":
+                    value = "2";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+            return value;
+        }
+        private string MTR_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            MTR = Y --> bfdcp_m_morbi = 0 Maternal transfusion
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "0";
+
+            return value;
+        }
+        private string PLAC_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            PLAC = Y --> bfdcp_m_morbi = 3 Third or fourth degree perineal laceration
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "3";
+
+            return value;
+        }
+        private string RUT_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            RUT = Y --> bfdcp_m_morbi = 5 Ruptured uterus
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "5";
+
+            return value;
+        }
+        private string UHYS_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            UHYS = Y --> bfdcp_m_morbi = 1 Unplanned hysterectomy
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "1";
+
+            return value;
+        }
+        private string AINT_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            AINT = Y --> bfdcp_m_morbi = 4 Admission to intensive care unit
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "4";
+
+            return value;
+        }
+        private string UOPR_FET_Rule(string value)
+        {
+            /*Use values from 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] to populate MMRIA multi-select field (bfdcp_m_morbi). 
+
+            UOPR = Y --> bfdcp_m_morbi = 2 Unplanned operating room procedure following delivery
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "N", then bfdcp_m_morbi = 6 None of the above
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown
+
+            If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is empty then bfdcp_m_morbi = 9999 (blank)*/
+            if (value == "Y")
+                value = "2";
+
+            return value;
+        }
+        private string FWG_pound_FET_Rule(string value)
+        {
+            /*If BWG is in 0000-9998, do the following:
+            1. Transfer number verbatim to bcifsbadbw_go_pound.
+            2. Set value for bcifsbadbw_uo_measu to 0 Grams.
+
+            If BWG = 9999, do the following:
+            1. Leave bcifsbadbw_go_pound empty/blank.
+            2. Leave bcifsbadbw_uo_measu as 9999 (blank).
+
+            If BWG > 9999, do the following:
+            1. Leave bcifsbadbw_go_pound empty/blank.
+            2. Leave bcifsbadbw_uo_measu as 9999 (blank).
+
+            */
+            int.TryParse(value, out int numberParsed);
+
+            if (numberParsed >= 9999)
+                value = "";
+
+            return value;
+        }
+        private string FWG_measure_FET_Rule(string value)
+        {
+            /*If BWG is in 0000-9998, do the following:
+            1. Transfer number verbatim to bcifsbadbw_go_pound.
+            2. Set value for bcifsbadbw_uo_measu to 0 Grams.
+
+            If BWG = 9999, do the following:
+            1. Leave bcifsbadbw_go_pound empty/blank.
+            2. Leave bcifsbadbw_uo_measu as 9999 (blank).
+
+            If BWG > 9999, do the following:
+            1. Leave bcifsbadbw_go_pound empty/blank.
+            2. Leave bcifsbadbw_uo_measu as 9999 (blank).
+
+            */
+            int.TryParse(value, out int numberParsed);
+
+            if (numberParsed >= 9999)
+                value = "9999";
+            else
+                value = "0";
+
+            return value;
+        }
+
+        private string PLUR_FET_Rule(string value)
+        {
+            /*If PLUR = 01, then do the following:
+            1. Set bfdcppc_plura = 1 Singleton
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 0 No
+
+            If PLUR = 02, then do the following:
+            1. Set bfdcppc_plura = 2 Twins
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 03, then do the following:
+            1. Set bfdcppc_plura = 3 Triplets
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR is in 04-12, then do the following:
+            1. Set bfdcppc_plura = 4 More than 3
+            2. Transfer PLUR verbatim to bfdcppc_sigt_3
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 99, then do the following:
+            1. Set bfdcppc_plura = 9999 (blank)
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 9999 (blank)*/
+
+            switch (value)
+            {
+                case "01":
+                    value = "1";
+                    break;
+                case "02":
+                    value = "2";
+                    break;
+                case "03":
+                    value = "3";
+                    break;
+                case "04":
+                case "05":
+                case "06":
+                case "07":
+                case "08":
+                case "09":
+                case "10":
+                case "11":
+                case "12":
+                    value = "4";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+
+            return value;
+        }
+        private string PLUR_sigt_FET_Rule(string value)
+        {
+            /*If PLUR = 01, then do the following:
+            1. Set bfdcppc_plura = 1 Singleton
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 0 No
+
+            If PLUR = 02, then do the following:
+            1. Set bfdcppc_plura = 2 Twins
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 03, then do the following:
+            1. Set bfdcppc_plura = 3 Triplets
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR is in 04-12, then do the following:
+            1. Set bfdcppc_plura = 4 More than 3
+            2. Transfer PLUR verbatim to bfdcppc_sigt_3
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 99, then do the following:
+            1. Set bfdcppc_plura = 9999 (blank)
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 9999 (blank)*/
+
+            switch (value)
+            {
+                case "01":
+                    value = "";
+                    break;
+                case "02":
+                    value = "";
+                    break;
+                case "03":
+                    value = "";
+                    break;
+                case "04":
+                case "05":
+                case "06":
+                case "07":
+                case "08":
+                case "09":
+                case "10":
+                case "11":
+                case "12":
+                    value = value;
+                    break;
+                default:
+                    value = "";
+                    break;
+            }
+
+            return value;
+        }
+        private string PLUR_gesta_FET_Rule(string value)
+        {
+            /*If PLUR = 01, then do the following:
+            1. Set bfdcppc_plura = 1 Singleton
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 0 No
+
+            If PLUR = 02, then do the following:
+            1. Set bfdcppc_plura = 2 Twins
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 03, then do the following:
+            1. Set bfdcppc_plura = 3 Triplets
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR is in 04-12, then do the following:
+            1. Set bfdcppc_plura = 4 More than 3
+            2. Transfer PLUR verbatim to bfdcppc_sigt_3
+            3. Set bcifs_im_gesta = 1 Yes
+
+            If PLUR = 99, then do the following:
+            1. Set bfdcppc_plura = 9999 (blank)
+            2. Leave bfdcppc_sigt_3 empty/blank
+            3. Set bcifs_im_gesta = 9999 (blank)*/
+
+            switch (value)
+            {
+                case "01":
+                    value = "0";
+                    break;
+                case "02":
+                    value = "1";
+                    break;
+                case "03":
+                    value = "1";
+                    break;
+                case "04":
+                case "05":
+                case "06":
+                case "07":
+                case "08":
+                case "09":
+                case "10":
+                case "11":
+                case "12":
+                    value = "1";
+                    break;
+                default:
+                    value = "9999";
+                    break;
+            }
+
+            return value;
+        }
+
+        private string ANEN_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            ANEN = Y --> bcifs_c_anoma = 0 Anencephaly
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "0";
+
+            return value;
+        }
+        private string MNSB_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            MNSB = Y --> bcifs_c_anoma = 9 Meningomyelocele or Spina bifida
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "9";
+
+            return value;
+        }
+        private string CCHD_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            CCHD = Y --> bcifs_c_anoma = 1 Cyanotic congenital heart disease
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "1";
+
+            return value;
+        }
+        private string CDH_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            CDH = Y --> bcifs_c_anoma = 10 Congenital diaphragmatic hernia
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "10";
+
+            return value;
+        }
+        private string OMPH_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            OMPH = Y --> bcifs_c_anoma = 2 Omphalocele
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "2";
+
+            return value;
+        }
+        private string GAST_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            GAST = Y --> bcifs_c_anoma = 11 Gastroschisis
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "11";
+
+            return value;
+        }
+        private string LIMB_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            LIMB = Y --> bcifs_c_anoma = 3 Limb reduction defect (excluding congenital amputation and dwarfing syndromes)
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "3";
+
+            return value;
+        }
+        private string CL_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            CL = Y --> bcifs_c_anoma = 4 Cleft Lip with or without Cleft Palate
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "4";
+
+            return value;
+        }
+        private string CP_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            CP = Y --> bcifs_c_anoma = 12 Cleft palate alone
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "12";
+
+            return value;
+        }
+        private string DOWT_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            If DOWT = C --> bcifs_c_anoma = 6 Karyotype confirmed - Downs Syndrome
+            If DOWT = P --> bcifs_c_anoma = 7 Karyotype pending - Downs Syndrome
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if(value == "C")
+                value = "6";
+            else if (value == "P")
+                value = "7";
+
+            return value;
+        }
+        private string CDIT_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            If CDIT = C --> bcifs_c_anoma = 14 Karyotype confirmed - Suspected chromosomal disorder
+            If CDIT = P --> bcifs_c_anoma = 15 Karyotype pending - Suspected chromosomal disorder
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "C")
+                value = "14";
+            else if (value == "P")
+                value = "15";
+
+            return value;
+        }
+        private string HYPO_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] to populate MMRIA multi-select field (bcifs_c_anoma). 
+
+            HYPO = Y --> bcifs_c_anoma = 8 Hypospadias
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "N", then bcifs_c_anoma = 17 None of the above
+
+            If every one of the 12 IJE fields [ANEN, MNSB, CCHD, CDH, OMPH, GAST, LIMB, CL, CP, DOWT, CDIT, HYPO] is equal to "U" then bcifs_c_anoma = 7777 Unknown*/
+            if (value == "Y")
+                value = "8";
+
+            return value;
+        }
+        private string MAGER_FET_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field.
+
+            If value = 99, leave the MMRIA value empty/blank*/
+            if (value == "99")
+                value = "";
+
+            return value;
+        }
+        private string FAGER_FET_Rule(string value)
+        {
+            /*If value is in 00-98, transfer number verbatim to MMRIA field.
+
+            If value = 99, leave the MMRIA value empty/blank*/
+            if (value == "99")
+                value = "";
+
+            return value;
+        }
+        private string EHYPE_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            EHYPE = Y --> bfdcprf_rfit_pregn = 4 Eclampsia Hypertension
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "4";
+
+            return value;
+        }
+        private string INFT_DRG_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            INFT_DRG = Y --> bfdcprf_rfit_pregn = 8 Fertility Enhancing Drugs, Artificial Insemination or Intrauterine Insemination
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "8";
+
+            return value;
+        }
+        private string INFT_ART_FET_Rule(string value)
+        {
+            /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
+
+            INFT_ART = Y --> bfdcprf_rfit_pregn = 9 Assisted Reproductive Technology (e.g. in vitro fertilization (IVF), gamete intrafallopian transfer (GIFT))
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
+
+            If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "U" then bfdcprf_rfit_pregn = 7777 Unknown
+
+            *Note that when looking across the multiple fields to fill in "11 None of the above" and "7777 Unknown", you are looking across only 9 fields (not all 11) because INFT_DRG and INFR_ART are part of a skip pattern. */
+            if (value == "Y")
+                value = "9";
+
+            return value;
+        }
+        private string HSV1_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            HSV1 = Y --> bfdcp_ipotd_pregn = 12 Genital Herpes (fetal death only)
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "12";
+
+            return value;
+        }
+        private string HIV_FET_Rule(string value)
+        {
+            /*Use values from 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] to populate MMRIA multi-select field bfdcp_ipotd_pregn). Note that these fields are not ordered sequentially in this spreadsheet.
+
+            HIV = Y --> bfdcp_ipotd_pregn = 13 HIV (fetal death only)
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "N", then bfdcp_ipotd_pregn = 10 None of the above
+
+            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
+            if (value == "Y")
+                value = "13";
+
+            return value;
+        }
+        private string FBPLACD_ST_TER_C_FET_Rule(string value)
+        {
+            /*Map XX --> 9999 (blank)
+            Map ZZ --> 9999 (blank)
+
+            Map all other values to MMRIA field state listing*/
+            if (value == "XX" || value == "ZZ")
+                value = "9999";
+
+            return value;
+        }
+        private string FBPLACE_CNT_C_FET_Rule(string value)
+        {
+            /*Map to MMRIA field country listing 
+
+            XX --> 9999 (blank)
+            ZZ --> 9999 (blank)*/
+            if (value == "XX" || value == "ZZ")
+                value = "9999";
+
+            return value;
+        }
+        private string FETHNIC_FET_Rule(string value1, string value2, string value3, string value4)
+        {
+            /*Use values of FETHNIC1, FETHNIC2, FETHNIC3, FETHNIC4 to populate MMRIA field bfdcpdof_ifoh_origi.
+
+             H --> bfdcpdof_ifoh_origi = 1 Yes, Mexican, Mexican American, Chicano
+            H --> bfdcpdof_ifoh_origi = 2 Yes, Puerto Rican
+            H --> bfdcpdof_ifoh_origi = 3 Yes, Cuban
+            H --> bfdcpdof_ifoh_origi = 4, Yes, Other Spanish/Hispanic/Latino
+
+             If FETHNIC1 = N and FETHNIC2 = N and FETHNIC3 = N and FETHNIC 4 = N --> bfdcpdof_ifoh_origi = 0 No, Not Spanish/Hispanic/Latino
+
+             If FETHNIC1 = U and FETHNIC2 = U and FETHNIC3 = U and FETHNIC4 = U --> bfdcpdof_ifoh_origi = 7777 Unknown
+
+             If FETHNIC1 = (empty) and FETHNIC2 = (empty) and FETHNIC3 = (empty) and FETHNIC4 = (empty) --> bfdcpdof_ifoh_origi = 9999 (blank)*/
+
+            string determinedValue;
+
+            if (value1?.ToUpper() == "H")
+            {
+                determinedValue = "1";
+            }
+            else if (value2?.ToUpper() == "H")
+            {
+                determinedValue = "2";
+            }
+            else if (value3?.ToUpper() == "H")
+            {
+                determinedValue = "3";
+            }
+            else if (value4?.ToUpper() == "H")
+            {
+                determinedValue = "4";
+            }
+            else if (value1?.ToUpper() == "N" && value2?.ToUpper() == "N" && value3?.ToUpper() == "N" && value4?.ToUpper() == "N")
+            {
+                determinedValue = "0";
+            }
+            else if (value1?.ToUpper() == "U" && value2?.ToUpper() == "U" && value3?.ToUpper() == "U" && value4?.ToUpper() == "U")
+            {
+                determinedValue = "7777";
+            }
+            else
+            {
+                determinedValue = "9999";
+            }
+
+            return determinedValue;
+        }
+
+
+        private string FRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
+            string value6, string value7, string value8, string value9, string value10,
+            string value11, string value12, string value13, string value14, string value15)
+        {
+            /*Use values from FRACE1 through FRACE15 to populate MMRIA multi-select field (bfdcpdofr_ro_fathe).
+
+            FRACE1 = Y --> bfdcpdofr_ro_fathe = 0 White
+            FRACE2 = Y --> bfdcpdofr_ro_fathe = 1 Black or African American
+            FRACE3 = Y --> bfdcpdofr_ro_fathe = 2 American Indian or Alaska Native
+            FRACE4 = Y --> bfdcpdofr_ro_fathe = 7 Asian Indian
+            FRACE5 = Y --> bfdcpdofr_ro_fathe = 8 Chinese
+            FRACE6 = Y --> bfdcpdofr_ro_fathe = 9 Filipino
+            FRACE7 = Y --> bfdcpdofr_ro_fathe = 10 Japanese
+            FRACE8 = Y --> bfdcpdofr_ro_fathe = 11 Korean
+            FRACE9 = Y --> bfdcpdofr_ro_fathe = 12 Vietnamese
+            FRACE10 = Y --> bfdcpdofr_ro_fathe = 13 Other Asian
+            FRACE11 = Y --> bfdcpdofr_ro_fathe = 3 Native Hawaiian
+            FRACE12 = Y --> bfdcpdofr_ro_fathe = 4 Guamanian or Chamorro
+            FRACE13 = Y --> bfdcpdofr_ro_fathe = 5 Samoan
+            FRACE14 = Y --> bfdcpdofr_ro_fathe = 6 Other Pacific Islander
+            FRACE15 = Y --> bfdcpdofr_ro_fathe = 14 Other Race
+
+            If every one of FRACE1 through FRACE15 is equal to "N", then bfdcpdofr_ro_fathe = 8888 (Race Not Specified)*/
+            string determinedValue;
+
+            if (value1?.ToUpper() == "Y")
+            {
+                determinedValue = "0";
+            }
+            else if (value2?.ToUpper() == "Y")
+            {
+                determinedValue = "1";
+            }
+            else if (value3?.ToUpper() == "Y")
+            {
+                determinedValue = "2";
+            }
+            else if (value4?.ToUpper() == "Y")
+            {
+                determinedValue = "7";
+            }
+            else if (value5?.ToUpper() == "Y")
+            {
+                determinedValue = "8";
+            }
+            else if (value6?.ToUpper() == "Y")
+            {
+                determinedValue = "9";
+            }
+            else if (value7?.ToUpper() == "Y")
+            {
+                determinedValue = "10";
+            }
+            else if (value8?.ToUpper() == "Y")
+            {
+                determinedValue = "11";
+            }
+            else if (value9?.ToUpper() == "Y")
+            {
+                determinedValue = "12";
+            }
+            else if (value10?.ToUpper() == "Y")
+            {
+                determinedValue = "13";
+            }
+            else if (value11?.ToUpper() == "Y")
+            {
+                determinedValue = "3";
+            }
+            else if (value12?.ToUpper() == "Y")
+            {
+                determinedValue = "4";
+            }
+            else if (value13?.ToUpper() == "Y")
+            {
+                determinedValue = "5";
+            }
+            else if (value14?.ToUpper() == "Y")
+            {
+                determinedValue = "6";
+            }
+            else if (value15?.ToUpper() == "Y")
+            {
+                determinedValue = "14";
+            }
+            else
+            {
+                determinedValue = "8888";
+            }
+            return determinedValue;
+        }
+
+        private string FRACE16_17_FET_Rule(string value16, string value17)
+        {
+            /*Combine FRACE16 and FRACE17 into one field (bfdcpdofr_p_tribe), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from FRACE16 to MMRIA field.
+            2. Transfer string verbatim from FRACE17 and add to same MMRIA field.
+            3. If both FRACE16 and FRACE17 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value16) || string.IsNullOrWhiteSpace(value17)))
+            {
+                value = $"{value16}|{value17}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value16))
+            {
+                value = $"{value16}";
+            }
+            else
+            {
+                value = $"{value17}";
+            }
+
+            return value;
+        }
+
+        private string FRACE18_19_FET_Rule(string value18, string value19)
+        {
+            /*Combine FRACE18 and FRACE19 into one field (bfdcpdofr_o_asian), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from FRACE18 to MMRIA field.
+            2. Transfer string verbatim from FRACE19 and add to same MMRIA field.
+            3. If both FRACE18 and FRACE19 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value18) || string.IsNullOrWhiteSpace(value19)))
+            {
+                value = $"{value18}|{value19}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value18))
+            {
+                value = $"{value18}";
+            }
+            else
+            {
+                value = $"{value19}";
+            }
+
+            return value;
+        }
+
+        private string FRACE20_21_FET_Rule(string value20, string value21)
+        {
+            /*Combine FRACE20 and FRACE21 into one field (bfdcpdofr_op_islan), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from FRACE20 to MMRIA field.
+            2. Transfer string verbatim from FRACE21 and add to same MMRIA field.
+            3. If both FRACE20 and FRACE21 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value20) || string.IsNullOrWhiteSpace(value21)))
+            {
+                value = $"{value20}|{value21}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value20))
+            {
+                value = $"{value20}";
+            }
+            else
+            {
+                value = $"{value21}";
+            }
+
+            return value;
+        }
+
+        private string FRACE22_23_FET_Rule(string value22, string value23)
+        {
+            /*Combine FRACE22 and FRACE23 into one field (bfdcpdofr_o_race), separated by pipe delimiter. 
+
+            1. Transfer string verbatim from FRACE22 to MMRIA field.
+            2. Transfer string verbatim from FRACE23 and add to same MMRIA field.
+            3. If both FRACE22 and FRACE23 are empty, leave MMRIA field empty (blank).*/
+            string value = string.Empty;
+
+            if (!(string.IsNullOrWhiteSpace(value22) || string.IsNullOrWhiteSpace(value23)))
+            {
+                value = $"{value22}|{value23}";
+            }
+            else if (!string.IsNullOrWhiteSpace(value22))
+            {
+                value = $"{value22}";
+            }
+            else
+            {
+                value = $"{value23}";
+            }
+
+            return value;
+        }
+
+        private string FET_METHNIC_Rule(string value1, string value2, string value3, string value4)
+        {
+            /*Use values of METHNIC1, METHNIC2, METHNIC3, METHNIC4 to populate MMRIA field bfdcpdom_ioh_origi.
+
+            H --> bfdcpdom_ioh_origi = 1 Yes, Mexican, Mexican American, Chicano
+            H --> bfdcpdom_ioh_origi = 2 Yes, Puerto Rican
+            H --> bfdcpdom_ioh_origi = 3 Yes, Cuban
+            H --> bfdcpdom_ioh_origi = 4 Yes, Other Spanish/Hispanic/Latino
+
+           If METHNIC1 = N and METHNIC2 = N and METHNIC3 = N and METHNIC 4 = N --> bfdcpdom_ioh_origi = 0 No, Not Spanish/Hispanic/Latino
+
+           If METHNIC1 = U and METHNIC2 = U and METHNIC3 = U and METHNIC4 = U --> bfdcpdom_ioh_origi = 7777 Unknown
+
+           If METHNIC1 = (empty) and METHNIC2 = (empty) and METHNIC3 = (empty) and METHNIC4 = (empty) --> bfdcpdom_ioh_origi = 9999 (blank)*/
+
+            string determinedValue;
+
+            if (value1?.ToUpper() == "H")
+            {
+                determinedValue = "1";
+            }
+            else if (value2?.ToUpper() == "H")
+            {
+                determinedValue = "2";
+            }
+            else if (value3?.ToUpper() == "H")
+            {
+                determinedValue = "3";
+            }
+            else if (value4?.ToUpper() == "H")
+            {
+                determinedValue = "4";
+            }
+            else if (value1?.ToUpper() == "N" && value2?.ToUpper() == "N" && value3?.ToUpper() == "N" && value4?.ToUpper() == "N")
+            {
+                determinedValue = "0";
+            }
+            else if (value1?.ToUpper() == "U" && value2?.ToUpper() == "U" && value3?.ToUpper() == "U" && value4?.ToUpper() == "U")
+            {
+                determinedValue = "7777";
+            }
+            else
+            {
+                determinedValue = "9999";
+            }
+
+            return determinedValue;
+        }
 
         #endregion
 
