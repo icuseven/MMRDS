@@ -529,7 +529,8 @@ namespace RecordsProcessor_Worker.Actors
 
             {"PLUR_is_multiple_gestation","birth_certificate_infant_fetal_section/is_multiple_gestation"},
                 {"BWG_unit_of_measurement","birth_certificate_infant_fetal_section/biometrics_and_demographics/birth_weight/unit_of_measurement"},
-
+                {"BWG","birth_certificate_infant_fetal_section/biometrics_and_demographics/birth_weight/grams_or_pounds"},
+                
 
                 {"abnormal_conditions_of_newborn","birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn"},
 
@@ -1260,7 +1261,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MARN"], field_set["MARN"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ACKN"], field_set["ACKN"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MEDUC"], field_set["MEDUC"], new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FEDUC"], field_set["FEDUC"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FEDUC"], FEDUC_Rule(field_set["FEDUC"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["ATTEND"], field_set["ATTEND"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["TRAN"], field_set["TRAN"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPREV"], TryPaseToIntOr_DefaultBlank(field_set["NPREV"]), new_case);
@@ -1323,8 +1324,9 @@ namespace RecordsProcessor_Worker.Actors
                         birth_2_death(gs, new_case, field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]
                             , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
 
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACE"], field_set["BPLACE"], new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACE_was_home_delivery_planned"], field_set["BPLACE"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BSTATE"], field_set["BSTATE"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACE"], BPLACE_place_NAT_Rule(field_set["BPLACE"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACE_was_home_delivery_planned"], BPLACE_plann_NAT_Rule(field_set["BPLACE"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACEC_ST_TER"], field_set["BPLACEC_ST_TER"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BPLACEC_CNT"], field_set["BPLACEC_CNT"], new_case);
 
@@ -1485,6 +1487,8 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FBPLACD_ST_TER_C"], field_set["FBPLACD_ST_TER_C"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FBPLACE_CNT_C"], field_set["FBPLACE_CNT_C"], new_case);
 
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLUR"], PLUR_Custom_NAT_Rule(field_set["PLUR"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PLUR_specify_if_greater_than_3"], PLUR_sigt_NAT_Rule( field_set["PLUR"]), new_case);
 
                     }
                     else if (fet_field_set != null && fet_field_set.Count > 0)
@@ -1644,7 +1648,7 @@ namespace RecordsProcessor_Worker.Actors
 
                     
 
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLUR"], field_set["PLUR"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLUR"], PLUR_Custom_FET_Rule(field_set["PLUR"]), new_case);
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MAGER"], field_set["MAGER"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FAGER"], field_set["FAGER"], new_case);
@@ -1748,6 +1752,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
 
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_"], new List<(int, dynamic)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_unit_of_measurement"], new List<(int, dynamic)>() { (nat_index, BWG_measu_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"], new List<(int, dynamic)>() { (nat_index, PLUR_gesta_NAT_Rule(nat_field_set[nat_index]["PLUR"])) });
 
@@ -1951,19 +1956,8 @@ namespace RecordsProcessor_Worker.Actors
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FSEX"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FSEX"]) });
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TLAB"]) });
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FWG"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PLUR"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ANEN"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ANEN"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["MNSB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["MNSB"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CCHD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CCHD"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CDH"],  new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CDH"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OMPH"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OMPH"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["GAST"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["GAST"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["LIMB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["LIMB"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CL"],   new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CL"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CP"],   new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CP"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DOWT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["DOWT"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["CDIT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["CDIT"]) });
-                    //gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["HYPO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["HYPO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"],  new List<(int, dynamic)>() { (fet_index, PLUR_gesta_FET_Rule(fet_field_set[fet_index]["PLUR"])) });
+
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
 
                         gs.set_objectvalue(FET_IJE_to_MMRIA_Path["congenital_anomalies"],
@@ -3318,7 +3312,7 @@ GNAME 27 50
                 result.Add("APGAR5", APGAR5_Rule(row.Substring(872, 2).Trim()));
                 result.Add("APGAR10", APGAR10_Rule(row.Substring(874, 2).Trim()));
 
-                result.Add("PLUR", PLUR_NAT_Rule(row.Substring(876, 2).Trim()));
+                result.Add("PLUR", (row.Substring(876, 2).Trim()));
 
                 result.Add("SORD", SORD_Rule(row.Substring(878, 2).Trim()));
 
@@ -3620,7 +3614,7 @@ GNAME 27 50
                 result.Add("AINT", AINT_FET_Rule(row.Substring(521, 1).Trim()));
                 result.Add("UOPR", UOPR_FET_Rule(row.Substring(522, 1).Trim()));
                 result.Add("FWG", (row.Substring(523, 4).Trim()));
-                result.Add("PLUR", PLUR_FET_Rule(row.Substring(535, 2).Trim()));
+                result.Add("PLUR", (row.Substring(535, 2).Trim()));
                 result.Add("ANEN", ANEN_FET_Rule(row.Substring(548, 1).Trim()));
                 result.Add("MNSB", MNSB_FET_Rule(row.Substring(549, 1).Trim()));
                 result.Add("CCHD", CCHD_FET_Rule(row.Substring(550, 1).Trim()));
@@ -7240,6 +7234,23 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return value;
         }
 
+        private string BWG_NAT_Rule(string value)
+        {
+            /*If BWG is in 0000-9998, do the following:
+            1. Transfer number verbatim to bcifsbadbw_go_pound.
+            2. Set value for bcifsbadbw_uo_measu to 0 Grams.
+
+            If BWG = 9999, do the following:
+            1. Leave bcifsbadbw_go_pound empty/blank.
+            2. Leave bcifsbadbw_uo_measu as 9999 (blank).
+
+            */
+            if (value == "9999")
+                value = "";
+
+            return value;
+        }
+
         private string BWG_measu_NAT_Rule(string value)
         {
             /*If BWG is in 0000-9998, do the following:
@@ -7259,7 +7270,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return value;
         }
 
-        private string PLUR_NAT_Rule(string value)
+        private string PLUR_Custom_NAT_Rule(string value)
         {
             /*If PLUR = 01, then do the following:
             1. Set bfdcppc_plura = 1 Singleton
@@ -9934,7 +9945,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             return value;
         }
 
-        private string PLUR_FET_Rule(string value)
+        private string PLUR_Custom_FET_Rule(string value)
         {
             /*If PLUR = 01, then do the following:
             1. Set bfdcppc_plura = 1 Singleton
