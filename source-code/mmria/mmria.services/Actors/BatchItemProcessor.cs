@@ -244,7 +244,7 @@ namespace RecordsProcessor_Worker.Actors
 
             {"MRACE","birth_fetal_death_certificate_parent/race/race_of_mother"},
 
-            {"MRACE16_17","/birth_fetal_death_certificate_parent/race/principle_tribe"},
+            {"MRACE16_17","birth_fetal_death_certificate_parent/race/principle_tribe"},
 
             {"MRACE18_19","birth_fetal_death_certificate_parent/race/other_asian"},
 
@@ -303,13 +303,13 @@ namespace RecordsProcessor_Worker.Actors
 
             {"risk_factors_in_this_pregnancy","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
 
-            {"infections_present_or_treated_during_pregnancy","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"infections_present_or_treated_during_pregnancy","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
 
-            {"obstetric_procedures","/birth_fetal_death_certificate_parent/obstetric_procedures"},
+            {"obstetric_procedures","birth_fetal_death_certificate_parent/obstetric_procedures"},
 
             {"onset_of_labor","birth_fetal_death_certificate_parent/onset_of_labor"},
 
-            {"characteristics_of_labor_and_delivery","/birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery"},
+            {"characteristics_of_labor_and_delivery","birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery"},
 
             {"maternal_morbidity","birth_fetal_death_certificate_parent/maternal_morbidity"},
 
@@ -397,7 +397,7 @@ namespace RecordsProcessor_Worker.Actors
 
             {"MRACE","birth_fetal_death_certificate_parent/race/race_of_mother"},
 
-            {"MRACE16_17","/birth_fetal_death_certificate_parent/race/principle_tribe"},
+            {"MRACE16_17","birth_fetal_death_certificate_parent/race/principle_tribe"},
 
             {"MRACE18_19","birth_fetal_death_certificate_parent/race/other_asian"},
 
@@ -438,13 +438,13 @@ namespace RecordsProcessor_Worker.Actors
 
             {"risk_factors_in_this_pregnancy","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
 
-            {"infections_present_or_treated_during_pregnancy","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"infections_present_or_treated_during_pregnancy","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
 
-            //{"obstetric_procedures","/birth_fetal_death_certificate_parent/obstetric_procedures"},
+            //{"obstetric_procedures","birth_fetal_death_certificate_parent/obstetric_procedures"},
 
             //{"onset_of_labor","birth_fetal_death_certificate_parent/onset_of_labor"},
 
-            //{"characteristics_of_labor_and_delivery","/birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery"},
+            //{"characteristics_of_labor_and_delivery","birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery"},
 
             {"maternal_morbidity","birth_fetal_death_certificate_parent/maternal_morbidity"},
 
@@ -457,16 +457,16 @@ namespace RecordsProcessor_Worker.Actors
 //{"INFT","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
 //{"PCES","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
 
-//{"GON","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"SYPH","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"HSV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"CHAM","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"LM","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"GBS","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"CMV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"B19","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"TOXO","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-//{"OTHERI","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"GON","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"SYPH","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"HSV","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"CHAM","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"LM","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"GBS","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"CMV","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"B19","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"TOXO","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+//{"OTHERI","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
 
 //{"MTR","birth_fetal_death_certificate_parent/maternal_morbidity"},
 //{"PLAC","birth_fetal_death_certificate_parent/maternal_morbidity"},
@@ -484,8 +484,8 @@ namespace RecordsProcessor_Worker.Actors
             //{"EHYPE","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
             //{"INFT_DRG","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
             //{"INFT_ART","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
-            {"HSV1","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
-            {"HIV","/birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"HSV1","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
+            {"HIV","birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy"},
             {"FBPLACD_ST_TER_C","birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth"},
             {"FBPLACE_CNT_C","birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth"},
 
@@ -7300,12 +7300,15 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "1";
                     break;
                 case "02":
+                case "2":
                     value = "2";
                     break;
                 case "03":
+                case "3":
                     value = "3";
                     break;
                 case "04":
@@ -7314,6 +7317,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
@@ -7356,12 +7365,15 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "";
                     break;
                 case "02":
+                case "2":
                     value = "";
                     break;
                 case "03":
+                case "3":
                     value = "";
                     break;
                 case "04":
@@ -7370,6 +7382,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
@@ -7412,12 +7430,15 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "0";
                     break;
                 case "02":
+                case "2":
                     value = "1";
                     break;
                 case "03":
+                case "3":
                     value = "1";
                     break;
                 case "04":
@@ -7426,6 +7447,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
@@ -9975,12 +10002,15 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "1";
                     break;
                 case "02":
+                case "2":
                     value = "2";
                     break;
                 case "03":
+                case "3":
                     value = "3";
                     break;
                 case "04":
@@ -9989,6 +10019,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
@@ -10031,12 +10067,15 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "";
                     break;
                 case "02":
+                case "2":
                     value = "";
                     break;
                 case "03":
+                case "3":
                     value = "";
                     break;
                 case "04":
@@ -10045,6 +10084,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
@@ -10087,12 +10132,15 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             switch (value)
             {
                 case "01":
+                case "1":
                     value = "0";
                     break;
                 case "02":
+                case "2":
                     value = "1";
                     break;
                 case "03":
+                case "3":
                     value = "1";
                     break;
                 case "04":
@@ -10101,6 +10149,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 case "07":
                 case "08":
                 case "09":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
                 case "10":
                 case "11":
                 case "12":
