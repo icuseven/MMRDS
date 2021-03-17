@@ -1752,7 +1752,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
 
-                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_"], new List<(int, dynamic)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG"], new List<(int, dynamic)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_unit_of_measurement"], new List<(int, dynamic)>() { (nat_index, BWG_measu_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"], new List<(int, dynamic)>() { (nat_index, PLUR_gesta_NAT_Rule(nat_field_set[nat_index]["PLUR"])) });
 
