@@ -9,7 +9,6 @@ namespace RecordsProcessor_Worker.Actors
 {
     public class BatchItemProcessor : ReceiveActor
     {
-        static int CurrentCount = 0;
         Dictionary<string, mmria.common.metadata.value_node[]> lookup;
         static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -673,7 +672,7 @@ namespace RecordsProcessor_Worker.Actors
         private string config_couchdb_url = null;
         private string db_prefix = "";
 
-        private int my_count = -1;
+        
         static HashSet<string> ExistingRecordIds = null;
 
         mmria.common.couchdb.DBConfigurationDetail item_db_info;
@@ -697,11 +696,7 @@ namespace RecordsProcessor_Worker.Actors
         public BatchItemProcessor()
         {
             Receive<mmria.common.ije.StartBatchItemMessage>(message =>
-            {
-                my_count = CurrentCount;
-
-                CurrentCount++;
-                
+            {    
                 Console.WriteLine("Message Recieved");
                 //Console.WriteLine(JsonConvert.SerializeObject(message));
                 Sender.Tell("Message Recieved");
@@ -910,6 +905,7 @@ namespace RecordsProcessor_Worker.Actors
                 {
                     Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
                     CDCUniqueID = mor_field_set["SSN"].Trim(),
+                    mmria_record_id = message.record_id,
                     ImportDate = message.ImportDate,
                     ImportFileName = message.ImportFileName,
                     ReportingState = message.host_state,
@@ -949,20 +945,7 @@ namespace RecordsProcessor_Worker.Actors
 
                 gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
 
-
-                if(ExistingRecordIds == null)
-                {
-                    ExistingRecordIds = GetExistingRecordIds();
-                }
-
-                do
-                {
-                    record_id = $"{message.host_state.ToUpper()}-{mor_field_set["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
-                }
-                while (ExistingRecordIds.Contains(record_id));
-                ExistingRecordIds.Add(record_id);
-                
-                gs.set_value("home_record/record_id", record_id, new_case);
+                gs.set_value("home_record/record_id", message.record_id, new_case);
 
                 //  Vital Report Start
                 var hr_cdc_match_det_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_det_match", metadata);
@@ -2050,7 +2033,7 @@ namespace RecordsProcessor_Worker.Actors
                     LastName = mor_field_set["LNAME"],
                     FirstName = mor_field_set["GNAME"],
                     
-                    mmria_record_id = record_id,
+                    mmria_record_id = message.record_id,
                     mmria_id = mmria_id,
                     StatusDetail = "Added new case"
                 };
@@ -2087,7 +2070,7 @@ namespace RecordsProcessor_Worker.Actors
                         DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
                         LastName = mor_field_set["LNAME"],
                         FirstName = mor_field_set["GNAME"],
-                        mmria_record_id = record_id,
+                        mmria_record_id = message.record_id,
                         mmria_id = mmria_id,
                         StatusDetail = "Error\n" + ex.ToString()
                     };
@@ -10914,40 +10897,8 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             return result;
         }
 
-        public HashSet<string> GetExistingRecordIds()
-        {
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 
-            try
-            {
-                string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
 
-                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
-                string responseFromServer = case_view_curl.execute();
-
-                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
-
-                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
-                {
-                    result.Add(cvi.value.record_id);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-
-            return result;
-        }
-
-        private int GenerateRandomFourDigits()
-        {
-            int _min = 1000;
-            int _max = 9999;
-            Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
-            return _rdm.Next(_min, _max);
-        }
     }
 }
