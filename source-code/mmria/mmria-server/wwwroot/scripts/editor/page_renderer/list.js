@@ -1458,6 +1458,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
                 other_specify_value.trim().length > 0
             )
             {
+
                 $mmria.confirm_dialog_show
                 (
                     "Confirm Selection", 
@@ -1614,12 +1615,31 @@ function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictio
 
 function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_other_specify_dictionary_path, p_data)
 {
+
     eval(p_other_specify_object_path + " = '';");
     
     $mmria.set_control_value(p_other_specify_dictionary_path, "");
     $mmria.set_control_visibility(convert_object_path_to_jquery_id(p_other_specify_object_path), "none");
     $mmria.confirm_dialog_confirm_close();
     g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+
+    let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    let click_code = [];
+
+    if(path_to_onclick_map[p_metadata_path])
+    {
+        page_render_create_event(click_code, "onclick", "", p_metadata_path, p_object_path, p_dictionary_path);
+    }
+
+    let index_of_function = 3;
+    let onclick_function = "";
+    if(click_code.length > index_of_function)
+    {
+        onclick_function = click_code[index_of_function];
+        window.setTimeout(function() {eval(onclick_function);});
+    }
+
+    
     
         
 }

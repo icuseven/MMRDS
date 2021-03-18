@@ -10,6 +10,8 @@ namespace mmria.common.ije
         public string host_state { get; init; }
         public string mor { get; init; }
 
+        public string record_id { get; init; }
+
 
         public DateTime ImportDate { get; init; }
         public string ImportFileName { get; init; }

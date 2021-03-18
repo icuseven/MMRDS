@@ -7,11 +7,6 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         "/birth_certificate_infant_fetal_section/vitals_import_group":true
     };
 
-    if(g_data.created_by != "vitals-import" && vital_group_set[p_dictionary_path])
-    {
-        hidden_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx);
-        return;
-    }
 
     p_result.push("<fieldset id='");
     p_result.push(p_metadata.name);
@@ -24,6 +19,14 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     {
         p_result.push(get_only_size_and_position_string(style_object.control.style));
     }
+
+    if(g_data.created_by != "vitals-import" && vital_group_set[p_dictionary_path])
+    {
+        p_result.push(";display:none;");
+        return;
+    }
+
+
 
     p_result.push("' >"); // close opening div
     p_result.push("<legend style='");

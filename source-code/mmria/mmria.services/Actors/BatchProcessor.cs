@@ -38,6 +38,7 @@ function validate_length(p_array, p_max_length)
     public class BatchProcessor : ReceiveActor
     {
         string _id;
+        private int my_count = -1;
         const int mor_max_length = 5001;
         const int nat_max_length = 4001;
         const int fet_max_length = 6001;
@@ -137,11 +138,23 @@ function validate_length(p_array, p_max_length)
             var duplicate_count = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
             var duplicate_is_found = false;
 
+
+
+
+            HashSet<string> ExistingRecordIds = null;
+            if(ExistingRecordIds == null)
+            {
+                ExistingRecordIds = GetExistingRecordIds();
+            }
+
             foreach(var row in mor_set)
             {
                 if(row.Length == mor_max_length)
                 {
-                    var batch_item = Convert(row, ImportDate, message.mor_file_name, ReportingState);
+                    var batch_item = Convert(row, ImportDate, message.mor_file_name, ReportingState, ExistingRecordIds);
+
+                    string record_id;
+
                     if(batch_item_set.ContainsKey(batch_item.CDCUniqueID))
                     {
                         duplicate_is_found = true;
@@ -174,12 +187,12 @@ function validate_length(p_array, p_max_length)
                 foreach(var kvp in batch_item_set)
                 {
                     var batch_tuple = kvp.Value;
-                    
                     try
                     {
                         var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
                         {
                             cdc_unique_id = batch_tuple.Item2.CDCUniqueID,
+                            record_id = batch_tuple.Item2.mmria_record_id,
                             ImportDate = ImportDate,
                             ImportFileName = message.mor_file_name,
                             host_state = ReportingState,
@@ -470,7 +483,8 @@ function validate_length(p_array, p_max_length)
                 string LineItem, 
                 DateTime ImportDate,
                 string ImportFileName,
-                string ReportingState
+                string ReportingState,
+                HashSet<string> ExistingRecordIds
         )
         {
             /*
@@ -488,10 +502,21 @@ function validate_length(p_array, p_max_length)
                 */
 
             var x = mor_get_header(LineItem);
+
+            string record_id = null;
+
+            do
+            {
+                record_id = $"{ReportingState.ToUpper()}-{x["DOD_YR"]}-{GenerateRandomFourDigits().ToString()}";
+            }
+            while (ExistingRecordIds.Contains(record_id));
+            ExistingRecordIds.Add(record_id);
+
             var result = new mmria.common.ije.BatchItem()
             {
                 Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
                 CDCUniqueID = x["SSN"]?.Trim(),
+                mmria_record_id = record_id,
                 ImportDate = ImportDate,
                 ImportFileName = ImportFileName,
                 ReportingState = ReportingState,
@@ -677,6 +702,44 @@ GNAME 27 50
 
 			return null;
 		} 
+
+        public HashSet<string> GetExistingRecordIds()
+        {
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+            try
+            {
+                string request_string = $"{item_db_info.url}/{item_db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, item_db_info.user_name, item_db_info.user_value);
+                string responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    result.Add(cvi.value.record_id);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            return result;
+        }
+
+        private int GenerateRandomFourDigits()
+        {
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
+            my_count ++;
+            return _rdm.Next(_min, _max);
+            
+        }
 
 
    
