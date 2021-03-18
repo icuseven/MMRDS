@@ -287,19 +287,22 @@ namespace RecordsProcessor_Worker.Actors
 
             {"CIGPN","birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months"},
             {"CIGPN_prior_3_months_type","birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months_type"},
-            {"CIGPN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+            //{"CIGPN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
 
             {"CIGFN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st"},
             {"CIGFN_trimester_1st_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st_type"},
-            {"CIGFN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+            //{"CIGFN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
 
             {"CIGSN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd"},
             {"CIGSN_trimester_2nd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd_type"},
-            {"CIGSN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+            //{"CIGSN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
 
             {"CIGLN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd"},
             {"CIGLN_trimester_3rd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd_type"},
-            {"CIGLN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+            //{"CIGLN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+            {"CIG_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
 
             {"risk_factors_in_this_pregnancy","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
 
@@ -1389,10 +1392,10 @@ namespace RecordsProcessor_Worker.Actors
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_MO"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_DY"]), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"], "9999"), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"]), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"], "9999"), new_case);
 
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIGPN"], CIGPN_NAT_Rule(field_set["CIGPN"]), new_case);
@@ -1406,6 +1409,14 @@ namespace RecordsProcessor_Worker.Actors
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIGLN"], CIGLN_NAT_Rule(field_set["CIGLN"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIGLN_trimester_3rd_type"], CIGLN_Type_NAT_Rule(field_set["CIGLN"]), new_case);
+
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIG_none_or_not_specified"], 
+                            CIG_none_or_not_specified_NAT_Rule(
+                                field_set["CIGLN"],
+                                field_set["CIGFN"],
+                                field_set["CIGSN"],
+                                field_set["CIGLN"]
+                                ), new_case);
 
 
                         gs.set_multi_value(Parent_NAT_IJE_to_MMRIA_Path["risk_factors_in_this_pregnancy"],
@@ -1638,10 +1649,10 @@ namespace RecordsProcessor_Worker.Actors
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_MO"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_DY"]), new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"], "9999"), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"]), new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"], "9999"), new_case);
 
                        
                        
@@ -1755,17 +1766,27 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG"], new List<(int, dynamic)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_unit_of_measurement"], new List<(int, dynamic)>() { (nat_index, BWG_measu_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"], new List<(int, dynamic)>() { (nat_index, PLUR_gesta_NAT_Rule(nat_field_set[nat_index]["PLUR"])) });
-
-                        gs.set_objectvalue(NAT_IJE_to_MMRIA_Path["abnormal_conditions_of_newborn"],
-                            NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
+                        
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["abnormal_conditions_of_newborn"]
+                            , new List<(int, dynamic)>() { (nat_index, NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
                             , nat_field_set[nat_index]["AVEN6"]
                             , nat_field_set[nat_index]["NICU"]
                             , nat_field_set[nat_index]["SURF"]
                             , nat_field_set[nat_index]["ANTI"]
                             , nat_field_set[nat_index]["SEIZ"]
                             , nat_field_set[nat_index]["BINJ"]
-                            ),
-                            new_case, nat_index);
+                            )) });
+
+                        //gs.set_objectvalue(NAT_IJE_to_MMRIA_Path["abnormal_conditions_of_newborn"],
+                        //    NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
+                        //    , nat_field_set[nat_index]["AVEN6"]
+                        //    , nat_field_set[nat_index]["NICU"]
+                        //    , nat_field_set[nat_index]["SURF"]
+                        //    , nat_field_set[nat_index]["ANTI"]
+                        //    , nat_field_set[nat_index]["SEIZ"]
+                        //    , nat_field_set[nat_index]["BINJ"]
+                        //    ),
+                        //    new_case, nat_index);
 
 
                         gs.set_objectvalue(NAT_IJE_to_MMRIA_Path["congenital_anomalies"],
@@ -1960,8 +1981,8 @@ namespace RecordsProcessor_Worker.Actors
 
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
 
-                        gs.set_objectvalue(FET_IJE_to_MMRIA_Path["congenital_anomalies"],
-                           FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["congenital_anomalies"]
+                        , new List<(int, dynamic)>() { (fet_index,  FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
                             , fet_field_set[fet_index]["MNSB"]
                             , fet_field_set[fet_index]["CCHD"]
                             , fet_field_set[fet_index]["CDH"]
@@ -1973,8 +1994,23 @@ namespace RecordsProcessor_Worker.Actors
                             , fet_field_set[fet_index]["DOWT"]
                             , fet_field_set[fet_index]["CDIT"]
                             , fet_field_set[fet_index]["HYPO"]
-                           ),
-                           new_case, fet_index);
+                           )) });
+
+                        //gs.set_objectvalue(FET_IJE_to_MMRIA_Path["congenital_anomalies"],
+                        //   FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
+                        //    , fet_field_set[fet_index]["MNSB"]
+                        //    , fet_field_set[fet_index]["CCHD"]
+                        //    , fet_field_set[fet_index]["CDH"]
+                        //    , fet_field_set[fet_index]["OMPH"]
+                        //    , fet_field_set[fet_index]["GAST"]
+                        //    , fet_field_set[fet_index]["LIMB"]
+                        //    , fet_field_set[fet_index]["CL"]
+                        //    , fet_field_set[fet_index]["CP"]
+                        //    , fet_field_set[fet_index]["DOWT"]
+                        //    , fet_field_set[fet_index]["CDIT"]
+                        //    , fet_field_set[fet_index]["HYPO"]
+                        //   ),
+                        //   new_case, fet_index);
 
                         string_builder.Clear();
                         string_builder.AppendLine($"Initiating cause/condition:");
@@ -2123,7 +2159,7 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
-       
+        
 
         private string TryPaseToIntOr_DefaultBlank(string value, string defaultString = "99")
         {
@@ -3251,10 +3287,10 @@ GNAME 27 50
                 result.Add("MOPO", MOPO_Rule(row.Substring(796, 2).Trim()));
                 result.Add("YOPO", YOPO_Rule(row.Substring(798, 4).Trim()));
 
-                result.Add("CIGPN", CIGPN_NAT_Rule(row.Substring(802, 2).Trim()));
-                result.Add("CIGFN", CIGFN_NAT_Rule(row.Substring(804, 2).Trim()));
-                result.Add("CIGSN", CIGSN_NAT_Rule(row.Substring(806, 2).Trim()));
-                result.Add("CIGLN", CIGLN_NAT_Rule(row.Substring(808, 2).Trim()));
+                result.Add("CIGPN", (row.Substring(802, 2).Trim()));
+                result.Add("CIGFN", (row.Substring(804, 2).Trim()));
+                result.Add("CIGSN", (row.Substring(806, 2).Trim()));
+                result.Add("CIGLN", (row.Substring(808, 2).Trim()));
 
                 result.Add("PAY", PAY_Rule(row.Substring(810, 1).Trim()));
                 result.Add("DLMP_YR", DLMP_YR_Rule(row.Substring(811, 4).Trim()));
@@ -6660,6 +6696,23 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return value;
         }
 
+        private string CIG_none_or_not_specified_NAT_Rule(string value1, string value2, string value3, string value4)
+        {
+            /*
+            Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
+            1. If CIGPN = 99 and CIGFN = 99 and CIGSN = 99 and CIGLN = 99, then bfdcpcs_non_speci = 7777 Unknown.
+            2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
+            3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
+            string determinedValue = "9999";
+
+            if (value1 == "99" && value2 == "99" && value3 == "99" && value4 == "99")
+                determinedValue = "7777";
+            else if (value1 == "00" && value2 == "00" && value3 == "00" && value4 == "00")
+                determinedValue = "0";
+
+            return determinedValue;
+        }
+
         private string PDIAB_NAT_Rule(string value)
         {
             /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
@@ -7774,7 +7827,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             If value = 99, leave the MMRIA value empty/blank*/
             if (value == "99")
-                value = "=";
+                value = "";
 
             return value;
         }
