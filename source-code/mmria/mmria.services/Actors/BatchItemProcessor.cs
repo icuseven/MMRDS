@@ -1760,19 +1760,8 @@ namespace RecordsProcessor_Worker.Actors
                             , nat_field_set[nat_index]["BINJ"]
                             )) });
 
-                        //gs.set_objectvalue(NAT_IJE_to_MMRIA_Path["abnormal_conditions_of_newborn"],
-                        //    NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
-                        //    , nat_field_set[nat_index]["AVEN6"]
-                        //    , nat_field_set[nat_index]["NICU"]
-                        //    , nat_field_set[nat_index]["SURF"]
-                        //    , nat_field_set[nat_index]["ANTI"]
-                        //    , nat_field_set[nat_index]["SEIZ"]
-                        //    , nat_field_set[nat_index]["BINJ"]
-                        //    ),
-                        //    new_case, nat_index);
-
-
-                        gs.set_objectvalue(NAT_IJE_to_MMRIA_Path["congenital_anomalies"],
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["congenital_anomalies"],
+                            new List<(int, dynamic)>() { (nat_index,
                             NAT_congenital_Rule(nat_field_set[nat_index]["ANEN"]
                              , nat_field_set[nat_index]["MNSB"]
                              , nat_field_set[nat_index]["CCHD"]
@@ -1785,8 +1774,8 @@ namespace RecordsProcessor_Worker.Actors
                              , nat_field_set[nat_index]["DOWT"]
                              , nat_field_set[nat_index]["CDIT"]
                              , nat_field_set[nat_index]["HYPO"]
-                            ),
-                            new_case, nat_index);
+                            )
+                            ) });
 
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TLAB"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["RECORD_TYPE"]) });
@@ -1959,8 +1948,9 @@ namespace RecordsProcessor_Worker.Actors
 
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FSEX"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FSEX"]) });
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TLAB"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FWG"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"],  new List<(int, dynamic)>() { (fet_index, PLUR_gesta_FET_Rule(fet_field_set[fet_index]["PLUR"])) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, dynamic)>() { (fet_index, FWG_pound_FET_Rule(fet_field_set[fet_index]["FWG"])) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG_unit_of_measurement"],  new List<(int, dynamic)>() { (fet_index, FWG_measure_FET_Rule(fet_field_set[fet_index]["FWG"])) });
+                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"],  new List<(int, dynamic)>() { (fet_index, PLUR_gesta_FET_Rule(fet_field_set[fet_index]["PLUR"])) });
 
                     gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
 
@@ -1979,21 +1969,6 @@ namespace RecordsProcessor_Worker.Actors
                             , fet_field_set[fet_index]["HYPO"]
                            )) });
 
-                        //gs.set_objectvalue(FET_IJE_to_MMRIA_Path["congenital_anomalies"],
-                        //   FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
-                        //    , fet_field_set[fet_index]["MNSB"]
-                        //    , fet_field_set[fet_index]["CCHD"]
-                        //    , fet_field_set[fet_index]["CDH"]
-                        //    , fet_field_set[fet_index]["OMPH"]
-                        //    , fet_field_set[fet_index]["GAST"]
-                        //    , fet_field_set[fet_index]["LIMB"]
-                        //    , fet_field_set[fet_index]["CL"]
-                        //    , fet_field_set[fet_index]["CP"]
-                        //    , fet_field_set[fet_index]["DOWT"]
-                        //    , fet_field_set[fet_index]["CDIT"]
-                        //    , fet_field_set[fet_index]["HYPO"]
-                        //   ),
-                        //   new_case, fet_index);
 
                         string_builder.Clear();
                         string_builder.AppendLine($"Initiating cause/condition:");
@@ -8907,11 +8882,11 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             */
             switch (value?.ToUpper())
             {
-                case "Y":
-                    value = "1";
-                    break;
-                case "N":
+                case "M":
                     value = "0";
+                    break;
+                case "F":
+                    value = "1";
                     break;
                 case "U":
                     value = "7777";
