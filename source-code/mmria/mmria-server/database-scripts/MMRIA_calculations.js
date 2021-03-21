@@ -3298,7 +3298,7 @@ function medical_transport_destination_information_address_calculated_distance(p
     let hos_lon = parseFloat(this.longitude);
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
-        this.estimated_death_distance_from_residence = dist;
+        this.estimated_death_distance = dist;
         $mmria.save_current_record();
         $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_death_distance_from_residence);
     }
@@ -3311,7 +3311,7 @@ event=onclick
 */
 function medical_transport_destination_information_address_clear_distance(p_control) 
 {
-    this.estimated_death_distance_from_residence = '';
+    this.estimated_death_distance = '';
     $mmria.save_current_record();
     $mmria.set_control_value('medical_transport/destination_information/address/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
 
