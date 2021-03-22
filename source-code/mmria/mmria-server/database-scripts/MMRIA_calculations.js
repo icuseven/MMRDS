@@ -1378,7 +1378,7 @@ function geocode_dc_last_res(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1517,7 +1517,7 @@ function geocode_dc_injury_place(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1656,7 +1656,7 @@ function geocode_dc_death_place(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1795,7 +1795,7 @@ function geocode_bc_delivery_place(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1934,7 +1934,7 @@ function geocode_bc_residence(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2073,7 +2073,7 @@ function geocode_pc_primary_care_location(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2213,7 +2213,7 @@ function geocode_erh_location(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2353,7 +2353,7 @@ function geocode_omov_location(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2992,7 +2992,7 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -3174,7 +3174,7 @@ function medical_transport_destination_information_address_get_coordinates(p_con
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
             }
 
             g_data.medical_transport[current_mt_index].destination_information.address.urban_status = urban_status;
@@ -3298,7 +3298,7 @@ function medical_transport_destination_information_address_calculated_distance(p
     let hos_lon = parseFloat(this.longitude);
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
-        this.estimated_death_distance_from_residence = dist;
+        this.estimated_death_distance = dist;
         $mmria.save_current_record();
         $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_death_distance_from_residence);
     }
@@ -3311,7 +3311,7 @@ event=onclick
 */
 function medical_transport_destination_information_address_clear_distance(p_control) 
 {
-    this.estimated_death_distance_from_residence = '';
+    this.estimated_death_distance = '';
     $mmria.save_current_record();
     $mmria.set_control_value('medical_transport/destination_information/address/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
 

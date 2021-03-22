@@ -453,6 +453,11 @@ namespace mmria.server.util
 												row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp2);
 											}*/
                     }
+                    else
+                    {
+                        string file_field_name = path_to_field_name_map[path];
+                        row[file_field_name] = "(blank)";
+                    }
                   }
                   else
                   {
@@ -491,6 +496,11 @@ namespace mmria.server.util
 														row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp2);
 													}*/
                         }
+                        else
+                        {
+                            row[file_field_name] = "(blank)";
+                        }
+
                       }
                       else
                       {
@@ -725,6 +735,10 @@ namespace mmria.server.util
                                   grid_row[file_field_name] = string.Join("|", temp2);
 
                                 }
+                                else
+                                {
+                                    grid_row[file_field_name] = "(blank)";
+                                }
                               }
                               else
                               {
@@ -755,6 +769,10 @@ namespace mmria.server.util
 
                                       grid_row[file_field_name] = string.Join("|", temp2);
 
+                                    }
+                                    else
+                                    {
+                                        grid_row[file_field_name] = "(blank)";
                                     }
                                   }
                                   else
@@ -1037,6 +1055,11 @@ namespace mmria.server.util
                           string file_field_name = path_to_field_name_map[path];
                           form_row[file_field_name] = string.Join("|", temp2);
 
+                        }
+                        else
+                        {
+                            string file_field_name = path_to_field_name_map[path];
+                            form_row[file_field_name] = "(blank)";
                         }
                       }
                       else
@@ -1790,6 +1813,10 @@ namespace mmria.server.util
 
                                 grid_row[file_field_name] = string.Join("|", temp2);
 
+                              }
+                              else
+                              {
+                                  grid_row[file_field_name] = "(blank)";
                               }
                             }
                             else

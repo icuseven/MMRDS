@@ -49,7 +49,7 @@ namespace mmria.server
 
 
 				var user_curl = new cURL("GET", null, url, null, config.user_name, config.user_value);
-				user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+				//user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
 

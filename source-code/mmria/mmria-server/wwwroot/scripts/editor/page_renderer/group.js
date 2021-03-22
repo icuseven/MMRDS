@@ -23,7 +23,6 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     if(g_data.created_by != "vitals-import" && vital_group_set[p_dictionary_path])
     {
         p_result.push(";display:none;");
-        return;
     }
 
 

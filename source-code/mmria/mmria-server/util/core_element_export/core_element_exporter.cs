@@ -431,6 +431,10 @@ namespace mmria.server.util
 
                     row[field_name] = string.Join("|", temp2);
                   }
+                  else
+                  {
+                      row[field_name] = "(blank)";
+                  }
                 }
                 else
                 {
@@ -476,6 +480,10 @@ namespace mmria.server.util
                       {
                         row[$"{field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp);
                       }*/
+                    }
+                    else
+                    {
+                        row[field_name] = "(blank)";
                     }
                   }
                   else
