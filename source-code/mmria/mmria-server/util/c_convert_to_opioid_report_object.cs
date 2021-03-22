@@ -3008,6 +3008,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 
             var object_list = dynamic_val as IList<object>;
 
+            if(object_list!= null)
             foreach(var object_val in object_list)
             {
                 string val_1 = null;
