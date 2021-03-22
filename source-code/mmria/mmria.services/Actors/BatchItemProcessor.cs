@@ -8963,7 +8963,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             If value = 99, leave the MMRIA value empty/blank.*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
