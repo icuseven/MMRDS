@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Akka.Actor;
+using System.Globalization;
 
 namespace RecordsProcessor_Worker.Actors
 {
@@ -202,7 +203,7 @@ namespace RecordsProcessor_Worker.Actors
             {"YLLB","birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year"},
             {"MOPO","birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/month"},
             {"YOPO","birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/year"},
-            {"PAY","birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery "},
+            {"PAY","birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery"},
             {"DLMP_YR","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/year"},
             {"DLMP_MO","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/month"},
             {"DLMP_DY","birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/day"},
@@ -1319,7 +1320,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["METHNIC"], NAT_METHNIC_Rule(field_set["METHNIC1"], field_set["METHNIC2"], field_set["METHNIC3"], field_set["METHNIC4"]), new_case);
 
 
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE"], MRACE_NAT_Rule(field_set["MRACE1"],
+                        gs.set_multi_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE"], MRACE_NAT_Rule(field_set["MRACE1"],
                             field_set["MRACE2"],
                             field_set["MRACE3"],
                             field_set["MRACE4"],
@@ -1336,7 +1337,21 @@ namespace RecordsProcessor_Worker.Actors
                             field_set["MRACE15"])
                             , new_case);
 
-
+                        omb_mrace_recode(gs, new_case, MRACE_NAT_Rule(field_set["MRACE1"],
+                            field_set["MRACE2"],
+                            field_set["MRACE3"],
+                            field_set["MRACE4"],
+                            field_set["MRACE5"],
+                            field_set["MRACE6"],
+                            field_set["MRACE7"],
+                            field_set["MRACE8"],
+                            field_set["MRACE9"],
+                            field_set["MRACE10"],
+                            field_set["MRACE11"],
+                            field_set["MRACE12"],
+                            field_set["MRACE13"],
+                            field_set["MRACE14"],
+                            field_set["MRACE15"]));
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_NAT_Rule(field_set["MRACE16"], field_set["MRACE16"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE18_19"], MRACE18_19_NAT_Rule(field_set["MRACE18"], field_set["MRACE19"]), new_case);
@@ -1350,7 +1365,7 @@ namespace RecordsProcessor_Worker.Actors
                             , field_set["FETHNIC4"])
                             , new_case);
 
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FRACE"], FRACE_NAT_Rule(field_set["FRACE1"],
+                        gs.set_multi_value(Parent_NAT_IJE_to_MMRIA_Path["FRACE"], FRACE_NAT_Rule(field_set["FRACE1"],
                             field_set["FRACE2"],
                             field_set["FRACE3"],
                             field_set["FRACE4"],
@@ -1366,6 +1381,22 @@ namespace RecordsProcessor_Worker.Actors
                             field_set["FRACE14"],
                             field_set["FRACE15"])
                             , new_case);
+
+                        omb_frace_recode(gs, new_case, FRACE_NAT_Rule(field_set["FRACE1"],
+                            field_set["FRACE2"],
+                            field_set["FRACE3"],
+                            field_set["FRACE4"],
+                            field_set["FRACE5"],
+                            field_set["FRACE6"],
+                            field_set["FRACE7"],
+                            field_set["FRACE8"],
+                            field_set["FRACE9"],
+                            field_set["FRACE10"],
+                            field_set["FRACE11"],
+                            field_set["FRACE12"],
+                            field_set["FRACE13"],
+                            field_set["FRACE14"],
+                            field_set["FRACE15"]));
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FRACE16_17"], FRACE16_17_NAT_Rule(field_set["FRACE16"], field_set["FRACE16"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FRACE18_19"], FRACE18_19_NAT_Rule(field_set["FRACE18"], field_set["FRACE19"]), new_case);
@@ -1576,7 +1607,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["METHNIC"], FET_METHNIC_Rule(field_set["METHNIC1"], field_set["METHNIC2"], field_set["METHNIC3"], field_set["METHNIC4"]), new_case);
 
 
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE"], MRACE_NAT_Rule(field_set["MRACE1"],
+                        gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["MRACE"], MRACE_NAT_Rule(field_set["MRACE1"],
                             field_set["MRACE2"],
                             field_set["MRACE3"],
                             field_set["MRACE4"],
@@ -1593,7 +1624,21 @@ namespace RecordsProcessor_Worker.Actors
                             field_set["MRACE15"])
                             , new_case);
 
-
+                        omb_mrace_recode(gs, new_case, MRACE_NAT_Rule(field_set["MRACE1"],
+                            field_set["MRACE2"],
+                            field_set["MRACE3"],
+                            field_set["MRACE4"],
+                            field_set["MRACE5"],
+                            field_set["MRACE6"],
+                            field_set["MRACE7"],
+                            field_set["MRACE8"],
+                            field_set["MRACE9"],
+                            field_set["MRACE10"],
+                            field_set["MRACE11"],
+                            field_set["MRACE12"],
+                            field_set["MRACE13"],
+                            field_set["MRACE14"],
+                            field_set["MRACE15"]));
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_FET_Rule(field_set["MRACE16"], field_set["MRACE16"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE18_19"], MRACE18_19_FET_Rule(field_set["MRACE18"], field_set["MRACE19"]), new_case);
@@ -1607,7 +1652,7 @@ namespace RecordsProcessor_Worker.Actors
                             , field_set["FETHNIC4"])
                             , new_case);
 
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE"], FRACE_FET_Rule(field_set["FRACE1"],
+                        gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["FRACE"], FRACE_FET_Rule(field_set["FRACE1"],
                             field_set["FRACE2"],
                             field_set["FRACE3"],
                             field_set["FRACE4"],
@@ -1623,6 +1668,22 @@ namespace RecordsProcessor_Worker.Actors
                             field_set["FRACE14"],
                             field_set["FRACE15"])
                             , new_case);
+
+                        omb_frace_recode(gs, new_case, FRACE_FET_Rule(field_set["FRACE1"],
+                            field_set["FRACE2"],
+                            field_set["FRACE3"],
+                            field_set["FRACE4"],
+                            field_set["FRACE5"],
+                            field_set["FRACE6"],
+                            field_set["FRACE7"],
+                            field_set["FRACE8"],
+                            field_set["FRACE9"],
+                            field_set["FRACE10"],
+                            field_set["FRACE11"],
+                            field_set["FRACE12"],
+                            field_set["FRACE13"],
+                            field_set["FRACE14"],
+                            field_set["FRACE15"]));
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE16_17"], FRACE16_17_FET_Rule(field_set["FRACE16"], field_set["FRACE16"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FRACE18_19"], FRACE18_19_FET_Rule(field_set["FRACE18"], field_set["FRACE19"]), new_case);
@@ -2117,7 +2178,19 @@ namespace RecordsProcessor_Worker.Actors
 
         }
 
-        
+        private void omb_mrace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
+        {
+            string race_recode = null;
+            race_recode = calculate_omb_recode(race);
+            gs.set_value("birth_fetal_death_certificate_parent/race/omb_race_recode", race_recode, new_case);
+        }
+
+        private void omb_frace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
+        {
+            string race_recode = null;
+            race_recode = calculate_omb_recode(race);
+            gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode", race_recode, new_case);
+        }
 
         private string TryPaseToIntOr_DefaultBlank(string value, string defaultString = "99")
         {
@@ -3135,7 +3208,7 @@ GNAME 27 50
 
                 result.Add("FILENO", row.Substring(6, 6).Trim());
                 result.Add("AUXNO", row.Substring(13, 12).Trim());
-                result.Add("TB", row.Substring(25, 4).Trim());
+                result.Add("TB", TB_NAT_Rule(row.Substring(25, 4).Trim()));
 
 
                 result.Add("IDOB_MO", row.Substring(30, 2).Trim());
@@ -3433,7 +3506,7 @@ GNAME 27 50
                 result.Add("FDOD_YR", row.Substring(0, 4).Trim());
                 result.Add("FILENO", row.Substring(6, 6).Trim());
                 result.Add("AUXNO", row.Substring(13, 12).Trim());
-                result.Add("TD", row.Substring(25, 4).Trim());
+                result.Add("TD", TD_FET_Rule(row.Substring(25, 4).Trim()));
                 result.Add("FDOD_MO", row.Substring(30, 2).Trim());
                 result.Add("FDOD_DY", row.Substring(32, 2).Trim());
                 result.Add("FNPI", row.Substring(38, 12).Trim());
@@ -3668,6 +3741,60 @@ GNAME 27 50
             }
 
             return listResults;
+        }
+
+        private string TB_NAT_Rule(string value)
+        {
+            string parsedValue = "";
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                if (value == "9999")
+                    parsedValue = "";
+                else
+                {
+                    parsedValue = parseHHmm_To_MMRIATime(value);
+                }
+            }
+
+            return parsedValue;
+        }
+
+        private string TD_FET_Rule(string value)
+        {
+            string parsedValue = "";
+
+            if(!string.IsNullOrWhiteSpace(value))
+            {
+                if (value == "9999")
+                    parsedValue = "";
+                else
+                {
+                    parsedValue = parseHHmm_To_MMRIATime(value);
+                }
+            }
+
+            return parsedValue;
+        }
+
+        private static string parseHHmm_To_MMRIATime(string value)
+        {
+            string parsedValue;
+            try
+            {
+                //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
+                if (value.Length == 3)
+                    value = $"0{value}";
+
+                parsedValue = DateTime.ParseExact(value, "HHmm", CultureInfo.CurrentCulture).ToString("h:mm tt");
+            }
+            catch (Exception ex)
+            {
+                //Error parsing, eat it and put exact text in as to not lose data on import
+                parsedValue = value;
+            }
+
+            return parsedValue;
         }
 
         private string STATEC_FET_Rule(string value)
@@ -4203,10 +4330,19 @@ GNAME 27 50
         private string TOI_HR_Rule(string value)
         {
             //Transfer number verbatim to MMRIA field; Values of 9999 and blank should be mapped as blank; need to map these values to MMRIA time format
-            if (value == "9999" || string.IsNullOrWhiteSpace(value))
-                value = string.Empty;
+            string parsedValue = "";
 
-            return value;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                if (value == "9999")
+                    parsedValue = "";
+                else
+                {
+                    parsedValue = parseHHmm_To_MMRIATime(value);
+                }
+            }
+
+            return parsedValue;
         }
 
         private string WORKINJ_Rule(string value)
@@ -4405,10 +4541,19 @@ GNAME 27 50
         private string TOD_Rule(string value)
         {
             //Transfer number verbatim to MMRIA field, format as MMRIA time.; if TOD = 9999 then this field should be left blank
-            if (value == "9999")
-                value = string.Empty;
+            string parsedValue = "";
 
-            return value;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                if (value == "9999")
+                    parsedValue = "";
+                else
+                {
+                    parsedValue = parseHHmm_To_MMRIATime(value);
+                }
+            }
+
+            return parsedValue;
         }
 
         private string DOD_DY_Rule(string value)
@@ -5234,7 +5379,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             If value = 99, map to 9999 (blank)*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -5269,7 +5414,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "999")
+            if (value == "999" || value == "9999")
                 value = "";
 
             return value;
@@ -5281,7 +5426,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "999")
+            if (value == "999" || value == "9999")
                 value = "";
 
             return value;
@@ -5344,7 +5489,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "99")
+            if (value == "99" || value == "9999")
                 value = "";
 
             return value;
@@ -5931,7 +6076,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return determinedValue;
         }
 
-        private string MRACE_NAT_Rule(string value1, string value2, string value3, string value4, string value5,
+        private string[] MRACE_NAT_Rule(string value1, string value2, string value3, string value4, string value5,
             string value6, string value7, string value8, string value9, string value10,
             string value11, string value12, string value13, string value14, string value15)
         {
@@ -5954,74 +6099,75 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             MRACE15 = Y --> bfdcpr_ro_mothe = 14 Other Race
 
             If every one of MRACE1 through MRACE15 is equal to "N", then bfdcpr_ro_mothe = 8888 (Race Not Specified)*/
-
-            string determinedValue;
+            //Defaulting to blank
+            List<string> determinedValues = new List<string>();
 
             if (value1?.ToUpper() == "Y")
             {
-                determinedValue = "0";
+                determinedValues.Add("0");
             }
             else if (value2?.ToUpper() == "Y")
             {
-                determinedValue = "1";
+                determinedValues.Add("1");
             }
             else if (value3?.ToUpper() == "Y")
             {
-                determinedValue = "2";
+                determinedValues.Add("2");
             }
             else if (value4?.ToUpper() == "Y")
             {
-                determinedValue = "7";
+                determinedValues.Add("7");
             }
             else if (value5?.ToUpper() == "Y")
             {
-                determinedValue = "8";
+                determinedValues.Add("8");
             }
             else if (value6?.ToUpper() == "Y")
             {
-                determinedValue = "9";
+                determinedValues.Add("9");
             }
             else if (value7?.ToUpper() == "Y")
             {
-                determinedValue = "10";
+                determinedValues.Add("10");
             }
             else if (value8?.ToUpper() == "Y")
             {
-                determinedValue = "11";
+                determinedValues.Add("11");
             }
             else if (value9?.ToUpper() == "Y")
             {
-                determinedValue = "12";
+                determinedValues.Add("12");
             }
             else if (value10?.ToUpper() == "Y")
             {
-                determinedValue = "13";
+                determinedValues.Add("13");
             }
             else if (value11?.ToUpper() == "Y")
             {
-                determinedValue = "3";
+                determinedValues.Add("3");
             }
             else if (value12?.ToUpper() == "Y")
             {
-                determinedValue = "4";
+                determinedValues.Add("4");
             }
             else if (value13?.ToUpper() == "Y")
             {
-                determinedValue = "5";
+                determinedValues.Add("5");
             }
             else if (value14?.ToUpper() == "Y")
             {
-                determinedValue = "6";
+                determinedValues.Add("6");
             }
             else if (value15?.ToUpper() == "Y")
             {
-                determinedValue = "14";
+                determinedValues.Add("14");
             }
             else
             {
-                determinedValue = "8888";
+                determinedValues.Add("8888");
             }
-            return determinedValue;
+
+            return determinedValues.ToArray();
         }
 
         private string MRACE16_17_NAT_Rule(string value16, string value17)
@@ -6174,7 +6320,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         }
 
 
-        private string FRACE_NAT_Rule(string value1, string value2, string value3, string value4, string value5,
+        private string[] FRACE_NAT_Rule(string value1, string value2, string value3, string value4, string value5,
             string value6, string value7, string value8, string value9, string value10,
             string value11, string value12, string value13, string value14, string value15)
         {
@@ -6197,73 +6343,74 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             FRACE15 = Y --> bfdcpdofr_ro_fathe = 14 Other Race
 
             If every one of FRACE1 through FRACE15 is equal to "N", then bfdcpdofr_ro_fathe = 8888 (Race Not Specified)*/
-            string determinedValue;
+            List<string> determinedValues = new List<string>();
+
 
             if (value1?.ToUpper() == "Y")
             {
-                determinedValue = "0";
+                determinedValues.Add("0");
             }
             else if (value2?.ToUpper() == "Y")
             {
-                determinedValue = "1";
+                determinedValues.Add("1");
             }
             else if (value3?.ToUpper() == "Y")
             {
-                determinedValue = "2";
+                determinedValues.Add("2");
             }
             else if (value4?.ToUpper() == "Y")
             {
-                determinedValue = "7";
+                determinedValues.Add("7");
             }
             else if (value5?.ToUpper() == "Y")
             {
-                determinedValue = "8";
+                determinedValues.Add("8");
             }
             else if (value6?.ToUpper() == "Y")
             {
-                determinedValue = "9";
+                determinedValues.Add("9");
             }
             else if (value7?.ToUpper() == "Y")
             {
-                determinedValue = "10";
+                determinedValues.Add("10");
             }
             else if (value8?.ToUpper() == "Y")
             {
-                determinedValue = "11";
+                determinedValues.Add("11");
             }
             else if (value9?.ToUpper() == "Y")
             {
-                determinedValue = "12";
+                determinedValues.Add("12");
             }
             else if (value10?.ToUpper() == "Y")
             {
-                determinedValue = "13";
+                determinedValues.Add("13");
             }
             else if (value11?.ToUpper() == "Y")
             {
-                determinedValue = "3";
+                determinedValues.Add("3");
             }
             else if (value12?.ToUpper() == "Y")
             {
-                determinedValue = "4";
+                determinedValues.Add("4");
             }
             else if (value13?.ToUpper() == "Y")
             {
-                determinedValue = "5";
+                determinedValues.Add("5");
             }
             else if (value14?.ToUpper() == "Y")
             {
-                determinedValue = "6";
+                determinedValues.Add("6");
             }
             else if (value15?.ToUpper() == "Y")
             {
-                determinedValue = "14";
+                determinedValues.Add("14");
             }
             else
             {
-                determinedValue = "8888";
+                determinedValues.Add("8888");
             }
-            return determinedValue;
+            return determinedValues.ToArray();
         }
 
         private string FRACE16_17_NAT_Rule(string value16, string value17)
@@ -8471,7 +8618,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             If value = 99, map to 9999 (blank)*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -8506,7 +8653,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "99")
+            if (value == "999" || value == "9999")
                 value = "";
 
             return value;
@@ -8518,7 +8665,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             If value = 999, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "99")
+            if (value == "999" || value == "9999")
                 value = "";
 
             return value;
@@ -8580,7 +8727,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
-            if (value == "99")
+            if (value == "99" || value == "9999")
                 value = "9999";
 
             return value;
@@ -10521,7 +10668,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         }
 
 
-        private string FRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
+        private string[] FRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
             string value6, string value7, string value8, string value9, string value10,
             string value11, string value12, string value13, string value14, string value15)
         {
@@ -10544,73 +10691,74 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             FRACE15 = Y --> bfdcpdofr_ro_fathe = 14 Other Race
 
             If every one of FRACE1 through FRACE15 is equal to "N", then bfdcpdofr_ro_fathe = 8888 (Race Not Specified)*/
-            string determinedValue;
+            List<string> determinedValues = new List<string>();
+
 
             if (value1?.ToUpper() == "Y")
             {
-                determinedValue = "0";
+                determinedValues.Add("0");
             }
             else if (value2?.ToUpper() == "Y")
             {
-                determinedValue = "1";
+                determinedValues.Add("1");
             }
             else if (value3?.ToUpper() == "Y")
             {
-                determinedValue = "2";
+                determinedValues.Add("2");
             }
             else if (value4?.ToUpper() == "Y")
             {
-                determinedValue = "7";
+                determinedValues.Add("7");
             }
             else if (value5?.ToUpper() == "Y")
             {
-                determinedValue = "8";
+                determinedValues.Add("8");
             }
             else if (value6?.ToUpper() == "Y")
             {
-                determinedValue = "9";
+                determinedValues.Add("9");
             }
             else if (value7?.ToUpper() == "Y")
             {
-                determinedValue = "10";
+                determinedValues.Add("10");
             }
             else if (value8?.ToUpper() == "Y")
             {
-                determinedValue = "11";
+                determinedValues.Add("11");
             }
             else if (value9?.ToUpper() == "Y")
             {
-                determinedValue = "12";
+                determinedValues.Add("12");
             }
             else if (value10?.ToUpper() == "Y")
             {
-                determinedValue = "13";
+                determinedValues.Add("13");
             }
             else if (value11?.ToUpper() == "Y")
             {
-                determinedValue = "3";
+                determinedValues.Add("3");
             }
             else if (value12?.ToUpper() == "Y")
             {
-                determinedValue = "4";
+                determinedValues.Add("4");
             }
             else if (value13?.ToUpper() == "Y")
             {
-                determinedValue = "5";
+                determinedValues.Add("5");
             }
             else if (value14?.ToUpper() == "Y")
             {
-                determinedValue = "6";
+                determinedValues.Add("6");
             }
             else if (value15?.ToUpper() == "Y")
             {
-                determinedValue = "14";
+                determinedValues.Add("14");
             }
             else
             {
-                determinedValue = "8888";
+                determinedValues.Add("8888");
             }
-            return determinedValue;
+            return determinedValues.ToArray();
         }
 
         private string FRACE16_17_FET_Rule(string value16, string value17)
