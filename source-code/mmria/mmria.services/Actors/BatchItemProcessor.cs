@@ -1263,7 +1263,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"], ""), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"], ""), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], TryPaseToIntOr_DefaultBlank(field_set["YOPO"], new_case, "9999"));
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], TryPaseToIntOr_DefaultBlank(field_set["YOPO"], "9999"), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PAY"], field_set["PAY"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
