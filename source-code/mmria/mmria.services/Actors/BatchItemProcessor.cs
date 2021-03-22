@@ -1801,7 +1801,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"], "")) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"], "")) });
-                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["SORD"], "")) });
+                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
