@@ -1263,7 +1263,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"], ""), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YLLB"], field_set["YLLB"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"], ""), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["YOPO"], TryPaseToIntOr_DefaultBlank(field_set["YOPO"], new_case, "9999"));
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["PAY"], field_set["PAY"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
@@ -1407,8 +1407,8 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_MO"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_DY"]), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"], "9999"), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"]), new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"]), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"], "9999"), new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"], "9999"), new_case);
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"], "9999"), new_case);
 
 
@@ -1548,7 +1548,7 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MLLB"], TryPaseToIntOr_DefaultBlank(field_set["MLLB"], ""), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YLLB"], TryPaseToIntOr_DefaultBlank(field_set["YLLB"], ""), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MOPO"], TryPaseToIntOr_DefaultBlank(field_set["MOPO"], ""), new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YOPO"], field_set["YOPO"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["YOPO"], TryPaseToIntOr_DefaultBlank(field_set["YOPO"], "9999"), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
@@ -1599,7 +1599,7 @@ namespace RecordsProcessor_Worker.Actors
                             , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DSTATE"], field_set["DSTATE"], new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DPLACE"], field_set["DPLACE"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DPLACE"], DPLACE_Custom_FET_Rule(field_set["DPLACE"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["BPLACEC_ST_TER"], field_set["BPLACEC_ST_TER"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["BPLACEC_CNT"], field_set["BPLACEC_CNT"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["STATEC"], field_set["STATEC"], new_case);
@@ -1694,8 +1694,8 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_MO"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_DY"]), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOFP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOFP_YR"], "9999"), new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"]), new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"]), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_MO"], "9999"), new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_DY"], "9999"), new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DOLP_YR"], TryPaseToIntOr_DefaultBlank(field_set["DOLP_YR"], "9999"), new_case);
 
                        
