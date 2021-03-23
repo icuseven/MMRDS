@@ -365,7 +365,7 @@ namespace RecordsProcessor_Worker.Actors
             {"HOSP_D","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/facility_name"},
             {"ADDRESS_D","birth_fetal_death_certificate_parent/facility_of_delivery_location/street"},
             {"ZIPCODE_D","birth_fetal_death_certificate_parent/facility_of_delivery_location/zip_code"},
-            {"CNTY_D","birth_fetal_death_certificate_parent/facility_of_delivery_location/County"},
+            {"CNTY_D","birth_fetal_death_certificate_parent/facility_of_delivery_location/county"},
             {"CITY_D","birth_fetal_death_certificate_parent/facility_of_delivery_location/city"},
             {"MOMFNAME","birth_fetal_death_certificate_parent/record_identification/first_name"},
             {"MOMMNAME","birth_fetal_death_certificate_parent/record_identification/middle_name"},
@@ -505,6 +505,7 @@ namespace RecordsProcessor_Worker.Actors
 
             {"FRACE22_23","birth_fetal_death_certificate_parent/demographic_of_father/race/other_race"},
 
+
         };
 
         static Dictionary<string, string> NAT_IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -515,7 +516,7 @@ namespace RecordsProcessor_Worker.Actors
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
             {"TB","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
-            {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify	"},
+            {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
             {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
             {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
             {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
@@ -1575,6 +1576,8 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSPFROM"], field_set["HOSPFROM"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_NPI"], field_set["ATTEND_NPI"], new_case);
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
+
+
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
                                                                                                                             , field_set["PREDIR"]
                                                                                                                             , field_set["STNAME"]
