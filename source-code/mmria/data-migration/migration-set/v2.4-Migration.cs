@@ -74,7 +74,7 @@ namespace migrate.set
 
 				//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
 				
-				cURL metadata_curl = new cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
+				cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
             
 				this.lookup = get_look_up(metadata);

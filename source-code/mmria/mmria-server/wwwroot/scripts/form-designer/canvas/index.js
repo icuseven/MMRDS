@@ -670,6 +670,30 @@ function execute_command_click()
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_left_selection(true);
           break;          
+        case "nl":
+            message += "\n\nudge left";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            if(cmd_text.length > 1)
+            {
+              message += nudge_left_selection(cmd_text[1])
+            }
+            else
+            {
+              message += nudge_left_selection(5);
+            }
+            break;
+        case "nt":
+          message += "\n\nnudge top";
+          formDesigner.fdObjectHandler.quickSnap(true);
+          if(cmd_text.length > 1)
+          {
+            message += nudge_top_selection(cmd_text[1])
+          }
+          else
+          {
+            message += nudge_top_selection(5);
+          }
+          break;  
         case "at":
             message += "\n\nalign top selection";
 
@@ -783,25 +807,25 @@ function execute_command_click()
             message += select_container_child_nodes();
         break;
         case "help":
-            message += "ls list selection";
-            message += "all select all";
-            message += "none remove all selections";
-            message += "al align left selection";
-            message += "al+ nalign left+ selection";
-            message += "at align top selection (align to lowest)";
-            message += "at+ align top+ selection (align to highest)";
-            message += "aw align width selection (align to smallest)";
-            message += "aw+ align width+ selection (align to biggest)";
-            message += "ah align height selection (align to smallest)";
-            message += "ah+ align height selection (align to biggest)";
+            message += "ls list selection\n";
+            message += "all select all\n";
+            message += "none remove all selections\n";
+            message += "al align left selection\n";
+            message += "al+ nalign left+ selection\n";
+            message += "at align top selection (align to lowest)\n";
+            message += "at+ align top+ selection (align to highest)\n";
+            message += "aw align width selection (align to smallest)\n";
+            message += "aw+ align width+ selection (align to biggest)\n";
+            message += "ah align height selection (align to smallest)\n";
+            message += "ah+ align height selection (align to biggest)\n";
             
-            message += "ahs ## ## ## align height space of selection";
-            message += "aws ## ## ## align width space of selection";
-            message += "height ## set height default = 24 number is px unit";
-            message += "st or stack stack controls"
-            message += "ro or row - make single row of controls"
-            message += "sac - select all container child nodes"
-            message += "help get list of commands"
+            message += "ahs ## ## ## align height space of selection\n";
+            message += "aws ## ## ## align width space of selection\n";
+            message += "height ## set height default = 24 number is px unit\n";
+            message += "st or stack stack controls\n"
+            message += "ro or row - make single row of controls\n"
+            message += "sac - select all container child nodes\n"
+            message += "help get list of commands\n"
         break;
           
             
@@ -1058,6 +1082,63 @@ function align_top_selection(p_is_max_top)
 
   return result;
 }
+
+//**
+function nudge_left_selection(p_value)
+{
+  var result = "";
+
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length > 0)
+  {
+    for(let i = 0; i < selected_item_list.length; i++)
+    {
+        let current_left = selected_item_list[i].offsetLeft;
+        let new_left = current_left + parseInt(p_value);
+      selected_item_list[i].style.left = new_left + "px";
+    }
+  }
+  
+  return result;
+}
+
+
+function nudge_top_selection(p_value)
+{
+    var result = "";
+
+    var html_list = document.getElementsByClassName("ds-selected");
+    var selected_item_list = [];
+    for(var i = 0; i < html_list.length; i++)
+    {
+      selected_item_list.push(html_list[i]);
+    }
+  
+    result += "\n number of items selected: " + selected_item_list.length;
+  
+    if(selected_item_list.length > 0)
+    {
+      for(let i = 0; i < selected_item_list.length; i++)
+      {
+          let current_top = selected_item_list[i].offsetTop;
+          let new_top = current_top + parseInt(p_value);
+        selected_item_list[i].style.top = new_top + "px";
+      }
+    }
+    
+    return result;
+}
+
+//**
+
 
 
 function align_width_selection(p_is_max_width)
