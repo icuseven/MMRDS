@@ -670,8 +670,8 @@ function execute_command_click()
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_left_selection(true);
           break;          
-        case "nl":
-            message += "\n\nudge left";
+        case "nx":
+            message += "\n\nudge x";
             formDesigner.fdObjectHandler.quickSnap(true);
             if(cmd_text.length > 1)
             {
@@ -682,8 +682,8 @@ function execute_command_click()
               message += nudge_left_selection(5);
             }
             break;
-        case "nt":
-          message += "\n\nnudge top";
+        case "ny":
+          message += "\n\nnudge y";
           formDesigner.fdObjectHandler.quickSnap(true);
           if(cmd_text.length > 1)
           {
