@@ -3296,11 +3296,12 @@ function medical_transport_destination_information_address_calculated_distance(p
     let res_lon = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.longitude);
     let hos_lat = parseFloat(this.latitude);
     let hos_lon = parseFloat(this.longitude);
-    if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
+    if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) 
+    {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
-        this.estimated_death_distance = dist;
+        this.estimated_distance = dist;
         $mmria.save_current_record();
-        $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_death_distance_from_residence);
+        $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_distance);
     }
 }
 
@@ -3311,8 +3312,8 @@ event=onclick
 */
 function medical_transport_destination_information_address_clear_distance(p_control) 
 {
-    this.estimated_death_distance = '';
+    this.estimated_distance = '';
     $mmria.save_current_record();
-    $mmria.set_control_value('medical_transport/destination_information/address/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
+    $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_distance);
 
 }

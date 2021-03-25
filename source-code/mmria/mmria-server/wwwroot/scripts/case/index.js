@@ -741,12 +741,14 @@ function set_focus_on_first_grid_item(p_metadata_path)
     lastchild.querySelector("label").nextElementSibling.focus();
 }
 
-function g_delete_grid_item(
+function g_delete_grid_item
+(
 	p_object_path,
 	p_metadata_path,
 	p_dictionary_path,
 	p_index
-) {
+) 
+{
 	var record_number = new Number(p_index) + new Number(1);
 	var index_check = prompt(
 		"Please confirm delete request of record " +
