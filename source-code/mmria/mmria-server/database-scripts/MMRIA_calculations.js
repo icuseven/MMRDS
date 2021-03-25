@@ -432,7 +432,7 @@ g_data
             g_data.home_record.case_status.overall_case_status = g_previous_case_status;   
             $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
 
-            $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", 'Befor a Case can be marked as "Review Complete and Decisions Entered", <p>the Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
+            $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", 'Before a Case can be marked as "Review Complete and Decisions Entered", <p>the Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
         }
     }
     

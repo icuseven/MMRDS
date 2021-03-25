@@ -142,9 +142,23 @@ namespace migrate.set
 
 
 
-
+						value_result = gs.get_value(doc, "home_record/record_id");
+						var current_record_id = value_result.result;
 
 						C_Get_Set_Value.get_value_result target_value_result = null;
+
+						var record_id_check = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+						{
+							"MT-2009-5978",
+							"WA-1983-0907" 
+						};
+
+
+						if(record_id_check.Contains(current_record_id))
+						{
+							System.Console.WriteLine("here");
+						}
+
 
 						if(mmria_id.ToLower() == "52589344-A091-4D96-810D-57E060E9BBE2".ToLower())
 						{
@@ -160,7 +174,7 @@ namespace migrate.set
 						var target_field_path_list = new List<string>()
 						{
 							"death_certificate/race/omb_race_recode",
-							"birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode",
+							"birth_fetal_death_certificate_parent/race/omb_race_recode",
 							"birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode"
 
 
