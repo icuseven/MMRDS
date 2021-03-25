@@ -109,14 +109,14 @@ namespace migrate.set
 				"dcdi_mo_death",
 				"dcdi_wa_perfo",
 				"dcdi_waufd_codin",
-				"dcdi_p_statu",
+				//"dcdi_p_statu",
 				"dcdi_dtct_death",
 				"bfdcpfodd_whd_plann",
 				"bfdcpfodd_a_type",
 				"bfdcpfodd_wm_trans",
 				"bfdcpdof_e_level",
 				"bfdcpdof_ifoh_origi",
-				"bfdcpdofr_ro_fathe",
+				//"bfdcpdofr_ro_fathe",
 				"bfdcpdom_m_marri",
 				"bfdcpdom_Imnmhpabsit_hospi",
 				"bfdcpdom_eiua_force",
@@ -1143,7 +1143,7 @@ namespace migrate.set
 							{
 								// do nothing
 							}
-							else if(value.ToString() == "4")
+							else if(value.ToString() == "3")
 							{
 								if(case_change_count == 0)
 								{
@@ -1574,6 +1574,58 @@ namespace migrate.set
 					{
 						Console.WriteLine(ex);
 					}
+
+					//	dcdi_p_statu – 7777 has been removed.
+					// 7.	Map existing: Not Specified (#8888)  Unknown if pregnant in last year (#88)
+					var dcdi_p_statu_path = "death_certificate/death_information/pregnancy_status";
+
+					value_result = gs.get_value(doc, dcdi_p_statu_path);
+					try
+					{
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								continue;	
+							}
+
+							if(value.ToString() == "8888")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "88";
+
+								case_has_changed = case_has_changed && gs.set_value(dcdi_p_statu_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{dcdi_p_statu_path} Converted 8888 => 88";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}	
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}	
+ 
+ 
+ // bfdcpdofr_ro_fathe – there is no “7777” response option
+ // var bfdcpdofr_ro_fathe_path = "birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father";
+  
+ // ar_coa_infor – there is no “3” response option
+ // 3.	Map existing Minimal (#3)  Minor Gaps (#2)
+ //var ar_coa_infor_path = "autopsy_report/completeness_of_autopsy_information";
+ 
+ 
+ 
+ // evahmr_pathology
+ //er_visit_and_hospital_medical_records/pathology/date_and_time
+
+
 
 					if(!is_report_only_mode && case_has_changed)
 					{
