@@ -2061,12 +2061,12 @@ namespace RecordsProcessor_Worker.Actors
                         string_builder.AppendLine($"06) Other complications of placenta, cord, or membranes: {fet_field_set[fet_index]["COD18b6"]}");
                         string_builder.AppendLine($"07) Unknown: {fet_field_set[fet_index]["COD18b7"]}");
                         string_builder.AppendLine($"08) Maternal conditions/diseases literal: {fet_field_set[fet_index]["COD18b8"]}");
-                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes: {fet_field_set[fet_index]["COD18b9"]}");
-                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications: {fet_field_set[fet_index]["COD18b10"]}");
-                        string_builder.AppendLine($"11) Fetal anomaly: {fet_field_set[fet_index]["COD18b11"]}");
-                        string_builder.AppendLine($"12) Fetal injury: {fet_field_set[fet_index]["COD18b12"]}");
-                        string_builder.AppendLine($"13) Fetal infection: {fet_field_set[fet_index]["COD18b13"]}");
-                        string_builder.AppendLine($"14) Other fetal conditions/disorders: {fet_field_set[fet_index]["COD18b14"]}");
+                        string_builder.AppendLine($"09) Other complications of placenta, cord, or membranes literal: {fet_field_set[fet_index]["COD18b9"]}");
+                        string_builder.AppendLine($"10) Other obstetrical or pregnancy complications literal: {fet_field_set[fet_index]["COD18b10"]}");
+                        string_builder.AppendLine($"11) Fetal anomaly literal: {fet_field_set[fet_index]["COD18b11"]}");
+                        string_builder.AppendLine($"12) Fetal injury literal: {fet_field_set[fet_index]["COD18b12"]}");
+                        string_builder.AppendLine($"13) Fetal infection literal: {fet_field_set[fet_index]["COD18b13"]}");
+                        string_builder.AppendLine($"14) Other fetal conditions/disorders literal: {fet_field_set[fet_index]["COD18b14"]}");
                         string_builder.AppendLine($"");
                         string_builder.AppendLine($"Coded initiating cause/condition: {fet_field_set[fet_index]["ICOD"]}");
                         string_builder.AppendLine($"Coded other significant causes or conditions:");
