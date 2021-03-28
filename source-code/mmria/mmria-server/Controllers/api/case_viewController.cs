@@ -305,19 +305,24 @@ by_state_of_death
                             add_item = true;
                         }
 
-                        if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && is_matching_search_text(cvi.value.date_of_death_month.Value.ToString (), key_compare))
-                        {
-                            add_item = true;
-                        }
 
-                        if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue && is_matching_search_text(cvi.value.date_of_death_year.Value.ToString (), key_compare))
+                        var record_id_regex = new System.Text.RegularExpressions.Regex(@"([a-zA-Z]+-)?\d\d\d\d-\d\d\d\d");
+                        if(record_id_regex.Matches(key_compare).Count == 0)
                         {
-                            add_item = true;
-                        }
+                            if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && is_matching_search_text(cvi.value.date_of_death_month.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
 
-                        if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && is_matching_search_text(cvi.value.date_of_committee_review.Value.ToString (), key_compare))
-                        {
-                            add_item = true;
+                            if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue && is_matching_search_text(cvi.value.date_of_death_year.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
+
+                            if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && is_matching_search_text(cvi.value.date_of_committee_review.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
                         }
 
 
@@ -607,21 +612,25 @@ by_state_of_death
                             add_item = true;
                         }
 
-                        if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && is_matching_search_text(cvi.value.date_of_death_month.Value.ToString (), key_compare))
-                        {
-                            add_item = true;
-                        }
 
-                        if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue && is_matching_search_text(cvi.value.date_of_death_year.Value.ToString (), key_compare))
+                        var record_id_regex = new System.Text.RegularExpressions.Regex(@"([a-zA-Z]+-)?\d\d\d\d-\d\d\d\d");
+                        if(record_id_regex.Matches(key_compare).Count == 0)
                         {
-                            add_item = true;
-                        }
+                            if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && is_matching_search_text(cvi.value.date_of_death_month.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
 
-                        if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && is_matching_search_text(cvi.value.date_of_committee_review.Value.ToString (), key_compare))
-                        {
-                            add_item = true;
-                        }
+                            if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue && is_matching_search_text(cvi.value.date_of_death_year.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
 
+                            if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && is_matching_search_text(cvi.value.date_of_committee_review.Value.ToString (), key_compare))
+                            {
+                                add_item = true;
+                            }
+                        }
                         if (add_item && cvi.value.case_status != null && cvi.value.case_status.HasValue) 
                         {
                             switch(case_status.ToLower())
