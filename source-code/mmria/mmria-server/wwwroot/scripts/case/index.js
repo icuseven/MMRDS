@@ -737,8 +737,7 @@ function set_focus_on_first_grid_item(p_metadata_path)
     var element = document.getElementById(p_metadata_path);
     let li_list = element.querySelectorAll("ul li");
     var lastchild = li_list[li_list.length-1];
-
-    lastchild.querySelector("label").nextElementSibling.focus();
+    lastchild.querySelector("input, select, textarea").focus();
 }
 
 function g_delete_grid_item
