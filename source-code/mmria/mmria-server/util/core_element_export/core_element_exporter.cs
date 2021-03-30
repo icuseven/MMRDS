@@ -1621,17 +1621,24 @@ namespace mmria.server.util
         private List<string> SortListAgainstDictionary(List<string> temp2, Dictionary<string, string> look_up_list)
         {
             var result = new List<string>();
+            var itemsNotInDictionary = new List<string>();
 
-            foreach (var item in look_up_list)
+            if (temp2 != null)
             {
-
-                if (temp2.Contains(item.Value))
+                foreach (var item in look_up_list)
                 {
-                    result.Add(item.Value);
+                    if (temp2.Contains(item.Value))
+                    {
+                        result.Add(item.Value);
+                    }
                 }
-                   
-            }
 
+                itemsNotInDictionary = temp2?.Except(result)?.ToList();
+
+                if (itemsNotInDictionary != null && itemsNotInDictionary.Count > 0)
+                    result.AddRange(itemsNotInDictionary);
+
+            }
             return result;
         }
 
