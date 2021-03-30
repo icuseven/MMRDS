@@ -90,7 +90,7 @@ namespace mmria.server.model.actor
 
                     var request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/{se._id}";
                     var curl = new cURL("PUT", null, request_url, session_event_json, Program.config_timer_user_name, Program.config_timer_value);
-                    curl.executeAsync ().Wait();
+                    curl.executeAsync ();
 
                     //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
 

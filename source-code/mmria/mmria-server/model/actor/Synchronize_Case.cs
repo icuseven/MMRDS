@@ -49,7 +49,7 @@ namespace mmria.server.model.actor
 
                 try
                 {
-                    sync_document.executeAsync().Wait();
+                    sync_document.executeAsync();
                 }
 				catch(Exception ex)
                 {
@@ -66,7 +66,7 @@ namespace mmria.server.model.actor
                                                                             Program.config_timer_value
                                                                         );
 
-                    sync_all.executeAsync ().Wait();
+                    sync_all.executeAsync ();
 
                 break;
             }
