@@ -89,7 +89,7 @@ namespace mmria.server.model.actor.quartz
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
 
-					item.all_or_core = doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
+					item.all_or_core = doc_item.ContainsKey("all_or_core") && doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
 					item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
 					item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
 					item.zip_key = doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;
@@ -296,7 +296,7 @@ namespace mmria.server.model.actor.quartz
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
 
-					item.all_or_core = doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
+					item.all_or_core =  doc_item.ContainsKey("all_or_core") && doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
 					item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
 					item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
 					item.zip_key = doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;

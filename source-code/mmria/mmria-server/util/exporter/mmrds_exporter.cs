@@ -1680,7 +1680,7 @@ namespace mmria.server.util
                     var key_name = field_node.Substring(field_node.LastIndexOf("/") + 1, field_node.Length - field_node.LastIndexOf("/") - 1);
 
                     //dynamic value_list = grid_item_row[path_to_node_map[kvp.Key].name];
-                    dynamic grid_item_value = grid_item_row[key_name];
+                    object grid_item_value = grid_item_row[key_name];
 
 
 
@@ -1886,7 +1886,7 @@ namespace mmria.server.util
                           (
                             mmria_case_id,
                             field_node,
-                            grid_item_value,
+                            grid_item_value?.ToString(),
                             i,
                             parent_record_index
                           );
@@ -1908,7 +1908,7 @@ namespace mmria.server.util
                             break;
                           case System.Double val:
                           default:
-                            if (!string.IsNullOrWhiteSpace(grid_item_value))
+                            if (!string.IsNullOrWhiteSpace(grid_item_value?.ToString()))
                             {
                               grid_row[file_field_name] = grid_item_value;
                             }

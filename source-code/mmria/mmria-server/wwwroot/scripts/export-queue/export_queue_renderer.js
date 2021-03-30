@@ -687,9 +687,9 @@ var g_case_view_request = {
 
     if (this.search_key) {
       result.push(
-        'search_key="' +
-          this.search_key.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-          '"'
+        'search_key=' +
+        encodeURI(this.search_key) +
+          ''
       );
     }
 
