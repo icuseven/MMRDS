@@ -19,7 +19,6 @@
     <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
     <span class="spinner-container spinner-inline ml-2" style="position: absolute; top: 50%; right: 0; transform: translateX(115%) translateY(-50%);"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 </div>
-@* <input type="file" id="files" name="files[]" onchange="readmultifiles(this.files)" multiple=""/> *@
 
 <div id="bag">
     <ul></ul>
@@ -30,36 +29,26 @@
 <div class="form-group">
     <label class="d-block" for="mor_output">MOR File</label>
     <textarea id="mor_output" class="form-control" style="font-family: monospace; width: auto;" rows="8" cols="6001" readonly>Upload .MOR file</textarea>
-    @* <textarea id="mor_output" class="form-control" style="display: block; font-family: monospace; width: 100%" rows="6" readonly> </textarea> *@
+   
 </div>
-@* MOR:<br/>
-<textarea id="mor_output" cols=6000 rows=9> </textarea> *@
 
 <div class="form-group">
     <label class="d-block" for="mor_output">NAT File</label>
     <textarea id="nat_output" class="form-control" style="font-family: monospace;  width: auto;" rows="8" cols="6001" readonly>Upload .NAT file</textarea>
-    @* <textarea id="nat_output" class="form-control" style="display: block; font-family: monospace; width: 100%" rows="6" readonly> </textarea> *@
+    
 </div>
-@* NAT:<br/>
-<textarea id="nat_output" cols=6000 rows=9> </textarea> *@
 
 <div class="form-group">
     <label class="d-block" for="mor_output">FET File</label>
     <textarea id="fet_output" class="form-control" style="font-family: monospace; width: auto;" rows="8" cols="9000" readonly>Upload .FET file</textarea>
-    @* <textarea id="fet_output" class="form-control" style="display: block; font-family: monospace; width: 100%" rows="6" readonly> </textarea> *@
+    
 </div>
-@* FET:<br/>
-<textarea id="fet_output" cols=9000 rows=9> </textarea> *@
 
 <div class="form-group">
     <label class="d-block" for="output">Output:</label>
     <textarea id="output" class="form-control" style="display: block; font-family: monospace; width: 100%" rows="8" readonly> </textarea>
 </div>
-@* output:<br/>
-<textarea id="output" cols=6000 rows=9> </textarea>
-<br/> *@
+
 
 <button id="process" class="btn btn-primary">Begin Vital Import</button>
 <a id="process_next" class="btn btn-primary" href="/vitals" style="display: none;">View Vitals Notification Report</a>
-@* <input id="process"  type="button" value="begin vital import"/> *@
-@* <a href="/">Home</a> | <a href="/vitals">View Vitals Notification Report</a> *@
