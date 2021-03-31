@@ -870,13 +870,37 @@ namespace RecordsProcessor_Worker.Actors
                                         is_case_already_present = true;
                                         break;
                                     }
+                                    else
+                                    {
+                                        System.Console.WriteLine("inner check 5");
+                                    }
                                 }
+                                else
+                                {
+                                    System.Console.WriteLine("inner check 4");
+                                }
+                            }
+                            else
+                            {
+                                System.Console.WriteLine("inner check 3");
                             }
 
                         }
+                        else
+                        {
+                            System.Console.WriteLine("inner check 2");
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("inner check 1");
                     }
                 }
 
+            }
+            else
+            {
+                System.Console.WriteLine("No CaseView Rows found");
             }
 
 
@@ -11063,7 +11087,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             if
             (
                 !string.IsNullOrWhiteSpace(p_val1) &&
-                p_val1.Length > 3 &&
+                //p_val1.Length > 3 &&
                 (
                     p_val2.IndexOf(p_val1, StringComparison.OrdinalIgnoreCase) > -1 ||
                     p_val1.IndexOf(p_val2, StringComparison.OrdinalIgnoreCase) > -1
