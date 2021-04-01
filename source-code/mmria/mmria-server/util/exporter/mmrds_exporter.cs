@@ -1620,17 +1620,17 @@ namespace mmria.server.util
         string path = ptn.Key;
         if (flat_grid_set.Contains(path))
         {
-          string grid_name = path_to_grid_map[path];
+            string grid_name = path_to_grid_map[path];
 
-          HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-          foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
-          {
+            foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
+            {
             grid_field_set.Add(ptgm.Key);
-          }
+            }
 
-          create_header_row
-          (
+            create_header_row
+            (
             path_to_int_map,
             grid_field_set,
             path_to_node_map,
@@ -1638,25 +1638,18 @@ namespace mmria.server.util
             true,
             true,
             true
-          );
+            );
 
-          string[] temp_path = path.Split('/');
-          List<string> form_path_list = new List<string>();
-          for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
-          {
-            form_path_list.Add(temp_path[temp_path_index]);
-            if (temp_path_index == 0)
-            {
-              form_path_list.Add(parent_record_index.ToString());
-            }
-          }
 
-          //dynamic raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path), true);
-          dynamic raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
+            dynamic raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
+            List<object> raw_data_list = raw_data as List<object>;
+            if(raw_data_list== null) return;
+            if(parent_record_index > raw_data_list.Count) return;
 
-          List<object> grid_raw_data = raw_data[0] as List<object>;
+            List<object> grid_raw_data = raw_data[parent_record_index] as List<object>;
 
-          if (grid_raw_data != null)
+            if (grid_raw_data == null) return;
+
             for (int i = 0; i < grid_raw_data.Count; i++)
             {
               IDictionary<string, object> grid_item_row = grid_raw_data[i] as IDictionary<string, object>;
@@ -1718,23 +1711,6 @@ namespace mmria.server.util
                             if (item_dictionary != null && item_dictionary.ContainsKey(item_dictionary_key))
                             {
                               var temp2 = item_dictionary[item_dictionary_key] as List<object>;
-                              /*
-                              foreach(var item in item_dictionary[item_dictionary_key].To)
-                              {
-                                var row_item = temp[i];
-                                var key = "/" + node;
-                                var item_key = item.ToString();
-                                if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
-                                {
-                                  temp2.Add(List_Look_Up["/" + node][item.ToString()]);
-                                }
-                                else
-                                {
-                                  temp2.Add(item.ToString());
-                                }
-                              }
-                              */
-
                               grid_row[file_field_name] = string.Join("|", temp2);
                             }
                           }
@@ -1914,17 +1890,6 @@ namespace mmria.server.util
                             }
                             break;
                         }
-
-
-
-                        /*
-                        var has_val = grid_item_value.Count > 0 && ((IDictionary<string, object>)grid_item_value[0]).ContainsKey(path_to_node_map[field_node].name);
-
-                        if(has_val)
-                        {
-                          grid_row[file_field_name] = ((IDictionary<string, object>)grid_item_value[0])[path_to_node_map[field_node].name];
-                        }*/
-
                       }
                     }
                     else

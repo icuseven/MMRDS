@@ -1326,7 +1326,8 @@ namespace migrate.set
 							7 ->Xray
 							8 ->Other
 							*/
-						var omovdiaot_t_type_path = "other_medical_office_visits/medical_care_facility/provider_type";
+						var omovdiaot_t_type_path = "other_medical_office_visits/diagnostic_imaging_and_other_technology/technology_type";
+						var new_omovdiaot_t_type_path = "other_medical_office_visits/diagnostic_imaging_and_other_technology/procedure";
 						var multiform_value_result = gs.get_multiform_grid_value(doc, omovdiaot_t_type_path);
 						if(!multiform_value_result.is_error)
 						{
@@ -1409,7 +1410,7 @@ namespace migrate.set
 									case_has_changed = true;
 								}
 
-								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, omovdiaot_t_type_path, new_list);
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, new_omovdiaot_t_type_path, new_list);
 								
 								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
