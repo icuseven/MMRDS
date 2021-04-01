@@ -1097,8 +1097,13 @@ namespace migrate.set
 									//output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted null => 9999");
 									continue;	
 								}
-
-								if(value.ToString() == "4")
+								else if(value.ToString() == "8888")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 7777));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{bcifsmod_framo_deliv_path} Converted 8888 => 7777");
+								}
+								else if(value.ToString() == "4")
 								{
 									is_list_changed = true;
 									new_list.Add((form_index, 7777));
@@ -1300,6 +1305,86 @@ namespace migrate.set
 								}
 
 								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovmcf_provider_type_path, new_list);
+								
+								this.output_builder.AppendLine(output_text.ToString());
+								Console.WriteLine(output_text);
+							}
+						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+
+
+					try
+					{
+						var omovlt_d_level_path = "other_medical_office_visits/laboratory_tests/diagnostic_level";
+						var multiform_value_result = gs.get_multiform_value(doc, omovlt_d_level_path);
+						if(!multiform_value_result.is_error)
+						{
+							var list = multiform_value_result.result;
+							var new_list = new List<(int, dynamic)>();
+							var is_list_changed = false;
+
+							var output_text = new System.Text.StringBuilder();
+							foreach(var (form_index, value) in list)
+							{
+			
+								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+								{
+									//is_list_changed = true;
+									new_list.Add((form_index, 9999));
+									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted null => 9999");
+									continue;	
+								}
+
+								if(value.ToString() == "8888")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 7777));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else if(value.ToString() == "1")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 2));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else if(value.ToString() == "3")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 2));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else if(value.ToString() == "4")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 5));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else if(value.ToString() == "6")
+								{
+									is_list_changed = true;
+									new_list.Add((form_index, 5));
+									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								}
+								else
+								{
+									new_list.Add((form_index, value));
+								}
+							
+							}
+
+							if(is_list_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovlt_d_level_path, new_list);
 								
 								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
@@ -1576,22 +1661,22 @@ namespace migrate.set
 						Console.WriteLine(ex);
 					}
 
-					//	dcdi_p_statu – 7777 has been removed.
-					// 7.	Map existing: Not Specified (#8888)  Unknown if pregnant in last year (#88)
-					var dcdi_p_statu_path = "death_certificate/death_information/pregnancy_status";
 
-					value_result = gs.get_value(doc, dcdi_p_statu_path);
 					try
 					{
+						//	dcdi_p_statu – 7777 has been removed.
+						// 7.	Map existing: Not Specified (#8888)  Unknown if pregnant in last year (#88)
+						var dcdi_p_statu_path = "death_certificate/death_information/pregnancy_status";
+
+						value_result = gs.get_value(doc, dcdi_p_statu_path);
 						if(!value_result.is_error)
 						{
 							var value = value_result.result;
 							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
 							{
-								continue;	
+								// do nothing for now
 							}
-
-							if(value.ToString() == "8888")
+							else if(value.ToString() == "8888")
 							{
 								if(case_change_count == 0)
 								{
@@ -1626,6 +1711,240 @@ namespace migrate.set
  // evahmr_pathology
  //er_visit_and_hospital_medical_records/pathology/date_and_time
 
+
+
+/*
+
+ar_wa_perfo
+autopsy_report/was_autopsy_performed
+
+9999	(blank)	
+0	Referred/Performed/Available	
+1	Referred/Performed/Not available	
+2	Referred/Not performed	
+3	Not Referred
+
+
+
+
+ar_autopsy_referral
+0,1,2 -> 1 (Yes)
+3 -> 0 (No)
+
+ar_autopsy_type
+0,1 -> 1 (Yes)
+2 -> 0 (No)
+
+ar_autopsy_report
+0 -> 1 (Yes)
+1 -> 0 (No)
+
+
+*/
+
+
+					try
+					{
+						var ar_wa_perfo_path = "autopsy_report/was_autopsy_performed";
+						value_result = gs.get_value(doc, ar_wa_perfo_path);
+
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								// do nothing for now
+							}
+							else 
+							{
+
+								var output_text = "";
+								var yes_value = "1";
+								var no_value = "0";
+
+								var ar_autopsy_referral_path = "autopsy_report/was_there_an_autopsy_referral";
+
+
+
+									/*
+									
+									ar_autopsy_referral
+									0,1,2 -> 1 (Yes)
+									3 -> 0 (No)
+									*/
+								switch(value.ToString())
+								{
+
+									case "0":
+									
+									break;
+									case "1":
+									break;
+									case "2":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_referral_path, yes_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_referral_path} Converted  {value} => {yes_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "3":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_referral_path, no_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_referral_path} Converted  {value} => {no_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "7777":
+									case "9999":
+									break;
+								}
+
+								
+								var ar_autopsy_type_path = "autopsy_report/type_of_autopsy_or_examination";
+
+									/*
+									ar_autopsy_type
+									0,1 -> 1 (Yes)
+									2 -> 0 (No)
+									*/
+								switch(value.ToString())
+								{
+
+									case "0":
+									case "1":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_type_path, yes_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_type_path} Converted  {value} => {yes_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "2":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_type_path, no_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_type_path} Converted  {value} => {no_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "3":
+									case "7777":
+									case "9999":
+									break;
+								}
+							
+
+								var ar_autopsy_report_path = "autopsy_report/is_autopsy_or_exam_report_available";
+
+
+									/*
+									ar_autopsy_report
+									0 -> 1 (Yes)
+									1 -> 0 (No)
+									*/
+
+								switch(value.ToString())
+								{
+									case "0":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_report_path, yes_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_report_path} Converted {value} => {yes_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "1":
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										case_has_changed = case_has_changed && gs.set_value(ar_autopsy_report_path, no_value, doc);
+										output_text = $"item record_id: {mmria_id} path:{ar_autopsy_report_path} Converted  {value} => {no_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									break;
+									case "2":
+									case "3":
+									case "7777":
+									case "9999":
+									break;
+								}
+							}
+						}	
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}	
+
+
+					try
+					{
+						var dcdi_mo_death_path = "death_certificate/death_information/manner_of_death";
+						value_result = gs.get_value(doc, dcdi_mo_death_path);
+						if(!value_result.is_error)
+						{
+							var value = value_result.result;
+							if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+							{
+								//do nothing;	
+							}
+							else if(value.ToString() == "8888")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "7777";
+
+								case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 8888 => 7777";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+							else if(value.ToString() == "4")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								dynamic new_value = "3";
+
+								case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 4 => 3";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 
 
 					if(!is_report_only_mode && case_has_changed)
@@ -1922,7 +2241,7 @@ namespace migrate.set
 
 /*
 bcifsmod_framo_deliv +1 4 -> 7777
-ar_coa_infor -1 + 4 -> 2
+ar_coa_infor -1 + 3 -> 2
 pppcf_pp_type -1 +1 3 -> 4
 posopc_p_type -1 +1 3->4
 omovmcf_provicer_type -1 +1 6->7
@@ -2010,7 +2329,7 @@ bcifsmod_framo_deliv +1 4 -> 7777
 bcifsmod_icwtol_attem
 bcifs_aco_newbo
 
-ar_coa_infor -1 + 4 -> 2
+ar_coa_infor -1 + 3 -> 2
 arrc_r_type
 art_level
 pppcf_p_type
