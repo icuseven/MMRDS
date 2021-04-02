@@ -3272,23 +3272,23 @@ function add_new_case_button_click(p_input)
             <h1 class="h2">Add New Case - Generate MMRIA Record ID#</h1>
 
             <div id="new_validation_message_area">
-                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid ml-1"></span> All fields are required to generate record id number except Mother's Middle Name.</p>
+                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid ml-1"></span> All fields are required to generate record id number except Decedent's Middle Name.</p>
             </div>
 
             <div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label for="new_first_name">Mother's First Name*</label>
+                        <label for="new_first_name">Decedent's First Name*</label>
                         <input id="new_first_name" class="form-control w-100" type="text" value="" />
                     </div>
 
                     <div class="col mb-3">
-                        <label for="new_middle_name">Mother's Middle Name</label>
+                        <label for="new_middle_name">Decedent's Middle Name</label>
                         <input id="new_middle_name" class="form-control w-100" type="text" value="" />
                     </div>
                     
                     <div class="col mb-3">
-                        <label for="new_last_name">Mother's Last Name*</label>
+                        <label for="new_last_name">Decedent's Last Name*</label>
                         <input id="new_last_name" class="form-control w-100" type="text" value="" />
                     </div>
                 </div>
@@ -3367,12 +3367,12 @@ function add_new_case_button_click(p_input)
                     <div class="right-col pl-3">
                         <p>Please enter data for the required fields below and try again:</p>
                         <ul id="validation_summary_list" class="mb-0">
-                            <li><strong>Mother's Last Name</strong></li>
-                            <li><strong>Mother's First Name</strong></li>
+                            <li><strong>Decedent's Last Name</strong></li>
+                            <li><strong>Decedent's First Name</strong></li>
                             <li><strong>Date of Death (MM, DD, YYYY)</strong></li>
                             <li><strong>State of Death Record</strong></li>
                         </ul>
-                        <p>The only field not required to create a new case form is <strong>Mother's Middle Name</strong>.</p>
+                        <p>The only field not required to create a new case form is <strong>Decedent's Middle Name</strong>.</p>
                     </div>
                 </div>
             `;
@@ -3389,7 +3389,7 @@ function add_new_case_button_click(p_input)
                 </div>
                 <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
-                        <p><strong>Mother’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+                        <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
                         <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
                         <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
                         <p class="d-flex align-items-start mb-0">
@@ -3434,7 +3434,7 @@ function add_new_case_button_click(p_input)
         {
             //new_validation_message_area.innerHTML = "cancelled generate";
             new_validation_message_area.innerHTML = `
-                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid"></span> All fields are required to generate record id number except Mother's Middle Name.</p>
+                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid"></span> All fields are required to generate record id number except Decedent's Middle Name.</p>
             `;
             state.value = "init";
         }
