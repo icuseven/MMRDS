@@ -749,7 +749,7 @@ namespace RecordsProcessor_Worker.Actors
 
 
 
-            var case_view_response = GetCaseView(config_couchdb_url, db_prefix, mor_field_set["LNAME"]);
+            var case_view_response = GetCaseView(item_db_info, mor_field_set["LNAME"]);
             string mmria_id = null;
 
             var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
@@ -10874,8 +10874,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         private mmria.common.model.couchdb.case_view_response GetCaseView
         (
 
-            string config_couchdb_url,
-            string db_prefix,
+            mmria.common.couchdb.DBConfigurationDetail db_info,
             string search_key,
             int skip = 0,
             int take = int.MaxValue,
@@ -10914,7 +10913,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             try
             {
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
-                request_builder.Append($"{config_couchdb_url}/{db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+                request_builder.Append($"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
                 if (skip > -1)
                 {
@@ -10938,7 +10937,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
 
                 string request_string = request_builder.ToString();
-                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                 string responseFromServer = case_view_curl.execute();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
