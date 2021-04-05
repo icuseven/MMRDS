@@ -240,7 +240,8 @@ namespace RecordsProcessor_Worker.Actors
 
             {"METHNIC","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin"},
 
-
+                        {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
+            {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
 
             {"MRACE","birth_fetal_death_certificate_parent/race/race_of_mother"},
 
@@ -384,6 +385,8 @@ namespace RecordsProcessor_Worker.Actors
             {"HOSPFROM","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/transferred_from_where"},
             {"ATTEND_NPI","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_npi"},
             {"ATTEND_OTH_TXT","birth_fetal_death_certificate_parent/facility_of_delivery_demographics/other_attendant_type"},
+            {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
+            {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
 
 
 
@@ -516,8 +519,7 @@ namespace RecordsProcessor_Worker.Actors
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
             {"TB","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
-            {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
-            {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
+
             {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
             {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
             {"PRES","birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery"},
@@ -597,13 +599,11 @@ namespace RecordsProcessor_Worker.Actors
             {"FILENO","birth_certificate_infant_fetal_section/record_identification/state_file_number"},
             {"AUXNO","birth_certificate_infant_fetal_section/record_identification/local_file_number"},
             {"TD","birth_certificate_infant_fetal_section/record_identification/time_of_delivery"},
-            {"METHNIC5","birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify"},
             {"ATTF","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_forceps_attempted_but_unsuccessful"},
             {"ATTV","birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful"},
             {"PRES","birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery"},
             {"ROUT","birth_certificate_infant_fetal_section/method_of_delivery/final_route_and_method_of_delivery"},
             {"SORD","birth_certificate_infant_fetal_section/birth_order"},
-            {"FETHNIC5","birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify"},
 
 
 {"COD18a1", "birth_certificate_infant_fetal_section/vitals_import_group/cod18a1"},
@@ -1323,6 +1323,9 @@ namespace RecordsProcessor_Worker.Actors
                         , field_set["STDESIG"]
                         , field_set["POSTDIR"]), new_case);
 
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["METHNIC5"], field_set["METHNIC5"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FETHNIC5"], field_set["FETHNIC5"], new_case);
+
 
                         Set_location_of_residence_Gecocode(gs, get_geocode_info(LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
                                                                                                                             , field_set["PREDIR"]
@@ -1680,6 +1683,9 @@ namespace RecordsProcessor_Worker.Actors
                             , field_set["FETHNIC4"])
                             , new_case);
 
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["METHNIC5"], field_set["METHNIC5"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FETHNIC5"], field_set["FETHNIC5"], new_case);
+
                         gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["FRACE"], FRACE_FET_Rule(field_set["FRACE1"],
                             field_set["FRACE2"],
                             field_set["FRACE3"],
@@ -1796,6 +1802,17 @@ namespace RecordsProcessor_Worker.Actors
                                    field_set["HIV"], 
                                    field_set["OTHERI"]
                                 ), new_case);
+
+                        gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["maternal_morbidity"],
+                                FET_maternal_morbidity_Rule(
+                                    field_set["MTR"],
+                                    field_set["PLAC"],
+                                    field_set["RUT"],
+                                    field_set["UHYS"],
+                                    field_set["AINT"],
+                                    field_set["UOPR"]
+                                ), new_case);
+
                     }
 
 
@@ -1821,8 +1838,6 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
-                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["METHNIC5"]) });
-                        gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FETHNIC5"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTF"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
                         gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
@@ -1899,13 +1914,13 @@ namespace RecordsProcessor_Worker.Actors
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
-                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["METHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["METHNIC5"]) });
+
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
                         gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
-                        gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FETHNIC5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FETHNIC5"]) });
+
 
 
 
@@ -3403,7 +3418,7 @@ GNAME 27 50
                 result.Add("OCOD4", row.Substring(2721-1, 5).Trim());
                 result.Add("OCOD5", row.Substring(2726-1, 5).Trim());
                 result.Add("OCOD6", row.Substring(2731-1, 5).Trim());
-                result.Add("OCOD7", row.Substring(2736-1, 1).Trim());
+                result.Add("OCOD7", row.Substring(2736-1, 5).Trim());
 
                 result.Add("AVEN1", AVEN1_NAT_Rule(row.Substring(889, 1).Trim()));
                 result.Add("AVEN6", AVEN6_NAT_Rule(row.Substring(890, 1).Trim()));
@@ -3547,7 +3562,7 @@ GNAME 27 50
                 result.Add("OCOD4", row.Substring(2721-1, 5).Trim());
                 result.Add("OCOD5", row.Substring(2726-1, 5).Trim());
                 result.Add("OCOD6", row.Substring(2731-1, 5).Trim());
-                result.Add("OCOD7", row.Substring(2736-1, 1).Trim());
+                result.Add("OCOD7", row.Substring(2736-1, 5).Trim());
 
                 result.Add("DSTATE", (row.Substring(4, 2).Trim()));
                 result.Add("FSEX", FSEX_FET_Rule(row.Substring(29, 1).Trim()));
@@ -6046,63 +6061,63 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             {
                 determinedValues.Add("0");
             }
-            else if (value2?.ToUpper() == "Y")
+            if (value2?.ToUpper() == "Y")
             {
                 determinedValues.Add("1");
             }
-            else if (value3?.ToUpper() == "Y")
+            if (value3?.ToUpper() == "Y")
             {
                 determinedValues.Add("2");
             }
-            else if (value4?.ToUpper() == "Y")
+            if (value4?.ToUpper() == "Y")
             {
                 determinedValues.Add("7");
             }
-            else if (value5?.ToUpper() == "Y")
+            if (value5?.ToUpper() == "Y")
             {
                 determinedValues.Add("8");
             }
-            else if (value6?.ToUpper() == "Y")
+            if (value6?.ToUpper() == "Y")
             {
                 determinedValues.Add("9");
             }
-            else if (value7?.ToUpper() == "Y")
+            if (value7?.ToUpper() == "Y")
             {
                 determinedValues.Add("10");
             }
-            else if (value8?.ToUpper() == "Y")
+            if (value8?.ToUpper() == "Y")
             {
                 determinedValues.Add("11");
             }
-            else if (value9?.ToUpper() == "Y")
+            if (value9?.ToUpper() == "Y")
             {
                 determinedValues.Add("12");
             }
-            else if (value10?.ToUpper() == "Y")
+            if (value10?.ToUpper() == "Y")
             {
                 determinedValues.Add("13");
             }
-            else if (value11?.ToUpper() == "Y")
+            if (value11?.ToUpper() == "Y")
             {
                 determinedValues.Add("3");
             }
-            else if (value12?.ToUpper() == "Y")
+            if (value12?.ToUpper() == "Y")
             {
                 determinedValues.Add("4");
             }
-            else if (value13?.ToUpper() == "Y")
+            if (value13?.ToUpper() == "Y")
             {
                 determinedValues.Add("5");
             }
-            else if (value14?.ToUpper() == "Y")
+            if (value14?.ToUpper() == "Y")
             {
                 determinedValues.Add("6");
             }
-            else if (value15?.ToUpper() == "Y")
+            if (value15?.ToUpper() == "Y")
             {
                 determinedValues.Add("14");
             }
-            else
+            if(determinedValues.Count == 0)
             {
                 determinedValues.Add("8888");
             }
@@ -6290,66 +6305,68 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             {
                 determinedValues.Add("0");
             }
-            else if (value2?.ToUpper() == "Y")
+            if (value2?.ToUpper() == "Y")
             {
                 determinedValues.Add("1");
             }
-            else if (value3?.ToUpper() == "Y")
+            if (value3?.ToUpper() == "Y")
             {
                 determinedValues.Add("2");
             }
-            else if (value4?.ToUpper() == "Y")
+            if (value4?.ToUpper() == "Y")
             {
                 determinedValues.Add("7");
             }
-            else if (value5?.ToUpper() == "Y")
+            if (value5?.ToUpper() == "Y")
             {
                 determinedValues.Add("8");
             }
-            else if (value6?.ToUpper() == "Y")
+            if (value6?.ToUpper() == "Y")
             {
                 determinedValues.Add("9");
             }
-            else if (value7?.ToUpper() == "Y")
+            if (value7?.ToUpper() == "Y")
             {
                 determinedValues.Add("10");
             }
-            else if (value8?.ToUpper() == "Y")
+            if (value8?.ToUpper() == "Y")
             {
                 determinedValues.Add("11");
             }
-            else if (value9?.ToUpper() == "Y")
+            if (value9?.ToUpper() == "Y")
             {
                 determinedValues.Add("12");
             }
-            else if (value10?.ToUpper() == "Y")
+            if (value10?.ToUpper() == "Y")
             {
                 determinedValues.Add("13");
             }
-            else if (value11?.ToUpper() == "Y")
+            if (value11?.ToUpper() == "Y")
             {
                 determinedValues.Add("3");
             }
-            else if (value12?.ToUpper() == "Y")
+            if (value12?.ToUpper() == "Y")
             {
                 determinedValues.Add("4");
             }
-            else if (value13?.ToUpper() == "Y")
+            if (value13?.ToUpper() == "Y")
             {
                 determinedValues.Add("5");
             }
-            else if (value14?.ToUpper() == "Y")
+            if (value14?.ToUpper() == "Y")
             {
                 determinedValues.Add("6");
             }
-            else if (value15?.ToUpper() == "Y")
+            if (value15?.ToUpper() == "Y")
             {
                 determinedValues.Add("14");
             }
-            else
+
+            if(determinedValues.Count == 0)
             {
                 determinedValues.Add("8888");
             }
+
             return determinedValues.ToArray();
         }
 
@@ -9156,7 +9173,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             return determinedValue;
         }
 
-        private string MRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
+        private string[] MRACE_FET_Rule(string value1, string value2, string value3, string value4, string value5,
             string value6, string value7, string value8, string value9, string value10,
             string value11, string value12, string value13, string value14, string value15)
         {
@@ -9180,73 +9197,73 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             If every one of MRACE1 through MRACE15 is equal to "N", then bfdcpr_ro_mothe = 8888 (Race Not Specified)*/
 
-            string determinedValue;
+            List<string> determinedValues = new List<string>();
 
             if (value1?.ToUpper() == "Y")
             {
-                determinedValue = "0";
+                determinedValues.Add("0");
             }
-            else if (value2?.ToUpper() == "Y")
+            if (value2?.ToUpper() == "Y")
             {
-                determinedValue = "1";
+                determinedValues.Add("1");
             }
-            else if (value3?.ToUpper() == "Y")
+            if (value3?.ToUpper() == "Y")
             {
-                determinedValue = "2";
+                determinedValues.Add("2");
             }
-            else if (value4?.ToUpper() == "Y")
+            if (value4?.ToUpper() == "Y")
             {
-                determinedValue = "7";
+                determinedValues.Add("7");
             }
-            else if (value5?.ToUpper() == "Y")
+            if (value5?.ToUpper() == "Y")
             {
-                determinedValue = "8";
+                determinedValues.Add("8");
             }
-            else if (value6?.ToUpper() == "Y")
+            if (value6?.ToUpper() == "Y")
             {
-                determinedValue = "9";
+                determinedValues.Add("9");
             }
-            else if (value7?.ToUpper() == "Y")
+            if (value7?.ToUpper() == "Y")
             {
-                determinedValue = "10";
+                determinedValues.Add("10");
             }
-            else if (value8?.ToUpper() == "Y")
+            if (value8?.ToUpper() == "Y")
             {
-                determinedValue = "11";
+                determinedValues.Add("11");
             }
-            else if (value9?.ToUpper() == "Y")
+            if (value9?.ToUpper() == "Y")
             {
-                determinedValue = "12";
+                determinedValues.Add("12");
             }
-            else if (value10?.ToUpper() == "Y")
+            if (value10?.ToUpper() == "Y")
             {
-                determinedValue = "13";
+                determinedValues.Add("13");
             }
-            else if (value11?.ToUpper() == "Y")
+            if (value11?.ToUpper() == "Y")
             {
-                determinedValue = "3";
+                determinedValues.Add("3");
             }
-            else if (value12?.ToUpper() == "Y")
+            if (value12?.ToUpper() == "Y")
             {
-                determinedValue = "4";
+                determinedValues.Add("4");
             }
-            else if (value13?.ToUpper() == "Y")
+            if (value13?.ToUpper() == "Y")
             {
-                determinedValue = "5";
+                determinedValues.Add("5");
             }
-            else if (value14?.ToUpper() == "Y")
+            if (value14?.ToUpper() == "Y")
             {
-                determinedValue = "6";
+                determinedValues.Add("6");
             }
-            else if (value15?.ToUpper() == "Y")
+            if (value15?.ToUpper() == "Y")
             {
-                determinedValue = "14";
+                determinedValues.Add("14");
             }
-            else
+            if (determinedValues.Count == 0)
             {
-                determinedValue = "8888";
+                determinedValues.Add("8888");
             }
-            return determinedValue;
+            return determinedValues.ToArray();
         }
 
         private string MRACE16_17_FET_Rule(string value16, string value17)
@@ -10638,63 +10655,63 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             {
                 determinedValues.Add("0");
             }
-            else if (value2?.ToUpper() == "Y")
+            if (value2?.ToUpper() == "Y")
             {
                 determinedValues.Add("1");
             }
-            else if (value3?.ToUpper() == "Y")
+            if (value3?.ToUpper() == "Y")
             {
                 determinedValues.Add("2");
             }
-            else if (value4?.ToUpper() == "Y")
+            if (value4?.ToUpper() == "Y")
             {
                 determinedValues.Add("7");
             }
-            else if (value5?.ToUpper() == "Y")
+            if (value5?.ToUpper() == "Y")
             {
                 determinedValues.Add("8");
             }
-            else if (value6?.ToUpper() == "Y")
+            if (value6?.ToUpper() == "Y")
             {
                 determinedValues.Add("9");
             }
-            else if (value7?.ToUpper() == "Y")
+            if (value7?.ToUpper() == "Y")
             {
                 determinedValues.Add("10");
             }
-            else if (value8?.ToUpper() == "Y")
+            if (value8?.ToUpper() == "Y")
             {
                 determinedValues.Add("11");
             }
-            else if (value9?.ToUpper() == "Y")
+            if (value9?.ToUpper() == "Y")
             {
                 determinedValues.Add("12");
             }
-            else if (value10?.ToUpper() == "Y")
+            if (value10?.ToUpper() == "Y")
             {
                 determinedValues.Add("13");
             }
-            else if (value11?.ToUpper() == "Y")
+            if (value11?.ToUpper() == "Y")
             {
                 determinedValues.Add("3");
             }
-            else if (value12?.ToUpper() == "Y")
+            if (value12?.ToUpper() == "Y")
             {
                 determinedValues.Add("4");
             }
-            else if (value13?.ToUpper() == "Y")
+            if (value13?.ToUpper() == "Y")
             {
                 determinedValues.Add("5");
             }
-            else if (value14?.ToUpper() == "Y")
+            if (value14?.ToUpper() == "Y")
             {
                 determinedValues.Add("6");
             }
-            else if (value15?.ToUpper() == "Y")
+            if (value15?.ToUpper() == "Y")
             {
                 determinedValues.Add("14");
             }
-            else
+            if(determinedValues.Count == 0)
             {
                 determinedValues.Add("8888");
             }
