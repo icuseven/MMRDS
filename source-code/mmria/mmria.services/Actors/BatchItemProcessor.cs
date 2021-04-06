@@ -2222,7 +2222,7 @@ namespace RecordsProcessor_Worker.Actors
 
         private string calculate_omb_recode(string[] p_value_list)
         {
-            string result = null;
+            string result = "9999";
             var asian_list = new string[7]{ 
                     "Asian Indian",
                     "Chinese",
@@ -2254,7 +2254,7 @@ namespace RecordsProcessor_Worker.Actors
             }
             else
             {
-                if (p_value_list.Contains("Race Not Specified"))
+                if (p_value_list.Contains("8888"))
                 {
                     result = "Race Not Specified";
                 }
@@ -2275,11 +2275,11 @@ namespace RecordsProcessor_Worker.Actors
                         case 1:
                             if (is_asian == 1)
                             {
-                                result = "Asian";
+                                result = "4"; //"Asian";
                             }
                             else if (is_islander == 1)
                             {
-                                result = "Pacific Islander";
+                                result = "3"; //"Pacific Islander";
                             }
                             else
                             {
@@ -2287,10 +2287,10 @@ namespace RecordsProcessor_Worker.Actors
                             }
                             break;
                         case 2:
-                            result = "Bi-Racial";
+                            result = "5";//"Bi-Racial";
                             break;
                         default:
-                            result = "Multi-Racial";
+                            result = "6"; //"Multi-Racial";
                             break;
                     }
                 }
