@@ -851,7 +851,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}
@@ -940,7 +940,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}

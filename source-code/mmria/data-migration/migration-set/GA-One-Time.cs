@@ -209,7 +209,7 @@ Record linkage of death certificate hospital discharge data
 
 					if(!is_report_only_mode && case_has_changed)
 					{
-						var save_result = await save_case(doc);
+						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"GA_One_Time");
 					}
 
 				}
@@ -275,8 +275,8 @@ Record linkage of death certificate hospital discharge data
 			}
 			return result;
 		}
-
-		private async Task<bool> save_case(IDictionary<string, object> case_item)
+/*
+		private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
         {
             bool result = false;
 			var gsv = new C_Get_Set_Value(this.output_builder);
@@ -313,6 +313,7 @@ Record linkage of death certificate hospital discharge data
 
             return result;
         }
+		*/
 
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{

@@ -327,13 +327,13 @@ bcifsri_do_deliv
 
                 	if(!is_report_only_mode && case_has_changed)
 					{
-						var save_result = await save_case(case_item);
+						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(case_item as IDictionary<string, object>,"v2.3");
 					}
                 
                 }
            
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -365,7 +365,8 @@ new fields
 
         }
 
-        private async Task<bool> save_case(IDictionary<string, object> case_item)
+/*
+        private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
         {
             bool result = false;
 			var gsv = new C_Get_Set_Value(this.output_builder);
@@ -402,6 +403,8 @@ new fields
 
             return result;
         }
+		*/
+		
         private mmria.common.metadata.node get_metadata_node(mmria.common.metadata.app p_metadata, string p_path)
 		{
 

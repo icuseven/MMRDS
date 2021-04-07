@@ -242,7 +242,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && try_bool)
 						{
-							save_case(item);
+							new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item, "Manual-Migration.prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_ultrasound");
 						}
 					}
 
@@ -275,7 +275,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && try_bool)
 						{
-							save_case(item);
+							new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item, "Manual-Migration.prenatal.prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on.ultrasound");
 						}
 					}
 
@@ -310,7 +310,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && try_bool)
 						{
-							save_case(item);
+							new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item, "Manual-Migration.prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_lmp.true");
 						}
 					}
 				}
@@ -345,7 +345,7 @@ namespace migrate.set
 
 							if(!is_report_only_mode && try_bool)
 							{
-								save_case(item);
+								new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item, "Manual-Migration.prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on.Last menstrual period");
 							}
 						}
 					}
@@ -933,7 +933,7 @@ namespace migrate.set
 
 					if(!is_report_only_mode && case_has_changed)
 					{
-						save_case(case_item);
+						new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(case_item, "Manual-Migration");
 					}
 
 /**/
@@ -956,8 +956,8 @@ namespace migrate.set
 			Console.WriteLine($"Process Manual Migration duration total seconds: {time_span.TotalSeconds} total_minutes{time_span.TotalMinutes}\n");
 			
         }
-
-		private bool save_case(System.Dynamic.ExpandoObject item)
+/*
+		private bool sav_e_case_del(System.Dynamic.ExpandoObject item)
 		{
 			bool result = false;
 
@@ -989,6 +989,7 @@ namespace migrate.set
 
 			return result;
 		}
+		*/
 
 		private (bool, bool)  execute_multiform_changes_for(System.Dynamic.ExpandoObject p_object, string p_path, HashSet<string> p_value_set)
 
@@ -1070,8 +1071,8 @@ namespace migrate.set
 			return (result, all_changes_good);
 
 		}
-
-        private async Task<bool> save_case(IDictionary<string, object> case_item)
+/*
+        private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
         {
             bool result = false;
 			var gsv = new C_Get_Set_Value(this.output_builder);
@@ -1107,7 +1108,8 @@ namespace migrate.set
             }
 
             return result;
-        }
+        }*/
+		
         private mmria.common.metadata.node get_metadata_node(mmria.common.metadata.app p_metadata, string p_path)
 		{
 
@@ -1203,7 +1205,7 @@ namespace migrate.set
 
 				System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }

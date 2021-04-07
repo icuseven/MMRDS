@@ -976,6 +976,10 @@ namespace RecordsProcessor_Worker.Actors
 
                 gs.set_value("home_record/record_id", message.record_id, new_case);
 
+                gs.set_value("home_record/record_id", message.record_id, new_case);
+
+                gs.set_value("home_record/automated_vitals_group/import_date", current_date_iso_string, new_case);
+
                 //  Vital Report Start
                 var hr_cdc_match_det_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_det_match", metadata);
                 var hr_cdc_match_det_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_det_match", metadata);

@@ -420,7 +420,7 @@ namespace migrate.set
 
 				//System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -456,8 +456,8 @@ namespace migrate.set
 
             return result;
 		}
-
-        private async Task<bool> save_case(IDictionary<string, object> case_item)
+/*
+        private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
         {
             bool result = false;
 			var gsv = new C_Get_Set_Value(this.output_builder);
@@ -494,6 +494,8 @@ namespace migrate.set
 
             return result;
         }
+*/
+
 		private void process_node(ref bool is_changed, mmria.common.metadata.node p_metadata, object p_value)
 		{
 			IDictionary<string,object> object_dictionary = null;
@@ -511,7 +513,7 @@ namespace migrate.set
 							{
 								process_node(ref is_changed, child, object_dictionary[child.name]);
 							}
-							catch(Exception ex)
+							catch(Exception)
 							{
 								Console.WriteLine("unable to process" + child.name + " : " + child.type);
 							}
@@ -535,7 +537,7 @@ namespace migrate.set
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -566,7 +568,7 @@ namespace migrate.set
 									{
 										process_node(ref is_changed, child, object_dictionary[child.name]);
 									}
-									catch(Exception ex)
+									catch(Exception)
 									{
 										Console.WriteLine("unable to process" + child.name + " : " + child.type);
 									}
@@ -589,7 +591,7 @@ namespace migrate.set
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -603,7 +605,7 @@ namespace migrate.set
 					{
 						//process_list(ref is_changed, this.lookup,  p_metadata, p_value);
 					}
-					catch(Exception ex)
+					catch(Exception)
 					{
 						Console.WriteLine("unable to process" + p_metadata.name + " : " + p_metadata.type);
 					}

@@ -39,10 +39,10 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"fl",
-			"test",
-			"qa",
-			"uat"
+			"fl_dev",
+			//"test",
+			//"qa",
+			//"uat"
 
 			/*"test",
 			"ga"
@@ -194,7 +194,7 @@ namespace migrate
 
 			bool is_localhost_dev = true;
 
-			OnBoardingEnum MigrationType = OnBoardingEnum.OneTime;
+			OnBoardingEnum MigrationType = OnBoardingEnum.DataMigration;
 
 			
 
@@ -344,6 +344,9 @@ namespace migrate
 					{
 						var v2_4 = new migrate.set.v2_4_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await v2_4.execute();
+
+						var v2_4RaceRecode = new migrate.set.v2_4RaceRecode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_4RaceRecode.execute();
 
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await SubstanceMigration.execute();
@@ -573,7 +576,7 @@ namespace migrate
 							{
 								process_node(ref is_changed, child, object_dictionary[child.name]);
 							}
-							catch(Exception ex)
+							catch(Exception)
 							{
 								Console.WriteLine("unable to process" + child.name + " : " + child.type);
 							}
@@ -597,7 +600,7 @@ namespace migrate
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -628,7 +631,7 @@ namespace migrate
 									{
 										process_node(ref is_changed, child, object_dictionary[child.name]);
 									}
-									catch(Exception ex)
+									catch(Exception)
 									{
 										Console.WriteLine("unable to process" + child.name + " : " + child.type);
 									}
@@ -651,7 +654,7 @@ namespace migrate
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -665,7 +668,7 @@ namespace migrate
 					{
 						//process_list(ref is_changed, this.lookup,  p_metadata, p_value);
 					}
-					catch(Exception ex)
+					catch(Exception)
 					{
 						Console.WriteLine("unable to process" + p_metadata.name + " : " + p_metadata.type);
 					}
@@ -713,38 +716,4 @@ namespace migrate
     }
 }
 
-namespace mmria.common.couchdb
-{
-    public class DBConfigurationDetail
-    {
-        public string prefix { get; set;}
-        public string url { get; set; }
 
-        public string user_name { get; set; }
-
-        public string user_value { get; set; }
-
-    }
-    public class ConfigurationSet
-    {
-        public ConfigurationSet()
-        {
-            this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
-			this.name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        }
-        public string _id { get; set;}
-        public string _rev { get; set; }
-        public string service_key {get; set; }
-
-        public string data_type { get; } = "configuration-set";
-
-public Dictionary<string, string> name_value { get;set; }
-        public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
-
-		public DateTime date_created { get; set; } 
-		public string created_by { get; set; } 
-		public DateTime date_last_updated { get; set; } 
-		public string last_updated_by { get; set; } 
-
-    }
-}

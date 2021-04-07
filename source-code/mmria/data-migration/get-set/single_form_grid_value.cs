@@ -127,7 +127,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				is_error = true;
 

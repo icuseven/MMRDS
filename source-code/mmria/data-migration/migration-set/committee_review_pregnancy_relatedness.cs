@@ -56,7 +56,7 @@ namespace migrate.set
                     {
 						if(!is_report_only_mode)
 						{
-                        	await save_case(item);
+                        	await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item as IDictionary<string, object>, "Pregnancy-Associated but NOT Related");
 						}
                     }
                 }
@@ -68,7 +68,7 @@ namespace migrate.set
                     {
                         if(!is_report_only_mode)
 						{
-                        	await save_case(item);
+                        	await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item as IDictionary<string, object>, "Not Pregnancy Related or Associated (i.e. False Positive)");
 						}
                     }
                 }
@@ -81,7 +81,7 @@ namespace migrate.set
                     {
                         if(!is_report_only_mode)
 						{
-                        	await save_case(item);
+                        	await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(item as IDictionary<string, object>,"Unable to Determine if Pregnancy Related or Associated");
 						}
                     }
                 }
@@ -98,7 +98,7 @@ namespace migrate.set
                 */
                  
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -135,7 +135,7 @@ namespace migrate.set
 
 				System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -160,8 +160,8 @@ namespace migrate.set
 
             return result;
 		}
-
-        private async Task<bool> save_case(IDictionary<string, object> case_item)
+/*
+        private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
         {
             bool result = false;
 
@@ -197,7 +197,7 @@ namespace migrate.set
 
             return result;
         }
-
+*/
         private bool set_value(string p_metadata_path, string p_value, object p_case, int p_index = -1)
 		{
 			bool result = false;

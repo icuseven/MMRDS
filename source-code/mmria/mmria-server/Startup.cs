@@ -135,15 +135,6 @@ namespace mmria.server
       Program.config_pass_word_days_before_expires = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_expires"]) ? 0 : int.Parse(Configuration["password_settings:days_before_expires"]);
       Program.config_pass_word_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_user_is_notified_of_expiration"]) ? 0 : int.Parse(Configuration["password_settings:days_before_user_is_notified_of_expiration"]);
 
-
-      /*
-      Program.config_EMAIL_USE_AUTHENTICATION = Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
-      Program.config_EMAIL_USE_SSL = Configuration["mmria_settings:EMAIL_USE_SSL"];
-      Program.config_SMTP_HOST = Configuration["mmria_settings:SMTP_HOST"];
-      Program.config_SMTP_PORT = Configuration["mmria_settings:SMTP_PORT"];
-      Program.config_EMAIL_FROM = Configuration["mmria_settings:EMAIL_FROM"];
-      Program.config_EMAIL_PASSWORD = Configuration["mmria_settings:EMAIL_PASSWORD"];
-      */
       Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["authentication_settings:default_days_in_effective_date_interval"]) ? 0 : int.Parse(Configuration["authentication_settings:default_days_in_effective_date_interval"]);
       Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]) ? 5 : int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
       Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]) ? 120 : int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
@@ -324,14 +315,6 @@ namespace mmria.server
           Program.config_id = Configuration["mmria_settings:config_id"];
         }
 
-        /*
-        Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
-        Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
-        Program.config_SMTP_HOST = System.Environment.GetEnvironmentVariable ("SMTP_HOST"); //  = null;
-        Program.config_SMTP_PORT = System.Environment.GetEnvironmentVariable ("SMTP_PORT"); //  = 587;
-        Program.config_EMAIL_FROM = System.Environment.GetEnvironmentVariable ("EMAIL_FROM"); //  = null;
-        Program.config_EMAIL_PASSWORD = System.Environment.GetEnvironmentVariable ("EMAIL_PASSWORD"); //  = null;
-        */
         Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval")) ? 90 : int.Parse(System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"));
         Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout")) ? 5 : int.Parse(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"));
         Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes")) ? 120 : int.Parse(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"));
@@ -397,18 +380,7 @@ namespace mmria.server
         sched.Start();
       }
 
-      /*
-      Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Check_DB_Install>(), "Check_DB_Install");
-      Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Rebuild_Export_Queue>(), "Rebuild_Export_Queue");
-      Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue");
-      Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>(), "Process_Migrate_Data");
-      Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(), "case_sync_actor");
-      */
-      //Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>(), "Process_Migrate_Data");
-
       var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
-
-      //System.Threading.Thread.Sleep(1000);
 
       quartzSupervisor.Tell("init");
 
@@ -419,16 +391,6 @@ namespace mmria.server
         bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
       }
 
-      /*
-                  //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.2
-                  services.AddDistributedMemoryCache();
-                  services.AddSession(opts =>
-                  {
-                      opts.Cookie.HttpOnly = true;
-                      opts.Cookie.Name = ".mmria.session";
-                      opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
-                  });
-       */
       if (use_sams)
       {
         Log.Information("using sams");
@@ -463,44 +425,6 @@ namespace mmria.server
             options.AuthKey = "custom auth key";
             options.Is_SAMS = false;
         });
-
-/*
-
-        if (Configuration["mmria_settings:is_development"] != null && Configuration["mmria_settings:is_development"] == "true")
-        {
-          Log.Information("is_development == true");
-          services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-              .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-              options =>
-              {
-                options.LoginPath = new PathString("/Account/Login/");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-
-
-                Log.Information("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
-                Log.Information("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
-              });
-        }
-        else
-        {
-          Log.Information("is_development == false");
-
-          services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-              .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-              options =>
-              {
-                options.LoginPath = new PathString("/Account/Login/");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-
-                Log.Information("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
-                Log.Information("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
-              });
-        }*/
       }
 
 
@@ -515,11 +439,6 @@ namespace mmria.server
         options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
         options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));
         options.AddPolicy("guest", policy => policy.RequireRole("guest"));
-
-        //options.AddPolicy("form_designer", policy => policy.RequireClaim("EmployeeId"));
-        //options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId", "123", "456"));
-        //options.AddPolicy("Over21Only", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
-        //options.AddPolicy("BuildingEntry", policy => policy.Requirements.Add(new OfficeEntryRequirement()));
 
       });
 
@@ -548,15 +467,7 @@ namespace mmria.server
 */
       services.AddControllers().AddNewtonsoftJson();
 
-      //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
-      // Register the Swagger generator, defining one or more Swagger documents
 
-      /*
-      services.AddSwaggerGen(c =>
-      {
-          c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
-      });
-      */
 
       services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -802,26 +713,7 @@ namespace mmria.server
       {
         bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
       }
-      /*
-                  if(use_sams)
-                  {
-                      app.UseHttpsRedirection();
-                  }
-                  app.UseHttpsRedirection();
-                  */
 
-
-
-      //app.UseMvc();
-      //app.UseSession();
-      /*
-      app.UseMvc(routes =>
-      {
-          routes.MapRoute(
-              name: "default",
-              template: "{controller=Home}/{action=Index}/{id?}");
-      });
-      */
       app.UseDefaultFiles();
 
     app.UseStaticFiles();
@@ -835,9 +727,7 @@ namespace mmria.server
         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
       });
 
-      //app.UseHttpsRedirection();
 
-      // Initialise ReactJS.NET. Must be before static files.
       app.UseReact(config =>
       {
         config
@@ -847,18 +737,6 @@ namespace mmria.server
           .SetReactAppBuildPath("~/dist");
       });
     
-
-      //http://localhost:5000/swagger/v1/swagger.json
-      // Enable middleware to serve generated Swagger as a JSON endpoint.
-      /*
-      app.UseSwagger();
-
-      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-      app.UseSwaggerUI(c =>
-      {
-          c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-      });*/
-
     }
 
     public void Start()
@@ -876,16 +754,7 @@ namespace mmria.server
       }
       else
       {
-        /*
-        System.Threading.Tasks.Task.Run
-        (
-            new Action (async () => 
-            {
-                await new mmria.server.util.c_db_setup(Program.actorSystem).Install_Check();
-            }
 
-        ));
-         */
       }
 
       
