@@ -296,30 +296,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && case_has_changed)
 						{
-							var gsv = new C_Get_Set_Value(this.output_builder);
-							gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), doc);
-							gsv.set_value("last_updated_by", "migration_plan", doc);
-
-							settings = new Newtonsoft.Json.JsonSerializerSettings ();
-							settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-							var changed_object_string = Newtonsoft.Json.JsonConvert.SerializeObject(doc, settings);
-
-							IDictionary<string, object> doc_item = doc as IDictionary<string, object>;
-
-							string put_url = $"{db_server_url}/{db_name}/{doc_item["_id"]}";
-							cURL document_curl = new cURL ("PUT", null, put_url, changed_object_string, config_timer_user_name, config_timer_value);
-
-							try
-							{
-								responseFromServer = document_curl.execute();
-								var	result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-							}
-							catch(Exception ex)
-							{
-								//Console.Write("auth_session_token: {0}", auth_session_token);
-								this.output_builder.AppendLine("Substance Migration migration exception:{ex}");
-								Console.WriteLine(ex);
-							}
+  							await new SaveRecord(this.db_server_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, "SubstanceMigration", true);
 						}
 					}
 

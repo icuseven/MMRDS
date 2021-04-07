@@ -112,13 +112,24 @@ namespace migrate
                 if(put_result.ok)
                 {
                     result = true;
-                }/**/
+                }
+                else
+
+                {
+                    var output_text = $"item record_id: {item["_id"]} error saving {p_migration_name}";
+                    this.output_builder.AppendLine(output_text);
+                    Console.WriteLine(output_text);
+                }
                 
             }
             catch(Exception ex)
             {
-                //Console.Write("auth_session_token: {0}", auth_session_token);
+                var output_text = $"item record_id: {item["_id"]} error saving {p_migration_name}";
+                this.output_builder.AppendLine(output_text);
+                Console.WriteLine(output_text);
                 Console.WriteLine(ex);
+
+
             }
 
             return result;
@@ -210,11 +221,13 @@ namespace migrate
 
 
 				string responseFromServer = document_curl.execute();
-				//var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+				var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 			}
 			catch(Exception ex)
 			{
-				//Console.Write("auth_session_token: {0}", auth_session_token);
+				var output_text = $"item record_id: {item_dictionary["_id"]} error saving {p_migration_name}";
+                this.output_builder.AppendLine(output_text);
+                Console.WriteLine(output_text);
 				Console.WriteLine(ex);
 			}
 		
