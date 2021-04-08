@@ -38,7 +38,11 @@ namespace migrate
         {
             bool result = false;
 			var gsv = new C_Get_Set_Value(this.output_builder);
-            gsv.set_value("version", p_migration_name, item);
+
+            if(!p_migration_name.Equals("SubstanceMigration", StringComparison.OrdinalIgnoreCase))
+            {
+                gsv.set_value("version", p_migration_name, item);
+            }
 
             var item_dictionary = item as IDictionary<string,object>;
             List<Migration_History_Item> migration_history_list = new List<Migration_History_Item>();
@@ -149,7 +153,11 @@ namespace migrate
 			bool result = false;
 
 			var gsv = new C_Get_Set_Value(this.output_builder);
-            gsv.set_value("version", p_migration_name, item);
+            
+            if(!p_migration_name.Equals("SubstanceMigration", StringComparison.OrdinalIgnoreCase))
+            {
+                gsv.set_value("version", p_migration_name, item);
+            }
 
             var item_dictionary = item as IDictionary<string,object>;
             List<Migration_History_Item> migration_history_list = new List<Migration_History_Item>();
