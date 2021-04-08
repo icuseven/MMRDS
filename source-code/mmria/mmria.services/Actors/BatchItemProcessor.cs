@@ -1538,8 +1538,13 @@ namespace RecordsProcessor_Worker.Actors
                         //            field_set["INFT_ART"]
                         //        ), new_case);
 
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MAGER"], field_set["MAGER"], new_case);
-                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FAGER"], field_set["FAGER"], new_case);
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MAGER"], MAGER_NAT_Rule(field_set["MAGER"],
+                                    field_set["MDOB_YR"], field_set["MDOB_MO"], field_set["MDOB_DY"],
+                                    field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]), new_case);
+
+                        gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FAGER"], FAGER_NAT_Rule(field_set["FAGER"],
+                            field_set["FDOB_YR"], field_set["FDOB_MO"],
+                            field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]), new_case);
 
 
                         gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FBPLACD_ST_TER_C"], field_set["FBPLACD_ST_TER_C"], new_case);
@@ -1743,8 +1748,13 @@ namespace RecordsProcessor_Worker.Actors
 
                         gs.set_value(Parent_FET_IJE_to_MMRIA_Path["PLUR"], PLUR_Custom_FET_Rule(field_set["PLUR"]), new_case);
 
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MAGER"], field_set["MAGER"], new_case);
-                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FAGER"], field_set["FAGER"], new_case);
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MAGER"], MAGER_FET_Rule(field_set["MAGER"], 
+                            field_set["MDOB_YR"], field_set["MDOB_MO"], field_set["MDOB_DY"], 
+                            field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]), new_case);
+
+                        gs.set_value(Parent_FET_IJE_to_MMRIA_Path["FAGER"], FAGER_FET_Rule(field_set["FAGER"],
+                            field_set["FDOB_YR"], field_set["FDOB_MO"], 
+                            field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]), new_case);
                         //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["INFT_DRG"], field_set["INFT_DRG"], new_case);
                         //gs.set_value(Parent_FET_IJE_to_MMRIA_Path["INFT_ART"], field_set["INFT_ART"], new_case);
                        
@@ -2136,6 +2146,8 @@ namespace RecordsProcessor_Worker.Actors
 
 
         }
+
+       
 
         private void omb_mrace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
         {
@@ -3348,8 +3360,8 @@ GNAME 27 50
                 result.Add("ILIV", ILIV_Rule(row.Substring(909, 1).Trim()));
                 result.Add("BFED", BFED_Rule(row.Substring(910, 1).Trim()));
 
-                result.Add("MAGER", MAGER_NAT_Rule(row.Substring(919, 2).Trim()));
-                result.Add("FAGER", FAGER_NAT_Rule(row.Substring(921, 2).Trim()));
+                result.Add("MAGER", (row.Substring(919, 2).Trim()));
+                result.Add("FAGER", (row.Substring(921, 2).Trim()));
                 result.Add("EHYPE", EHYPE_NAT_Rule(row.Substring(923, 1).Trim()));
                 result.Add("INFT_DRG", INFT_DRG_NAT_Rule(row.Substring(924, 1).Trim()));
                 result.Add("INFT_ART", INFT_ART_NAT_Rule(row.Substring(925, 1).Trim()));
@@ -3653,8 +3665,8 @@ GNAME 27 50
                 result.Add("DOWT", DOWT_FET_Rule(row.Substring(557, 1).Trim()));
                 result.Add("CDIT", CDIT_FET_Rule(row.Substring(558, 1).Trim()));
                 result.Add("HYPO", HYPO_FET_Rule(row.Substring(559, 1).Trim()));
-                result.Add("MAGER", MAGER_FET_Rule(row.Substring(568, 2).Trim()));
-                result.Add("FAGER", FAGER_FET_Rule(row.Substring(570, 2).Trim()));
+                result.Add("MAGER", (row.Substring(568, 2).Trim()));
+                result.Add("FAGER", (row.Substring(570, 2).Trim()));
                 result.Add("EHYPE", EHYPE_FET_Rule(row.Substring(572, 1).Trim()));
                 result.Add("INFT_DRG", INFT_DRG_FET_Rule(row.Substring(573, 1).Trim()));
                 result.Add("INFT_ART", INFT_ART_FET_Rule(row.Substring(574, 1).Trim()));
@@ -3769,6 +3781,78 @@ GNAME 27 50
         }
 
         #region Rules Section
+
+        //CALCULATE MOTHERS AGE AT DELIVERY ON BC
+        /*
+        path=birth_fetal_death_certificate_parent/demographic_of_mother/age
+        event=onfocus
+        */
+        private string age_delivery(string dob_YR, string dob_MO, string dob_day, string dodeliv_YR, string dodeliv_MO, string dodeliv_day)
+        {
+            string years = "";
+            int.TryParse(dob_YR, out int start_year);
+            int.TryParse(dob_MO, out int start_month);
+            int.TryParse(dob_day, out int start_day);
+            int.TryParse(dodeliv_YR, out int end_year);
+            int.TryParse(dodeliv_MO, out int end_month);
+            int.TryParse(dodeliv_day, out int end_day);
+            //int.TryParse(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year, out int end_year);
+            //int.TryParse(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month, out int end_month);
+            //int.TryParse(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day, out int end_day);
+
+            if
+            (
+                DateTime.TryParse($"{start_year}/{start_month}/{start_day}", out DateTime birthDateCheck) == true &&
+                DateTime.TryParse($"{end_year}/{end_month}/{end_day}", out DateTime endDateCheck) == true
+            )
+            {
+                var start_date = new DateTime(start_year, start_month, start_day).AddMonths(-1);
+                var end_date = new DateTime(end_year, end_month, end_day).AddMonths(-1);
+                years = calc_years(start_date, end_date);
+            }
+
+            return years;
+        }
+        //CALCULATE FATHERS AGE AT DELIVERY ON BC
+        /*
+        path=birth_fetal_death_certificate_parent/demographic_of_father/age
+        event=onfocus
+        */
+    //    function fathers_age_delivery(p_control)
+    //    {
+    //        var years = null;
+    //        var start_year = parseInt(this.date_of_birth.year);
+    //        var start_month = parseInt(this.date_of_birth.month);
+    //        var start_day = 1;
+    //        var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //        var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    //        var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    //        if
+    //        (
+    //            $global.isValidDate(start_year, start_month, start_day) == true &&
+    //            $global.isValidDate(end_year, end_month, end_day) == true
+    //        )
+    //{
+    //            var start_date = new Date(start_year, start_month - 1, start_day);
+    //            var end_date = new Date(end_year, end_month - 1, end_day);
+    //            var years = $global.calc_years(start_date, end_date);
+    //            this.age = years;
+    //            p_control.value = this.age;
+    //        }
+    //    }
+
+        private string calc_years(DateTime p_start_date, DateTime p_end_date)
+        {
+            var years = "";
+
+            var age = p_end_date.Year - p_start_date.Year;
+            if (p_end_date.DayOfYear < p_start_date.DayOfYear)
+                age = age - 1;
+
+            years = age.ToString();
+
+            return years;
+        }
 
         #region MOR Rules
 
@@ -7876,24 +7960,24 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return value;
         }
 
-        private string MAGER_NAT_Rule(string value)
+        private string MAGER_NAT_Rule(string value, string dob_YR, string dob_MO, string dob_day, string dodeliv_YR, string dodeliv_MO, string dodeliv_day)
         {
             /*If value is in 00-98, transfer number verbatim to MMRIA field.
 
             If value = 99, leave the MMRIA value empty/blank*/
             if (value == "99")
-                value = "";
+                value = age_delivery(dob_YR, dob_MO, dob_day, dodeliv_YR, dodeliv_MO, dodeliv_day);
 
             return value;
         }
 
-        private string FAGER_NAT_Rule(string value)
+        private string FAGER_NAT_Rule(string value, string dob_YR, string dob_MO, string dodeliv_YR, string dodeliv_MO, string dodeliv_day)
         {
             /*If value is in 00-98, transfer number verbatim to MMRIA field.
 
             If value = 99, leave the MMRIA value empty/blank*/
             if (value == "99")
-                value = "";
+                value = age_delivery(dob_YR, dob_MO, "1", dodeliv_YR, dodeliv_MO, dodeliv_day);
 
             return value;
         }
@@ -10461,23 +10545,23 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             return value;
         }
-        private string MAGER_FET_Rule(string value)
+        private string MAGER_FET_Rule(string value, string dob_YR, string dob_MO, string dob_day, string dodeliv_YR, string dodeliv_MO, string dodeliv_day)
         {
             /*If value is in 00-98, transfer number verbatim to MMRIA field.
 
             If value = 99, leave the MMRIA value empty/blank*/
             if (value == "99")
-                value = "";
+                value = age_delivery(dob_YR, dob_MO, dob_day, dodeliv_YR, dodeliv_MO, dodeliv_day);
 
             return value;
         }
-        private string FAGER_FET_Rule(string value)
+        private string FAGER_FET_Rule(string value, string dob_YR, string dob_MO, string dodeliv_YR, string dodeliv_MO, string dodeliv_day)
         {
             /*If value is in 00-98, transfer number verbatim to MMRIA field.
 
             If value = 99, leave the MMRIA value empty/blank*/
             if (value == "99")
-                value = "";
+                value = age_delivery(dob_YR, dob_MO, "1", dodeliv_YR, dodeliv_MO, dodeliv_day);
 
             return value;
         }
