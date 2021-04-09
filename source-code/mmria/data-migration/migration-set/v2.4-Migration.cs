@@ -350,7 +350,7 @@ namespace migrate.set
 
 
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
-
+				
 				foreach(var case_item in case_response.rows)
 				{
 					var case_has_changed = false;
@@ -1320,61 +1320,77 @@ namespace migrate.set
 					try
 					{
 						var omovlt_d_level_path = "other_medical_office_visits/laboratory_tests/diagnostic_level";
-						var multiform_value_result = gs.get_multiform_value(doc, omovlt_d_level_path);
-						if(!multiform_value_result.is_error)
+						var multiform_grid = gs.get_multiform_grid(doc, omovlt_d_level_path, true);
+						if(multiform_grid!= null)
 						{
-							var list = multiform_value_result.result;
-							var new_list = new List<(int, dynamic)>();
 							var is_list_changed = false;
-
+							var new_list = new List<(int,int,dynamic)>();
 							var output_text = new System.Text.StringBuilder();
-							foreach(var (form_index, value) in list)
+							var multiform_list = multiform_grid as List<object>;
+							if(multiform_list!=null)
+							for(var multiform_index = 0; multiform_index < multiform_list.Count; multiform_index++)
 							{
-			
-								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
-								{
-									//is_list_changed = true;
-									new_list.Add((form_index, 9999));
-									//output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted null => 9999");
-									continue;	
-								}
 
-								if(value.ToString() == "8888")
+								var grid_list = multiform_list[multiform_index] as List<object>;
+								if(grid_list!=null)
+								for(var grid_item_index = 0; grid_item_index < grid_list.Count; grid_item_index++)
 								{
-									is_list_changed = true;
-									new_list.Add((form_index, 7777));
-									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
+								 	var item = grid_list[grid_item_index] as IDictionary<string,object>;
+									
+									
+									if(item!=null && item.ContainsKey("diagnostic_level"))
+									{
+										System.Console.WriteLine($"Diagnostic Level: {item["diagnostic_level"]}");
+
+										var value = item["diagnostic_level"];
+
+										if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+										{
+											//is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "9999"));
+											//output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted null => 9999");
+											//continue;	
+										}
+										else if(value.ToString() == "8888")
+										{
+											is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "7777"));
+											
+											output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted 6 => 7");
+										}
+										else if(value.ToString() == "1")
+										{
+											is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "2"));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted 6 => 7");
+										}
+										else if(value.ToString() == "3")
+										{
+											is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "2"));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted 6 => 7");
+										}
+										else if(value.ToString() == "4")
+										{
+											is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "5"));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted 6 => 7");
+										}
+										else if(value.ToString() == "6")
+										{
+											is_list_changed = true;
+											new_list.Add((multiform_index, grid_item_index, "5"));
+											output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{grid_item_index} Converted 6 => 7");
+										}
+										else
+										{
+											new_list.Add((multiform_index, grid_item_index, value));
+										}
+									}
+									
 								}
-								else if(value.ToString() == "1")
-								{
-									is_list_changed = true;
-									new_list.Add((form_index, 2));
-									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
-								}
-								else if(value.ToString() == "3")
-								{
-									is_list_changed = true;
-									new_list.Add((form_index, 2));
-									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
-								}
-								else if(value.ToString() == "4")
-								{
-									is_list_changed = true;
-									new_list.Add((form_index, 5));
-									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
-								}
-								else if(value.ToString() == "6")
-								{
-									is_list_changed = true;
-									new_list.Add((form_index, 5));
-									output_text.AppendLine($"item record_id: {mmria_id} path:{omovlt_d_level_path} form_index:{form_index} Converted 6 => 7");
-								}
-								else
-								{
-									new_list.Add((form_index, value));
-								}
-							
 							}
+
 
 							if(is_list_changed)
 							{
@@ -1384,7 +1400,7 @@ namespace migrate.set
 									case_has_changed = true;
 								}
 
-								case_has_changed = case_has_changed && gs.set_multiform_value(doc, omovlt_d_level_path, new_list);
+								case_has_changed = case_has_changed && gs.set_multiform_grid_value(doc, omovlt_d_level_path, new_list);
 								
 								this.output_builder.AppendLine(output_text.ToString());
 								Console.WriteLine(output_text);
