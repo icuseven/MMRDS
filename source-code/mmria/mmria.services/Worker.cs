@@ -28,7 +28,7 @@ namespace mmria.services.vitalsimport
             _logger = logger;
             _actorSystem = actorSystem;
 #if !DEBUG
-            InitializeRabbitMqListener();
+            //InitializeRabbitMqListener();
 #endif
         }
 
@@ -58,6 +58,7 @@ namespace mmria.services.vitalsimport
             stoppingToken.ThrowIfCancellationRequested();
             //We have no access to the queue on local
 #if !DEBUG
+/*
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (ch, ea) =>
             {
@@ -76,6 +77,7 @@ namespace mmria.services.vitalsimport
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
             _channel.BasicConsume(_queueName, false, consumer);
+            */
 #endif
 
             return Task.CompletedTask;
