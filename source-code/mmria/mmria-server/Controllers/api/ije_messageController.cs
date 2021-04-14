@@ -18,7 +18,7 @@ namespace mmria.server
 
 
 
-	
+	[Authorize]
 	[Route("api/[controller]")]
 	public class ije_messageController: ControllerBase 
 	{ 
@@ -38,18 +38,13 @@ namespace mmria.server
 
             try
 			{
-                //var localUrl = "https://localhost:44331/api/Message/IJESet";
-                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
-                //var messge_curl_result = await message_curl.executeAsync();
-
-				//string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
                 var config = ConfigDB.detail_list["vital_import"];
                 
                 string url = $"{config.url}/vital_import/_all_docs?include_docs=true";
 
 
 				var user_curl = new cURL("GET", null, url, null, config.user_name, config.user_value);
-				//user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
 
@@ -71,16 +66,13 @@ namespace mmria.server
             bool result = false;
             try
 			{
-                //var localUrl = "https://localhost:44331/api/Message/IJESet";
-                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
-                //var messge_curl_result = await message_curl.executeAsync();
 
 				string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "VitalNotification");
 
 				var user_curl = new cURL("DELETE", null, user_db_url, null);
 				user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 				var responseFromServer = await user_curl.executeAsync();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseFromServer);
+				//result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseFromServer);
 
 			}
 			catch(Exception ex) 
