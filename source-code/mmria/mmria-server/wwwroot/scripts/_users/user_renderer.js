@@ -308,7 +308,7 @@ function user_role_render(p_user, p_user_role_jurisdiction)
 
 	if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
 	{
-		role_set = [ '', 'abstractor','data_analyst', 'committee_member','cdc_analyst','form_designer', 'jurisdiction_admin'];
+		role_set = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin'];
 	}
 	else
 	{

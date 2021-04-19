@@ -17,7 +17,7 @@ using mmria.server.model;
 
 namespace VitalsImport_FileUpload.Controllers
 {
-    [Authorize(Roles = "cdc_analyst")]
+    [Authorize(Roles = "cdc_admin")]
     public class vitalsController : Controller
     {
         private readonly ILogger<vitalsController> _logger;
