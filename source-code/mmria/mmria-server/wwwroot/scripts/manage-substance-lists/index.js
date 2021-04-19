@@ -49,8 +49,9 @@ function render()
             {
                 color = "bgcolor=CCCCCC";
             }
-            html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a></td></tr>`)
+            html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a> | <a href="javascript:confirm_delete(${i})">remove</a></td></tr>`)
         }
+        html.push(`<tr><td><input id=new-source-item type="text" value=""/></td><td><input id=new-target-item type="text" value=""/></td><td> <a href="javascript:add_row()">Add New Mapping</a></td></tr>`);
         html.push('</table>')
     }
 
@@ -71,6 +72,34 @@ function select_row(p_index)
 
 }
 
+function confirm_delete(p_index)
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    let item = selected_list[p_index];
+
+    if(prompt(`are you sure you want to remove mapping ${item.source_value} => ${item.target_value}`, "no") == "yes")
+    {
+        delete_row(p_index);
+    }
+    else
+    {
+        cancel_row(p_index);
+    }
+
+}
+
+function delete_row(p_index)
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    let item = selected_list[p_index];
+    console.log('bbbubba ' + item.source_value);
+
+    selected_list.splice(p_index, 1);
+
+    render();
+
+}
+
 function cancel_row(p_index)
 {
     let selected_list = g_substance_mapping.substance_lists[g_selected_list];
@@ -81,7 +110,7 @@ function cancel_row(p_index)
     
 
     let html = [];
-    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a></td>`);
+    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a> | <a href="javascript:confirm_delete(${p_index})">remove</a></td>`);
     element.innerHTML = html.join("");
 
 }
@@ -101,6 +130,19 @@ function save_row(p_index)
     let html = [];
     html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a></td>`);
     element.innerHTML = html.join("");
+
+}
+
+function add_row()
+{
+    
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+
+    let source_element = document.getElementById(`new-source-item`);
+    let target_element = document.getElementById(`new-target-item`);
+    selected_list.push({ "source_value": source_element.value, "target_value": target_element.value });
+
+    render();
 
 }
 
