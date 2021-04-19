@@ -39,8 +39,8 @@ function render()
     let selected_list = g_substance_mapping.substance_lists[g_selected_list];
     if(selected_list)
     {
-        html.push(`<br/><table border=1><tr bgcolor=silver align=center><th colspan=2>${g_selected_list}</th></tr>`);
-        html.push(`<tr bgcolor=silver><th>source_value</th><th>target_value</th></tr>`);
+        html.push(`<br/><table border=1><tr bgcolor=silver align=center><th colspan=3>${g_selected_list}</th></tr>`);
+        html.push(`<tr bgcolor=silver><th>source_value</th><th>target_value</th><th>action</th></tr>`);
         for(let i = 0; i < selected_list.length; i++)
         {
             let item = selected_list[i];
@@ -49,7 +49,7 @@ function render()
             {
                 color = "bgcolor=CCCCCC";
             }
-            html.push(`<tr ${color}><td>${item.source_value}</td><td>${item.target_value}</td></tr>`)
+            html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a></td></tr>`)
         }
         html.push('</table>')
     }
@@ -57,7 +57,52 @@ function render()
 	document.getElementById('output').innerHTML = html.join("");
 }
 
+function select_row(p_index)
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    let item = selected_list[p_index];
+    console.log('bbbubba ' + item.source_value);
 
+    let element = document.getElementById(`item-${p_index}`);
+
+    let html = [];
+    html.push(`<td>${item.source_value}</td><td><input id=new-item-${p_index} type="text" value="${item.target_value}"/></td><td><a href="javascript:cancel_row(${p_index})">cancel</a> | <a href="javascript:save_row(${p_index})">save</a></td>`);
+    element.innerHTML = html.join("");
+
+}
+
+function cancel_row(p_index)
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    let item = selected_list[p_index];
+    console.log('bbbubba ' + item.source_value);
+
+    let element = document.getElementById(`item-${p_index}`);
+    
+
+    let html = [];
+    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a></td>`);
+    element.innerHTML = html.join("");
+
+}
+
+function save_row(p_index)
+{
+    
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    let item = selected_list[p_index];
+
+    let input_element = document.getElementById(`new-item-${p_index}`);
+    selected_list[p_index].target_value = input_element.value;
+
+    console.log('bbbubba ' + item.source_value);
+
+    let element = document.getElementById(`item-${p_index}`);
+    let html = [];
+    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a></td>`);
+    element.innerHTML = html.join("");
+
+}
 
 function render_power_bi_user_list()
 {
