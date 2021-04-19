@@ -188,6 +188,35 @@ else
       </li>
     }
 
+    @if(is_cdc_analyst)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">CDC Analyst</h4></div>
+        <div class="card-body">
+          <ul>
+            <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
+            <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
+            
+          </ul>
+        </div>
+      </li>
+    }
+
+    @if(is_cdc_admin)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">CDC Admin</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/vitals">View Vitals Load Notification Report</a></li>
+            <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
+            <li><a href="/clear_case_status">Unlock and Clear Case Status</a></li>
+            <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
+          </ul>
+        </div>
+      </li>
+    }
+
     @if(is_form_designer)
     {
       <li class="card grid-item grid-item--3">
@@ -223,8 +252,9 @@ else
                 
             </ul>
             </li>
+            <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
           </ul>
-          <a href="/manage-substance-lists">Manage Substance Lists</a>
+         
         </div>
       </li>
     }
@@ -261,20 +291,7 @@ else
     }
 
 
-    @if(is_cdc_admin)
-    {
-      <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">CDC Admin</h4></div>
-        <div class="card-body">
-          <ul>
-            <li><a href="/vitals">View Vitals Load Notification Report</a></li>
-            <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
-            <li><a href="/clear_case_status">Unlock and Clear Case Status</a></li>
-            <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
-          </ul>
-        </div>
-      </li>
-    }
+
 
     <li class="card grid-item grid-item--3">
       <div class="card-header bg-secondary"><h4 class="h5">General</h4></div>
