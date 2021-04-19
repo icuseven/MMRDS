@@ -1,51 +1,63 @@
 
-var g_power_bi_user_list = null;
+var g_substance_mapping = null;
+var g_selected_list = null;
 
-$(function ()
-{//http://www.w3schools.com/html/html_layout.asp
-  'use strict';
-	/*profile.on_login_call_back = function (){
-				load_users();
-    };*/
-	//profile.initialize_profile();
+window.onload = function () 
+{
+    let selection_list = document.getElementById("select-list");
+    selection_list.onchange = on_selection_changed;
 
-	load_user_list();
+    load_substance_mapping();
+}
 
-	$(document).keydown(function(evt){
-		if (evt.keyCode==83 && (evt.ctrlKey)){
-			evt.preventDefault();
-			//metadata_save();
-		}
-	});
+function on_selection_changed()
+{
+    let selection_list = document.getElementById("select-list");
+    g_selected_list = selection_list.value;
+    render();
+}
 
-
-
-	window.onhashchange = function(e)
-	{
-		if(e.isTrusted)
-		{
-			var new_url = e.newURL || window.location.href;
-
-			g_ui.url_state = url_monitor.get_url_state(new_url);
-		}
-	};
-});
-
-
-
-function load_user_list()
+function load_substance_mapping()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/user',
+		url: location.protocol + '//' + location.host + '/api/substance_mapping',
 	}).done(function(response) 
 	{
-		g_power_bi_user_list = response;
+		g_substance_mapping = response;
 		
 		render();
 	});
 
 }
+
+
+function render()
+{
+    let html = [];
+
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    if(selected_list)
+    {
+        html.push(`<br/><table border=1><tr bgcolor=silver align=center><th colspan=2>${g_selected_list}</th></tr>`);
+        html.push(`<tr bgcolor=silver><th>source_value</th><th>target_value</th></tr>`);
+        for(let i = 0; i < selected_list.length; i++)
+        {
+            let item = selected_list[i];
+            let color = "";
+            if(i % 2 == 1)
+            {
+                color = "bgcolor=CCCCCC";
+            }
+            html.push(`<tr ${color}><td>${item.source_value}</td><td>${item.target_value}</td></tr>`)
+        }
+        html.push('</table>')
+    }
+
+	document.getElementById('output').innerHTML = html.join("");
+}
+
+
 
 function render_power_bi_user_list()
 {
@@ -134,10 +146,6 @@ function server_save(p_index)
 }
 
 
-function render()
-{
-	document.getElementById('output').innerHTML = render_power_bi_user_list().join("");
-}
 
 function encodeHTML(s) 
 {
