@@ -198,7 +198,7 @@ function save_row(p_index)
     let item = selected_list[p_index];
 
     let input_element = document.getElementById(`new-item-${p_index}`);
-    selected_list[p_index].target_value = input_element.value;
+    selected_list[p_index].target_value = input_element.value.trim();
 
     console.log('bbbubba ' + item.source_value);
 
@@ -216,7 +216,7 @@ function add_row()
 
     let source_element = document.getElementById(`new-source-item`);
     let target_element = document.getElementById(`new-target-item`);
-    selected_list.push({ "source_value": source_element.value, "target_value": target_element.value });
+    selected_list.push({ "source_value": source_element.value.trim(), "target_value": target_element.value.trim() });
 
     render();
 
