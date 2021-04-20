@@ -1,13 +1,20 @@
 
 var g_substance_mapping = null;
 var g_selected_list = null;
+var g_metadata;
+var g_release_version;
+
+var g_value_list = null;
 
 window.onload = function () 
 {
     let selection_list = document.getElementById("select-list");
     selection_list.onchange = on_selection_changed;
 
-    load_substance_mapping();
+    let save_button = document.getElementById("save_button");
+    save_button.onclick = confirm_save;
+
+    get_release_version();
 }
 
 function on_selection_changed()
@@ -15,6 +22,44 @@ function on_selection_changed()
     let selection_list = document.getElementById("select-list");
     g_selected_list = selection_list.value;
     render();
+}
+
+function get_release_version() 
+{
+  $.ajax({
+    url:
+      location.protocol + '//' + location.host + '/api/version/release-version',
+  }).done(function (response) {
+    g_release_version = response;
+    load_metadata();
+  });
+}
+
+function load_metadata()
+{
+	var metadata_url = location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`;
+
+	$.ajax({
+			url: metadata_url
+	}).done(function(response) 
+    {
+			g_metadata = response;
+
+            let subtance_node = null;
+
+            for(let i = 0; i < g_metadata.lookup.length; i++)
+            {
+                let item = g_metadata.lookup[i];
+                if(item.name == "substance")
+                {
+                    g_value_list = item.values;
+                    break;
+                }
+            }
+
+            load_substance_mapping();
+
+	});
 }
 
 function load_substance_mapping()
@@ -31,6 +76,37 @@ function load_substance_mapping()
 
 }
 
+function render_substance_list(p_id, p_value)
+{
+    let html = [];
+    html.push(`<select id='${p_id}'>`);
+    for(let i = 0; i < g_value_list.length; i++)
+    {
+        let item = g_value_list[i];
+        let is_selected = "";
+        if
+        (
+            (
+                p_value == null || 
+                p_value == ""
+            ) &&
+            item.value == "Other"
+        )
+        {
+            is_selected = "selected";
+        }
+        else if(item.value == p_value)
+        {
+            is_selected = "selected";
+        }
+
+        html.push(`<option value='${item.value}' ${is_selected}>${item.display}</option>`);
+    }
+
+    html.push("</select>");
+
+    return html.join("");
+}
 
 function render()
 {
@@ -40,7 +116,7 @@ function render()
     if(selected_list)
     {
         html.push(`<br/><table border=1><tr bgcolor=silver align=center><th colspan=3>${g_selected_list}</th></tr>`);
-        html.push(`<tr bgcolor=silver><th>source_value</th><th>target_value</th><th>action</th></tr>`);
+        html.push(`<tr bgcolor=silver><th><a href="javascript:sort_by_source()">Other Specify Text</a></th><th><a href="javascript:sort_by_target()">=> List Value</a></th><th>action</th></tr>`);
         for(let i = 0; i < selected_list.length; i++)
         {
             let item = selected_list[i];
@@ -49,9 +125,9 @@ function render()
             {
                 color = "bgcolor=CCCCCC";
             }
-            html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a> | <a href="javascript:confirm_delete(${i})">remove</a></td></tr>`)
+            html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>=> ${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a> | <a href="javascript:confirm_delete(${i})">remove</a></td></tr>`)
         }
-        html.push(`<tr><td><input id=new-source-item type="text" value=""/></td><td><input id=new-target-item type="text" value=""/></td><td> <a href="javascript:add_row()">Add New Mapping</a></td></tr>`);
+        html.push(`<tr><td><input id=new-source-item type="text" value=""/></td><td>=> ${render_substance_list("new-target-item","")}</td><td> <a href="javascript:add_row()">Add New Mapping</a></td></tr>`);
         html.push('</table>')
     }
 
@@ -67,7 +143,7 @@ function select_row(p_index)
     let element = document.getElementById(`item-${p_index}`);
 
     let html = [];
-    html.push(`<td>${item.source_value}</td><td><input id=new-item-${p_index} type="text" value="${item.target_value}"/></td><td><a href="javascript:cancel_row(${p_index})">cancel</a> | <a href="javascript:save_row(${p_index})">save</a></td>`);
+    html.push(`<td>${item.source_value}</td><td>=> ${render_substance_list("new-item-"+ p_index, item.target_value)}</td><td><a href="javascript:cancel_row(${p_index})">cancel</a> | <a href="javascript:save_row(${p_index})">save</a></td>`);
     element.innerHTML = html.join("");
 
 }
@@ -146,77 +222,25 @@ function add_row()
 
 }
 
-function render_power_bi_user_list()
+
+function confirm_save()
 {
-
-	var result = [];
-	result.push("<br/>");
-	result.push("<table>");
-	result.push("<tr  bgcolor='silver'>")
-	result.push("<th scope='col'>user name</th>");
-	result.push("<th scope='col'>power bi user</th>");
-	result.push("<th scope='col'>action</th>");
-	result.push("</tr>");
-
-	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
-
-	
-	for(let i = 0; i < g_power_bi_user_list.rows.length; i++)
-	{
-		var item = g_power_bi_user_list.rows[i].doc;
-
-		if(i % 2)
-		{
-			result.push("<tr bgcolor='#CCCCCC'>");
-		}
-		else
-		{
-			result.push("<tr>");
-		}
-		result.push("<td>");
-		result.push(encodeHTML(item.name));
-		result.push("</td>");
-		result.push("<td><label title='");
-		if(item.alternate_email != null)
-		{
-			result.push(encodeHTML(item.alternate_email));
-		}
-		result.push("'><input size='120' type='text' value='");
-		if(item.alternate_email != null)
-		{
-			result.push(escape(item.alternate_email));
-		}
-		result.push("' onchange='update_item("+ i +", this.value)'/></label></td>");
-		result.push("<td colspan=2 align=center><input type='button' value='save' onclick='server_save("+ i +")' /></td>")
-		result.push("</tr>");		
-		
-	}
-
-	
-	result.push("</table>");
-	result.push("<br/>");
-	
-	return result;
+    if(prompt(`are you sure you want to save your changes?`, "no") == "yes")
+    {
+        server_save();
+    }
 
 }
 
-function update_item(p_index, p_value)
+
+function server_save()
 {
-	g_power_bi_user_list.rows[p_index].doc.alternate_email = p_value;
-
-
-}
-
-function server_save(p_index)
-{
-
-	let user = g_power_bi_user_list.rows[p_index].doc;
 
 	$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user',
+				url: location.protocol + '//' + location.host + '/api/substance_mapping',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				data: JSON.stringify(user),
+				data: JSON.stringify(g_substance_mapping),
 				type: "POST"
 		}).done(function(response) 
 		{
@@ -224,22 +248,41 @@ function server_save(p_index)
 			let response_obj = eval(response);
 			if(response_obj.ok)
 			{
-				user._rev = user.rev; 
+				g_substance_mapping._rev = g_substance_mapping.rev; 
 
 				render();
 			}
 		});
 		
 }
+function compare_source_value(a, b)
+{
+    return a.source_value.localeCompare(b.source_value);
+}
 
+function compare_target_value(a, b)
+{
+    return a.target_value.localeCompare(b.target_value);
+}
 
+function sort_by_source()
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    selected_list.sort(compare_source_value);    
+
+    render();
+}
+
+function sort_by_target()
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    selected_list.sort(compare_target_value);    
+
+    render();
+}
 
 function encodeHTML(s) 
 {
 	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
     return result;
 }
-
-
-
-
