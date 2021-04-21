@@ -107,13 +107,13 @@ function count_substances()
         {
             let item = selected_list[i];
 
-            if(g_substance_text_count[item.source_value]!=null)
+            if(g_substance_text_count[item.source_value.toLowerCase()]!=null)
             {
-                g_substance_text_count[item.source_value] += 1;
+                g_substance_text_count[item.source_value.toLowerCase()] += 1;
             }
             else
             {
-                g_substance_text_count[item.source_value] = 1;
+                g_substance_text_count[item.source_value.toLowerCase()] = 1;
             }
         }
     }
@@ -173,7 +173,7 @@ function render()
                 color = "bgcolor=CCCCCC";
             }
 
-            if(g_substance_text_count[item.source_value] > 1)
+            if(g_substance_text_count[item.source_value.toLowerCase()] > 1)
             {
                 color = "bgcolor=FFCCCC";
             }
@@ -256,7 +256,7 @@ function save_row(p_index)
 
     let element = document.getElementById(`item-${p_index}`);
     let html = [];
-    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a></td>`);
+    html.push(`<td>${item.source_value}</td><td>${item.target_value}</td><td><a href="javascript:select_row(${p_index})">edit</a> | <a href="javascript:confirm_delete(${p_index})">remove</a></td>`);
     element.innerHTML = html.join("");
 
 }
@@ -298,14 +298,14 @@ function validate_save()
             {
                 let item = selected_list[i];
 
-                if(g_substance_text_count[item.source_value]!=null)
+                if(g_substance_text_count[item.source_value.toLowerCase()]!=null)
                 {
                     g_substance_text_count[item.source_value] += 1;
                     duplicate_entries.push(`${list_name} - ${item.source_value}`);
                 }
                 else
                 {
-                    g_substance_text_count[item.source_value] = 1;
+                    g_substance_text_count[item.source_value.toLowerCase()] = 1;
                 }
             }
         }
