@@ -744,48 +744,59 @@ function g_delete_grid_item
 (
 	p_object_path,
 	p_metadata_path,
-	p_dictionary_path,
+    p_dictionary_path,
+    p_metadata_prompt,
+    p_data_length,
 	p_index
 ) 
 {
-	var record_number = new Number(p_index) + new Number(1);
-	var index_check = prompt(
-		"Please confirm delete request of record " +
-			record_number +
-			" by entering the record number:",
-		"-1"
-	);
+    var record_number = new Number(p_index) + new Number(1);
 
-	if (index_check != null && record_number == new Number(index_check)) {
-		var metadata = eval(p_metadata_path);
-		var index = p_object_path
-			.match(new RegExp("\\[\\d+\\]$"))[0]
-			.replace("[", "")
-			.replace("]", "");
-		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+    const modal = build_delete_grid_dialog(record_number, p_object_path, p_metadata_path, p_dictionary_path, p_index, p_metadata_prompt, p_data_length);
+    const box = $("#content");
 
-		eval(object_string).splice(index, 1);
+    box.append(modal[0]);
+    $(`#case_modal_${p_index}`).modal("show");
+    $(`#case_modal_${p_index} .modal-footer .modal-cancel`).focus();
+	
+}
 
-		set_local_case(g_data, function () {
-			var post_html_call_back = [];
+function g_delete_grid_item_action
+    (
+        p_object_path,
+        p_metadata_path,
+        p_dictionary_path,
+        p_index
+    )
+{
+	var metadata = eval(p_metadata_path);
+	var index = p_object_path
+		.match(new RegExp("\\[\\d+\\]$"))[0]
+		.replace("[", "")
+		.replace("]", "");
+	var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
-			var render_result = page_render(
-				metadata,
-				eval(object_string),
-				g_ui,
-				p_metadata_path,
-				object_string,
-				p_dictionary_path,
-				false,
-				post_html_call_back
-			).join("");
-			var element = document.getElementById(p_metadata_path);
-			element.outerHTML = render_result;
-			if (post_html_call_back.length > 0) {
-				eval(post_html_call_back.join(""));
-			}
-		});
-	}
+	eval(object_string).splice(index, 1);
+
+	set_local_case(g_data, function () {
+		var post_html_call_back = [];
+
+		var render_result = page_render(
+			metadata,
+			eval(object_string),
+			g_ui,
+			p_metadata_path,
+			object_string,
+			p_dictionary_path,
+			false,
+			post_html_call_back
+		).join("");
+		var element = document.getElementById(p_metadata_path);
+		element.outerHTML = render_result;
+		if (post_html_call_back.length > 0) {
+			eval(post_html_call_back.join(""));
+		}
+	});
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path, p_index) {
@@ -2223,6 +2234,43 @@ function build_delete_dialog(p_values, p_index)
     `);
 
   return modal_ui;
+}
+
+function build_delete_grid_dialog(p_number, p_object_path, p_metadata_path, p_dictionary_path, p_index, p_metadata_prompt, p_data_length) {
+    const modal_ui = [];
+
+    modal_ui.push(`
+        <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                    <h5 id="case_modal_label_${p_index}" class="modal-title">Confirm Delete ${p_metadata_prompt} Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body row no-gutters">
+                    <div class="modal-icons col" style="max-width: 40px;">
+                        <span class="x40 fill-amber-p cdc-icon-alert_02" aria-hidden="true"></span>
+                        <span class="spinner-container spinner-inline" style="display: none">
+                        <span class="spinner-body text-primary">
+                            <span class="spinner"></span>
+                        </span>
+                        </span>
+                    </div>
+                    <div class="modal-messages col pl-3">
+                        <p>Are you sure you want to delete <strong>${p_metadata_prompt} item ${p_number} of ${p_data_length}</strong>?</p>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="modal-cancel btn btn btn-outline-secondary flex-order-2 mr-0" data-dismiss="modal" onclick="dispose_all_modals()">Cancel</button>
+                    <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" onclick="update_delete_dialog(${p_index}, () => { g_delete_grid_item_action('${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_index}) })">Delete</button>
+                    <button type="button" class="modal-confirm btn btn-primary flex-order-1 ml-0 mr-2" style="display: none" onclick="dispose_all_modals()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+
+    return modal_ui;
 }
 
 function update_delete_dialog(p_index, callback) 
