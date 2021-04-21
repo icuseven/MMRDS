@@ -4,6 +4,8 @@ var g_selected_list = null;
 var g_metadata;
 var g_release_version;
 
+var g_substance_text_count = {};
+
 var g_value_list = null;
 
 window.onload = function () 
@@ -70,10 +72,52 @@ function load_substance_mapping()
 	}).done(function(response) 
 	{
 		g_substance_mapping = response;
+
+
+        g_substance_text_count
 		
 		render();
 	});
 
+}
+
+function correct_trim()
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    if(selected_list)
+    {
+        g_substance_text_count = {};
+        for(let i = 0; i < selected_list.length; i++)
+        {
+            let item = selected_list[i];
+
+            item.source_value = item.source_value.trim();
+        }
+    }
+    
+}
+
+function count_substances()
+{
+    let selected_list = g_substance_mapping.substance_lists[g_selected_list];
+    if(selected_list)
+    {
+        g_substance_text_count = {};
+        for(let i = 0; i < selected_list.length; i++)
+        {
+            let item = selected_list[i];
+
+            if(g_substance_text_count[item.source_value]!=null)
+            {
+                g_substance_text_count[item.source_value] += 1;
+            }
+            else
+            {
+                g_substance_text_count[item.source_value] = 1;
+            }
+        }
+    }
+    
 }
 
 function render_substance_list(p_id, p_value)
@@ -112,6 +156,9 @@ function render()
 {
     let html = [];
 
+    correct_trim();
+    count_substances();
+
     let selected_list = g_substance_mapping.substance_lists[g_selected_list];
     if(selected_list)
     {
@@ -124,6 +171,11 @@ function render()
             if(i % 2 == 1)
             {
                 color = "bgcolor=CCCCCC";
+            }
+
+            if(g_substance_text_count[item.source_value] > 1)
+            {
+                color = "bgcolor=FFCCCC";
             }
             html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>=> ${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a> | <a href="javascript:confirm_delete(${i})">remove</a></td></tr>`)
         }
@@ -223,9 +275,67 @@ function add_row()
 }
 
 
+function validate_save()
+{
+    let result = 0;
+
+    let duplicate_entries = [];
+
+    let indexes = [
+    "autopsy_report/toxicology/substance",
+    "prenatal/substance_use_grid/substance",
+    "social_and_environmental_profile/if_yes_specify_substances/substance"
+    ];
+
+    for(let index = 0; index < indexes.length; index++)
+    {
+        let list_name = indexes[index];
+        let selected_list = g_substance_mapping.substance_lists[list_name];
+        if(selected_list)
+        {
+            g_substance_text_count = {};
+            for(let i = 0; i < selected_list.length; i++)
+            {
+                let item = selected_list[i];
+
+                if(g_substance_text_count[item.source_value]!=null)
+                {
+                    g_substance_text_count[item.source_value] += 1;
+                    duplicate_entries.push(`${list_name} - ${item.source_value}`);
+                }
+                else
+                {
+                    g_substance_text_count[item.source_value] = 1;
+                }
+            }
+        }
+    }
+
+    if(duplicate_entries.length > 0 && prompt(`Validation: Duplicate entries found for:\n${duplicate_entries.join("\n")}`,"no") == "yes")
+    {
+        result = 2;
+    }
+    else
+    {
+        result = 1;
+    }
+
+    return result;
+}
+
 function confirm_save()
 {
-    if(prompt(`are you sure you want to save your changes?`, "no") == "yes")
+    let validate_result = validate_save();
+
+    if(validate_result == 1)
+    {
+        // do nothing 
+    }
+    else if(validate_result == 2)
+    {
+        server_save();
+    }
+    else if(prompt(`are you sure you want to save your changes?`, "no") == "yes")
     {
         server_save();
     }
@@ -268,8 +378,8 @@ function compare_target_value(a, b)
 function sort_by_source()
 {
     let selected_list = g_substance_mapping.substance_lists[g_selected_list];
-    selected_list.sort(compare_source_value);    
-
+    selected_list.sort(compare_source_value);   
+    
     render();
 }
 
