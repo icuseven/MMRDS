@@ -4,7 +4,7 @@
 
     ViewBag.BreadCrumbs = true;
 
-    var is_cdc_analyst = false;
+    var is_cdc_admin = false;
     var is_abstractor = false;
 
     var userName = "";
@@ -23,8 +23,8 @@
         case "abstractor":
           is_abstractor = true;
           break;
-        case "cdc_analyst":
-          is_cdc_analyst = true;
+        case "cdc_admin":
+          is_cdc_admin = true;
           break;
       }
     }
@@ -39,7 +39,7 @@
 
 <h1 class="h2 mb-4" tabindex="-1">Vitals Import Status Notification Report</h1> <button class="btn btn-primary mt-3 d-none">Clear All TEST Data</button>
 
-@* if(is_cdc_analyst)
+@* if(is_cdc_admin)
 {
     <p><a id="clear_data">clear test data</a></p>
 }*@

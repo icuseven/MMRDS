@@ -34,7 +34,7 @@ namespace mmria.server.Controllers
       return result;
     }
 
-    [Authorize(Roles = "form_designer")]
+    [Authorize(Roles = "form_designer,cdc_analyst")]
     //[Route("{id}")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post

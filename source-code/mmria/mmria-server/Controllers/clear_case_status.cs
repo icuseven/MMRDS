@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "cdc_analyst")]
+    [Authorize(Roles  = "cdc_admin")]
     //[Route("clear-case-status")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]

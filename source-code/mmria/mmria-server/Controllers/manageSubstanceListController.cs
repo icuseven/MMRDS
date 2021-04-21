@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "form_designer")]
+    [Authorize(Roles  = "form_designer,cdc_analyst")]
     [Route("manage-substance-lists")]
     public class manageSubstanceListsController : Controller
     {
