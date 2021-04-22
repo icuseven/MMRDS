@@ -8,6 +8,8 @@ var g_substance_text_count = {};
 
 var g_value_list = null;
 
+var message_history = [];
+
 window.onload = function () 
 {
     let selection_list = document.getElementById("select-list");
@@ -152,8 +154,33 @@ function render_substance_list(p_id, p_value)
     return html.join("");
 }
 
+function render_header()
+{
+    let html = [];
+
+    html.push(`rev: ${g_substance_mapping._rev}`)
+
+    document.getElementById('header-id').innerHTML = html.join("");
+}
+
+function render_messages()
+{
+    var html = [];
+    html.push("<select size=3>");
+    for(let i = message_history.length - 1; i > -1; i--)
+    {
+        
+        html.push(`<option>${message_history[i]}</option>`);
+    }
+    html.push("</select>");
+
+    document.getElementById("message-area-id").innerHTML = html.join("");
+}
+
 function render()
 {
+    render_header();
+
     let html = [];
 
     correct_trim();
@@ -184,6 +211,7 @@ function render()
     }
 
 	document.getElementById('output').innerHTML = html.join("");
+    render_messages();
 }
 
 function select_row(p_index)
@@ -205,7 +233,7 @@ function confirm_delete(p_index)
     let selected_list = g_substance_mapping.substance_lists[g_selected_list];
     let item = selected_list[p_index];
 
-    if(prompt(`are you sure you want to remove mapping ${item.source_value} => ${item.target_value}`, "no") == "yes")
+    if(prompt(`are you sure you want to remove mapping ${item.source_value} => ${item.target_value}`, "no").toLocaleLowerCase() == "yes")
     {
         delete_row(p_index);
     }
@@ -311,7 +339,7 @@ function validate_save()
         }
     }
 
-    if(duplicate_entries.length > 0 && prompt(`Validation: Duplicate entries found for:\n${duplicate_entries.join("\n")}`,"no") == "yes")
+    if(duplicate_entries.length > 0 && prompt(`Validation: Duplicate entries found for:\n${duplicate_entries.join("\n")}`,"no").toLocaleLowerCase() == "yes")
     {
         result = 2;
     }
@@ -325,17 +353,20 @@ function validate_save()
 
 function confirm_save()
 {
+    let message_area = document.getElementById("message-area-id");
+    message_area.innerHTML = "";
     let validate_result = validate_save();
 
     if(validate_result == 1)
     {
-        // do nothing 
+        message_history.push(`${new Date()}: Save cancelled`);
+        render_messages();
     }
     else if(validate_result == 2)
     {
         server_save();
     }
-    else if(prompt(`are you sure you want to save your changes?`, "no") == "yes")
+    else if(prompt(`are you sure you want to save your changes?`, "no").toLocaleLowerCase() == "yes")
     {
         server_save();
     }
@@ -358,10 +389,15 @@ function server_save()
 			let response_obj = eval(response);
 			if(response_obj.ok)
 			{
-				g_substance_mapping._rev = g_substance_mapping.rev; 
-
+				g_substance_mapping._rev = response_obj.rev; 
+                message_history.push(`${new Date()}: Save successful.  Data saved to database.`);
 				render();
 			}
+            else
+            {
+                message_history.push(`${new Date()}: Problem saving!  Data NOT saved to database.`);
+                render_messages();
+            }
 		});
 		
 }
