@@ -29,9 +29,6 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Security.Claims;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
-using JavaScriptEngineSwitcher.ChakraCore;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using React.AspNet;
 using mmria.server.authentication;
 
 
@@ -442,8 +439,6 @@ namespace mmria.server
 
       });
 
-      services.AddReact();
-      services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
 
 
       services.AddMvc(config =>
@@ -727,15 +722,6 @@ namespace mmria.server
         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
       });
 
-
-      app.UseReact(config =>
-      {
-        config
-          .SetReuseJavaScriptEngines(true)
-          .SetLoadBabel(false)
-          .SetLoadReact(false)
-          .SetReactAppBuildPath("~/dist");
-      });
     
     }
 
