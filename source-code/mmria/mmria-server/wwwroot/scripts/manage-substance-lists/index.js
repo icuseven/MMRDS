@@ -339,13 +339,20 @@ function validate_save()
         }
     }
 
-    if(duplicate_entries.length > 0 && prompt(`Validation: Duplicate entries found for:\n${duplicate_entries.join("\n")}`,"no").toLocaleLowerCase() == "yes")
+    if(duplicate_entries.length > 0)
     {
-        result = 2;
+        if(prompt(`Validation: Duplicate entries found for:\n${duplicate_entries.join("\n")}`,"no").toLocaleLowerCase() == "yes")
+        {
+            result = 2;
+        }
+        else
+        {
+            result = 1;
+        }
     }
     else
     {
-        result = 1;
+        result = 0;
     }
 
     return result;
