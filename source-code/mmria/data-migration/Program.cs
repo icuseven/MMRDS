@@ -39,7 +39,17 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"fl_dev",
+			"ga"
+			/*
+			"afd",
+"dc",
+//"ga",
+"hi",
+"md",
+"me",
+"nd",
+"vt",
+"pr",*/
 			//"test",
 			//"qa",
 			//"uat"
@@ -61,7 +71,7 @@ namespace migrate
 /**/
 		static List<string> prefix_list = new List<string>()
 		{
-			/*
+			
 "afd",
 "dc",
 "ga",
@@ -73,7 +83,7 @@ namespace migrate
 "pr",
 
 			
-			*/
+		
 			
 			"al",
 			"ak",
@@ -84,8 +94,9 @@ namespace migrate
 			//"cdc",
 			"co",
 			"de",
-			//"demo",
+			"demo",
 			"fl",
+			//"hi",
 			"ia",
 			"id",
 			"in",
@@ -107,7 +118,7 @@ namespace migrate
 			"ny",
 			"nv",
 			"oh",
-			/*"ok",*/
+			"ok",
 			"or",
 			"pa",
 			"ri",
@@ -156,7 +167,7 @@ namespace migrate
 
 		};*/
 
-		enum OnBoardingEnum
+		enum RunTypeEnum
 		{
 			OnBoarding,
 			DataMigration,
@@ -190,11 +201,10 @@ namespace migrate
 
 			bool is_test_list = true;
 			
-			bool is_report_only_mode = false;
+			bool is_report_only_mode = true;
 
-			bool is_localhost_dev = true;
 
-			OnBoardingEnum MigrationType = OnBoardingEnum.DataMigration;
+			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
 
 			
 
@@ -304,44 +314,40 @@ namespace migrate
 
 					switch(MigrationType)
 					{
-						case OnBoardingEnum.OnBoarding:
+						case RunTypeEnum.OnBoarding:
 						Console.WriteLine("This is an OnBoarding data migration.");
 						output_string_builder["main"]["main"].AppendLine("This is an OnBoarding data migration.");
 						break;
 
-						case OnBoardingEnum.DataMigration:
+						case RunTypeEnum.DataMigration:
 						Console.WriteLine("This is a Version upgrade data migration");
 						output_string_builder["main"]["main"].AppendLine("This is a Version upgrade data migration");
 						break;
 
-						case OnBoardingEnum.OneTime:	
+						case RunTypeEnum.OneTime:	
 						Console.WriteLine("This is a one time only data migration");
 						output_string_builder["main"]["main"].AppendLine("This is a one time only data migration");
 						break;
 
 					}
 
-					if(MigrationType == OnBoardingEnum.OnBoarding)
+					if(MigrationType == RunTypeEnum.OnBoarding)
 					{
 						var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await crpr.execute();
 
 						var el = new migrate.set.editable_list(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["editable_list"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await el.execute();
-
 						
 						var mm = new migrate.set.Manual_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Manual_Migration"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await mm.execute();
-
 						
 						var pctn = new migrate.set.Process_Migrate_Charactor_to_Numeric(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await pctn.execute();
 
 						var v2_3 = new migrate.set.v2_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await v2_3.execute();
-					}
-					else if(MigrationType == OnBoardingEnum.DataMigration)
-					{
+
 						var v2_4 = new migrate.set.v2_4_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await v2_4.execute();
 
@@ -351,16 +357,28 @@ namespace migrate
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await SubstanceMigration.execute();
 					}
-					else if(MigrationType == OnBoardingEnum.OneTime)
+					else if(MigrationType == RunTypeEnum.DataMigration)
+					{
+						var v2_4 = new migrate.set.v2_4_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_4.execute();
+
+
+						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await SubstanceMigration.execute();
+					}
+					else if(MigrationType == RunTypeEnum.OneTime)
 					{
 							
 
 						//var GA_One_Time = new migrate.set.GA_One_Time(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await GA_One_Time.execute();
 
+						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await SubstanceMigration.execute();
 
-						var v2_4RaceRecode = new migrate.set.v2_4RaceRecode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await v2_4RaceRecode.execute();
+
+						//var v2_4RaceRecode = new migrate.set.v2_4RaceRecode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						//await v2_4RaceRecode.execute();
 
 					}
 
