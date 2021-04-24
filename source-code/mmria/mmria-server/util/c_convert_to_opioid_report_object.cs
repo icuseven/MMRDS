@@ -11,6 +11,8 @@ namespace mmria.server.util
 
 		string source_json;
 
+        string report_type = "overdose";
+
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
 		private int blank_value = 9999;
@@ -103,10 +105,11 @@ namespace mmria.server.util
 			"birth_fetal_death_certificate_parent/race/race_of_mother"
 		};
 
-		public c_convert_to_opioid_report_object (string p_source_json)
+		public c_convert_to_opioid_report_object (string p_source_json, string p_type = "overdose")
 		{
 
 			source_json = p_source_json;
+            this.report_type = p_type;
 		}
 
 
@@ -291,46 +294,80 @@ namespace mmria.server.util
 			mmria.server.model.c_opioid_report_object report_object;
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
+            int means_of_fatal_injury = 9999;
 
-			try
-			{
-				var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
-				int int_check = 0;
-				if
-				(
-					filter_check_string == null ||
-					string.IsNullOrWhiteSpace(filter_check_string.ToString())
-				)
-				{
-					return result;
-				}
-				
-				int Overdose_Poisioning = 3;
-				if(int.TryParse(filter_check_string.ToString(), out int_check))
-				{
-					if(int_check != Overdose_Poisioning)
-					{
-						return result;
-					}
-				}
-				else
-				{
-					return result;
-				}
+            if(report_type == "overdose")
+            {
+                try
+                {
+                    var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
+                    int int_check = 0;
+                    if
+                    (
+                        filter_check_string == null ||
+                        string.IsNullOrWhiteSpace(filter_check_string.ToString())
+                    )
+                    {
+                        return result;
+                    }
+                    
+                    int Overdose_Poisioning = 3;
+                    if(int.TryParse(filter_check_string.ToString(), out int_check))
+                    {
+                        if(int_check != Overdose_Poisioning)
+                        {
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        return result;
+                    }
 
-			}
-			catch(Exception ex)
-			{
-				//System.Console.WriteLine (ex);
-			}
+                }
+                catch(Exception ex)
+                {
+                    //System.Console.WriteLine (ex);
+                }
+            }
+            else
+            {
+                try
+                {
+                    var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
+                    int int_check = 0;
+                    if
+                    (
+                        filter_check_string == null ||
+                        string.IsNullOrWhiteSpace(filter_check_string.ToString())
+                    )
+                    {
+                        means_of_fatal_injury = 9999;
+                    }
+                    else if(int.TryParse(filter_check_string.ToString(), out int_check))
+                    {
+                        means_of_fatal_injury = int_check;
+                    }
+                    else
+                    {
+                        means_of_fatal_injury = 9999;
+                    }
+
+                }
+                catch(Exception ex)
+                {
+                    //System.Console.WriteLine (ex);
+                }
+            }
 
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 
 			
 
-			report_object = new mmria.server.model.c_opioid_report_object ();
+			report_object = new mmria.server.model.c_opioid_report_object (this.report_type);
 			report_object._id = get_value (source_object, "_id");
+            report_object.means_of_fatal_injury = means_of_fatal_injury;
 
 			var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
 
@@ -395,7 +432,7 @@ namespace mmria.server.util
 					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
 					report_object.day_of_case_review = System.Convert.ToDateTime(val).Day;
 
-					opioid_report_value_header.case_review_year = report_object.year_of_case_review ;
+					opioid_report_value_header.case_review_year = report_object.year_of_case_review;
 					opioid_report_value_header.case_review_month = report_object.month_of_case_review;
 					opioid_report_value_header.case_review_day = report_object.day_of_case_review;
 					

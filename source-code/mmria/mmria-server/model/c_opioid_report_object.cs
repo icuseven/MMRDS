@@ -26,14 +26,15 @@ namespace mmria.server.model
 	public class c_opioid_report_object
 	{
 
-		public c_opioid_report_object()
+		public c_opioid_report_object(string p_type = "overdose")
 		{
-			this.type = "overdose";
+			this.type = p_type;
 			this.data = new System.Collections.Generic.List<opioid_report_value_struct>();
 		}
 		public string _id ;
 
 		public string type;
+        public int? means_of_fatal_injury;
 
 		public System.Collections.Generic.List<opioid_report_value_struct> data;
 

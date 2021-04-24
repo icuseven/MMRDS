@@ -147,6 +147,19 @@ namespace mmria.server.util
 			
 			}
 
+            try
+			{
+                var Report_Opioid_Index = new Report_Opioid_Index_Struct() { ddoc = "powerbi-report-index"};
+                Report_Opioid_Index.index.partial_filter_selector._id["$regex"] = "^powerbi";
+                string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
+				var create_report_index_curl = new cURL ("POST", null, this.couchdb_url + $"/{Program.db_prefix}report/_index", index_json, this.user_name, this.user_value);
+				await create_report_index_curl.executeAsync ();
+			}
+			catch (Exception ex)
+			{
+			
+			}
+
 			var curl = new cURL ("GET", null, this.couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
 			string res = await curl.executeAsync ();
 /*

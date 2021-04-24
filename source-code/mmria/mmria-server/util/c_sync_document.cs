@@ -259,6 +259,53 @@ namespace mmria.server.util
 				System.Console.WriteLine(ex);
 			}
 
+            try
+			{
+				string opioid_report_json = new mmria.server.util.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
+
+				if(!string.IsNullOrWhiteSpace(opioid_report_json))
+				{
+					var opioid_id = "powerbi-" + this.document_id;
+					string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + opioid_id);
+
+
+					var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
+					var byName = (IDictionary<string,object>)opioid_report_expando_object;
+					byName["_id"] = opioid_id;
+					opioid_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(opioid_report_expando_object);
+
+					System.Text.StringBuilder opioid_aggregate_url = new System.Text.StringBuilder();
+
+					if(!string.IsNullOrEmpty(aggregate_revision))
+					{
+						opioid_report_json = set_revision (opioid_report_json, aggregate_revision);
+					}
+
+
+					opioid_aggregate_url.Append(Program.config_couchdb_url);
+					opioid_aggregate_url.Append($"/{Program.db_prefix}report/");
+					opioid_aggregate_url.Append(opioid_id);
+		
+					if(this.method == "DELETE")
+					{
+						opioid_aggregate_url.Append("?rev=");
+						opioid_aggregate_url.Append(aggregate_revision);	
+					}
+
+					var aggregate_curl = new cURL(this.method, null, opioid_aggregate_url.ToString(), opioid_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+
+					string aggregate_result = await aggregate_curl.executeAsync();
+					System.Console.WriteLine("c_sync_document aggregate_id");
+					System.Console.WriteLine(aggregate_result);
+				}
+
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("sync aggregate_id");
+				System.Console.WriteLine(ex);
+			}
+
 
 		}
 	}
