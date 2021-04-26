@@ -632,91 +632,7 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
     apply_tool_tips();
 
     let jump_value = 9999;
-    /*
-
-    <fieldset id="g_metadata.children[9].children[9]" mpath="g_metadata.children[9].children[9]" class="grid2 grid-control" style="position:absolute;top:3798.9585762023926px;left:1.927093505859375px;height:352.882px;width:998.924px">
-    <legend class="grid-control-legend" style="">Causes of Death - 4 item(s) </legend>
-    <ul class="grid-control-items p-0 list-unstyled">
-    <li class="grid-control-item mb-0">
-            <div class="list" id="g_data_death_certificate_causes_of_death_0__cause_type" mpath="g_metadata.children[9].children[9].children[0]">
-                <label for="g_data_death_certificate_causes_of_death_0__cause_type_control" style="position:absolute;top:44.913197250976566px;left:10.781254501953129px;height:23.941px;width:70.816px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Type of cause of death">
-                Type*
-                </label>
-
-        <select id="g_data_death_certificate_causes_of_death_0__cause_type_control" class="form-control" size="1" name="cause_type" style="position:absolute;top:76.87500450195313px;left:10.781254501953129px;height:37.9688px;width:150.938px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/cause_type" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[0].cause_type&quot;,&quot;g_metadata.children[9].children[9].children[0]&quot;,&quot;/death_certificate/causes_of_death/cause_type&quot;, this.value, null, 0)"><option value="9999" selected="">(Select Value)</option><option value="0">Immediate</option><option value="3">Other Significant</option><option value="1">Contributing</option><option value="2">Underlying</option></select></div><div id="g_data_death_certificate_causes_of_death_0__cause_descriptive" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[1]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_0__cause_descriptive_control" style="position:absolute;top:44.06250450195313px;left:178.246556015625px;height:50px;width:172.587px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Description of cause of death">
-                    Cause (Descriptive)*
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_0__cause_descriptive_control" style="position:absolute;top:76.87500450195313px;left:177.934056015625px;height:37.9688px;width:795.747px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/cause_descriptive" grid_index="0" type="text" name="cause_descriptive" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[0].cause_descriptive&quot;,&quot;g_metadata.children[9].children[9].children[1]&quot;,&quot;/death_certificate/causes_of_death/cause_descriptive&quot;, this.value, null, 0)"></div><div id="g_data_death_certificate_causes_of_death_0__icd_code" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[2]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_0__icd_code_control" style="position:absolute;top:130.9375083166504px;left:10.781254501953129px;height:23.941px;width:104.219px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="ICD code assigned to cause of death">
-                    ICD Code
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_0__icd_code_control" style="position:absolute;top:162.89930793823243px;left:10.781254501953129px;height:37.9688px;width:231.91px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/icd_code" grid_index="0" type="text" name="icd_code" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[0].icd_code&quot;,&quot;g_metadata.children[9].children[9].children[2]&quot;,&quot;/death_certificate/causes_of_death/icd_code&quot;, this.value, null, 0)"></div><div class="number" id="g_data_death_certificate_causes_of_death_0__interval" mpath="g_metadata.children[9].children[9].children[3]"><label for="g_data_death_certificate_causes_of_death_0__interval_control" style="position:absolute;top:130.9375083166504px;left:258.92361900390625px;height:23.941px;width:100px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- number">Interval</label> <input id="g_data_death_certificate_causes_of_death_0__interval_control" style="position:absolute;top:162.89930793823243px;left:258.92361900390625px;height:37.9688px;width:273.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control number" dpath="death_certificate/causes_of_death/interval" grid_index="0" type="text" name="interval" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[0].interval&quot;,&quot;g_metadata.children[9].children[9].children[3]&quot;,&quot;/death_certificate/causes_of_death/interval&quot;, this.value, null, 0)" size="15"></div><div class="list" id="g_data_death_certificate_causes_of_death_0__interval_unit" mpath="g_metadata.children[9].children[9].children[4]">
-            <label for="g_data_death_certificate_causes_of_death_0__interval_unit_control" style="position:absolute;top:130.9375083166504px;left:548.9062850195312px;height:23.941px;width:58.4375px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- unit measure">
-                Unit
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_0__interval_unit_control" class="form-control" size="1" name="interval_unit" style="position:absolute;top:162.89930793823243px;left:548.9062850195312px;height:37.9688px;width:148.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/interval_unit" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[0].interval_unit&quot;,&quot;g_metadata.children[9].children[9].children[4]&quot;,&quot;/death_certificate/causes_of_death/interval_unit&quot;, this.value, null, 0)"><option value="9999" selected="">(Select Value)</option><option value="0">Minute(s)</option><option value="1">Hour(s)</option><option value="2">Day(s)</option><option value="3">Week(s)</option><option value="4">Month(s)</option><option value="5">Year(s)</option></select></div><div class="grid-control-action-icn row no-gutters"><button type="button" class="grid-control-action-btn mr-1" title="delete" id="delete_g_data_death_certificate_causes_of_death[0]" onclick="g_delete_grid_item(&quot;g_data.death_certificate.causes_of_death[0]&quot;, &quot;g_metadata.children[9].children[9]&quot;, &quot;/death_certificate/causes_of_death&quot;, 0)"><span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 1 of 4</span></div>
-    </li>
-    <li class="grid-control-item mb-0"><div class="list" id="g_data_death_certificate_causes_of_death_1__cause_type" mpath="g_metadata.children[9].children[9].children[0]">
-            <label for="g_data_death_certificate_causes_of_death_1__cause_type_control" style="position:absolute;top:44.913197250976566px;left:10.781254501953129px;height:23.941px;width:70.816px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Type of cause of death">
-                Type*
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_1__cause_type_control" class="form-control" size="1" name="cause_type" style="position:absolute;top:76.87500450195313px;left:10.781254501953129px;height:37.9688px;width:150.938px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/cause_type" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[1].cause_type&quot;,&quot;g_metadata.children[9].children[9].children[0]&quot;,&quot;/death_certificate/causes_of_death/cause_type&quot;, this.value, null, 1)"><option value="9999" selected="">(Select Value)</option><option value="0">Immediate</option><option value="3">Other Significant</option><option value="1">Contributing</option><option value="2">Underlying</option></select></div><div id="g_data_death_certificate_causes_of_death_1__cause_descriptive" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[1]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_1__cause_descriptive_control" style="position:absolute;top:44.06250450195313px;left:178.246556015625px;height:50px;width:172.587px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Description of cause of death">
-                    Cause (Descriptive)*
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_1__cause_descriptive_control" style="position:absolute;top:76.87500450195313px;left:177.934056015625px;height:37.9688px;width:795.747px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/cause_descriptive" grid_index="1" type="text" name="cause_descriptive" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[1].cause_descriptive&quot;,&quot;g_metadata.children[9].children[9].children[1]&quot;,&quot;/death_certificate/causes_of_death/cause_descriptive&quot;, this.value, null, 1)"></div><div id="g_data_death_certificate_causes_of_death_1__icd_code" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[2]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_1__icd_code_control" style="position:absolute;top:130.9375083166504px;left:10.781254501953129px;height:23.941px;width:104.219px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="ICD code assigned to cause of death">
-                    ICD Code
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_1__icd_code_control" style="position:absolute;top:162.89930793823243px;left:10.781254501953129px;height:37.9688px;width:231.91px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/icd_code" grid_index="1" type="text" name="icd_code" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[1].icd_code&quot;,&quot;g_metadata.children[9].children[9].children[2]&quot;,&quot;/death_certificate/causes_of_death/icd_code&quot;, this.value, null, 1)"></div><div class="number" id="g_data_death_certificate_causes_of_death_1__interval" mpath="g_metadata.children[9].children[9].children[3]"><label for="g_data_death_certificate_causes_of_death_1__interval_control" style="position:absolute;top:130.9375083166504px;left:258.92361900390625px;height:23.941px;width:100px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- number">Interval</label> <input id="g_data_death_certificate_causes_of_death_1__interval_control" style="position:absolute;top:162.89930793823243px;left:258.92361900390625px;height:37.9688px;width:273.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control number" dpath="death_certificate/causes_of_death/interval" grid_index="1" type="text" name="interval" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[1].interval&quot;,&quot;g_metadata.children[9].children[9].children[3]&quot;,&quot;/death_certificate/causes_of_death/interval&quot;, this.value, null, 1)" size="15"></div><div class="list" id="g_data_death_certificate_causes_of_death_1__interval_unit" mpath="g_metadata.children[9].children[9].children[4]">
-            <label for="g_data_death_certificate_causes_of_death_1__interval_unit_control" style="position:absolute;top:130.9375083166504px;left:548.9062850195312px;height:23.941px;width:58.4375px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- unit measure">
-                Unit
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_1__interval_unit_control" class="form-control" size="1" name="interval_unit" style="position:absolute;top:162.89930793823243px;left:548.9062850195312px;height:37.9688px;width:148.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/interval_unit" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[1].interval_unit&quot;,&quot;g_metadata.children[9].children[9].children[4]&quot;,&quot;/death_certificate/causes_of_death/interval_unit&quot;, this.value, null, 1)"><option value="9999" selected="">(Select Value)</option><option value="0">Minute(s)</option><option value="1">Hour(s)</option><option value="2">Day(s)</option><option value="3">Week(s)</option><option value="4">Month(s)</option><option value="5">Year(s)</option></select></div><div class="grid-control-action-icn row no-gutters"><button type="button" class="grid-control-action-btn mr-1" title="delete" id="delete_g_data_death_certificate_causes_of_death[1]" onclick="g_delete_grid_item(&quot;g_data.death_certificate.causes_of_death[1]&quot;, &quot;g_metadata.children[9].children[9]&quot;, &quot;/death_certificate/causes_of_death&quot;, 1)"><span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 2 of 4</span></div>
-    </li>
-    <li class="grid-control-item mb-0"><div class="list" id="g_data_death_certificate_causes_of_death_2__cause_type" mpath="g_metadata.children[9].children[9].children[0]">
-            <label for="g_data_death_certificate_causes_of_death_2__cause_type_control" style="position:absolute;top:44.913197250976566px;left:10.781254501953129px;height:23.941px;width:70.816px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Type of cause of death">
-                Type*
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_2__cause_type_control" class="form-control" size="1" name="cause_type" style="position:absolute;top:76.87500450195313px;left:10.781254501953129px;height:37.9688px;width:150.938px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/cause_type" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[2].cause_type&quot;,&quot;g_metadata.children[9].children[9].children[0]&quot;,&quot;/death_certificate/causes_of_death/cause_type&quot;, this.value, null, 2)"><option value="9999" selected="">(Select Value)</option><option value="0">Immediate</option><option value="3">Other Significant</option><option value="1">Contributing</option><option value="2">Underlying</option></select></div><div id="g_data_death_certificate_causes_of_death_2__cause_descriptive" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[1]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_2__cause_descriptive_control" style="position:absolute;top:44.06250450195313px;left:178.246556015625px;height:50px;width:172.587px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Description of cause of death">
-                    Cause (Descriptive)*
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_2__cause_descriptive_control" style="position:absolute;top:76.87500450195313px;left:177.934056015625px;height:37.9688px;width:795.747px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/cause_descriptive" grid_index="2" type="text" name="cause_descriptive" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[2].cause_descriptive&quot;,&quot;g_metadata.children[9].children[9].children[1]&quot;,&quot;/death_certificate/causes_of_death/cause_descriptive&quot;, this.value, null, 2)"></div><div id="g_data_death_certificate_causes_of_death_2__icd_code" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[2]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_2__icd_code_control" style="position:absolute;top:130.9375083166504px;left:10.781254501953129px;height:23.941px;width:104.219px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="ICD code assigned to cause of death">
-                    ICD Code
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_2__icd_code_control" style="position:absolute;top:162.89930793823243px;left:10.781254501953129px;height:37.9688px;width:231.91px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/icd_code" grid_index="2" type="text" name="icd_code" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[2].icd_code&quot;,&quot;g_metadata.children[9].children[9].children[2]&quot;,&quot;/death_certificate/causes_of_death/icd_code&quot;, this.value, null, 2)"></div><div class="number" id="g_data_death_certificate_causes_of_death_2__interval" mpath="g_metadata.children[9].children[9].children[3]"><label for="g_data_death_certificate_causes_of_death_2__interval_control" style="position:absolute;top:130.9375083166504px;left:258.92361900390625px;height:23.941px;width:100px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- number">Interval</label> <input id="g_data_death_certificate_causes_of_death_2__interval_control" style="position:absolute;top:162.89930793823243px;left:258.92361900390625px;height:37.9688px;width:273.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control number" dpath="death_certificate/causes_of_death/interval" grid_index="2" type="text" name="interval" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[2].interval&quot;,&quot;g_metadata.children[9].children[9].children[3]&quot;,&quot;/death_certificate/causes_of_death/interval&quot;, this.value, null, 2)" size="15"></div><div class="list" id="g_data_death_certificate_causes_of_death_2__interval_unit" mpath="g_metadata.children[9].children[9].children[4]">
-            <label for="g_data_death_certificate_causes_of_death_2__interval_unit_control" style="position:absolute;top:130.9375083166504px;left:548.9062850195312px;height:23.941px;width:58.4375px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- unit measure">
-                Unit
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_2__interval_unit_control" class="form-control" size="1" name="interval_unit" style="position:absolute;top:162.89930793823243px;left:548.9062850195312px;height:37.9688px;width:148.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/interval_unit" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[2].interval_unit&quot;,&quot;g_metadata.children[9].children[9].children[4]&quot;,&quot;/death_certificate/causes_of_death/interval_unit&quot;, this.value, null, 2)"><option value="9999" selected="">(Select Value)</option><option value="0">Minute(s)</option><option value="1">Hour(s)</option><option value="2">Day(s)</option><option value="3">Week(s)</option><option value="4">Month(s)</option><option value="5">Year(s)</option></select></div><div class="grid-control-action-icn row no-gutters"><button type="button" class="grid-control-action-btn mr-1" title="delete" id="delete_g_data_death_certificate_causes_of_death[2]" onclick="g_delete_grid_item(&quot;g_data.death_certificate.causes_of_death[2]&quot;, &quot;g_metadata.children[9].children[9]&quot;, &quot;/death_certificate/causes_of_death&quot;, 2)"><span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 3 of 4</span></div>
-    </li>
-    <li class="grid-control-item mb-0"><div class="list" id="g_data_death_certificate_causes_of_death_3__cause_type" mpath="g_metadata.children[9].children[9].children[0]">
-            <label for="g_data_death_certificate_causes_of_death_3__cause_type_control" style="position:absolute;top:44.913197250976566px;left:10.781254501953129px;height:23.941px;width:70.816px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Type of cause of death">
-                Type*
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_3__cause_type_control" class="form-control" size="1" name="cause_type" style="position:absolute;top:76.87500450195313px;left:10.781254501953129px;height:37.9688px;width:150.938px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/cause_type" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[3].cause_type&quot;,&quot;g_metadata.children[9].children[9].children[0]&quot;,&quot;/death_certificate/causes_of_death/cause_type&quot;, this.value, null, 3)"><option value="9999" selected="">(Select Value)</option><option value="0">Immediate</option><option value="3">Other Significant</option><option value="1">Contributing</option><option value="2">Underlying</option></select></div><div id="g_data_death_certificate_causes_of_death_3__cause_descriptive" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[1]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_3__cause_descriptive_control" style="position:absolute;top:44.06250450195313px;left:178.246556015625px;height:50px;width:172.587px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Description of cause of death">
-                    Cause (Descriptive)*
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_3__cause_descriptive_control" style="position:absolute;top:76.87500450195313px;left:177.934056015625px;height:37.9688px;width:795.747px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/cause_descriptive" grid_index="3" type="text" name="cause_descriptive" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[3].cause_descriptive&quot;,&quot;g_metadata.children[9].children[9].children[1]&quot;,&quot;/death_certificate/causes_of_death/cause_descriptive&quot;, this.value, null, 3)"></div><div id="g_data_death_certificate_causes_of_death_3__icd_code" class="form-control-outer" mpath="g_metadata.children[9].children[9].children[2]" style="display:block;">
-                <label for="g_data_death_certificate_causes_of_death_3__icd_code_control" style="position:absolute;top:130.9375083166504px;left:10.781254501953129px;height:23.941px;width:104.219px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="ICD code assigned to cause of death">
-                    ICD Code
-                </label>
-            <input id="g_data_death_certificate_causes_of_death_3__icd_code_control" style="position:absolute;top:162.89930793823243px;left:10.781254501953129px;height:37.9688px;width:231.91px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control string" dpath="death_certificate/causes_of_death/icd_code" grid_index="3" type="text" name="icd_code" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[3].icd_code&quot;,&quot;g_metadata.children[9].children[9].children[2]&quot;,&quot;/death_certificate/causes_of_death/icd_code&quot;, this.value, null, 3)"></div><div class="number" id="g_data_death_certificate_causes_of_death_3__interval" mpath="g_metadata.children[9].children[9].children[3]"><label for="g_data_death_certificate_causes_of_death_3__interval_control" style="position:absolute;top:130.9375083166504px;left:258.92361900390625px;height:23.941px;width:100px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- number">Interval</label> <input id="g_data_death_certificate_causes_of_death_3__interval_control" style="position:absolute;top:162.89930793823243px;left:258.92361900390625px;height:37.9688px;width:273.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" class="form-control number" dpath="death_certificate/causes_of_death/interval" grid_index="3" type="text" name="interval" data-value="" value="" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[3].interval&quot;,&quot;g_metadata.children[9].children[9].children[3]&quot;,&quot;/death_certificate/causes_of_death/interval&quot;, this.value, null, 3)" size="15"></div><div class="list" id="g_data_death_certificate_causes_of_death_3__interval_unit" mpath="g_metadata.children[9].children[9].children[4]">
-            <label for="g_data_death_certificate_causes_of_death_3__interval_unit_control" style="position:absolute;top:130.9375083166504px;left:548.9062850195312px;height:23.941px;width:58.4375px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33, 37, 41)" rel="tooltip" data-original-title="Approximate interval of onset to death- unit measure">
-                Unit
-            </label>
-        <select id="g_data_death_certificate_causes_of_death_3__interval_unit_control" class="form-control" size="1" name="interval_unit" style="position:absolute;top:162.89930793823243px;left:548.9062850195312px;height:37.9688px;width:148.924px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)" dpath="death_certificate/causes_of_death/interval_unit" onblur="g_set_data_object_from_path(&quot;g_data.death_certificate.causes_of_death[3].interval_unit&quot;,&quot;g_metadata.children[9].children[9].children[4]&quot;,&quot;/death_certificate/causes_of_death/interval_unit&quot;, this.value, null, 3)"><option value="9999" selected="">(Select Value)</option><option value="0">Minute(s)</option><option value="1">Hour(s)</option><option value="2">Day(s)</option><option value="3">Week(s)</option><option value="4">Month(s)</option><option value="5">Year(s)</option></select></div><div class="grid-control-action-icn row no-gutters"><button type="button" class="grid-control-action-btn mr-1" title="delete" id="delete_g_data_death_certificate_causes_of_death[3]" onclick="g_delete_grid_item(&quot;g_data.death_certificate.causes_of_death[3]&quot;, &quot;g_metadata.children[9].children[9]&quot;, &quot;/death_certificate/causes_of_death&quot;, 3)"><span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 4 of 4</span></div>
-    </li>
-    </ul>
-    <button type="button" class="grid-control-btn btn btn-primary d-flex align-items-center" onclick="g_add_grid_item(&quot;g_data.death_certificate.causes_of_death&quot;, &quot;g_metadata.children[9].children[9]&quot;, &quot;/death_certificate/causes_of_death&quot;)"><span class="x24 cdc-icon-plus"></span> Add Item</button>
-    </fieldset>
-
-    */
-
+    
     post_html_call_back.push
     (
       `document.getElementById("${p_metadata_path}").children[1].scrollTop = ${jump_value};
@@ -799,16 +715,8 @@ function g_delete_grid_item_action
 	});
 }
 
-function g_delete_record_item(p_object_path, p_metadata_path, p_index) {
-	// var record_number = new Number(p_index) + new Number(1);
-	// var index_check = prompt(
-	// 	"Please confirm delete request of record " +
-	// 		record_number +
-	// 		" by entering the record number:",
-	// 	"-1"
-    // );
-
-	// if (index_check != null && record_number == new Number(index_check)) {
+function g_delete_record_item(p_object_path, p_metadata_path, p_index) 
+{
 		var metadata = eval(p_metadata_path);
 		var index = p_object_path
 			.match(new RegExp("\\[\\d+\\]$"))[0]
@@ -833,7 +741,7 @@ function g_delete_record_item(p_object_path, p_metadata_path, p_index) {
 				eval(post_html_call_back.join(""));
 			}
 		});
-    // }
+    
 }
 
 var g_ui = {
@@ -861,8 +769,6 @@ var g_ui = {
         p_path + ' = "' + p_value.value.replace('"', '\\"') + '"'
       )
     );
-
-    //var target = eval(g_ui.get_eval_string(p_path));
   },
 
   get_eval_string: function (p_path) 
@@ -873,8 +779,6 @@ var g_ui = {
         .replace(new RegExp('/', 'gm'), '.')
         .replace(new RegExp('\\.(\\d+)\\.', 'g'), '[$1]\\.')
         .replace(new RegExp('\\.(\\d+)$', 'g'), '[$1]');
-    //return an  array with 2 parts.
-    // g_data['attribute'].attribute...
 
     return result;
   },
@@ -1121,34 +1025,6 @@ $(function ()
     g_is_data_analyst_mode = 'da';
   }
 
-  /*
-        // Get the modal
-        var modal = document.getElementById('myModal');
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-    
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-    
-        // When the user clicks on the button, open the modal
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-    
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-    
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        } 
-
-  */
 
   // https://pure-essence.net/2010/02/14/jquery-session-timeout-countdown/
   // create the warning window and set autoOpen to false
@@ -1315,7 +1191,6 @@ function load_jurisdiction_tree()
             g_jurisdiction_tree = response;
 
             load_my_user();
-            //document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
         }
     );
 }
@@ -1340,27 +1215,29 @@ function load_user_role_jurisdiction()
       '//' +
       location.host +
       '/api/user_role_jurisdiction_view/my-roles', //&search_key=' + g_uid,
-  }).done(function (response) {
-    g_user_role_jurisdiction_list = [];
-    for (var i in response.rows) {
-      var value = response.rows[i].value;
-      //if(value.user_id == g_uid && value.role_name == "abstractor")
-      //{
-      g_user_role_jurisdiction_list.push(value.jurisdiction_id);
-      //}
-    }
+  })
+  .done
+    (
+        function (response) 
+        {
+            g_user_role_jurisdiction_list = [];
+            for (var i in response.rows) 
+            {
+                var value = response.rows[i].value;
+                g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+            }
 
-    create_jurisdiction_list(g_jurisdiction_tree);
+            create_jurisdiction_list(g_jurisdiction_tree);
 
-    $('#landing_page').hide();
-    $('#logout_page').hide();
-    $('#footer').hide();
-    $('#root').removeClass('header');
+            $('#landing_page').hide();
+            $('#logout_page').hide();
+            $('#footer').hide();
+            $('#root').removeClass('header');
 
-    get_release_version();
+            get_release_version();
 
-    //load_profile();
-  });
+        }
+    );
 }
 
 function create_jurisdiction_list(p_data) 
@@ -1451,7 +1328,6 @@ function get_case_set(p_call_back)
   (
     function (case_view_response) 
     {
-        //console.log(case_view_response);
         g_ui.case_view_list = [];
         g_ui.case_view_request.total_rows = case_view_response.total_rows;
 
@@ -1462,8 +1338,6 @@ function get_case_set(p_call_back)
 
         if (p_call_back) 
         {
-            // Useful to do somethings after I get/set cases
-            // Example usage is setting search filter on Case Listing page
             p_call_back();
         } 
         else 
@@ -1544,7 +1418,6 @@ function get_metadata()
     '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
 
   $.ajax({
-    //url: location.protocol + '//' + location.host + '/api/metadata',
     url:
       location.protocol +
       '//' +
@@ -1710,8 +1583,6 @@ function window_on_hash_change(e)
         }
       }
     }
-
-    // g_data_access.set_data(g_data);
   } 
   else if (e.isTrusted) 
   {
@@ -1776,19 +1647,7 @@ function get_specific_case(p_id)
           } 
           else 
           {
-            /*
-            console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
-            var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
-            if(date_difference.days > 3)
-            {*/
-
             local_data = case_response;
-            /*}
-            else
-            {
-              local_data._rev = case_response._rev;
-            }*/
-
             set_local_case(local_data);
             g_data = local_data;
             g_data_is_checked_out = is_case_checked_out(g_data);
@@ -2089,19 +1948,7 @@ function apply_tool_tips()
       next: 'x24 fill-p cdc-icon-chevron-circle-right-light',
     },
   });
-  //$( "[metadata_type='date']" ).datetimepicker();
-  /*
-  flatpickr(" .date", {
-    utc: true,
-    //defaultDate: "2016-12-27T00:00:00.000Z",
-    enableTime: false,
-    onSelect: function(p_value,evnt) 
-    {
-                  g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
-    }
-  });*/
 
-  //$( ".datetime" ).datetimepicker();
 
   $('input.number').numeric();
   $('input.number0').numeric({ decimal: false });
@@ -2118,17 +1965,6 @@ function apply_tool_tips()
   $('input.number4').attr('size', '15');
   $('input.number5').attr('size', '15');
 
-  /*
-  $("input.number").TouchSpin({
-                  verticalbuttons: true,
-          decimals: 3,
-                  min: 0,
-                  max: 10000,
-                  step: 1,
-                  maxboostedstep: 10
-              });*/
-
-  //$("input.number").mask("#,##0[.00", {reverse: true});
 
   apply_validation();
 }
@@ -2446,41 +2282,7 @@ function delete_record(p_index)
     {
       delete_case(case_response._id, case_response._rev);
     });
-    /*
-  if (p_index == g_selected_delete_index) 
-  {
-    var data = g_ui.case_view_list[p_index];
 
-    g_selected_delete_index = null;
-
-    $.ajax({
-      url:
-        location.protocol +
-        '//' +
-        location.host +
-        '/api/case?case_id=' +
-        data.id,
-    }).done(function (case_response) 
-    {
-      delete_case(case_response._id, case_response._rev);
-    });
-  } 
-  else 
-  {
-    if (g_selected_delete_index != null && g_selected_delete_index > -1) 
-    {
-      var old_id = g_ui.case_view_list[g_selected_delete_index].id;
-
-      $("tr[path='" + old_id + "']").css('background', '');
-    }
-
-    g_selected_delete_index = p_index;
-
-    var id = g_ui.case_view_list[p_index].id;
-
-    $("tr[path='" + id + "']").css('background', '#ffd54f');
-  }
-  */
 }
 
 var save_interval_id = null;
@@ -3395,12 +3197,12 @@ function add_new_case_button_click(p_input)
         let new_state_of_death = document.getElementById("new_state_of_death");
 
         if(
-            new_first_name == null ||
-            new_last_name == null ||
-            new_month_of_death == null ||
-            new_day_of_death == null ||
-            new_year_of_death == null ||
-            new_state_of_death == null ||
+            new_first_name.value == null ||
+            new_last_name.value == null ||
+            new_month_of_death.value == null ||
+            new_day_of_death.value == null ||
+            new_year_of_death.value == null ||
+            new_state_of_death.value == null ||
             new_first_name.value.length < 3 ||
             new_last_name.value.length < 3 ||
             new_month_of_death.value == 9999 ||
@@ -3427,34 +3229,74 @@ function add_new_case_button_click(p_input)
         }
         else
         {
-            state.value = "confirm";
+            add_new_case_check_for_duplicate(
+                new_first_name.value, 
+                new_last_name.value, 
+                new_month_of_death.value, 
+                new_day_of_death.value, 
+                new_year_of_death.value, 
+                new_state_of_death.value
+            );
 
-            let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
-            add_new_confirm_dialog.innerHTML = `
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                    <span id="ui-id-1" class="ui-dialog-title">Generate Record ID?</span>
-                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="add_new_case_button_click('no')"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
-                </div>
-                <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
-                    <div class="modal-body">
-                        <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
-                        <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
-                        <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
-                        <p class="d-flex align-items-start mb-0">
-                            <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
-                            <span>After you generate the MMRIA Record ID#, you will <strong>not</strong> be able to edit the Year of Death.</span>
-                        </p>
-                    </div>
-                    <footer class="modal-footer">
-                        <button class="btn btn-primary mr-1" onclick="add_new_case_button_click('yes')">OK</button>
-                        <button class="btn btn-light" onclick="add_new_case_button_click('no')">Cancel</button>
-                    </footer>
-                </div>
-            `;
-            add_new_confirm_dialog.showModal();
         } 
         
         
+    }
+    else if(state.value =="preconfirm")
+    {
+        
+        state.value = "confirm";
+
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.innerHTML = `
+            <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <span id="ui-id-1" class="ui-dialog-title">Generate Record ID?</span>
+                <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="add_new_case_button_click('no')"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+            </div>
+            <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div class="modal-body">
+                    <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+                    <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
+                    <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p class="d-flex align-items-start mb-0">
+                        <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
+                        <span>After you generate the MMRIA Record ID#, you will <strong>not</strong> be able to edit the Year of Death.</span>
+                    </p>
+                </div>
+                <footer class="modal-footer">
+                    <button class="btn btn-primary mr-1" onclick="add_new_case_button_click('yes')">OK</button>
+                    <button class="btn btn-light" onclick="add_new_case_button_click('no')">Cancel</button>
+                </footer>
+            </div>
+        `;
+        add_new_confirm_dialog.showModal();
+    }
+    else if(state.value == "duplicate_name")
+    {
+        document.getElementById("add_new_state").value = "init";
+
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.innerHTML = `
+            <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <span id="ui-id-1" class="ui-dialog-title">Duplicate Name Found</span>
+                <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="add_new_case_button_click('no')"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+            </div>
+            <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div class="modal-body">
+                    <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+                    <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
+                    <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p class="d-flex align-items-start mb-0">
+                        <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
+                        <span>Duplicate: A Record with the same information was found.  Please check your information again.</span>
+                    </p>
+                </div>
+                <footer class="modal-footer">
+                    <button class="btn btn-light" onclick="add_new_confirm_dialog.close()">Cancel</button>
+                </footer>
+            </div>
+        `;
+        add_new_confirm_dialog.showModal();
     }
     else if(state.value == "confirm")
     {
@@ -3492,6 +3334,48 @@ function add_new_case_button_click(p_input)
     {
 
     }
+}
+
+
+function add_new_case_check_for_duplicate
+(
+    pFirstName, 
+    pLastName, 
+    pMonthOfDeath, 
+    pDayOfDeath, 
+    pYearOfDeath, 
+    pStateOfDeath
+) 
+{
+
+    let data = { 
+        FirstName: pFirstName, 
+        LastName: pLastName, 
+        MonthOfDeath: pMonthOfDeath, 
+        DayOfDeath: pDayOfDeath, 
+        YearOfDeath: pYearOfDeath, 
+        StateOfDeath: pStateOfDeath
+    };
+    
+  $.ajax({
+    url:
+      location.protocol + '//' + location.host + '/api/isDuplicateCase',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(data),
+      type: 'POST',
+  }).done(function (response) {
+      let is_duplicate_response = true;
+      if(response == is_duplicate_response)
+      {
+        document.getElementById("add_new_state").value = "duplicate_name";
+      }
+      else
+      {
+        document.getElementById("add_new_state").value = "preconfirm";
+      }
+      add_new_case_button_click();
+  });
 }
 
 

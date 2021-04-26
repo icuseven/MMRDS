@@ -41,7 +41,7 @@ namespace mmria.server
 		
 		
 		[HttpPost]
-		public async Task<bool> Post(IsDuplicateCaseRequest DuplicateCaseRequest) 
+		public async Task<bool> Post([FromBody] IsDuplicateCaseRequest DuplicateCaseRequest) 
 		{ 
 
             var result = false;
@@ -58,8 +58,6 @@ namespace mmria.server
                 {
                     foreach (var kvp in case_view_response.rows)
                     {
-
-
                         if
                         (
                             kvp.value.host_state.Equals(DuplicateCaseRequest.StateOfDeath, StringComparison.OrdinalIgnoreCase) &&
@@ -67,7 +65,6 @@ namespace mmria.server
                             kvp.value.first_name.Equals(DuplicateCaseRequest.FirstName, StringComparison.OrdinalIgnoreCase) &&
                             kvp.value.date_of_death_year == DuplicateCaseRequest.YearOfDeath &&
                             kvp.value.date_of_death_month == DuplicateCaseRequest.MonthOfDeath
-
                         )
                         {
                             var case_expando_object = await GetCaseById(kvp.id);
