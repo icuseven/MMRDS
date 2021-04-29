@@ -36,14 +36,14 @@ namespace mmria.server.model
 		public string type;
         public int? means_of_fatal_injury;
 
-		public System.Collections.Generic.List<opioid_report_value_struct> data;
-
 		public int? year_of_death;
 		public int? month_of_case_review;
 		public int? year_of_case_review;
 		public int? day_of_case_review;
 
 		public string jurisdiction_id;
+
+        public System.Collections.Generic.List<opioid_report_value_struct> data;
 
 	}
 }

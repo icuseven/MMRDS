@@ -39,8 +39,9 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"ga"
+			"test"
 			/*
+			"localhost",
 			"afd",
 "dc",
 //"ga",
@@ -201,10 +202,10 @@ namespace migrate
 
 			bool is_test_list = true;
 			
-			bool is_report_only_mode = true;
+			bool is_report_only_mode = false;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
 
 			
 
@@ -359,8 +360,8 @@ namespace migrate
 					}
 					else if(MigrationType == RunTypeEnum.DataMigration)
 					{
-						var v2_4 = new migrate.set.v2_4_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await v2_4.execute();
+						var v2_5 = new migrate.set.v2_5_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_5.execute();
 
 
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
