@@ -289,6 +289,64 @@ namespace migrate.set
 									
 								}
 							}
+
+
+							get_grid_value_result = gs.get_grid_value(doc, substance_path);
+							if(!get_grid_value_result.is_error)
+							{
+								var list = get_grid_value_result.result;
+								var new_list = new List<(int, dynamic)>();
+
+								for(var i = 0; i < list.Count; i++)
+								{
+									var (index, value) = (list[i].Item1, list[i].Item2);
+									string value_string = "9999";
+									if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
+									{
+										is_blank = true;
+									}
+									else
+									{
+										value_string = value.ToString();
+									}
+									
+									if
+									(
+										value_string != "9999" &&
+										lookup_node.value_to_display.ContainsKey(value_string) &&
+										lookup_node.value_to_display[value_string] != value_string
+									)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+
+										new_list.Add((index, lookup_node.value_to_display[value_string]));
+									}
+									/*
+									else
+									{
+										new_list.Add((index, value));
+									}*/
+								}
+
+								if(new_list.Count > 0)
+								{
+									case_has_changed = case_has_changed && gs.set_grid_value(doc, substance_path, new_list);
+
+									get_grid_value_result = gs.get_grid_value(doc, substance_path);
+									System.Console.WriteLine($"list {list.Count} {get_grid_value_result.result.Count} { list.Count == get_grid_value_result.result.Count}");
+
+								}
+
+								
+
+							}
+
+
+
 						}
 					
 
