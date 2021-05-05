@@ -77,7 +77,7 @@ namespace mmria.server
 			return null;
 		} 
 
-		[Authorize(Policy = "form_designer")]
+		[Authorize(Policy = "form_designer, cdc_admin")]
 		[Route("{id?}")]
 		[HttpPost]
 		[HttpPut]
