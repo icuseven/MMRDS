@@ -69,10 +69,14 @@ d3.select('#chart svg').append('text')
         p_post_html_render.push("axis: {");
         p_post_html_render.push("x: {");
         p_post_html_render.push("type: 'timeseries',");
-        p_post_html_render.push("localtime: false,");
+		p_post_html_render.push("localtime: false,");
+		p_post_html_render.push("label: {");
+		p_post_html_render.push(" position: 'outer-right',");
+		p_post_html_render.push("},");
         p_post_html_render.push("tick: {");
-        p_post_html_render.push(" format: '%Y-%m-%d %H:%M:%S'");
-        p_post_html_render.push("}");
+		p_post_html_render.push(" format: '%m/%d/%Y',");
+        p_post_html_render.push("},");
+		p_post_html_render.push("height: 55");
         p_post_html_render.push("        }},");
     }
 
@@ -121,10 +125,11 @@ d3.select('#chart svg').append('text')
         }
     }
 
-
-    
     p_post_html_render.push("  ]");
-    p_post_html_render.push("  }");
+    p_post_html_render.push("  },");
+	p_post_html_render.push("  line: {");
+	p_post_html_render.push("     connectNull: true");
+	p_post_html_render.push("  }");
     p_post_html_render.push("  });");
 
     p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').append('text')");
@@ -132,8 +137,12 @@ d3.select('#chart svg').append('text')
     p_post_html_render.push("     .attr('y', 16)");
     p_post_html_render.push("     .attr('text-anchor', 'middle')");
     p_post_html_render.push("     .style('font-size', '1.4em')");
-    p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
+	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 
+	if (p_metadata.x_axis && p_metadata.x_axis != "") {
+		p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')");
+		p_post_html_render.push("     .attr('transform', 'rotate(300)translate(-25,0)');");
+	}
 }
 
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
@@ -278,7 +287,7 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 			}
 			else
 			{
-				result.push(0);
+				result.push('null');
 			}
 			
 		}
