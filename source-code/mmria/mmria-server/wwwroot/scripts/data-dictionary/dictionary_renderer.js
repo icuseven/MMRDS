@@ -125,36 +125,17 @@ function render_search_result(p_result, p_filter)
 	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
-// Converts spaces to underscores, then renders
-// function render_search_result(p_result, p_filter)
-// {
-// 	let search_query = p_filter.search_text.toLowerCase();
-// 	search_query = search_query.replace(/ /g, '_'); // replaces 'all' spaces with and underscore
-
-// 	// Add toLowerCase() method to help with case sensitivity
-// 	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query);
-// }
-
-// Renders all keywords
-// function render_search_result(p_result, p_filter)
-// {
-// 	let search_query = p_filter.search_text.toLowerCase();
-// 	search_query = search_query.split(' ');
-
-// 	for (let i = 0; i < search_query.length; i++)
-// 	{
-// 		// Add toLowerCase() method to help with case sensitivity
-// 		render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, search_query[i]);
-// 	}
-// }
-
-
 // var that helps calculate current form and latest form
 // Used to calc and create section headers
 let last_form = null;
 
 function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
+
+    if(p_metadata.mirror_reference != null && p_metadata.mirror_reference != "")
+    {
+        return;
+    }
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":			
@@ -214,6 +195,11 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 			}
 			break;
+
+        case "chart":
+        case "label":
+        case "button":
+            break;
 
 		default:
 			let file_name = "";
@@ -414,7 +400,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					<td class="td" width="180">${p_metadata.prompt}</td>
 					<td class="td" width="380">${description}</td>
 					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${data_type}</td>
+					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
 				</tr>
 				${list_values.join("")}
 			`);
