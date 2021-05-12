@@ -60,7 +60,7 @@ namespace mmria.server
                     {
                         if
                         (
-                            kvp.value.host_state.Equals(DuplicateCaseRequest.StateOfDeath, StringComparison.OrdinalIgnoreCase) &&
+                            //kvp.value.host_state.Equals(DuplicateCaseRequest.StateOfDeath, StringComparison.OrdinalIgnoreCase) &&
                             kvp.value.last_name.Equals(DuplicateCaseRequest.LastName, StringComparison.OrdinalIgnoreCase) &&
                             kvp.value.first_name.Equals(DuplicateCaseRequest.FirstName, StringComparison.OrdinalIgnoreCase) &&
                             kvp.value.date_of_death_year == DuplicateCaseRequest.YearOfDeath &&

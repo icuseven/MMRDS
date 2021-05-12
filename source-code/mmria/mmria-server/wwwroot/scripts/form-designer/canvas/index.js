@@ -456,7 +456,6 @@ formDesigner = {
       display: function (formName) {
         let fields = formDesigner.dataHandler.getFormFields(formName);
         let tpl = [];
-        console.log(fields);
         $.each
         (
           fields,
