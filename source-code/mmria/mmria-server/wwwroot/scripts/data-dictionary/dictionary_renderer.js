@@ -42,10 +42,14 @@ function dictionary_render(p_metadata, p_path)
 					${search_result.join("")}
 				</table>
 			</div>
+
+			${generate_system_generated_definition_list_table()}
+			
 	`);
 
 	return result;
 }
+
 
 
 function handle_print() {
@@ -477,4 +481,122 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	}
 
 	return result;
+}
+
+function generate_system_generated_definition_list_table()
+{
+	return `
+			<div class="mt-2">
+				<table id="system_generated_definition_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+					<thead class="thead">
+						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+							<th class="th" colspan="2" scope="colgroup">
+								SYSTEM
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-gray-l1 font-weight-bold">
+							<th class="th" width="266" scope="col">Export Field</th>
+							<th class="th" width="1064" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr">
+							<td class="td" width="266" >_versi</td>
+							<td class="td" width="1064">MMRIA application release number</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >d_creat</td>
+							<td class="td" width="1064">Record created date and time</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >c_by</td>
+							<td class="td" width="1064">Record created by user</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >dl_updat</td>
+							<td class="td" width="1064">Record last updated date and time</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >lu_by</td>
+							<td class="td" width="1064">Record last updated by user</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >dlc_out</td>
+							<td class="td" width="1064">Record record was locked</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >lco_by</td>
+							<td class="td" width="1064">Record locked by user</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >h_state</td>
+							<td class="td" width="1064">MMRIA host site</td>
+						</tr>
+					</tbody>
+					<thead class="thead">
+						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+							<th class="th" colspan="2" scope="colgroup">
+								SYSTEM - Grid
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-gray-l1 font-weight-bold">
+							<th class="th" width="266"  scope="col">Export Field</th>
+							<th class="th" width="1064" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr">
+							<td class="td" width="266" >_record_index</td>
+							<td class="td" width="1064">The record index of the grid_item</td>
+						</tr>
+					</tbody>
+					<thead class="thead">
+						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+							<th class="th" colspan="2" scope="colgroup">
+								SYSTEM - Multiform
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-gray-l1 font-weight-bold">
+							<th class="th" width="266"  scope="col">Export Field</th>
+							<th class="th" width="1064" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr">
+							<td class="td" width="266" >_record_index</td>
+							<td class="td" width="1064">The record index of the multiform</td>
+						</tr>
+					</tbody>
+					<thead class="thead">
+						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+							<th class="th" colspan="2" scope="colgroup">
+								SYSTEM - Grid on a Multiform
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-gray-l1 font-weight-bold">
+							<th class="th" width="266"  scope="col">Export Field</th>
+							<th class="th" width="1064" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr">
+							<td class="td" width="266" >_record_index</td>
+							<td class="td" width="1064">The record index of the grid_item</td>
+						</tr>
+						<tr class="tr">
+							<td class="td" width="266" >_parent_record_index</td>
+							<td class="td" width="1064">The _record_index of the associated "multiform" csv file</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			`;
 }
