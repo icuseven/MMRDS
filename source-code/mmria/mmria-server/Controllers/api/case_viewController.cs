@@ -444,6 +444,9 @@ by_state_of_death
                 case "by_last_updated_by":
                 case "by_state_of_death":
                 case "by_case_status":
+                case "by_agency_based_case_identifier":
+                case "by_host_state":
+                case "by_pregnancy_relatedness":
                     break;
 
                 default:

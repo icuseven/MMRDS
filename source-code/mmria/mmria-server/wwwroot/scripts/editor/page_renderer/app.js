@@ -397,7 +397,7 @@ function renderSortCaseStatus(p_case_view)
 	const sortCaseStatuses = [
         {
             value : 'all',
-            display : 'All'
+            display : '-- All --'
         },
         {
             value : '9999',
@@ -407,10 +407,6 @@ function renderSortCaseStatus(p_case_view)
         {
             value : '1',
             display : 'Abstracting (incomplete)'
-        },
-        {
-            value : '0',
-            display : 'Vitals Import'
         },
         {
             value : '2',
@@ -431,6 +427,10 @@ function renderSortCaseStatus(p_case_view)
         {
             value : '6',
             display : 'False Positive and death certificate entered'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
         },
     ];
     const sortCaseStatusList = [];

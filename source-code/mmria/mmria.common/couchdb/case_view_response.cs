@@ -75,6 +75,10 @@ reverse sort
         public DateTime? case_locked_date { get; set; }
 
         public string host_state{ get; set; }
+
+        public string agency_based_case_identifier{ get; set; }
+        public string state_of_death{ get; set; }
+        public string pregnancy_relatedness{ get; set; }
     }
 
 
