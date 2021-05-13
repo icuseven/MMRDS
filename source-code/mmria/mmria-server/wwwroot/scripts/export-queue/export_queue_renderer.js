@@ -650,7 +650,7 @@ function apply_filter_button_click() {
     'filter_records_perPage'
   );
   var filter_decending = document.getElementById('filter_decending');
-  g_case_view_request.take = filter_records_perPage.value;
+  //g_case_view_request.take = filter_records_perPage.value;
   g_case_view_request.sort = filter_sort_by.value;
   g_case_view_request.search_key = filter_search_text.value;
   g_case_view_request.descending = filter_decending.checked;
