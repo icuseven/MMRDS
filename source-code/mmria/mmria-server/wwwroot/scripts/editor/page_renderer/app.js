@@ -525,13 +525,12 @@ function renderSortCaseStatus(p_case_view)
     ];
     const sortCaseStatusList = [];
 
-	// Using the trusty ole' .map method instead of for loop
 	sortCaseStatuses.map((status, i) => {
 
         return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
-	return sortCaseStatusList.join(''); // .join('') removes trailing comma in array interation
+	return sortCaseStatusList.join('');
 }
 
 
@@ -566,13 +565,12 @@ function renderPregnancyRelatedness(p_case_view)
     ];
     const sortCaseStatusList = [];
 
-	// Using the trusty ole' .map method instead of for loop
 	sortCaseStatuses.map((status, i) => {
 
         return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
-	return sortCaseStatusList.join(''); // .join('') removes trailing comma in array interation
+	return sortCaseStatusList.join(''); 
 }
 
 

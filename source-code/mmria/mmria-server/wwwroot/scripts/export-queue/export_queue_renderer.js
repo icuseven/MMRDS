@@ -247,21 +247,45 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 												 id="filter_search_text"
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
+                                    <div class="form-inline mb-2">
+                                        <label for="search_pregnancy_relatedness" class="mr-2">Field Selection:</label>
+                                        <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                            ${render_field_selection(g_case_view_request)}
+                                        </select>
+                                    </div>
+
+
 									<button type="button" class="btn btn-secondary" alt="apply filters" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
 									<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 								</div>
 
-								<div class="form-inline mb-2">
-									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
-									<select id="filter_sort_by" class="custom-select" >
-										${render_sort_by_include_in_export(g_case_view_request)}
-									</select>
-								</div>
+                            <div class="form-inline mb-2">
+                                <label for="search_case_status" class="mr-2">Case Status:</label>
+                                <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                                    ${renderSortCaseStatus(g_case_view_request)}
+                                </select>
+                            </div>
 
-								<div class="form-inline mb-2">
-									<label for="filter_records_perPage" class="font-weight-normal mr-2">Records per page:</label>
-									<select id="filter_records_perPage" class="custom-select" ><option>25</option><option>50</option><option>100</option><option>250</option><option>500</option><option selected="">1000</option></select>
-								</div>
+                            <div class="form-inline mb-2">
+                                <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
+                                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                    ${renderPregnancyRelatedness(g_case_view_request)}
+                                </select>
+                            </div>
+
+                            <div class="form-inline mb-2">
+                                <label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
+                                <select id="filter_sort_by" class="custom-select" >
+                                    ${render_sort_by_include_in_export(g_case_view_request)}
+                                </select>
+                            </div>
+
+							<div class="form-inline mb-2">
+                                <label for="search_records_per_page" class="mr-2">Records per page:</label>
+                                <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
+                                    ${render_filter_records_per_page(g_case_view_request)}
+                                </select>
+                            </div>
 
 								<div class="form-inline mb-2">
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
@@ -675,15 +699,21 @@ var g_case_view_request = {
   total_rows: 0,
   page: 1,
   skip: 0,
-  take: 100,
+  take: 1000,
   sort: 'date_last_updated',
   search_key: null,
   descending: true,
+  case_status: "all",
+    field_selection: "all",
+    pregnancy_status:"all",
   get_query_string: function () {
     var result = [];
     result.push('?skip=' + (this.page - 1) * this.take);
     result.push('take=' + this.take);
     result.push('sort=' + this.sort);
+    result.push('case_status=' + this.case_status);
+      result.push('field_selection=' + this.field_selection);
+      result.push('pregnancy_status=' + this.pregnancy_status);
 
     if (this.search_key) {
       result.push(
@@ -1114,9 +1144,171 @@ function render_selected_de_identified_list(p_answer_summary) {
     .join('');
 }
 
-function render_sort_by_include_in_export(p_case_view_request) {
-  // Not sure how to retrieve these keys so creating them statically
-  // TODO: Get with James to make this more dynamic
+
+function render_field_selection(p_sort)
+{
+	const sort_list = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : 'by_date_created',
+            display : 'By date created'
+        },
+        {
+            value : 'by_date_last_updated',
+            display : 'By date last updated'
+        },
+        {
+            value : 'by_last_name',
+            display : 'By last name'
+        },
+        {
+            value : 'by_first_name',
+            display : 'By first name'
+        },
+        {
+            value : 'by_middle_name',
+            display : 'By middle name'
+        },
+        {
+            value : 'by_year_of_death',
+            display : 'By year of death'
+        },
+        {
+            value : 'by_month_of_death',
+            display : 'By month of death'
+        },
+        {
+            value : 'by_committee_review_date',
+            display : 'By committee review date'
+        },
+        {
+            value : 'by_created_by',
+            display : 'By created by'
+        },
+        {
+            value : 'by_last_updated_by',
+            display : 'By last updated by'
+        },
+        {
+            value : 'by_state_of_death',
+            display : 'By state of death'
+        },
+        {
+            value : 'by_agency_case_id',
+            display : 'By agency-based case identifier'
+        }
+        ,
+        {
+            value : 'by_pregnancy_relatedness',
+            display : 'By pregnancy relatedness'
+        }
+	];
+
+    const f_result = [];
+
+	sort_list.map((item) => {
+       f_result.push(`<option value="${item.value}" ${item.value === p_sort.field_selection ? 'selected' : ''}>${item.display}</option>`);
+    });
+
+	return f_result.join('');
+}
+
+function renderSortCaseStatus(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '2',
+            display : 'Abstraction Complete'
+        },
+        {
+            value : '3',
+            display : 'Ready For Review'
+        },
+        {
+            value : '4',
+            display : 'Review complete and decision entered'
+        },
+        {
+            value : '5',
+            display : 'Out of Scope and death certificate entered'
+        },
+        {
+            value : '6',
+            display : 'False Positive and death certificate entered'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
+        },
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join('');
+}
+
+
+function renderPregnancyRelatedness(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Pregnancy-related'
+        },
+        {
+            value : '0',
+            display : 'Pregnancy-Associated, but NOT-Related'
+        },
+        {
+            value : '2',
+            display : 'Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness'
+        },
+        {
+            value : '99',
+            display : 'Not Pregnancy-Related or -Associated (i.e. False Positive)'
+        }
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join(''); 
+}
+
+function render_sort_by_include_in_export(p_case_view_request) 
+{
   const export_include_list = [
     'first_name',
     'middle_name',
@@ -1132,15 +1324,10 @@ function render_sort_by_include_in_export(p_case_view_request) {
     'date_of_committee_review',
     'jurisdiction_id',
   ];
-  // Empty string to push dynamically created options into
+
   const result = [];
 
-  // <option value="date_created" selected="">date_created</option><option value="jurisdiction_id">jurisdiction_id</option><option value="last_name">last_name</option><option value="first_name">first_name</option><option value="middle_name">middle_name</option><option value="state_of_death">state_of_death</option><option value="record_id">record_id</option><option value="year_of_death">year_of_death</option><option value="month_of_death">month_of_death</option><option value="committee_review_date">committee_review_date</option><option value="agency_case_id">agency_case_id</option><option value="created_by">created_by</option><option value="last_updated_by">last_updated_by</option><option value="date_last_updated">date_last_updated</option>
-
-  // Using the trusty ole' .map method instead of for loop
   export_include_list.map((item) => {
-    // Ternary: if sort = current item, add selected attr
-    // Also remove underscores then capitalize first letter in UI, but not value as that it important for sort
     result.push(
       `<option value="${item}" ${
         item === p_case_view_request.sort ? 'selected' : ''
@@ -1148,7 +1335,20 @@ function render_sort_by_include_in_export(p_case_view_request) {
     );
   });
 
-  return result.join(''); // .join('') removes trailing comma in array interation
+  return result.join('');
+}
+
+
+function render_filter_records_per_page(p_sort)
+{
+    const sort_list = [25, 50, 100, 250, 500, 1000];
+    const f_result = [];
+
+    sort_list.map((item) => {
+        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+    });
+
+    return f_result.join('');
 }
 
 function case_filter_type_click(p_value) {
