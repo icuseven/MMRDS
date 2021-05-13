@@ -23,8 +23,10 @@ var g_filter = {
       to: 'all',
     },
   ],
+  field_selection: ['all'],
   case_status: ['all'],
   case_jurisdiction: ['/all'],
+  pregnancy_relatedness: ['all'],
   selected_form: '',
   search_text: '',
 };

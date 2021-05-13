@@ -260,7 +260,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
 								<div class="form-inline mb-2">
 									<label for="filter_records_perPage" class="font-weight-normal mr-2">Records per page:</label>
-									<select id="filter_records_perPage" class="custom-select" ><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
+									<select id="filter_records_perPage" class="custom-select" ><option>25</option><option>50</option><option>100</option><option>250</option><option>500</option><option selected="">1000</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
