@@ -1341,7 +1341,7 @@ function render_filter_records_per_page(p_sort)
     const f_result = [];
 
     sort_list.map((item) => {
-        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+        f_result.push(`<option value="${item}" ${item == p_sort.take ? 'selected' : ''}>${item}</option>`)
     });
 
     return f_result.join('');
