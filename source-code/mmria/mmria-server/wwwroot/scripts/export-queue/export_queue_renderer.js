@@ -303,7 +303,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											<th class="th" colspan="14" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Filtered Cases</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Select All</button-->
+													<button class="btn" onclick="select_all_filtered_cases_click()">Select All</button>
 												</span>
 											</th>
 										</tr>
@@ -335,7 +335,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 													<span id="exported_cases_count">Cases to be included in export (${
                             p_answer_summary.case_set.length
                           }):</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button-->
+													<button class="btn" onclick="deselect_all_filtered_cases_click()">Deselect All</button>
 												</span>
 											</th>
 										</tr>
@@ -1528,4 +1528,15 @@ function render_summary_of_selected_cases(p_answer_summary) {
   }
 
   return result.join('');
+}
+
+
+function select_all_filtered_cases_click()
+{
+
+}
+
+function deselect_all_filtered_cases_click()
+{
+    
 }
