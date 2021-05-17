@@ -20,8 +20,28 @@ namespace mmria.server
 	public class case_viewController: ControllerBase 
 	{
 
+        HashSet<string> sort_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "by_date_created",
+            "by_date_last_updated",
+            "by_last_name",
+            "by_first_name",
+            "by_middle_name",
+            "by_year_of_death",
+            "by_month_of_death",
+            "by_committee_review_date",
+            "by_created_by",
+            "by_last_updated_by",
+            "by_state_of_death",
+            "by_date_last_checked_out",
+            "by_last_checked_out_by",
+            "by_case_status",
+            "by_agency_case_id",
+            "by_pregnancy_relatedness",
+            "by_host_state"
+        };
 
-        //[Authorize(Roles  = "abstractor, data_analyst")]
+
         [HttpGet]
         public async Task<mmria.common.model.couchdb.case_view_response> Get
         (
@@ -30,28 +50,11 @@ namespace mmria.server
             string sort = "by_date_created",
             string search_key = null,
             bool descending = false,
-            string case_status = "all"
+            string case_status = "all",
+            string field_selection = "all",
+            string pregnancy_relatedness ="all"
         ) 
 		{
-            /*
-             * 
-             * http://localhost:5984/{Program.db_prefix}mmrds/_design/sortable/_view/conflicts
-             * 
-by_date_created
-by_date_last_updated
-by_last_name
-by_first_name
-by_middle_name
-by_year_of_death
-by_month_of_death
-by_committee_review_date
-by_created_by
-by_last_updated_by
-by_state_of_death
-
-
-*/
-
 
             var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(User);
 
@@ -66,6 +69,8 @@ by_state_of_death
                     search_key,
                     descending,
                     case_status,
+                    field_selection,
+                    pregnancy_relatedness,
                     jurisdiction_hashset
                 );
             }
@@ -79,24 +84,13 @@ by_state_of_death
                     search_key,
                     descending,
                     case_status,
+                    field_selection,
+                    pregnancy_relatedness,
                     jurisdiction_hashset
                 );
             }
 
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
-
-
-
-			return null;
+			//return null;
 		}
 
 
@@ -108,35 +102,17 @@ by_state_of_death
             string search_key,
             bool descending,
             string case_status,
+            string field_selection,
+            string pregnancy_relatedness,
             HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> jurisdiction_hashset
         )
         {
             string sort_view = sort.ToLower ();
-            switch (sort_view)
+
+            if (! sort_list.Contains(sort_view))
             {
-                case "by_date_created":
-                case "by_date_last_updated":
-                case "by_last_name":
-                case "by_first_name":
-                case "by_middle_name":
-                case "by_year_of_death":
-                case "by_month_of_death":
-                case "by_committee_review_date":
-                case "by_created_by":
-                case "by_last_updated_by":
-                case "by_state_of_death":
-                case "by_date_last_checked_out":
-                case "by_last_checked_out_by":
-                
-                case "by_case_status":
-                    break;
-
-                default:
-                    sort_view = "by_date_created";
-                break;
+                sort_view = "by_date_created";
             }
-
-
 
 			try
 			{
@@ -212,6 +188,8 @@ by_state_of_death
                         }
 
 
+
+                        //if(field_selection == "all" || field_selection =="")
                         if (cvi.value.case_status != null && cvi.value.case_status.HasValue) 
                         {
                             switch(case_status.ToLower())
@@ -225,6 +203,28 @@ by_state_of_death
                                 case "5":
                                 case "6":
                                     if(cvi.value.case_status.Value.ToString () == case_status)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
+                        if (cvi.value.pregnancy_relatedness != null && cvi.value.pregnancy_relatedness.HasValue) 
+                        {
+                            switch(pregnancy_relatedness.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "0":
+                                case "1":
+                                case "2":
+                                case "99":
+                                    if(cvi.value.pregnancy_relatedness.Value.ToString () == pregnancy_relatedness)
                                     {
                                         add_item = true;
                                     }
@@ -354,6 +354,32 @@ by_state_of_death
                             }                                               
                         }
 
+                        if (add_item && cvi.value.pregnancy_relatedness != null && cvi.value.pregnancy_relatedness.HasValue) 
+                        {
+                            switch(pregnancy_relatedness.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "0":
+                                case "1":
+                                case "2":
+                                case "99":
+                                    if(cvi.value.pregnancy_relatedness.Value.ToString () == pregnancy_relatedness)
+                                    {
+                                        add_item = true;
+                                    }
+                                    else
+                                    {
+                                        add_item = false;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
                         bool is_jurisdiction_ok = false;
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
@@ -426,6 +452,8 @@ by_state_of_death
             string search_key,
             bool descending,
             string case_status,
+            string field_selection,
+            string pregnancy_relatedness,
             HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> jurisdiction_hashset
         )
         {
@@ -558,6 +586,28 @@ by_state_of_death
                             }                                               
                         }
 
+                        if (cvi.value.pregnancy_relatedness != null && cvi.value.pregnancy_relatedness.HasValue) 
+                        {
+                            switch(pregnancy_relatedness.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "0":
+                                case "1":
+                                case "2":
+                                case "99":
+                                    if(cvi.value.pregnancy_relatedness.Value.ToString () == pregnancy_relatedness)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     add_item = true;
+                                     break;
+                            }                                               
+                        }
+
                         if(is_jurisdiction_ok && add_item) temp.Add (cvi);
                     }
                     
@@ -658,6 +708,28 @@ by_state_of_death
                             }                                               
                         }
 
+
+                        if (add_item && cvi.value.pregnancy_relatedness != null && cvi.value.pregnancy_relatedness.HasValue) 
+                        {
+                            switch(pregnancy_relatedness.ToLower())
+                            {
+                                
+                                case "9999":
+                                case "0":
+                                case "1":
+                                case "2":
+                                case "99":
+                                    if(cvi.value.pregnancy_relatedness.Value.ToString () == pregnancy_relatedness)
+                                    {
+                                        add_item = true;
+                                    }
+                                    break;
+                                case "all":
+                                default:
+                                     //add_item = true;
+                                     break;
+                            }                                               
+                        }
 
                         bool is_jurisdiction_ok = false;
                         foreach(var jurisdiction_item in jurisdiction_hashset)

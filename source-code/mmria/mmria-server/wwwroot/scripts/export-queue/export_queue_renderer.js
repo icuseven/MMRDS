@@ -248,7 +248,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
                                     <div class="form-inline mb-2">
-                                        <label for="search_pregnancy_relatedness" class="mr-2">Search in:</label>
+                                        <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Search in:</label>
                                         <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
                                             ${render_field_selection(g_case_view_request)}
                                         </select>
@@ -260,14 +260,14 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								</div>
 
                             <div class="form-inline mb-2">
-                                <label for="search_case_status" class="mr-2">Case Status:</label>
+                                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
                                 <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
                                     ${renderSortCaseStatus(g_case_view_request)}
                                 </select>
                             </div>
 
                             <div class="form-inline mb-2">
-                                <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
+                                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
                                 <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
                                     ${renderPregnancyRelatedness(g_case_view_request)}
                                 </select>
@@ -281,7 +281,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                             </div>
 
 							<div class="form-inline mb-2">
-                                <label for="search_records_per_page" class="mr-2">Records per page:</label>
+                                <label for="search_records_per_page" class="font-weight-normal mr-2">Records per page:</label>
                                 <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
                                     ${render_filter_records_per_page(g_case_view_request)}
                                 </select>
