@@ -590,44 +590,19 @@ namespace mmria.server
                 result.offset = case_view_response.offset;
                 result.total_rows = case_view_response.total_rows;
 
+                var data = case_view_response.rows
+                    .Where
+                    (
+                        cvi => applicable_predicate_list.All( f => f(cvi)) 
+                        
+                    );
+
                 
 
-                /*
-                if
-                (
-                    string.IsNullOrWhiteSpace(search_key) &&
-                    case_status == "all" &&
-                    field_selection == "all"  &&
-                    pregnancy_relatedness == "all" 
-                )
-                {
-                    var data = case_view_response.rows
-                        .Where
-                        (
-                            cvi => is_valid_jurisdition(cvi) 
-                        );
 
-                    
+                result.total_rows = data.Count();
+                result.rows =  data.Skip (skip).Take (take).ToList ();
 
-
-                    result.total_rows = data.Count();
-                    result.rows =  data.Skip (skip).Take (take).ToList ();
-                } 
-                else
-                {*/
-                    var data = case_view_response.rows
-                        .Where
-                        (
-                            cvi => applicable_predicate_list.All( f => f(cvi)) 
-                            
-                        );
-
-                    
-
-
-                    result.total_rows = data.Count();
-                    result.rows =  data.Skip (skip).Take (take).ToList ();
-                //}
     
                 return result;
                 

@@ -592,6 +592,8 @@ function clear_case_search() {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
     g_ui.case_view_request.case_status = 'all'
+    g_ui.case_view_request.pregnancy_relatedness = 'all';
+    g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
 
     get_case_set();

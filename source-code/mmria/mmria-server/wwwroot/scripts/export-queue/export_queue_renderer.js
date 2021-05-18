@@ -658,17 +658,23 @@ function apply_filter_button_click() {
   get_case_set();
 }
 
-function result_checkbox_click(p_checkbox) {
+function result_checkbox_click(p_checkbox) 
+{
   let value = p_checkbox.value;
 
-  if (p_checkbox.checked) {
-    if (answer_summary.case_set.indexOf(value) < 0) {
+  if (p_checkbox.checked) 
+  {
+    if (answer_summary.case_set.indexOf(value) < 0) 
+    {
       answer_summary.case_set.push(value);
     }
-  } else {
+  } 
+  else 
+  {
     let index = answer_summary.case_set.indexOf(value);
 
-    if (index > -1) {
+    if (index > -1) 
+    {
       answer_summary.case_set.splice(index, 1);
     }
   }
@@ -740,13 +746,28 @@ function get_case_set() {
   $.ajax({
     url: case_view_url,
   }).done(function (case_view_response) {
-    let el = document.getElementById('search_result_list');
-    let html = [];
+
     g_case_view_request.total_rows = case_view_response.total_rows;
     g_case_view_request.respone_rows = case_view_response.rows;
 
-    for (let i = 0; i < case_view_response.rows.length; i++) {
-      let item = case_view_response.rows[i];
+    render_search_result_list();
+
+    el = document.getElementById('case_result_pagination');
+    html = [];
+    render_pagination(html, g_case_view_request);
+    el.innerHTML = html.join('');
+  });
+}
+
+
+
+function render_search_result_list()
+{
+    let el = document.getElementById('search_result_list');
+    let html = [];
+
+    for (let i = 0; i < g_case_view_request.respone_rows.length; i++) {
+      let item = g_case_view_request.respone_rows[i];
       let value_list = item.value;
 
       selected_dictionary[item.id] = value_list;
@@ -821,16 +842,11 @@ function get_case_set() {
     }
 
     el.innerHTML = html.join('');
-
-    el = document.getElementById('case_result_pagination');
-    html = [];
-    render_pagination(html, g_case_view_request);
-    el.innerHTML = html.join('');
-  });
 }
-
-function render_selected_case_list(p_result, p_answer_summary) {
-  for (let i = 0; i < p_answer_summary.case_set.length; i++) {
+function render_selected_case_list(p_result, p_answer_summary) 
+{
+  for (let i = 0; i < p_answer_summary.case_set.length; i++) 
+  {
     let item_id = p_answer_summary.case_set[i];
     let value_list = selected_dictionary[item_id];
     const checked = p_answer_summary.case_set.includes(item_id)
@@ -1536,12 +1552,72 @@ function render_summary_of_selected_cases(p_answer_summary) {
 
 function select_all_filtered_cases_click()
 {
+    for (let i = 0; i <  g_case_view_request.respone_rows.length; i++) 
+    {
+        let item =  g_case_view_request.respone_rows[i];
+        let value_list = item.value;
+  
+        selected_dictionary[item.id] = value_list;
+  
+        let checked = '';
+        let index = answer_summary.case_set.indexOf(item.id);
+  
+        if (index < 0) 
+        {
+            answer_summary.case_set.push(item.id);
+        }
+    }
 
+    render_search_result_list();
+  
+    let el = document.getElementById('selected_case_list');
+    let result = [];
+  
+    render_selected_case_list(result, answer_summary);
+    el.innerHTML = result.join('');
+  
+    el = document.getElementById('exported_cases_count');
+    el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+  
+    el = document.getElementById('case_result_pagination');
+    result = [];
+    render_pagination(result, g_case_view_request);
+    el.innerHTML = result.join('');
+  
+    var summary_of_selected_cases = document.getElementById(
+      'summary_of_selected_cases'
+    );
+    summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
+      answer_summary
+    );
 }
 
 function deselect_all_filtered_cases_click()
 {
-    
+    answer_summary.case_set = [];
+
+    render_search_result_list();
+  
+    let el = document.getElementById('selected_case_list');
+    let result = [];
+  
+    render_selected_case_list(result, answer_summary);
+    el.innerHTML = result.join('');
+  
+    el = document.getElementById('exported_cases_count');
+    el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+  
+    el = document.getElementById('case_result_pagination');
+    result = [];
+    render_pagination(result, g_case_view_request);
+    el.innerHTML = result.join('');
+  
+    var summary_of_selected_cases = document.getElementById(
+      'summary_of_selected_cases'
+    );
+    summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
+      answer_summary
+    );
 }
 
 function search_case_status_onchange(p_value)

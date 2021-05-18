@@ -19,7 +19,7 @@ namespace mmria.server
     [Route("api/[controller]")]
 	public class case_viewController: ControllerBase 
 	{  
-         
+
         delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
 
         List<is_valid_predicate> applicable_predicate_list = new List<is_valid_predicate>();
@@ -578,9 +578,6 @@ namespace mmria.server
                 var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                 string responseFromServer = await case_view_curl.executeAsync();
 
-
-                
-
                 create_predicates
                 (
                     jurisdiction_hashset,
@@ -594,45 +591,20 @@ namespace mmria.server
                 mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
                 result.offset = case_view_response.offset;
                 result.total_rows = case_view_response.total_rows;
+                
+                var data = case_view_response.rows
+                    .Where
+                    (
+                        cvi => applicable_predicate_list.All( f => f(cvi)) 
+                        
+                    );
 
                 
 
-                /*
-                if
-                (
-                    string.IsNullOrWhiteSpace(search_key) &&
-                    case_status == "all" &&
-                    field_selection == "all"  &&
-                    pregnancy_relatedness == "all" 
-                )
-                {
-                    var data = case_view_response.rows
-                        .Where
-                        (
-                            cvi => is_valid_jurisdition(cvi) 
-                        );
 
-                    
-
-
-                    result.total_rows = data.Count();
-                    result.rows =  data.Skip (skip).Take (take).ToList ();
-                } 
-                else
-                {*/
-                    var data = case_view_response.rows
-                        .Where
-                        (
-                            cvi => applicable_predicate_list.All( f => f(cvi)) 
-                            
-                        );
-
-                    
-
-
-                    result.total_rows = data.Count();
-                    result.rows =  data.Skip (skip).Take (take).ToList ();
-                //}
+                result.total_rows = data.Count();
+                result.rows =  data.Skip (skip).Take (take).ToList ();
+            
     
                 return result;
                 
