@@ -248,8 +248,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
                                     <div class="form-inline mb-2">
-                                        <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Search in:</label>
-                                        <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                        <label for="search_field_selection" class="font-weight-normal mr-2">Search in:</label>
+                                        <select id="search_field_selection" class="custom-select" onchange="search_field_selection_onchange(this.value)">
                                             ${render_field_selection(g_case_view_request)}
                                         </select>
                                     </div>
@@ -268,7 +268,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
                             <div class="form-inline mb-2">
                                 <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
-                                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
                                     ${renderPregnancyRelatedness(g_case_view_request)}
                                 </select>
                             </div>
@@ -1300,7 +1300,7 @@ function renderPregnancyRelatedness(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); 
@@ -1542,4 +1542,19 @@ function select_all_filtered_cases_click()
 function deselect_all_filtered_cases_click()
 {
     
+}
+
+function search_case_status_onchange(p_value)
+{
+    g_case_view_request.case_status = p_value;
+}
+
+function search_pregnancy_relatedness_onchange(p_value)
+{
+    g_case_view_request.pregnancy_relatedness = p_value;
+}
+
+function search_field_selection_onchange(p_value)
+{
+    g_case_view_request.field_selection = p_value;
 }

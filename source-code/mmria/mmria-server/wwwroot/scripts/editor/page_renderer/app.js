@@ -569,7 +569,7 @@ function renderPregnancyRelatedness(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); 
