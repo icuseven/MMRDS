@@ -47,7 +47,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_pregnancy_relatedness" class="mr-2">Search in:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_field_selection_onchange(this.value)">
                 ${render_field_selection(p_ui.case_view_request)}
             </select>
         </div>`
@@ -68,7 +68,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
                 ${renderPregnancyRelatedness(p_ui.case_view_request)}
             </select>
         </div>`
@@ -599,4 +599,9 @@ function search_case_status_onchange(p_value)
 function search_pregnancy_relatedness_onchange(p_value)
 {
     g_ui.case_view_request.pregnancy_relatedness = p_value;
+}
+
+function search_field_selection_onchange(p_value)
+{
+    g_ui.case_view_request.field_selection = p_value;
 }

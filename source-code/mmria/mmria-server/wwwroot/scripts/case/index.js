@@ -926,7 +926,7 @@ var g_ui = {
     descending: true,
     case_status: "all",
     field_selection: "all",
-    pregnancy_status:"all",
+    pregnancy_relatedness:"all",
     get_query_string: function () {
       var result = [];
       result.push('?skip=' + (this.page - 1) * this.take);
@@ -935,7 +935,7 @@ var g_ui = {
       result.push('descending=' + this.descending);
       result.push('case_status=' + this.case_status);
       result.push('field_selection=' + this.field_selection);
-      result.push('pregnancy_status=' + this.pregnancy_status);
+      result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
       
       if (this.search_key)
       {

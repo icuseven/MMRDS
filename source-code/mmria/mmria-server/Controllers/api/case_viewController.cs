@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
-using mmria.common;
+using mmria.common.functional;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -18,7 +18,232 @@ namespace mmria.server
     [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/[controller]")]
 	public class case_viewController: ControllerBase 
-	{
+	{   
+        delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
+        delegate is_valid_predicate create_predicate_delegate
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        );
+        
+        is_valid_predicate create_predicate_by_date_created
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_date_last_updated
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_last_name
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_first_name
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_middle_name
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_year_of_death
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_month_of_death
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_committee_review_date
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_created_by
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_last_updated_by
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_state_of_death
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_date_last_checked_out
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_last_checked_out_by
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_case_status
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_agency_case_id
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_pregnancy_relatedness
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+        is_valid_predicate create_predicate_by_host_state
+        (
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+        }
+
+
+        is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> ctx)
+        {
+            return (mmria.common.model.couchdb.case_view_item cvi) => {
+                bool result = false;
+                if(cvi.value.jurisdiction_id == null)
+                {
+                    cvi.value.jurisdiction_id = "/";
+                }
+
+                foreach(var jurisdiction_item in ctx)
+                {
+                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+                    if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+                    {
+                        result = true;
+                        break;
+                    }
+                }
+                return result;
+            };
+        }
+        
+        is_valid_predicate is_valid_date_created;
+        
+        is_valid_predicate is_valid_date_last_updated;
+        is_valid_predicate is_valid_last_name;
+        is_valid_predicate is_valid_first_name;
+        is_valid_predicate is_valid_middle_name;
+        is_valid_predicate is_valid_year_of_death;
+        is_valid_predicate is_valid_month_of_death;
+        is_valid_predicate is_valid_committee_review_date;
+        is_valid_predicate is_valid_created_by;
+        is_valid_predicate is_valid_last_updated_by;
+        is_valid_predicate is_valid_state_of_death;
+        is_valid_predicate is_valid_date_last_checked_out;
+        is_valid_predicate is_valid_last_checked_out_by;
+        is_valid_predicate is_valid_case_status;
+        is_valid_predicate is_valid_agency_case_id;
+        is_valid_predicate is_valid_pregnancy_relatedness;
+        is_valid_predicate is_valid_host_state;
+
+        is_valid_predicate is_valid_jurisdition;
 
         HashSet<string> sort_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -94,7 +319,7 @@ namespace mmria.server
 		}
 
 
-        private async Task<mmria.common.model.couchdb.case_view_response> GetRoot
+        async Task<mmria.common.model.couchdb.case_view_response> GetRoot
         (
             int skip,
             int take,
@@ -424,7 +649,7 @@ namespace mmria.server
             return null;
         }
 
-        private bool is_matching_search_text(string p_val1, string p_val2)
+        bool is_matching_search_text(string p_val1, string p_val2)
         {
             var result = false;
 
@@ -444,7 +669,7 @@ namespace mmria.server
             return result;
         }
 
-        private async Task<mmria.common.model.couchdb.case_view_response> GetSub
+        async Task<mmria.common.model.couchdb.case_view_response> GetSub
         (
             int skip,
             int take,
@@ -458,28 +683,9 @@ namespace mmria.server
         )
         {
             string sort_view = sort.ToLower ();
-            switch (sort_view)
+            if (! sort_list.Contains(sort_view))
             {
-                case "by_date_created":
-                case "by_date_last_updated":
-                case "by_last_name":
-                case "by_first_name":
-                case "by_middle_name":
-                case "by_year_of_death":
-                case "by_month_of_death":
-                case "by_committee_review_date":
-                case "by_created_by":
-                case "by_last_updated_by":
-                case "by_state_of_death":
-                case "by_case_status":
-                case "by_agency_case_id":
-                case "by_host_state":
-                case "by_pregnancy_relatedness":
-                    break;
-
-                default:
-                    sort_view = "by_date_created";
-                break;
+                sort_view = "by_date_created";
             }
 
 
@@ -493,7 +699,7 @@ namespace mmria.server
 
                 if (string.IsNullOrWhiteSpace (search_key))
                 {
-                    /*
+                    
                     if (skip > -1) 
                     {
                         request_builder.Append ($"skip={skip}");
@@ -509,7 +715,7 @@ namespace mmria.server
                     {
                         request_builder.Append ($"&limit={take}");
                     }
-                    */
+                    /**/
 
                     if (descending) 
                     {
@@ -540,10 +746,13 @@ namespace mmria.server
                     result.offset = case_view_response.offset;
                     result.total_rows = case_view_response.total_rows;
 
+                    int no_add = 0;
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool is_jurisdiction_ok = false;
                         bool add_item = false;
+
+                        
 
                         if(cvi.value.jurisdiction_id == null)
                         {
@@ -608,7 +817,14 @@ namespace mmria.server
                             }                                               
                         }
 
-                        if(is_jurisdiction_ok && add_item) temp.Add (cvi);
+                        if(is_jurisdiction_ok && add_item)
+                        {
+                           temp.Add (cvi); 
+                        }
+                        else
+                        {
+                            no_add++;
+                        }
                     }
                     
                     result.total_rows = temp.Count;
@@ -798,6 +1014,38 @@ namespace mmria.server
             }
 
             return result;
+        }
+
+        void create_predicates
+        (
+            HashSet<(string jurisdiction_id, mmria.server.util.ResourceRightEnum ResourceRight)> ctx,
+            string search_key,
+            string case_status,
+            string field_selection,
+            string by_pregnancy_relatedness
+        )
+        {
+            //is_validcreate_predicate_by_date_created(search_key, case_status, field_selection, by_pregnancy_relatedness) => (mmria.common.model.couchdb.case_view_item) return true;
+
+            is_valid_date_created = create_predicate_by_date_created(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_date_last_updated = create_predicate_by_date_last_updated(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_last_name = create_predicate_by_last_name(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_first_name = create_predicate_by_first_name(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_middle_name = create_predicate_by_middle_name(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_year_of_death = create_predicate_by_year_of_death(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_month_of_death = create_predicate_by_month_of_death(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_committee_review_date = create_predicate_by_committee_review_date(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_created_by = create_predicate_by_created_by(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_last_updated_by = create_predicate_by_last_updated_by(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_state_of_death = create_predicate_by_state_of_death(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_date_last_checked_out = create_predicate_by_date_last_checked_out(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_last_checked_out_by = create_predicate_by_last_checked_out_by(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_case_status = create_predicate_by_case_status(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_agency_case_id = create_predicate_by_agency_case_id(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_pregnancy_relatedness = create_predicate_by_pregnancy_relatedness(search_key, case_status, field_selection, by_pregnancy_relatedness);
+            is_valid_host_state = create_predicate_by_host_state(search_key, case_status, field_selection, by_pregnancy_relatedness);
+
+            is_valid_jurisdition = create_predicate_by_jurisdiction(ctx);
         }
 	} 
 }
