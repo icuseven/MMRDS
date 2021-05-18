@@ -18,7 +18,8 @@ namespace mmria.server
     [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/[controller]")]
 	public class case_viewController: ControllerBase 
-	{   
+	{  
+         
         delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
 
         List<is_valid_predicate> applicable_predicate_list = new List<is_valid_predicate>();
