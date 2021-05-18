@@ -282,7 +282,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
 							<div class="form-inline mb-2">
                                 <label for="search_records_per_page" class="font-weight-normal mr-2">Records per page:</label>
-                                <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
+                                <select id="search_records_per_page" class="custom-select" onchange="g_case_view_request.take = this.value;">
                                     ${render_filter_records_per_page(g_case_view_request)}
                                 </select>
                             </div>
@@ -1446,11 +1446,12 @@ function render_pagination(p_result, p_case_view_request) {
     (current_page - 1) * p_case_view_request.take <
     p_case_view_request.total_rows;
     current_page++
-  ) {
+  ) 
+  {
     p_result.push(
       "<button type='button' class='table-btn-link btn btn-link' alt='select page " +
         current_page +
-        "' onclick='g_ui.case_view_request.page="
+        "' onclick='g_case_view_request.page="
     );
     p_result.push(current_page);
     p_result.push(";get_case_set();'>");
