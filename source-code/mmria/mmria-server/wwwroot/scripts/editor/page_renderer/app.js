@@ -394,8 +394,11 @@ function render_sort_by_include_in_export(p_sort)
         {
             value : 'by_agency_case_id',
             display : 'By agency-based case identifier'
-        }
-        ,
+        },
+        {
+            value : 'by_record_id',
+            display : 'By Record id'
+        },
         {
             value : 'by_pregnancy_relatedness',
             display : 'By pregnancy relatedness'
@@ -422,7 +425,10 @@ function render_field_selection(p_sort)
             value : 'by_agency_case_id',
             display : 'Agency-Based Case Identifier'
         },
-
+        {
+            value : 'by_record_id',
+            display : 'Record Id'
+        },
         {
             value : 'by_last_name',
             display : 'Last Name'

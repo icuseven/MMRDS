@@ -1156,7 +1156,10 @@ function render_field_selection(p_sort)
             value : 'by_agency_case_id',
             display : 'Agency-Based Case Identifier'
         },
-
+        {
+            value : 'by_record_id',
+            display : 'Record Id'
+        },
         {
             value : 'by_last_name',
             display : 'Last Name'
@@ -1325,7 +1328,7 @@ function render_sort_by_include_in_export(p_case_view_request)
 
   export_include_list.map((item) => {
     result.push(
-      `<option value="${item}" ${
+      `<option value="by_${item}" ${
         item === p_case_view_request.sort ? 'selected' : ''
       }>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`
     );
