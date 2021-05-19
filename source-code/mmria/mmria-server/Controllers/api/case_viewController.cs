@@ -22,7 +22,8 @@ namespace mmria.server
 
         delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
 
-        List<is_valid_predicate> applicable_predicate_list = new List<is_valid_predicate>();
+        List<is_valid_predicate> all_predicate_list = new List<is_valid_predicate>();
+        List<is_valid_predicate> any_predicate_list = new List<is_valid_predicate>();
         delegate is_valid_predicate create_predicate_delegate
         (
             string search_key,
@@ -83,19 +84,33 @@ namespace mmria.server
             string pregnancy_relatedness
         )
         {
-            if(search_key == null && field_selection == "all")
-                return (mmria.common.model.couchdb.case_view_item item) => true;
-
-            return (mmria.common.model.couchdb.case_view_item item) => 
+            if(search_key != null)
             {
-                bool result = false;
-                if(is_matching_search_text(item.value.last_name, search_key))
-                {
-                    result = true;
-                }
+               
 
-                return result;
-            };
+                is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+                {
+                    bool result = false;
+                    if(is_matching_search_text(item.value.last_name, search_key))
+                    {
+                        result = true;
+                    }
+
+                    return result;
+                };
+
+                if(field_selection == "all")
+                    any_predicate_list.Add(f);
+
+
+
+                if(field_selection == "by_last_name")
+                    all_predicate_list.Add(f);
+            }
+
+            
+            return (mmria.common.model.couchdb.case_view_item item) => true;
+
         }
         is_valid_predicate create_predicate_by_first_name
         (
@@ -108,16 +123,33 @@ namespace mmria.server
             if(search_key == null && field_selection == "all")
                 return (mmria.common.model.couchdb.case_view_item item) => true;
 
-            return (mmria.common.model.couchdb.case_view_item item) => 
+
+            if(search_key != null )
             {
-                bool result = false;
-                if(is_matching_search_text(item.value.first_name, search_key))
+                is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+                    {
+                        bool result = false;
+                        if(is_matching_search_text(item.value.first_name, search_key))
+                        {
+                            result = true;
+                        }
+
+                        return result;
+                    };
+                if (field_selection == "all")
                 {
-                    result = true;
+                    any_predicate_list.Add(f);
                 }
 
-                return result;
-            };
+                if(field_selection == "by_first_name")
+                {
+                    all_predicate_list.Add(f);
+                }
+
+                return f;
+            }
+
+            return (mmria.common.model.couchdb.case_view_item item) => true;
         }
         is_valid_predicate create_predicate_by_middle_name
         (
@@ -313,11 +345,8 @@ namespace mmria.server
             string pregnancy_relatedness
         )
         {
-            if(search_key == null && field_selection == "all" && case_status== "all")
-                return (mmria.common.model.couchdb.case_view_item item) => false;
 
-            
-            if(search_key == null && field_selection == "all")
+            if(case_status != "all")
             {
                 is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
                 {
@@ -330,7 +359,9 @@ namespace mmria.server
                     return result;
                 };
 
-                applicable_predicate_list.Add(f);
+                all_predicate_list.Add(f);
+
+                
                 return f;
             }
                 
@@ -345,11 +376,11 @@ namespace mmria.server
             string pregnancy_relatedness
         )
         {
-            if(search_key == null && field_selection == "all")
-                return (mmria.common.model.couchdb.case_view_item item) => true;
 
-            if(search_key != null && (field_selection == "all"  || field_selection == "by_agency_case_id"))
-                return (mmria.common.model.couchdb.case_view_item item) =>
+            if(search_key != null)
+            {
+
+                is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
                 {
                     bool result = false;
                     if(is_matching_search_text(item.value.agency_case_id, search_key))
@@ -359,6 +390,14 @@ namespace mmria.server
 
                     return result;
                 };
+
+                if (field_selection == "all")
+                    any_predicate_list.Add(f);
+
+                if (field_selection == "by_agency_case_id")
+                    all_predicate_list.Add(f);
+
+            }
 
             return (mmria.common.model.couchdb.case_view_item item) => true;
         }
@@ -370,11 +409,8 @@ namespace mmria.server
             string pregnancy_relatedness
         )
         {
-            if(search_key == null && field_selection == "all" && pregnancy_relatedness == "all")
-                return (mmria.common.model.couchdb.case_view_item item) => false;
 
-
-            if(search_key == null && field_selection == "all")
+            if(pregnancy_relatedness != "all")
             {
                 is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
                 {
@@ -387,7 +423,7 @@ namespace mmria.server
                     return result;
                 };
 
-                applicable_predicate_list.Add(f);
+                all_predicate_list.Add(f);
 
                 return f;
             }
@@ -416,10 +452,7 @@ namespace mmria.server
             string pregnancy_relatedness
         )
         {
-            if(search_key == null && field_selection == "all")
-                return (mmria.common.model.couchdb.case_view_item item) => false;
-            
-            if(search_key != null && (field_selection == "all"  || field_selection == "by_record_id"))
+            if(search_key != null)
             {
                 is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
                 {
@@ -432,7 +465,13 @@ namespace mmria.server
                     return result;
                 };
 
-                applicable_predicate_list.Add(f);
+                if(field_selection == "all")
+                        any_predicate_list.Add(f);
+
+                if(field_selection == "by_record_id")
+                    all_predicate_list.Add(f);
+
+                
                 return f;
             }
 
@@ -462,7 +501,7 @@ namespace mmria.server
                 return result;
             };
 
-            applicable_predicate_list.Add(f);
+            all_predicate_list.Add(f);
 
             return f;
         }
@@ -595,7 +634,12 @@ namespace mmria.server
                 var data = case_view_response.rows
                     .Where
                     (
-                        cvi => applicable_predicate_list.All( f => f(cvi)) 
+                        cvi => 
+                            all_predicate_list.All( f => f(cvi)) &&
+                            (
+                                any_predicate_list.Count == 0 ||
+                                any_predicate_list.Any( f => f(cvi)) 
+                            )
                         
                     );
 

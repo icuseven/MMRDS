@@ -182,6 +182,7 @@ namespace mmria.server.util
 			result.Add("mAgeatDeath MAgeD4", get_new_struct("mAgeatDeath MAgeD4"));
 			result.Add("mAgeatDeath MAgeD5", get_new_struct("mAgeatDeath MAgeD5"));
 			result.Add("mAgeatDeath MAgeD6", get_new_struct("mAgeatDeath MAgeD6"));
+            result.Add("mAgeatDeath MAgeD7", get_new_struct("mAgeatDeath MAgeD7"));
 			result.Add("mDeathCause MCauseD1", get_new_struct("mDeathCause MCauseD1"));
 			result.Add("mDeathCause MCauseD2", get_new_struct("mDeathCause MCauseD2"));
 			result.Add("mDeathCause MCauseD3", get_new_struct("mDeathCause MCauseD3"));
