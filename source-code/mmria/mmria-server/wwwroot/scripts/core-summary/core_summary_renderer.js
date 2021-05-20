@@ -269,6 +269,15 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 						result.push("<ul>");
 						for(var i = 0; i < p_data.length; i++)
 						{
+                            if
+                            (
+                                (p_data[i] == 9999 || p_data[i] == "9999") &&
+                                p_data.length > 1
+                            )
+                            {
+                                continue;
+                            }
+                            
 							result.push("<li>");
 							result.push(p_data[i]);
 							result.push(" - ");
