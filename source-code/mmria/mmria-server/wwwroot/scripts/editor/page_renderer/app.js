@@ -46,8 +46,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     p_result.push(
         `<div class="form-inline mb-2">
-            <label for="search_pregnancy_relatedness" class="mr-2">Field Selection:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+            <label for="search_pregnancy_relatedness" class="mr-2">Search in:</label>
+            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_field_selection_onchange(this.value)">
                 ${render_field_selection(p_ui.case_view_request)}
             </select>
         </div>`
@@ -68,7 +68,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
                 ${renderPregnancyRelatedness(p_ui.case_view_request)}
             </select>
         </div>`
@@ -394,8 +394,11 @@ function render_sort_by_include_in_export(p_sort)
         {
             value : 'by_agency_case_id',
             display : 'By agency-based case identifier'
-        }
-        ,
+        },
+        {
+            value : 'by_record_id',
+            display : 'By Record id'
+        },
         {
             value : 'by_pregnancy_relatedness',
             display : 'By pregnancy relatedness'
@@ -419,57 +422,56 @@ function render_field_selection(p_sort)
             display : '-- All --'
         },
         {
-            value : 'by_date_created',
-            display : 'By date created'
+            value : 'by_agency_case_id',
+            display : 'Agency-Based Case Identifier'
         },
         {
-            value : 'by_date_last_updated',
-            display : 'By date last updated'
+            value : 'by_record_id',
+            display : 'Record Id'
         },
         {
             value : 'by_last_name',
-            display : 'By last name'
+            display : 'Last Name'
         },
         {
             value : 'by_first_name',
-            display : 'By first name'
+            display : 'First Name'
         },
         {
             value : 'by_middle_name',
-            display : 'By middle name'
-        },
-        {
-            value : 'by_year_of_death',
-            display : 'By year of death'
-        },
-        {
-            value : 'by_month_of_death',
-            display : 'By month of death'
-        },
-        {
-            value : 'by_committee_review_date',
-            display : 'By committee review date'
-        },
-        {
-            value : 'by_created_by',
-            display : 'By created by'
-        },
-        {
-            value : 'by_last_updated_by',
-            display : 'By last updated by'
+            display : 'Middle Name'
         },
         {
             value : 'by_state_of_death',
-            display : 'By state of death'
+            display : 'State of Death'
         },
         {
-            value : 'by_agency_case_id',
-            display : 'By agency-based case identifier'
-        }
-        ,
+            value : 'by_year_of_death',
+            display : 'Year of death'
+        },
         {
-            value : 'by_pregnancy_relatedness',
-            display : 'By pregnancy relatedness'
+            value : 'by_month_of_death',
+            display : 'Month of Death'
+        },
+        {
+            value : 'by_committee_review_date',
+            display : 'Committee Review date'
+        },
+        {
+            value : 'by_date_created',
+            display : 'Date Created'
+        },
+        {
+            value : 'by_date_last_updated',
+            display : 'Date last Updated'
+        },
+        {
+            value : 'by_created_by',
+            display : 'Created By'
+        },
+        {
+            value : 'by_last_updated_by',
+            display : 'Last Updated By'
         }
 	];
 
@@ -567,7 +569,7 @@ function renderPregnancyRelatedness(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); 
@@ -580,7 +582,7 @@ function render_filter_records_per_page(p_sort)
     const f_result = [];
 
     sort_list.map((item) => {
-        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+        f_result.push(`<option value="${item}" ${item == p_sort.take ? 'selected' : ''}>${item}</option>`)
     });
 
     return f_result.join('');
@@ -590,6 +592,8 @@ function clear_case_search() {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
     g_ui.case_view_request.case_status = 'all'
+    g_ui.case_view_request.pregnancy_relatedness = 'all';
+    g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
 
     get_case_set();
@@ -603,4 +607,9 @@ function search_case_status_onchange(p_value)
 function search_pregnancy_relatedness_onchange(p_value)
 {
     g_ui.case_view_request.pregnancy_relatedness = p_value;
+}
+
+function search_field_selection_onchange(p_value)
+{
+    g_ui.case_view_request.field_selection = p_value;
 }

@@ -248,8 +248,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
                                     <div class="form-inline mb-2">
-                                        <label for="search_pregnancy_relatedness" class="mr-2">Field Selection:</label>
-                                        <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                        <label for="search_field_selection" class="font-weight-normal mr-2">Search in:</label>
+                                        <select id="search_field_selection" class="custom-select" onchange="search_field_selection_onchange(this.value)">
                                             ${render_field_selection(g_case_view_request)}
                                         </select>
                                     </div>
@@ -260,15 +260,15 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								</div>
 
                             <div class="form-inline mb-2">
-                                <label for="search_case_status" class="mr-2">Case Status:</label>
+                                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
                                 <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
                                     ${renderSortCaseStatus(g_case_view_request)}
                                 </select>
                             </div>
 
                             <div class="form-inline mb-2">
-                                <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
-                                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness(this.value)">
+                                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
                                     ${renderPregnancyRelatedness(g_case_view_request)}
                                 </select>
                             </div>
@@ -281,8 +281,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                             </div>
 
 							<div class="form-inline mb-2">
-                                <label for="search_records_per_page" class="mr-2">Records per page:</label>
-                                <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
+                                <label for="search_records_per_page" class="font-weight-normal mr-2">Records per page:</label>
+                                <select id="search_records_per_page" class="custom-select" onchange="g_case_view_request.take = this.value;">
                                     ${render_filter_records_per_page(g_case_view_request)}
                                 </select>
                             </div>
@@ -303,7 +303,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											<th class="th" colspan="14" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Filtered Cases</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Select All</button-->
+													<button class="btn" onclick="select_all_filtered_cases_click()">Add all to Export List</button>
 												</span>
 											</th>
 										</tr>
@@ -335,7 +335,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 													<span id="exported_cases_count">Cases to be included in export (${
                             p_answer_summary.case_set.length
                           }):</span>
-													<!--button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button-->
+													<button class="btn" onclick="deselect_all_filtered_cases_click()">Clear Export List</button>
 												</span>
 											</th>
 										</tr>
@@ -658,17 +658,23 @@ function apply_filter_button_click() {
   get_case_set();
 }
 
-function result_checkbox_click(p_checkbox) {
+function result_checkbox_click(p_checkbox) 
+{
   let value = p_checkbox.value;
 
-  if (p_checkbox.checked) {
-    if (answer_summary.case_set.indexOf(value) < 0) {
+  if (p_checkbox.checked) 
+  {
+    if (answer_summary.case_set.indexOf(value) < 0) 
+    {
       answer_summary.case_set.push(value);
     }
-  } else {
+  } 
+  else 
+  {
     let index = answer_summary.case_set.indexOf(value);
 
-    if (index > -1) {
+    if (index > -1) 
+    {
       answer_summary.case_set.splice(index, 1);
     }
   }
@@ -705,7 +711,7 @@ var g_case_view_request = {
   descending: true,
   case_status: "all",
     field_selection: "all",
-    pregnancy_status:"all",
+    pregnancy_relatedness:"all",
   get_query_string: function () {
     var result = [];
     result.push('?skip=' + (this.page - 1) * this.take);
@@ -713,7 +719,7 @@ var g_case_view_request = {
     result.push('sort=' + this.sort);
     result.push('case_status=' + this.case_status);
       result.push('field_selection=' + this.field_selection);
-      result.push('pregnancy_status=' + this.pregnancy_status);
+      result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
 
     if (this.search_key) {
       result.push(
@@ -740,13 +746,28 @@ function get_case_set() {
   $.ajax({
     url: case_view_url,
   }).done(function (case_view_response) {
-    let el = document.getElementById('search_result_list');
-    let html = [];
+
     g_case_view_request.total_rows = case_view_response.total_rows;
     g_case_view_request.respone_rows = case_view_response.rows;
 
-    for (let i = 0; i < case_view_response.rows.length; i++) {
-      let item = case_view_response.rows[i];
+    render_search_result_list();
+
+    el = document.getElementById('case_result_pagination');
+    html = [];
+    render_pagination(html, g_case_view_request);
+    el.innerHTML = html.join('');
+  });
+}
+
+
+
+function render_search_result_list()
+{
+    let el = document.getElementById('search_result_list');
+    let html = [];
+
+    for (let i = 0; i < g_case_view_request.respone_rows.length; i++) {
+      let item = g_case_view_request.respone_rows[i];
       let value_list = item.value;
 
       selected_dictionary[item.id] = value_list;
@@ -821,16 +842,11 @@ function get_case_set() {
     }
 
     el.innerHTML = html.join('');
-
-    el = document.getElementById('case_result_pagination');
-    html = [];
-    render_pagination(html, g_case_view_request);
-    el.innerHTML = html.join('');
-  });
 }
-
-function render_selected_case_list(p_result, p_answer_summary) {
-  for (let i = 0; i < p_answer_summary.case_set.length; i++) {
+function render_selected_case_list(p_result, p_answer_summary) 
+{
+  for (let i = 0; i < p_answer_summary.case_set.length; i++) 
+  {
     let item_id = p_answer_summary.case_set[i];
     let value_list = selected_dictionary[item_id];
     const checked = p_answer_summary.case_set.includes(item_id)
@@ -1153,57 +1169,56 @@ function render_field_selection(p_sort)
             display : '-- All --'
         },
         {
-            value : 'by_date_created',
-            display : 'By date created'
+            value : 'by_agency_case_id',
+            display : 'Agency-Based Case Identifier'
         },
         {
-            value : 'by_date_last_updated',
-            display : 'By date last updated'
+            value : 'by_record_id',
+            display : 'Record Id'
         },
         {
             value : 'by_last_name',
-            display : 'By last name'
+            display : 'Last Name'
         },
         {
             value : 'by_first_name',
-            display : 'By first name'
+            display : 'First Name'
         },
         {
             value : 'by_middle_name',
-            display : 'By middle name'
-        },
-        {
-            value : 'by_year_of_death',
-            display : 'By year of death'
-        },
-        {
-            value : 'by_month_of_death',
-            display : 'By month of death'
-        },
-        {
-            value : 'by_committee_review_date',
-            display : 'By committee review date'
-        },
-        {
-            value : 'by_created_by',
-            display : 'By created by'
-        },
-        {
-            value : 'by_last_updated_by',
-            display : 'By last updated by'
+            display : 'Middle Name'
         },
         {
             value : 'by_state_of_death',
-            display : 'By state of death'
+            display : 'State of Death'
         },
         {
-            value : 'by_agency_case_id',
-            display : 'By agency-based case identifier'
-        }
-        ,
+            value : 'by_year_of_death',
+            display : 'Year of death'
+        },
         {
-            value : 'by_pregnancy_relatedness',
-            display : 'By pregnancy relatedness'
+            value : 'by_month_of_death',
+            display : 'Month of Death'
+        },
+        {
+            value : 'by_committee_review_date',
+            display : 'Committee Review date'
+        },
+        {
+            value : 'by_date_created',
+            display : 'Date Created'
+        },
+        {
+            value : 'by_date_last_updated',
+            display : 'Date last Updated'
+        },
+        {
+            value : 'by_created_by',
+            display : 'Created By'
+        },
+        {
+            value : 'by_last_updated_by',
+            display : 'Last Updated By'
         }
 	];
 
@@ -1301,7 +1316,7 @@ function renderPregnancyRelatedness(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join(''); 
@@ -1329,7 +1344,7 @@ function render_sort_by_include_in_export(p_case_view_request)
 
   export_include_list.map((item) => {
     result.push(
-      `<option value="${item}" ${
+      `<option value="by_${item}" ${
         item === p_case_view_request.sort ? 'selected' : ''
       }>${capitalizeFirstLetter(item).replace(/_/g, ' ')}</option>`
     );
@@ -1345,7 +1360,7 @@ function render_filter_records_per_page(p_sort)
     const f_result = [];
 
     sort_list.map((item) => {
-        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+        f_result.push(`<option value="${item}" ${item == p_sort.take ? 'selected' : ''}>${item}</option>`)
     });
 
     return f_result.join('');
@@ -1431,11 +1446,12 @@ function render_pagination(p_result, p_case_view_request) {
     (current_page - 1) * p_case_view_request.take <
     p_case_view_request.total_rows;
     current_page++
-  ) {
+  ) 
+  {
     p_result.push(
       "<button type='button' class='table-btn-link btn btn-link' alt='select page " +
         current_page +
-        "' onclick='g_ui.case_view_request.page="
+        "' onclick='g_case_view_request.page="
     );
     p_result.push(current_page);
     p_result.push(";get_case_set();'>");
@@ -1532,4 +1548,90 @@ function render_summary_of_selected_cases(p_answer_summary) {
   }
 
   return result.join('');
+}
+
+
+function select_all_filtered_cases_click()
+{
+    for (let i = 0; i <  g_case_view_request.respone_rows.length; i++) 
+    {
+        let item =  g_case_view_request.respone_rows[i];
+        let value_list = item.value;
+  
+        selected_dictionary[item.id] = value_list;
+  
+        let checked = '';
+        let index = answer_summary.case_set.indexOf(item.id);
+  
+        if (index < 0) 
+        {
+            answer_summary.case_set.push(item.id);
+        }
+    }
+
+    render_search_result_list();
+  
+    let el = document.getElementById('selected_case_list');
+    let result = [];
+  
+    render_selected_case_list(result, answer_summary);
+    el.innerHTML = result.join('');
+  
+    el = document.getElementById('exported_cases_count');
+    el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+  
+    el = document.getElementById('case_result_pagination');
+    result = [];
+    render_pagination(result, g_case_view_request);
+    el.innerHTML = result.join('');
+  
+    var summary_of_selected_cases = document.getElementById(
+      'summary_of_selected_cases'
+    );
+    summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
+      answer_summary
+    );
+}
+
+function deselect_all_filtered_cases_click()
+{
+    answer_summary.case_set = [];
+
+    render_search_result_list();
+  
+    let el = document.getElementById('selected_case_list');
+    let result = [];
+  
+    render_selected_case_list(result, answer_summary);
+    el.innerHTML = result.join('');
+  
+    el = document.getElementById('exported_cases_count');
+    el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+  
+    el = document.getElementById('case_result_pagination');
+    result = [];
+    render_pagination(result, g_case_view_request);
+    el.innerHTML = result.join('');
+  
+    var summary_of_selected_cases = document.getElementById(
+      'summary_of_selected_cases'
+    );
+    summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
+      answer_summary
+    );
+}
+
+function search_case_status_onchange(p_value)
+{
+    g_case_view_request.case_status = p_value;
+}
+
+function search_pregnancy_relatedness_onchange(p_value)
+{
+    g_case_view_request.pregnancy_relatedness = p_value;
+}
+
+function search_field_selection_onchange(p_value)
+{
+    g_case_view_request.field_selection = p_value;
 }

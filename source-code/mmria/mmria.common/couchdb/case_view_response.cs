@@ -77,7 +77,7 @@ reverse sort
         public string host_state{ get; set; }
 
         public string state_of_death{ get; set; }
-        public string pregnancy_relatedness{ get; set; }
+        public int? pregnancy_relatedness{ get; set; }
     }
 
 

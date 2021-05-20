@@ -427,11 +427,11 @@ function renderSortCaseStatus(p_case_view)
 
 function render_filter_records_per_page(p_sort)
 {
-    const sort_list = [25, 50, 100, 250, 500];
+    const sort_list = [25, 50, 100, 250, 500, 1000];
     const f_result = [];
 
     sort_list.map((item) => {
-        f_result.push(`<option value="${item}" ${item === p_sort.take ? 'selected' : ''}>${item}</option>`)
+        f_result.push(`<option value="${item}" ${item == p_sort.take ? 'selected' : ''}>${item}</option>`)
     });
 
     return f_result.join('');

@@ -25,7 +25,8 @@ namespace mmria.server.util
 			age_20_to_24,
 			age_25_to_29,
 			age_30_to_34,
-			age_35_to_44,
+            age_35_to_39,
+			age_40_to_44,
 			age_45_and_above
 		}
 
@@ -182,6 +183,8 @@ namespace mmria.server.util
 			result.Add("mAgeatDeath MAgeD4", get_new_struct("mAgeatDeath MAgeD4"));
 			result.Add("mAgeatDeath MAgeD5", get_new_struct("mAgeatDeath MAgeD5"));
 			result.Add("mAgeatDeath MAgeD6", get_new_struct("mAgeatDeath MAgeD6"));
+            result.Add("mAgeatDeath MAgeD7", get_new_struct("mAgeatDeath MAgeD7"));
+            //result.Add("mAgeatDeath MAgeD8", get_new_struct("mAgeatDeath MAgeD8"));
 			result.Add("mDeathCause MCauseD1", get_new_struct("mDeathCause MCauseD1"));
 			result.Add("mDeathCause MCauseD2", get_new_struct("mDeathCause MCauseD2"));
 			result.Add("mDeathCause MCauseD3", get_new_struct("mDeathCause MCauseD3"));
@@ -1375,39 +1378,10 @@ namespace mmria.server.util
 				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
 				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
 				else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
-				else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
+				else if(value_test >= 35 && value_test <= 39)  result = deaths_by_age_enum.age_35_to_39;
+                else if(value_test >= 40 && value_test <= 44)  result = deaths_by_age_enum.age_40_to_44;
 				else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
 			}
-
-/*
-			object val = get_value (p_source_object, "death_certificate/demographics/age");
-			int value_test = 0;
-			if (val != null && int.TryParse (val.ToString (), out value_test))
-			{
-				if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
-				else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
-				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
-				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
-				else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
-				else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
-				else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
-			}
-			else
-			{
-				val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
-				value_test = 0;
-				if (val != null && int.TryParse (val.ToString (), out value_test))
-				{
-					if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
-					else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
-					else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
-					else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
-					else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
-					else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
-					else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
-				}
-
-			}*/
 
 			return result;
 		}
@@ -2092,15 +2066,18 @@ mAgeatDeath	MAgeD6	45+
 		case deaths_by_age_enum.age_30_to_34:
 			p_opioid_report_value.field_id = "MAgeD4";	
 			break;
-		case deaths_by_age_enum.age_35_to_44:
+		case deaths_by_age_enum.age_35_to_39:
 			p_opioid_report_value.field_id = "MAgeD5";
 			break;
-		case deaths_by_age_enum.age_45_and_above:
+        case deaths_by_age_enum.age_40_to_44:
 			p_opioid_report_value.field_id = "MAgeD6";
+			break;
+		case deaths_by_age_enum.age_45_and_above:
+			p_opioid_report_value.field_id = "MAgeD7";
 			break;
 		case deaths_by_age_enum.blank:
 		default:
-			p_opioid_report_value.field_id = "MAgeD7";
+			p_opioid_report_value.field_id = "MAgeD8";
 			break;
 	}
 

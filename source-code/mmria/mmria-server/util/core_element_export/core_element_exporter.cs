@@ -1629,7 +1629,15 @@ namespace mmria.server.util
                 {
                     if (temp2.Contains(item.Value))
                     {
-                        result.Add(item.Value);
+                        if(item.Key == "9999")
+                        {
+                            if (look_up_list.Count == 1) result.Add(item.Value);
+                        }
+                        else
+                        {
+                            result.Add(item.Value);
+                        }
+
                     }
                 }
 

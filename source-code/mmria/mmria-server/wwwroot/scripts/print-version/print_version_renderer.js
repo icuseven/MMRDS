@@ -256,6 +256,14 @@ function print_version_render
 
         for (let i = 0; i < p_data.length; i++) 
         {
+            if
+            (
+                (p_data[i] == 9999 || p_data[i] == "9999") &&
+                p_data.length > 1
+            )
+            {
+                continue;
+            }
           result.push('<li>');
 
           if(! is_show_display_only)
