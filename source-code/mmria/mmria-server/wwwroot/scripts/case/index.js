@@ -3518,10 +3518,5 @@ function update_charts()
             });
 
         });
-
-        new Promise(r => setTimeout(r, 400)).then(() => {
-            d3.select("#" + chart.slice(6) + " svg").selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-                .attr('transform', 'rotate(300)translate(-25,0)');
-        });
     }
 }

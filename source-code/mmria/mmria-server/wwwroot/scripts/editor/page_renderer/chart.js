@@ -46,7 +46,15 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		height: ${chart_size.height}
 		, width: ${chart_size.width}
       },
-      bindto: '#${convert_object_path_to_jquery_id(p_object_path)}_chart',`);
+	  transition: {
+	    duration: null
+      },
+      bindto: '#${convert_object_path_to_jquery_id(p_object_path)}_chart',
+      onrendered: function()
+      {
+		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+          .attr('transform', 'rotate(300)translate(-25,0)');
+      },`);
 
 
 
@@ -149,10 +157,6 @@ d3.select('#chart svg').append('text')
     p_post_html_render.push("     .style('font-size', '1.4em')");
 	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 
-	if (p_metadata.x_axis && p_metadata.x_axis != "") {
-		p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')");
-		p_post_html_render.push("     .attr('transform', 'rotate(300)translate(-25,0)');");
-	}
 }
 
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
