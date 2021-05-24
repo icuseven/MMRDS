@@ -36,6 +36,8 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
 var g_record_id_list = {};
+var g_charts = {};
+var g_chart_data = {};
 
 function g_set_data_object_from_path
 (
@@ -602,6 +604,7 @@ else
         }
     );
   }
+update_charts();
 }
 
 
@@ -1529,6 +1532,8 @@ function window_on_hash_change(e)
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
         {
             g_ui.broken_rules = {};
+            g_charts = {};
+            g_chart_data = {};
             if(g_data_is_checked_out)
             {
                 save_case(g_data, function () 
@@ -1548,6 +1553,8 @@ function window_on_hash_change(e)
         }
         else
         {
+            g_charts = {};
+            g_chart_data = {};
             if(g_data_is_checked_out)
             {
                 save_case(g_data, function () 
@@ -1605,6 +1612,8 @@ function window_on_hash_change(e)
       if (g_ui.case_view_list.length > 0) 
       {
         g_ui.broken_rules = {};
+        g_charts = {};
+        g_chart_data = {};
         get_specific_case
         (
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
@@ -3454,5 +3463,60 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
         case "textarea":
         default:
             break;
+    }
+}
+
+function update_charts()
+{
+    for (let chart in g_charts)
+    {
+        let item = g_charts[chart];
+        let p_metadata = g_chart_data[chart];
+        let columns_data = [];
+        let convertedArray = [];
+
+        if (p_metadata.x_axis && p_metadata.x_axis != "") {
+            columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("']", "").replace("'", "").slice(0, -1).split(",").map(String));
+        }
+
+        if (p_metadata.y_label && p_metadata.y_label != "") {
+            var y_labels = p_metadata.y_label.split(",");
+            var y_axis_paths = p_metadata.y_axis.split(",");
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+                columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
+            }
+        }
+        else {
+
+            var y_axis_paths = p_metadata.y_axis.split(",");
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+                columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
+            }
+        }
+
+        columns_data.forEach(function (item, index) {
+            var output = {};
+
+            if (!item) return;
+
+            output[item[0]] = item.slice(1, item.length);
+
+            convertedArray.push(output);
+
+        });
+
+        Object.values(convertedArray).forEach(function (obj, index)  {
+            var key = Object.keys(obj)[0];
+            var data = [key];
+
+            data = data.concat(obj[key]);
+
+            item.load({
+                columns: [
+                    data
+                ],
+            });
+
+        });
     }
 }
