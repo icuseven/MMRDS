@@ -1728,7 +1728,7 @@ function save_case(p_data, p_call_back)
       })
       .fail(function (xhr, err) 
       {
-        alert(`server save_case: failed\n${err}`);
+        alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
         if (xhr.status == 401) 
         {
           let redirect_url = location.protocol + '//' + location.host;
