@@ -647,6 +647,8 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
       eval(post_html_call_back.join(''));
     }
   });
+
+  update_charts();
 }
 
 
@@ -715,7 +717,9 @@ function g_delete_grid_item_action
 		if (post_html_call_back.length > 0) {
 			eval(post_html_call_back.join(""));
 		}
-	});
+    });
+    update_charts();
+
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path, p_index) 
@@ -744,7 +748,6 @@ function g_delete_record_item(p_object_path, p_metadata_path, p_index)
 				eval(post_html_call_back.join(""));
 			}
 		});
-    
 }
 
 var g_ui = {
@@ -3473,11 +3476,9 @@ function update_charts()
         let item = g_charts[chart];
         let p_metadata = g_chart_data[chart];
         let columns_data = [];
+        let x_columns_data = [];
         let convertedArray = [];
-
-        if (p_metadata.x_axis && p_metadata.x_axis != "") {
-            columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("']", "").replace("'", "").slice(0, -1).split(",").map(String));
-        }
+        let xconvertedArray = [];
 
         if (p_metadata.y_label && p_metadata.y_label != "") {
             var y_labels = p_metadata.y_label.split(",");
@@ -3494,6 +3495,10 @@ function update_charts()
             }
         }
 
+        if (p_metadata.x_axis && p_metadata.x_axis != "") {
+            x_columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("]", "").replace("'", "").slice(0, -1).split(",").map(String));
+        }
+
         columns_data.forEach(function (item, index) {
             var output = {};
 
@@ -3505,6 +3510,25 @@ function update_charts()
 
         });
 
+        x_columns_data.forEach(function (item, index) {
+            var output = {};
+
+            if (!item) return;
+
+            output[item[0]] = item.slice(1, item.length);
+
+            xconvertedArray.push(output);
+
+        });
+
+        let xdata;
+
+        Object.values(xconvertedArray).forEach(function (obj, index) {
+            var key = Object.keys(obj)[0];
+            var data = [key];
+            xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
+        });
+
         Object.values(convertedArray).forEach(function (obj, index)  {
             var key = Object.keys(obj)[0];
             var data = [key];
@@ -3512,11 +3536,14 @@ function update_charts()
             data = data.concat(obj[key]);
 
             item.load({
+                unload: ['x'],
                 columns: [
+                    xdata,
                     data
-                ],
+                ]
             });
 
         });
+        item.flush();
     }
 }
