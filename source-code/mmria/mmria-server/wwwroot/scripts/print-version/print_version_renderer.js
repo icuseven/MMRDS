@@ -403,7 +403,17 @@ d3.select('#chart svg').append('text')
         p_post_html_render.push(" format: '%m/%d/%Y'");
         p_post_html_render.push('},');
         p_post_html_render.push("height: 55");
-        p_post_html_render.push('        }},');
+        p_post_html_render.push("        }");
+
+        if (p_metadata.name === "temperature_graph") {
+            p_post_html_render.push(",y: {");
+            p_post_html_render.push("  tick: {");
+            p_post_html_render.push("   format: d3.format('.1f'),");
+            p_post_html_render.push("  }");
+            p_post_html_render.push("},");
+        }
+
+        p_post_html_render.push("        },");
       }
 
       p_post_html_render.push('  data: {');
