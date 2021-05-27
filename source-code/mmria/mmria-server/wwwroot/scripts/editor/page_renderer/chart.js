@@ -92,6 +92,13 @@ d3.select('#chart svg').append('text')
 			p_post_html_render.push("  }");
 			p_post_html_render.push("},");
 		}
+		else {
+			p_post_html_render.push(",y: {");
+			p_post_html_render.push("  tick: {");
+			p_post_html_render.push("   format: d3.format('.0f'),");
+			p_post_html_render.push("  }");
+			p_post_html_render.push("},");
+		}
 
 		p_post_html_render.push("        },");
     }
