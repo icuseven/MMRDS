@@ -53,7 +53,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       onrendered: function()
       {
 		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-          .attr('transform', 'rotate(300)translate(-25,0)');
+          .attr('transform', 'rotate(325)translate(-25,0)');
       },`);
 
 
@@ -89,14 +89,18 @@ d3.select('#chart svg').append('text')
 			p_post_html_render.push(",y: {");
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.1f'),");
-			p_post_html_render.push("  }");
+			p_post_html_render.push("  },");
+			p_post_html_render.push("  min: 0,");
+            p_post_html_render.push("  padding: {top: 0, bottom: 0},");
 			p_post_html_render.push("},");
 		}
 		else {
 			p_post_html_render.push(",y: {");
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.0f'),");
-			p_post_html_render.push("  }");
+			p_post_html_render.push("  },");
+			p_post_html_render.push("  min: 0,");
+            p_post_html_render.push("  padding: {top: 0, bottom: 0},");
 			p_post_html_render.push("},");
 		}
 
