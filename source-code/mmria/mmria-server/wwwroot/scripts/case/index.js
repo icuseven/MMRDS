@@ -3219,8 +3219,8 @@ function add_new_case_button_click(p_input)
             new_day_of_death.value == null ||
             new_year_of_death.value == null ||
             new_state_of_death.value == null ||
-            new_first_name.value.length < 3 ||
-            new_last_name.value.length < 3 ||
+            new_first_name.value.length < 2 ||
+            new_last_name.value.length < 2 ||
             new_month_of_death.value == 9999 ||
             new_day_of_death.value == 9999 ||
             new_year_of_death.value == 9999 ||
