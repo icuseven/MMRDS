@@ -255,8 +255,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                                     </div>
 
 
-									<button type="button" class="btn btn-secondary" alt="apply filters" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
-									<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+
 								</div>
 
                             <div class="form-inline mb-2">
@@ -291,6 +290,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
 									<input id="filter_decending" type="checkbox" ${filter_decending}/>
 								</div>
+
+                                <button type="button" class="btn btn-secondary" alt="apply filters" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
+                                <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
