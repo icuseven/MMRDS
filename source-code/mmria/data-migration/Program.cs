@@ -39,7 +39,7 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"test"
+			"ga"
 			/*
 			"localhost",
 			"afd",
@@ -205,7 +205,7 @@ namespace migrate
 			bool is_report_only_mode = false;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
+			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
 
 			
 
@@ -369,14 +369,18 @@ namespace migrate
 					}
 					else if(MigrationType == RunTypeEnum.OneTime)
 					{
+
+						var Fix_American_Indian_Recode = new migrate.set.Fix_American_Indian_Recode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await Fix_American_Indian_Recode.execute();
 							
+                                          
+
+
+						//var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						//await SubstanceMigration.execute();
 
 						//var GA_One_Time = new migrate.set.GA_One_Time(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await GA_One_Time.execute();
-
-						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await SubstanceMigration.execute();
-
 
 						//var v2_4RaceRecode = new migrate.set.v2_4RaceRecode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await v2_4RaceRecode.execute();

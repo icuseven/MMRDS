@@ -7,7 +7,7 @@ using System.Linq;
 namespace migrate.set
 {
 
-    public class v2_4RaceRecode
+    public class Fix_American_Indian_Recode
     {
 
         public string host_db_url;
@@ -37,7 +37,7 @@ namespace migrate.set
 		public bool is_data_correction = false;
 
 
-        public v2_4RaceRecode
+        public Fix_American_Indian_Recode
         (
             string p_host_db_url, 
 			string p_db_name, 
@@ -61,10 +61,10 @@ namespace migrate.set
 
         public async Task execute()
         {
-			this.output_builder.AppendLine($"v2_4RaceRecode Data Migration started at: {DateTime.Now.ToString("o")}");
+			this.output_builder.AppendLine($"Fix_American_Indian_Recode Data Migration started at: {DateTime.Now.ToString("o")}");
 			DateTime begin_time = System.DateTime.Now;
 			
-			this.output_builder.AppendLine($"v2_4RaceRecode started at: {begin_time.ToString("o")}");
+			this.output_builder.AppendLine($"Fix_American_Indian_Recode started at: {begin_time.ToString("o")}");
 			
             var gs = new C_Get_Set_Value(this.output_builder);
 			try
@@ -302,7 +302,7 @@ namespace migrate.set
 				Console.WriteLine(ex);
 			}
 
-			Console.WriteLine($"v2_4RaceRecode Finished {DateTime.Now}");
+			Console.WriteLine($"Fix_American_Indian_Recode Finished {DateTime.Now}");
     	}
         public class Metadata_Node
 		{
