@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace migrate.set
 {
-
     public class Fix_American_Indian_Recode
     {
 
@@ -192,14 +191,15 @@ namespace migrate.set
 								target_value_result = gs.get_value(doc, target_field_path);
 								if (!value_result.is_error)
 								{
-									string race_recode = "9999";
+									string ameican_indian_race_recode_value = "2";
 									if(value_result.result != null)
 									{
 										if(value_result.result is IList<object>)
 										{
 											var object_list = value_result.result as IList<object>;
 											var list = new List<string>();
-
+											var key_list = new List<int>();
+											
 											foreach(var item in object_list)
 											{
 												int key = -1;
@@ -210,33 +210,46 @@ namespace migrate.set
 														list.Add(item as string);
 													}
 												}
+
+												key_list.Add(key);
+
 												if(value_to_display.ContainsKey(key))
 												{
 													list.Add(value_to_display[key]);
 												}
 											}
-											var omb_recode =  calculate_omb_recode(list);
-											if(display_to_value.ContainsKey(omb_recode))
+
+											if(list.Count == 1 && key_list[0] == 2)
 											{
-												race_recode = display_to_value[omb_recode].ToString();
-											}
-											else
-											{
-												race_recode = omb_recode;
+												int compare_value = -1;
+												if(target_value_result.result != null)
+												{
+													int.TryParse(target_value_result.result.ToString(), out compare_value);
+												}
+
+												Console.WriteLine($"compare_value: {compare_value} recode: key: {key_list[0]} value: {list[0]} recode: {target_value_result.result}");
+
+												if(key_list[0] == 2 && (compare_value != 3 && compare_value != 2))
+												{
+													Console.WriteLine($"weird: compare_value: {compare_value} recode: key: {key_list[0]} value: {list[0]} recode: {target_value_result.result}");
+												}
+
+
+												if(compare_value == 3)
+												{
+													if(case_change_count == 0)
+													{
+														case_change_count += 1;
+														case_has_changed = true;
+													}
+													case_has_changed = case_has_changed && gs.set_value(target_field_path, ameican_indian_race_recode_value, doc);
+													var output_text = $"item record_id: {mmria_id} RaceRecoded value set to {ameican_indian_race_recode_value}";
+													this.output_builder.AppendLine(output_text);
+													Console.WriteLine(output_text);
+												}
 											}
 											
-											if(target_value_result.result == null || target_value_result.result.ToString() != race_recode)
-											{
-												if(case_change_count == 0)
-												{
-													case_change_count += 1;
-													case_has_changed = true;
-												}
-												case_has_changed = case_has_changed && gs.set_value(target_field_path, race_recode, doc);
-												var output_text = $"item record_id: {mmria_id} RaceRecoded value set to {race_recode}";
-												this.output_builder.AppendLine(output_text);
-												Console.WriteLine(output_text);
-											}
+											
 										
 										}
 										else
@@ -247,36 +260,7 @@ namespace migrate.set
 									}
 									else
 									{
-										if(!target_value_result.is_error)
-										{
-											if(target_value_result.result != null)
-											{
-												if(target_value_result.result.ToString() != race_recode)
-												{
-													if(case_change_count == 0)
-													{
-														case_change_count += 1;
-														case_has_changed = true;
-													}
-													case_has_changed = case_has_changed && gs.set_value(target_field_path, race_recode, doc);
-													var output_text = $"item record_id: {mmria_id} RaceRecoded value set to {race_recode}";
-													this.output_builder.AppendLine(output_text);
-													Console.WriteLine(output_text);
-												}
-											}
-											else
-											{
-												if(case_change_count == 0)
-												{
-													case_change_count += 1;
-													case_has_changed = true;
-												}
-												case_has_changed = case_has_changed && gs.set_value(target_field_path, race_recode, doc);
-												var output_text = $"item record_id: {mmria_id} RaceRecoded value set to {race_recode}";
-												this.output_builder.AppendLine(output_text);
-												Console.WriteLine(output_text);
-											}
-										}
+
 									}
 								}
 							
@@ -289,7 +273,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && case_has_changed)
 						{
-							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.4 RaceRecode");
+							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"Fix_American_Indian_Recode_From_3_To_2");
 						}
 
 					}
@@ -641,7 +625,6 @@ namespace migrate.set
             //}
             return result;
         }
-
 
     }
 }
