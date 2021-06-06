@@ -500,7 +500,15 @@ namespace mmria.server.util
 			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			
+/*
+            var idset = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"3e155616-1c2f-4b70-848f-276471d907ac"};
+
+            if(idset.Contains(report_object._id))
+            {
+                Console.WriteLine("here");
+            }
+*/
+
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
 			this.indicators[$"{work_item.indicator_id} {work_item.field_id}"] = work_item;
 
@@ -1284,11 +1292,18 @@ namespace mmria.server.util
 							int.TryParse(day.ToString(), out start_day)
 						)
 						{
+
+                            if
+                            (
+                                start_year != 9999 &&
+                                start_month != 9999 &&
+                                start_day != 9999
+                            )
 							try
 							{
 								result = new DateTime(start_year, start_month, start_day);
 							}
-							catch(Exception ex)
+							catch(Exception)
 							{
 								
 							}
@@ -1298,6 +1313,9 @@ namespace mmria.server.util
 
 						return result;
 					}
+
+                    ///birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month
+                    ///home_record/date_of_death/month
 
 					val1 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/year");
 					object val2 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/month");
