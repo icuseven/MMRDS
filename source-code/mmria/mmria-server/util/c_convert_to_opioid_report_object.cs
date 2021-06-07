@@ -1299,15 +1299,48 @@ namespace mmria.server.util
                                 start_month != 9999 &&
                                 start_day != 9999
                             )
-							try
+                            {
+                                try
+                                {
+                                    result = new DateTime(start_year, start_month, start_day);
+                                }
+                                catch(Exception)
+                                {
+                                    
+                                }
+                            }
+                            else if
+                            (
+                                start_year != 9999 &&
+                                start_month != 9999 &&
+                                start_day == 9999
+                            )
+                            {
+                                try
+                                {
+                                    result = new DateTime(start_year, start_month, 1);
+                                }
+                                catch(Exception)
+                                {
+                                    
+                                }
+                            }
+                            else if
+                            (
+                                start_year != 9999 &&
+                                start_month == 9999 &&
+                                start_day != 9999
+                            )
 							{
-								result = new DateTime(start_year, start_month, start_day);
-							}
-							catch(Exception)
-							{
-								
-							}
-							
+                                try
+                                {
+                                    result = new DateTime(start_year, 1, start_day);
+                                }
+                                catch(Exception)
+                                {
+                                    
+                                }
+                            }
 						}
 
 
