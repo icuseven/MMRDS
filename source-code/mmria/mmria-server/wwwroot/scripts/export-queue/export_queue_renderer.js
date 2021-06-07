@@ -1196,7 +1196,7 @@ function render_field_selection(p_sort)
         },
         {
             value : 'by_year_of_death',
-            display : 'Year of death'
+            display : 'Year of Death'
         },
         {
             value : 'by_month_of_death',
@@ -1204,7 +1204,7 @@ function render_field_selection(p_sort)
         },
         {
             value : 'by_committee_review_date',
-            display : 'Committee Review date'
+            display : 'Committee Review Date'
         },
         {
             value : 'by_date_created',
@@ -1212,7 +1212,7 @@ function render_field_selection(p_sort)
         },
         {
             value : 'by_date_last_updated',
-            display : 'Date last Updated'
+            display : 'Date Last Updated'
         },
         {
             value : 'by_created_by',

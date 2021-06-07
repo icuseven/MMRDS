@@ -750,7 +750,7 @@ namespace mmria.server
 
                     if (take > -1) 
                     {
-                        request_builder.Append ($"&limit={take}");
+                        request_builder.Append ($"&limit={30000}");
                     }
 
                     if (descending) 
