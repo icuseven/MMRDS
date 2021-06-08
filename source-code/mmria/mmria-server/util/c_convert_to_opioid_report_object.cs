@@ -500,14 +500,14 @@ namespace mmria.server.util
 			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-/*
+
             var idset = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"3e155616-1c2f-4b70-848f-276471d907ac"};
 
             if(idset.Contains(report_object._id))
             {
                 Console.WriteLine("here");
             }
-*/
+/**/
 
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
 			this.indicators[$"{work_item.indicator_id} {work_item.field_id}"] = work_item;
@@ -1769,42 +1769,6 @@ death_certificate/Race/race = Other
 
 		private void popluate_mTimingofDeath(ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
-
-
-//CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
-/*
-function $calc_days(p_start_date, p_end_date) {
-    var days = null;
-    p_start_date = p_start_date.getTime() / 86400000;
-    p_end_date = p_end_date.getTime() / 86400000;
-    days = Math.trunc(p_end_date - p_start_date);
-    return days;
-}
-*/
-//CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
-/*
-path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
-event=onclick
-*/
-/*
-function birth_2_death(p_control) {
-    var days = null;
-    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
-    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
-    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
-        var start_date = new Date(start_year, start_month - 1, start_day);
-        var end_date = new Date(end_year, end_month - 1, end_day);
-        var days = $global.calc_days(start_date, end_date);
-        this.length_between_child_birth_and_death_of_mother = days;
-        $mmria.save_current_record();
-        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
-    }
-}
-*/
 			DateTime? Convert(object year, object month, object day)
 			{
 				DateTime? result = null;
@@ -1843,79 +1807,173 @@ function birth_2_death(p_control) {
 			}
 
 
-			var start_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
-			var start_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
-			var start_day = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
-			var end_year = get_value(p_source_object, "home_record/date_of_death/year");
-			var end_month = get_value(p_source_object, "home_record/date_of_death/month");
-			var end_day = get_value(p_source_object, "home_record/date_of_death/day");
+			var bfdcpfodddod_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+			var bfdcpfodddod_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+			var bfdcpfodddod_day = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+			var hrdod_year = get_value(p_source_object, "home_record/date_of_death/year");
+			var hrdod_month = get_value(p_source_object, "home_record/date_of_death/month");
+			var hrdod_day = get_value(p_source_object, "home_record/date_of_death/day");
+
+            var hr_abs_dth_timing_dynamic = get_value(p_source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
+            var hr_abs_dth_days_dynamic = get_value(p_source_object, "home_record/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey");
+            var dcdi_p_statu_dynamic = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
+
+            int hr_abs_dth_timing = -1;
+            if(hr_abs_dth_timing_dynamic != null)
+            {
+                int.TryParse(hr_abs_dth_timing_dynamic.ToString(), out hr_abs_dth_timing);
+            } 
+            
+            int hr_abs_dth_days = -1;
+            
+            if(hr_abs_dth_days_dynamic != null)
+            {
+                 int.TryParse(hr_abs_dth_days_dynamic.ToString(), out hr_abs_dth_days);
+            }
+            
+            int dcdi_p_statu = -1;
+            if(dcdi_p_statu_dynamic != null)
+            {
+                int.TryParse(dcdi_p_statu_dynamic.ToString(), out dcdi_p_statu);
+            }
+
+/*
+      if
+      (
+           bfdcpfodddod_month ne 9999 AND 
+           bfdcpfodddod_day ne 9999 AND 
+           bfdcpfodddod_year ne 9999 AND 
+           hrdod_month NE 9999 AND 
+           hrdod_day NE 9999 AND 
+           hrdod_year NE 9999
+      )
+      {
+          
+        delivery_date_clean=mdy(bfdcpfodddod_month,bfdcpfodddod_day,bfdcpfodddod_year);
+        death_date_clean=mdy(hrdod_month,hrdod_day,hrdod_year);
+        timing_calc_clean=int(death_date_clean-delivery_date_clean);
+        
+    }*/
+
+    var delivery_date = Convert(bfdcpfodddod_year, bfdcpfodddod_month, bfdcpfodddod_day);
+    var death_date = Convert(hrdod_year, hrdod_month, hrdod_day);
+
+    int? timing_calc_clean = null;
+    if(delivery_date.HasValue && death_date.HasValue)
+    {
+        var interval = (death_date - delivery_date).Value;
+
+        System.Console.WriteLine($"{interval.Days} - {interval.TotalDays}");
+        timing_calc_clean = (int) interval.TotalDays;
+    }
+            
+    
+    int? timing_clean = null;
+    //If the calculation for # of days between date of delivery and date of death is missing, use abstractor-assigned timing of death
+    if (!timing_calc_clean.HasValue)
+    {
+        /*
+            if .<hr_abs_dth_days<=0 then timing_clean=0;
+            if 0<hr_abs_dth_days<43 then timing_clean=1;
+            if 42<hr_abs_dth_days<=365 then timing_clean=2;
+        */
+        timing_clean = hr_abs_dth_timing switch 
+        {
+            1 => timing_clean = 0,
+            2 =>  timing_clean = 1,
+            3 =>  timing_clean = 2,
+            _ => null
+        };
+        
+    }
+
+      //If timing of death still missing, use abstractor-assigned days between end of pregnancy and death
+      if (!timing_clean.HasValue)
+      {
+
+          /*
+            if .<hr_abs_dth_days<=0 then timing_clean=0;
+            if 0<hr_abs_dth_days<43 then timing_clean=1;
+            if 42<hr_abs_dth_days<=365 then timing_clean=2;
+            */
+            timing_clean = hr_abs_dth_days switch 
+            {
+                <=0 => timing_clean = 0,
+                <43 =>  timing_clean = 1,
+                <= 365 =>  timing_clean = 2,
+                _ => null
+            };
+      }
+      
+      //If timing of death still missing, use the death certificate pregnancy checkbox
+      if (!timing_clean.HasValue)
+      { /*
+            if dcdi_p_statu=1 then timing_clean=0;
+            else if dcdi_p_statu=2 then timing_clean=1;
+            else if dcdi_p_statu=3 then timing_clean=2;
+        */
+            timing_clean = dcdi_p_statu switch 
+            {
+                1 => timing_clean = 0,
+                2 =>  timing_clean = 1,
+                3 =>  timing_clean = 2,
+                _ => null
+            };
+      }
+/*
+MTimeD1=0
+MTimeD2=1
+MTimeD3=2
+MTimeD4=missing/blank
+*/
+
+    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+    curr.indicator_id = "mTimingofDeath";
+    curr.value = 1;
+    switch(timing_clean)
+    {
+        case 0:
+            curr.field_id = "MTimeD1";
+            break;
+        case 1:
+            curr.field_id = "MTimeD2";
+            break;
+        case 2:
+            curr.field_id = "MTimeD3";
+            break;
+        default:
+            curr.field_id = "MTimeD4";
+            break;
+    }
+    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 
 
-			var delivery_date = Convert(start_year, start_month, start_day);
-			var death_date = Convert(end_year, end_month, end_day);
-
-			int? length_between_child_birth_and_death_of_mother = null;
-			if(delivery_date.HasValue && death_date.HasValue)
-			{
-				var interval = (death_date - delivery_date).Value;
-
-				System.Console.WriteLine($"{interval.Days} - {interval.TotalDays}");
-				length_between_child_birth_and_death_of_mother = (int) interval.TotalDays;
-			}
-
-/*			
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			
-			if(length_between_child_birth_and_death_of_mother_dynamic is string)
-			{
-				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
-				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
-				{
-					length_between_child_birth_and_death_of_mother = -1;
-				}
-			}
-			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
-			{
-				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
-			}
-			
-
-			
-			if(length_between_child_birth_and_death_of_mother < -1)
-			{
-				length_between_child_birth_and_death_of_mother = -1;
-			}*/
-
+/*
 			string val_1 = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 
 			int test_int;
 
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD1	Pregnant at the Time of Death	1	
-//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR
-//  (death_certificate/death_information/pregnancy_status = 1)
 			try
 			{	
 
 
 
-				if(length_between_child_birth_and_death_of_mother.HasValue)
+				if(timing_calc_clean.HasValue)
 				{
 
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
 					curr.value = 1;
 					
-					if(length_between_child_birth_and_death_of_mother.Value <= 0)
+					if(timing_calc_clean.Value <= 0)
 					{
 						curr.field_id = "MTimeD1";
 						this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 					}
 					else if
 					(
-						length_between_child_birth_and_death_of_mother.Value > 0 && 
-						length_between_child_birth_and_death_of_mother.Value <= 42
+						timing_calc_clean.Value > 0 && 
+						timing_calc_clean.Value <= 42
 					)
 					{
 						curr.field_id = "MTimeD2";
@@ -1924,8 +1982,8 @@ function birth_2_death(p_control) {
 					}
 					else if
 					(
-						length_between_child_birth_and_death_of_mother.Value >= 43 &&
-						length_between_child_birth_and_death_of_mother.Value <= 365
+						timing_calc_clean.Value >= 43 &&
+						timing_calc_clean.Value <= 365
 					)
 					{
 						curr.field_id = "MTimeD3";
@@ -1933,21 +1991,19 @@ function birth_2_death(p_control) {
 					}
 					else
 					{
-						length_between_child_birth_and_death_of_mother = null;
+						timing_calc_clean = null;
 					}
 				}
 				
-				if(!length_between_child_birth_and_death_of_mother.HasValue)
+				if(!timing_calc_clean.HasValue)
 				{
 
 
 					if
 					(
-					
 						val_1 != null && 
 						int.TryParse(val_1, out test_int) &&
 						test_int == 1
-					
 					)
 					{
 						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -2007,53 +2063,18 @@ function birth_2_death(p_control) {
 
 					}
 				}
+                
 
 			}
 			catch(Exception ex)
 			{
 				System.Console.WriteLine (ex);
 			}
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
-//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
-//(death_certificate/death_information/pregnancy_status = 2)
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
-// (death_certificate/death_information/pregnancy_status = 3)
-//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
-// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
-//  (death_certificate/death_information/pregnancy_status = 9999)
+*/
 
 		return;
 /*
 
-1
-committee_review/pregnancy_relatedness = Pregnancy Related; 
-AND
-birth_fetal_death_certificate_parent/
-	length_between_child_birth_and_death_of_mother = 0;
- OR death_certificate/pregnancy_status = pregnant at time of death
-
-
-
-2
-committee_review/pregnancy_relatedness = Pregnancy Related; 
-AND
-birth_fetal_death_certificate_parent/
-	length_between_child_birth_and_death_of_mother = 1-42;
- OR death_certificate/pregnancy_status = Pregnant within 42 days of death
-
-3
-committee_review/pregnancy_relatedness = Pregnancy Related; 
-AND
-birth_fetal_death_certificate_parent/
-	length_between_child_birth_and_death_of_mother = 43-365;
- OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
-
-
-length_between_child_birth_and_death_of_mother <- number field
-length_between_child_birth_and_death_of_mother = 0
-length_between_child_birth_and_death_of_mother = 1-42
-length_between_child_birth_and_death_of_mother = 43-365
 
 
 pregnancy_status <- list field
@@ -2068,24 +2089,12 @@ pregnancy_status <- list field
 
 
 */
-				/*			
-			age_less_than_20,
-			age_20_to_24,
-			age_25_to_29,
-			age_30_to_34,
-			age_35_to_44,
-			age_45_and_above
-				blank,
-*/
 
 		}
 
 
 private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 {
-
-
-
 
 /*
 mAgeatDeath	MAgeD1	<20
