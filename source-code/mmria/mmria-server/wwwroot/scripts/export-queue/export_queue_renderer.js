@@ -305,7 +305,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											<th class="th" colspan="14" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Filtered Cases</span>
-													<button class="btn" onclick="select_all_filtered_cases_click()">Add all to Export List</button>
+													<button class="btn" onclick="select_all_filtered_cases_click()">Add All to Export List</button>
 												</span>
 											</th>
 										</tr>
