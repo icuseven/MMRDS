@@ -303,9 +303,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14" scope="colgroup">
-												<span class="row no-gutters justify-content-between">
+												<span class="row no-gutters">
 													<span>Filtered Cases</span>
-													<button class="btn" onclick="select_all_filtered_cases_click()">Add All to Export List</button>
+													<a href="javascript:select_all_filtered_cases_click()" id="selectAllLink" class="ml-2">Select all on this page</a>
 												</span>
 											</th>
 										</tr>
@@ -333,11 +333,11 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14" scope="colgroup">
-												<span class="row no-gutters justify-content-between">
+												<span class="row no-gutters">
 													<span id="exported_cases_count">Cases to be included in export (${
                             p_answer_summary.case_set.length
                           }):</span>
-													<button class="btn" onclick="deselect_all_filtered_cases_click()">Clear Export List</button>
+													<a href="javascript:deselect_all_filtered_cases_click()" class="ml-2">Deselect all</a>
 												</span>
 											</th>
 										</tr>
@@ -658,6 +658,7 @@ function apply_filter_button_click() {
   g_case_view_request.descending = filter_decending.checked;
 
   get_case_set();
+  document.getElementById('selectAllLink').style.display = 'block';
 }
 
 function result_checkbox_click(p_checkbox) 
@@ -701,6 +702,8 @@ function result_checkbox_click(p_checkbox)
   summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
     answer_summary
   );
+
+  check_if_all_filtered_cases_selected();
 }
 
 var g_case_view_request = {
@@ -758,6 +761,8 @@ function get_case_set() {
     html = [];
     render_pagination(html, g_case_view_request);
     el.innerHTML = html.join('');
+
+    check_if_all_filtered_cases_selected();
   });
 }
 
@@ -1552,6 +1557,56 @@ function render_summary_of_selected_cases(p_answer_summary) {
   return result.join('');
 }
 
+function check_if_all_filtered_cases_selected()
+{
+    let isAllSelected = false;
+    let selectAllLink = document.getElementById('selectAllLink');
+
+    for (let i = 0; i < g_case_view_request.respone_rows.length; i++) {
+        let item = g_case_view_request.respone_rows[i];
+        let value_list = item.value;
+
+        //selected_dictionary[item.id] = value_list;
+
+        let checked = '';
+        let index = answer_summary.case_set.indexOf(item.id);
+
+        if (index < 0)
+        {
+            isAllSelected = false;
+            break;
+        }
+        else
+        {
+            isAllSelected = true;
+        }
+    }
+
+    if (isAllSelected)
+    {
+        selectAllLink.style.display = 'none';
+    }
+    else
+    {
+        selectAllLink.style.display = 'block';
+    }
+    set_records_on_page_text()
+}
+
+function set_records_on_page_text()
+{
+    let count = g_case_view_request.respone_rows.length;
+    let selectAllLink = document.getElementById('selectAllLink');
+
+    if (count && count > 0)
+    {
+        selectAllLink.textContent = `Select all on this page (${count})`;
+    }
+    else
+    {
+        selectAllLink.textContent = "Select all on this page";
+    }
+}
 
 function select_all_filtered_cases_click()
 {
@@ -1570,6 +1625,8 @@ function select_all_filtered_cases_click()
             answer_summary.case_set.push(item.id);
         }
     }
+
+    check_if_all_filtered_cases_selected()
 
     render_search_result_list();
   
@@ -1621,6 +1678,8 @@ function deselect_all_filtered_cases_click()
     summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(
       answer_summary
     );
+
+    check_if_all_filtered_cases_selected();
 }
 
 function search_case_status_onchange(p_value)
