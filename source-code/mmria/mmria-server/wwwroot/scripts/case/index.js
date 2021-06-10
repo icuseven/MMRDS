@@ -926,7 +926,7 @@ var g_ui = {
     total_rows: 0,
     page: 1,
     skip: 0,
-    take: 1000,
+    take: 100,
     sort: 'by_date_last_updated',
     search_key: null,
     descending: true,
