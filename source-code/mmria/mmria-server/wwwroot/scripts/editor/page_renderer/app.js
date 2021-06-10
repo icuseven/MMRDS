@@ -597,23 +597,42 @@ function clear_case_search()
     g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
     g_ui.case_view_request.take = 100;
+    g_ui.case_view_request.page = 1;
+    g_ui.case_view_request.skip = 0;
 
     get_case_set();
 }
 
 function search_case_status_onchange(p_value)
 {
-    g_ui.case_view_request.case_status = p_value;
+    if(g_ui.case_view_request.case_status != p_value)
+    {
+        g_ui.case_view_request.case_status = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
 }
 
 function search_pregnancy_relatedness_onchange(p_value)
 {
-    g_ui.case_view_request.pregnancy_relatedness = p_value;
+    if(g_ui.case_view_request.pregnancy_relatedness != p_value)
+    {
+        g_ui.case_view_request.pregnancy_relatedness = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+    
 }
 
 function search_field_selection_onchange(p_value)
 {
-    g_ui.case_view_request.field_selection = p_value;
+    if(g_ui.case_view_request.field_selection != p_value)
+    {
+        g_ui.case_view_request.field_selection = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+    
 }
 
 function records_per_page_change(p_value)
@@ -621,7 +640,7 @@ function records_per_page_change(p_value)
     if(p_value != g_ui.case_view_request.take)
     {
         g_ui.case_view_request.take = p_value;
-        g_ui.case_view_request.page = 1
-        g_ui.case_view_request.skip = 0
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
     }
 }

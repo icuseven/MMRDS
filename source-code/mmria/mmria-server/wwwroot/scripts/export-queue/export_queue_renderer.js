@@ -1684,17 +1684,32 @@ function deselect_all_filtered_cases_click()
 
 function search_case_status_onchange(p_value)
 {
-    g_case_view_request.case_status = p_value;
+    if(g_case_view_request.case_status != p_value)
+    {
+        g_case_view_request.case_status = p_value;
+        g_case_view_request.page = 1;
+        g_case_view_request.skip = 0;
+    }
 }
 
 function search_pregnancy_relatedness_onchange(p_value)
 {
-    g_case_view_request.pregnancy_relatedness = p_value;
+    if(g_case_view_request.pregnancy_relatedness != p_value)
+    {
+        g_case_view_request.pregnancy_relatedness = p_value;
+        g_case_view_request.page = 1;
+        g_case_view_request.skip = 0;
+    }
 }
 
 function search_field_selection_onchange(p_value)
 {
-    g_case_view_request.field_selection = p_value;
+    if(g_case_view_request.field_selection != p_value)
+    {
+        g_case_view_request.field_selection = p_value;
+        g_case_view_request.page = 1;
+        g_case_view_request.skip = 0;
+    }
 }
 
 function records_per_page_change(p_value)
