@@ -87,7 +87,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_records_per_page" class="mr-2">Records per page:</label>
-            <select id="search_records_per_page" class="custom-select" onchange="g_ui.case_view_request.take = this.value;">
+            <select id="search_records_per_page" class="custom-select" onchange="records_per_page_change(this.value);">
                 ${render_filter_records_per_page(p_ui.case_view_request)}
             </select>
         </div>`
@@ -613,4 +613,14 @@ function search_pregnancy_relatedness_onchange(p_value)
 function search_field_selection_onchange(p_value)
 {
     g_ui.case_view_request.field_selection = p_value;
+}
+
+function records_per_page_change(p_value)
+{
+    if(p_value != g_ui.case_view_request.take)
+    {
+        g_ui.case_view_request.take = p_value;
+        g_ui.case_view_request.page = 1
+        g_ui.case_view_request.skip = 0
+    }
 }

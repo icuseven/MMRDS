@@ -735,7 +735,7 @@ namespace mmria.server
                 {
                     if (skip > -1) 
                     {
-                        request_builder.Append ($"skip={skip}");
+                        request_builder.Append ($"skip=0");
                     } 
                     else 
                     {
@@ -745,7 +745,7 @@ namespace mmria.server
 
                     if (take > -1) 
                     {
-                        request_builder.Append ($"&limit={take}");
+                        request_builder.Append ($"&limit={30000}");
                     }
 
                     if (descending) 
