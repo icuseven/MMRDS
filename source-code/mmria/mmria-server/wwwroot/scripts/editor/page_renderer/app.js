@@ -47,7 +47,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
             <label for="search_pregnancy_relatedness" class="mr-2">Search in:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_field_selection_onchange(this.value)">
+            <select id="search_pregnancy_relatedness" name="search_pregnancy_relatedness" class="custom-select" onchange="search_field_selection_onchange(this.value)">
                 ${render_field_selection(p_ui.case_view_request)}
             </select>
         </div>`

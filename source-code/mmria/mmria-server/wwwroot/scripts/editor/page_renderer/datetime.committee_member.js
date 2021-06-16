@@ -62,49 +62,6 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
     // console.log(g_data_is_checked_out);
 
-    let is_valid = true;
-    
-    let date_part_display_value = "";
-    let time_part_display_value = '00:00:00';
-    
-    if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
-    {
-        is_valid = p_ctx.is_valid_date_or_datetime;
-
-        
-    }
-    else if(p_data != null && p_data != "")
-    {
-        is_valid = is_valid_datetime(p_data);
-    }
-
-    if(! is_valid)
-    {
-
-        let form_html = '';
-        let grid_html = '';
-
-        if(p_ctx && p_ctx.hasOwnProperty("is_valid_date_or_datetime"))
-        {
-
-            g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li>${form_html} ${grid_html} <strong>${p_metadata.prompt} ${p_ctx.entered_date_or_datetime_value}:</strong> This invalid date/time has been cleared in the form below. Please enter a valid calendar date/time between 1/1/1900 and 12/31/2100 in mm/dd/yyyy hh:mm:ss format. <button class="btn anti-btn ml-1"  onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
-        }
-        else
-        {
-
-
-            g_ui.broken_rules[convert_object_path_to_jquery_id(p_object_path)] = `$('#validation_summary_list').append('<li><strong>${p_metadata.prompt} ${p_data}:</strong> This invalid date/time has been cleared in the form below. Please enter a valid calendar date/time between 1/1/1900 and 12/31/2100 in mm/dd/yyyy hh:mm:ss format. <button class="btn anti-btn ml-1"  onclick="gui_remove_broken_rule_click(\\'${convert_object_path_to_jquery_id(p_object_path)}\\')"><span class="sr-only">Remove Item</span><span class="x20 cdc-icon-times-solid"></span></button></li>');`;
-        }
-
-        p_post_html_render.push(`$('${convert_object_path_to_jquery_id(p_object_path)}-innerdiv').addClass('is-invalid');`);
-    }
-    else
-    {
-        //p_post_html_render.push(`gui_remove_broken_rule('${convert_object_path_to_jquery_id(p_object_path)}')`);
-    }
-    
-
-
     if(p_data != null && p_data != "")
     {
         if(p_data.indexOf("T"))
@@ -229,19 +186,11 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     let validation_bottom_new = '-24px';
     let validation_left_new = 'auto';
 
-    if(! is_valid)
-    {
-        p_result.push(`<small id="${convert_object_path_to_jquery_id(p_object_path)}-inline-validation-message" class="validation-msg text-danger" style="${get_style_string(style_object.control.style)}; height:${validation_height_new}; top: ${validation_top_new}; bottom: ${validation_bottom_new}; left: ${validation_left_new};">Invalid date and time</small>`);
-    }
-
   p_result.push("</div>");
   
     p_post_html_render.push(`
-      if (${!is_valid}) {
-        $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-control").addClass('is-invalid')
-      } else {
-        $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-control").removeClass('is-invalid')
-      }
+        $("#${convert_object_path_to_jquery_id(p_object_path)} .datetime-control").removeClass('is-invalid');
+
     `);
 
 		//Initialize the custom 'bootstrap timepicker'

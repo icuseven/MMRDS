@@ -846,7 +846,7 @@ function apply_tool_tips()
 
   //$("input.number").mask("#,##0[.00", {reverse: true});
 
-    apply_validation();
+    //apply_validation();
 }
 
 
