@@ -112,7 +112,7 @@ function create_queue_item(
     created_by: '',
     date_last_updated: new_date,
     last_updated_by: '',
-    file_name: new_date.replace(/:/g, '-') + '.zip',
+    file_name: `${get_host_state_name()}_${new_date.replace(/:/g, '-')}.zip`,
     export_type: p_export_type,
     status: 'Confirmation Required',
     all_or_core: p_all_or_core,
@@ -465,4 +465,19 @@ function get_latest_version() {
   }).done(function (response) {
     g_current_version = response;
   });
+}
+
+function get_host_state_name()
+{
+    let result = "";
+    if(location.host.indexOf("-") > -1)
+    {
+        result = location.host.split("-")[0];
+    }
+    else
+    {
+        result = location.host.split(":")[0];
+    }
+
+    return result;
 }
