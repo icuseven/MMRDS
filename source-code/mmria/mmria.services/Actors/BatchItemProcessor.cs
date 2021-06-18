@@ -6686,7 +6686,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -6730,7 +6730,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -6774,7 +6774,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -6818,7 +6818,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
