@@ -2107,8 +2107,8 @@ namespace RecordsProcessor_Worker.Actors
                 var document_put_response = new mmria.common.model.couchdb.document_put_response();
                 try
                 {
-                    //var responseFromServer = document_curl.execute();
-                   // document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                    var responseFromServer = document_curl.execute();
+                    document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
                 }
                 catch (Exception ex)
                 {
