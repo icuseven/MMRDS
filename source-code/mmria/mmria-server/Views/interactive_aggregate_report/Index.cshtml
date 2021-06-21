@@ -1,0 +1,53 @@
+@using System.Security.Claims;
+@{
+  Layout = "_LayoutBase";
+
+  ViewBag.BreadCrumbs = true;
+
+  var userName = "";
+
+  if (User.Identities.Any(u => u.IsAuthenticated))
+  {
+    userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  }
+}
+
+@section Scripts
+{  
+  <script src="/scripts/overdose-data-summary/index.js"></script>
+  <script>
+    const container = $('.spinner-replace');
+
+    function iframe_loaded() {
+      container.show();
+    }
+  </script>
+}
+
+<h1 class="h2" tabindex="-1">Interactive Aggregate Report</h1>
+
+@if(@ViewBag.is_power_bi_user)
+{
+  <p>Your Power BI user name is <span id="output"></span></p>
+
+  <span class="spinner-container spinner-content spinner-active">
+    <span class="spinner-body text-primary">
+      <span class="spinner"></span>
+      <span class="spinner-info">Loading...</span>
+    </span>
+  </span>
+
+  <div class="spinner-replace ratio-16-9" style="display: none;">
+    @*
+      TODO: Add in dynamic "...for <State>" on title attr 
+    *@
+    <iframe class="content p-0"
+            src="@ViewBag.power_bi_link"
+            frameborder="0"
+            allowFullScreen="true"
+            title="MMRIA Interactive Aggregate Report Report showing characteristics of deaths"
+            onload="init_content_loader(iframe_loaded)"></iframe>
+  </div>
+}

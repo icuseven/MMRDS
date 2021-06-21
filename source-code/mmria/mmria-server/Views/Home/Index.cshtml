@@ -152,6 +152,7 @@ else
             @if(ViewBag.is_power_bi_user)
             {
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+              <li><a href="/interactive-aggregate-report" >View Interactive Aggregate Report</a></li>
             }
             <li><a href="/vital-import-history">View Vitals Import History</a></li>
           </ul>
@@ -170,6 +171,9 @@ else
             @if(ViewBag.is_power_bi_user)
             {
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+              <li><a href="/interactive-aggregate-report" >View Interactive Aggregate Report</a></li>
+
+              
             }
           </ul>
         </div>
@@ -217,6 +221,13 @@ else
                 <li><a href="/export-de-identified-list">Open standard export de-identification list manager</a></li>
                 <li><a href="/de-identified-list">Open Committee Member De-Identified List</a></li>
               </ul>
+            </li>
+            <li>
+              <strong>Power BI Management</strong>
+              <ul>
+                <li><a href="/power-bi-user">Manage Power BI User</a></li>
+                
+            </ul>
             </li>
             <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
           </ul>
