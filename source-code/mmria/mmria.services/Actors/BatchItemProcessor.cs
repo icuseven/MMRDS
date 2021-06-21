@@ -1833,6 +1833,20 @@ namespace RecordsProcessor_Worker.Actors
 
                     #endregion
 
+                    var (gestation_weeks, gestation_days) =  CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
+                    (
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year"),
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month"),
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day"),
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/year"),
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/month"),
+                        gs.get_value(new_case,"birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/day")
+                    );
+
+                    gs.set_value("birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation",gestation_weeks, new_case);
+                    gs.set_value("birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days", gestation_days, new_case);
+
+
                     #region NAT Assignments
                     for (int nat_index = 0; nat_index < nat_field_set?.Count; nat_index++)
                     {
@@ -2093,8 +2107,8 @@ namespace RecordsProcessor_Worker.Actors
                 var document_put_response = new mmria.common.model.couchdb.document_put_response();
                 try
                 {
-                    var responseFromServer = document_curl.execute();
-                    document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                    //var responseFromServer = document_curl.execute();
+                   // document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
                 }
                 catch (Exception ex)
                 {
@@ -11117,7 +11131,152 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             return result;
         }
 
+        //CALCULATE GESTATIONAL AGE AT BIRTH ON BC (LMP)
+        /*
+        path=birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation
+ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
+         int event_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+            int event_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+            int event_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+            int lmp_year = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.year);
+            int lmp_month = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.month);
+            int lmp_day = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.day);
+        event=onfocus
+        */
+        (string weeks, string days) CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
+        (
+            migrate.C_Get_Set_Value.get_value_result p_event_year_get_result,
+            migrate.C_Get_Set_Value.get_value_result  p_event_month_get_result,
+            migrate.C_Get_Set_Value.get_value_result  p_event_day_get_result,
+            migrate.C_Get_Set_Value.get_value_result  p_lmp_year_get_result,
+            migrate.C_Get_Set_Value.get_value_result  p_lmp_month_get_result,
+            migrate.C_Get_Set_Value.get_value_result  p_lmp_day_get_result
+        ) 
+        {
+            var result = ("","");
 
+
+            bool is_valid_date(int year, int month, int day)
+            {
+
+                if
+                (
+                    year == -1 ||
+                    month == -1 ||
+                    day == -1
+                )
+                {
+                    return false;
+                }
+
+
+                var months31 = new HashSet<int>(){
+                        1,
+                        3,
+                        5,
+                        7,
+                        8,
+                        10,
+                        12
+                };
+                // months with 31 days
+                var months30 = new HashSet<int>(){
+                        4,
+                        6,
+                        9,
+                        11
+                };
+                // months with 30 days
+                var months28 = new HashSet<int>(){2};
+                // the only month with 28 days (29 if year isLeap)
+                var isLeap = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+                var valid = 
+                    months31.Contains(month) && day <= 31 || 
+                    months30.Contains(month)  && day <= 30 || 
+                    months28.Contains(month) && day <= 28 || 
+                    months28.Contains(month) && day <= 29 && isLeap;
+                return valid;
+            }
+            int convert_from_dynamic_to_int(dynamic p_value)
+            {
+                int result = -1;
+                if(p_value != null)
+                {
+                    int.TryParse(p_value.ToString(), out result);
+                }
+                return result;
+            }
+            int calc_days(DateTime p_start_date, DateTime p_end_date) 
+            {
+                int days = (int) (p_end_date - p_start_date).TotalDays;
+                return days;
+            }
+
+            (int weeks, int days) calc_ga_lmp(DateTime p_start_date, DateTime p_end_date) 
+            {
+                var weeks = calc_days(p_start_date, p_end_date) / 7;
+                var days = calc_days(p_start_date, p_end_date) % 7;
+                return (weeks, days);
+            }
+
+            dynamic p_event_year_dynamic;
+            dynamic p_event_month_dynamic;
+            dynamic p_event_day_dynamic;
+            dynamic p_lmp_year_dynamic;
+            dynamic p_lmp_month_dynamic;
+            dynamic p_lmp_day_dynamic;
+
+
+            if
+            (
+                p_event_year_get_result.is_error ||
+                p_event_month_get_result.is_error ||
+                p_event_day_get_result.is_error ||
+                p_lmp_year_get_result.is_error ||
+                p_lmp_month_get_result.is_error ||
+                p_lmp_day_get_result.is_error
+            )
+            {
+                return result;
+            }
+            else
+            {
+                p_event_year_dynamic = p_event_year_get_result.result;
+                p_event_month_dynamic = p_event_month_get_result.result;
+                p_event_day_dynamic = p_event_day_get_result.result;
+                p_lmp_year_dynamic = p_lmp_year_get_result.result;
+                p_lmp_month_dynamic = p_lmp_month_get_result.result;
+                p_lmp_day_dynamic = p_lmp_day_get_result.result;
+            }
+
+
+            int event_year = convert_from_dynamic_to_int(p_event_year_dynamic);
+            int event_month = convert_from_dynamic_to_int(p_event_month_dynamic);
+            int event_day = convert_from_dynamic_to_int(p_event_day_dynamic);
+            int lmp_year = convert_from_dynamic_to_int(p_lmp_year_dynamic);
+            int lmp_month = convert_from_dynamic_to_int(p_lmp_month_dynamic);
+            int lmp_day = convert_from_dynamic_to_int(p_lmp_day_dynamic);
+            
+            if 
+            (
+                is_valid_date(event_year, event_month, event_day) && 
+                is_valid_date(lmp_year, lmp_month, lmp_day)
+            ) 
+            {
+
+                var lmp_date = new DateTime(lmp_year, lmp_month - 1, lmp_day);
+                var event_date = new DateTime(event_year, event_month - 1, event_day);
+
+                var int_result = calc_ga_lmp(lmp_date, event_date);
+                if(int_result.weeks > -1 && int_result.days > -1)
+                {
+                    result = (int_result.weeks.ToString(), int_result.days.ToString());
+                }
+
+            }
+
+            return result;
+        }
 
 
     }
