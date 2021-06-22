@@ -11161,16 +11161,22 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
                 if
                 (
-                    year == -1 ||
+                    year < 1920 ||
                     month == -1 ||
-                    day == -1
+                    day == -1 ||
+                    year > 3000 ||
+                    month > 12 ||
+                    day > 31
                 )
                 {
                     return false;
                 }
 
 
-                var months31 = new HashSet<int>(){
+
+
+                var months31 = new HashSet<int>()
+                {
                         1,
                         3,
                         5,
@@ -11180,7 +11186,8 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                         12
                 };
                 // months with 31 days
-                var months30 = new HashSet<int>(){
+                var months30 = new HashSet<int>()
+                {
                         4,
                         6,
                         9,
@@ -11263,14 +11270,20 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 is_valid_date(lmp_year, lmp_month, lmp_day)
             ) 
             {
-
-                var lmp_date = new DateTime(lmp_year, lmp_month - 1, lmp_day);
-                var event_date = new DateTime(event_year, event_month - 1, event_day);
-
-                var int_result = calc_ga_lmp(lmp_date, event_date);
-                if(int_result.weeks > -1 && int_result.days > -1)
+                try
                 {
-                    result = (int_result.weeks.ToString(), int_result.days.ToString());
+                    var lmp_date = new DateTime(lmp_year, lmp_month, lmp_day);
+                    var event_date = new DateTime(event_year, event_month, event_day);
+
+                    var int_result = calc_ga_lmp(lmp_date, event_date);
+                    if(int_result.weeks > -1 && int_result.days > -1)
+                    {
+                        result = (int_result.weeks.ToString(), int_result.days.ToString());
+                    }
+                }
+                catch(Exception)
+                {
+
                 }
 
             }
