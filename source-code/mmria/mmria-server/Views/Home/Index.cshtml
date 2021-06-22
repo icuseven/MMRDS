@@ -5,6 +5,7 @@
   var is_abstractor = false;
   var is_authenticated = false;
   var is_cdc_analyst = false;
+  var is_power_bi_manager = false;
   var is_cdc_admin = false;
   var is_committee_member = false;
   var is_form_designer = false;
@@ -60,6 +61,11 @@
           is_authenticated = true;
           is_guest = false;
           break;
+        case "power_bi_manager":
+          is_power_bi_manager = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;          
         case "cdc_admin":
             is_cdc_admin = true;
             is_authenticated = true;
@@ -222,13 +228,6 @@ else
                 <li><a href="/de-identified-list">Open Committee Member De-Identified List</a></li>
               </ul>
             </li>
-            <li>
-              <strong>Power BI Management</strong>
-              <ul>
-                <li><a href="/power-bi-user">Manage Power BI User</a></li>
-                
-            </ul>
-            </li>
             <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
           </ul>
         </div>
@@ -287,6 +286,16 @@ else
             @if(is_abstractor)
             {
                 <li><a href="/manage-case-check-outs">Manage case check outs</a></li>
+            }
+            @if(is_power_bi_manager)
+            {
+            <li>
+              <strong>Power BI Management</strong>
+              <ul>
+                <li><a href="/power-bi-user">Manage Power BI User</a></li>
+                
+            </ul>
+            </li>
             }
             <li><a href="/vital-import-history">View Vitals Import History</a></li>
           </ul>
