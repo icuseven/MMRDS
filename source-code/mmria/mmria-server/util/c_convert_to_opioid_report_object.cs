@@ -1806,6 +1806,7 @@ death_certificate/Race/race = Other
 				return result;
 			}
 
+            var _id = get_value(p_source_object, "_id");
 
 			var bfdcpfodddod_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
 			var bfdcpfodddod_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
@@ -1857,7 +1858,6 @@ death_certificate/Race/race = Other
 
     var delivery_date = Convert(bfdcpfodddod_year, bfdcpfodddod_month, bfdcpfodddod_day);
     var death_date = Convert(hrdod_year, hrdod_month, hrdod_day);
-
     int? timing_calc_clean = null;
     if(delivery_date.HasValue && death_date.HasValue)
     {
@@ -1867,10 +1867,16 @@ death_certificate/Race/race = Other
         timing_calc_clean = (int) interval.TotalDays;
     }
             
-    
     int? timing_clean = null;
+    if(timing_calc_clean.HasValue)
+    {
+        if ( timing_calc_clean.Value <= 0) timing_clean=0; 
+        if (0 < timing_calc_clean.Value && timing_calc_clean.Value <43) timing_clean=1;
+        if ( 42 < timing_calc_clean.Value && timing_calc_clean.Value <=365) timing_clean=2;
+    } 
+
     //If the calculation for # of days between date of delivery and date of death is missing, use abstractor-assigned timing of death
-    if (!timing_calc_clean.HasValue)
+    if ( ! timing_calc_clean.HasValue)
     {
         /*
             if .<hr_abs_dth_days<=0 then timing_clean=0;
@@ -1888,7 +1894,7 @@ death_certificate/Race/race = Other
     }
 
       //If timing of death still missing, use abstractor-assigned days between end of pregnancy and death
-      if (!timing_clean.HasValue)
+      if ( ! timing_clean.HasValue)
       {
 
           /*
@@ -1906,7 +1912,7 @@ death_certificate/Race/race = Other
       }
       
       //If timing of death still missing, use the death certificate pregnancy checkbox
-      if (!timing_clean.HasValue)
+      if ( ! timing_clean.HasValue)
       { /*
             if dcdi_p_statu=1 then timing_clean=0;
             else if dcdi_p_statu=2 then timing_clean=1;
