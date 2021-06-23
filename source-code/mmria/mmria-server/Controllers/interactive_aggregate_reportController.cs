@@ -43,7 +43,7 @@ namespace mmria.server.Controllers
 				{
 					ViewBag.is_power_bi_user = true;
 
-                    var temp_string = configuration["mmria_settings:power_bi_link"];
+                    var temp_string = configuration["mmria_settings:power_bi_aggregate"];
                     
                     if(!string.IsNullOrWhiteSpace(temp_string))
                     {

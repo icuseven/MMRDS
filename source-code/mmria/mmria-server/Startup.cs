@@ -80,6 +80,11 @@ namespace mmria.server
         Program.power_bi_link = Configuration["mmria_settings:power_bi_link"];
       }
 
+      if (!string.IsNullOrEmpty(Configuration["mmria_settings:power_bi_aggregate"]))
+      {
+        Program.power_bi_aggregate = Configuration["mmria_settings:power_bi_aggregate"];
+      }
+
       if (!string.IsNullOrEmpty(Configuration["mmria_settings:db_prefix"]))
       {
         Program.db_prefix = Configuration["mmria_settings:db_prefix"];
@@ -278,6 +283,12 @@ namespace mmria.server
         {
           Configuration["mmria_settings:power_bi_link"] = System.Environment.GetEnvironmentVariable("power_bi_link");
           Program.power_bi_link = Configuration["mmria_settings:power_bi_link"];
+        }
+
+        if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("power_bi_aggregate")))
+        {
+          Configuration["mmria_settings:power_bi_aggregate"] = System.Environment.GetEnvironmentVariable("power_bi_aggregate");
+          Program.power_bi_aggregate = Configuration["mmria_settings:power_bi_aggregate"];
         }
 
 
