@@ -1820,20 +1820,32 @@ death_certificate/Race/race = Other
             var dcdi_p_statu_dynamic = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 
             int hr_abs_dth_timing = -1;
-            if(hr_abs_dth_timing_dynamic != null)
+            if
+            (
+                hr_abs_dth_timing_dynamic != null &&
+                !string.IsNullOrWhiteSpace(hr_abs_dth_timing_dynamic.ToString())
+            )
             {
                 int.TryParse(hr_abs_dth_timing_dynamic.ToString(), out hr_abs_dth_timing);
             } 
             
             int hr_abs_dth_days = -1;
             
-            if(hr_abs_dth_days_dynamic != null)
+            if
+            (
+                hr_abs_dth_days_dynamic != null &&
+                !string.IsNullOrWhiteSpace(hr_abs_dth_days_dynamic.ToString())
+            )
             {
                  int.TryParse(hr_abs_dth_days_dynamic.ToString(), out hr_abs_dth_days);
             }
             
             int dcdi_p_statu = -1;
-            if(dcdi_p_statu_dynamic != null)
+            if
+            (
+                dcdi_p_statu_dynamic != null &&
+                !string.IsNullOrWhiteSpace(dcdi_p_statu_dynamic.ToString())
+            )
             {
                 int.TryParse(dcdi_p_statu_dynamic.ToString(), out dcdi_p_statu);
             }
@@ -1904,8 +1916,9 @@ death_certificate/Race/race = Other
             */
             timing_clean = hr_abs_dth_days switch 
             {
-                <=0 => timing_clean = 0,
-                <43 =>  timing_clean = 1,
+                < 0 => null,
+                0 => timing_clean = 0,
+                < 43 =>  timing_clean = 1,
                 <= 365 =>  timing_clean = 2,
                 _ => null
             };
