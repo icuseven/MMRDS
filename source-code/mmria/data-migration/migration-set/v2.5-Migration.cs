@@ -62,7 +62,7 @@ namespace migrate.set
 
         public async Task execute()
         {
-			this.output_builder.AppendLine($"v2_4RaceRecode Data Migration started at: {DateTime.Now.ToString("o")}");
+			this.output_builder.AppendLine($"v2.5 Data Migration started at: {DateTime.Now.ToString("o")}");
 			DateTime begin_time = System.DateTime.Now;
 			
 			this.output_builder.AppendLine($"{data_migration_name} started at: {begin_time.ToString("o")}");
