@@ -50,9 +50,6 @@ namespace mmria.server.Controllers
         }
     }
 
-    //[Authorize(Policy = "EmployeeId")]
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
     [Authorize(Roles = "installation_admin,cdc_admin")]
     public class jurisdictionSummaryController : Controller
     {
@@ -66,71 +63,6 @@ namespace mmria.server.Controllers
             ConfigDB = p_config_db;
         }
 
-        readonly HashSet<string> production_list1 = new()
-        {
-            "localhost",
-            "qa"
-        };
-        readonly HashSet<string> production_list = new()
-        {
-            "afd",
-            "al",
-            "ak",
-            "ca",
-            "co",
-            "dc",
-            "de",
-            "ga",
-            "hi",
-            "ia",
-            "id",
-            "ky",
-            "me",
-            "md",
-            "ms",
-            "mt",
-            "nd",
-            "ne",
-            "nh",
-            "nm",
-            "nv",
-            "or",
-            "oh",
-            "ok",
-            "pr",
-            "ri",
-            "sd",
-            "va",
-            "vt",
-            "wv",
-            "wy",
-// non central
-            "ar",
-            "az",
-            "cdc",
-            "ct",
-            "demo",
-            "fl",
-            "in",
-            "il",
-            "ks",
-            "la",
-            "ma",
-            "mi",
-            "mn",
-            "mo",
-            "nc",
-            "nj",
-            "ny",
-            "pa",
-            "sc",
-            "tn",
-            "tx",
-            "ut",
-            "wa",
-            "wi",
-        };
-
         public async Task<IActionResult> Index()
         {
 
@@ -141,12 +73,14 @@ namespace mmria.server.Controllers
 
            var current_date = System.DateTime.Now;
 
-            foreach(var prefix in production_list1)
+            foreach(var config in ConfigDB.detail_list)
             {
-                if(!ConfigDB.detail_list.ContainsKey(prefix) && prefix !="cdc" && prefix !="vital_import")
-                    continue;
 
-                var config = ConfigDB.detail_list[prefix];
+
+                var prefix = config.Key.ToUpper();
+
+                if(prefix == "VITAL_IMPORT") continue;
+
                 var jsi = new JurisdictionSummaryItem();
                 jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
                 jsi.host_name = prefix;
@@ -158,8 +92,8 @@ namespace mmria.server.Controllers
 
                 user_count_result.Add(prefix, usr);
 
-                user_count_task_list.Add(GetUserCount(prefix, config, usr));
-                jurisdiction_count_task_list.Add(GetJurisdictions(prefix, config, jsi));
+                user_count_task_list.Add(GetUserCount(prefix, config.Value, usr));
+                jurisdiction_count_task_list.Add(GetJurisdictions(prefix, config.Value, jsi));
             }
 
 
