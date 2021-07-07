@@ -228,7 +228,7 @@ namespace mmria.server.Controllers
             string search_key = null;
             bool descending = false;
             int skip = 0;
-            int take = 25;
+            int take = 20000;
 			search_key = "";
             string sort_view = "by_date_created";
 
@@ -238,7 +238,7 @@ namespace mmria.server.Controllers
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (p_config_detail.url);
-                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/{p_config_detail.prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
