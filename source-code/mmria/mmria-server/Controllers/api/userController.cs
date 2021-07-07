@@ -63,9 +63,9 @@ namespace mmria.server
 		{ 
 			try
 			{
- 				var jurisdiction_hashset = mmria.server.utilsauthorization.get_current_jurisdiction_id_set_for(User);
+ 				var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
 
-				var jurisdiction_username_hashset = mmria.server.utilsauthorization_case.get_user_jurisdiction_set();
+				var jurisdiction_username_hashset = mmria.server.utils.authorization_case.get_user_jurisdiction_set();
 
 
 
@@ -311,7 +311,7 @@ namespace mmria.server
 					}
 
 
-					if(!mmria.server.utilsauthorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
+					if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
 					{
 						return null;
 					}

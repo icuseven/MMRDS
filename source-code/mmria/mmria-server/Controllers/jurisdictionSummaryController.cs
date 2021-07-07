@@ -25,9 +25,9 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var result = new mmria.server.utils.jurisdictionSummary(configuration, ConfigDB);
+            var result = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
-            return View(result);
+            return View(await result.execute());
         }
 
     }

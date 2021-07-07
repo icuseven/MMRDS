@@ -556,7 +556,7 @@ namespace mmria.server
                 {
                   //token is expired, let's attempt to renew
                   var tokenEndpoint = sams_endpoint_token;
-                  var tokenClient = new mmria.server.utilsTokenClient(Configuration);
+                  var tokenClient = new mmria.server.utils.TokenClient(Configuration);
 
                   //var name = HttpContext.Session.GetString(SessionKeyName);
                   //var name = HttpContext.Session.GetString(SessionKeyName);
@@ -744,7 +744,7 @@ namespace mmria.server
         (
             new Action(async () =>
            {
-             await new mmria.server.utilsc_db_setup(Program.actorSystem).Setup();
+             await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
            }
 
         ));

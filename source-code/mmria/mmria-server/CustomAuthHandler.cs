@@ -126,7 +126,7 @@ namespace mmria.server.authentication
                         }
                     }
 
-                    foreach(var role in mmria.server.utilsauthorization.get_current_user_role_jurisdiction_set_for(session_message.user_id).Select( jr => jr.role_name).Distinct())
+                    foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(session_message.user_id).Select( jr => jr.role_name).Distinct())
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                     }

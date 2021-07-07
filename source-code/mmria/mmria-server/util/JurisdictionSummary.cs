@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.utilss
+namespace mmria.server.utils
 {
 
     public class UserCount
@@ -50,13 +50,13 @@ namespace mmria.server.utilss
         }
     }
 
-    public class jurisdictionSummary
+    public class JurisdictionSummary
     {
         IConfiguration configuration;
 
         mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-        public jurisdictionSummary(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+        public JurisdictionSummary(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
         {
             configuration = p_configuration;
             ConfigDB = p_config_db;

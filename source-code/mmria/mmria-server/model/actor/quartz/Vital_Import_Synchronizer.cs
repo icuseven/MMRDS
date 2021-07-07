@@ -129,7 +129,7 @@ namespace mmria.server.model.actor.quartz
                                     var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
                                     var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
-                                    var de_identified_json = new mmria.server.utilsc_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
+                                    var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
                                     
                                     var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
 

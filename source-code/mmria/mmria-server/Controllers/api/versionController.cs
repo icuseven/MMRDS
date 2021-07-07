@@ -119,7 +119,7 @@ namespace mmria.server
 		)
 		{
 
-			var export_all_generate_name_map = new mmria.server.utilsexport_all_generate_name_map(configuration);
+			var export_all_generate_name_map = new mmria.server.utils.export_all_generate_name_map(configuration);
 
 			var result = export_all_generate_name_map.Execute(version_specification_id, type);
 

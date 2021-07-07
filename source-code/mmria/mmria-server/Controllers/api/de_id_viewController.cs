@@ -629,7 +629,7 @@ namespace mmria.server
             return (mmria.common.model.couchdb.case_view_item item) => false;
         }
 
-        is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.server.utilsResourceRightEnum ResourceRight)> ctx)
+        is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.server.utils.ResourceRightEnum ResourceRight)> ctx)
         {
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item cvi) => {
                 bool result = false;
@@ -643,7 +643,7 @@ namespace mmria.server
                     var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-                    if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.utilsResourceRightEnum.ReadDeidentifiedCase)
+                    if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadDeidentifiedCase)
                     {
                         result = true;
                         break;
@@ -716,7 +716,7 @@ namespace mmria.server
         ) 
 		{
 
-            var jurisdiction_hashset = mmria.server.utilsauthorization.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
 
             string sort_view = sort.ToLower ();
 
@@ -838,7 +838,7 @@ namespace mmria.server
 
         void create_predicates
         (
-            HashSet<(string jurisdiction_id, mmria.server.utilsResourceRightEnum ResourceRight)> ctx,
+            HashSet<(string jurisdiction_id, mmria.server.utils.ResourceRightEnum ResourceRight)> ctx,
             string search_key,
             string case_status,
             string field_selection,

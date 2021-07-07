@@ -45,7 +45,7 @@ namespace mmria.server.model.actor
                 case Sync_Document_Message sync_document_message:
 
 
-				var sync_document = new mmria.server.utilsc_sync_document (sync_document_message.document_id, sync_document_message.document_json, sync_document_message.method);
+				var sync_document = new mmria.server.utils.c_sync_document (sync_document_message.document_id, sync_document_message.document_json, sync_document_message.method);
 
                 try
                 {
@@ -60,7 +60,7 @@ namespace mmria.server.model.actor
 
                 case Sync_All_Documents_Message sync_all_documents_message:
 
-                    mmria.server.utilsc_document_sync_all sync_all = new mmria.server.utilsc_document_sync_all (
+                    mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
                                                                             Program.config_couchdb_url,
                                                                             Program.config_timer_user_name,
                                                                             Program.config_timer_value

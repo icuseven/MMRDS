@@ -211,7 +211,7 @@ namespace mmria.server
 
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-					if(mmria.server.utilsauthorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.ReadCase, result))
+					if(mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadCase, result))
 					{
 						return result;
 					}
@@ -307,7 +307,7 @@ namespace mmria.server
 					home_record.Add("jurisdiction_id", "/");
 				}
 
-				if(!mmria.server.utilsauthorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+				if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
 				{
 					Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
 					return result;
@@ -325,7 +325,7 @@ namespace mmria.server
 					if
 					(
 						result_dictionary != null && 
-						!mmria.server.utilsauthorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.WriteCase, check_document_expando_object)
+						!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
 					)
 					{
 						Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
@@ -400,7 +400,7 @@ namespace mmria.server
 
                 
                 string request_string = null;
-				mmria.server.utilsc_sync_document sync_document = null;
+				mmria.server.utils.c_sync_document sync_document = null;
 
                 if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {
@@ -426,7 +426,7 @@ namespace mmria.server
                     if
 					(
 						result_dictionary != null && 
-						!mmria.server.utilsauthorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.WriteCase, check_docuement_curl_result)
+						!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
 					)
 					{
 						Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
