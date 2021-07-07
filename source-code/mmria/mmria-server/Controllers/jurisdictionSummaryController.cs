@@ -8,17 +8,47 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers
 {
-    public record JurisdictionSummaryItem
-    (
-        string host_name,
-        string rpt_date,
-        string num_recs,
-        string num_users_unq,
-        string num_users_ja,
-        string num_users_abs,
-        string num_user_anl,
-        string num_user_cm
-    );
+
+    public class UserCount
+    {
+        public UserCount(){}
+
+        public string host_name {get; set; }
+        public int num_recs{get; set; }
+    }
+    public class JurisdictionSummaryItem
+    {
+        public JurisdictionSummaryItem(){}
+        public string host_name {get; set; }
+        public string rpt_date{get; set; }
+        public int num_recs{get; set; }
+        public int num_users_unq{get; set; }
+        public int num_users_ja{get; set; }
+        public int num_users_abs{get; set; }
+        public int num_user_anl{get; set; }
+        public int num_user_cm{get; set; }
+    }
+
+    class JSIComparer : IComparer<JurisdictionSummaryItem>
+    {
+        public int Compare(JurisdictionSummaryItem x, JurisdictionSummaryItem y)
+        {
+            
+            if (x == null || y == null)
+            {
+                return 0;
+            }
+
+            if (x.host_name == null || y.host_name == null)
+            {
+                return 0;
+            }
+            
+            // "CompareTo()" method
+            return x.host_name.CompareTo(y.host_name);
+            
+        }
+    }
 
     //[Authorize(Policy = "EmployeeId")]
     //[Authorize(Policy = "Over21Only")]
@@ -35,6 +65,12 @@ namespace mmria.server.Controllers
             configuration = p_configuration;
             ConfigDB = p_config_db;
         }
+
+        readonly HashSet<string> production_list1 = new()
+        {
+            "localhost",
+            "qa"
+        };
         readonly HashSet<string> production_list = new()
         {
             "afd",
@@ -98,88 +134,67 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index()
         {
 
+            var result = new Dictionary<string, JurisdictionSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
+            var user_count_result = new Dictionary<string, UserCount>(System.StringComparer.OrdinalIgnoreCase);
+            var user_count_task_list = new List<Task>();
+            var jurisdiction_count_task_list = new List<Task>();
 
-            var tasks = new List<Task<string>>();
-            using(var client = new System.Net.Http.HttpClient()) 
+           var current_date = System.DateTime.Now;
+
+            foreach(var prefix in production_list1)
             {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-/*
-                //create the search tasks to be executed
-                var tasks = new []
-                {
-                    GetModel("**URL 1**", client),
-                    GetModel("**URL 2**", client),
-                    GetModel("**URL N**", client),
-                };
-                */
+                if(!ConfigDB.detail_list.ContainsKey(prefix) && prefix !="cdc" && prefix !="vital_import")
+                    continue;
+
+                var config = ConfigDB.detail_list[prefix];
+                var jsi = new JurisdictionSummaryItem();
+                jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
+                jsi.host_name = prefix;
+
+                result.Add(prefix, jsi);
+
+                var usr = new UserCount();
+                usr.host_name = prefix;
+
+                user_count_result.Add(prefix, usr);
+
+                user_count_task_list.Add(GetUserCount(prefix, config, usr));
+                jurisdiction_count_task_list.Add(GetJurisdictions(prefix, config, jsi));
             }
 
-            // Await the completion of all the running tasks. 
-            var responses = await Task.WhenAll(tasks); // returns IEmumerable<WalmartModel>
 
-            var results = responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
-            
-/*
-MMRIA Jurisdiction Summary Report
+            await Task.WhenAll(user_count_task_list);
 
-#
-Jurisdiction Abbreviation
-Report Date
-# of Records
-# of Unique MMRIA Users
-MMRIA User Role Assignment
-	Jurisdiction Admin
-	Abstractor
-	Analyst
-	Committee Member
-	
-	
-Total
+            //var user_count_call_results = user_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
 
-host_name
-rpt_date
-num_recs
-num_users_unq
-num_users_ja
-num_users_abs
-num_user_anl
-num_user_cm
-*/
 
-            return View();
-        }
+            await Task.WhenAll(jurisdiction_count_task_list);
 
-        public async Task<string> GetModel(string url, System.Net.Http.HttpClient client) 
-        {
-            using(var response = await client.GetAsync(url)) 
+            //var jurisdiction_count_call_results = jurisdiction_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
+            foreach(var usr in user_count_result)
             {
-                if (response.IsSuccessStatusCode) 
-                {
-                    return await response.Content.ReadAsStringAsync();
-                } 
-                else 
-                {
-                    System.Console.WriteLine("Internal server Error");
-                }
-            }            
-            return null;       
+                result[usr.Key].num_recs = usr.Value.num_recs;
+            }
+
+            List<JurisdictionSummaryItem> view_data = new();
+
+            foreach(var item in result)
+            {
+                view_data.Add(item.Value);
+            }
+
+            view_data.Sort(new JSIComparer());
+
+            return View(view_data);
         }
 
-        public async System.Threading.Tasks.Task<int> Get() 
+        public async System.Threading.Tasks.Task GetUserCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, UserCount p_result) 
 		{ 
-            int result = -1;
 			try
 			{
- 				var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(User);
+				string request_string = $"{p_config_detail.url}/_users/_all_docs?include_docs=true&skip=1";
 
-				var jurisdiction_username_hashset = mmria.server.util.authorization_case.get_user_jurisdiction_set();
-
-
-
-				string request_string = Program.config_couchdb_url + "/_users/_all_docs?include_docs=true&skip=1";
-
-				var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+				var user_curl = new cURL("GET",null,request_string,null, p_config_detail.user_name, p_config_detail.user_value);
 				string responseFromServer = await user_curl.executeAsync();
 
 				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
@@ -190,24 +205,24 @@ num_user_cm
 				result.total_rows = user_alldocs_response.total_rows;
                 */
 
-                result = user_alldocs_response.total_rows;
+                p_result.num_recs = user_alldocs_response.total_rows;
 /*
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
 				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
 				{
                 }
 */
-                return result;
+
             }
             catch(System.Exception)
             {
 
             }
 
-            return result;
+
         }
 
-        public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> GetJurisdictions() 
+        public async Task GetJurisdictions(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result) 
 		{
             string sort = "by_date_created";
             string search_key = null;
@@ -218,14 +233,12 @@ num_user_cm
             string sort_view = "by_date_created";
 
 
-
-
-
+ 
 			try
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-                request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
+                request_builder.Append (p_config_detail.url);
+                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -261,34 +274,30 @@ num_user_cm
                     }
                 }
 
-				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, p_config_detail.user_name, p_config_detail.user_value);
 				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
-                var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>();
-                result.offset = case_view_response.offset;
-                result.total_rows = case_view_response.total_rows;
-
                 foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                 {
-
+                    switch(cvi.value.role_name?.ToLower())
+                    {
+                        case "jurisdiction_admin":
+                            p_result.num_users_ja++;
+                        break;
+                        case "abstractor":
+                            p_result.num_users_abs++;
+                        break;
+                        case "analyst":
+                            p_result.num_user_anl++;
+                        break;
+                        case "committee_member":
+                            p_result.num_user_cm++;
+                        break;
+                    }
                 }
-                result.total_rows = result.rows.Count;
-                return result;
-            
-
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
-
+               
 			}
 			catch(System.Exception ex)
 			{
@@ -296,7 +305,7 @@ num_user_cm
 
 			} 
 
-			return null;
+
 		}
 
     }

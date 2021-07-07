@@ -1,3 +1,5 @@
+@model List<mmria.server.Controllers.JurisdictionSummaryItem>
+@{var total = 0;}
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,20 +28,26 @@
     <td>Analyst</td>
     <td>Committee Member</td>
 </tr>
+
+@foreach (var item in Model)
+{
+     total+= item.num_recs;
+
 <tr>
     <td>#</td>
-    <td>Jurisdiction Abbreviation</td>
-    <td>Report Date</td>
-    <td># of Records</td>
-    <td># of Unique MMRIA Users</td>
-    <td>Jurisdiction Admin</td>
-    <td>Abstractor</td>
-    <td>Analyst</td>
-    <td>Committee Member</td>
+    <td>@item.host_name</td>
+    <td>@item.rpt_date</td>
+    <td>@item.num_recs</td>
+    <td>@item.num_users_unq</td>
+    <td>@item.num_users_ja</td>
+    <td>@item.num_users_abs</td>
+    <td>@item.num_user_anl</td>
+    <td>@item.num_user_cm</td>
 </tr>
+}
 <tr>
     <td colspan=8>Total</td>
-    <td>999</td>
+    <td>@total</td>
 </tr>
 
 </table>
