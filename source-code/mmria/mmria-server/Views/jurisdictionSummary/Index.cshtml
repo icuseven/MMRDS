@@ -1,5 +1,8 @@
 @model List<mmria.server.Controllers.JurisdictionSummaryItem>
-@{var total = 0;}
+@{
+    var total = new mmria.server.Controllers.JurisdictionSummaryItem();
+    var _index = 0;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +15,10 @@
 
 <h1>MMRIA Jurisdiction Summary Report</h1>
 
-<table>
+<table border=1>
 <tr>
     <td colspan=5>&nbsp;</td>
-    <td colspan="4">MMRIA User Role Assignment</td>
+    <td colspan="4" align=center>MMRIA User Role Assignment</td>
 </tr>
 <tr>
     <td>#</td>
@@ -31,10 +34,19 @@
 
 @foreach (var item in Model)
 {
-     total+= item.num_recs;
+    _index+=1;
+    
+    item.num_users_unq = item.num_recs;
+
+    total.num_recs += item.num_recs;
+    total.num_users_unq += item.num_users_unq;
+    total.num_users_ja += item.num_users_ja;
+    total.num_users_abs += item.num_users_abs;
+    total.num_user_anl += item.num_user_anl;
+    total.num_user_cm += item.num_user_cm;
 
 <tr>
-    <td>#</td>
+    <td>@_index</td>
     <td>@item.host_name</td>
     <td>@item.rpt_date</td>
     <td>@item.num_recs</td>
@@ -46,19 +58,20 @@
 </tr>
 }
 <tr>
-    <td colspan=8>Total</td>
-    <td>@total</td>
+    <td>&nbsp;</td>
+    <td>Total</td>
+    <td></td>
+    <td>@total.num_recs</td>
+    <td>@total.num_users_unq</td>
+    <td>@total.num_users_ja</td>
+    <td>@total.num_users_abs</td>
+    <td>@total.num_user_anl</td>
+    <td>@total.num_user_cm</td>
 </tr>
 
+
 </table>
-host_name
-rpt_date
-num_recs
-num_users_unq
-num_users_ja
-num_users_abs
-num_user_anl
-num_user_cm
+
  
 </body>
 </html>
