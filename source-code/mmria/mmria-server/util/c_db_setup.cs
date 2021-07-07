@@ -5,7 +5,7 @@ using Serilog.Configuration;
 using System.Threading.Tasks;
 using Akka.Actor;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
     public class c_db_setup
     {

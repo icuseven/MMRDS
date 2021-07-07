@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 	public class WriteCSV
 	{

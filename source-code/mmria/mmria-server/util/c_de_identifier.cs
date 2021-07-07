@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 	public class c_de_identifier
 	{

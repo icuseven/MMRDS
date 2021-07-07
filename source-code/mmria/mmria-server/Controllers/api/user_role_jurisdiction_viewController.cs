@@ -71,7 +71,7 @@ effective_end_date
 
 
 
-            var jurisdiction_hashset = mmria.server.util.authorization_user.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.server.utilsauthorization_user.get_current_jurisdiction_id_set_for(User);
 
 
 
@@ -277,7 +277,7 @@ effective_end_date
 			}
 
 
-            var jurisdiction_hashset = mmria.server.util.authorization_user.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.server.utilsauthorization_user.get_current_jurisdiction_id_set_for(User);
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {

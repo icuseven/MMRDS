@@ -107,12 +107,12 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
 
 
 /*
-               var Email = new mmria.server.util.email.Email();
+               var Email = new mmria.server.utilsemail.Email();
                Email.Body = "This is a MMRIA test";
                Email.From = configuration["mmria_settings:EMAIL_FROM"];
                Email.To = new List<string>(){"jhaines@brightnoise.net"};
                Email.Subject = "Test Subject";
-               bool success = new mmria.server.util.email.Email_Handler(configuration).SendMessage(Email);
+               bool success = new mmria.server.utilsemail.Email_Handler(configuration).SendMessage(Email);
   */
 
                 if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 

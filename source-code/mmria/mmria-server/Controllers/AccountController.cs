@@ -299,7 +299,7 @@ namespace mmria.server.Controllers
                     }
 
 
-                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
+                    foreach(var role in mmria.server.utilsauthorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                     }
@@ -328,7 +328,7 @@ namespace mmria.server.Controllers
                     System.Threading.Thread.CurrentPrincipal = userPrincipal;
            
 
-                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
+                    foreach(var role in mmria.server.utilsauthorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
                     {
                         role_list.Add(role);
                     }
@@ -688,7 +688,7 @@ namespace mmria.server.Controllers
             }
 
 
-            foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+            foreach(var role in mmria.server.utilsauthorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
             {
 
                 claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));

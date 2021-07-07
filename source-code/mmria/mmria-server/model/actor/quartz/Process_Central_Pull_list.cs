@@ -164,7 +164,7 @@ namespace mmria.server.model.actor.quartz
 
                         try
                         {
-                            var Report_Opioid_Index = new mmria.server.util.c_document_sync_all.Report_Opioid_Index_Struct();
+                            var Report_Opioid_Index = new mmria.server.utilsc_document_sync_all.Report_Opioid_Index_Struct();
                             string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
                             var create_report_index_curl = new cURL ("POST", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_index", index_json, Program.config_timer_user_name, Program.config_timer_value);
                             create_report_index_curl.execute();
@@ -224,7 +224,7 @@ namespace mmria.server.model.actor.quartz
                                         var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
                                         var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
-                                        var de_identified_json = new mmria.server.util.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
+                                        var de_identified_json = new mmria.server.utilsc_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
                                         
                                         var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
 

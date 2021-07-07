@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
   public class core_element_exporter
   {
@@ -248,7 +248,7 @@ namespace mmria.server.util
 
       List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
-      var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+      var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
       if (queue_item.case_filter_type == "custom")
@@ -327,7 +327,7 @@ namespace mmria.server.util
             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
             {
               is_jurisdiction_ok = true;
               break;
@@ -756,7 +756,7 @@ namespace mmria.server.util
       mapping_look_up_document.WriteToStream();
 
 
-      mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
+      mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
 
 
       string encryption_key = null;

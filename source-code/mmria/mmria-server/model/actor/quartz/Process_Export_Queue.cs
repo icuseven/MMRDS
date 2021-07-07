@@ -178,7 +178,7 @@ namespace mmria.server.model.actor.quartz
                     try
                     {
 					
-    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter(scheduleInfoMessage);
+    					mmria.server.utilscore_element_exporter core_element_exporter = new mmria.server.utilscore_element_exporter(scheduleInfoMessage);
     					core_element_exporter.Execute(item_to_process);
                     }
                     catch(Exception ex)
@@ -204,7 +204,7 @@ namespace mmria.server.model.actor.quartz
 
                     try
                     {
-    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter(scheduleInfoMessage);
+    					mmria.server.utilsmmrds_exporter mmrds_exporter = new mmria.server.utilsmmrds_exporter(scheduleInfoMessage);
     					if(!mmrds_exporter.Execute(item_to_process))
 						{
 							System.Console.WriteLine ("exporter failed to finish");
@@ -234,7 +234,7 @@ namespace mmria.server.model.actor.quartz
 
 					try
 					{
-						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter (scheduleInfoMessage);
+						mmria.server.utilsmmrds_exporter mmrds_exporter = new mmria.server.utilsmmrds_exporter (scheduleInfoMessage);
 						//mmrds_exporter.Execute (item_to_process);
 						if(!mmrds_exporter.Execute(item_to_process))
 						{

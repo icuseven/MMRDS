@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 	public partial class c_convert_to_opioid_report_object
 	{

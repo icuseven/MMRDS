@@ -46,7 +46,7 @@ namespace mmria.server
 						(
 							user_role_jurisdiction.data_type != null &&
 							user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-							mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadUser, user_role_jurisdiction))
+							mmria.server.utilsauthorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.ReadUser, user_role_jurisdiction))
 						{
 							result.Add(user_role_jurisdiction);
 						}						
@@ -66,7 +66,7 @@ namespace mmria.server
 					(
 						user_role_jurisdiction.data_type != null &&
 						user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-						mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadUser, user_role_jurisdiction)
+						mmria.server.utilsauthorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.ReadUser, user_role_jurisdiction)
 					)
 					{
 						result.Add(user_role_jurisdiction);
@@ -101,7 +101,7 @@ namespace mmria.server
 			{
 
 
-				if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteUser, user_role_jurisdiction))
+				if(!mmria.server.utilsauthorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.WriteUser, user_role_jurisdiction))
 				{
 					return null;
 				}
@@ -169,7 +169,7 @@ namespace mmria.server
 					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (document_json);
 					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
-					if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteUser, check_document_curl_result))
+					if(!mmria.server.utilsauthorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utilsResourceRightEnum.WriteUser, check_document_curl_result))
 					{
 						return null;
 					}

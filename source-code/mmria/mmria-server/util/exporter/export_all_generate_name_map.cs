@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 	public class export_all_generate_name_map
 	{

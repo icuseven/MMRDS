@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.util.email
+namespace mmria.server.utils.email
 {
 
 	public class Email_Handler

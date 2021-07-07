@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 	public class c_sync_document
 	{
@@ -101,7 +101,7 @@ namespace mmria.server.util
 			}
 			else
 			{
-				de_identified_json = await new mmria.server.util.c_de_identifier(document_json).executeAsync();
+				de_identified_json = await new mmria.server.utils.c_de_identifier(document_json).executeAsync();
 
 				if(string.IsNullOrEmpty(de_identified_json))
 				{
@@ -175,7 +175,7 @@ namespace mmria.server.util
 
 			try
 			{
-				string aggregate_json = new mmria.server.util.c_convert_to_report_object(document_json).execute();
+				string aggregate_json = new mmria.server.utils.c_convert_to_report_object(document_json).execute();
 
 				string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
 
@@ -214,7 +214,7 @@ namespace mmria.server.util
 
 			try
 			{
-				string opioid_report_json = new mmria.server.util.c_convert_to_opioid_report_object(document_json).execute();
+				string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json).execute();
 
 				if(!string.IsNullOrWhiteSpace(opioid_report_json))
 				{
@@ -261,7 +261,7 @@ namespace mmria.server.util
 
             try
 			{
-				string opioid_report_json = new mmria.server.util.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
+				string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
 
 				if(!string.IsNullOrWhiteSpace(opioid_report_json))
 				{

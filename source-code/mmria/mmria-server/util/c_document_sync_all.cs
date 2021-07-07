@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
 
 
@@ -230,7 +230,7 @@ namespace mmria.server.util
 								if (document_id.IndexOf ("_design/") < 0)
 								{
 									string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-									mmria.server.util.c_sync_document sync_document = new c_sync_document (document_id, document_json);
+									mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json);
 									await sync_document.executeAsync ();
 								}
 							}

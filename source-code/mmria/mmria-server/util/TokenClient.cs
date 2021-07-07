@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {
     public class TokenClient
     {

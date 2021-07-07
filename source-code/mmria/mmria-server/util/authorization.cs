@@ -6,7 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server.util
+namespace mmria.server.utils
 {  
 
     public enum ResourceRightEnum
