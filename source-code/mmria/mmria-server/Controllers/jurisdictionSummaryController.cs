@@ -30,5 +30,20 @@ namespace mmria.server.Controllers
             return View(await result.execute());
         }
 
+        public async Task<IActionResult> GenerateReport()
+        {
+            System.IO.MemoryStream ms = new ();
+            using (var sl = new SpreadsheetLight.SLDocument())
+            {
+                sl.SetCellValue("B3", "I love ASP.NET MVC");
+                sl.SaveAs(ms);
+            }
+            // this is important. Otherwise you get an empty file
+            // (because you'd be at EOF after the stream is written to, I think...).
+            ms.Position = 0;
+
+            return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
+        }
+
     }
 }
