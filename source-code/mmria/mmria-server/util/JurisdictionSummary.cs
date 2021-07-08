@@ -9,12 +9,13 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.utils
 {
 
-    public class UserCount
+    public class ItemCount
     {
-        public UserCount(){}
+        public ItemCount(){}
 
         public string host_name {get; set; }
-        public int num_recs{get; set; }
+        
+        public int total{get; set; }
     }
     public class JurisdictionSummaryItem
     {
@@ -66,8 +67,10 @@ namespace mmria.server.utils
         {
 
             var result = new Dictionary<string, JurisdictionSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
-            var user_count_result = new Dictionary<string, UserCount>(System.StringComparer.OrdinalIgnoreCase);
+            var user_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
+            var record_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
             var user_count_task_list = new List<Task>();
+            var record_count_task_list = new List<Task>();
             var jurisdiction_count_task_list = new List<Task>();
 
            var current_date = System.DateTime.Now;
@@ -86,12 +89,16 @@ namespace mmria.server.utils
 
                 result.Add(prefix, jsi);
 
-                var usr = new UserCount();
-                usr.host_name = prefix;
+                var usr_count = new ItemCount();
+                usr_count.host_name = prefix;
+                user_count_result.Add(prefix, usr_count);
 
-                user_count_result.Add(prefix, usr);
+                var record_count = new ItemCount();
+                record_count.host_name = prefix;
+                record_count_result.Add(prefix, record_count);
 
-                user_count_task_list.Add(GetUserCount(prefix, config.Value, usr));
+                user_count_task_list.Add(GetUserCount(prefix, config.Value, usr_count));
+                record_count_task_list.Add(GetCaseCount(prefix, config.Value, record_count));
                 jurisdiction_count_task_list.Add(GetJurisdictions(prefix, config.Value, jsi));
             }
 
@@ -104,9 +111,14 @@ namespace mmria.server.utils
             await Task.WhenAll(jurisdiction_count_task_list);
 
             //var jurisdiction_count_call_results = jurisdiction_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
-            foreach(var usr in user_count_result)
+            foreach(var kvp in user_count_result)
             {
-                result[usr.Key].num_recs = usr.Value.num_recs;
+                result[kvp.Key].num_users_unq = kvp.Value.total;
+            }
+
+            foreach(var kvp in record_count_result)
+            {
+                result[kvp.Key].num_recs = kvp.Value.total;
             }
 
             List<JurisdictionSummaryItem> view_data = new();
@@ -121,7 +133,7 @@ namespace mmria.server.utils
             return view_data;
         }
 
-        public async System.Threading.Tasks.Task GetUserCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, UserCount p_result) 
+        public async System.Threading.Tasks.Task GetUserCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
 		{ 
 			try
 			{
@@ -138,7 +150,41 @@ namespace mmria.server.utils
 				result.total_rows = user_alldocs_response.total_rows;
                 */
 
-                p_result.num_recs = user_alldocs_response.total_rows;
+                p_result.total = user_alldocs_response.total_rows;
+/*
+                List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
+				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
+				{
+                }
+*/
+
+            }
+            catch(System.Exception)
+            {
+
+            }
+
+
+        }
+
+        public async System.Threading.Tasks.Task GetCaseCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
+		{ 
+			try
+			{
+				string request_string = $"{p_config_detail.url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=100000";
+
+				var user_curl = new cURL("GET",null,request_string,null, p_config_detail.user_name, p_config_detail.user_value);
+				string responseFromServer = await user_curl.executeAsync();
+
+				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
+			
+/*
+				mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user> result = new mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>();
+				result.offset = user_alldocs_response.offset;
+				result.total_rows = user_alldocs_response.total_rows;
+                */
+
+                p_result.total = user_alldocs_response.total_rows;
 /*
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
 				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
