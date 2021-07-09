@@ -52,27 +52,26 @@ namespace mmria.server.Controllers
             var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
             var summary_row_list = await summary_list.execute();
-/*
-            FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem p_value)
+
+            FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem item)
             {
                 var cells = new List<FastExcel.Cell>();
 
-                cells.Add(new FastExcel.Cell(columnNumber, columnNumber * System.DateTime.Now.Millisecond));
+                cells.Add(new FastExcel.Cell(1, p_row_number));
+                cells.Add(new FastExcel.Cell(2, item.host_name));
+                cells.Add(new FastExcel.Cell(3, item.rpt_date));
+                cells.Add(new FastExcel.Cell(4, item.num_recs));
+                cells.Add(new FastExcel.Cell(5, item.num_users_unq));
+                cells.Add(new FastExcel.Cell(6, item.num_users_ja));
+                cells.Add(new FastExcel.Cell(7, item.num_users_abs));
+                cells.Add(new FastExcel.Cell(8, item.num_user_anl));
+                cells.Add(new FastExcel.Cell(9, item.num_user_cm));
 
-<td>#</td>
-                    <td>Jurisdiction Abbreviation</td>
-                    <td>Report Date</td>
-                    <td># of Records</td>
-                    <td># of Unique MMRIA Users</td>
-                    <td>Jurisdiction Admin</td>
-                    <td>Abstractor</td>
-                    <td>Analyst</td>
-                    <td>Committee Member</td>
-                 
+
                 return new FastExcel.Row(p_row_number, cells);
 
             }   
-  */
+  
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
 
@@ -95,28 +94,42 @@ namespace mmria.server.Controllers
                 //Create a worksheet with some rows
                 var worksheet = new FastExcel.Worksheet();
                 var rows = new System.Collections.Generic.List<FastExcel.Row>();
+
+                var row_number = 1;
+                var total = new mmria.server.utils.JurisdictionSummaryItem();
+
 /*
+                var header1 = new List<FastExcel.Cell>();
+                header1.Add(new FastExcel.Cell(1, "MMRIA Jurisdiction Summary Report"));
+                header1.Add(new FastExcel.Cell(2, ""));
+                header1.Add(new FastExcel.Cell(3, ""));
+                header1.Add(new FastExcel.Cell(4, ""));
+                header1.Add(new FastExcel.Cell(5, ""));
+                header1.Add(new FastExcel.Cell(6, ""));
+                header1.Add(new FastExcel.Cell(7, ""));
+                header1.Add(new FastExcel.Cell(8, ""));
+                header1.Add(new FastExcel.Cell(9, ""));
+                rows.Add(new FastExcel.Row(row_number, header1));
+                row_number+=1;
+*/
 
+                var header = new List<FastExcel.Cell>();
+                header.Add(new FastExcel.Cell(1, "#"));
+                header.Add(new FastExcel.Cell(2, "Jurisdiction Abbreviation"));
+                header.Add(new FastExcel.Cell(3, "Report Date"));
+                header.Add(new FastExcel.Cell(4, "# of Records"));
+                header.Add(new FastExcel.Cell(5, "# of Unique MMRIA Users"));
+                header.Add(new FastExcel.Cell(6, "Jurisdiction Admin"));
+                header.Add(new FastExcel.Cell(7, "Abstractor"));
+                header.Add(new FastExcel.Cell(8, "Analyst"));
+                header.Add(new FastExcel.Cell(9, "Committee Member"));
+                rows.Add(new FastExcel.Row(row_number, header));
 
-                <tr>
-                    <td colspan=5>Download <a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
-                    <td colspan="4" align=center>MMRIA User Role Assignment</td>
-                </tr>
-                <tr>
-                    <td>#</td>
-                    <td>Jurisdiction Abbreviation</td>
-                    <td>Report Date</td>
-                    <td># of Records</td>
-                    <td># of Unique MMRIA Users</td>
-                    <td>Jurisdiction Admin</td>
-                    <td>Abstractor</td>
-                    <td>Analyst</td>
-                    <td>Committee Member</td>
-                </tr>
+      
 
-                @foreach (var item in Model)
+                foreach (var item in summary_row_list)
                 {
-                    _index+=1;
+                    row_number+=1;
                     
                     total.num_recs += item.num_recs;
                     total.num_users_unq += item.num_users_unq;
@@ -125,44 +138,23 @@ namespace mmria.server.Controllers
                     total.num_user_anl += item.num_user_anl;
                     total.num_user_cm += item.num_user_cm;
 
-                <tr>
-                    <td>@_index</td>
-                    <td>@item.host_name</td>
-                    <td>@item.rpt_date</td>
-                    <td>@item.num_recs</td>
-                    <td>@item.num_users_unq</td>
-                    <td>@item.num_users_ja</td>
-                    <td>@item.num_users_abs</td>
-                    <td>@item.num_user_anl</td>
-                    <td>@item.num_user_cm</td>
-                </tr>
+                    rows.Add(ConvertToDetail(row_number, item));
+
                 }
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>Total</td>
-                    <td></td>
-                    <td>@total.num_recs</td>
-                    <td>@total.num_users_unq</td>
-                    <td>@total.num_users_ja</td>
-                    <td>@total.num_users_abs</td>
-                    <td>@total.num_user_anl</td>
-                    <td>@total.num_user_cm</td>
-                </tr>
 
-*/
+                row_number+=1;
+                var footer = new List<FastExcel.Cell>();
+                footer.Add(new FastExcel.Cell(1, ""));
+                footer.Add(new FastExcel.Cell(2, "Total"));
+                footer.Add(new FastExcel.Cell(3, ""));
+                footer.Add(new FastExcel.Cell(4, total.num_recs));
+                footer.Add(new FastExcel.Cell(5, total.num_users_unq));
+                footer.Add(new FastExcel.Cell(6, total.num_users_ja));
+                footer.Add(new FastExcel.Cell(7, total.num_users_abs));
+                footer.Add(new FastExcel.Cell(8, total.num_user_anl));
+                footer.Add(new FastExcel.Cell(9, total.num_user_cm));
+                rows.Add(new FastExcel.Row(row_number, footer));
 
-                for (int rowNumber = 1; rowNumber < 100000; rowNumber++)
-                {
-                    var cells = new List<FastExcel.Cell>();
-                    for (int columnNumber = 1; columnNumber < 13; columnNumber++)
-                    {
-                        cells.Add(new FastExcel.Cell(columnNumber, columnNumber * System.DateTime.Now.Millisecond));
-                    }
-                    cells.Add(new FastExcel.Cell(13, "FileFormat" + rowNumber));
-                    cells.Add(new FastExcel.Cell(14, "FileFormat Developer Guide"));
-
-                    rows.Add(new FastExcel.Row(rowNumber, cells));
-                }
                 worksheet.Rows = rows;
 
                 fastExcel.Write(worksheet, "sheet1");
