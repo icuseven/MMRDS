@@ -4752,10 +4752,11 @@ GNAME 27 50
             If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N")
-                determinedValues.Add("6");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N")
+            //    determinedValues.Add("6");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U")
                 determinedValues.Add("7777");
             else
@@ -4794,11 +4795,12 @@ If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT
 If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT, ESAN] is equal to "U" then bfdcp_cola_deliv = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                 && value9 == "N")
-                determinedValues.Add("9");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //     && value9 == "N")
+            //    determinedValues.Add("9");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                  && value9 == "U")
                 determinedValues.Add("777");
@@ -4846,9 +4848,10 @@ If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "N", then bfdcp_
 If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "U" then bfdcp_oo_labor = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N")
-                determinedValues.Add("3");
-            else if (value1 == "U" && value2 == "U" && value3 == "U")
+            //if (value1 == "N" && value2 == "N" && value3 == "N")
+            //    determinedValues.Add("3");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U")
                 determinedValues.Add("7777");
             else
             {
@@ -4877,9 +4880,10 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "N", then b
 If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bfdcp_o_proce = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
-                determinedValues.Add("4");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
+            //    determinedValues.Add("4");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
                 determinedValues.Add("7777");
             else
             {
@@ -4911,10 +4915,11 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N")
-                determinedValues.Add("10");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N")
+            //    determinedValues.Add("10");
+            //else
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U")
                 determinedValues.Add("7777");
             else
@@ -4956,11 +4961,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                && value9 == "N")
-                determinedValues.Add("11");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //    && value9 == "N")
+            //    determinedValues.Add("11");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                 && value9 == "U")
                 determinedValues.Add("7777");
@@ -5007,11 +5013,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                 && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
-                determinedValues.Add("17");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //     && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
+            //    determinedValues.Add("17");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                  && value9 == "U" && value10 == "U" && value11 == "U" && value12 == "U")
                 determinedValues.Add("7777");
@@ -5066,10 +5073,11 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             If every one of the 7 IJE fields [AVEN1, AVEN6, NICU, SURF, ANTI, SEIZ, BINJ] is equal to "U" then bcifs_aco_newbo = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N")
-                determinedValues.Add("8");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N")
+            //    determinedValues.Add("8");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U")
                 determinedValues.Add("7777");
             else
@@ -6691,7 +6699,7 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             2. bfdcpcs_p3m_type = 0 Cigarette(s). 
 
             If CIGPN = 99, then do:
-            1. bfdcpcs_p3_month = 9999 (blank).
+            1. bfdcpcs_p3_month = (blank).
             2. bfdcpcs_p3m_type = 9999 (blank) 
 
             Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
@@ -6871,7 +6879,8 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
             if (value1 == "99" && value2 == "99" && value3 == "99" && value4 == "99")
                 determinedValue = "7777";
-            else if (value1 == "00" && value2 == "00" && value3 == "00" && value4 == "00")
+            else if ((value1 == "00" && value2 == "00" && value3 == "00" && value4 == "00") 
+                || (value1 == "0" && value2 == "0" && value3 == "0" && value4 == "0"))
                 determinedValue = "0";
 
             return determinedValue;
@@ -8087,10 +8096,11 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             If every one of the 6 IJE fields [MTR, PLAC, RUT, UHYS, AINT, UOPR] is equal to "U" then bfdcp_m_morbi = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N")
-                determinedValues.Add("6");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N")
+            //    determinedValues.Add("6");
+            //else
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U")
                 determinedValues.Add("7777");
             else
@@ -8129,11 +8139,12 @@ If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT
 If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT, ESAN] is equal to "U" then bfdcp_cola_deliv = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                 && value9 == "N")
-                determinedValues.Add("9");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //     && value9 == "N")
+            //    determinedValues.Add("9");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                  && value9 == "U")
                 determinedValues.Add("777");
@@ -8181,9 +8192,10 @@ If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "N", then bfdcp_
 If every one of the 3 IJE fields [PROM, PRIC, PROL] is equal to "U" then bfdcp_oo_labor = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N")
-                determinedValues.Add("3");
-            else if (value1 == "U" && value2 == "U" && value3 == "U")
+            //if (value1 == "N" && value2 == "N" && value3 == "N")
+            //    determinedValues.Add("3");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U")
                 determinedValues.Add("7777");
             else
             {
@@ -8212,9 +8224,10 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "N", then b
 If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bfdcp_o_proce = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
-                determinedValues.Add("4");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N")
+            //    determinedValues.Add("4");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U")
                 determinedValues.Add("7777");
             else
             {
@@ -8247,11 +8260,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
            If every one of the 12 IJE fields [GON, SYPH, CHAM, LM, GBS, CMV, B19, TOXO, HSV, HSV1, HIV, OTHERI] is equal to "U" then bfdcp_ipotd_pregn = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                 && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
-                determinedValues.Add("17");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //     && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
+            //    determinedValues.Add("17");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                  && value9 == "U" && value10 == "U" && value11 == "U" && value12 == "U")
                 determinedValues.Add("7777");
@@ -8311,11 +8325,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                && value9 == "N")
-                determinedValues.Add("11");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //    && value9 == "N")
+            //    determinedValues.Add("11");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                 && value9 == "U")
                 determinedValues.Add("7777");
@@ -8362,11 +8377,12 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
-                 && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
-                determinedValues.Add("17");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N" && value8 == "N"
+            //     && value9 == "N" && value10 == "N" && value11 == "N" && value12 == "N")
+            //    determinedValues.Add("17");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                  && value9 == "U" && value10 == "U" && value11 == "U" && value12 == "U")
                 determinedValues.Add("7777");
@@ -8421,10 +8437,11 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             If every one of the 7 IJE fields [AVEN1, AVEN6, NICU, SURF, ANTI, SEIZ, BINJ] is equal to "U" then bcifs_aco_newbo = 7777 Unknown*/
             List<string> determinedValues = new List<string>();
 
-            if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
-                && value5 == "N" && value6 == "N" && value7 == "N")
-                determinedValues.Add("8");
-            else if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            //if (value1 == "N" && value2 == "N" && value3 == "N" && value4 == "N"
+            //    && value5 == "N" && value6 == "N" && value7 == "N")
+            //    determinedValues.Add("8");
+            //else 
+            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U")
                 determinedValues.Add("7777");
             else
@@ -9589,7 +9606,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             2. bfdcpcs_p3m_type = 0 Cigarette(s). 
 
             If CIGPN = 99, then do:
-            1. bfdcpcs_p3_month = 9999 (blank).
+            1. bfdcpcs_p3_month =  (blank).
             2. bfdcpcs_p3m_type = 9999 (blank) 
 
             Also look across 4 IJE fields (CIGPN, CIGFN, CIGSN, CIGLN) to fill out MMRIA field bfdcpcs_non_speci:
@@ -9597,7 +9614,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -9640,7 +9657,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -9702,7 +9719,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -9743,7 +9760,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             2. If CIGPN = 00 and CIGFN = 00 and CIGSN = 00 and CIGLN = 00 then bfdcpcs_non_speci = 0 None.
             3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
