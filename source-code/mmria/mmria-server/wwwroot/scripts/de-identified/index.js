@@ -1134,13 +1134,11 @@ function print_case_onclick(event)
   {
     if (section_name == 'core-summary') 
     {
-
         window.setTimeout(function()
         {
             openTab('./core-elements', '_core_summary', 'all');
         }, 1000);	
 
-      
     } 
     else 
     {
@@ -1148,7 +1146,6 @@ function print_case_onclick(event)
       const selectedOption = dropdown.options[dropdown.options.selectedIndex];
       const record_number = selectedOption.dataset.record;
       const tabName = section_name === 'all' ? '_all' : '_print_version';
-
 
       window.setTimeout(function()
       {
