@@ -2298,41 +2298,16 @@ function enable_print_button(event)
   printButton.disabled = !value; // if there is a value it will be enabled.
 }
 
-function print_case_onclick(event) 
+async function print_case_onclick(event) 
 {
+  // get button info
   const btn = event.target;
-  const dropdown = btn.previousSibling;
   // const dropdown = document.getElementById('print_case_id');
+  const dropdown = btn.previousSibling;
   // get value of selected option
   const section_name = dropdown.value;
 
-  if (section_name) 
-  {
-    if (section_name == 'core-summary') 
-    {
-
-        window.setTimeout(function()
-        {
-            openTab('./core-elements', '_core_summary', 'all');
-        }, 1000);	
-
-      
-    } 
-    else 
-    {
-      // data-record of selected option
-      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
-      const record_number = selectedOption.dataset.record;
-      const tabName = section_name === 'all' ? '_all' : '_print_version';
-
-
-      window.setTimeout(function()
-      {
-          openTab('./print-version', tabName, section_name, record_number);
-      }, 1000);	
-      
-    }
-  }
+  await print_pdf( section_name );
 }
 
 function openTab(pageRoute, tabName, p_section, p_number) 

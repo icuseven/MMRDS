@@ -69,7 +69,7 @@ function monitor_changes()
         (
           item.metadata=="scripts/print-version/index.js" || 
           item.metadata=="scripts/print-version/print_version_renderer.js"  ||
-          item.metadata=="scripts/print-version/feedback.js"
+          item.metadata=="scripts/print-version/feed_back.js"
           )
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;

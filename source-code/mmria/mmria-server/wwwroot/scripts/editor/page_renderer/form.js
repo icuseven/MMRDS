@@ -1601,7 +1601,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 		p_result.push("</optgroup>");
 		p_result.push("</select>");
 
-		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="Print" onclick="print_case_onclick(event)" disabled="true" />`);
+		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="Print a" onclick="print_case_onclick(event)" disabled="true" />`);
 	}
 }
 
