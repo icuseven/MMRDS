@@ -49,6 +49,29 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> GenerateReport()
         {
 
+            var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+
+            var summary_row_list = await summary_list.execute();
+
+            FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem p_value)
+            {
+                var cells = new List<FastExcel.Cell>();
+
+                cells.Add(new FastExcel.Cell(columnNumber, columnNumber * System.DateTime.Now.Millisecond));
+
+<td>#</td>
+                    <td>Jurisdiction Abbreviation</td>
+                    <td>Report Date</td>
+                    <td># of Records</td>
+                    <td># of Unique MMRIA Users</td>
+                    <td>Jurisdiction Admin</td>
+                    <td>Abstractor</td>
+                    <td>Analyst</td>
+                    <td>Committee Member</td>
+                return new FastExcel.Row(p_row_number, cells);
+
+            }
+
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
 
@@ -70,6 +93,62 @@ namespace mmria.server.Controllers
                 //Create a worksheet with some rows
                 var worksheet = new FastExcel.Worksheet();
                 var rows = new System.Collections.Generic.List<FastExcel.Row>();
+
+
+
+                <tr>
+                    <td colspan=5>Download <a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
+                    <td colspan="4" align=center>MMRIA User Role Assignment</td>
+                </tr>
+                <tr>
+                    <td>#</td>
+                    <td>Jurisdiction Abbreviation</td>
+                    <td>Report Date</td>
+                    <td># of Records</td>
+                    <td># of Unique MMRIA Users</td>
+                    <td>Jurisdiction Admin</td>
+                    <td>Abstractor</td>
+                    <td>Analyst</td>
+                    <td>Committee Member</td>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    _index+=1;
+                    
+                    total.num_recs += item.num_recs;
+                    total.num_users_unq += item.num_users_unq;
+                    total.num_users_ja += item.num_users_ja;
+                    total.num_users_abs += item.num_users_abs;
+                    total.num_user_anl += item.num_user_anl;
+                    total.num_user_cm += item.num_user_cm;
+
+                <tr>
+                    <td>@_index</td>
+                    <td>@item.host_name</td>
+                    <td>@item.rpt_date</td>
+                    <td>@item.num_recs</td>
+                    <td>@item.num_users_unq</td>
+                    <td>@item.num_users_ja</td>
+                    <td>@item.num_users_abs</td>
+                    <td>@item.num_user_anl</td>
+                    <td>@item.num_user_cm</td>
+                </tr>
+                }
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>Total</td>
+                    <td></td>
+                    <td>@total.num_recs</td>
+                    <td>@total.num_users_unq</td>
+                    <td>@total.num_users_ja</td>
+                    <td>@total.num_users_abs</td>
+                    <td>@total.num_user_anl</td>
+                    <td>@total.num_user_cm</td>
+                </tr>
+
+
+
                 for (int rowNumber = 1; rowNumber < 100000; rowNumber++)
                 {
                     var cells = new List<FastExcel.Cell>();
