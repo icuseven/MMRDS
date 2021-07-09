@@ -51,6 +51,12 @@ namespace mmria.server.Controllers
 
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
+
+            if(Output_xlsx.StartsWith("/opt/app-root"))
+            {
+                Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
+            }
+
 /*
 
             var Template_xlsx = "Template.xlsx";
