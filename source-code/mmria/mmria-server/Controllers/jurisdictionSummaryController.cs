@@ -52,7 +52,7 @@ namespace mmria.server.Controllers
             var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
             var summary_row_list = await summary_list.execute();
-
+/*
             FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem p_value)
             {
                 var cells = new List<FastExcel.Cell>();
@@ -68,10 +68,11 @@ namespace mmria.server.Controllers
                     <td>Abstractor</td>
                     <td>Analyst</td>
                     <td>Committee Member</td>
+                 
                 return new FastExcel.Row(p_row_number, cells);
 
-            }
-
+            }   
+  */
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
 
@@ -79,6 +80,7 @@ namespace mmria.server.Controllers
             {
                 Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
             }
+          
 
 /*
 
@@ -93,7 +95,7 @@ namespace mmria.server.Controllers
                 //Create a worksheet with some rows
                 var worksheet = new FastExcel.Worksheet();
                 var rows = new System.Collections.Generic.List<FastExcel.Row>();
-
+/*
 
 
                 <tr>
@@ -147,7 +149,7 @@ namespace mmria.server.Controllers
                     <td>@total.num_user_cm</td>
                 </tr>
 
-
+*/
 
                 for (int rowNumber = 1; rowNumber < 100000; rowNumber++)
                 {
