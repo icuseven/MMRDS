@@ -150,13 +150,33 @@ namespace mmria.server.utils
 				result.total_rows = user_alldocs_response.total_rows;
                 */
 
-                p_result.total = user_alldocs_response.total_rows;
-/*
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
-				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
-				{
+                foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
+                {
+                    if(uai.doc.app_prefix_list == null)
+                    {
+                         if(string.IsNullOrWhiteSpace(p_config_detail.prefix))
+                         {
+                             p_result.total +=1;
+                         }
+                         else if(uai.doc.app_prefix_list.ContainsKey("__no_prefix__"))
+                         {
+                             p_result.total +=1;
+                         }
+    
+                    }
+                    else if(string.IsNullOrWhiteSpace(p_config_detail.prefix) && (uai.doc.app_prefix_list.ContainsKey("__no_prefix__")|| uai.doc.app_prefix_list.Count == 0))
+                    {
+                        p_result.total +=1;
+                    }
+                    else
+                    {
+                        if(uai.doc.app_prefix_list.ContainsKey(p_config_detail.prefix.ToLower()))
+                        {
+                            p_result.total +=1;
+                        }
+                    }
                 }
-*/
 
             }
             catch(System.Exception)
@@ -171,29 +191,28 @@ namespace mmria.server.utils
 		{ 
 			try
 			{
-				string request_string = $"{p_config_detail.url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=100000";
+				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=100000";
 
 				var user_curl = new cURL("GET",null,request_string,null, p_config_detail.user_name, p_config_detail.user_value);
 				string responseFromServer = await user_curl.executeAsync();
 
-				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
+				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.case_view_response>>(responseFromServer);
 			
+
+                p_result.total = case_view_response.total_rows;
 /*
 				mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user> result = new mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>();
 				result.offset = user_alldocs_response.offset;
 				result.total_rows = user_alldocs_response.total_rows;
                 */
 
-                p_result.total = user_alldocs_response.total_rows;
-/*
-                List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
-				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
-				{
-                }
-*/
+               
+
+                
+
 
             }
-            catch(System.Exception)
+            catch(System.Exception ex)
             {
 
             }
