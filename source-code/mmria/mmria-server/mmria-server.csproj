@@ -30,7 +30,7 @@
     <PackageReference Include="NJsonSchema" Version="10.0.27"/>
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.27"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.1.0"/>
-    <PackageReference Include="SpreadsheetLight" Version="3.5.0"/>
+    <PackageReference Include="FastExcel" Version="3.0.13"/>
 
 
 
