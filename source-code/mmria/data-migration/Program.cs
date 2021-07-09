@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
@@ -39,7 +40,7 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"ga"
+			//"fl_dev"
 			/*
 			"localhost",
 			"afd",
@@ -52,8 +53,8 @@ namespace migrate
 "vt",
 "pr",*/
 			//"test",
-			//"qa",
-			//"uat"
+			"qa",
+			"uat"
 
 			/*"test",
 			"ga"
@@ -70,7 +71,7 @@ namespace migrate
 		};
 
 /**/
-		static List<string> prefix_list = new List<string>()
+		static HashSet<string> prefix_list = new HashSet<string>()
 		{
 			
 "afd",
@@ -92,12 +93,12 @@ namespace migrate
 			"ar",
 			"ca",
 			"ct",
-			//"cdc",
+			"cdc",
 			"co",
 			"de",
 			"demo",
 			"fl",
-			//"hi",
+			"hi",
 			"ia",
 			"id",
 			"in",
@@ -200,12 +201,12 @@ namespace migrate
 
 
 
-			bool is_test_list = true;
+			bool is_test_list = false;
 			
 			bool is_report_only_mode = false;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
 
 			
 
@@ -257,7 +258,7 @@ namespace migrate
 			}
 			else
 			{
-				run_list = prefix_list;
+				run_list = prefix_list.ToList();
 			}
 
 			foreach(var prefix in run_list)
