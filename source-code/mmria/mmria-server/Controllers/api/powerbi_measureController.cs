@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server
 {
-	[Route("api/powerbi-measures")]
+	[Route("api/powerbi-measures/{jurisdiction?}")]
 	public class powerbi_measureController: ControllerBase
 	{ 
         public struct Result_Struct
@@ -37,9 +37,10 @@ namespace mmria.server
 		//public IEnumerable<master_record> Get() 
 		[AllowAnonymous] 
 		[HttpGet]
-		public async Task<Result_Struct> Get()
+		public async Task<Result_Struct> Get(string jurisdiction)
 		{
 			Result_Struct result = new Result_Struct();
+            result.docs = new List<System.Dynamic.ExpandoObject>().ToArray();
             
             
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
@@ -72,7 +73,41 @@ namespace mmria.server
 				var case_curl = new cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+                if(!string.IsNullOrWhiteSpace(jurisdiction))
+                {
+
+                    List<System.Dynamic.ExpandoObject> new_list = new();
+                    var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+
+                    var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction);
+                    foreach(var doc in response_result.docs)
+                    {
+                        dynamic byName = (IDictionary<string,object>)doc;
+                        if(byName.home_record == null)
+                        {
+                            byName.home_record = new Dictionary<string,object>();
+                        }
+
+                        if(byName.home_record.jurisdiction_id == null)
+                        {
+                            byName.home_record.jurisdiction_id = "/";
+                        }
+
+                        if(regex.IsMatch(byName.home_record.jurisdiction_id))
+                        {
+                            
+                            new_list.Add(doc);
+                            
+                        }
+
+                    }
+
+                    result.docs = new_list.ToArray();
+                }
+                else
+                {
+				    result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+                }
 
 				System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
 			}

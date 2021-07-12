@@ -197,19 +197,8 @@ namespace mmria.server.utils
 				string responseFromServer = await user_curl.executeAsync();
 
 				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.case_view_response>>(responseFromServer);
-			
-
+	
                 p_result.total = case_view_response.total_rows;
-/*
-				mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user> result = new mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>();
-				result.offset = user_alldocs_response.offset;
-				result.total_rows = user_alldocs_response.total_rows;
-                */
-
-               
-
-                
-
 
             }
             catch(System.Exception ex)
