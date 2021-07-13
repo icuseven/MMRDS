@@ -177,10 +177,8 @@ namespace mmria.server.utils
             }
             catch(System.Exception)
             {
-
+                p_result.total = -1;
             }
-
-
         }
 
         public async System.Threading.Tasks.Task GetCaseCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
@@ -201,9 +199,9 @@ namespace mmria.server.utils
                 p_result.total = case_view_response.total_rows;
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
-
+                p_result.total = -1;
             }
 
 
@@ -218,8 +216,6 @@ namespace mmria.server.utils
             int take = 20000;
 			search_key = "";
             string sort_view = "by_date_created";
-
-
  
 			try
 			{
@@ -290,9 +286,13 @@ namespace mmria.server.utils
                 }
                
 			}
-			catch(System.Exception ex)
+			catch(System.Exception)
 			{
-				System.Console.WriteLine (ex);
+				//System.Console.WriteLine (ex);
+                p_result.num_users_ja = -1;
+                p_result.num_users_abs = -1;
+                p_result.num_user_anl = -1;
+                p_result.num_user_cm = -1;
 
 			} 
 

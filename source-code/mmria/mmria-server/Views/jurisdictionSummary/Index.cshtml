@@ -38,11 +38,22 @@
 {
     _index+=1;
     
+    if(total.num_recs > -1)
     total.num_recs += item.num_recs;
+
+    if(total.num_users_unq > -1)
     total.num_users_unq += item.num_users_unq;
+    
+    if(total.num_users_ja > -1)
     total.num_users_ja += item.num_users_ja;
+    
+    if(total.num_users_abs > -1)
     total.num_users_abs += item.num_users_abs;
+    
+    if(total.num_user_anl > -1)
     total.num_user_anl += item.num_user_anl;
+    
+    if(total.num_user_cm > -1)
     total.num_user_cm += item.num_user_cm;
 
 <tr>
@@ -72,6 +83,7 @@
 
 </table>
 
+<p><b style="color:#FF0000;">NOTE:</b> <b>-1</b> values indicate a failure to get data and -1 values are <b>NOT included</b> in the totals.</p>
  
 </body>
 </html>
