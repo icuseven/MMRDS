@@ -988,10 +988,12 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             }
     
         }
-        else if (p_data.indexOf(item.value) > -1)
+        else if (list_checkbox_contains_value(p_data, item.value))
         {
             is_selected = " checked ";
         }
+       
+
 
         var is_read_only = "";
 
@@ -1654,4 +1656,20 @@ function list_clear_other_specify_cancel(p_object_path,p_metadata_path,p_diction
     
     $mmria.confirm_dialog_confirm_close();
         
+}
+
+function list_checkbox_contains_value(p_list, p_value)
+{
+    let result = false;
+    
+    for(let i = 0; i < p_list.length; i++)
+    {
+        if(p_list[i]== p_value)
+        {
+            result = true;
+            break;
+        }
+    }
+    
+    return result;
 }
