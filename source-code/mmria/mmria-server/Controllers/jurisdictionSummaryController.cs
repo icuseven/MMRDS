@@ -29,22 +29,7 @@ namespace mmria.server.Controllers
 
             return View(await result.execute(cancellationToken));
         }
-/*
-        public async Task<IActionResult> GenerateReport()
-        {
-            System.IO.MemoryStream ms = new ();
-            using (var sl = new SpreadsheetLight.SLDocument())
-            {
-                sl.SetCellValue("B3", "I love ASP.NET MVC");
-                sl.SaveAs(ms);
-            }
-            // this is important. Otherwise you get an empty file
-            // (because you'd be at EOF after the stream is written to, I think...).
-            ms.Position = 0;
 
-            return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
-        }
-        */
 
         public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
         {
@@ -77,7 +62,7 @@ namespace mmria.server.Controllers
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
 
-            if(Output_xlsx.StartsWith("/opt/app-root"))
+            if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
             {
                 Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
             }
