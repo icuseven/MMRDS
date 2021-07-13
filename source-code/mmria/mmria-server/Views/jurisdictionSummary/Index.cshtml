@@ -1,5 +1,7 @@
 @model List<mmria.server.utils.JurisdictionSummaryItem>
 @{
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
     var total = new mmria.server.utils.JurisdictionSummaryItem();
     var _index = 0;
 }
@@ -17,19 +19,19 @@
 
 <table border=1>
 <tr>
-    <td colspan=5>Download <a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
-    <td colspan="4" align=center>MMRIA User Role Assignment</td>
+    <td colspan=5><b>Download </b><a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
+    <td colspan="4" align=center><b>MMRIA User Role Assignment</b></td>
 </tr>
 <tr>
-    <td>#</td>
-    <td>Jurisdiction Abbreviation</td>
-    <td>Report Date</td>
-    <td># of Records</td>
-    <td># of Unique MMRIA Users</td>
-    <td>Jurisdiction Admin</td>
-    <td>Abstractor</td>
-    <td>Analyst</td>
-    <td>Committee Member</td>
+    <th>#</th>
+    <th>Jurisdiction Abbreviation</th>
+    <th>Report Date</th>
+    <th># of Records</th>
+    <th># of Unique MMRIA Users</th>
+    <th>Jurisdiction Admin</th>
+    <th>Abstractor</th>
+    <th>Analyst</th>
+    <th>Committee Member</th>
 </tr>
 
 @foreach (var item in Model)
@@ -57,7 +59,7 @@
 }
 <tr>
     <td>&nbsp;</td>
-    <td>Total</td>
+    <td><b>Total</b></td>
     <td></td>
     <td>@total.num_recs</td>
     <td>@total.num_users_unq</td>
