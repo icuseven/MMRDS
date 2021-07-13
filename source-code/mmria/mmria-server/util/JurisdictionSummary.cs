@@ -63,7 +63,7 @@ namespace mmria.server.utils
             ConfigDB = p_config_db;
         }
 
-        public async Task<List<JurisdictionSummaryItem>> execute()
+        public async Task<List<JurisdictionSummaryItem>> execute(System.Threading.CancellationToken cancellationToken)
         {
 
             var result = new Dictionary<string, JurisdictionSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
@@ -78,6 +78,7 @@ namespace mmria.server.utils
             foreach(var config in ConfigDB.detail_list)
             {
 
+                cancellationToken.ThrowIfCancellationRequested();
 
                 var prefix = config.Key.ToUpper();
 
@@ -97,19 +98,21 @@ namespace mmria.server.utils
                 record_count.host_name = prefix;
                 record_count_result.Add(prefix, record_count);
 
-                user_count_task_list.Add(GetUserCount(prefix, config.Value, usr_count));
-                record_count_task_list.Add(GetCaseCount(prefix, config.Value, record_count));
-                jurisdiction_count_task_list.Add(GetJurisdictions(prefix, config.Value, jsi));
+                user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count));
+                record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count));
+                jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
             }
 
 
             await Task.WhenAll(user_count_task_list);
-
+            cancellationToken.ThrowIfCancellationRequested();
+            await Task.WhenAll(record_count_task_list);
+            cancellationToken.ThrowIfCancellationRequested();
             //var user_count_call_results = user_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
 
 
             await Task.WhenAll(jurisdiction_count_task_list);
-
+            cancellationToken.ThrowIfCancellationRequested();
             //var jurisdiction_count_call_results = jurisdiction_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
             foreach(var kvp in user_count_result)
             {
@@ -133,7 +136,7 @@ namespace mmria.server.utils
             return view_data;
         }
 
-        public async System.Threading.Tasks.Task GetUserCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
+        public async System.Threading.Tasks.Task GetUserCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
 		{ 
 			try
 			{
@@ -153,6 +156,8 @@ namespace mmria.server.utils
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
                 foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     if(uai.doc.app_prefix_list == null)
                     {
                          if(string.IsNullOrWhiteSpace(p_config_detail.prefix))
@@ -187,14 +192,18 @@ namespace mmria.server.utils
 
         }
 
-        public async System.Threading.Tasks.Task GetCaseCount(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
+        public async System.Threading.Tasks.Task GetCaseCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
 		{ 
 			try
 			{
 				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=100000";
 
+
+                cancellationToken.ThrowIfCancellationRequested();
 				var user_curl = new cURL("GET",null,request_string,null, p_config_detail.user_name, p_config_detail.user_value);
 				string responseFromServer = await user_curl.executeAsync();
+
+                cancellationToken.ThrowIfCancellationRequested();
 
 				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.case_view_response>>(responseFromServer);
 	
@@ -209,7 +218,7 @@ namespace mmria.server.utils
 
         }
 
-        public async Task GetJurisdictions(string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result) 
+        public async Task GetJurisdictions(System.Threading.CancellationToken cancellationToken,  string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result) 
 		{
             string sort = "by_date_created";
             string search_key = null;
@@ -261,8 +270,12 @@ namespace mmria.server.utils
                     }
                 }
 
+                cancellationToken.ThrowIfCancellationRequested();
+
 				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, p_config_detail.user_name, p_config_detail.user_value);
 				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
+
+                cancellationToken.ThrowIfCancellationRequested();
 
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 

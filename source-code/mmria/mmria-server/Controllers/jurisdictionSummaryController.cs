@@ -22,12 +22,12 @@ namespace mmria.server.Controllers
             ConfigDB = p_config_db;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
         {
 
             var result = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
-            return View(await result.execute());
+            return View(await result.execute(cancellationToken));
         }
 /*
         public async Task<IActionResult> GenerateReport()
@@ -46,15 +46,17 @@ namespace mmria.server.Controllers
         }
         */
 
-        public async Task<IActionResult> GenerateReport()
+        public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
         {
 
             var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
-            var summary_row_list = await summary_list.execute();
+            var summary_row_list = await summary_list.execute(cancellationToken);
 
             FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem item)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var cells = new List<FastExcel.Cell>();
 
                 cells.Add(new FastExcel.Cell(1, p_row_number));
@@ -129,6 +131,8 @@ namespace mmria.server.Controllers
 
                 foreach (var item in summary_row_list)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     row_number+=1;
                     
                     total.num_recs += item.num_recs;
