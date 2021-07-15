@@ -359,8 +359,6 @@ function drawLineChart(name, cols) {
 	const chart = c3.generate(chartDefinition);
 	console.log('chart: ', chart);
 
-	
-
 	return chart;
 }
 
@@ -4516,11 +4514,11 @@ function prenatal(p, d, pg_break) {
 	// Save the chart info
 	// chartArr.push([
 	// 	[
-	// 		`'Systolic', 120, 125}`
+	// 		`{'Systolic', 120, 125}`
 	// 	],
 	// ]);
-	// const myTestChart = drawLineChart('Blood Pressure', chartArr);
-	// console.log('myTestChart: ', myTestChart );
+	const myTestChart = drawLineChart('Blood Pressure', chartArr);
+	console.log('myTestChart: ', myTestChart );
 	// const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
 	// console.log( 'mySvg: ', mySvg );
 	// const myBase64Data = window.btoa(mySvg);
@@ -6496,7 +6494,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			// Give some space
 			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
 
-			// Adverse Reactions to Medication?
+			// Adverse Reactions to Medication??
 			index += 1;
 			subIndex = 0;
 			retPage.push([
