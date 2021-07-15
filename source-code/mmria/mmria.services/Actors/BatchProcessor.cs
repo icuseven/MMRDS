@@ -43,7 +43,7 @@ function validate_length(p_array, p_max_length)
         const int nat_max_length = 4001;
         const int fet_max_length = 6001;
 
-        Hashset<string> g_cdc_identifier_set = new();
+        HashSet<string> g_cdc_identifier_set = new();
 
         IConfiguration configuration;
         ILogger logger;
