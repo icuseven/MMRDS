@@ -146,12 +146,7 @@ namespace mmria.server.utils
 				string responseFromServer = await user_curl.executeAsync();
 
 				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
-			
-/*
-				mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user> result = new mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>();
-				result.offset = user_alldocs_response.offset;
-				result.total_rows = user_alldocs_response.total_rows;
-                */
+	
 
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
                 foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
@@ -164,32 +159,26 @@ namespace mmria.server.utils
                          {
                              p_result.total +=1;
                          }
-                         else if(uai.doc.app_prefix_list.ContainsKey("__no_prefix__"))
-                         {
-                             p_result.total +=1;
-                         }
-    
                     }
                     else if(string.IsNullOrWhiteSpace(p_config_detail.prefix) && (uai.doc.app_prefix_list.ContainsKey("__no_prefix__")|| uai.doc.app_prefix_list.Count == 0))
                     {
                         p_result.total +=1;
                     }
+                    else if(uai.doc.app_prefix_list.ContainsKey(p_config_detail.prefix.ToLower()))
+                    {
+                        p_result.total +=1;
+                    }
                     else
                     {
-                        if(uai.doc.app_prefix_list.ContainsKey(p_config_detail.prefix.ToLower()))
-                        {
-                            p_result.total +=1;
-                        }
+
                     }
                 }
 
             }
             catch(System.Exception)
             {
-
+                p_result.total = -1;
             }
-
-
         }
 
         public async System.Threading.Tasks.Task GetCaseCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
@@ -210,9 +199,9 @@ namespace mmria.server.utils
                 p_result.total = case_view_response.total_rows;
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
-
+                p_result.total = -1;
             }
 
 
@@ -227,8 +216,6 @@ namespace mmria.server.utils
             int take = 20000;
 			search_key = "";
             string sort_view = "by_date_created";
-
-
  
 			try
 			{
@@ -289,7 +276,7 @@ namespace mmria.server.utils
                         case "abstractor":
                             p_result.num_users_abs++;
                         break;
-                        case "analyst":
+                        case "data_analyst":
                             p_result.num_user_anl++;
                         break;
                         case "committee_member":
@@ -299,9 +286,13 @@ namespace mmria.server.utils
                 }
                
 			}
-			catch(System.Exception ex)
+			catch(System.Exception)
 			{
-				System.Console.WriteLine (ex);
+				//System.Console.WriteLine (ex);
+                p_result.num_users_ja = -1;
+                p_result.num_users_abs = -1;
+                p_result.num_user_anl = -1;
+                p_result.num_user_cm = -1;
 
 			} 
 

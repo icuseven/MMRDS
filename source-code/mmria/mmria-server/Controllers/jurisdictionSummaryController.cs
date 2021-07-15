@@ -29,22 +29,7 @@ namespace mmria.server.Controllers
 
             return View(await result.execute(cancellationToken));
         }
-/*
-        public async Task<IActionResult> GenerateReport()
-        {
-            System.IO.MemoryStream ms = new ();
-            using (var sl = new SpreadsheetLight.SLDocument())
-            {
-                sl.SetCellValue("B3", "I love ASP.NET MVC");
-                sl.SaveAs(ms);
-            }
-            // this is important. Otherwise you get an empty file
-            // (because you'd be at EOF after the stream is written to, I think...).
-            ms.Position = 0;
 
-            return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
-        }
-        */
 
         public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
         {
@@ -77,7 +62,7 @@ namespace mmria.server.Controllers
             var Template_xlsx = "database-scripts/Template.xlsx";
             var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
 
-            if(Output_xlsx.StartsWith("/opt/app-root"))
+            if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
             {
                 Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
             }
@@ -135,11 +120,22 @@ namespace mmria.server.Controllers
 
                     row_number+=1;
                     
+                    if(total.num_recs > -1)
                     total.num_recs += item.num_recs;
+
+                    if(total.num_users_unq > -1)
                     total.num_users_unq += item.num_users_unq;
+                    
+                    if(total.num_users_ja > -1)
                     total.num_users_ja += item.num_users_ja;
+                    
+                    if(total.num_users_abs > -1)
                     total.num_users_abs += item.num_users_abs;
+                    
+                    if(total.num_user_anl > -1)
                     total.num_user_anl += item.num_user_anl;
+                    
+                    if(total.num_user_cm > -1)
                     total.num_user_cm += item.num_user_cm;
 
                     rows.Add(ConvertToDetail(row_number, item));
