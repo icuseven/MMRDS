@@ -502,7 +502,7 @@ function validate_length(p_array, p_max_length)
                 {
 
                     var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
-                    if (!g_cdc_identifier_set.ContainsKey(mom_ssn))
+                    if (!g_cdc_identifier_set.Contains(mom_ssn))
                     {
                         result.Add($"Missing Id in NAT file Line: {i+1}  id: {mom_ssn}");
                     }
@@ -525,7 +525,7 @@ function validate_length(p_array, p_max_length)
                 if (item.Length > mom_ssn_start + 9) 
                 {
                     var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
-                    if (!g_cdc_identifier_set.ContainsKey(mom_ssn))
+                    if (!g_cdc_identifier_set.Contains(mom_ssn))
                     {
                         result.Add($"Missing Id in FET file Line: {i+1}  id: {mom_ssn}");
                     }
