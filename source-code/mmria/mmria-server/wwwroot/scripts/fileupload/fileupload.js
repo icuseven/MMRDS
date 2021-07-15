@@ -2,6 +2,7 @@ var g_file_stat_list = [];
 var g_content_list = [];
 var g_validation_errors = [];
 var g_host_state = null;
+var g_cdc_identifier_set = {};
 
 
 const mor_max_length = 5001;
@@ -102,17 +103,21 @@ function setup_file_list()
         g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
     }
 
+    // process mor file 1st
     for (let i = 0; i < g_file_stat_list.length; i++) 
     {
         let item = g_file_stat_list[i];
-        if (typeof item !== "undefined") {
+        if (typeof item !== "undefined") 
+        {
             if (item.name.toLowerCase().endsWith(".mor")) 
             {
+                g_cdc_identifier_set = {};
+                
                 is_mor = true;
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
 
-                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.mor");
+                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
 
                 if (!patt.test(item.name.toLowerCase())) 
                 {
@@ -128,12 +133,14 @@ function setup_file_list()
                     var copy = g_content_list[i];
                     var morRows = copy.split("\n");
                     var listOfCdcIdentifier = [];
+                    
 
                     for (var j = 0; morRows.length > j; j++) 
                     {
                         var cdcIdentifier = morRows[j].substring(190, 199);
 
                         listOfCdcIdentifier.push(cdcIdentifier);
+                        g_cdc_identifier_set[cdcIdentifier] = true;
                     }
 
                     let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
@@ -156,16 +163,35 @@ function setup_file_list()
                     }
                 }
             }
+        }
+    }
+
+    for (let i = 0; i < g_file_stat_list.length; i++) 
+    {
+        let item = g_file_stat_list[i];
+        if (typeof item !== "undefined") 
+        {
+            if (item.name.toLowerCase().endsWith(".mor")) 
+            {
+                continue;
+            }
             else if (item.name.toLowerCase().endsWith(".nat")) 
             {
                 is_nat = true;
                 temp[1] = item;
                 temp_contents[1] = g_content_list[i];
 
-                if (!validate_length(g_content_list[i].split("\n"), nat_max_length)) 
+                g_content_list_array = g_content_list[i].split("\n");
+                if (!validate_length(g_content_list_array, nat_max_length)) 
                 {
                     g_validation_errors.push("nat File Length !=" + nat_max_length);
                 }
+
+               let Nat_Ids = validate_AssociatedNAT(g_content_list_array);
+               for(let _i = 0;_i < Nat_Ids.length; _i++)
+               {
+                    g_validation_errors.push(Nat_Ids[i]);
+               }
             }
             else if (item.name.toLowerCase().endsWith(".fet")) 
             {
@@ -173,10 +199,18 @@ function setup_file_list()
                 temp[2] = item;
                 temp_contents[2] = g_content_list[i];
 
-                if (!validate_length(g_content_list[i].split("\n"), fet_max_length)) 
+                g_content_list_array = g_content_list[i].split("\n");
+
+                if (!validate_length(g_content_list_array, fet_max_length)) 
                 {
                     g_validation_errors.push("fet File Length !=" + fet_max_length);
                 }
+
+                let Fet_Ids = validate_AssociatedFET(g_content_list_array);
+                for(let _i = 0;_i < Fet_Ids.length; _i++)
+               {
+                    g_validation_errors.push(Fet_Ids[i]);
+               }
             }
         }
     }
@@ -404,4 +438,97 @@ function hasDuplicates(arr)
         }
     }
     return false;
+}
+
+
+/*
+private List<string> GetAssociatedNat(string[] p_nat_list, string p_cdc_unique_id)
+{
+    var result = new List<string>();
+    int mom_ssn_start = 2000-1;
+    if (p_nat_list != null)
+        foreach (var item in p_nat_list)
+        {
+            if (item.Length > mom_ssn_start + 9)
+            {
+                var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
+                if (mom_ssn == p_cdc_unique_id)
+                {
+                    result.Add(item);
+                }
+            }
+        }
+
+    return result;
+}
+*/
+
+function validate_AssociatedNAT(p_array) 
+{
+    let result = [];
+
+    let mom_ssn_start = 2000-1;
+
+    for (let i = 0; i < p_array.length; i++) 
+    {
+        let item = p_array[i];
+        if (item.length > mom_ssn_start + 9) 
+        {
+
+            var mom_ssn = item.substring(mom_ssn_start, mom_ssn_start + 9).trim();
+            if (g_cdc_identifier_set[mom_ssn] == null || g_cdc_identifier_set[mom_ssn] == false)
+            {
+                result.push(`Missing Id in NAT file Line: ${i+1}  id: ${mom_ssn}`);
+            }
+            
+        }
+    }
+
+    return result;
+}
+
+
+
+/*
+private List<string> GetAssociatedFet(string[] p_fet_list, string p_cdc_unique_id)
+{
+    var result = new List<string>();
+    int mom_ssn_start = 4039-1;
+    if(p_fet_list != null)
+        foreach(var item in p_fet_list)
+        {
+            if(item.Length > mom_ssn_start + 9)
+            {
+                var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
+                if(mom_ssn == p_cdc_unique_id)
+                {
+                    result.Add(item);
+                }
+            }
+        }
+
+    return result;
+}
+*/
+
+function validate_AssociatedFET(p_array) 
+{
+    let result = [];
+
+    let mom_ssn_start = 4039-1;
+
+    for (let i = 0; i < p_array.length; i++) 
+    {
+        let item = p_array[i];
+        if (item.length > mom_ssn_start + 9) 
+        {
+            var mom_ssn = item.substring(mom_ssn_start, mom_ssn_start + 9).trim();
+            if (g_cdc_identifier_set[mom_ssn] == null || g_cdc_identifier_set[mom_ssn] == false)
+            {
+                result.push(`Missing Id in FET file Line: ${i+1}  id: ${mom_ssn}`);
+            }
+        }
+    }
+
+    return result;
 }
