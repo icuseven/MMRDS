@@ -866,7 +866,7 @@ namespace mmria.server.utils
                 !string.IsNullOrWhiteSpace(p_val1) && 
                 p_val1.Length > 1 &&
                 (
-                    p_val2.IndexOf (p_val1, StringComparison.OrdinalIgnoreCase) > -1 ||
+                    //p_val2.IndexOf (p_val1, StringComparison.OrdinalIgnoreCase) > -1 //||
                     p_val1.IndexOf (p_val2, StringComparison.OrdinalIgnoreCase) > -1
                 )
             )
