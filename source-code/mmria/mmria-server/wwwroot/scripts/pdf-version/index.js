@@ -225,13 +225,19 @@ function getTodayFormatted() {
 
 // Format the date to always have 2 digits
 function fmt2Digits(val) {
+	if (val === '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
+}
+
+// Format the year to always have 4 digits, check for 9999
+function fmtYear(val) {
+	return (val === '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM-DD-YYYY
 function reformatDate(dt) {
 	let date = new Date(dt);
-	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}-${fmt2Digits(date.getDate())}-${date.getFullYear()}` : '';
+	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}-${fmt2Digits(date.getDate())}-${fmtYear(date.getFullYear())}` : '';
 }
 
 // Format date from data and return mm / dd / yyyy or blank if it contains 9999's
@@ -239,7 +245,7 @@ function fmtDataDate(dt) {
     if ( dt.year === '9999' ) {
         return '  /  /  ';
     }
-    return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${dt.year}`;
+    return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${fmtYear(dt.year)}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm am
@@ -251,7 +257,7 @@ function fmtDateTime(dt) {
 	hh = hh % 12;
 	hh = hh ? hh : 12;		// change the hour 0 to 12
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)} ${ampm}`
-	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fDate.getFullYear()} ${strTime}`
+	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
@@ -260,7 +266,7 @@ function fmtStrDate(dt) {
 		return ' / / ';
 	}
     let dtParts = dt.split( '-' );
-    return `${fmt2Digits(dtParts[1])}/${fmt2Digits(dtParts[2])}/${dtParts[0]}`;
+    return `${fmt2Digits(dtParts[1])}/${fmt2Digits(dtParts[2])}/${fmtYear(dtParts[0])}`;
 }
 
 // Get the header name
@@ -284,7 +290,7 @@ function lookupGlobalArr(val, lookupName) {
 	// Find the correct lookup table index
 	let lookupIndex = g_md.lookup.findIndex((s) => s.name === lookupName);
 
-	// Return the full state name from the lookup array
+	// Return the display value from the lookup array
 	let arr = g_md.lookup[lookupIndex].values;
 	let idx = arr.findIndex((s) => s.value === val);
 	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : idx;   // This fixes bad data coming in
@@ -4094,7 +4100,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.intendedenes.date_birth_control_was_discontinued.month)} / ` +
 								`${fmt2Digits(d.intendedenes.date_birth_control_was_discontinued.day)} / ` +
-								`${d.intendedenes.date_birth_control_was_discontinued.year}`, 
+								`${fmtYear(d.intendedenes.date_birth_control_was_discontinued.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -4209,7 +4215,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.current_pregnancy.date_of_last_normal_menses.month)} / ` +
 								`${fmt2Digits(d.current_pregnancy.date_of_last_normal_menses.day)} / ` +
-								`${d.current_pregnancy.date_of_last_normal_menses.year}`, 
+								`${fmtYear(d.current_pregnancy.date_of_last_normal_menses.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -4224,7 +4230,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.current_pregnancy.estimated_date_of_confinement.month)} / ` +
 								`${fmt2Digits(d.current_pregnancy.estimated_date_of_confinement.day)} / ` +
-								`${d.current_pregnancy.estimated_date_of_confinement.year}`, 
+								`${fmtYear(d.current_pregnancy.estimated_date_of_confinement.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -4250,7 +4256,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.current_pregnancy.date_of_1st_prenatal_visit.month)} / ` +
 								`${fmt2Digits(d.current_pregnancy.date_of_1st_prenatal_visit.day)} / ` +
-								`${d.current_pregnancy.date_of_1st_prenatal_visit.year}`, 
+								`${fmtYear(d.current_pregnancy.date_of_1st_prenatal_visit.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -4273,7 +4279,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.current_pregnancy.date_of_1st_ultrasound.month)} / ` +
 								`${fmt2Digits(d.current_pregnancy.date_of_1st_ultrasound.day)} / ` +
-								`${d.current_pregnancy.date_of_1st_ultrasound.year}`, 
+								`${fmtYear(d.current_pregnancy.date_of_1st_ultrasound.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -4296,7 +4302,7 @@ function prenatal(p, d, pg_break) {
 						{ 
 							text: `${fmt2Digits(d.current_pregnancy.date_of_last_prenatal_visit.month)} / ` +
 								`${fmt2Digits(d.current_pregnancy.date_of_last_prenatal_visit.day)} / ` +
-								`${d.current_pregnancy.date_of_last_prenatal_visit.year}`, 
+								`${fmtYear(d.current_pregnancy.date_of_last_prenatal_visit.year)}`, 
 							style: ['tableDetail'], 
 						},
                     ],
@@ -5292,7 +5298,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_arrival.month)} / ` +
 										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_arrival.day)} / ` +
-										`${d[curRec].basic_admission_and_discharge_information.date_of_arrival.year}`, 
+										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_arrival.year)}`, 
 									style: ['tableDetail', 'lightFill'], 
 								},
 								{},
@@ -5351,7 +5357,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.month)} / ` +
 										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.day)} / ` +
-										`${d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.year}`, 
+										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.year)}`, 
 									style: ['tableDetail'], 
 								},
 								{},
@@ -5472,7 +5478,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.month)} / ` +
 										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.day)} / ` +
-										`${d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.year}`, 
+										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.year)}`, 
 									style: ['tableDetail'], 
 								},
 							],
@@ -6095,7 +6101,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.month)} / ` +
 										`${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.day)} / ` +
-										`${d[curRec].onset_of_labor.date_of_onset_of_labor.year} / `, 
+										`${fmtYear(d[curRec].onset_of_labor.date_of_onset_of_labor.year)} / `, 
 									style: ['tableDetail'], 
 								},
 								{},
@@ -6143,7 +6149,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.month)} / ` +
 										`${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.day)} / ` +
-										`${d[curRec].onset_of_labor.date_of_rupture.year} / `, 
+										`${fmtYear(d[curRec].onset_of_labor.date_of_rupture.year)} / `, 
 									style: ['tableDetail'], 
 								},
 								{},
@@ -6945,6 +6951,11 @@ function other_medical_office_visits(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let retPage = [];
+	let uArr = window.location.href.split("/");
+	let allRecs = (uArr[uArr.length - 1] === 'other_medical_office_visits' || pg_break) ? true : false;
+	let lenArr = d.length;
+	let startArr = 0;
+	let endArr = lenArr;
 
 	console.log('p: ', p);
 	console.log('d: ', d);
@@ -6958,8 +6969,940 @@ function other_medical_office_visits(p, d, pg_break) {
         retPage.push({ text: '', pageBreak: 'before' });
     }
 
-	// Record Header
-	retPage.push({ text: 'Work in Progress', style: ['subHeader'] },);
+	// Are there any records
+	if (lenArr === 0) {
+		retPage.push({ text: 'No Other Medical Office Visits records entered', style: ['tableDetail'], },);
+	} else {
+		if (!allRecs) {
+			startArr = parseInt(uArr[uArr.length - 1], 10);
+			endArr = startArr + 1;
+		}
+
+		// Display record(s)
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			index = 0;
+			subIndex = 0;
+
+			// Record # & Visit
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: [250, 60, '*'],
+						headerRows: 1,
+						body: [
+							[
+								{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '3' },
+								{}, {},
+							],
+							[
+								{ 
+									text: `${p.children[index].children[subIndex].prompt}: ` +
+										`${p.children[index].children[subIndex].children[0].prompt} / ` +
+										`${p.children[index].children[subIndex].children[1].prompt} / ` +
+										`${p.children[index].children[subIndex].children[2].prompt}:`, 
+									style: ['tableLabel'], 
+									alignment: 'right', 
+								},
+								{ 
+									text: `${fmt2Digits(d[curRec].visit.date_of_medical_office_visit.month)} / ` +
+									`${fmt2Digits(d[curRec].visit.date_of_medical_office_visit.day)} / ` +
+									`${fmtYear(d[curRec].visit.date_of_medical_office_visit.year)}`, 
+									style: ['tableDetail', 'lightFill'], 
+								},
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].visit.date_of_medical_office_visit.arrival_time, style: ['tableDetail'], colSpan: '2', },
+								{},
+							],
+							[
+								{ 
+									text: `${p.children[index].children[subIndex].children[4].prompt} / Days:`, 
+									style: ['tableLabel'], 
+									alignment: 'right', 
+								},
+								{ 
+									text: `${d[curRec].visit.date_of_medical_office_visit.gestational_age_weeks} / ` +
+									`${d[curRec].visit.date_of_medical_office_visit.gestational_age_days}`, 
+									style: ['tableDetail'], 
+								},
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].visit.date_of_medical_office_visit.days_postpartum, style: ['tableDetail'], colSpan: '2', },
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupFieldArr(d[curRec].visit.visit_type, p.children[index].children[subIndex + 1].values), 
+										style: ['tableDetail'], 
+										colSpan: '2', 
+									},
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].visit.visit_type_other_specify, style: ['tableDetail'], colSpan: '2', },
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].visit.medical_record_no, style: ['tableDetail'], colSpan: '2', },
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].visit.reason_for_visit_or_chief_complaint, style: ['tableDetail'], colSpan: '2', },
+								{},
+							],
+						],
+					},
+				},
+			],);
+
+			// Medical Care Facility
+			index += 1;
+			subIndex = 0;
+
+			// Record # & Visit
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: [250, '*'],
+						headerRows: 1,
+						body: [
+							[
+								{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2' },
+								{},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupFieldArr(d[curRec].medical_care_facility.place_type, p.children[index].children[subIndex].values), 
+									style: ['tableDetail'],
+								},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].medical_care_facility.specify_other_place_type, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupFieldArr(d[curRec].medical_care_facility.provider_type, p.children[index].children[subIndex + 2].values), 
+									style: ['tableDetail'],
+								},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].medical_care_facility.specify_other_provider_type, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupFieldArr(d[curRec].medical_care_facility.payment_source, p.children[index].children[subIndex + 4].values), 
+									style: ['tableDetail'],
+								},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: d[curRec].medical_care_facility.other_payment_source, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupFieldArr(d[curRec].medical_care_facility.pregnancy_status, p.children[index].children[subIndex + 6].values), 
+									style: ['tableDetail'],
+								},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ 
+									text: lookupGlobalArr(d[curRec].medical_care_facility.was_this_provider_her_primary_prenatal_care_provider, 'yes_no'), 
+									style: ['tableDetail'],
+								},
+							],
+						],
+					},
+				},
+			]);
+
+			// Location of Medical Care Facility
+			index += 1;
+			subIndex = 0;
+
+			// Record # & Visit
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: [250, '*'],
+						headerRows: 1,
+						body: [
+							[
+								{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2' },
+								{},
+							],
+							[
+								{ 
+									text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+									style: ['tableLabel'],
+									alignment: 'right', 
+								},
+								{ 
+									text: `${d[curRec].location_of_medical_care_facility.street} / ${d[curRec].location_of_medical_care_facility.apartment}`, 
+									style: ['tableDetail'], 
+								},
+							],
+							[
+								{ 
+									text: `${p.children[index].children[subIndex + 2].prompt} / ${p.children[index].children[subIndex + 3].prompt} / ` +
+										`${p.children[index].children[subIndex + 4].prompt}:`, 
+									style: ['tableLabel'],
+									alignment: 'right', 
+								},
+								{ 
+									text: `${d[curRec].location_of_medical_care_facility.city} / ` +
+										`${lookupGlobalArr(d[curRec].location_of_medical_care_facility.state, 'state')} / ` +
+										`${d[curRec].location_of_medical_care_facility.zip_code}`, 
+									style: ['tableDetail'], 
+								},
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.city}:`, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.feature_matching_geography_type}:`, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_code}:`, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_type}:`, style: ['tableDetail'], },
+							],
+							[
+								{ text: `${p.children[index].children[subIndex + 19].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.urban_status}:`, style: ['tableDetail'], },
+							],
+						],
+					},
+				},
+			],);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Relevant Medical History
+			index += 1;
+			let lenArr2 = d[curRec].relevant_medical_history.length;
+			let startArr2 = 0;
+			let endArr2 = lenArr2;
+
+			// Build Header rows
+			let body = [];
+			let row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '3',
+					border: [true, true, true, false],
+				}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '3', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: d[curRec].relevant_medical_history[curRec2].finding, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].relevant_medical_history[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// // Relevant Family History
+			index += 1;
+			lenArr2 = d[curRec].relevant_family_history.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '3',
+					border: [true, true, true, false],
+				}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '3', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: d[curRec].relevant_family_history[curRec2].finding, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].relevant_family_history[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// // Relevant Social History
+			index += 1;
+			lenArr2 = d[curRec].relevant_social_history.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '3',
+					border: [true, true, true, false],
+				}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '3', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: d[curRec].relevant_social_history[curRec2].finding, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].relevant_social_history[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Vital Signs
+			index += 1;
+			lenArr2 = d[curRec].vital_signs.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '4',
+					border: [true, true, true, false],
+				}, {}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time), style: ['tableDetail'], },);
+					row.push({
+						columns: [
+							[
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+							],
+							[
+								{ text: d[curRec].vital_signs[curRec2].temperature, style: ['tableDetail'], },
+								{ text: d[curRec].vital_signs[curRec2].pulse, style: ['tableDetail'], },
+								{ text: d[curRec].vital_signs[curRec2].respiration, style: ['tableDetail'], },
+								{ text: d[curRec].vital_signs[curRec2].bp_systolic, style: ['tableDetail'], },
+								{ text: d[curRec].vital_signs[curRec2].bp_diastolic, style: ['tableDetail'], },
+								{ text: d[curRec].vital_signs[curRec2].oxygen_saturation, style: ['tableDetail'], },
+							],
+						],
+					},);
+					row.push({ text: d[curRec].vital_signs[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 100, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Laboratory Tests
+			index += 1;
+			lenArr2 = d[curRec].laboratory_tests.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '4',
+					border: [true, true, true, false],
+				}, {}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: fmtDateTime(d[curRec].laboratory_tests[curRec2].date_and_time), style: ['tableDetail'], },);
+					row.push({
+						columns: [
+							[
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+							],
+							[
+								{ text: d[curRec].laboratory_tests[curRec2].specimen, style: ['tableDetail'], },
+								{ text: d[curRec].laboratory_tests[curRec2].test_name, style: ['tableDetail'], },
+								{ text: d[curRec].laboratory_tests[curRec2].result, style: ['tableDetail'], },
+								{ text: d[curRec].laboratory_tests[curRec2].diagnostic_level, style: ['tableDetail'], },
+							],
+						],
+					},);
+					row.push({ text: d[curRec].laboratory_tests[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 100, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Diagnostic Imaging and Other Technology
+			index += 1;
+			lenArr2 = d[curRec].diagnostic_imaging_and_other_technology.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '5',
+					border: [true, true, true, false],
+				}, {}, {}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: fmtDateTime(d[curRec].diagnostic_imaging_and_other_technology[curRec2].date_and_time), style: ['tableDetail'], },);
+					row.push({ text: d[curRec].diagnostic_imaging_and_other_technology[curRec2].procedure, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].diagnostic_imaging_and_other_technology[curRec2].target_procedure, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].diagnostic_imaging_and_other_technology[curRec2].finding, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 100, 200, 200, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Physical Examinations
+			index += 1;
+			lenArr2 = d[curRec].physical_exam.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '4',
+					border: [true, true, true, false],
+				}, {}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', },);
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ 
+						text: lookupFieldArr(d[curRec].physical_exam[curRec2].body_system, p.children[index].children[subIndex].values), 
+						style: ['tableDetail'], 
+					},);
+					row.push({ text: d[curRec].physical_exam[curRec2].finding, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].physical_exam[curRec2].comment, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 150, 200, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Referrals and Consultations
+			index += 1;
+			lenArr2 = d[curRec].referrals_and_consultations.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '5',
+					border: [true, true, true, false],
+				}, {}, {}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: fmtStrDate(d[curRec].referrals_and_consultations[curRec2].date), style: ['tableDetail'], },);
+					row.push({ text: d[curRec].referrals_and_consultations[curRec2].speciality, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].referrals_and_consultations[curRec2].reason, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].referrals_and_consultations[curRec2].recommendations, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 70, 100, 150, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Prescribed Medications/Drugs
+			index += 1;
+			lenArr2 = d[curRec].medications.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '6',
+					border: [true, true, true, false],
+				}, {}, {}, {}, {}, {},);
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '6', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: fmtDateTime(d[curRec].medications[curRec2].date_and_time), style: ['tableDetail'], },);
+					row.push({ text: d[curRec].medications[curRec2].medication_name, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].medications[curRec2].dose_frequeny_duration, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].medications[curRec2].adverse_reaction, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].medications[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 100, '*', '*', '*', 300],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Visit Summary
+			index += 1;
+			lenArr2 = d[curRec].new_grid.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{
+					text: p.children[index].prompt,
+					style: ['subHeader', 'blueFill'],
+					colSpan: '3',
+					border: [true, true, true, false],
+				}, {}, {}, );
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '3', }, );
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center' },);
+					row.push({ text: d[curRec].new_grid[curRec2].abnormal_findings, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].new_grid[curRec2].recommendations_and_action_plans, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 250, '*'],
+						body: body,
+					},
+				},],
+			);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+			// Reviewer's Notes
+			index += 1;
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: ['*'],
+						headerRows: 1,
+						body: [
+							[
+								{ text: p.children[index].prompt, style: ['subHeader'], },
+							],
+							[
+								{ text: d[curRec].reviewer_note, style: ['tableDetail'], },
+							],
+						],
+					},
+				},
+			],);
+		}
+	}
 
 	return retPage;
 }
@@ -7108,7 +8051,7 @@ function informant_interviews(p, d, pg_break) {
 								{ text: '/', style: ['tableDetail'], alignment: 'center', },
 								{ text: `${fmt2Digits(d[curRec].date_of_interview.day)}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
 								{ text: '/', style: ['tableDetail'], alignment: 'center', },
-								{ text: `${d[curRec].date_of_interview.year}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
+								{ text: `${fmtYear(d[curRec].date_of_interview.year)}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
 								{ text: `${lookupFieldArr(d[curRec].interview_type, p.children[index + 1].values)}`, style: ['tableDetail', 'lightFill'], },
 								{ text: `${d[curRec].other_interview_type}`, style: ['tableDetail'], },
 							],
