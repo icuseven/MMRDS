@@ -7876,7 +7876,7 @@ function other_medical_office_visits(p, d, pg_break) {
 			// Give some space
 			retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
 
-			// Reviewer's Notes
+			// Reviewer's Notes - last group
 			index += 1;
 			retPage.push([
 				{
