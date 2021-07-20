@@ -43,6 +43,8 @@ function validate_length(p_array, p_max_length)
         const int nat_max_length = 4001;
         const int fet_max_length = 6001;
 
+        HashSet<string> g_cdc_identifier_set = new();
+
         IConfiguration configuration;
         ILogger logger;
 
@@ -103,7 +105,7 @@ function validate_length(p_array, p_max_length)
             var fet_length_is_valid = validate_length(message?.fet?.Split("\n"), fet_max_length);
 
 
-            var patt = new System.Text.RegularExpressions.Regex("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.mor");
+            var patt = new System.Text.RegularExpressions.Regex("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
 
             if (patt.Match(message.mor_file_name).Length == 0) 
             {
@@ -162,6 +164,8 @@ function validate_length(p_array, p_max_length)
                         continue;
                     }
 
+                    g_cdc_identifier_set.Add(batch_item.CDCUniqueID?.Trim());
+
                     batch_item_set.Add(batch_item.CDCUniqueID?.Trim(), (row, batch_item));
                     duplicate_count[batch_item.CDCUniqueID] = 1;
 
@@ -181,6 +185,13 @@ function validate_length(p_array, p_max_length)
                     }
                 }
             }
+
+
+            foreach(var item in validate_AssociatedNAT(nat_list))
+                status_builder.AppendLine(item);
+
+            foreach(var item in validate_AssociatedFET(nat_list))
+                status_builder.AppendLine(item);
 
             if(status_builder.Length == 0)
             {
@@ -474,6 +485,52 @@ function validate_length(p_array, p_max_length)
                         break;
                     }
                 }
+
+            return result;
+        }
+
+        IList<string> validate_AssociatedNAT(IList<string> p_array) 
+        {
+            var result = new List<string>();
+
+            int mom_ssn_start = 2000-1;
+
+            for (var i = 0; i < p_array.Count; i++) 
+            {
+                var item = p_array[i];
+                if (item.Length > mom_ssn_start + 9) 
+                {
+
+                    var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
+                    if (!g_cdc_identifier_set.Contains(mom_ssn))
+                    {
+                        result.Add($"Missing Id in NAT file Line: {i+1}  id: {mom_ssn}");
+                    }
+                    
+                }
+            }
+
+            return result;
+        }
+
+        IList<string> validate_AssociatedFET(IList<string> p_array) 
+        {
+            var result = new List<string>();
+
+            int mom_ssn_start = 4039-1;
+
+            for (var i = 0; i < p_array.Count; i++) 
+            {
+                var item = p_array[i];
+                if (item.Length > mom_ssn_start + 9) 
+                {
+                    var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
+                    if (!g_cdc_identifier_set.Contains(mom_ssn))
+                    {
+                        result.Add($"Missing Id in FET file Line: {i+1}  id: {mom_ssn}");
+                    }
+                }
+            }
 
             return result;
         }
