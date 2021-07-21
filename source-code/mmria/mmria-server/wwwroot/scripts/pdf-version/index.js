@@ -352,7 +352,7 @@ function getSectionTitle(name) {
 
 // Draw Line Chart
 function drawLineChart(name, cols) {
-	console.log( 'drawLineChart: ', name, ' - ', cols );
+	// console.log( 'drawLineChart: ', name, ' - ', cols );
 	var chartDefinition = {
 		data: {
 			columns: [
@@ -363,7 +363,7 @@ function drawLineChart(name, cols) {
 	};
 
 	const chart = c3.generate(chartDefinition);
-	console.log('chart: ', chart);
+	// console.log('chart: ', chart);
 
 	return chart;
 }
@@ -7911,7 +7911,13 @@ function other_medical_office_visits(p, d, pg_break) {
 function medical_transport(p, d, pg_break) {
 	// Name table
 	let index = 0;
+	let subIndex = 0;
 	let retPage = [];
+	let uArr = window.location.href.split("/");
+	let allRecs = (uArr[uArr.length - 1] === 'medical_transport' || pg_break) ? true : false;
+	let lenArr = d.length;
+	let startArr = 0;
+	let endArr = lenArr;
 
 	console.log('p: ', p);
 	console.log('d: ', d);
@@ -7925,8 +7931,750 @@ function medical_transport(p, d, pg_break) {
         retPage.push({ text: '', pageBreak: 'before' });
     }
 
-	// Record Header
-	retPage.push({ text: 'Work in Progress', style: ['subHeader'] },);
+	// Are there any records
+	if (lenArr === 0) {
+		retPage.push({ text: 'No medical transports entered', style: ['tableDetail'], },);
+	} else {
+		if (!allRecs) {
+			startArr = parseInt(uArr[uArr.length - 1], 10);
+			endArr = startArr + 1;
+		}
+
+		// Display record(s)
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			index = 0;
+			subIndex = 0;
+
+			// Date of Transport & GA
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: [100, 30, 5, 20, 5, 40, 120, 120, 120],
+						headerRows: 1,
+						body: [
+							[
+								{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2' },
+								{}, {}, {}, {}, {}, {}, {}, {},
+							],
+							[
+								{ text: p.children[index].prompt, style: ['subHeader'] },
+								{ text: p.children[index].children[subIndex].prompt, style: ['tableLabel'], alignment: 'center', },
+								{ text: ' ', style: ['tableLabel'], alignment: 'center', },
+								{ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel'], alignment: 'center', },
+								{ text: ' ', style: ['tableLabel'], alignment: 'center', },
+								{ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel'], alignment: 'center', },
+								{ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel'], },
+								{ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel'], },
+								{ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel'], },
+							],
+							[
+								{ text: '', },
+								{ text: `${fmt2Digits(d[curRec].date_of_transport.month)}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
+								{ text: '/', style: ['tableDetail'], alignment: 'center', },
+								{ text: `${fmt2Digits(d[curRec].date_of_transport.day)}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
+								{ text: '/', style: ['tableDetail'], alignment: 'center', },
+								{ text: `${d[curRec].date_of_transport.year}`, style: ['tableDetail', 'lightFill'], alignment: 'center', },
+								{ text: `${d[curRec].date_of_transport.gestational_age_weeks}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].date_of_transport.gestational_age_days}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].date_of_transport.days_postpartum}`, style: ['tableDetail'], },
+							],
+						],
+					},
+				},
+			]);
+
+                // Reason for Transport
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].reason_for_transport, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+ 
+                // Patient Conditions
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].maternal_conditions, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+                
+                // Transport Information
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        width: 'auto',
+                        margin: [0, 10, 0, 0],
+                        table: {
+                            headerRows: 1,
+                            widths: [250, 'auto', ],
+                            body: [
+                                [
+                                    { text: 'Transport Information', style: ['subHeader'], colSpan: '2', },
+                                    {},
+                                ],
+                                [
+                                    { text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: lookupFieldArr(d[curRec].who_managed_the_transport, p.children[index].values), style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: d[curRec].other_transport_manager, style: ['tableDetail'], },
+                                ],
+
+                                [
+                                    { text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: lookupFieldArr(d[curRec].transport_vehicle, p.children[index + 2].values), style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: d[curRec].other_transport_vehicle, style: ['tableDetail'], },
+                                ],
+                            ],
+                        }
+                    }
+                ]);                
+       
+                // Timing of Transport
+                index += 4;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        width: 'auto',
+                        margin: [0, 10, 0, 0],
+                        table: {
+                            headerRows: 1,
+                            widths: [250, '*'],
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], colSpan: '2', },
+									{},
+                                ],
+                                
+                                [
+                                    { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.call_received), style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.depart_for_patient_origin), style: ['tableDetail'], },                                    
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.arrive_at_patient_origin), style: ['tableDetail'], },                                    
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.patient_contact), style: ['tableDetail'], },                                    
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.depart_for_referring_facility), style: ['tableDetail'], },                                    
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: fmtDateTime(d[curRec].timing_of_transport.arrive_at_referring_facility), style: ['tableDetail'], },                                    
+                                ],
+                            ],
+                        }
+                    }
+                ]); 
+
+                //08:Grp[c8]    Origin Information  (origin_information)
+                    /*
+                    0:Lst[4]    Place of Origin  (place_of_origin)
+                    1:Str       Specify Other Place of Origin  (place_of_origin_other)
+                    2:Grp[c24]  Address  (address)
+                        0:Str   Street  (street)
+                        1:Str   Apartment or Unit Number  (apartment)
+                        2:Str   City  (city)
+                        3:Lst   State  (state)
+                        4:Lst   Country  (country)
+                        5:Str   Zip Code  (zip_code)
+                        6:Str   County  (county)
+                        9:Str   Matching Geography Type  (feature_matching_geography_type)
+                        14:Str  Census Tract Certainty Code  (naaccr_census_tract_certainty_code)
+                        15:Str  Census Tract Certainty Name  (naaccr_census_tract_certainty_type)
+                        20:Str  Urban Status  (urban_status)
+                
+                    3:Lst[6]    Enter the Receiving Hospital Trauma Level of Care  (trauma_level_of_care)
+                    4:Str       Specify Other Trauma Level of Care  (other_trauma_level_of_care)
+                    5:Lst[7]    Enter the Receiving Hospital Level of Maternal Care  (maternal_level_of_care)
+                    6:Str       Specify Other Level of Maternal Care  (other_maternal_level_of_care)
+                    7:TA        Comments  (comments)
+                    */
+                index += 1;
+                subIndex = 0;
+                let subSubIndex = 0;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        width: 'auto',
+                        margin: [0, 10, 0, 0],
+                        table: {
+                            headerRows: 1,
+                            widths: [250, '*'],
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+                                    {}, 
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { 
+										text: lookupFieldArr(d[curRec].origin_information.place_of_origin, p.children[index].children[subIndex].values), 
+										style: ['tableDetail'], 
+									},
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.place_of_origin_other}`, style: ['tableDetail'], },
+                                ],
+                                [
+                                    { 
+                                        text: `${p.children[index].children[subIndex + 2].children[0].prompt} / ` +
+											`${p.children[index].children[subIndex + 2].children[1].prompt}:`, 
+                                        style: ['tableLabel'], 
+                                        alignment: 'right', 
+                                    },
+                                    { 
+                                        text: `${d[curRec].origin_information.address.street} / ${d[curRec].origin_information.address.apartment}`, 
+                                        style: ['tableDetail'], 
+                                    },
+                                ],
+                                [
+                                    { 
+                                        text: `${p.children[index].children[subIndex + 2].children[2].prompt}, ` +
+											`${p.children[index].children[subIndex + 2].children[3].prompt}, ` +
+											`${p.children[index].children[subIndex + 2].children[4].prompt} ` +
+                                            `${p.children[index].children[subIndex + 2].children[5].prompt}:`, 
+                                        style: ['tableLabel'], 
+                                        alignment: 'right', 
+                                    },
+                                    { 
+                                        text: `${d[curRec].origin_information.address.city}, ${lookupGlobalArr(d[curRec].origin_information.address.state, 'state')}, ` + 
+                                              `${lookupGlobalArr(d[curRec].origin_information.address.country, 'country')} ` + 
+                                              `${d[curRec].origin_information.address.zip_code}`, 
+                                        style: ['tableDetail'], 
+                                    },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.address.county}`, style: ['tableDetail'], },
+                                ],
+                                
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].children[9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].children[14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].children[15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 2].children[20].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.address.urban_status}`, style: ['tableDetail'], },
+                                ],
+                                [ 
+									{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { 
+										text: lookupFieldArr(d[curRec].origin_information.trauma_level_of_care, p.children[index].children[subIndex + 3].values), 
+                                        style: ['tableDetail'], 
+                                    },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.other_trauma_level_of_care}`, style: ['tableDetail'], },
+                                ],
+                                [
+                                    { 
+                                        text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+                                        style: ['tableLabel'], 
+                                        alignment: 'right', 
+                                    },
+                                    { 
+                                        text: lookupFieldArr(d[curRec].origin_information.maternal_level_of_care, p.children[index].children[subIndex + 5].values), 
+                                        style: ['tableDetail'], 
+                                    },
+                                ],
+                                [
+                                    { text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${d[curRec].origin_information.other_maternal_level_of_care}`, style: ['tableDetail'], },
+                                ],
+
+                                [
+                                    { text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: d[curRec].origin_information.comments, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ],);
+
+                //09:Text       Procedures Before Transport (Describe)  (procedures_before_transport)
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].procedures_before_transport, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+
+                //10:Text       Procedures During Transport (Describe)  (procedures_during_transport)
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].procedures_during_transport, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+
+				// Give some space
+				retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+                //11:Grid[c9]   Transport Vital Signs  (transport_vital_signs)    
+                    /*
+                    0:DT        Date and Time  (date_and_time)
+                    1:Num       GA - Weeks  (gestational_weeks)
+                    2:Num       GA - Days  (gestational_days)
+                    3:Num       Systolic BP  (systolic_bp)
+                    4:Num       Diastolic BP  (diastolic_bp)
+                    5:Num       Heart Rate  (heart_rate)
+                    6:Num       Oxygen Saturation  (oxygen_saturation)
+                    7:Num       Blood Sugar  (blood_sugar)  
+                    8:TA        Comment(s)  (comments)
+                    */
+                index += 1;
+                subIndex = 0;
+                let lenArr2 = d[curRec].transport_vital_signs.length;
+                let startArr2 = 0;
+                let endArr2 = lenArr2;
+
+                // Build Header rows
+                body = [];
+                row = new Array();
+                row.push(
+                    {
+                        text: p.children[index].prompt,
+                        style: ['subHeader', 'blueFill'],
+                        colSpan: '4',
+                        border: [true, true, true, false],
+                    }, {}, {}, {}, );
+                body.push(row);
+                row = new Array();
+                row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', }, );
+                row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+                row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+                row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+                body.push(row);
+
+                // Are there any records?
+                if (lenArr2 === 0) {
+                    row = new Array();
+                    row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', }, );
+                    body.push(row);
+                } else {
+                    // Build the table detail
+					
+                    for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+						console.log( 'curRec: ', curRec );
+						console.log( 'curRec2: ', curRec2);
+						console.log( 'transport_vital_signs: ', d[curRec].transport_vital_signs );
+                        row = new Array();
+                        row.push( { text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', }, );
+                        row.push( { text: fmtDateTime(d[curRec].transport_vital_signs[curRec2].date_and_time), style: ['tableDetail'], }, );
+                        row.push( { 
+                            columns: [
+                                [
+                                    { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                                ],
+                                [
+                                    { text: d[curRec].transport_vital_signs[curRec2].gestational_weeks, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].gestational_days, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].systolic_bp, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].diastolic_bp, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].heart_rate, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].oxygen_saturation, style: ['tableDetail'], },
+                                    { text: d[curRec].transport_vital_signs[curRec2].blood_sugar, style: ['tableDetail'], },
+                                ],
+                            ],
+                        }, );
+                        row.push( { text: d[curRec].transport_vital_signs[curRec2].comments, style: ['tableDetail'], }, );
+                        body.push(row);
+                    }
+                }
+
+                // Show the table 
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: true,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            headerRows: 2,
+                            widths: [30, 100, 200, '*', ],
+                            body: body,
+                        },
+                    },],
+                );
+
+                //12:Text       Mental Status of Patient During Transport (Describe)  (mental_status_of_patient_during_transport)
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].mental_status_of_patient_during_transport, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+
+                //13:Text       Documented Pertinent Oral Statements Made by Patient or Others on Scene  (documented_pertinent_oral_statements_made_by_patient_and_other_on_scene)
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].documented_pertinent_oral_statements_made_by_patient_and_other_on_scene, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+
+                //14:Grp[c9]    Destination Information  (destination_information)
+                    /*
+                    0:Str       Name of Facility  (place_of_destination)
+                    1:Lst       Place of Destination  (destination_type)
+                    2:Str       Specify Other Destinatio  (place_of_origin_other)
+
+                    3:Grp[c27]  Address  (address)
+                        0:Str   Street  (street)
+                        1:Str   Unit Number  (apartment)
+                        2:Str   City  (city)
+                        3:Lst   State  (state)
+                        4:Lst   Country  (country_of_last_residence)
+                        5:Str   Zip Code  (zip_code)
+                        9:Str   Matching Geography Type  (feature_matching_geography_type)
+                        14:Str  Census Tract Certainty Code  (naaccr_census_tract_certainty_code)
+                        15:Str  Census Tract Certainty Name  (naaccr_census_tract_certainty_type)
+                        20:Str  Urban Status  (urban_status)
+                        24:Num  Estimated Distance (Miles) Between Origin and Destination of Medical Transport  (estimated_distance)
+
+                    4:Lst[6]    Trauma Level of Care  (trauma_level_of_care)   
+                    5:Str       Specify Other Trauma Level of Care  (other_trauma_level_of_care)
+                    6:Lst[7]    Level of Maternal Care  (maternal_level_of_care)
+                    7:Str       Specify Other Level of Maternal Care  (other_maternal_level_of_care)
+                    8:Text      Comments  (comments)
+                    */
+                    index += 1;
+                    subIndex = 0;
+                    subSubIndex = 0;
+                    retPage.push([
+                        {
+                            layout: {
+                                defaultBorder: false,
+                                paddingLeft: function (i, node) { return 1; },
+                                paddingRight: function (i, node) { return 1; },
+                                paddingTop: function (i, node) { return 2; },
+                                paddingBottom: function (i, node) { return 2; },
+                            },
+                            width: 'auto',
+                            margin: [0, 10, 0, 0],
+                            table: {
+                                headerRows: 1,
+                                widths: [250, '*'],
+                                body: [
+                                    [
+                                        { text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+                                        {}, 
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: d[curRec].destination_information.place_of_destination, style: ['tableDetail'], },
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { 
+											text: lookupFieldArr(d[curRec].destination_information.destination_type, p.children[index].children[subIndex + 1].values), 
+											style: ['tableDetail'], 
+										},
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.place_of_origin_other}}`, style: ['tableDetail'], },
+                                    ],
+                                    [
+                                        { 
+                                            text: `${p.children[index].children[subIndex + 3].children[0].prompt} / ` +
+												`${p.children[index].children[subIndex + 3].children[1].prompt}:`, 
+                                            style: ['tableLabel'], 
+                                            alignment: 'right', 
+                                        },
+                                        { 
+                                            text: `${d[curRec].destination_information.address.street} / ${d[curRec].destination_information.address.apartment}`, 
+                                            style: ['tableDetail'], 
+                                        },
+                                    ],
+                                    [
+                                        { 
+                                            text: `${p.children[index].children[subIndex + 3].children[2].prompt}, ` +
+												`${p.children[index].children[subIndex + 3].children[3].prompt}, ` +
+												`${p.children[index].children[subIndex + 3].children[4].prompt} ` +
+                                                `${p.children[index].children[subIndex + 3].children[5].prompt}:`, 
+                                            style: ['tableLabel'], 
+                                            alignment: 'right', 
+                                        },
+                                        { 
+                                            text: `${d[curRec].destination_information.address.city}, ` +
+												`${lookupGlobalArr(d[curRec].destination_information.address.state, 'state')}, ` + 
+                                                `${lookupGlobalArr(d[curRec].destination_information.address.country_of_last_residence, 'country')} ` + 
+                                                `${d[curRec].destination_information.address.zip_code}`, 
+                                            style: ['tableDetail'], 
+                                        },
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.county}`, style: ['tableDetail'], },
+                                    ],
+                                    
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
+                                    ],
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 20].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.urban_status}`, style: ['tableDetail'], },
+                                    ],
+    
+                                    [
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 24].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${d[curRec].destination_information.address.estimated_distance}`, style: ['tableDetail'], },
+                                    ],
+
+                                    [
+                                        { 
+                                            text: `${p.children[index].children[subIndex + 4].prompt} / ${p.children[index].children[subIndex + 5].prompt}:`, 
+                                            style: ['tableLabel'], 
+                                            alignment: 'right', 
+                                        },
+                                        { 
+                                            text: `${lookupFieldArr(d[curRec].destination_information.trauma_level_of_care, p.children[index].children[subIndex + 4].values)} / ` +
+												`${d[curRec].origin_information.other_trauma_level_of_care}`, 
+                                            style: ['tableDetail'], 
+                                        },
+                                    ],
+    
+                                    [
+                                        { 
+                                            text: `${p.children[index].children[subIndex + 6].prompt} / ${p.children[index].children[subIndex + 7].prompt}:`, 
+                                            style: ['tableLabel'], 
+                                            alignment: 'right', 
+                                        },
+                                        { 
+                                            text: `${lookupFieldArr(d[curRec].destination_information.maternal_level_of_care, p.children[index].children[subIndex + 6].values)} / ${d[curRec].origin_information.other_maternal_level_of_care}`, 
+                                            // text: `${d[curRec].origin_information.maternal_level_of_care} / ${d[curRec].origin_information.other_maternal_level_of_care}`, 
+                                            style: ['tableDetail'], 
+                                        },
+                                    ],
+    
+                                    [
+                                        { 
+                                            text: `${p.children[index].children[subIndex + 8].prompt}:`, 
+                                            style: ['tableLabel'], 
+                                            alignment: 'right', 
+                                        },
+                                        { 
+                                            text: d[curRec].destination_information.comments, 
+                                            style: ['tableDetail'], 
+                                        },
+                                    ],
+                                 ],
+                            },
+                        },
+                    ],);
+    
+
+                //15:Text      Reviewer's Notes About Medical Transport  (reviewer_note)
+                index += 1;
+                retPage.push([
+                    {
+                        layout: {
+                            defaultBorder: false,
+                            paddingLeft: function (i, node) { return 1; },
+                            paddingRight: function (i, node) { return 1; },
+                            paddingTop: function (i, node) { return 2; },
+                            paddingBottom: function (i, node) { return 2; },
+                        },
+                        table: {
+                            widths: 'auto',
+                            headerRows: 1,
+                            body: [
+                                [
+                                    { text: p.children[index].prompt, style: ['subHeader'], margin: [0, 10, 0, 0], },
+                                ],
+                                [
+                                    { text: d[curRec].reviewer_note, style: ['tableDetail'], },
+                                ],
+                            ],
+                        },
+                    },
+                ]);
+               
+                // See if we need a page break
+                if ( allRecs && (startArr !== endArr) && (curRec < endArr - 1) ) {
+                    retPage.push([ { text: '', pageBreak: 'before' }, ],);
+                }
+		}
+	}
+
+
 	return retPage;
 }
 
@@ -7934,6 +8682,8 @@ function medical_transport(p, d, pg_break) {
 function social_and_environmental_profile(p, d, pg_break) {
 	// Name table
 	let index = 0;
+	let subIndex = 0;
+	let body = [];
 	let retPage = [];
 
 	console.log('p: ', p);
@@ -7949,9 +8699,908 @@ function social_and_environmental_profile(p, d, pg_break) {
         retPage.push({ text: '', pageBreak: 'before' });
     }
 
-	// Record Header
-	retPage.push({ text: 'Work in Progress', style: ['subHeader'] },);
+    //00:Grp[c13]   Socioeconomic Characteristics  (socio_economic_characteristics)
+	/*
+	0:Lst[8]    Source of Income  (source_of_income)
+	1:Str       Specify Multiple/Other Sources of Income  (source_of_income_other_specify)
+	2:Lst[9]    Employment Status  (employment_status)
+	3:Str       Specify Multiple/Other Employment Status  (employment_status_other_specify)
+	4:Str       Occupation  (occupation)
+	5:Str       Religious Preference  (religious_preference)
+	6:Lst       Country of Birth  (country_of_birth)    [lookup/country]
+	7:Lst[12]   Immigration Status  (immigration_status)
+	8:Num       Time in the US  (time_in_the_us)
+	9:Lst[7]    Unit (time_in_the_us_units)
+	10:Lst[8]   Living Arrangement at Time of Death  (current_living_arrangements)
+	11:MsLst[9] Homelessness*  (homelessness)
+	12:MsLst[7] Unstable Housing?  (unstable_housing)
+	*/
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					
+					[
+						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupFieldArr(d.socio_economic_characteristics.source_of_income, p.children[index].children[subIndex].values), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.socio_economic_characteristics.source_of_income_other_specify, style: ['tableDetail'], },
+					],
+					
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupFieldArr(d.socio_economic_characteristics.employment_status, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.socio_economic_characteristics.employment_status_other_specify, style: ['tableDetail'], },
+					],
+					
+					[
+						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.socio_economic_characteristics.occupation, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.socio_economic_characteristics.religious_preference, style: ['tableDetail'], },
+					],
 
+					[
+						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },            // NEED to Fix: lookup/country
+						{ text: lookupGlobalArr(d.socio_economic_characteristics.country_of_birth, 'country'), style: ['tableDetail'], },
+
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupFieldArr(d.socio_economic_characteristics.immigration_status, p.children[index].children[subIndex + 7].values), 
+							style: ['tableDetail'], 
+						},
+					],
+
+					[
+						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },            
+						{ text: d.socio_economic_characteristics.time_in_the_us, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupFieldArr(d.socio_economic_characteristics.time_in_the_us_units, p.children[index].children[subIndex + 9].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupFieldArr(d.socio_economic_characteristics.current_living_arrangements, p.children[index].children[subIndex + 10].values), 
+							style: ['tableDetail'], 
+						},
+					],
+
+	
+					[
+						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.socio_economic_characteristics.homelessness, p.children[index].children[subIndex + 11].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.socio_economic_characteristics.unstable_housing, p.children[index].children[subIndex + 12].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					],
+			},
+		},
+	], );
+
+
+	//01:Grid[c4]   Members of Household  (members_of_household)
+	/*
+	0:Lst[11]   Relationship  (relationship)
+	1:Lst[3]    Gender  (gender)
+	2:Str       Age  (age)
+	3:Str       Comments  (comments)
+	*/
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 20, 0, 0], }, );
+
+	index += 1;
+	let lenArr = d.members_of_household.length;
+	let startArr = 0;
+	let endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	let row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '5',
+			border: [true, true, true, false],
+		}, {}, {}, {}, {},  );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Relationship
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Gender
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], alignment: 'center' },);  // Age
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: lookupFieldArr(d.members_of_household[curRec].relationship, p.children[index].children[subIndex].values), style: ['tableDetail'], },);
+			row.push({ text: lookupFieldArr(d.members_of_household[curRec].gender, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },);
+			row.push({ text: d.members_of_household[curRec].age, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: d.members_of_household[curRec].comments, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 100, 50, 30, '*'],
+				body: body,
+			},
+		},],
+	);
+
+	//02:MsLst[8]   Was Decedent Ever Incarcerated?  (previous_or_current_incarcerations)
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupMultiChoiceArr(d.previous_or_current_incarcerations, p.children[index].values), style: ['tableDetail'], },
+					],
+				],
+			},
+		},
+	],);
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	//03:Grid[c5]   Details of Incarcerations  (details_of_incarcerations)
+	/*
+	0:Date      Date  (date)
+	1:Str       Duration  (duration)
+	2:Str       Reason  (reason)
+	3:Lst[6]    Occurrence  (occurrence)    
+	4:Str       Comments  (comments)
+	*/
+
+	index += 1;
+	lenArr = d.details_of_incarcerations.length;
+	startArr = 0;
+	endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '6',
+			border: [true, true, true, false],
+		}, {}, {}, {}, {}, {} );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], alignment: 'center' },);  // Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Duration  (duration)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Reason  (reason)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true],  },);                     // Occurrence  (occurrence) 
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments  (comments)
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '6', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: fmtStrDate(d.details_of_incarcerations[curRec].date), style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: d.details_of_incarcerations[curRec].duration, style: ['tableDetail'], },);
+			row.push({ text: d.details_of_incarcerations[curRec].reason, style: ['tableDetail'], },);
+			row.push({ text: lookupFieldArr(d.details_of_incarcerations[curRec].occurrence, p.children[index].children[subIndex + 3].values), style: ['tableDetail'], },);
+			row.push({ text: d.details_of_incarcerations[curRec].comments, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 70, 50, '*', 150, '*'],
+				body: body,
+			},
+		},],
+	);
+
+	//04:MsLst[7]   Was Decedent Ever Arrested?  (was_decedent_ever_arrested)
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupMultiChoiceArr(d.was_decedent_ever_arrested, p.children[index].values), style: ['tableDetail'], },
+					],
+				],
+			},
+		},
+	], );
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	//05:Grid[c4]   Details of Arrests  (details_of_arrests)
+	/*
+	0:Date      Date  (date_of_arrest)
+	1:Str       Reason  (arest_reason)
+	2:Lst[6]    Occurrence  (occurrence)    
+	3:Str       Comments  (comments)
+	*/
+	index += 1;
+	lenArr = d.details_of_arrests.length;
+	startArr = 0;
+	endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '5',
+			border: [true, true, true, false],
+		}, {}, {}, {}, {} );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                		// Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  	// Date  (date_of_arrest)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Reason  (arest_reason)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Occurrence  (occurrence) 
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Comments  (comments)
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: fmtStrDate(d.details_of_arrests[curRec].date_of_arrest), style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: d.details_of_arrests[curRec].arest_reason, style: ['tableDetail'], },);
+			row.push({ text: lookupFieldArr(d.details_of_arrests[curRec].occurrence, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },);
+			row.push({ text: d.details_of_arrests[curRec].comments, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 70, '*', 150, '*'],
+				body: body,
+			},
+		},],
+	);
+
+	//06:Grp[c3]    Health Care Access  (health_care_access)
+	/*
+	0:MsLst[10] Documented Barriers to Health Care Access* (Select All That Apply)  (barriers_to_health_care_access)
+	1:Str       Specify Other Barrier to Health Care Access  (barriers_to_health_care_access_other_specify)
+	2:TA        Comments  (comments) 
+	*/
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					
+					[
+						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.health_care_access.barriers_to_health_care_access, p.children[index].children[subIndex].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.health_care_access.barriers_to_health_care_access_other_specify, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.health_care_access.comments, style: ['tableDetail'], },
+					],
+
+					],
+			},
+		},
+	], );
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	//07:Grp[c3]    Communications  (communications)
+	/*
+	0:MsLst[10] Documented Barriers to Communications* (Select All That Apply)  (barriers_to_communications)
+	1:Str       Specify Other Barrier to Communications  (barriers_to_communications_other_specify)       
+	2:TA        Comments  (comments) 
+	*/
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+
+					[
+						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.communications.barriers_to_communications, p.children[index].children[subIndex].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.communications.barriers_to_communications_other_specify, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.communications.comments, style: ['tableDetail'], },
+					],
+
+					],
+			},
+		},
+	], );
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	
+	//08:Grp[c3]    Social or Emotional Stress  (social_or_emotional_stress)
+	/*
+	0:MsLst[14] Evidence of Social or Emotional Stress* (Select All That Apply)  (evidence_of_social_or_emotional_stress)
+	1:Str       Specify Other Evidence of Stress  (specify_other_evidence_stress)
+	2:TA        Explain Further  (explain_further)
+	*/
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					
+
+					[
+						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.social_or_emotional_stress.evidence_of_social_or_emotional_stress, p.children[index].children[subIndex].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.social_or_emotional_stress.specify_other_evidence_stress, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.social_or_emotional_stress.explain_further, style: ['tableDetail'], },
+					],
+
+					],
+			},
+		},
+	], );
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	//09:Grp[c4]    Utilization of Health Care System  (health_care_system)
+	/*
+	0:Lst[4]    Any Prenatal Care?*  (no_prenatal_care)
+	1:MsLst[10] Reasons for Missed Appointments (Select All That Apply)*    (reasons_for_missed_appointments)
+	2:Str       Specify Other Reason for Missed Appointments  (specify_other_reason)
+	3:TA        Comments  (comments)
+	*/
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					
+
+					[
+						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },        
+						{ text: lookupFieldArr(d.health_care_system.no_prenatal_care, p.children[index].children[subIndex].values), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.health_care_system.reasons_for_missed_appointments, p.children[index].children[subIndex + 1].values), 
+							style: ['tableDetail'], 
+						},
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.health_care_system.specify_other_reason, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.health_care_system.comments, style: ['tableDetail'], },
+					],
+
+				],
+			},
+		},
+	], );
+
+	//10:Lst[6]     Military Status at Time of Death  (had_military_service)
+	//11:Lst        Is There Documentation of Bereavement Support?  (was_there_bereavement_support) [lookup/yes_no_unknown]
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [250, 'auto', ],
+				body: [
+					[
+						{ text: 'Additional Information', style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					[
+						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupFieldArr(d.had_military_service, p.children[index].values), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.was_there_bereavement_support, 'yes_no_with_unknown'), style: ['tableDetail'], },
+					],
+					],
+			},
+		}
+	]);
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 20, 0, 0], }, );
+
+	//12:Grid[c7]   Social and Medical Referrals  (social_and_medical_referrals)
+	/*
+	0:Date      Date  (date)
+	1:Str       Referred To  (referred_to)
+	2:Str       Specialty  (specialty)
+	3:Str       Reason  (reason)
+	4:Lst       Adhered?  (compiled)  [lookup/yes_no]      
+	5:Str       Reason for Non-Adherence  (reason_for_non_compliance)    
+	6:TA        Comment(s)  (comments)    
+	*/
+
+	index += 2;
+	lenArr = d.social_and_medical_referrals.length;
+	startArr = 0;
+	endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '8',
+			border: [true, true, true, false],
+		}, {}, {}, {}, {}, {}, {}, {} );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  // Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Referred To  (referred_to)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Specialty  (specialty)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Reason  (reason)
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  // Adhered?  (compiled)  [lookup/yes_no] 
+	row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Reason for Non-Adherence  (reason_for_non_compliance)  
+	row.push({ text: p.children[index].children[subIndex + 6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments  (comments)
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '8', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: fmtStrDate(d.social_and_medical_referrals[curRec].date), style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: d.social_and_medical_referrals[curRec].referred_to, style: ['tableDetail'], },);
+			row.push({ text: d.social_and_medical_referrals[curRec].specialty, style: ['tableDetail'], },);
+			row.push({ text: d.social_and_medical_referrals[curRec].reason, style: ['tableDetail'], },);
+			row.push({ text: lookupGlobalArr(d.social_and_medical_referrals[curRec].compiled, 'yes_no'), style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: d.social_and_medical_referrals[curRec].reason_for_non_compliance, style: ['tableDetail'], },);
+			row.push({ text: d.social_and_medical_referrals[curRec].comments, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 70, '*', '*', '*', 50, '*', 200],
+				body: body,
+			},
+		},
+	],);
+
+	// Give some space
+	retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+	//13:Grid[c5]   Sources of Social Services Information for this Record  (sources_of_social_services_information_for_this_record)
+	/*
+	0:Date      Date  (date)
+	1:Lst[11]   Element  (element)          
+	2:Str       Specify Other Element  (element_other)
+	3:Str       Source Name  (source_name)
+	4:TA        Comment(s)  (comments)    
+	*/
+	index += 1;
+	lenArr = d.sources_of_social_services_information_for_this_record.length;
+	startArr = 0;
+	endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '6',
+			border: [true, true, true, false],
+		}, {}, {}, {}, {}, {} );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                		// Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  	// Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Element  (element)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Specify Other Element  (element_other)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Source Name  (source_name) 
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Comments  (comments)
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '6', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: fmtStrDate(d.sources_of_social_services_information_for_this_record[curRec].date), style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: lookupFieldArr(d.sources_of_social_services_information_for_this_record[curRec].element, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },);
+			row.push({ text: d.sources_of_social_services_information_for_this_record[curRec].element_other, style: ['tableDetail'], },);
+			row.push({ text: d.sources_of_social_services_information_for_this_record[curRec].source_name, style: ['tableDetail'], },);
+			row.push({ text: d.sources_of_social_services_information_for_this_record[curRec].comments, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 70, '*', '*', '*', '*'],
+				body: body,
+			},
+		},
+	],);
+
+	//14:List       Was There Documented Substance Use?*  (documented_substance_use)  [lookup/yes_no]
+	index += 1;
+	retPage.push([
+	{
+		layout: {
+			defaultBorder: false,
+			paddingLeft: function (i, node) { return 1; },
+			paddingRight: function (i, node) { return 1; },
+			paddingTop: function (i, node) { return 2; },
+			paddingBottom: function (i, node) { return 2; },
+		},
+		width: 'auto',
+		margin: [0, 10, 0, 0],
+		table: {
+			headerRows: 1,
+			widths: [250, '*'],
+			body: [
+					[
+						{ text: 'Substance Use Information', style: ['subHeader'], colSpan: '2', },
+						{},
+					],
+					[
+						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.documented_substance_use, 'yes_no'), style: ['tableDetail'], },
+					],
+				],
+			}
+		}
+	]);    
+
+	//15:Grid[c3]   If Yes, Specify Substance(s)  (if_yes_specify_substances)
+	/*
+	0:Lst       Documented Substance  (substance)  [lookup/substance]
+	1:Str       Specify Other Substance  (substance_other)
+	2:Lst[5]    Timing of Substance Use  (timing_of_substance_use)
+	*/
+	index += 1;
+	lenArr = d.if_yes_specify_substances.length;
+	startArr = 0;
+	endArr = lenArr;
+
+	// Build Header rows
+	body = [];
+	row = new Array();
+	row.push(
+		{
+			text: p.children[index].prompt,
+			style: ['subHeader', 'blueFill'],
+			colSpan: '4',
+			border: [true, true, true, false],
+		}, {}, {}, {} );
+	body.push(row);
+	row = new Array();
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Documented Substance  (substance)  [lookup/substance]
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Specify Other Substance  (substance_other)
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Timing of Substance Use  (timing_of_substance_use)
+	body.push(row);
+
+	// Are there any records?
+	if (lenArr === 0) {
+		row = new Array();
+		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', }, );
+		body.push(row);
+	} else {
+		// Build the table detail   ... , alignment: 'center' },);
+		for (let curRec = startArr; curRec < endArr; curRec++) {
+			row = new Array();
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push({ text: lookupGlobalArr(d.if_yes_specify_substances[curRec].substance, 'substance'), style: ['tableDetail'], },);
+			row.push({ text: d.if_yes_specify_substances[curRec].substance_other, style: ['tableDetail'], },);
+			row.push({ text: d.if_yes_specify_substances[curRec].timing_of_substance_use, style: ['tableDetail'], },);
+			body.push(row);
+		}
+	}
+
+	// Show the table 
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 2,
+				widths: [30, 150, '*', 150],
+				body: body,
+			},
+		},],
+	);
+
+	//16:TA         Reviewer's Notes About the Social and Environmental Profile  (reviewer_note)
+	index += 1;
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: ['*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}:`, style: ['subHeader'], },
+					],
+					[
+						{ text: d.reviewer_note, style: ['tableDetail'], margin: [0, 10, 0, 10], },
+					],
+				],
+			},
+		},
+	],);
+	
 	return retPage;
 }
 
@@ -8425,8 +10074,8 @@ function committee_review(p, d, pg_break) {
 					],
 				],
 			},
-		},],
-	);
+		},
+	],);
 
 	// Contributing Factors and Reccommendations for Action
 	index += 9;
@@ -8492,9 +10141,8 @@ function committee_review(p, d, pg_break) {
 				widths: [30, 'auto', 'auto', 200, 200, '*', '*', '*'],
 				body: body,
 			},
-		},],
-	);
+		},
+	],);
 
 	return retPage;
 }
-
