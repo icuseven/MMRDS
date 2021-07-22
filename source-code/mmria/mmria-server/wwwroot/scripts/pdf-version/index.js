@@ -1600,12 +1600,15 @@ function death_certificate(p, d, pg_break) {
     body = [];
     row = new Array();
 
-    row.push( { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, {}, {}, {}, {}, {}, );
+    row.push( 
+		{ 
+			text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+			{}, {}, {}, {}, {}, );
     body.push(row);
 
     row = new Array();
     row.push(
-        { text: 'Rec #', style: ['tableLabel', 'blueFill'] },
+        { text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },
         { text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },
         { text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },
         { text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },
@@ -1654,7 +1657,7 @@ function death_certificate(p, d, pg_break) {
 		},],
 	);
 
-    // Location Where Death Occurred
+    // Reviewer's Notes About the Death Certificate
     index += 1;
     subIndex = 0;
     retPage.push([
@@ -2809,7 +2812,8 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
             body = [];
             row = new Array();
 
-            row.push( { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, {}, {}, {}, {}, {}, );
+            row.push( 
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, {}, {}, {}, {}, {}, );
             body.push(row);
 
             row = new Array();
@@ -3112,17 +3116,14 @@ function autopsy_report(p, d, pg_break) {
 	// Build Header rows
 	let row = new Array();
 	row.push(
-		{
-			text: p.children[index].children[subIndex].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '3',
-			border: [true, true, true, false],
-		}, {}, {}, );
+		{ text: p.children[index].children[subIndex].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+		{}, {}, 
+	);
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
-	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3171,17 +3172,13 @@ function autopsy_report(p, d, pg_break) {
     body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].children[subIndex + 1].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '3',
-			border: [true, true, true, false],
-		}, {}, {}, );
+		{ text: p.children[index].children[subIndex + 1].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+		{}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
-	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3254,21 +3251,17 @@ function autopsy_report(p, d, pg_break) {
     body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '7',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '7', }, 
+		{}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
     // Are there any records?
@@ -3345,19 +3338,15 @@ function autopsy_report(p, d, pg_break) {
     body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '5',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+		{}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
     // Are there any records?
@@ -3651,18 +3640,14 @@ function prenatal(p, d, pg_break) {
 	let body = [];
 	let row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '4',
-			border: [true, true, true, false],
-		}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+		{}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3674,7 +3659,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.prior_surgical_procedures_before_pregnancy[curRec].date), style: ['tableDetail'], },);
 			row.push({ text: d.prior_surgical_procedures_before_pregnancy[curRec].procedure, style: ['tableDetail'], },);
 			row.push({ text: d.prior_surgical_procedures_before_pregnancy[curRec].comments, style: ['tableDetail'], },);
@@ -3736,19 +3721,15 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '5',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+		{}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3823,20 +3804,16 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3848,7 +3825,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupFieldArr(d.family_medical_history[curRec].relation, p.children[index].children[0].values), style: ['tableDetail'], },);
 			row.push({ text: d.family_medical_history[curRec].condition, style: ['tableDetail'], },);
 			row.push({ text: lookupGlobalArr(d.family_medical_history[curRec].is_living, 'yes_no'), style: ['tableDetail'], },);
@@ -3912,20 +3889,16 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -3937,7 +3910,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupGlobalArr(d.substance_use_grid[curRec].substance, 'substance'), style: ['tableDetail'], },);
 			row.push({ text: d.substance_use_grid[curRec].substance_other, style: ['tableDetail'], },);
 			row.push({ text: lookupGlobalArr(d.substance_use_grid[curRec].screening, 'yes_no'), style: ['tableDetail'], },);
@@ -4005,22 +3978,18 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '8',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '8', }, 
+		{}, {}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[subIndex].children[6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[subIndex].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[subIndex].children[6].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4032,7 +4001,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.pregnancy_history.details_grid[curRec].date_ended), style: ['tableDetail'], },);
 			row.push(
 				{ 
@@ -4426,18 +4395,14 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '4',
-			border: [true, true, true, false],
-		}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+		{}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', }, );
+	row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4449,7 +4414,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-			row.push( { text: `${curRec + 1}`, style: ['tableDetail'], }, );
+			row.push( { text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', }, );
 			row.push( { text: fmtStrDate(d.routine_monitoring[curRec].date_and_time), style: ['tableDetail'], }, );
 			row.push( { 
 				columns: [
@@ -4599,21 +4564,17 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '7',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '7', }, 
+		{}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4625,7 +4586,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.other_lab_tests[curRec].date_and_time), style: ['tableDetail'], },);
 			row.push({ text: d.other_lab_tests[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.other_lab_tests[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -4668,20 +4629,16 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4693,7 +4650,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.diagnostic_procedures[curRec].date), style: ['tableDetail'], },);
 			row.push({ text: d.diagnostic_procedures[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.diagnostic_procedures[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -4760,20 +4717,16 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4785,7 +4738,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.problems_identified_grid[curRec].date_1st_noted), style: ['tableDetail'], },);
 			row.push({ text: d.problems_identified_grid[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.problems_identified_grid[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -4852,22 +4805,18 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '8',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '8', }, 
+		{}, {}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4879,7 +4828,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.medications_and_drugs_during_pregnancy[curRec].date), style: ['tableDetail'], },);
 			row.push({ text: d.medications_and_drugs_during_pregnancy[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.medications_and_drugs_during_pregnancy[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -4948,22 +4897,18 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '8',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '8', }, 
+		{}, {}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -4975,7 +4920,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.pre_delivery_hospitalizations_details[curRec].date), style: ['tableDetail'], },);
 			row.push({ text: d.pre_delivery_hospitalizations_details[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.pre_delivery_hospitalizations_details[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -5044,21 +4989,17 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '7',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '7', }, 
+		{}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -5070,7 +5011,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: fmtStrDate(d.medical_referrals[curRec].date), style: ['tableDetail'], },);
 			row.push({ text: d.medical_referrals[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.medical_referrals[curRec].gestational_age_days, style: ['tableDetail'], },);
@@ -5113,22 +5054,18 @@ function prenatal(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '8',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '8', }, 
+		{}, {}, {}, {}, {}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -5140,7 +5077,7 @@ function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupFieldArr(d.other_sources_of_prenatal_care[curRec].place, p.children[index].children[0].values), style: ['tableDetail'], },);
 			row.push({ text: lookupFieldArr(d.other_sources_of_prenatal_care[curRec].provider_type, p.children[index].children[0].values), style: ['tableDetail'], },);
 			row.push({ text: d.other_sources_of_prenatal_care[curRec].city, style: ['tableDetail'], },);
@@ -5713,19 +5650,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			let body = [];
 			let row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -5737,7 +5670,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].internal_transfers[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].internal_transfers[curRec2].from_unit, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].internal_transfers[curRec2].to_unit, style: ['tableDetail'], },);
@@ -5814,20 +5747,16 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '6',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+				{}, {}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -5839,7 +5768,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].physical_exam_and_evaluations[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].physical_exam_and_evaluations[curRec2].exam_evaluation, style: ['tableDetail'], },);
 					row.push({ 
@@ -5883,19 +5812,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -5907,7 +5832,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].psychological_exam_and_assesments[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].psychological_exam_and_assesments[curRec2].exam_assessments, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].psychological_exam_and_assesments[curRec2].findings, style: ['tableDetail'], },);
@@ -5947,21 +5872,17 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '7',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '7', }, 
+				{}, {}, {}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -5973,7 +5894,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].labratory_tests[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].labratory_tests[curRec2].specimen, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].labratory_tests[curRec2].test_name, style: ['tableDetail'], },);
@@ -6018,19 +5939,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6042,7 +5959,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].pathology[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].pathology[curRec2].specimen, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].pathology[curRec2].exam_type, style: ['tableDetail'], },);
@@ -6101,7 +6018,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{ 
 									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.month)} / ` +
 										`${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.day)} / ` +
-										`${fmtYear(d[curRec].onset_of_labor.date_of_onset_of_labor.year)} / `, 
+										`${fmtYear(d[curRec].onset_of_labor.date_of_onset_of_labor.year)}`, 
 									style: ['tableDetail'], 
 								},
 								{},
@@ -6215,23 +6132,19 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '9',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '9', }, 
+				{}, {}, {}, {}, {}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[7].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[5].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[6].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[7].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6243,7 +6156,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time), style: ['tableDetail'], },);
 					row.push({ text: d[curRec].vital_signs[curRec2].temperature, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].vital_signs[curRec2].pulse, style: ['tableDetail'], },);
@@ -6353,18 +6266,14 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '4',
-					border: [true, true, true, false],
-				}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+				{}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6376,7 +6285,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ 
 						text: `${lookupFieldArr(d[curRec].birth_attendant[curRec2].title, p.children[index].children[0].values)}`, 
 						style: ['tableDetail'], 
@@ -6446,18 +6355,14 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '4',
-					border: [true, true, true, false],
-				}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+				{}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6469,7 +6374,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtDateTime(d[curRec].anesthesia[curRec2].date_time)}`, 
 						style: ['tableDetail'], 
 					},);
@@ -6538,20 +6443,16 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '6',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+				{}, {}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6563,7 +6464,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtDateTime(d[curRec].surgical_procedures[curRec2].date_and_time)}`, 
 						style: ['tableDetail'], 
 					},);
@@ -6634,20 +6535,16 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '6',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+				{}, {}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6659,7 +6556,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtDateTime(d[curRec].list_of_medications[curRec2].date_and_time)}`, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].list_of_medications[curRec2].medication, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].list_of_medications[curRec2].dose_frequency_duration, style: ['tableDetail'], },);
@@ -6730,19 +6627,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6754,7 +6647,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtDateTime(d[curRec].blood_product_grid[curRec2].date_and_time)}`, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].blood_product_grid[curRec2].product, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].blood_product_grid[curRec2].number_of_units, style: ['tableDetail'], },);
@@ -6794,19 +6687,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6818,7 +6707,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtDateTime(d[curRec].diagnostic_imaging_grid[curRec2].date_and_time)}`, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].diagnostic_imaging_grid[curRec2].procedure, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].diagnostic_imaging_grid[curRec2].target, style: ['tableDetail'], },);
@@ -6858,19 +6747,15 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -6882,7 +6767,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				// Build the table detail
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
 					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], },);
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: `${fmtStrDate(d[curRec].referrals_and_consultations[curRec2].date)}`, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].referrals_and_consultations[curRec2].specialist_type, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].referrals_and_consultations[curRec2].reason, style: ['tableDetail'], },);
@@ -7229,17 +7114,13 @@ function other_medical_office_visits(p, d, pg_break) {
 			let body = [];
 			let row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '3',
-					border: [true, true, true, false],
-				}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+				{}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7289,17 +7170,13 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '3',
-					border: [true, true, true, false],
-				}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+				{}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7349,17 +7226,13 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '3',
-					border: [true, true, true, false],
-				}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+				{}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7409,18 +7282,14 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '4',
-					border: [true, true, true, false],
-				}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+				{}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7490,18 +7359,14 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '4',
-					border: [true, true, true, false],
-				}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+				{}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: 'Date and Time', style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7567,19 +7432,15 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', },);
-			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7631,18 +7492,14 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '4',
-					border: [true, true, true, false],
-				}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+				{}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7696,19 +7553,15 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '5',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+				{}, {}, {}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7760,20 +7613,16 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '6',
-					border: [true, true, true, false],
-				}, {}, {}, {}, {}, {},);
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+				{}, {}, {}, {}, {},);
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -7826,17 +7675,13 @@ function other_medical_office_visits(p, d, pg_break) {
 			body = [];
 			row = new Array();
 			row.push(
-				{
-					text: p.children[index].prompt,
-					style: ['subHeader', 'blueFill'],
-					colSpan: '3',
-					border: [true, true, true, false],
-				}, {}, {}, );
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '3', }, 
+				{}, {}, );
 			body.push(row);
 			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
 			// Are there any records?
@@ -8354,18 +8199,14 @@ function medical_transport(p, d, pg_break) {
                 body = [];
                 row = new Array();
                 row.push(
-                    {
-                        text: p.children[index].prompt,
-                        style: ['subHeader', 'blueFill'],
-                        colSpan: '4',
-                        border: [true, true, true, false],
-                    }, {}, {}, {}, );
+                    { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+					{}, {}, {}, );
                 body.push(row);
                 row = new Array();
-                row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center', }, );
-                row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-                row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-                row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+                row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', }, );
+                row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], },);
+                row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+                row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
                 body.push(row);
 
                 // Are there any records?
@@ -8835,19 +8676,15 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	let row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '5',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {},  );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+		{}, {}, {}, {},  );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], alignment: 'center' },);                                // Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Relationship
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Gender
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], alignment: 'center' },);  // Age
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);                      // Relationship
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                      // Gender
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Age
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                      // Comments
 	body.push(row);
 
 	// Are there any records?
@@ -8933,20 +8770,16 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {} );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {} );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], alignment: 'center' },);  // Date  (date)
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Duration  (duration)
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);                      // Reason  (reason)
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true],  },);                     // Occurrence  (occurrence) 
-	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments  (comments)
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                      // Duration  (duration)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                      // Reason  (reason)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'],  },);                     // Occurrence  (occurrence) 
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], },);                      // Comments  (comments)
 	body.push(row);
 
 	// Are there any records?
@@ -9031,19 +8864,15 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '5',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {} );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', }, 
+		{}, {}, {}, {} );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                		// Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  	// Date  (date_of_arrest)
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Reason  (arest_reason)
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Occurrence  (occurrence) 
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Comments  (comments)
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                		// Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  	// Date  (date_of_arrest)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                   // Reason  (arest_reason)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                   // Occurrence  (occurrence) 
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                   // Comments  (comments)
 	body.push(row);
 
 	// Are there any records?
@@ -9349,22 +9178,18 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '8',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {}, {}, {} );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '8', }, 
+		{}, {}, {}, {}, {}, {}, {} );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  // Date  (date)
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Referred To  (referred_to)
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Specialty  (specialty)
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Reason  (reason)
-	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  // Adhered?  (compiled)  [lookup/yes_no] 
-	row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Reason for Non-Adherence  (reason_for_non_compliance)  
-	row.push({ text: p.children[index].children[subIndex + 6].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Comments  (comments)
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                      // Referred To  (referred_to)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                      // Specialty  (specialty)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                      // Reason  (reason)
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Adhered?  (compiled)  [lookup/yes_no] 
+	row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], },);                      // Reason for Non-Adherence  (reason_for_non_compliance)  
+	row.push({ text: p.children[index].children[subIndex + 6].prompt, style: ['tableLabel', 'blueFill'], },);                      // Comments  (comments)
 	body.push(row);
 
 	// Are there any records?
@@ -9426,20 +9251,16 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '6',
-			border: [true, true, true, false],
-		}, {}, {}, {}, {}, {} );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', }, 
+		{}, {}, {}, {}, {} );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                		// Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], alignment: 'center' },);  	// Date  (date)
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Element  (element)
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Specify Other Element  (element_other)
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Source Name  (source_name) 
-	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                   // Comments  (comments)
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                		// Rec #
+	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  	// Date  (date)
+	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                   // Element  (element)
+	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                   // Specify Other Element  (element_other)
+	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                   // Source Name  (source_name) 
+	row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], },);                   // Comments  (comments)
 	body.push(row);
 
 	// Are there any records?
@@ -9524,18 +9345,14 @@ function social_and_environmental_profile(p, d, pg_break) {
 	body = [];
 	row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '4',
-			border: [true, true, true, false],
-		}, {}, {}, {} );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+		{}, {}, {} );
 	body.push(row);
 	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, true, true], alignment: 'center' },);                                // Rec #
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Documented Substance  (substance)  [lookup/substance]
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Specify Other Substance  (substance_other)
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);                      // Timing of Substance Use  (timing_of_substance_use)
+	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                // Rec #
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);                      // Documented Substance  (substance)  [lookup/substance]
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);                      // Specify Other Substance  (substance_other)
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);                      // Timing of Substance Use  (timing_of_substance_use)
 	body.push(row);
 
 	// Are there any records?
@@ -9932,18 +9749,14 @@ function committee_review(p, d, pg_break) {
 	let body = [];
 	let row = new Array();
 	row.push(
-		{
-			text: p.children[index].prompt,
-			style: ['subHeader', 'blueFill'],
-			colSpan: '4',
-			border: [true, true, true, false],
-		}, {}, {}, {}, );
+		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '4', }, 
+		{}, {}, {}, );
 	body.push(row);
 	row = new Array();
-    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], border: [true, false, false, true], },);
-	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, false, true], },);
-	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], border: [false, false, true, true], },);
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+	row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+	row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
 	body.push(row);
 
 	// Are there any records?
@@ -9955,7 +9768,7 @@ function committee_review(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupFieldArr(d.committee_determination_of_causes_of_death[curRec].type, p.children[index].children[0].values), style: ['tableDetail'], },);
 			row.push({ text: d.committee_determination_of_causes_of_death[curRec].cause_descriptive, style: ['tableDetail'], },);
 			row.push({ text: d.committee_determination_of_causes_of_death[curRec].comments, style: ['tableDetail'], },);
