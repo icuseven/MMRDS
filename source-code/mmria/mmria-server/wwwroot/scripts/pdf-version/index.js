@@ -540,47 +540,47 @@ function home_record(p, d) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.first_name, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.middle_name, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.last_name, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: fmtDataDate(d.date_of_death), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.state_of_death_record, 'state'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.record_id, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.agency_case_id, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.how_was_this_death_identified, p.children[index + 7].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.specify_other_multiple_sources, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: (d.primary_abstractor), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.jurisdiction_id, style: ['tableDetail'], },
 					],
 				],
@@ -611,27 +611,27 @@ function home_record(p, d) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.case_status.overall_case_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.case_status.abstraction_begin_date), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.case_status.abstraction_complete_date), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.case_status.projected_date), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.case_status.committee_review_date), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.case_status.case_locked_date), style: ['tableDetail'], },
 					],
 				],
@@ -662,11 +662,11 @@ function home_record(p, d) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.overall_assessment_of_timing_of_death.abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey || 0}`, style: ['tableDetail'], },
 					],
 				],
@@ -697,45 +697,45 @@ function home_record(p, d) {
 						{}, {}, {},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.death_certificate, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.other_medical_visits, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.autopsy_report, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.medical_transport, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.birth_certificate_parent_section, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.social_and_psychological_profile, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.birth_certificate_infant_or_fetal_death_section, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.mental_health_profile, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.prenatal_care_record, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.informant_interviews, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.er_visits_and_hospitalizations, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.case_narrative, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
 						{},
 						{},
-						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.committe_review_worksheet, 'case_progress'), style: ['tableDetail'], },
 					],
 				],
@@ -835,14 +835,14 @@ function death_certificate(p, d, pg_break) {
 						{}, {}, {},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.certificate_identification.time_of_death, style: ['tableDetail'], },
                         {}, {},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.local_file_number, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.state_file_number, style: ['tableDetail'], },
 					],
 				],
@@ -874,7 +874,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -885,7 +885,7 @@ function death_certificate(p, d, pg_break) {
 					],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt}, ${p.children[index].children[subIndex + 5].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt}, ${p.children[index].children[subIndex + 5].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -896,7 +896,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 6].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 6].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -907,7 +907,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 9].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 9].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -918,7 +918,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 14].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 14].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -929,7 +929,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 15].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 15].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -940,7 +940,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [
                         {
-                            text: `${p.children[index].children[subIndex + 20].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 20].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -979,7 +979,7 @@ function death_certificate(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:`, 
+                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -990,7 +990,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1001,7 +1001,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 2].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1012,7 +1012,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 3].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 3].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1035,7 +1035,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 7].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 7].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1046,7 +1046,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 8].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 8].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1057,7 +1057,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 9].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 9].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1068,7 +1068,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 10].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 10].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1079,7 +1079,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 11].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 11].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1090,7 +1090,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 12].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 12].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1101,7 +1101,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index + 1].prompt}:`, 
+                            text: `${p.children[index + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1139,7 +1139,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1150,7 +1150,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 5].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1189,40 +1189,40 @@ function death_certificate(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-                            `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:`,
+                            `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: `,
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
 						{ text: fmtDataDate(d.injury_associated_information.date_of_injury), style: ['tableDetail'], },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.injury_associated_information.time_of_injury, style: ['tableDetail'], },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.injury_associated_information.place_of_injury, style: ['tableDetail'], },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
                             text: lookupFieldArr(d.injury_associated_information.was_injury_at_work, p.children[index].children[subIndex + 3].values), 
                             style: ['tableDetail'], 
                         },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
                             text: lookupFieldArr(d.injury_associated_information.transportation_related_injury, p.children[index].children[subIndex + 4].values),
                             style: ['tableDetail'], 
                         },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.injury_associated_information.transport_related_other_specify, style: ['tableDetail'], },
 					],
 					[ 
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
                             text: lookupFieldArr(d.injury_associated_information.were_seat_belts_in_use, p.children[index].children[subIndex + 6].values),
                             style: ['tableDetail'], 
@@ -1257,7 +1257,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1269,7 +1269,7 @@ function death_certificate(p, d, pg_break) {
                     [ 
                         { 
                             text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt}, ` +
-                                `${p.children[index].children[subIndex + 4].prompt}:`, 
+                                `${p.children[index].children[subIndex + 4].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1280,7 +1280,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 5].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1291,7 +1291,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex + 9].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 9].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1302,7 +1302,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex + 14].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 14].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1313,7 +1313,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex + 15].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 15].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1324,7 +1324,7 @@ function death_certificate(p, d, pg_break) {
                     ],
                     [ 
                         { 
-                            text: `${p.children[index].children[subIndex + 20].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 20].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1362,7 +1362,7 @@ function death_certificate(p, d, pg_break) {
                     ],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1373,7 +1373,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1384,7 +1384,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 2].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1395,7 +1395,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 3].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 3].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1406,7 +1406,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 4].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 4].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1417,7 +1417,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 5].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1428,7 +1428,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 6].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 6].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1439,7 +1439,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 7].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 7].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1450,7 +1450,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 2].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1488,7 +1488,7 @@ function death_certificate(p, d, pg_break) {
                     ],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1499,7 +1499,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 1].prompt} / ${p.children[index].children[subIndex + 2].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 1].prompt} / ${p.children[index].children[subIndex + 2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1511,7 +1511,7 @@ function death_certificate(p, d, pg_break) {
 					[ 
 						{ 
                             text: `${p.children[index].children[subIndex + 3].prompt}, ${p.children[index].children[subIndex + 4].prompt} ` +
-                                `${p.children[index].children[subIndex + 5].prompt}:`, 
+                                `${p.children[index].children[subIndex + 5].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1522,7 +1522,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 6].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 6].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1533,7 +1533,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 9].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 9].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1544,7 +1544,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 14].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 14].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1555,7 +1555,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 15].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 15].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1566,7 +1566,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 20].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 20].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1577,7 +1577,7 @@ function death_certificate(p, d, pg_break) {
 					],
 					[ 
 						{ 
-                            text: `${p.children[index].children[subIndex + 24].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 24].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1727,7 +1727,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:`, 
+                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1735,34 +1735,34 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         {}, {}, {}, {},
 					],
                     [
-                        { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: lookupFieldArr(d.facility_of_delivery_demographics.type_of_place, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: lookupGlobalArr(d.facility_of_delivery_demographics.was_home_delivery_planned, 'yes_no'), style: ['tableDetail'], colSpan: 2, },
                         {}, {},
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: lookupFieldArr(d.facility_of_delivery_demographics.maternal_level_of_care, p.children[index].children[subIndex + 3].values), style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.other_maternal_level_of_care, style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.facility_npi_number, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.facility_name, style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: lookupFieldArr(d.facility_of_delivery_demographics.attendant_type, p.children[index].children[subIndex + 7].values), style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.other_attendant_type, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.attendant_npi, style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: lookupGlobalArr(d.facility_of_delivery_demographics.was_mother_transferred, 'yes_no'), style: ['tableDetail'], },
-                        { text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right' },
+                        { text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right' },
                         { text: d.facility_of_delivery_demographics.transferred_from_where, style: ['tableDetail'], },
                     ],
                 ],
@@ -1793,7 +1793,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1805,7 +1805,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt} ` +
-                                `${p.children[index].children[subIndex + 4].prompt}:`, 
+                                `${p.children[index].children[subIndex + 4].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1816,23 +1816,23 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.facility_of_delivery_location.county}`, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.facility_of_delivery_location.feature_matching_geography_type}`, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.facility_of_delivery_location.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.facility_of_delivery_location.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.facility_of_delivery_location.urban_status}`, style: ['tableDetail'], },
 					],
                 ],
@@ -1864,7 +1864,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex].children[0].prompt} / ` +
-                                `${p.children[index].children[subIndex].children[1].prompt}:`, 
+                                `${p.children[index].children[subIndex].children[1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1874,47 +1874,47 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_father.age, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.demographic_of_father.education_level, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_father.city_of_birth, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_father.state_of_birth, 'state'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_father.father_country_of_birth, 'country'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_father.primary_occupation, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_father.occupation_business_industry, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_father.is_father_of_hispanic_origin, 'ethnicity'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_father.is_father_of_hispanic_origin_other_specify, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].children[0].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].children[0].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupRaceArr(d.demographic_of_father.race.race_of_father), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].children[5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_father.race.omb_race_recode, 'omb_race_recode'), style: ['tableDetail'], },
 					],
                 ],
@@ -1945,7 +1945,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1956,7 +1956,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 2].prompt} / ${p.children[index].children[subIndex + 3].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 2].prompt} / ${p.children[index].children[subIndex + 3].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -1966,7 +1966,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: `${d.record_identification.medical_record_number}`, style: ['tableDetail'], },
 					],
                 ],
@@ -1998,7 +1998,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:` ,
+                                `${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: ` ,
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2008,54 +2008,54 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_mother.age, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_mother.mother_married, 'yes_no'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
                             text: lookupGlobalArr(d.demographic_of_mother.If_mother_not_married_has_paternity_acknowledgement_been_signed_in_the_hospital, 'yes_no'), 
                             style: ['tableDetail'], 
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_mother.city_of_birth, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_mother.state_of_birth, 'state'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_mother.country_of_birth, 'country'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_mother.primary_occupation, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_mother.occupation_business_industry, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_mother.ever_in_us_armed_forces, 'yes_no'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.demographic_of_mother.is_of_hispanic_origin, 'ethnicity'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.demographic_of_mother.is_of_hispanic_origin_other_specify, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.demographic_of_mother.education_level,p.children[index].children[subIndex + 12].values ), style: ['tableDetail'], },
 					],
                 ],
@@ -2086,7 +2086,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`,
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `,
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2098,7 +2098,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ 
                             text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt} ` +
-                                `${p.children[index].children[subIndex + 4].prompt}:`,
+                                `${p.children[index].children[subIndex + 4].prompt}: `,
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2108,27 +2108,27 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
                     [
-                        { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.county, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.feature_matching_geography_type, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.naaccr_census_tract_certainty_code, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.naaccr_census_tract_certainty_type, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 19].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 19].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.urban_status, style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 23].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 23].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.location_of_residence.estimated_distance_from_residence, style: ['tableDetail'], },
                     ],
                 ],
@@ -2158,11 +2158,11 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{}, 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupRaceArr(d.race.race_of_mother), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.race.omb_race_recode, 'omb_race_recode'), style: ['tableDetail'], },
 					],
                 ],
@@ -2192,32 +2192,32 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{}, 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: fmtDataDate(d.pregnancy_history.date_of_last_live_birth), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.live_birth_interval, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.number_of_previous_live_births, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex +3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex +3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.now_living, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.now_dead, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.other_outcomes, style: ['tableDetail'], },
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 6].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 6].prompt}: `,
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2227,7 +2227,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.pregnancy_interval, style: ['tableDetail'], },
 					],
                 ],
@@ -2258,7 +2258,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+                            text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2266,17 +2266,17 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                             text: `${d.maternal_biometrics.height_feet} / ${d.maternal_biometrics.height_inches}`, 
                             style: ['tableDetail'], 
                         },
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.maternal_biometrics.pre_pregnancy_weight, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.maternal_biometrics.weight_at_delivery, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.maternal_biometrics.weight_gain, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.maternal_biometrics.bmi, style: ['tableDetail'], },
                         {}, {},
 					],
@@ -2307,55 +2307,55 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{}, 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: fmtDataDate(d.prenatal_care.date_of_last_normal_menses), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: fmtDataDate(d.prenatal_care.date_of_1st_prenatal_visit), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: fmtDataDate(d.prenatal_care.date_of_last_prenatal_visit), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.calculated_gestation, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.calculated_gestation_days, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.obsteric_estimate_of_gestation, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.prenatal_care.plurality, p.children[index].children[subIndex + 6].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.specify_if_greater_than_3, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.prenatal_care.was_wic_used, 'yes_no'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.prenatal_care.principal_source_of_payment_for_this_delivery, p.children[index].children[subIndex + 9].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.specify_other_payor, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.prenatal_care.trimester_of_1st_prenatal_care_visit, p.children[index].children[subIndex + 11].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care.number_of_visits, style: ['tableDetail'], },
 					],
                 ],
@@ -2385,12 +2385,12 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{}, 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.cigarette_smoking.prior_3_months_type, p.children[index].children[subIndex + 1].values),style: ['tableDetail'], },
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 2].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2402,7 +2402,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 4].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 4].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2414,7 +2414,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ 
-                            text: `${p.children[index].children[subIndex + 6].prompt}:`, 
+                            text: `${p.children[index].children[subIndex + 6].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
@@ -2425,7 +2425,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
                         },
 					],
                     [
-                        { text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: lookupFieldArr(d.cigarette_smoking.none_or_not_specified, p.children[index].children[subIndex + 8].values), style: ['tableDetail'], },
                     ],
                 ],
@@ -2455,43 +2455,43 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{}, 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.risk_factors.risk_factors_in_this_pregnancy, p.children[index].children[subIndex].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.risk_factors.number_of_c_sections, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.infections_present_or_treated_during_pregnancy, p.children[index + 1].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.specify_other_infection, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.onset_of_labor, p.children[index + 3].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.obstetric_procedures, p.children[index + 4].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.characteristics_of_labor_and_delivery, p.children[index + 5].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.maternal_morbidity, p.children[index + 6].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.length_between_child_birth_and_death_of_mother, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.reviewer_note, style: ['tableDetail'], },
 					],
                 ],
@@ -2567,15 +2567,15 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {},
                             ],
                             [
-                                { text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: lookupFieldArr(d[curRec].record_type, p.children[index].values), style: ['tableDetail', 'lightFill'], },
                             ],
                             [
-                                { text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: lookupGlobalArr(d[curRec].is_multiple_gestation, 'yes_no'), style: ['tableDetail'], },
                             ],
                             [
-                                { text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].birth_order, style: ['tableDetail', 'lightFill'], },
                             ],
                         ],
@@ -2603,20 +2603,20 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].record_identification.state_file_number, style: ['tableDetail'], },
-                                { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].record_identification.local_file_number, style: ['tableDetail'], },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].record_identification.newborn_medical_record_number, style: ['tableDetail'], colSpan: '3',},
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].record_identification.date_of_delivery, style: ['tableDetail'], },
-                                { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].record_identification.time_of_delivery, style: ['tableDetail'], },
                             ],
                         ],
@@ -2644,7 +2644,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex].children[0].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex].children[0].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupFieldArr(d[curRec].biometrics_and_demographics.birth_weight.unit_of_measurement, 
                                         p.children[index].children[subIndex].children[0].values),
@@ -2654,13 +2654,13 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex].children[1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex].children[1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].biometrics_and_demographics.birth_weight.grams_or_pounds, style: ['tableDetail'], },
-                                { text: `${p.children[index].children[subIndex].children[2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex].children[2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].biometrics_and_demographics.birth_weight.ounces, style: ['tableDetail'], },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupFieldArr(d[curRec].biometrics_and_demographics.gender, p.children[index].children[subIndex + 1].values),
                                     style: ['tableDetail'], 
@@ -2669,17 +2669,17 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 2].children[0].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 2].children[0].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].biometrics_and_demographics.apgar_scores.minute_5, style: ['tableDetail'], colSpan: '3', },
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 2].children[1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 2].children[1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].biometrics_and_demographics.apgar_scores.minute_10, style: ['tableDetail'], colSpan: '3', },
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupFieldArr(d[curRec].biometrics_and_demographics.is_infant_living_at_time_of_report, 
                                         p.children[index].children[subIndex + 3].values),
@@ -2689,7 +2689,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupGlobalArr(d[curRec].biometrics_and_demographics.is_infant_being_breastfed_at_discharge, 'yes_no'),
                                     style: ['tableDetail'], 
@@ -2698,7 +2698,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupGlobalArr(d[curRec].biometrics_and_demographics.was_infant_transferred_within_24_hours, 'yes_no'),
                                     style: ['tableDetail'], 
@@ -2707,7 +2707,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {}, {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].biometrics_and_demographics.facility_city_state, style: ['tableDetail'], colSpan: '3', },
                                 {}, {},
                             ],
@@ -2736,32 +2736,32 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 {},
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupGlobalArr(d[curRec].method_of_delivery.was_delivery_with_forceps_attempted_but_unsuccessful, 'yes_no'), 
                                     style: ['tableDetail'], 
                                 },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupGlobalArr(d[curRec].method_of_delivery.was_delivery_with_vacuum_extration_attempted_but_unsuccessful, 'yes_no'), 
                                     style: ['tableDetail'], 
                                 },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupFieldArr(d[curRec].method_of_delivery.fetal_delivery, p.children[index].children[subIndex + 2].values), 
                                     style: ['tableDetail'], 
                                 },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].method_of_delivery.other_presentation, style: ['tableDetail'], },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupFieldArr(d[curRec].method_of_delivery.final_route_and_method_of_delivery, 
                                         p.children[index].children[subIndex + 4].values), 
@@ -2769,7 +2769,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 },
                             ],
                             [
-                                { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupGlobalArr(d[curRec].method_of_delivery.was_delivery_with_vacuum_extration_attempted_but_unsuccessful, 
                                         'no_yes_not_applicable_unknown'), 
@@ -2777,21 +2777,21 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
                                 },
                             ],
                             [
-                                { text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupMultiChoiceArr(d[curRec].abnormal_conditions_of_newborn, p.children[index + 1].values),
                                     style: ['tableDetail'], 
                                 },
                             ],
                             [
-                                { text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { 
                                     text: lookupMultiChoiceArr(d[curRec].congenital_anomalies, p.children[index + 2].values),
                                     style: ['tableDetail'], 
                                 },
                             ],
                             [
-                                { text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                { text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                 { text: d[curRec].icd_version, style: ['tableDetail'], },
                             ],
                         ],
@@ -2950,27 +2950,27 @@ function autopsy_report(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.was_there_an_autopsy_referral, 'yes_no_with_unknown'), style: ['tableDetail'], },
                     ],
                     [
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.type_of_autopsy_or_examination, p.children[index + 1].values), style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.is_autopsy_or_exam_report_available, 'no_yes_not_applicable_unknown'), style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.was_toxicology_performed, 'no_yes_not_applicable_unknown'), style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.is_toxicology_report_available, 'no_yes_not_applicable_unknown'), style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.completeness_of_autopsy_information, p.children[index + 5].values), style: ['tableDetail'], },
 					],
 				],
@@ -3000,24 +3000,24 @@ function autopsy_report(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.reporter_characteristics.reporter_type, p.children[index].children[subIndex].values), style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.reporter_characteristics.other_specify, style: ['tableDetail'], },
                     ],
 					[
 						{ 
                             text: `${p.children[index].children[subIndex + 2].prompt}: ${p.children[index].children[subIndex + 2].children[0].prompt} / ` +
-                                `${p.children[index].children[subIndex + 2].children[1].prompt} / ${p.children[index].children[subIndex + 2].children[2].prompt}:`, 
+                                `${p.children[index].children[subIndex + 2].children[1].prompt} / ${p.children[index].children[subIndex + 2].children[2].prompt}: `, 
                             style: ['tableLabel'], 
                             alignment: 'right', 
                         },
 						{ text: fmtDataDate(d.reporter_characteristics.date_of_autopsy), style: ['tableDetail'], },
                     ],
                     [
-                        { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                        { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                         { text: d.reporter_characteristics.jurisdiction, style: ['tableDetail'], },
                     ],
                 ],
@@ -3055,7 +3055,7 @@ function autopsy_report(p, d, pg_break) {
                         },
                         { text: d.biometrics.mother.height.feet, style: ['tableDetail'], },
                         { 
-                            text: `${p.children[index].children[subIndex + 1].children[0].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 1].children[0].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -3070,7 +3070,7 @@ function autopsy_report(p, d, pg_break) {
                         },
                         { text: d.biometrics.mother.height.inches, style: ['tableDetail'], },
                         { 
-                            text: `${p.children[index].children[subIndex + 1].children[1].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 1].children[1].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -3078,13 +3078,13 @@ function autopsy_report(p, d, pg_break) {
                     ],
                     [
                         { 
-                            text: `${p.children[index].children[subIndex].prompt} - ${p.children[index].children[subIndex].children[1].prompt}:`,
+                            text: `${p.children[index].children[subIndex].prompt} - ${p.children[index].children[subIndex].children[1].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
                         { text: d.biometrics.mother.weight, style: ['tableDetail'], },
                         { 
-                            text: `${p.children[index].children[subIndex + 1].children[2].prompt}:`,
+                            text: `${p.children[index].children[subIndex + 1].children[2].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -3092,7 +3092,7 @@ function autopsy_report(p, d, pg_break) {
                     ],
                     [
                         { 
-                            text: `${p.children[index].children[subIndex].prompt} - ${p.children[index].children[subIndex].children[2].prompt}:`,
+                            text: `${p.children[index].children[subIndex].prompt} - ${p.children[index].children[subIndex].children[2].prompt}: `,
                             style: ['tableLabel'],
                             alignment: 'right',
                         },
@@ -3233,7 +3233,7 @@ function autopsy_report(p, d, pg_break) {
 				widths: [250, 'auto', ],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', margin: [0, 10, 0, 10], },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', margin: [0, 10, 0, 10], },
 						{ text: lookupFieldArr(d.was_drug_toxicology_positive, p.children[index].values), style: ['tableDetail'], margin: [0, 10, 0, 10], },
                     ],
                 ],
@@ -3320,7 +3320,7 @@ function autopsy_report(p, d, pg_break) {
 				widths: [250, 'auto', ],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', margin: [0, 10, 0, 10], },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', margin: [0, 10, 0, 10], },
 						{ text: d.icd_code_version, style: ['tableDetail'], margin: [0, 10, 0, 10], },
                     ],
                 ],
@@ -3452,11 +3452,11 @@ function prenatal(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.prenatal_care_record_no, style: ['tableDetail'], },
                     ],
                     [
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.number_of_pnc_sources, p.children[index + 1].values), style: ['tableDetail'], },
 					],
 				],
@@ -3486,34 +3486,34 @@ function prenatal(p, d, pg_break) {
 						{}, {}, {},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.primary_prenatal_care_facility.place_type, p.children[index].children[subIndex].values), 
 							style: ['tableDetail'], 
 						},
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.primary_prenatal_care_facility.other_place_type, style: ['tableDetail'], },
                     ],
                     [
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.primary_prenatal_care_facility.primary_provider_type, p.children[index].children[subIndex + 2].values), 
 							style: ['tableDetail'], 
 						},
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.primary_prenatal_care_facility.specify_other_provider_type, style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.primary_prenatal_care_facility.principal_source_of_payment, p.children[index].children[subIndex + 4].values), 
 							style: ['tableDetail'], 
 						},
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.primary_prenatal_care_facility.other_payment_source, style: ['tableDetail'], },
 					],
                     [
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupGlobalArr(d.primary_prenatal_care_facility.is_use_wic, 'yes_no'), 
 							style: ['tableDetail'], 
@@ -3548,7 +3548,7 @@ function prenatal(p, d, pg_break) {
 					],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+							text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3560,7 +3560,7 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 2].prompt}, ${p.children[index].children[subIndex + 3].prompt} ` +
-								`${p.children[index].children[subIndex + 4].prompt}:`, 
+								`${p.children[index].children[subIndex + 4].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3572,7 +3572,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 5].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3583,7 +3583,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 8].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 8].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3594,7 +3594,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 13].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 13].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3605,7 +3605,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 14].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 14].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3616,7 +3616,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 19].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 19].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -3703,7 +3703,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.had_pre_existing_conditions, 'yes_no'), style: ['tableDetail'], },
                     ],
 				],
@@ -3786,7 +3786,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.were_there_documented_mental_health_conditions, 'yes_no'), style: ['tableDetail'], },
                     ],
 				],
@@ -3871,7 +3871,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.evidence_of_substance_use, 'yes_no'), style: ['tableDetail'], },
                     ],
 				],
@@ -3956,11 +3956,11 @@ function prenatal(p, d, pg_break) {
 				widths: [100, '*', 100, '*', 100, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.gravida, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.para, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.pregnancy_history.abortions, style: ['tableDetail'], },
                     ],
 				],
@@ -4062,7 +4062,7 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4074,15 +4074,15 @@ function prenatal(p, d, pg_break) {
 						},
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.intendedenes.was_pregnancy_planned, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.intendedenes.was_patient_using_birth_control, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.intendedenes.was_patient_using_birth_control_other_specify, style: ['tableDetail'], },
                     ],
 				],
@@ -4114,35 +4114,35 @@ function prenatal(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.infertility_treatment.was_pregnancy_result_of_infertility_treatment, 'yes_no'), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.infertility_treatment.fertility_enhanding_drugs, 'yes_no'), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.infertility_treatment.assisted_reproductive_technology, 'yes_no'), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.infertility_treatment.art_type, p.children[index].children[subIndex + 3].values), style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.infertility_treatment.specify_other_art_type, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.infertility_treatment.cycle_number, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.infertility_treatment.embryos_transferred, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.infertility_treatment.embryos_growing, style: ['tableDetail'], },
                     ],
 				],
@@ -4177,7 +4177,7 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex].prompt}: ${p.children[index].children[subIndex].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex].children[1].prompt} / ${p.children[index].children[subIndex].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4192,7 +4192,7 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 1].prompt}: ${p.children[index].children[subIndex + 1].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex + 1].children[1].prompt} / ${p.children[index].children[subIndex + 1].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex + 1].children[1].prompt} / ${p.children[index].children[subIndex + 1].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4205,7 +4205,7 @@ function prenatal(p, d, pg_break) {
                     ],
 					[
 						{ 
-							text: `${p.children[index].children[subIndex + 1].children[3].prompt}:`, 
+							text: `${p.children[index].children[subIndex + 1].children[3].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4218,7 +4218,7 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 2].prompt}: ${p.children[index].children[subIndex + 2].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex + 2].children[1].prompt} / ${p.children[index].children[subIndex + 2].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex + 2].children[1].prompt} / ${p.children[index].children[subIndex + 2].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4230,18 +4230,18 @@ function prenatal(p, d, pg_break) {
 						},
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].children[3].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].children[3].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].children[4].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].children[4].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days, style: ['tableDetail'], },
                     ],
 					// Date of First Ultrasound
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 3].prompt}: ${p.children[index].children[subIndex + 3].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex + 3].children[1].prompt} / ${p.children[index].children[subIndex + 3].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex + 3].children[1].prompt} / ${p.children[index].children[subIndex + 3].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4253,18 +4253,18 @@ function prenatal(p, d, pg_break) {
 						},
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].children[3].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].children[3].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].children[4].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].children[4].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days, style: ['tableDetail'], },
                     ],
 					// Date of Last Prenatal Visit
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 4].prompt}: ${p.children[index].children[subIndex + 4].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex + 4].children[1].prompt} / ${p.children[index].children[subIndex + 4].children[2].prompt}:`, 
+								`${p.children[index].children[subIndex + 4].children[1].prompt} / ${p.children[index].children[subIndex + 4].children[2].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
@@ -4276,11 +4276,11 @@ function prenatal(p, d, pg_break) {
 						},
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].children[3].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].children[3].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit, style: ['tableDetail'], },
                     ],
 					[
-						{ text: `${p.children[index].children[subIndex + 4].children[4].prompt}:`,style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].children[4].prompt}: `,style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days, style: ['tableDetail'], },
                     ],
 				],
@@ -4308,23 +4308,23 @@ function prenatal(p, d, pg_break) {
 					[
 						{ 
 							text: `${p.children[index].children[subIndex + 5].prompt} - ${p.children[index].children[subIndex + 5].children[0].prompt} / ` +
-								`${p.children[index].children[subIndex + 5].children[1].prompt}:`, 
+								`${p.children[index].children[subIndex + 5].children[1].prompt}: `, 
 							style: ['tableLabel'], 
 							alignment: 'right', 
 						},
 						{ text: `${d.current_pregnancy.height.feet} / ${d.current_pregnancy.height.inches}`, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.pre_pregnancy_weight, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.bmi, style: ['tableDetail'], },
                     ],
 					// Weight-First, Weight-Last, Weight-Gain
 					[
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.weight_at_1st_visit, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.weight_at_last_visit, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.weight_gain, style: ['tableDetail'], },
                     ],
 				],
@@ -4350,27 +4350,27 @@ function prenatal(p, d, pg_break) {
 				body: [
 					// Total Prenatal Visits, Trimester First Visit, # of Fetuses, Home Delivery? Attended Prenatal Alone, City & State of Birthing Facility
 					[
-						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.total_number_of_visits, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.current_pregnancy.trimester_of_first_pnc_visit, p.children[index].children[subIndex + 12].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.number_of_fetuses, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.current_pregnancy.was_home_delivery_planned, 'yes_no'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.current_pregnancy.attended_prenatal_visits_alone, 'yes_no_with_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 16].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 16].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.current_pregnancy.intended_birthing_facility, style: ['tableDetail'], },
 					],
 				],
@@ -4541,11 +4541,11 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*', 100, '*', 100, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}: ${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: ${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.highest_blood_pressure.systolic, style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.highest_blood_pressure.diastolic, style: ['tableDetail'], },
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.lowest_hematocrit, style: ['tableDetail'], },
 					],
 				],
@@ -4698,7 +4698,7 @@ function prenatal(p, d, pg_break) {
 				widths: [300, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.were_there_problems_identified, 'yes_no'), style: ['tableDetail'], },
 					],
 				],
@@ -4786,7 +4786,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.were_there_adverse_reactions, 'yes_no'), style: ['tableDetail'], },
 					],
 				],
@@ -4878,7 +4878,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.were_there_pre_delivery_hospitalizations, 'yes_no'), style: ['tableDetail'], },
 					],
 				],
@@ -4970,7 +4970,7 @@ function prenatal(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.were_medical_referrals_to_others, 'yes_no'), style: ['tableDetail'], },
 					],
 				],
@@ -5127,7 +5127,7 @@ function prenatal(p, d, pg_break) {
 				widths: ['*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['subHeader'], },
+						{ text: `${p.children[index].prompt}: `, style: ['subHeader'], },
 					],
 					[
 						{ text: d.reviewer_note, style: ['tableDetail'], },
@@ -5198,7 +5198,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].maternal_record_identification.medical_record_no, style: ['tableDetail'], },
 							],
 						],
@@ -5222,13 +5222,13 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 1,
 						body: [
 							[
-								{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['subHeader'], margin: [0, 20, 0, 0], colSpan: '3', },
+								{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['subHeader'], margin: [0, 20, 0, 0], colSpan: '3', },
 								{}, {},
 							],
 							[
 								{ 
 									text: `${p.children[index].children[subIndex].children[0].prompt} / ${p.children[index].children[subIndex].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5241,22 +5241,22 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_arrival.days_postpartum, style: ['tableDetail'] },
 								{},
 							],
@@ -5280,14 +5280,14 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 1,
 						body: [
 							[
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['subHeader'], margin: [0, 20, 0, 0], },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['subHeader'], margin: [0, 20, 0, 0], },
 								{}, {},
 							],
 							[
 								{ 
 									text: `${p.children[index].children[subIndex + 1].children[0].prompt} / ` +
 										`${p.children[index].children[subIndex + 1].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex + 1].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex + 1].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5300,22 +5300,22 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.time_of_admission, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].children[4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].children[4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].children[5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days, style: ['tableDetail'] },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum, style: ['tableDetail'] },
 								{},
 							],
@@ -5339,39 +5339,39 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 0,
 						body: [
 							[
-								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].basic_admission_and_discharge_information.admission_condition, p.children[index].children[subIndex + 2].values),
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].basic_admission_and_discharge_information.admission_status, p.children[index].children[subIndex + 3].values),
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: d[curRec].basic_admission_and_discharge_information.admission_status_other,
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].basic_admission_and_discharge_information.admission_reason, p.children[index].children[subIndex + 5].values),
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.admission_reason_other, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].basic_admission_and_discharge_information.principle_source_of_payment, 
 										p.children[index].children[subIndex + 7].values),
@@ -5379,36 +5379,36 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.principle_source_of_payment_other_specify, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupGlobalArr(d[curRec].basic_admission_and_discharge_information.was_recieved_from_another_hospital, 'yes_no'),
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.from_where, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupGlobalArr(d[curRec].basic_admission_and_discharge_information.was_transferred_to_another_hospital, 'yes_no'),
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.to_where, style: ['tableDetail'], },
 							],
 							[
 								{ 
 									text: `${p.children[index].children[subIndex + 13].children[0].prompt} / ` +
 										`${p.children[index].children[subIndex + 13].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex + 13].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex + 13].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5442,27 +5442,27 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 1,
 						body: [
 							[
-								{ text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['subHeader'], margin: [0, 20, 0, 0], },
+								{ text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['subHeader'], margin: [0, 20, 0, 0], },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 13].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 13].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.time_of_discharge, style: ['tableDetail'] },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 13].children[4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 13].children[4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks, style: ['tableDetail'] },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 13].children[5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 13].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days, style: ['tableDetail'] },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 13].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 13].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.days_postpartum, style: ['tableDetail'] },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].basic_admission_and_discharge_information.discharge_pregnancy_status, 
 										p.children[index].children[subIndex + 14].values),
@@ -5470,7 +5470,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupGlobalArr(d[curRec].basic_admission_and_discharge_information.deceased_at_discharge, 'yes_no'),
 									style: ['tableDetail'], 
@@ -5502,38 +5502,38 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.facility_name, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: `${lookupFieldArr(d[curRec].name_and_location_facility.type_of_facility, p.children[index].children[subIndex + 1].values)}`, 
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.type_of_facility_other_specify, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.facility_npi_no, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: `${lookupFieldArr(d[curRec].name_and_location_facility.maternal_level_of_care, p.children[index].children[subIndex + 4].values)}`, 
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.other_maternal_level_of_care, style: ['tableDetail'], },
 							],
 							[
 								{ 
-									text: `${p.children[index].children[subIndex + 6].prompt} / ${p.children[index].children[subIndex + 7].prompt}:`, 
+									text: `${p.children[index].children[subIndex + 6].prompt} / ${p.children[index].children[subIndex + 7].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5545,7 +5545,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 							[
 								{ 
 									text: `${p.children[index].children[subIndex + 8].prompt} / ${p.children[index].children[subIndex + 9].prompt} / ` +
-										`${p.children[index].children[subIndex + 10].prompt}:`, 
+										`${p.children[index].children[subIndex + 10].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5557,23 +5557,23 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.county, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.feature_matching_geography_type, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 19].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 19].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.naaccr_census_tract_certainty_code, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 20].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 20].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.naaccr_census_tract_certainty_type, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 25].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 25].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.urban_status, style: ['tableDetail'], },
 							],
 						],
@@ -5600,7 +5600,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 29].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 29].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: `${lookupFieldArr(d[curRec].name_and_location_facility.mode_of_transportation_to_facility, 
 										p.children[index].children[subIndex + 29].values)}`,
@@ -5608,23 +5608,23 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 30].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 30].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.mode_of_transportation_to_facility_other, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 31].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 31].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: `${lookupFieldArr(d[curRec].name_and_location_facility.origin_of_travel, p.children[index].children[subIndex + 31].values)}`,
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 32].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 32].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].name_and_location_facility.origin_of_travel_other, style: ['tableDetail'], },
 							],
 							[
 								{ 
-									text: `${p.children[index].children[subIndex + 33].prompt}:`, 
+									text: `${p.children[index].children[subIndex + 33].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -5719,14 +5719,14 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 							[
 								{ 
 									text: `${p.children[index].children[subIndex].prompt} - ${p.children[index].children[subIndex].children[0].prompt} / ` +
-										`${p.children[index].children[subIndex].children[1].prompt}:`, 
+										`${p.children[index].children[subIndex].children[1].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
 								{ text: `${d[curRec].maternal_biometrics.height.feet} / ${d[curRec].maternal_biometrics.height.inches}`, style: ['tableDetail'], },
-								{ text: `${p.children[index].children[subIndex].children[2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: `${d[curRec].maternal_biometrics.height.bmi}`, style: ['tableDetail'], },
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: `${d[curRec].maternal_biometrics.admission_weight}`, style: ['tableDetail'], },
 							],
 						],
@@ -6011,7 +6011,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									text: `${p.children[index].children[subIndex].prompt} - ` +
 										`${p.children[index].children[subIndex].children[0].prompt} / ` +
 										`${p.children[index].children[subIndex].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -6025,9 +6025,9 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor, style: ['tableDetail'], },
-								{ text: `${p.children[index].children[subIndex].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival, style: ['tableDetail'], },
 							],
 						],
@@ -6059,7 +6059,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									text: `${p.children[index].children[subIndex].prompt} - ` +
 										`${p.children[index].children[subIndex].children[0].prompt} / ` +
 										`${p.children[index].children[subIndex].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -6073,43 +6073,43 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].onset_of_labor.date_of_rupture.time_of_rupture, style: ['tableDetail'], },
 								{},
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].onset_of_labor.date_of_rupture.time_of_rupture, style: ['tableDetail'], },
 								{},
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].onset_of_labor.final_delivery_route, p.children[index].children[subIndex + 1].values), 
 									style: ['tableDetail'], 
 								},
-								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].onset_of_labor.onset_of_labor_was, p.children[index].children[subIndex + 2].values), 
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupGlobalArr(d[curRec].onset_of_labor.multiple_gestation, 'yes_no'), 
 									style: ['tableDetail'], 
 								},
-								{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].onset_of_labor.pregnancy_outcome, p.children[index].children[subIndex + 6].values), 
 									style: ['tableDetail'], 
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].onset_of_labor.pregnancy_outcome_other_specify, style: ['tableDetail'], },
 								{},
 								{},
@@ -6208,12 +6208,12 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						body: [
 							[
 								{ 
-									text: `${p.children[index].prompt} - ${p.children[index].children[0].prompt}:`, 
+									text: `${p.children[index].prompt} - ${p.children[index].children[0].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
 								{ text: d[curRec].highest_bp.systolic_bp, style: ['tableDetail'], }, 
-								{ text: `${p.children[index].children[1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].highest_bp.diastolic_bp, style: ['tableDetail'], },
 							],
 						],
@@ -6334,7 +6334,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 0,
 						body: [
 							[
-								{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: lookupGlobalArr(d[curRec].were_there_complications_of_anesthesia, 'yes_no'), style: ['tableDetail'], }, 
 							],
 						],
@@ -6422,7 +6422,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 0,
 						body: [
 							[
-								{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: lookupGlobalArr(d[curRec].any_adverse_reactions, 'yes_no'), style: ['tableDetail'], }, 
 							],
 						],
@@ -6514,7 +6514,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 0,
 						body: [
 							[
-								{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: lookupGlobalArr(d[curRec].any_surgical_procedures, 'yes_no'), style: ['tableDetail'], }, 
 							],
 						],
@@ -6604,9 +6604,9 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 						headerRows: 0,
 						body: [
 							[
-								{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: lookupGlobalArr(d[curRec].any_blood_transfusions, 'yes_no'), style: ['tableDetail'], }, 
-								{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].patient_blood_type, style: ['tableDetail'], }, 
 							],
 						],
@@ -6891,7 +6891,7 @@ function other_medical_office_visits(p, d, pg_break) {
 									text: `${p.children[index].children[subIndex].prompt}: ` +
 										`${p.children[index].children[subIndex].children[0].prompt} / ` +
 										`${p.children[index].children[subIndex].children[1].prompt} / ` +
-										`${p.children[index].children[subIndex].children[2].prompt}:`, 
+										`${p.children[index].children[subIndex].children[2].prompt}: `, 
 									style: ['tableLabel'], 
 									alignment: 'right', 
 								},
@@ -6904,7 +6904,7 @@ function other_medical_office_visits(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].visit.date_of_medical_office_visit.arrival_time, style: ['tableDetail'], colSpan: '2', },
 								{},
 							],
@@ -6922,12 +6922,12 @@ function other_medical_office_visits(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].visit.date_of_medical_office_visit.days_postpartum, style: ['tableDetail'], colSpan: '2', },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].visit.visit_type, p.children[index].children[subIndex + 1].values), 
 										style: ['tableDetail'], 
@@ -6936,17 +6936,17 @@ function other_medical_office_visits(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].visit.visit_type_other_specify, style: ['tableDetail'], colSpan: '2', },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].visit.medical_record_no, style: ['tableDetail'], colSpan: '2', },
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].visit.reason_for_visit_or_chief_complaint, style: ['tableDetail'], colSpan: '2', },
 								{},
 							],
@@ -6978,47 +6978,47 @@ function other_medical_office_visits(p, d, pg_break) {
 								{},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].medical_care_facility.place_type, p.children[index].children[subIndex].values), 
 									style: ['tableDetail'],
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].medical_care_facility.specify_other_place_type, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].medical_care_facility.provider_type, p.children[index].children[subIndex + 2].values), 
 									style: ['tableDetail'],
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].medical_care_facility.specify_other_provider_type, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].medical_care_facility.payment_source, p.children[index].children[subIndex + 4].values), 
 									style: ['tableDetail'],
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: d[curRec].medical_care_facility.other_payment_source, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupFieldArr(d[curRec].medical_care_facility.pregnancy_status, p.children[index].children[subIndex + 6].values), 
 									style: ['tableDetail'],
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ 
 									text: lookupGlobalArr(d[curRec].medical_care_facility.was_this_provider_her_primary_prenatal_care_provider, 'yes_no'), 
 									style: ['tableDetail'],
@@ -7053,7 +7053,7 @@ function other_medical_office_visits(p, d, pg_break) {
 							],
 							[
 								{ 
-									text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}:`, 
+									text: `${p.children[index].children[subIndex].prompt} / ${p.children[index].children[subIndex + 1].prompt}: `, 
 									style: ['tableLabel'],
 									alignment: 'right', 
 								},
@@ -7065,7 +7065,7 @@ function other_medical_office_visits(p, d, pg_break) {
 							[
 								{ 
 									text: `${p.children[index].children[subIndex + 2].prompt} / ${p.children[index].children[subIndex + 3].prompt} / ` +
-										`${p.children[index].children[subIndex + 4].prompt}:`, 
+										`${p.children[index].children[subIndex + 4].prompt}: `, 
 									style: ['tableLabel'],
 									alignment: 'right', 
 								},
@@ -7077,24 +7077,24 @@ function other_medical_office_visits(p, d, pg_break) {
 								},
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.city}:`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.city}: `, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.feature_matching_geography_type}:`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.feature_matching_geography_type}: `, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 13].prompt}:`, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_code}:`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_code}: `, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_type}:`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_type}: `, style: ['tableDetail'], },
 							],
 							[
-								{ text: `${p.children[index].children[subIndex + 19].prompt}:`, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.urban_status}:`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex + 19].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].location_of_medical_care_facility.urban_status}: `, style: ['tableDetail'], },
 							],
 						],
 					},
@@ -7909,20 +7909,20 @@ function medical_transport(p, d, pg_break) {
                                     {},
                                 ],
                                 [
-                                    { text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: lookupFieldArr(d[curRec].who_managed_the_transport, p.children[index].values), style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: d[curRec].other_transport_manager, style: ['tableDetail'], },
                                 ],
 
                                 [
-                                    { text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: lookupFieldArr(d[curRec].transport_vehicle, p.children[index + 2].values), style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: d[curRec].other_transport_vehicle, style: ['tableDetail'], },
                                 ],
                             ],
@@ -7953,27 +7953,27 @@ function medical_transport(p, d, pg_break) {
                                 ],
                                 
                                 [
-                                    { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.call_received), style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.depart_for_patient_origin), style: ['tableDetail'], },                                    
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.arrive_at_patient_origin), style: ['tableDetail'], },                                    
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.patient_contact), style: ['tableDetail'], },                                    
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.depart_for_referring_facility), style: ['tableDetail'], },                                    
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: fmtDateTime(d[curRec].timing_of_transport.arrive_at_referring_facility), style: ['tableDetail'], },                                    
                                 ],
                             ],
@@ -8027,20 +8027,20 @@ function medical_transport(p, d, pg_break) {
                                     {}, 
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { 
 										text: lookupFieldArr(d[curRec].origin_information.place_of_origin, p.children[index].children[subIndex].values), 
 										style: ['tableDetail'], 
 									},
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.place_of_origin_other}`, style: ['tableDetail'], },
                                 ],
                                 [
                                     { 
                                         text: `${p.children[index].children[subIndex + 2].children[0].prompt} / ` +
-											`${p.children[index].children[subIndex + 2].children[1].prompt}:`, 
+											`${p.children[index].children[subIndex + 2].children[1].prompt}: `, 
                                         style: ['tableLabel'], 
                                         alignment: 'right', 
                                     },
@@ -8054,7 +8054,7 @@ function medical_transport(p, d, pg_break) {
                                         text: `${p.children[index].children[subIndex + 2].children[2].prompt}, ` +
 											`${p.children[index].children[subIndex + 2].children[3].prompt}, ` +
 											`${p.children[index].children[subIndex + 2].children[4].prompt} ` +
-                                            `${p.children[index].children[subIndex + 2].children[5].prompt}:`, 
+                                            `${p.children[index].children[subIndex + 2].children[5].prompt}: `, 
                                         style: ['tableLabel'], 
                                         alignment: 'right', 
                                     },
@@ -8066,40 +8066,40 @@ function medical_transport(p, d, pg_break) {
                                     },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].children[6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.address.county}`, style: ['tableDetail'], },
                                 ],
                                 
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].children[9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].children[9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].children[14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].children[14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].children[15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].children[15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 2].children[20].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 2].children[20].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.address.urban_status}`, style: ['tableDetail'], },
                                 ],
                                 [ 
-									{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+									{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { 
 										text: lookupFieldArr(d[curRec].origin_information.trauma_level_of_care, p.children[index].children[subIndex + 3].values), 
                                         style: ['tableDetail'], 
                                     },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.other_trauma_level_of_care}`, style: ['tableDetail'], },
                                 ],
                                 [
                                     { 
-                                        text: `${p.children[index].children[subIndex + 5].prompt}:`, 
+                                        text: `${p.children[index].children[subIndex + 5].prompt}: `, 
                                         style: ['tableLabel'], 
                                         alignment: 'right', 
                                     },
@@ -8109,12 +8109,12 @@ function medical_transport(p, d, pg_break) {
                                     },
                                 ],
                                 [
-                                    { text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: `${d[curRec].origin_information.other_maternal_level_of_care}`, style: ['tableDetail'], },
                                 ],
 
                                 [
-                                    { text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                    { text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                     { text: d[curRec].origin_information.comments, style: ['tableDetail'], },
                                 ],
                             ],
@@ -8369,24 +8369,24 @@ function medical_transport(p, d, pg_break) {
                                         {}, 
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: d[curRec].destination_information.place_of_destination, style: ['tableDetail'], },
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { 
 											text: lookupFieldArr(d[curRec].destination_information.destination_type, p.children[index].children[subIndex + 1].values), 
 											style: ['tableDetail'], 
 										},
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.place_of_origin_other}}`, style: ['tableDetail'], },
                                     ],
                                     [
                                         { 
                                             text: `${p.children[index].children[subIndex + 3].children[0].prompt} / ` +
-												`${p.children[index].children[subIndex + 3].children[1].prompt}:`, 
+												`${p.children[index].children[subIndex + 3].children[1].prompt}: `, 
                                             style: ['tableLabel'], 
                                             alignment: 'right', 
                                         },
@@ -8400,7 +8400,7 @@ function medical_transport(p, d, pg_break) {
                                             text: `${p.children[index].children[subIndex + 3].children[2].prompt}, ` +
 												`${p.children[index].children[subIndex + 3].children[3].prompt}, ` +
 												`${p.children[index].children[subIndex + 3].children[4].prompt} ` +
-                                                `${p.children[index].children[subIndex + 3].children[5].prompt}:`, 
+                                                `${p.children[index].children[subIndex + 3].children[5].prompt}: `, 
                                             style: ['tableLabel'], 
                                             alignment: 'right', 
                                         },
@@ -8413,35 +8413,35 @@ function medical_transport(p, d, pg_break) {
                                         },
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.county}`, style: ['tableDetail'], },
                                     ],
                                     
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 14].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 15].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
                                     ],
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 20].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 20].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.urban_status}`, style: ['tableDetail'], },
                                     ],
     
                                     [
-                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 24].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+                                        { text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 24].prompt}: `, style: ['tableLabel'], alignment: 'right', },
                                         { text: `${d[curRec].destination_information.address.estimated_distance}`, style: ['tableDetail'], },
                                     ],
 
                                     [
                                         { 
-                                            text: `${p.children[index].children[subIndex + 4].prompt} / ${p.children[index].children[subIndex + 5].prompt}:`, 
+                                            text: `${p.children[index].children[subIndex + 4].prompt} / ${p.children[index].children[subIndex + 5].prompt}: `, 
                                             style: ['tableLabel'], 
                                             alignment: 'right', 
                                         },
@@ -8454,7 +8454,7 @@ function medical_transport(p, d, pg_break) {
     
                                     [
                                         { 
-                                            text: `${p.children[index].children[subIndex + 6].prompt} / ${p.children[index].children[subIndex + 7].prompt}:`, 
+                                            text: `${p.children[index].children[subIndex + 6].prompt} / ${p.children[index].children[subIndex + 7].prompt}: `, 
                                             style: ['tableLabel'], 
                                             alignment: 'right', 
                                         },
@@ -8467,7 +8467,7 @@ function medical_transport(p, d, pg_break) {
     
                                     [
                                         { 
-                                            text: `${p.children[index].children[subIndex + 8].prompt}:`, 
+                                            text: `${p.children[index].children[subIndex + 8].prompt}: `, 
                                             style: ['tableLabel'], 
                                             alignment: 'right', 
                                         },
@@ -8577,39 +8577,39 @@ function social_and_environmental_profile(p, d, pg_break) {
 					],
 					
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.socio_economic_characteristics.source_of_income, p.children[index].children[subIndex].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.socio_economic_characteristics.source_of_income_other_specify, style: ['tableDetail'], },
 					],
 					
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.socio_economic_characteristics.employment_status, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.socio_economic_characteristics.employment_status_other_specify, style: ['tableDetail'], },
 					],
 					
 					[
-						{ text: `${p.children[index].children[subIndex + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.socio_economic_characteristics.occupation, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.socio_economic_characteristics.religious_preference, style: ['tableDetail'], },
 					],
 
 					[
-						{ text: `${p.children[index].children[subIndex + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },            // NEED to Fix: lookup/country
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },            // NEED to Fix: lookup/country
 						{ text: lookupGlobalArr(d.socio_economic_characteristics.country_of_birth, 'country'), style: ['tableDetail'], },
 
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.socio_economic_characteristics.immigration_status, p.children[index].children[subIndex + 7].values), 
 							style: ['tableDetail'], 
@@ -8617,18 +8617,18 @@ function social_and_environmental_profile(p, d, pg_break) {
 					],
 
 					[
-						{ text: `${p.children[index].children[subIndex + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },            
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },            
 						{ text: d.socio_economic_characteristics.time_in_the_us, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 9].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.socio_economic_characteristics.time_in_the_us_units, p.children[index].children[subIndex + 9].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 10].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupFieldArr(d.socio_economic_characteristics.current_living_arrangements, p.children[index].children[subIndex + 10].values), 
 							style: ['tableDetail'], 
@@ -8637,14 +8637,14 @@ function social_and_environmental_profile(p, d, pg_break) {
 
 	
 					[
-						{ text: `${p.children[index].children[subIndex + 11].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.socio_economic_characteristics.homelessness, p.children[index].children[subIndex + 11].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 12].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.socio_economic_characteristics.unstable_housing, p.children[index].children[subIndex + 12].values), 
 							style: ['tableDetail'], 
@@ -8741,7 +8741,7 @@ function social_and_environmental_profile(p, d, pg_break) {
 				widths: [250, '*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.previous_or_current_incarcerations, p.children[index].values), style: ['tableDetail'], },
 					],
 				],
@@ -8837,7 +8837,7 @@ function social_and_environmental_profile(p, d, pg_break) {
 				widths: [250, 'auto', ],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupMultiChoiceArr(d.was_decedent_ever_arrested, p.children[index].values), style: ['tableDetail'], },
 					],
 				],
@@ -8939,18 +8939,18 @@ function social_and_environmental_profile(p, d, pg_break) {
 					],
 					
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.health_care_access.barriers_to_health_care_access, p.children[index].children[subIndex].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.health_care_access.barriers_to_health_care_access_other_specify, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.health_care_access.comments, style: ['tableDetail'], },
 					],
 
@@ -8990,18 +8990,18 @@ function social_and_environmental_profile(p, d, pg_break) {
 					],
 
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.communications.barriers_to_communications, p.children[index].children[subIndex].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.communications.barriers_to_communications_other_specify, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.communications.comments, style: ['tableDetail'], },
 					],
 
@@ -9043,18 +9043,18 @@ function social_and_environmental_profile(p, d, pg_break) {
 					
 
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.social_or_emotional_stress.evidence_of_social_or_emotional_stress, p.children[index].children[subIndex].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.social_or_emotional_stress.specify_other_evidence_stress, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.social_or_emotional_stress.explain_further, style: ['tableDetail'], },
 					],
 
@@ -9096,22 +9096,22 @@ function social_and_environmental_profile(p, d, pg_break) {
 					
 
 					[
-						{ text: `${p.children[index].children[subIndex].prompt}:`, style: ['tableLabel'], alignment: 'right', },        
+						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },        
 						{ text: lookupFieldArr(d.health_care_system.no_prenatal_care, p.children[index].children[subIndex].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ 
 							text: lookupMultiChoiceArr(d.health_care_system.reasons_for_missed_appointments, p.children[index].children[subIndex + 1].values), 
 							style: ['tableDetail'], 
 						},
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.health_care_system.specify_other_reason, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index].children[subIndex + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.health_care_system.comments, style: ['tableDetail'], },
 					],
 
@@ -9143,11 +9143,11 @@ function social_and_environmental_profile(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.had_military_service, p.children[index].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.was_there_bereavement_support, 'yes_no_with_unknown'), style: ['tableDetail'], },
 					],
 					],
@@ -9322,7 +9322,7 @@ function social_and_environmental_profile(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.documented_substance_use, 'yes_no'), style: ['tableDetail'], },
 					],
 				],
@@ -9408,7 +9408,7 @@ function social_and_environmental_profile(p, d, pg_break) {
 				widths: ['*'],
 				body: [
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['subHeader'], },
+						{ text: `${p.children[index].prompt}: `, style: ['subHeader'], },
 					],
 					[
 						{ text: d.reviewer_note, style: ['tableDetail'], margin: [0, 10, 0, 10], },
@@ -9425,6 +9425,8 @@ function social_and_environmental_profile(p, d, pg_break) {
 function mental_health_profile(p, d, pg_break) {
 	// Name table
 	let index = 0;
+	let subIndex = 0;
+	let body = [];
 	let retPage = [];
 
 	console.log('p: ', p);
@@ -9439,9 +9441,407 @@ function mental_health_profile(p, d, pg_break) {
         retPage.push({ text: '', pageBreak: 'before' });
     }
 
-	// Record Header
-	retPage.push({ text: 'Work in Progress', style: ['subHeader'] },);
+    // Were There Documented Preexisting Mental Health Conditions?*  [0:lookup/yes_no - were_there_documented_preexisting_mental_health_conditions]
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: [300, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.were_there_documented_preexisting_mental_health_conditions, 'yes_no'), style: ['tableDetail'], },
+                    ],
+				],
+			}
+		}
+	]);
+    
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
 
+     // Documented Preexisting Mental Health Conditions  [1:Grid - documented_preexisting_mental_health_conditions]
+    index += 1;
+    let lenArr = d.documented_preexisting_mental_health_conditions.length;
+    let startArr = 0;
+    let endArr = lenArr;
+
+    // Build Header rows
+    body = [];
+    let row = new Array();
+    row.push(
+        { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '10', }, 
+		{}, {}, {},{}, {}, {},{}, {}, {} );
+    body.push(row);
+    row = new Array();
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                // Rec #
+    row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], },);                      // Condition
+    row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                      // Duration of Condition
+    row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                      // Treatments
+    row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                      // Duration of Treatment
+    row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Treatment changed during pregnancy
+    row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Dosage changed during pregnancy
+    row.push({ text: p.children[index].children[subIndex + 6].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // If yes, mental health provider consuldation during this pregnancy
+    row.push({ text: p.children[index].children[subIndex + 7].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  // Did patient adhere to treatment
+    row.push({ text: p.children[index].children[subIndex + 8].prompt, style: ['tableLabel', 'blueFill'], },);                      // Comments
+    body.push(row);
+
+    // Are there any records?
+    if (lenArr === 0) {
+        row = new Array();
+        row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '10', }, );
+        body.push(row);
+    } else {
+        // Build the table detail   ... , alignment: 'center' },);
+        for (let curRec = startArr; curRec < endArr; curRec++) {
+            row = new Array();
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+			row.push(
+				{ 
+					text: lookupFieldArr(d.documented_preexisting_mental_health_conditions[curRec].condition, p.children[index].children[subIndex].values), 
+					style: ['tableDetail'], 
+				},);
+            row.push({ text: d.documented_preexisting_mental_health_conditions[curRec].duration_of_condition, style: ['tableDetail'], },);
+            row.push({ text: d.documented_preexisting_mental_health_conditions[curRec].treatments, style: ['tableDetail'], },);
+            row.push({ text: d.documented_preexisting_mental_health_conditions[curRec].duration_of_tx, style: ['tableDetail'], },);
+			row.push(
+				{ 
+					text: lookupGlobalArr(d.documented_preexisting_mental_health_conditions[curRec].treatment_changed_during_pregnancy, 'yes_no_with_unknown'), 
+					style: ['tableDetail'], 
+					alignment: 'center' 
+				},);
+			row.push(
+				{ 
+					text: lookupGlobalArr(d.documented_preexisting_mental_health_conditions[curRec].dosage_changed_during_pregnancy, 'yes_no_with_unknown'), 
+					style: ['tableDetail'], 
+					alignment: 'center' 
+				},);
+			row.push(
+				{ 
+					text: lookupGlobalArr(d.documented_preexisting_mental_health_conditions[curRec].if_yes_mental_health_provider_consultation_during_this_pregnancy, 'yes_no_with_unknown'), 
+					style: ['tableDetail'], 
+					alignment: 'center' 
+				},);
+			row.push(
+				{ 
+					text: lookupGlobalArr(d.documented_preexisting_mental_health_conditions[curRec].did_patient_adhere_to_treatment, 'yes_no_with_unknown'), 
+					style: ['tableDetail'], 
+					alignment: 'center' 
+				},);
+            row.push({ text: d.documented_preexisting_mental_health_conditions[curRec].comments, style: ['tableDetail'], },);
+            body.push(row);
+        }
+    }
+
+    // Show the table 
+    retPage.push([
+        {
+            layout: {
+                defaultBorder: true,
+                paddingLeft: function (i, node) { return 1; },
+                paddingRight: function (i, node) { return 1; },
+                paddingTop: function (i, node) { return 2; },
+                paddingBottom: function (i, node) { return 2; },
+            },
+            table: {
+                headerRows: 2,
+                widths: [30, 100, 50, '*','*','*','*','*','*',200],
+                body: body,
+            },
+        },],
+    );
+
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+    // Were There Documented Screenings and Referrals for Mental Health Conditions?  [2:Grid - were_there_documented_mental_health_conditions]
+    index += 1;
+    lenArr = d.were_there_documented_mental_health_conditions.length;
+    startArr = 0;
+    endArr = lenArr;
+
+    // Build Header rows
+    body = [];
+    row = new Array();
+    row.push(
+        { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '10', }, 
+		{}, {}, {}, {}, {}, {}, {}, {}, {} );
+    body.push(row);
+    row = new Array();
+    row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex + 4].prompt, style: ['tableLabel', 'blueFill'], },);
+    row.push({ text: p.children[index].children[subIndex + 5].prompt, style: ['tableLabel', 'blueFill'], },);
+    row.push({ text: p.children[index].children[subIndex + 6].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);
+    row.push({ text: p.children[index].children[subIndex + 7].prompt, style: ['tableLabel', 'blueFill'], },);
+    row.push({ text: p.children[index].children[subIndex + 8].prompt, style: ['tableLabel', 'blueFill'], },);
+    body.push(row);
+
+    // Are there any records?
+    if (lenArr === 0) {
+        row = new Array();
+        row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '10', }, );
+        body.push(row);
+    } else {
+        // Build the table detail
+        for (let curRec = startArr; curRec < endArr; curRec++) {
+            row = new Array();
+            row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+            row.push({ text: fmtStrDate(d.were_there_documented_mental_health_conditions[curRec].date_of_screening), style: ['tableDetail'], alignment: 'center' },);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].gestational_weeks, style: ['tableDetail'], alignment: 'center' },);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].gestational_days, style: ['tableDetail'], alignment: 'center' },);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].days_postpartum, style: ['tableDetail'], alignment: 'center' },);
+			
+			row.push(
+				{ 
+					text: `${lookupFieldArr(d.were_there_documented_mental_health_conditions[curRec].screening_tool, p.children[index].children[subIndex + 4].values)}`, 
+					style: ['tableDetail'], 
+				},);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].other_screening_tool, style: ['tableDetail'], },);
+			row.push(
+				{ 
+					text: lookupGlobalArr(d.were_there_documented_mental_health_conditions[curRec].referral_for_treatment, 'yes_no_with_unknown'), 
+					style: ['tableDetail'], 
+					alignment: 'center' ,
+				},);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].findings, style: ['tableDetail'], },);
+            row.push({ text: d.were_there_documented_mental_health_conditions[curRec].comments, style: ['tableDetail'], },);
+            body.push(row);
+        }
+    }
+
+    // Show the table 
+    retPage.push([
+        {
+            layout: {
+                defaultBorder: true,
+                paddingLeft: function (i, node) { return 1; },
+                paddingRight: function (i, node) { return 1; },
+                paddingTop: function (i, node) { return 2; },
+                paddingBottom: function (i, node) { return 2; },
+            },
+            table: {
+                headerRows: 2,
+                widths: [30, 60, 50, 50, 50, 100, '*', '*', '*', 250],
+                body: body,
+            },
+        },],
+    );
+
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+   // Was the Decedent TREATED for Any of the Following Mental Health Conditions PRIOR TO the Most Recent Pregnancy? (Select All That Apply)*  [3:Multi-Select-List - mental_health_conditions_prior_to_the_most_recent_pregnancy]
+    index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.mental_health_conditions_prior_to_the_most_recent_pregnancy, p.children[index].values), 
+							style: ['tableDetail'], 
+						},
+                    ],
+                ],
+            },
+        },
+    ], );
+
+	 // Specify Other  [4:TB - other_prior_to_pregnancy]
+    index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 0, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                        { text: d.other_prior_to_pregnancy, style: ['tableDetail'], },
+                    ],
+                ],
+            },
+        },
+    ], );
+   
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+    // Was the Decedent TREATED for Any of the Following Mental Health Conditions DURING the Most Recent Pregnancy? (Select All That Apply)*  [5:Multi-Select-List - mental_health_conditions_during_the_most_recent_pregnancy]
+    index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupMultiChoiceArr(d.mental_health_conditions_during_the_most_recent_pregnancy, p.children[index].values), style: ['tableDetail'], margin: [0, 10, 0, 10], },
+                    ],
+                ],
+            },
+        },
+    ], );
+
+    // Specify Other  [6:TB - other_during_pregnancy]
+    index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 0, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                        { text: d.other_during_pregnancy, style: ['tableDetail'], },
+                    ],
+                ],
+            },
+        },
+    ], );
+   
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+    // Was the Decedent TREATED for Any of the Following Mental Health Conditions AFTER the Most Recent Pregnancy? (Select All That Apply)*  [7:Multi-Select-List - mental_health_conditions_after_the_most_recent_pregnancy]
+     index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ 
+							text: lookupMultiChoiceArr(d.mental_health_conditions_after_the_most_recent_pregnancy, p.children[index].values), 
+							style: ['tableDetail'], 
+						},
+                    ],
+                ],
+            },
+        },
+    ], );
+
+    // Specify Other  [8:TB - other_after_pregnancy]
+    index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 0, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+                        { text: d.other_after_pregnancy, style: ['tableDetail'], },
+                    ],
+                ],
+            },
+        },
+    ], );
+   
+    // Give some space
+    retPage.push({ text: '', margin: [0, 10, 0, 0], }, );
+
+    // Reviewer's Notes About the Mental Health Profile  [9:TB - reviewer_note]
+     index += 1;
+    retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 0,
+				widths: ['*'],
+				body: [
+					[
+						{ text: `${p.children[index].prompt}: `, style: ['subHeader'], },
+					],
+					[
+                        { text: d.reviewer_note, style: ['tableDetail'], },
+                    ],
+                ],
+            },
+        },
+    ], );
+   
 	return retPage;
 }
 
@@ -9709,27 +10109,27 @@ function committee_review(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: reformatDate(d.date_of_review), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.pregnancy_relatedness, p.children[index + 1].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.estimate_degree_relevant_information_available, p.children[index + 2].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.does_committee_agree_with_cod_on_death_certificate, p.children[index + 3].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.pmss_mm, p.children[index + 4].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.pmss_mm_secondary, p.children[index + 5].values), style: ['tableDetail'], margin: [0, 0, 0, 20], },
 					],
 				],
@@ -9814,19 +10214,19 @@ function committee_review(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.did_obesity_contribute_to_the_death, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.did_discrimination_contribute_to_the_death, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.did_mental_health_conditions_contribute_to_the_death, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.did_substance_use_disorder_contribute_to_the_death, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 				],
@@ -9854,35 +10254,35 @@ function committee_review(p, d, pg_break) {
 						{},
 					],
 					[
-						{ text: `${p.children[index + 1].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.was_this_death_a_sucide, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 2].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.was_this_death_a_homicide, 'yes_no_probably_unknown'), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 3].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.means_of_fatal_injury, p.children[index + 3].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 4].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.specify_other_means_fatal_injury, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 5].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.if_homicide_relationship_of_perpetrator, p.children[index + 5].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 6].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.specify_other_relationship, style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 7].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.was_this_death_preventable, p.children[index + 7].values), style: ['tableDetail'], },
 					],
 					[
-						{ text: `${p.children[index + 8].prompt}:`, style: ['tableLabel'], alignment: 'right', },
+						{ text: `${p.children[index + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldArr(d.chance_to_alter_outcome, p.children[index + 8].values), style: ['tableDetail'], margin: [0, 0, 0, 20], },
 					],
 				],
