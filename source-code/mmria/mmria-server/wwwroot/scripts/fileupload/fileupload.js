@@ -139,8 +139,8 @@ function setup_file_list()
                     {
                         var cdcIdentifier = morRows[j].substring(190, 199);
 
-                        listOfCdcIdentifier.push(cdcIdentifier);
-                        g_cdc_identifier_set[cdcIdentifier] = true;
+                        listOfCdcIdentifier.push(cdcIdentifier.trim());
+                        g_cdc_identifier_set[cdcIdentifier.trim()] = true;
                     }
 
                     let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
