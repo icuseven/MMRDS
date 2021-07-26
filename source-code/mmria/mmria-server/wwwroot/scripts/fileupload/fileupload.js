@@ -190,7 +190,11 @@ function setup_file_list()
                let Nat_Ids = validate_AssociatedNAT(g_content_list_array);
                for(let _i = 0;_i < Nat_Ids.length; _i++)
                {
-                    g_validation_errors.push(Nat_Ids[i]);
+                    let text = Nat_Ids[i];
+                    if(g_validation_errors.indexOf(text) < 0)
+                    {
+                        g_validation_errors.push(Nat_Ids[i]);
+                    }
                }
             }
             else if (item.name.toLowerCase().endsWith(".fet")) 
@@ -208,9 +212,13 @@ function setup_file_list()
 
                 let Fet_Ids = validate_AssociatedFET(g_content_list_array);
                 for(let _i = 0;_i < Fet_Ids.length; _i++)
-               {
-                    g_validation_errors.push(Fet_Ids[i]);
-               }
+                {
+                    let text = Fet_Ids[i];
+                    if(g_validation_errors.indexOf(text) < 0)
+                    {
+                        g_validation_errors.push(Fet_Ids[i]);
+                    }
+                }
             }
         }
     }
