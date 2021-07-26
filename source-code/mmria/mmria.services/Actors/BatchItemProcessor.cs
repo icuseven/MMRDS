@@ -10996,7 +10996,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             mmria.common.couchdb.DBConfigurationDetail db_info,
             string search_key,
             int skip = 0,
-            int take = int.MaxValue,
+            int take = 1_000_000,
             string sort = "by_last_name",
             bool descending = false,
             string case_status = "all"
