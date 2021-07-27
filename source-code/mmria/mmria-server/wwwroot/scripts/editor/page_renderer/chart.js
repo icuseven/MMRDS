@@ -167,7 +167,7 @@ d3.select('#chart svg').append('text')
     p_post_html_render.push("     .attr('text-anchor', 'middle')");
     p_post_html_render.push("     .style('font-size', '1.4em')");
 	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
-
+	
 }
 
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
