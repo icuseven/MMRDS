@@ -11038,7 +11038,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
 
                 result.total_rows = result.rows.Count;
-                result.rows = result.rows.Skip(skip).Take(take).ToList();
+                result.rows = result.rows.Skip(0).Take(100000).ToList();
 
                 return result;
 
