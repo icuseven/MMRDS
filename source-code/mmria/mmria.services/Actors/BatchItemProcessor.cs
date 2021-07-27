@@ -756,6 +756,11 @@ namespace RecordsProcessor_Worker.Actors
 
             string record_id = null;
 
+            /*if (case_view_response == null)
+            {
+
+            }
+            else      */
             if (case_view_response.total_rows > 0)
             {
                 int dod_yr = -1;
@@ -10994,66 +10999,13 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         (
 
             mmria.common.couchdb.DBConfigurationDetail db_info,
-            string search_key,
-            int skip = 0,
-            int take = 1_000_000,
-            string sort = "by_last_name",
-            bool descending = false,
-            string case_status = "all"
+            string search_key
         )
         {
-            string sort_view = sort.ToLower();
-            switch (sort_view)
-            {
-                case "by_date_created":
-                case "by_date_last_updated":
-                case "by_last_name":
-                case "by_first_name":
-                case "by_middle_name":
-                case "by_year_of_death":
-                case "by_month_of_death":
-                case "by_committee_review_date":
-                case "by_created_by":
-                case "by_last_updated_by":
-                case "by_state_of_death":
-                case "by_date_last_checked_out":
-                case "by_last_checked_out_by":
-
-                case "by_case_status":
-                    break;
-
-                default:
-                    sort_view = "by_date_created";
-                    break;
-            }
-
-
-
             try
             {
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
-                request_builder.Append($"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/{sort_view}?");
-
-                if (skip > -1)
-                {
-                    request_builder.Append($"skip={skip}");
-                }
-                else
-                {
-
-                    request_builder.Append("skip=0");
-                }
-
-                if (take > -1)
-                {
-                    request_builder.Append($"&limit={take}");
-                }
-
-                if (descending)
-                {
-                    request_builder.Append("&descending=true");
-                }
-
+                request_builder.Append($"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_last_name?skip=0&limit=100000");
 
                 string request_string = request_builder.ToString();
                 var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
