@@ -33,6 +33,17 @@ async function print_pdf(section) {
 	let doc = {
 		pageOrientation: 'landscape',
 		pageMargins: [20, 80, 20, 20],
+		// background: () => {
+		// 	return {
+		// 		canvas: [
+		// 			{
+		// 				type: 'rect',
+		// 				x: 0, y: 0, h: 595.28, w: 841.89,
+		// 				color: '#00BFFF'
+		// 			},
+		// 		],
+		// 	};
+		// },
 		info: {
 			title: pdfTitle,
 		},
@@ -351,21 +362,74 @@ function getSectionTitle(name) {
 }
 
 // Draw Line Chart
-function drawLineChart(name, cols) {
+function drawLineChart(name, cols) 
+{
+	let result = document.createElement("div");
+
 	// console.log( 'drawLineChart: ', name, ' - ', cols );
 	var chartDefinition = {
+		size: {
+			height: 300,
+			width: 600,
+		},
+		bindto: result,
 		data: {
+			x: 'x',
 			columns: [
+				['x', '2013-01-08', '2013-01-02', '2013-01-01', '2013-01-04', '2013-01-03', '2013-01-06'],
 				['data1', 30, 200, 100, 400, 150, 250],
-				['data2', 50, 20, 10, 40, 15, 25]
-			]
-		}
+				['data2', 130, 340, 200, 500, 250, 350]
+			],
+			type: 'line',
+			axes: {
+				data2: 'y2',
+			},
+		},
+		axis: {
+			y: {
+				label: {
+					text: 'Y Label',
+					position: 'outer-middle',
+				},
+			},
+			x: {
+				type: 'timeseries',
+				tick: {
+					format: '%Y-%m-%d'
+				},
+			},
+		},
+		// legend: {
+		// 	fontSize: 10,
+		// },
+		// onrendered: () => {
+		// 	var runW = 24;
+		// 	d3.selectAll('.c3-axis-y-label')
+		// 	.style('font-size', '10px')
+		// 	.each( () => {
+		// 		var node = this,
+		// 			self = d3.select(this);
+		// 		setTimeout( () => {
+		// 			self.selectAll('rect').attr('x', runW);
+		// 			self.selectAll('text').attr('x', runW + 10);
+		// 			runW += node.getBBox().width + 10;
+		// 		}, 300);
+		// 	});
+		// }
 	};
 
 	const chart = c3.generate(chartDefinition);
-	// console.log('chart: ', chart);
+	console.log('chart: ', chart);
+	// result.children[0].outerHTML;
+	// const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
+	// const mySvg = new XMLSerializer().serializeToString(result.children[0].svg);
+	// const myBase64Data = window.btoa(mySvg);
+	// console.log( 'myBase64Data: ', myBase64Data );
+	const mySvg = new XMLSerializer().serializeToString(result.children[0]);
 
-	return chart;
+	// console.log( 'mySvg: ', mySvg );
+
+	return mySvg;
 }
 
 
@@ -569,7 +633,7 @@ function home_record(p, d) {
 					],
 					[
 						{ text: `${p.children[index + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupFieldArr(d.how_was_this_death_identified, p.children[index + 7].values), style: ['tableDetail'], },
+						{ text: lookupMultiChoiceArr(d.how_was_this_death_identified, p.children[index + 7].values), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -4489,18 +4553,27 @@ function prenatal(p, d, pg_break) {
 	// 	],
 	// ]);
 	const myTestChart = drawLineChart('Blood Pressure', chartArr);
-	console.log('myTestChart: ', myTestChart );
-	// const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
-	// console.log( 'mySvg: ', mySvg );
+	// console.log('myTestChart: ', myTestChart );
+	// const myTestChart = new XMLSerializer().serializeToString(document.querySelector('svg'));
+	// console.log( 'xxx: ', xxx );
 	// const myBase64Data = window.btoa(mySvg);
 	// console.log( 'myBase64Data: ', myBase64Data );
 
+	// const myBase64Data = window.btoa(myTestChart);
+	// console.log( 'myBase64Data: ', myBase64Data );
+
 	// body.push([{ 
-	// 	image: `'data:image/png;base64,${myBase64Data}'`, 
+	// 	svg: myTestChart,
+	// 	width: 600,
+	// 	height: 300,
+	// },],);
+
+	// body.push([{ 
+	// 	image: `data:image/jpeg;base64,${myBase64Data}`,
 	// 	width: 200, 
 	// },],);
 
-	// console.log( 'body: ', body );
+	// console.log( 'graph body: ', body );
 
 	retPage.push([
 		{
@@ -4520,6 +4593,8 @@ function prenatal(p, d, pg_break) {
 			},
 		},
 	],);
+
+	console.log( 'body with chart: ', retPage );
 
 	// Highest Blood Pressure
 	index += 3;
