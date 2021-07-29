@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -153,16 +154,17 @@ namespace mmria.server.utils
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if(uai.doc.app_prefix_list == null)
+
+                    if(string.IsNullOrWhiteSpace(p_config_detail.prefix))
                     {
-                         if(string.IsNullOrWhiteSpace(p_config_detail.prefix))
-                         {
-                             p_result.total +=1;
-                         }
-                    }
-                    else if(string.IsNullOrWhiteSpace(p_config_detail.prefix) && (uai.doc.app_prefix_list.ContainsKey("__no_prefix__")|| uai.doc.app_prefix_list.Count == 0))
-                    {
-                        p_result.total +=1;
+                        if(uai.doc.app_prefix_list == null)
+                        {
+                            p_result.total +=1;    
+                        }
+                        else if(uai.doc.app_prefix_list.Count == 0 || uai.doc.app_prefix_list.ContainsKey("__no_prefix__"))
+                        {
+                            p_result.total +=1;
+                        }
                     }
                     else if(uai.doc.app_prefix_list.ContainsKey(p_config_detail.prefix.ToLower()))
                     {
@@ -266,21 +268,56 @@ namespace mmria.server.utils
 
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
+                Dictionary<string,HashSet<string>> role_id_set = new(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "jurisdiction_admin", new(StringComparer.OrdinalIgnoreCase) },
+                    { "abstractor", new(StringComparer.OrdinalIgnoreCase) },
+                    { "data_analyst", new(StringComparer.OrdinalIgnoreCase) },
+                    { "committee_member", new(StringComparer.OrdinalIgnoreCase) }
+                };
+
                 foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                 {
-                    switch(cvi.value.role_name?.ToLower())
+                    if(string.IsNullOrWhiteSpace(cvi.value.role_name)) continue;
+
+                    if(string.IsNullOrWhiteSpace(cvi.value.jurisdiction_id)) continue;
+
+                    if(string.IsNullOrWhiteSpace(cvi.value.user_id)) continue;
+
+                    if(cvi.value.is_active.HasValue && cvi.value.is_active.Value == false) continue;
+
+
+                    var user_id = cvi.value.user_id;
+
+                    switch(cvi.value.role_name.ToLower())
                     {
                         case "jurisdiction_admin":
-                            p_result.num_users_ja++;
+                            if(!role_id_set["jurisdiction_admin"].Contains(user_id))
+                            {
+                                p_result.num_users_ja++;
+                                role_id_set["jurisdiction_admin"].Add(user_id);
+                            }
                         break;
                         case "abstractor":
-                            p_result.num_users_abs++;
+                            if(!role_id_set["abstractor"].Contains(user_id))
+                            {
+                                p_result.num_users_abs++;
+                                role_id_set["abstractor"].Add(user_id);
+                            }
                         break;
                         case "data_analyst":
-                            p_result.num_user_anl++;
+                            if(!role_id_set["data_analyst"].Contains(user_id))
+                            {
+                                p_result.num_user_anl++;
+                                role_id_set["data_analyst"].Add(user_id);
+                            }
                         break;
                         case "committee_member":
-                            p_result.num_user_cm++;
+                            if(!role_id_set["committee_member"].Contains(user_id))
+                            {
+                                p_result.num_user_cm++;
+                                role_id_set["committee_member"].Add(user_id);
+                            }
                         break;
                     }
                 }
