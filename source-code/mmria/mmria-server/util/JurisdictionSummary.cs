@@ -72,7 +72,7 @@ namespace mmria.server.utils
             var record_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
             var user_count_task_list = new List<Task>();
             var record_count_task_list = new List<Task>();
-            var jurisdiction_count_task_list = new List<Task>();
+            //var jurisdiction_count_task_list = new List<Task>();
 
            var current_date = System.DateTime.Now;
 
@@ -99,9 +99,9 @@ namespace mmria.server.utils
                 record_count.host_name = prefix;
                 record_count_result.Add(prefix, record_count);
 
-                user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count));
+                user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi));
                 record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count));
-                jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
+                //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
             }
 
 
@@ -112,8 +112,8 @@ namespace mmria.server.utils
             //var user_count_call_results = user_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
 
 
-            await Task.WhenAll(jurisdiction_count_task_list);
-            cancellationToken.ThrowIfCancellationRequested();
+            //await Task.WhenAll(jurisdiction_count_task_list);
+            //cancellationToken.ThrowIfCancellationRequested();
             //var jurisdiction_count_call_results = jurisdiction_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
             foreach(var kvp in user_count_result)
             {
@@ -137,7 +137,7 @@ namespace mmria.server.utils
             return view_data;
         }
 
-        public async System.Threading.Tasks.Task GetUserCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
+        public async System.Threading.Tasks.Task GetUserCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result, JurisdictionSummaryItem p_SummaryItem) 
 		{ 
 			try
 			{
@@ -148,7 +148,7 @@ namespace mmria.server.utils
 
 				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
 	
-
+                HashSet<string> user_id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
                 foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
                 {
@@ -159,22 +159,27 @@ namespace mmria.server.utils
                     {
                         if(uai.doc.app_prefix_list == null)
                         {
-                            p_result.total +=1;    
+                            p_result.total +=1; 
+                            user_id_set.Add(uai.doc.name);
                         }
                         else if(uai.doc.app_prefix_list.Count == 0 || uai.doc.app_prefix_list.ContainsKey("__no_prefix__"))
                         {
                             p_result.total +=1;
+                            user_id_set.Add(uai.doc.name);
                         }
                     }
                     else if(uai.doc.app_prefix_list.ContainsKey(p_config_detail.prefix.ToLower()))
                     {
                         p_result.total +=1;
+                        user_id_set.Add(uai.doc.name);
                     }
                     else
                     {
 
                     }
                 }
+
+                await GetJurisdictions(cancellationToken,  p_id, p_config_detail, p_SummaryItem, user_id_set);
 
             }
             catch(System.Exception)
@@ -209,7 +214,7 @@ namespace mmria.server.utils
 
         }
 
-        public async Task GetJurisdictions(System.Threading.CancellationToken cancellationToken,  string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result) 
+        public async Task GetJurisdictions(System.Threading.CancellationToken cancellationToken,  string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result, HashSet<string> p_user_id_set) 
 		{
             string sort = "by_date_created";
             string search_key = null;
@@ -268,14 +273,6 @@ namespace mmria.server.utils
 
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
-                Dictionary<string,HashSet<string>> role_id_set = new(StringComparer.OrdinalIgnoreCase)
-                {
-                    { "jurisdiction_admin", new(StringComparer.OrdinalIgnoreCase) },
-                    { "abstractor", new(StringComparer.OrdinalIgnoreCase) },
-                    { "data_analyst", new(StringComparer.OrdinalIgnoreCase) },
-                    { "committee_member", new(StringComparer.OrdinalIgnoreCase) }
-                };
-
                 foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                 {
                     if(string.IsNullOrWhiteSpace(cvi.value.role_name)) continue;
@@ -289,35 +286,21 @@ namespace mmria.server.utils
 
                     var user_id = cvi.value.user_id;
 
+                    if(!p_user_id_set.Contains(user_id)) continue;
+
                     switch(cvi.value.role_name.ToLower())
                     {
                         case "jurisdiction_admin":
-                            if(!role_id_set["jurisdiction_admin"].Contains(user_id))
-                            {
                                 p_result.num_users_ja++;
-                                role_id_set["jurisdiction_admin"].Add(user_id);
-                            }
                         break;
                         case "abstractor":
-                            if(!role_id_set["abstractor"].Contains(user_id))
-                            {
-                                p_result.num_users_abs++;
-                                role_id_set["abstractor"].Add(user_id);
-                            }
+                            p_result.num_users_abs++;
                         break;
                         case "data_analyst":
-                            if(!role_id_set["data_analyst"].Contains(user_id))
-                            {
-                                p_result.num_user_anl++;
-                                role_id_set["data_analyst"].Add(user_id);
-                            }
+                            p_result.num_user_anl++;
                         break;
                         case "committee_member":
-                            if(!role_id_set["committee_member"].Contains(user_id))
-                            {
-                                p_result.num_user_cm++;
-                                role_id_set["committee_member"].Add(user_id);
-                            }
+                            p_result.num_user_cm++;
                         break;
                     }
                 }
