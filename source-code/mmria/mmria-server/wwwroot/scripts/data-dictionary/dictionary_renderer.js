@@ -502,6 +502,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                        <tr class="tr">
+							<td class="td" width="266" >_id</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_versi</td>
 							<td class="td" width="1064">MMRIA application release number</td>
@@ -549,6 +553,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                        <tr class="tr">
+							<td class="td" width="266" >_id</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>
 							<td class="td" width="1064">The record index of the grid_item</td>
@@ -568,6 +576,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                        <tr class="tr">
+							<td class="td" width="266" >_id</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>
 							<td class="td" width="1064">The record index of the multiform</td>
@@ -587,6 +599,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                        <tr class="tr">
+							<td class="td" width="266" >_id</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>
 							<td class="td" width="1064">The record index of the grid_item</td>
