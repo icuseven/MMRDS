@@ -618,6 +618,7 @@ namespace mmria.server.utils
           }
           path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
 
+        System.Console.WriteLine("flat grid-star 621");
           // flat grid - start
           foreach (KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
           {
@@ -915,6 +916,7 @@ namespace mmria.server.utils
           }
           // flat grid - end
 
+          System.Console.WriteLine("multiform-start 918");
 
           // multiform - start
           foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
@@ -1226,7 +1228,7 @@ namespace mmria.server.utils
 
         }
 
-
+        System.Console.WriteLine("preparing file-output 1231");
         Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
 
@@ -1333,7 +1335,7 @@ namespace mmria.server.utils
           this.qualitativeStreamWriter[i_index] = null;
         }
 
-
+        System.Console.WriteLine("write-csv 1338");
         WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
         column = null;
 
