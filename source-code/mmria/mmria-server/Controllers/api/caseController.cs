@@ -189,6 +189,25 @@ namespace mmria.server
                     Console.WriteLine(ex);
                 }
 
+
+                var audit_data = save_case_request.Change_Stack;
+
+                var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
+
+                string audit_url = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{audit_data._id}";
+				cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, Program.config_timer_user_name, Program.config_timer_value);
+
+                try
+                {
+                    string responseFromServer = await audit_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Console.Write("problem saving audit\n{0}", ex);
+
+                }
+
 				var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
 				(
 					id_val,

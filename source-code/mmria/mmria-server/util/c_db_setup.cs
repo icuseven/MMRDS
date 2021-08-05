@@ -147,6 +147,15 @@ namespace mmria.server.utils
 
                 }
 
+                if (!await url_endpoint_exists ($"{Program.config_couchdb_url}/{Program.db_prefix}audit", Program.config_timer_user_name, Program.config_timer_value)) 
+                {
+                    var audit_curl = new cURL ("PUT", null, $"{Program.config_couchdb_url}/{Program.db_prefix}audit", null, Program.config_timer_user_name, Program.config_timer_value);
+                    Log.Information($"audit_curl\n{ await audit_curl.executeAsync ()}");
+
+                    await new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}audit/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
+                    Log.Information($"audit/_security completed successfully");
+                }
+
 
 
                 if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}session", Program.config_timer_user_name, Program.config_timer_value)) 
