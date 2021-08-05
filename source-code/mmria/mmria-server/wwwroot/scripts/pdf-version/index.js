@@ -66,7 +66,9 @@ async function print_pdf(section) {
 					writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : writeText;
 				}
 			}
-			else {
+			else if (section_name === 'core-summary') {
+				writeText = 'CORE SUMMARY';
+			} else {
 				writeText = getSectionTitle(section_name);
 			}
 			let headerObj = [
@@ -133,6 +135,11 @@ async function print_pdf(section) {
 				color: '#000080',
 				margin: [2, 2, 2, 2],
 			},
+			coreHeader: {
+				fontSize: 14,
+				color: '#0000ff',
+				margin: [0, 10, 0, 5]
+			},
 			isBold: {
 				bold: true,
 			},
@@ -175,7 +182,7 @@ async function print_pdf(section) {
 	// pdfMake.createPdf( doc ).download( pdfName );
 	pdfMake.createPdf(doc).open();
 
-	console.log("done: ", retContent);
+	
 }
 
 // ************************************************************************
@@ -354,73 +361,160 @@ function getSectionTitle(name) {
 }
 
 // Draw Line Chart
-function drawLineChart(name, cols) {
+async function drawLineChart(name, cols) {
 	let result = document.createElement("div");
+	result.setAttribute("id", "pdfChart");
+	console.log("result start: ", result);
 
 	// console.log( 'drawLineChart: ', name, ' - ', cols );
-	var chartDefinition = {
-		size: {
-			height: 300,
-			width: 600,
-		},
+	let chartDefinition = {
 		bindto: result,
-		data: {
-			x: 'x',
-			columns: [
-				['x', '2013-01-08', '2013-01-02', '2013-01-01', '2013-01-04', '2013-01-03', '2013-01-06'],
-				['data1', 30, 200, 100, 400, 150, 250],
-				['data2', 130, 340, 200, 500, 250, 350]
-			],
-			type: 'line',
-			axes: {
-				data2: 'y2',
-			},
+		size: {
+			height: 275.938, 
+			width: 325.938
+		},
+		transition: {
+			duration: null
+		},
+		onrendered: () => {
+			d3.select('div #pdfChart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+				.attr('transform', 'rotate(325) translate(-25,0)');	
 		},
 		axis: {
-			y: {
-				label: {
-					text: 'Y Label',
-					position: 'outer-middle',
-				},
-			},
 			x: {
 				type: 'timeseries',
-				tick: {
-					format: '%Y-%m-%d'
+				localtime: false,
+				label: {
+					position: 'outer-right',
 				},
+				tick: {
+					format: '%m/%d/%Y',
+				},
+				height: 55
+			},
+			y: {
+				tick: {
+					format: d3.format('.0f'),
+				},
+				min: 0,
+				padding: {top: 0, bottom: 0},
 			},
 		},
-		// legend: {
-		// 	fontSize: 10,
-		// },
-		// onrendered: () => {
-		// 	var runW = 24;
-		// 	d3.selectAll('.c3-axis-y-label')
-		// 	.style('font-size', '10px')
-		// 	.each( () => {
-		// 		var node = this,
-		// 			self = d3.select(this);
-		// 		setTimeout( () => {
-		// 			self.selectAll('rect').attr('x', runW);
-		// 			self.selectAll('text').attr('x', runW + 10);
-		// 			runW += node.getBBox().width + 10;
-		// 		}, 300);
-		// 	});
-		// }
+		data: {
+			x: 'x',
+			xFormat: '%Y-%m-%d %H:%M:%S',
+			columns: [
+				['x','2020-12-3 0:0:0','2020-11-5 0:0:0','2020-10-1 0:0:0'],
+				['systolic_bp',129.00,125.00,120.00],
+				['diastolic',88.00,84.00,80.00]
+			]
+		},
+		line: {
+			connectNull: true
+		}
 	};
 
-	const chart = c3.generate(chartDefinition);
+	let mySvg = '';
+	const chart = await c3.generate(chartDefinition);
 	console.log('chart: ', chart);
-	// result.children[0].outerHTML;
-	// const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
-	// const mySvg = new XMLSerializer().serializeToString(result.children[0].svg);
-	// const myBase64Data = window.btoa(mySvg);
-	// console.log( 'myBase64Data: ', myBase64Data );
-	const mySvg = new XMLSerializer().serializeToString(result.children[0]);
+	console.log('result: ', result);
 
-	// console.log( 'mySvg: ', mySvg );
+	let chartHeight = result.children[0].getAttribute('height');
+	let chartWidth = result.children[0].getAttribute('width');
+	let svgString = new XMLSerializer().serializeToString(result.children[0]);
+	console.log( 'svgString: ', svgString );
 
-	return mySvg;
+
+	// let myCanvas = document.createElement("canvas");
+	// myCanvas.setAttribute("id", "myCanvas");
+	// myCanvas.setAttribute("height", chartHeight);
+	// myCanvas.setAttribute("width", chartWidth);
+	// let myImg = document.createElement("img");
+	// myImg.style.height = chartHeight;
+	// myImg.style.width = chartWidth;
+	// myImg.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
+	// myCanvas.getContext('2d').drawImage(myImg, 0, 0);
+
+	// console.log('myImg: ', myImg);
+	// console.log('myCanvas: ', myCanvas);
+
+	let myBase64 = 'data:image/jpeg;base64,' + window.btoa(svgString);
+	// console.log('myBase64: ', myBase64);
+	// console.log("myCanvas start: ", myCanvas);
+	// let canvas = document.getElementById("#myCanvas");
+	// console.log('canvas: ', canvas );
+	// // let ctx = canvas.getContext("2d");
+	// // console.log('ctx: ', ctx);
+	// let DOMURL = self.URL || self.webkitURL || self;
+	// let img = new Image();
+	// let svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+	// let url = DOMURL.createObjectURL(svg);
+	// console.log('svg: ', svg);
+	// console.log('url: ', url);
+
+	// let reader = new FileReader();
+	// reader.readAsDataURL(svg);
+	// reader.onloadend = () => {
+	// 	let base64data = reader.result;
+	// 	console.log('base64: ', base64data);
+	// }
+
+	// // img.onload = () => {
+	// // 	ctx.drawImage(img, 0, 0);
+	// // 	let png = canvas.toDataUrl("image/png");
+	// // 	console.log('png: ', png);
+	// // 	document.querySelector('#pngContainer').innerHTML = '<img src="' + png + '"/>';
+	// // 	DOMURL.revokeObjectURL(png);
+	// // }
+	// // img.src = url;
+	// console.log('img: ', img);
+
+	// console.log('canvas: ', canvas);
+	// console.log('myCanvas after: ', myCanvas);
+	// let svgHeader = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+	// svgHeader += 'svg version="1.1" id="myChart" xmlns="http://www.w3.org/2000/svg" ';
+	// svgHeader +- 'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ';
+	// svgHeader += `viewBox="0 0 ${chartHeight} ${chartWidth}" style="enable-background:new 0 0 ${chartHeight} ${chartWidth};" xml:space="preserve">`;
+	// let mySvg = svgHeader;
+	// mySvg += chart.element.innerHTML;
+	// let chartHeight = result.children[0].getAttribute('height');
+	// let chartWidth = result.children[0].getAttribute('width');
+	// console.log( 'chartHeight: ', chartHeight);
+	// console.log( 'chartWidth: ', chartWidth);
+
+	// // create a new canvas
+	// let pdfCanvas = $('<canvas />').attr({
+	// 	id: 'canvaspdf',
+	// 	width: chartWidth,
+	// 	height: chartHeight
+	// });
+
+	// console.log('pdfCanvas: ', pdfCanvas);
+
+	// // Keep track of canvas position
+	// let pdfctx = $(pdfCanvas)[0].getContext('2d');
+	// let pdfctxX = 0;
+	// let pdfctxY = 0;
+	// let buffer = 100;
+
+
+	// pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, chartHeight, chartWidth);
+
+	// console.log( 'pdfctx: ', pdfctx);
+
+	// // result.children[0].outerHTML;
+	// // const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
+	// // const mySvg = new XMLSerializer().serializeToString(result.children[0].svg);
+	// // const myBase64Data = window.btoa(mySvg);
+	// // console.log( 'myBase64Data: ', myBase64Data );
+	// // const mySvg = new XMLSerializer().serializeToString(result.children[0]);
+	// // const mySvg = chart.element.children[0];
+	// // console.log( 'mySvg: ', mySvg );
+	// const mySvg = result.children[0];
+	// console.log('mySvg: ', mySvg);
+	// console.log('mySvg[0]: ', mySvg[0]);
+	// console.log('htmlToPdfMake: ', htmlToPdfmake(mySvg[0]));
+	return myBase64;
 }
 
 
@@ -501,6 +595,8 @@ function formatContent(sectionName, arrMap) {
 			retContent.push(committee_review(g_md.children[arrIndex], g_d.committee_review, false));
 			break;
 		case 'core-summary':
+			retContent.push(core_summary());
+			break;
 		case 'all':
 			// home_record
 			g_current = 'home_record';
@@ -515,7 +611,7 @@ function formatContent(sectionName, arrMap) {
 			retContent.push(birth_fetal_death_certificate_parent(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, true));
 			// birth_certificate_infant_fetal_section
 			arrIndex = arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
-			retContent.push(birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, true));
+			retContent.push(birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_certificate_infant_fetal_section, true));
 			// autopsy_report
 			arrIndex = arrMap.findIndex((s) => s.name === 'autopsy_report');
 			retContent.push(autopsy_report(g_md.children[arrIndex], g_d.autopsy_report, true));
@@ -588,7 +684,7 @@ function home_record(p, d) {
 			width: 'auto',
 			table: {
 				headerRows: 1,
-				widths: [200, 'auto'],
+				widths: [250, 'auto'],
 				body: [
 					[
 						{ text: 'Case Identification', style: ['subHeader'], colSpan: '2', },
@@ -659,7 +755,7 @@ function home_record(p, d) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: 'Overall Case Status', style: ['subHeader'], colSpan: '2', },
@@ -710,7 +806,7 @@ function home_record(p, d) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: 'Overall Assessment of the Timing of Death', style: ['subHeader'], colSpan: '2', },
@@ -745,7 +841,7 @@ function home_record(p, d) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*', 200, '*'],
+				widths: [250, '*', 200, '*'],
 				body: [
 					[
 						{ text: 'Case Progress Status', style: ['subHeader'], colSpan: '4', },
@@ -812,7 +908,7 @@ function home_record(p, d) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: 'Audit Information', style: ['subHeader'], colSpan: '2', },
@@ -882,7 +978,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*', 200, '*'],
+				widths: [250, '*', 200, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '4', },
@@ -920,7 +1016,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1024,7 +1120,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1185,7 +1281,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1234,7 +1330,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1303,7 +1399,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1408,7 +1504,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1534,7 +1630,7 @@ function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1838,7 +1934,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1908,7 +2004,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -1990,7 +2086,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2042,7 +2138,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2131,7 +2227,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2204,7 +2300,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2238,7 +2334,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2303,7 +2399,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [150, '*', 150, '*'],
+				widths: [250, '*', 150, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '4', },
@@ -2353,7 +2449,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2431,7 +2527,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -2501,7 +2597,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
@@ -4537,25 +4633,25 @@ function prenatal(p, d, pg_break) {
 	// 		`{'Systolic', 120, 125}`
 	// 	],
 	// ]);
-	const myTestChart = drawLineChart('Blood Pressure', chartArr);
+	// const myTestChart = drawLineChart('Blood Pressure', chartArr);
 	// console.log('myTestChart: ', myTestChart );
-	// const myTestChart = new XMLSerializer().serializeToString(document.querySelector('svg'));
+	// const myTestChart2 = new XMLSerializer().serializeToString(document.querySelector('svg'));
 	// console.log( 'xxx: ', xxx );
 	// const myBase64Data = window.btoa(mySvg);
 	// console.log( 'myBase64Data: ', myBase64Data );
 
 	// const myBase64Data = window.btoa(myTestChart);
 	// console.log( 'myBase64Data: ', myBase64Data );
+	// const myTestChart = 
 
 	// body.push([{ 
-	// 	svg: myTestChart,
+	// 	svg: myTestChart2,
 	// 	width: 600,
 	// 	height: 300,
 	// },],);
 
 	// body.push([{ 
-	// 	image: `data:image/jpeg;base64,${myBase64Data}`,
-	// 	width: 200, 
+	// 	image: myTestChart,
 	// },],);
 
 	// console.log( 'graph body: ', body );
@@ -4755,7 +4851,7 @@ function prenatal(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -9510,7 +9606,7 @@ function mental_health_profile(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [300, '*'],
+				widths: [250, '*'],
 				body: [
 					[
 						{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -10116,7 +10212,7 @@ function case_narrative(p, d, pg_break) {
 						{ text: 'Case Narrative', style: ['subHeader'], },
 					],
 					[
-						{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: HtmlToPdfmake needs to be added when Word data cleaned up
+						{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
 					],
 				],
 			},
@@ -10136,7 +10232,7 @@ function committee_review(p, d, pg_break) {
 	console.log('d: ', d);
 
 	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
+	retPage.push({ text: '', pageHeaderText: 'CORE SUMMARY' });
 
 	// Need page break, used if print all or core
 	if (pg_break) {
@@ -10409,4 +10505,412 @@ function committee_review(p, d, pg_break) {
 	]);
 
 	return retPage;
+}
+
+// Core Summary - display all of the core summary fields
+function core_summary() {
+	let body = [];
+	// let arrMap = getArrayMap();
+
+	// Record Core Fields
+	let retPage = [];
+
+	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
+	body = core_pdf_summary(g_metadata, g_data, '/', g_ui, false, '');
+
+	// Show the table
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			table: {
+				headerRows: 0,
+				widths: [250, '*'],
+				body: body,
+			},
+		},
+	],);
+
+	return retPage;
+}
+
+function core_pdf_summary(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, p_metadata_path)
+{
+	let is_core_summary = false;
+
+	if(p_is_core_summary)
+	{
+		is_core_summary = true;
+	}
+
+	let result = [];
+	switch(p_metadata.type.toLowerCase())
+	{
+		case 'group':
+			if(g_metadata_summary[p_metadata_path].is_core_summary > 0 ||
+				p_metadata.is_core_summary && p_metadata.is_core_summary == true)
+			{
+				result.push([
+					{ 
+						text: `${p_metadata.prompt}: `, 
+						style: ['subHeader', 'isUnderLine'], 
+						colspan: '2', 
+						margin: [5, 0, 0, 0],
+					},
+					{},
+				],);
+				if(p_metadata.is_core_summary || p_metadata.is_core_summary == true)
+				{
+					is_core_summary = true;
+				}
+
+				if(p_metadata.children)
+				{
+					for(let i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+					}
+				}
+			}
+			break;
+		case 'form':
+			if(
+				g_metadata_summary[p_metadata_path].is_core_summary > 0 && 
+				(
+					p_metadata.cardinality == "+" || p_metadata.cardinality == "*"
+				)
+			)
+			{
+				result.push([
+					{ 
+						text: p_metadata.prompt, 
+						style: ['coreHeader'], 
+						colSpan: '2', 
+						margin: [0, 5, 0, 0],
+					},
+					{},
+				]);
+				for(var form_index = 0; form_index < p_data.length; form_index++)
+				{
+					var form_item = p_data[form_index];
+					result.push([
+						{ text: `Record: ${form_index + 1}`.toUpperCase(), style: ['tableLabel'], colSpan: '2', },
+						{},
+					]);
+					if(p_metadata.children)
+					{
+						for(var i = 0; i < p_metadata.children.length; i++)
+						{
+							var child = p_metadata.children[i];
+							if(form_item[child.name] != null)
+							Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+						}
+					}
+				}
+			}
+			else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
+			{
+				result.push([
+					{ text: `${p_metadata.prompt}: `, style: ['coreHeader'], colSpan: '2', },
+					{},
+				]);
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+					}
+				}
+			}
+			break;	
+			case "grid":
+				let body = [];
+				let row;
+				let colWidths;
+				let colspan = 0;
+				if(p_metadata.is_core_summary && p_metadata.is_core_summary == true)
+				{
+					// Get the number of columns
+					colspan = p_metadata.children.length;
+					row = new Array();
+					row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, }, );
+
+					// Add the extra {} for the columns so it doesn't break
+					for (let j = 1; j < colspan; j++)
+					{
+						row.push( {}, );
+					}
+					body.push(row);
+
+					// Add the appropriate number of column widths so it will be at 100% across the page
+					colWidths = new Array();
+					colWidths.push('auto',);
+					for (let j = 1; j < colspan; j++)
+					{
+						colWidths.push('*',);
+					}
+
+					row = new Array();
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						var child = p_metadata.children[j];
+						row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], },);
+					}
+					body.push(row);
+					row = new Array();
+					for(var i = 0; i < p_data.length; i++)
+					{
+						if(p_data[i] != null)
+						{
+							for(var j = 0; j < p_metadata.children.length; j++)
+							{
+								var child = p_metadata.children[j];
+								if(p_data[i][child.name] != null)
+								{
+									if (child.type === 'list')
+									{
+										row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
+									}
+									else
+									{
+										row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
+									}
+								}
+								else
+								{
+									row.push({ text: '', style: ['tableDetail'], },);
+								}
+							}
+							body.push(row);
+						}
+					}
+				}
+				else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
+				{
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						var child = p_metadata.children[j];
+						if(child.is_core_summary && child.is_core_summary == true)
+						{
+							colspan = colspan + 1;	
+						}
+					}
+
+					// Add the 1st line of the header
+					row = new Array();
+					row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, }, );
+
+					// Add the extra {} for the columns so it doesn't break
+					for (let j = 1; j < colspan; j++)
+					{
+						row.push( {}, );
+					}
+					body.push(row);
+
+					// Add the appropriate number of column widths so it will be at 100% across the page
+					colWidths = new Array();
+					colWidths.push('auto',);
+					for (let j = 1; j < colspan; j++)
+					{
+						colWidths.push('*',);
+					}
+
+					row = new Array();
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						var child = p_metadata.children[j];
+						if(child.is_core_summary && child.is_core_summary == true)
+						{
+							row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], })
+						}
+					}
+					body.push(row);
+					row = new Array();
+					for(var i = 0; i < p_data.length; i++)
+					{
+						if(p_data[i] != null)
+						{
+							for(var j = 0; j < p_metadata.children.length; j++)
+							{
+								var child = p_metadata.children[j];
+								if(child.is_core_summary && child.is_core_summary == true)
+								{
+									if(p_data[i][child.name] != null)
+									{
+										if (child.type === 'list')
+										{
+											row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
+										}
+										else
+										{
+											row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
+										}
+									}
+									else
+									{
+										row.push({ text: '', style: ['tableDetail'], },);
+									}
+								}
+							}
+						}
+					}
+					if (row.length > 0)
+					{
+						body.push(row);
+					}
+				}
+				// Display the grid table
+				console.log( '&&&&&&&&&&&& body.length: ', body.length );
+				if (body.length > 0) {
+					result.push([
+						{ 
+							table: {
+								widths: colWidths,
+								headerRows: 2,
+								body: body
+							}, 
+							colSpan: '2',
+						},
+						{},
+					],);
+				}
+				break;				
+			case 'app':	
+				if(
+					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+					is_core_summary == true
+				)
+				{
+					result.push([
+						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: p_data[p_metadata.name], style: ['tableDetail'], },
+					],);
+				}
+
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(child.type.toLowerCase() == "form" && p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, "g_metadata.children[" + i + "]"));
+					}
+				}
+				break;		
+			case 'list':
+				if(
+					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+					is_core_summary == true
+				)
+				{
+
+					let data_value_list = p_metadata.values;
+					let list_lookup = {};
+	
+					if(p_metadata.path_reference && p_metadata.path_reference != "")
+					{
+						data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+				
+						if(data_value_list == null)	
+						{
+							data_value_list = p_metadata.values;
+						}
+					}
+	
+					for(let list_index = 0; list_index < data_value_list.length; list_index++)
+					{
+						let list_item = data_value_list[list_index];
+						list_lookup[list_item.value] = list_item.display;
+					}
+	
+					if(Array.isArray(p_data))
+					{
+						result.push([
+							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right' },
+							{ text: '', },
+						],);
+						for(var i = 0; i < p_data.length; i++)
+						{
+							if
+							(
+								(p_data[i] == 9999 || p_data[i] == "9999") &&
+								p_data.length > 1
+							)
+							{
+								continue;
+							}
+							result.push([
+								{ text: '', },
+								{ text: `\u2022 ${list_lookup[p_data[i]]}`, style: ['tableDetail']},
+							],);
+		
+						}
+					}
+					else
+					{
+						result.push([
+							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+							{ text: list_lookup[p_data], style: ['tableDetail'], },
+						],);
+						}
+				}
+				break;
+			default:
+				if(
+					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+					is_core_summary == true
+				)
+				{
+					result.push([
+						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: p_data, style: ['tableDetail'], },
+					]);
+				}
+
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+					}
+				}
+				break;
+	}
+
+	return result;
+}
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	let result = null;
+	let temp_result = []
+	let temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	let index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	let lookup_list = eval(temp_result[0]);
+
+	for(let i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+	return result;
 }

@@ -1,6 +1,21 @@
 function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
+	// console.log('*******************************');
+	// console.log('p_result: ', p_result);
+	// console.log('p_metadata: ', p_metadata);
+	// console.log('p_ui: ', p_ui);
+	// console.log('p_metadata_path: ', p_metadata_path);
+	// console.log('p_object_path: ', p_object_path);
+	// console.log('p_dictionary_path: ', p_dictionary_path);
+	// console.log('p_is_grid_context: ', p_is_grid_context);
+	// console.log('p_post_html_render: ', p_post_html_render);
+	// console.log('p_search_ctx: ', p_search_ctx);
+	// console.log('p_ctx: ', p_ctx);
+	// console.log('style_object: ', style_object);
+	// console.log('##############################');
+	
 	p_result.push
 	(
 		`<div id='${convert_object_path_to_jquery_id(p_object_path)}'
