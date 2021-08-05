@@ -156,6 +156,20 @@ namespace mmria.server.utils
                     Log.Information($"audit/_security completed successfully");
                 }
 
+                try 
+                {
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/audit_design_sortable.json")))
+                    {
+
+                        string audit_design_sortable = sr.ReadToEnd ();
+                        var audit_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}audit/_design/sortable", audit_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                        await audit_design_sortable_curl.executeAsync ();
+                    }
+                }               
+                catch (Exception ex) 
+                {
+                    Log.Information ($"unable to configure audit_design_sortable in database:\n{ex}");
+                }
 
 
                 if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}session", Program.config_timer_user_name, Program.config_timer_value)) 
