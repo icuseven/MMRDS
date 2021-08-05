@@ -66,13 +66,19 @@ namespace mmria.server
 		} 
 
 
+
+
+
 		[Authorize(Roles  = "abstractor")]
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-            [FromBody] System.Dynamic.ExpandoObject case_post_request
+            [FromBody] mmria.common.model.couchdb.Save_Case_Request save_case_request
         ) 
 		{ 
+
+            var case_post_request = save_case_request.Case_Data;
+
 			string auth_session_token = null;
 
 			string object_string = null;

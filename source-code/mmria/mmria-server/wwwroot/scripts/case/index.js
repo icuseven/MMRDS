@@ -90,10 +90,16 @@ function g_set_data_object_from_path
       //g_data.last_updated_by = g_uid;
 
       g_change_stack.push({
+        _id: g_data._id,
+        _rev: g_data._rev,
         object_path: p_object_path,
         metadata_path: p_metadata_path,
         old_value: current_value,
         new_value: value,
+        dictionary_path: p_dictionary_path,
+        metadata_type: metadata.type,
+        date_created: new Date().toISOString(),
+        user_name: g_user_name
       });
 
       /*
@@ -244,10 +250,16 @@ function g_set_data_object_from_path
     }
 
     g_change_stack.push({
+        _id: g_data._id,
+        _rev: g_data._rev,
       object_path: p_object_path,
       metadata_path: p_metadata_path,
       old_value: current_value,
       new_value: value,
+      dictionary_path: p_dictionary_path,
+      metadata_type: metadata.type,
+      date_created: new Date().toISOString(),
+      user_name: g_user_name
     });
 
     g_data.date_last_updated = new Date();
@@ -1712,11 +1724,24 @@ function save_case(p_data, p_call_back)
 
   if (g_is_data_analyst_mode == null) 
   {
+
+    let save_case_request = { 
+            Change_Stack:{
+                _id: $mmria.get_new_guid(),
+                case_id: g_data._id,
+                case_rev: g_data._rev,
+                date_created: new Date().toISOString(),
+                user_name: g_user_name, 
+                items: g_change_stack 
+            },
+            Case_Data:p_data
+        };
+
     $.ajax({
       url: location.protocol + '//' + location.host + '/api/case',
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      data: JSON.stringify(p_data),
+      data: JSON.stringify(save_case_request),
       type: 'POST',
     })
       .done(function (case_response) 
@@ -2420,8 +2445,23 @@ function enable_edit_click()
 {
   if (g_data) 
   {
-    g_data.date_last_updated = new Date();
-    g_data.date_last_checked_out = new Date();
+    let new_date = new Date();
+
+    g_change_stack.push({
+        _id: g_data._id,
+        _rev: g_data._rev,
+      object_path: 'g_data.date_last_checked_out',
+      metadata_path: '/date_last_checked_out',
+      old_value: g_data.date_last_checked_out,
+      new_value: new_date.toISOString(),
+      dictionary_path: '/date_last_checked_out',
+      metadata_type: 'datetime',
+      date_created: new_date.toISOString(),
+      user_name: g_user_name
+    });
+
+    g_data.date_last_updated = new_date;
+    g_data.date_last_checked_out = new_date;
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
     save_case(g_data, create_save_message);
