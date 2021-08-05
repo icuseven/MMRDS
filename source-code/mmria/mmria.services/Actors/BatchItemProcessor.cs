@@ -11045,7 +11045,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine($"BatchItemProcessor 11048 GetCaseView\n{ex}");
 
             }
 
@@ -11074,7 +11074,8 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                
+                Console.WriteLine($"BatchItemProcessor.GetCaseById 11078\n{ex}");
             }
 
             return null;

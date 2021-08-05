@@ -486,7 +486,7 @@ function validate_AssociatedNAT(p_array)
             var mom_ssn = item.substring(mom_ssn_start, mom_ssn_start + 9).trim();
             if (g_cdc_identifier_set[mom_ssn] == null || g_cdc_identifier_set[mom_ssn] == false)
             {
-                result.push(`Missing Id in NAT file Line: ${i+1}  id: ${mom_ssn}`);
+                result.push(`NAT file Line: ${i+1}  id: ${mom_ssn} not found in .mor file`);
             }
             
         }
@@ -533,7 +533,7 @@ function validate_AssociatedFET(p_array)
             var mom_ssn = item.substring(mom_ssn_start, mom_ssn_start + 9).trim();
             if (g_cdc_identifier_set[mom_ssn] == null || g_cdc_identifier_set[mom_ssn] == false)
             {
-                result.push(`Missing Id in FET file Line: ${i+1}  id: ${mom_ssn}`);
+                result.push(`FET file Line: ${i+1}  id: ${mom_ssn} not found in .mor file`);
             }
         }
     }
