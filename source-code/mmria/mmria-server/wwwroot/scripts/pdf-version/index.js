@@ -308,7 +308,7 @@ function lookupGlobalArr(val, lookupName) {
 	// Return the display value from the lookup array
 	let arr = g_md.lookup[lookupIndex].values;
 	let idx = arr.findIndex((s) => s.value === val);
-	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : idx;   // This fixes bad data coming in
+	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : 0;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
 
