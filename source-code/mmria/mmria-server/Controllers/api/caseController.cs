@@ -66,13 +66,19 @@ namespace mmria.server
 		} 
 
 
+
+
+
 		[Authorize(Roles  = "abstractor")]
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-            [FromBody] System.Dynamic.ExpandoObject case_post_request
+            [FromBody] mmria.common.model.couchdb.Save_Case_Request save_case_request
         ) 
 		{ 
+
+            var case_post_request = save_case_request.Case_Data;
+
 			string auth_session_token = null;
 
 			string object_string = null;
@@ -181,6 +187,25 @@ namespace mmria.server
                 {
                     Console.Write("auth_session_token: {0}", auth_session_token);
                     Console.WriteLine(ex);
+                }
+
+
+                var audit_data = save_case_request.Change_Stack;
+
+                var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
+
+                string audit_url = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{audit_data._id}";
+				cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, Program.config_timer_user_name, Program.config_timer_value);
+
+                try
+                {
+                    string responseFromServer = await audit_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Console.Write("problem saving audit\n{0}", ex);
+
                 }
 
 				var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
