@@ -10769,7 +10769,6 @@ function core_pdf_summary(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, 
 					}
 				}
 				// Display the grid table
-				console.log( '&&&&&&&&&&&& body.length: ', body.length );
 				if (body.length > 0) {
 					result.push([
 						{ 
