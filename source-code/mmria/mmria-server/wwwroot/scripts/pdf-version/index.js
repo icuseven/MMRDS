@@ -302,18 +302,24 @@ function getArrayMap() {
 
 // Generic Find from global lookup array
 function lookupGlobalArr(val, lookupName) {
+	// See if val is blank
+	if (val === '') return val;
+
 	// Find the correct lookup table index
 	let lookupIndex = g_md.lookup.findIndex((s) => s.name === lookupName);
 
 	// Return the display value from the lookup array
 	let arr = g_md.lookup[lookupIndex].values;
 	let idx = arr.findIndex((s) => s.value === val);
-	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : idx;   // This fixes bad data coming in
+	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : 0;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
+	// See if val is blank or array is empty
+	if (val === '' || arr.length === 0) return val;
+	
 	let idx = arr.findIndex((s) => s.value === val);
 	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
