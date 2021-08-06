@@ -925,7 +925,7 @@ var g_ui = {
                 '/home_record';
 
                 window.location = url;
-            });
+            }, "add_new_case");
         }
     );
 
@@ -1556,7 +1556,7 @@ function window_on_hash_change(e)
                 get_specific_case(
                     g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
                 );
-                });
+                }, "hash_change");
             }
             else
             {
@@ -1575,7 +1575,7 @@ function window_on_hash_change(e)
                 save_case(g_data, function () 
                 {
                     g_render();
-                });
+                }, "hash_change");
             }
             else
             {
@@ -1598,7 +1598,7 @@ function window_on_hash_change(e)
             get_case_set(function () {
                 g_render();
             });
-            });
+            }, "hash_change");
         }
         else
         {
@@ -1715,7 +1715,7 @@ function get_specific_case(p_id)
     });
 }
 
-function save_case(p_data, p_call_back) 
+function save_case(p_data, p_call_back, p_note) 
 {
   if (p_data.host_state == null || p_data.host_state == '') 
   {
@@ -1732,7 +1732,8 @@ function save_case(p_data, p_call_back)
                 case_rev: g_data._rev,
                 date_created: new Date().toISOString(),
                 user_name: g_user_name, 
-                items: g_change_stack 
+                items: g_change_stack,
+                note: (p_note != null)? p_note : ""
             },
             Case_Data:p_data
         };
@@ -2480,7 +2481,7 @@ function enable_edit_click()
     g_data.date_last_checked_out = new_date;
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
-    save_case(g_data, create_save_message);
+    save_case(g_data, create_save_message, "enable_edit");
     g_autosave_interval = window.setInterval(autosave, 10000);
     g_render();
   }
@@ -2489,7 +2490,7 @@ function enable_edit_click()
 function save_form_click() 
 {
     
-    save_case(g_data, create_save_message);
+    save_case(g_data, create_save_message, 'save_form_click');
 }
 
 function save_and_finish_click() 
@@ -2499,7 +2500,7 @@ function save_and_finish_click()
   g_data.last_checked_out_by = null;
   g_data_is_checked_out = false;
   g_apply_sort(g_metadata, g_data, "","", "");
-  save_case(g_data, create_save_message);
+  save_case(g_data, create_save_message, 'save_and_finish_click');
   g_render();
   window.clearInterval(g_autosave_interval);
   g_autosave_interval = null;
@@ -2742,7 +2743,7 @@ function autosave()
           if (number_of_minutes > 2) 
           {
             g_data.date_last_updated = new Date();
-            save_case(g_data, null);
+            save_case(g_data, null, 'autosave');
           }
         }
       }
@@ -2971,7 +2972,7 @@ function navigation_away()
       }
     }
 
-    save_case(g_data);
+    save_case(g_data, null, 'navigation_away');
     window.clearInterval(g_autosave_interval);
     g_autosave_interval = null;
   }
