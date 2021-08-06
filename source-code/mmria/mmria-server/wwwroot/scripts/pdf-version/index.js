@@ -165,7 +165,7 @@ async function print_pdf(section) {
 				fontSize: 10,
 			},
 			tableLabel: {
-				color: '#000000',
+				color: '#1010dd',
 				fontSize: 9,
 				bold: true,
 			},
@@ -10839,10 +10839,7 @@ function core_pdf_summary(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, 
 	
 					if(Array.isArray(p_data))
 					{
-						result.push([
-							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right' },
-							{ text: '', },
-						],);
+						let choiceList = '';
 						for(var i = 0; i < p_data.length; i++)
 						{
 							if
@@ -10853,12 +10850,16 @@ function core_pdf_summary(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, 
 							{
 								continue;
 							}
-							result.push([
-								{ text: '', },
-								{ text: `\u2022 ${list_lookup[p_data[i]]}`, style: ['tableDetail']},
-							],);
-		
+							choiceList += `${list_lookup[p_data[i]]}, `;
 						}
+						if( choiceList.length > 0)
+						{
+							choiceList = choiceList.slice(0, -2);
+						}
+						result.push([
+							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right' },
+							{ text: `${choiceList}`, style: ['tableDetail'], },
+						],);
 					}
 					else
 					{
