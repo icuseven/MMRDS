@@ -34,12 +34,19 @@ namespace migrate
 
 		static private string config_couchdb_url;
 
-		static private string config_metadata_version;
+		static public string config_metadata_version;
 
 		static List<string> run_list;
 
 		static List<string> test_list = new List<string>()
 		{
+					"ma",
+					"nc",
+					"oh",
+					"tn",
+					"ut",
+					"wi"
+			
 			//"fl_dev"
 			/*
 			"localhost",
@@ -51,10 +58,10 @@ namespace migrate
 "me",
 "nd",
 "vt",
-"pr",*/
+"pr",
 			//"test",
 			"qa",
-			"uat"
+			"uat"*/
 
 			/*"test",
 			"ga"
@@ -201,12 +208,12 @@ namespace migrate
 
 
 
-			bool is_test_list = false;
+			bool is_test_list = true;
 			
-			bool is_report_only_mode = false;
+			bool is_report_only_mode = true;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
+			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
 
 			
 
@@ -371,8 +378,15 @@ namespace migrate
 					else if(MigrationType == RunTypeEnum.OneTime)
 					{
 
-						var Fix_American_Indian_Recode = new migrate.set.Fix_American_Indian_Recode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await Fix_American_Indian_Recode.execute();
+						
+
+						var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
+						await sep_data_fix.execute();
+
+
+
+						//var Fix_American_Indian_Recode = new migrate.set.Fix_American_Indian_Recode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						//await Fix_American_Indian_Recode.execute();
 							
                                           
 

@@ -38,6 +38,10 @@ var g_other_specify_lookup = {};
 var g_record_id_list = {};
 var g_charts = {};
 var g_chart_data = {};
+var g_case_narrative_is_updated = false;
+var g_case_narrative_is_updated_date = null;
+var g_case_narrative_original_value = null;
+
 
 function g_set_data_object_from_path
 (
@@ -94,7 +98,7 @@ function g_set_data_object_from_path
         _rev: g_data._rev,
         object_path: p_object_path,
         metadata_path: p_metadata_path,
-        old_value: current_value,
+        old_value: JSON.stringify(current_value),
         new_value: value,
         dictionary_path: p_dictionary_path,
         metadata_type: metadata.type,
@@ -254,7 +258,7 @@ function g_set_data_object_from_path
         _rev: g_data._rev,
       object_path: p_object_path,
       metadata_path: p_metadata_path,
-      old_value: current_value,
+      old_value: JSON.stringify(current_value),
       new_value: value,
       dictionary_path: p_dictionary_path,
       metadata_type: metadata.type,
@@ -1664,6 +1668,7 @@ function get_specific_case(p_id)
     {
       if (case_response) 
       {
+        g_case_narrative_original_value = case_response.case_narrative.case_opening_overview;
         var local_data = get_local_case(p_id);
 
         if (local_data) 
@@ -1738,6 +1743,22 @@ function save_case(p_data, p_call_back, p_note)
             Case_Data:p_data
         };
 
+    if(g_case_narrative_is_updated)
+    {
+        save_case_request.Change_Stack.items.push({
+            _id: g_data._id,
+            _rev: g_data._rev,
+          object_path: "g_data.case_narrative.case_opening_overview",
+          metadata_path: "/case_narrative/case_opening_overview",
+          old_value: g_case_narrative_original_value,
+          new_value: g_data.case_narrative.case_opening_overview,
+          dictionary_path: "/case_narrative/case_opening_overview",
+          metadata_type: "textarea",
+          date_created: g_case_narrative_is_updated_date.toISOString(),
+          user_name: g_user_name
+        });
+    }
+
     $.ajax({
       url: location.protocol + '//' + location.host + '/api/case',
       contentType: 'application/json; charset=utf-8',
@@ -1750,11 +1771,14 @@ function save_case(p_data, p_call_back, p_note)
         console.log('save_case: success');
 
         g_change_stack = [];
+        g_case_narrative_is_updated = false;
+        g_case_narrative_is_updated_date = null;
 
         if (g_data && g_data._id == case_response.id) 
         {
           g_data._rev = case_response.rev;
           g_data_is_checked_out = is_case_checked_out(g_data);
+          g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
           set_local_case(g_data);
           //console.log('set_value save finished');
         }
@@ -2915,6 +2939,9 @@ function g_textarea_oninput
 ) 
 {
   var metadata = eval(p_metadata_path);
+
+  g_case_narrative_is_updated = true;
+  g_case_narrative_is_updated_date = new Date()
 
   if 
   (
