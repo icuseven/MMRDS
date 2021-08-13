@@ -2,6 +2,16 @@ using System;
 
 namespace mmria.common.model.couchdb
 {
+    public class AuditViewResponseItem
+    {
+        public string id {get;set;}
+        public string rev {get;set;}
+        public string user_name {get;set;}
+        public DateTime? date_created {get;set;}
+        public string note {get;set;}
+        public int? change_count {get;set;}
+    }
+
 
         public class Change_Stack_Item
         {
