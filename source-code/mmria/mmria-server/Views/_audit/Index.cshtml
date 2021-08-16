@@ -48,10 +48,11 @@
 <tr bgcolor="#BBBBBB">
 <th>date_created</th>
 <th>user_name</th>
-<th>note</th>
+<th>abstractor action</th>
 <th>mmria_path</th>
 <th>old value</th>
 <th>new value</th>
+<th></th>
 </tr>
 @foreach (var item in Model.ls)
 {
@@ -74,10 +75,11 @@
             <tr bgcolor="#BBBBBB">
             <th>date_created</th>
             <th>user_name</th>
-            <th>note</th>
+            <th>abstractor action</th>
             <th>mmria_path</th>
             <th>old value</th>
             <th>new value</th>
+            <th></th>
             </tr>
         }
        <tr bgcolor="@bg">
@@ -90,11 +92,13 @@
             @if(change.old_value?.Length> 30)
             {
                  @change.old_value.Substring(0, 30);
+                 
             }
             else
             {
                  @change.old_value;
             }
+            
         </td>
         <td>
             @if(change.new_value?.Length> 30)
@@ -106,6 +110,7 @@
                 @change.new_value;
             }
         </td>
+        <td>[ <a href="#">more details</a> ]</td>
     </tr>
 
     }
