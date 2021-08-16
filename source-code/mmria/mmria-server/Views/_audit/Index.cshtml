@@ -47,6 +47,7 @@
 <p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
 <p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
 
+<form method="get" action="/_audit/@Model.id">
 <table>
     <tr>
         <th colspan=3 align="center">Filter</th>
@@ -60,7 +61,7 @@ user name
     </tr>
 <tr>
     <td>
-        <select id="selected_user">
+        <select id="user" name="user">
             @if(string.IsNullOrWhiteSpace(Model.user) || Model.user.ToUpper() == "ALL")
             {
                 <option selected="">All</option>
@@ -87,21 +88,22 @@ user name
     <td>
         @if(!string.IsNullOrWhiteSpace(Model.search_text)&& Model.search_text.ToUpper() == "ALL")
         {
-            <input id="searchtext" type="text" value="" />
+            <input id="search_text" name="search_text" type="text" value="" />
         }
         else
         {
-            <input id="searchtext" type="text" value="@Model.search_text" />
+            <input id="search_text" name="search_text" type="text" value="@Model.search_text" />
         }
         
     </td>
     <td>
-        <input id="apply_filter_button" type="button" value="apply filter"/>
+        <input id="apply_filter_button" type="Submit" value="apply filter"/>
         <input id="clear_filter_button" type="button" value="clear filter"/>
 
     </td>
 </tr>
 </table>
+</form>
 <br/>
 
 <table border=1>
@@ -116,8 +118,30 @@ user name
 </tr>
 @foreach (var item in Model.ls)
 {
+    @if
+    (
+        !string.IsNullOrWhiteSpace(Model.user) && 
+        Model.user.ToUpper() != "ALL" &&
+        Model.user.ToUpper() != item.user_name.ToUpper()
+    )
+    {
+        continue;
+    }
+
     foreach (var change in item.items)
     { 
+        @if
+        (
+            !string.IsNullOrWhiteSpace(Model.search_text) && 
+            Model.search_text.ToUpper() != "ALL" &&
+            (
+                change.dictionary_path.IndexOf(Model.search_text) < 0
+            )
+        )
+        {
+            continue;
+        }
+        
         row_number++;
 
         var bg = "";
