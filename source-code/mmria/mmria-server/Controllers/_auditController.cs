@@ -24,7 +24,7 @@ namespace mmria.server.Controllers
         }
 
         [Route("_audit/{p_id}")]
-        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, bool showAll = false)
+        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, string p_user = "all", string search_text = "all", bool showAll = false)
         {
 
 

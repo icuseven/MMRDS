@@ -512,7 +512,8 @@ function form_render(
 		}
 
 		//~~ informant_interviews
-		if (p_metadata.name === "informant_interviews") {
+		if (p_metadata.name === "informant_interviews") 
+        {
 			p_result.push(
                 `<thead class="thead">
                     <tr class="tr">
@@ -525,7 +526,9 @@ function form_render(
                 </thead>
                 <tbody class="tbody">`
             );
-			for (let i = 0; i < p_data.length; i++) {
+
+			for (let i = 0; i < p_data.length; i++) 
+            {
 				let item = p_data[i];
 				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join("/")}`; // /Case#0/informant_interviews/
 				let interviewMonth =
@@ -579,7 +582,8 @@ function form_render(
 		p_result.push("</div>");
 		p_result.push("</section> <!-- end.construct -->");
 
-		if (p_ui.url_state.path_array.length > 2) {
+		if (p_ui.url_state.path_array.length > 2) 
+        {
 			var data_index = parseInt(p_ui.url_state.path_array[2]);
 			var form_item = p_data[data_index];
 
@@ -659,7 +663,8 @@ function form_render(
 			if (
 				g_data.date_last_updated &&
 				!isNullOrUndefined(g_data.date_last_updated)
-			) {
+			) 
+            {
 				let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
 
 				p_result.push(
@@ -680,7 +685,8 @@ function form_render(
 				"<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
 			);
 
-			if (!(g_is_data_analyst_mode || case_is_locked)) {
+			if (!(g_is_data_analyst_mode || case_is_locked)) 
+            {
 				p_result.push(
                     `${currently_locked_by_html}
                     <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -693,7 +699,8 @@ function form_render(
 			render_print_form_control(p_result, p_ui, p_metadata);
 			p_result.push("</div>");
 			p_result.push("<div class='mt-4 row no-gutters justify-content-end'>");
-			if (!(g_is_data_analyst_mode || case_is_locked)) {
+			if (!(g_is_data_analyst_mode || case_is_locked)) 
+            {
 				p_result.push(
 					`<input type='button' class='btn btn-primary' value='Undo' onclick='init_inline_loader(function() { undo_click() })' ${undo_disable_attribute}/>`
 				);
