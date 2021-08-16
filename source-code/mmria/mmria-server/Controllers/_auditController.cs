@@ -86,6 +86,48 @@ namespace mmria.server.Controllers
                 });
         }
 
+        public class Audit_Detail_View
+        {
+            public Audit_Detail_View(){}
+            public string id {get;set;} 
+            public string change_id  {get;set;}
+            public int change_item  {get;set;}
+            public bool showAll {get;set;} = false;
+            public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
+            public mmria.common.model.couchdb.Change_Stack cs {get;set;}
+        }
+
+        [Route("_audit/{p_id}/{change_id}/{change_item}")]
+        public async Task<IActionResult> MoreDetail(System.Threading.CancellationToken cancellationToken, string p_id, string change_id, int change_item)
+        {
+
+            var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+
+            var case_view_curl = new cURL("GET",null,case_view_request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = await case_view_curl.executeAsync();
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+
+            mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
+                case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
+
+
+            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            var audit_view_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+            responseFromServer = await audit_view_curl.executeAsync();
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
+
+            return View(new Audit_Detail_View()
+            {
+
+            });
+        }
         public class Change_Stack_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack> 
         {
             public int Compare(mmria.common.model.couchdb.Change_Stack x, mmria.common.model.couchdb.Change_Stack y)

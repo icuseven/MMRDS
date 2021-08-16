@@ -7,6 +7,8 @@
 
     var row_number = 0;
 
+    DateTime? previous_date = null;
+
     HashSet<string> user_list = new();
 
     foreach (var item in Model.ls)
@@ -34,6 +36,47 @@
                 is_installation_admin = true;
                 break;
         }
+    }
+
+    string get_note(string value)
+    {
+        if(value == "hash_change")
+        {
+            return "Browser Navigation";
+        }
+        else return value;
+    }
+
+    string get_date_diff(DateTime? start, DateTime? end)
+    {
+        var result = "n/a";
+        if(start.HasValue && end.HasValue)
+        {
+            TimeSpan span = end.Value -start.Value;
+            double totalMinutes = span.TotalMinutes;
+
+            if(span.TotalSeconds < 1)
+            {
+                result = $"{span.TotalMilliseconds.ToString("0.##")} milsecs";
+            }
+            else if(span.TotalMinutes < 1)
+            {
+                result = $"{span.TotalSeconds.ToString("0.##")} sec";
+            }
+            else if(span.TotalHours < 1)
+            {
+                result = $"{span.TotalMinutes.ToString("0.##")} mins";
+            }
+            else if(span.TotalDays < 1)
+            {
+                result = $"{span.TotalHours.ToString("0.##")} hours";
+            }
+            else result = $"{span.TotalDays.ToString("0.##")} days";
+
+            
+        }
+
+        return result;
     }
 }
 
@@ -109,6 +152,7 @@ user name
 <table border=1>
 <tr bgcolor="#BBBBBB">
 <th>date_created</th>
+<th>time diff</th>
 <th>user_name</th>
 <th>abstractor action</th>
 <th>mmria_path</th>
@@ -116,6 +160,9 @@ user name
 <th>new value</th>
 <th></th>
 </tr>
+
+
+
 @foreach (var item in Model.ls)
 {
     @if
@@ -158,6 +205,7 @@ user name
         {
             <tr bgcolor="#BBBBBB">
             <th>date_created</th>
+            <th>time diff</th>
             <th>user_name</th>
             <th>abstractor action</th>
             <th>mmria_path</th>
@@ -169,8 +217,9 @@ user name
        <tr bgcolor="@bg">
     
         <td>@change.date_created</td>
+        <td>@get_date_diff(change.date_created,previous_date)</td>
         <td>@change.user_name</td>
-        <td>@item.note</td>
+        <td>@get_note(item.note)</td>
         <td>@change.dictionary_path</td>
         <td>
             @if(change.old_value?.Length> 30)
@@ -196,6 +245,8 @@ user name
         </td>
         <td>[ <a href="#">more details</a> ]</td>
     </tr>
+
+    previous_date = change.date_created;
 
     }
 
