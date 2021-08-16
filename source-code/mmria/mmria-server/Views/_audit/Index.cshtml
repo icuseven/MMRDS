@@ -1,8 +1,11 @@
 @using System.Security.Claims;
+@model (mmria.common.model.couchdb.case_view_sortable_item cv, List<mmria.common.model.couchdb.Change_Stack> ls)
 @{
     Layout = "_LayoutBase";
 
     ViewBag.BreadCrumbs = true;
+
+    var row_number = 0;
 
     var userName = "";
     var is_installation_admin = false;
@@ -32,15 +35,82 @@
   <script src="../scripts/_audit/index.js" type="text/javascript"></script>
 }
 
-<h1 class="h2" tabindex="-1">Audit</h1>
+<h1 class="h2" tabindex="-1">Case Audit</h1>
 
-<div id="status_area" style="float:right;"><div>&nbsp;</div></div>
+<h4>@Model.cv.last_name, @Model.cv.first_name</h4>
+<p><strong>Record Id:</strong> @Model.cv.record_id</p>
+<p><strong>Date Created:</strong> @Model.cv.date_created</p>
+<p><strong>Created By:</strong> @Model.cv.created_by</p>
+<p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated</p>
+<p><strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
 
-<div id="form_content_id" class="pb-3">
-  <span class="spinner-container spinner-content spinner-active">
-    <span class="spinner-body text-primary">
-      <span class="spinner"></span>
-      <span class="spinner-info">Loading...</span>
-    </span>
-  </span>
-</div>
+<table border=1>
+<tr bgcolor="#BBBBBB">
+<th>date_created</th>
+<th>user_name</th>
+<th>note</th>
+<th>mmria_path</th>
+<th>old value</th>
+<th>new value</th>
+</tr>
+@foreach (var item in Model.ls)
+{
+    foreach (var change in item.items)
+    { 
+        row_number++;
+
+        var bg = "";
+        
+        @if(row_number % 2 == 0)
+        {
+            bg = "#CCCCCC";
+
+        }
+
+
+
+        @if(row_number % 15 == 0)
+        {
+            <tr bgcolor="#BBBBBB">
+            <th>date_created</th>
+            <th>user_name</th>
+            <th>note</th>
+            <th>mmria_path</th>
+            <th>old value</th>
+            <th>new value</th>
+            </tr>
+        }
+       <tr bgcolor="@bg">
+    
+        <td>@change.date_created</td>
+        <td>@change.user_name</td>
+        <td>@item.note</td>
+        <td>@change.dictionary_path</td>
+        <td>
+            @if(change.old_value?.Length> 30)
+            {
+                 @change.old_value.Substring(0, 30);
+            }
+            else
+            {
+                 @change.old_value;
+            }
+        </td>
+        <td>
+            @if(change.new_value?.Length> 30)
+            {
+                @change.new_value.Substring(0, 30); 
+            }
+            else
+            {
+                @change.new_value;
+            }
+        </td>
+    </tr>
+
+    }
+
+}
+</table>
+
+
