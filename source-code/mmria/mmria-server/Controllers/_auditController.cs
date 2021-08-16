@@ -10,9 +10,16 @@ using mmria.server;
 
 namespace mmria.server.Controllers
 {
-    //[Authorize(Policy = "EmployeeId")]
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
+    public class Audit_View
+    {
+        public Audit_View(){}
+        public string id {get;set;} 
+        public string user  {get;set;} = "all"; 
+        public string search_text  {get;set;} = "all";
+        public bool showAll {get;set;} = false;
+        public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
+        public List<mmria.common.model.couchdb.Change_Stack> ls {get;set;}
+    }
     
     [Authorize(Roles = "abstractor")]
     public class _auditController : Controller
@@ -24,7 +31,7 @@ namespace mmria.server.Controllers
         }
 
         [Route("_audit/{p_id}")]
-        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, string p_user = "all", string search_text = "all", bool showAll = false)
+        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, string user = "all", string search_text = "all", bool showAll = false)
         {
 
 
@@ -66,7 +73,17 @@ namespace mmria.server.Controllers
             }
             
             result.Sort(new Change_Stack_DescendingDate());
-            return View((case_view_item, result));
+            return View
+            (
+                new Audit_View()
+                {
+                    id = p_id,
+                    user = user,
+                    search_text = search_text,
+                    showAll = showAll,
+                    cv = case_view_item, 
+                    ls = result
+                });
         }
 
         public class Change_Stack_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack> 
