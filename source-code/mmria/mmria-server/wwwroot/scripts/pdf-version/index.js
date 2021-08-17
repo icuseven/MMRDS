@@ -7935,7 +7935,7 @@ async function other_medical_office_visits(p, d, pg_break) {
 							[
 								{ text: `${d[curRec].laboratory_tests[curRec2].specimen || ' '}`, style: ['tableDetail'], },
 								{ text: `${d[curRec].laboratory_tests[curRec2].test_name || ' '}`, style: ['tableDetail'], },
-								{ text: `${d[curRec].laboratory_tests[curRec2].resul || ' '}`t, style: ['tableDetail'], },
+								{ text: `${d[curRec].laboratory_tests[curRec2].result || ' '}`, style: ['tableDetail'], },
 								{ text: `${d[curRec].laboratory_tests[curRec2].diagnostic_level || ' '}`, style: ['tableDetail'], },
 							],
 						],
