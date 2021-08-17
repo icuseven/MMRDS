@@ -1738,7 +1738,9 @@ function save_case(p_data, p_call_back, p_note)
                 date_created: new Date().toISOString(),
                 user_name: g_user_name, 
                 items: g_change_stack,
+                metadata_version: g_release_version,
                 note: (p_note != null)? p_note : ""
+
             },
             Case_Data:p_data
         };
