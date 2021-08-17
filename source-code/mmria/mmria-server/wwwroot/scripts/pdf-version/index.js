@@ -28,7 +28,7 @@ async function print_pdf(section) {
 	let arrMap = getArrayMap();
 
 	// Format the content
-	let retContent = formatContent(section_name, arrMap);
+	let retContent = await formatContent(section_name, arrMap);
 
 	let doc = {
 		pageOrientation: 'landscape',
@@ -182,7 +182,7 @@ async function print_pdf(section) {
 	// pdfMake.createPdf( doc ).download( pdfName );
 	pdfMake.createPdf(doc).open();
 
-	
+
 }
 
 // ************************************************************************
@@ -319,7 +319,7 @@ function lookupGlobalArr(val, lookupName) {
 function lookupFieldArr(val, arr) {
 	// See if val is blank or array is empty
 	if (val === '' || arr.length === 0) return val;
-	
+
 	let idx = arr.findIndex((s) => s.value === val);
 	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
@@ -366,161 +366,237 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
+// Create the chart using chart.js - return a png
+async function doChart(chartData) {
+	// Create a div element and give it an id
+	let container = document.createElement('div')
+	container.id = 'wrapper';
+
+	// Create a canvas element and give it an id, width
+	let canvas = document.createElement('canvas');
+	canvas.id = 'myChart';
+	canvas.setAttribute('width', '325px');
+	
+	// Add the canvas to the container
+	container.appendChild(canvas);
+
+	// Add the container to the body so we can get to it - VERY IMPORTANT
+	document.body.appendChild(container);
+
+	const config = {
+		type: 'line',
+		data: chartData,
+		options: {
+			maintainAspectRatio: false,
+			responsive: true,
+			scales: {
+				xAxes: [
+					{
+						ticks: {
+							autoSkip: false,
+							maxRotation: 90,
+							minRotation: 90,
+						},
+					},
+				],
+			},
+		},
+	};
+
+	// Create the image
+	let myImg = await new Chart(document.getElementById('myChart').getContext('2d'), config);
+
+	// Convert to a PNG
+	let image = await myImg.toBase64Image();
+
+	// Remove the elements so they don't show on the web page
+	canvas.remove();
+	container.remove();
+
+	return image;
+}
+
 // Draw Line Chart
 async function drawLineChart(name, cols) {
 	let result = document.createElement("div");
-	result.setAttribute("id", "pdfChart");
-	console.log("result start: ", result);
+	result.id = "divChart";
+	result.width = 325.938;
+	result.height = 275.938;
 
-	// console.log( 'drawLineChart: ', name, ' - ', cols );
-	let chartDefinition = {
+	console.log("result start: ", result);
+	var chart = c3.generate({
 		bindto: result,
 		size: {
-			height: 275.938, 
+			height: 275.938,
 			width: 325.938
 		},
-		transition: {
-			duration: null
-		},
-		onrendered: () => {
-			d3.select('div #pdfChart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-				.attr('transform', 'rotate(325) translate(-25,0)');	
-		},
-		axis: {
-			x: {
-				type: 'timeseries',
-				localtime: false,
-				label: {
-					position: 'outer-right',
-				},
-				tick: {
-					format: '%m/%d/%Y',
-				},
-				height: 55
-			},
-			y: {
-				tick: {
-					format: d3.format('.0f'),
-				},
-				min: 0,
-				padding: {top: 0, bottom: 0},
-			},
-		},
-		data: {
-			x: 'x',
-			xFormat: '%Y-%m-%d %H:%M:%S',
+		data:
+		{
 			columns: [
-				['x','2020-12-3 0:0:0','2020-11-5 0:0:0','2020-10-1 0:0:0'],
-				['systolic_bp',129.00,125.00,120.00],
-				['diastolic',88.00,84.00,80.00]
-			]
+				['data1', 30, 200, 100, 400, 150, 250],
+				['data2', 50, 20, 10, 40, 15, 25]
+			],
 		},
-		line: {
-			connectNull: true
-		}
-	};
-
-	let mySvg = '';
-	const chart = await c3.generate(chartDefinition);
-	console.log('chart: ', chart);
-	console.log('result: ', result);
+	});
 
 	let chartHeight = result.children[0].getAttribute('height');
 	let chartWidth = result.children[0].getAttribute('width');
-	let svgString = new XMLSerializer().serializeToString(result.children[0]);
-	console.log( 'svgString: ', svgString );
+	console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 
+	let container = document.createElement('div');
+	container.id = 'contDiv';
+	let canvas = document.createElement('canvas');
+	canvas.id = 'myChart';
+	canvas.setAttribute('width', chartWidth);
+	canvas.setAttribute('height', chartHeight);
 
-	// let myCanvas = document.createElement("canvas");
-	// myCanvas.setAttribute("id", "myCanvas");
-	// myCanvas.setAttribute("height", chartHeight);
-	// myCanvas.setAttribute("width", chartWidth);
-	// let myImg = document.createElement("img");
-	// myImg.style.height = chartHeight;
-	// myImg.style.width = chartWidth;
-	// myImg.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
-	// myCanvas.getContext('2d').drawImage(myImg, 0, 0);
+	container.appendChild(canvas);
+	console.log('container: ', container);
+	let ctx = canvas.getContext('2d');
+	let svgText = `<svg xmlns="http://www.w3.org/2000/svg" width="${chartWidth}" height="${chartHeight}">`;
+	svgText += chart.element.innerHTML;
 
-	// console.log('myImg: ', myImg);
-	// console.log('myCanvas: ', myCanvas);
+	console.log('svgText')
 
-	let myBase64 = 'data:image/jpeg;base64,' + window.btoa(svgString);
-	// console.log('myBase64: ', myBase64);
-	// console.log("myCanvas start: ", myCanvas);
-	// let canvas = document.getElementById("#myCanvas");
-	// console.log('canvas: ', canvas );
-	// // let ctx = canvas.getContext("2d");
-	// // console.log('ctx: ', ctx);
-	// let DOMURL = self.URL || self.webkitURL || self;
-	// let img = new Image();
-	// let svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-	// let url = DOMURL.createObjectURL(svg);
-	// console.log('svg: ', svg);
-	// console.log('url: ', url);
+	let png = 'Hello';
+	let svgImage = new Image();
+	svgImage.onload = () => {
+		ctx.drawImage(svgImage, chartWidth, chartHeight);
+		png = svgText.toDataURL();
+	}
 
-	// let reader = new FileReader();
-	// reader.readAsDataURL(svg);
-	// reader.onloadend = () => {
-	// 	let base64data = reader.result;
-	// 	console.log('base64: ', base64data);
-	// }
+	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
+	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
+	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
+	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
+	// 	'</linearGradient></defs>' +
+	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
+	// let mySvg = chart.element.innerHTML;
 
-	// // img.onload = () => {
-	// // 	ctx.drawImage(img, 0, 0);
-	// // 	let png = canvas.toDataUrl("image/png");
-	// // 	console.log('png: ', png);
-	// // 	document.querySelector('#pngContainer').innerHTML = '<img src="' + png + '"/>';
-	// // 	DOMURL.revokeObjectURL(png);
-	// // }
-	// // img.src = url;
-	// console.log('img: ', img);
+	// console.log( 'drawLineChart: ', name, ' - ', cols );
+	// let chartDefinition = {
+	// 	bindto: result,
+	// 	size: {
+	// 		height: 275.938, 
+	// 		width: 325.938
+	// 	},
+	// 	transition: {
+	// 		duration: null
+	// 	},
+	// 	onrendered: () => {
+	// 		d3.select('div #canvasChart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+	// 			.attr('transform', 'rotate(325) translate(-25,0)');	
+	// 	},
+	// 	axis: {
+	// 		x: {
+	// 			type: 'timeseries',
+	// 			localtime: false,
+	// 			label: {
+	// 				position: 'outer-right',
+	// 			},
+	// 			tick: {
+	// 				format: '%m/%d/%Y',
+	// 			},
+	// 			height: 55
+	// 		},
+	// 		y: {
+	// 			tick: {
+	// 				format: d3.format('.0f'),
+	// 			},
+	// 			min: 0,
+	// 			padding: {top: 0, bottom: 0},
+	// 		},
+	// 	},
+	// 	data: {
+	// 		x: 'x',
+	// 		xFormat: '%Y-%m-%d %H:%M:%S',
+	// 		columns: [
+	// 			['x','2020-12-3 0:0:0','2020-11-5 0:0:0','2020-10-1 0:0:0'],
+	// 			['systolic_bp',129.00,125.00,120.00],
+	// 			['diastolic',88.00,84.00,80.00]
+	// 		]
+	// 	},
+	// 	line: {
+	// 		connectNull: true
+	// 	}
+	// };
 
-	// console.log('canvas: ', canvas);
-	// console.log('myCanvas after: ', myCanvas);
-	// let svgHeader = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
-	// svgHeader += 'svg version="1.1" id="myChart" xmlns="http://www.w3.org/2000/svg" ';
-	// svgHeader +- 'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ';
-	// svgHeader += `viewBox="0 0 ${chartHeight} ${chartWidth}" style="enable-background:new 0 0 ${chartHeight} ${chartWidth};" xml:space="preserve">`;
-	// let mySvg = svgHeader;
-	// mySvg += chart.element.innerHTML;
+	// // let mySvg = '';
+	// const chart = c3.generate(chartDefinition);
+
+	// set id for svg
+	// result.firstElementChild.setAttribute("id", "svgChart");
+	// console.log('chart: ', chart);
+	console.log('result: ', result);
+
 	// let chartHeight = result.children[0].getAttribute('height');
 	// let chartWidth = result.children[0].getAttribute('width');
-	// console.log( 'chartHeight: ', chartHeight);
-	// console.log( 'chartWidth: ', chartWidth);
+	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 
-	// // create a new canvas
-	// let pdfCanvas = $('<canvas />').attr({
-	// 	id: 'canvaspdf',
-	// 	width: chartWidth,
-	// 	height: chartHeight
+	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
+	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
+	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
+	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
+	// 	'</linearGradient></defs>' +
+	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
+	// let mySvg = chart.element.innerHTML;
+
+	// let mySvg = result.children[0];
+	// console.log('mySvg: ', mySvg);
+	// let svgString = new XMLSerializer().serializeToString(mySvg);
+	// console.log('svgString: ', svgString);
+	// let png;
+	// document.addEventListener('DOMContentLoaded', () => {
+	// 	console.log('in addEventListener');
+	// 	let canvas = document.getElementById('canvas');
+	// 	let ctx = canvas.getContext('2d');
+	// 	let DOMURL = self.URL || self.webkitURL || self;
+	// 	let img = new Image();
+	// 	let svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+	// 	let url = DOMURL.createObjectURL(svg);
+	// 	img.onload = () => {
+	// 		ctx.drawImage(img, 0, 0);
+	// 		png = canvas.toDataURL('image/png');
+	// 		console.log('png: ', png);
+	// 	}
 	// });
 
-	// console.log('pdfCanvas: ', pdfCanvas);
+	// let svg = result.querySelector('#divChart svg');
+	// console.log('svg query: ', svg);
+	// let svgElement = document.getElementById('')
+	// let svgData = new XMLSerializer().serializeToString(svg);
+	// console.log('svgData: ', svgData);
+	// let chartHeight = svg.getAttribute('height');
+	// let chartWidth = svg.getAttribute('width');
+	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+	// let svgURL = 'data:image/svg_xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+	// console.log('svgURL: ', svgURL);
 
-	// // Keep track of canvas position
-	// let pdfctx = $(pdfCanvas)[0].getContext('2d');
-	// let pdfctxX = 0;
-	// let pdfctxY = 0;
-	// let buffer = 100;
+	// png = window.btoa(svgURL);
+	// console.log('png: ', png);
+	// return png;
+	// return new Promise((resolve, reject) => {
+	// 	let img = new Image();
+	// 	img.setAttribute('crossOrigin', 'anonymous');
+	// 	img.onload = () => {
+	// 		let canvas = document.createElement('canvas');
+	// 		canvas.width = chartWidth;
+	// 		canvas.height = chartHeight;
+	// 		let ctx = canvas.getContext('2d');
+	// 		ctx.drawImage(img, 0, 0);
+	// 		let dataURL = canvas.toDataURL('image/png');
+	// 		console.log('DataURL onload: ', dataURL);
+	// 		resolve(dataURL);
+	// 	};
+	// 	img.onerror = error => {
+	// 		reject(error);
+	// 	};
+	// 	img.src = svgURL;
+	// });
 
-
-	// pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, chartHeight, chartWidth);
-
-	// console.log( 'pdfctx: ', pdfctx);
-
-	// // result.children[0].outerHTML;
-	// // const mySvg = new XMLSerializer().serializeToString(document.querySelector('svg'));
-	// // const mySvg = new XMLSerializer().serializeToString(result.children[0].svg);
-	// // const myBase64Data = window.btoa(mySvg);
-	// // console.log( 'myBase64Data: ', myBase64Data );
-	// // const mySvg = new XMLSerializer().serializeToString(result.children[0]);
-	// // const mySvg = chart.element.children[0];
-	// // console.log( 'mySvg: ', mySvg );
-	// const mySvg = result.children[0];
-	// console.log('mySvg: ', mySvg);
-	// console.log('mySvg[0]: ', mySvg[0]);
-	// console.log('htmlToPdfMake: ', htmlToPdfmake(mySvg[0]));
-	return myBase64;
+	return png;
 }
 
 
@@ -539,115 +615,127 @@ async function drawLineChart(name, cols) {
 //
 // ************************************************************************
 // ************************************************************************
-function formatContent(sectionName, arrMap) {
+async function formatContent(sectionName, arrMap) {
 	let retContent = [];
 	let arrIndex;
 
 	switch (sectionName) {
 		case 'home_record':
 			arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-			retContent.push(home_record(g_md.children[arrIndex], g_d.home_record));
+			retContent.push(await home_record(g_md.children[arrIndex], g_d.home_record));
 			break;
 		case 'death_certificate':
 			arrIndex = arrMap.findIndex((s) => s.name === 'death_certificate');
-			retContent.push(death_certificate(g_md.children[arrIndex], g_d.death_certificate, false));
+			retContent.push(await death_certificate(g_md.children[arrIndex], g_d.death_certificate, false));
 			break;
 		case 'birth_fetal_death_certificate_parent':
 			arrIndex = arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
-			retContent.push(birth_fetal_death_certificate_parent(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, false));
+			retContent.push(await birth_fetal_death_certificate_parent(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, false));
 			break;
 		case 'birth_certificate_infant_fetal_section':
 			arrIndex = arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
-			retContent.push(birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_certificate_infant_fetal_section, false));
+			retContent.push(await birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_certificate_infant_fetal_section, false));
 			break;
 		case 'autopsy_report':
 			arrIndex = arrMap.findIndex((s) => s.name === 'autopsy_report');
-			retContent.push(autopsy_report(g_md.children[arrIndex], g_d.autopsy_report, false));
+			retContent.push(await autopsy_report(g_md.children[arrIndex], g_d.autopsy_report, false));
 			break;
 		case 'prenatal':
 			arrIndex = arrMap.findIndex((s) => s.name === 'prenatal');
-			retContent.push(prenatal(g_md.children[arrIndex], g_d.prenatal, false));
+			retContent.push(await prenatal(g_md.children[arrIndex], g_d.prenatal, false));
 			break;
 		case 'er_visit_and_hospital_medical_records':
 			arrIndex = arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
-			retContent.push(er_visit_and_hospital_medical_records(g_md.children[arrIndex], g_d.er_visit_and_hospital_medical_records, false));
+			retContent.push(await er_visit_and_hospital_medical_records(g_md.children[arrIndex], g_d.er_visit_and_hospital_medical_records, false));
 			break;
 		case 'other_medical_office_visits':
 			arrIndex = arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
-			retContent.push(other_medical_office_visits(g_md.children[arrIndex], g_d.other_medical_office_visits, false));
+			retContent.push(await other_medical_office_visits(g_md.children[arrIndex], g_d.other_medical_office_visits, false));
 			break;
 		case 'medical_transport':
 			arrIndex = arrMap.findIndex((s) => s.name === 'medical_transport');
-			retContent.push(medical_transport(g_md.children[arrIndex], g_d.medical_transport, false));
+			retContent.push(await medical_transport(g_md.children[arrIndex], g_d.medical_transport, false));
 			break;
 		case 'social_and_environmental_profile':
 			arrIndex = arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
-			retContent.push(social_and_environmental_profile(g_md.children[arrIndex], g_d.social_and_environmental_profile, false));
+			retContent.push(await social_and_environmental_profile(g_md.children[arrIndex], g_d.social_and_environmental_profile, false));
 			break;
 		case 'mental_health_profile':
 			arrIndex = arrMap.findIndex((s) => s.name === 'mental_health_profile');
-			retContent.push(mental_health_profile(g_md.children[arrIndex], g_d.mental_health_profile, false));
+			retContent.push(await mental_health_profile(g_md.children[arrIndex], g_d.mental_health_profile, false));
 			break;
 		case 'informant_interviews':
 			arrIndex = arrMap.findIndex((s) => s.name === 'informant_interviews');
-			retContent.push(informant_interviews(g_md.children[arrIndex], g_d.informant_interviews, false));
+			retContent.push(await informant_interviews(g_md.children[arrIndex], g_d.informant_interviews, false));
 			break;
 		case 'case_narrative':
 			arrIndex = arrMap.findIndex((s) => s.name === 'case_narrative');
-			retContent.push(case_narrative(g_md.children[arrIndex], g_d.case_narrative, false));
+			retContent.push(await case_narrative(g_md.children[arrIndex], g_d.case_narrative, false));
 			break;
 		case 'committee_review':
 			arrIndex = arrMap.findIndex((s) => s.name === 'committee_review');
-			retContent.push(committee_review(g_md.children[arrIndex], g_d.committee_review, false));
+			retContent.push(await committee_review(g_md.children[arrIndex], g_d.committee_review, false));
 			break;
 		case 'core-summary':
-			retContent.push(core_summary());
+			retContent.push(await core_summary());
 			break;
 		case 'all':
 			// home_record
 			g_current = 'home_record';
-			arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-			retContent.push(home_record(g_md.children[arrIndex], g_d.home_record));
+			arrIndex = await arrMap.findIndex((s) => s.name === 'home_record');
+			retContent.push(await home_record(g_md.children[arrIndex], g_d.home_record));
 			// death_certificate
 			g_current = 'death_certificate';
-			arrIndex = arrMap.findIndex((s) => s.name === 'death_certificate');
-			retContent.push(death_certificate(g_md.children[arrIndex], g_d.death_certificate, true));
+			arrIndex = await arrMap.findIndex((s) => s.name === 'death_certificate');
+			retContent.push(await death_certificate(g_md.children[arrIndex], g_d.death_certificate, true));
 			// birth_fetal_death_certificate_parent
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
-			retContent.push(birth_fetal_death_certificate_parent(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, true));
+			g_current = 'birth_fetal_death_certificate_parent';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
+			retContent.push(await birth_fetal_death_certificate_parent(g_md.children[arrIndex], g_d.birth_fetal_death_certificate_parent, true));
 			// birth_certificate_infant_fetal_section
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
-			retContent.push(birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_certificate_infant_fetal_section, true));
+			g_current = 'birth_certificate_infant_fetal_section';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
+			retContent.push(await birth_certificate_infant_fetal_section(g_md.children[arrIndex], g_d.birth_certificate_infant_fetal_section, true));
 			// autopsy_report
-			arrIndex = arrMap.findIndex((s) => s.name === 'autopsy_report');
-			retContent.push(autopsy_report(g_md.children[arrIndex], g_d.autopsy_report, true));
+			g_current = 'autopsy_report';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'autopsy_report');
+			retContent.push(await autopsy_report(g_md.children[arrIndex], g_d.autopsy_report, true));
 			// prenatal
-			arrIndex = arrMap.findIndex((s) => s.name === 'prenatal');
-			retContent.push(prenatal(g_md.children[arrIndex], g_d.prenatal, true));
+			g_current = 'prenatal';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'prenatal');
+			retContent.push(await prenatal(g_md.children[arrIndex], g_d.prenatal, true));
 			// er_visit_and_hospital_medical_records
-			arrIndex = arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
-			retContent.push(er_visit_and_hospital_medical_records(g_md.children[arrIndex], g_d.er_visit_and_hospital_medical_records, true));
+			g_current = 'er_visit_and_hospital_medical_records';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
+			retContent.push(await er_visit_and_hospital_medical_records(g_md.children[arrIndex], g_d.er_visit_and_hospital_medical_records, true));
 			// other_medical_office_visits
-			arrIndex = arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
-			retContent.push(other_medical_office_visits(g_md.children[arrIndex], g_d.other_medical_office_visits, true));
+			g_current = 'other_medical_office_visits';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
+			retContent.push(await other_medical_office_visits(g_md.children[arrIndex], g_d.other_medical_office_visits, true));
 			// medical_transport
-			arrIndex = arrMap.findIndex((s) => s.name === 'medical_transport');
-			retContent.push(medical_transport(g_md.children[arrIndex], g_d.medical_transport, true));
+			g_current = 'medical_transport';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'medical_transport');
+			retContent.push(await medical_transport(g_md.children[arrIndex], g_d.medical_transport, true));
 			// social_and_environmental_profile
-			arrIndex = arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
-			retContent.push(social_and_environmental_profile(g_md.children[arrIndex], g_d.social_and_environmental_profile, true));
+			g_current = 'social_and_environmental_profile';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
+			retContent.push(await social_and_environmental_profile(g_md.children[arrIndex], g_d.social_and_environmental_profile, true));
 			// mental_health_profile
-			arrIndex = arrMap.findIndex((s) => s.name === 'mental_health_profile');
-			retContent.push(mental_health_profile(g_md.children[arrIndex], g_d.mental_health_profile, true));
+			g_current = 'mental_health_profile';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'mental_health_profile');
+			retContent.push(await mental_health_profile(g_md.children[arrIndex], g_d.mental_health_profile, true));
 			// informant_interviews
-			arrIndex = arrMap.findIndex((s) => s.name === 'informant_interviews');
-			retContent.push(informant_interviews(g_md.children[arrIndex], g_d.informant_interviews, true));
+			g_current = 'informant_interviews';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'informant_interviews');
+			retContent.push(await informant_interviews(g_md.children[arrIndex], g_d.informant_interviews, true));
 			// case_narrative
-			arrIndex = arrMap.findIndex((s) => s.name === 'case_narrative');
-			retContent.push(case_narrative(g_md.children[arrIndex], g_d.case_narrative, true));
+			g_current = 'case_narrative';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'case_narrative');
+			retContent.push(await case_narrative(g_md.children[arrIndex], g_d.case_narrative, true));
 			// committee_review
-			arrIndex = arrMap.findIndex((s) => s.name === 'committee_review');
-			retContent.push(committee_review(g_md.children[arrIndex], g_d.committee_review, true));
+			g_current = 'committee_review';
+			arrIndex = await arrMap.findIndex((s) => s.name === 'committee_review');
+			retContent.push(await committee_review(g_md.children[arrIndex], g_d.committee_review, true));
 			break;
 		default:
 			// let a = info.fields[ 0 ].prompt;
@@ -664,7 +752,7 @@ function formatContent(sectionName, arrMap) {
 // Build home_record - p is the field name & d is the data
 //
 
-function home_record(p, d) {
+async function home_record(p, d) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -953,7 +1041,7 @@ function home_record(p, d) {
 }
 
 // Build death_certificate record - p is the field name & d is the data & pg_break is true/false if need page break
-function death_certificate(p, d, pg_break) {
+async function death_certificate(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -1842,7 +1930,7 @@ function death_certificate(p, d, pg_break) {
 }
 
 // Build birth_fetal_death_certificate_parent record - p is the field name & d is the data & pg_break is true/false if need page break
-function birth_fetal_death_certificate_parent(p, d, pg_break) {
+async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -2658,7 +2746,7 @@ function birth_fetal_death_certificate_parent(p, d, pg_break) {
 }
 
 // Build birth_certificate_infant_fetal_section record - p is the field name & d is the data & pg_break is true/false if need page break
-function birth_certificate_infant_fetal_section(p, d, pg_break) {
+async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 	// Global fields
 	let index = 0;
 	let subIndex = 0;
@@ -3063,7 +3151,7 @@ function birth_certificate_infant_fetal_section(p, d, pg_break) {
 }
 
 // Build autopsy_report record - p is the field name & d is the data & pg_break is true/false if need page break
-function autopsy_report(p, d, pg_break) {
+async function autopsy_report(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -3565,7 +3653,7 @@ function autopsy_report(p, d, pg_break) {
 }
 
 // Build prenatal record - p is the field name & d is the data & pg_break is true/false if need page break
-function prenatal(p, d, pg_break) {
+async function prenatal(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -4539,8 +4627,21 @@ function prenatal(p, d, pg_break) {
 	startArr = 0;
 	endArr = lenArr;
 
-	// Array for Charts
-	let chartArr = [];
+	// Arrays for Charts
+	let chartArr = {
+		bloodPressure: {
+			chartLabels: [],
+			chartData: [[],[]],
+		},
+		weightGain: {
+			chartLabels: [],
+			chartData: [],
+		},
+		hematocrit: {
+			chartLabels: [],
+			chartData: [],
+		},
+	};
 
 	// Build Header rows
 	body = [];
@@ -4599,6 +4700,14 @@ function prenatal(p, d, pg_break) {
 			});
 			row.push({ text: d.routine_monitoring[curRec].comments, style: ['tableDetail'], },);
 			body.push(row);
+			// Prepare arrays to display graphs
+			chartArr.bloodPressure.chartLabels.unshift(fmtStrDate(d.routine_monitoring[curRec].date_and_time));
+			chartArr.weightGain.chartLabels.unshift(fmtStrDate(d.routine_monitoring[curRec].date_and_time));
+			chartArr.hematocrit.chartLabels.unshift(fmtStrDate(d.routine_monitoring[curRec].date_and_time));
+			chartArr.bloodPressure.chartData[0].unshift(+d.routine_monitoring[curRec].systolic_bp);
+			chartArr.bloodPressure.chartData[1].unshift(+d.routine_monitoring[curRec].diastolic);
+			chartArr.weightGain.chartData.unshift(+d.routine_monitoring[curRec].weight);
+			chartArr.hematocrit.chartData.unshift(+d.routine_monitoring[curRec].blood_hematocrit);
 		}
 	}
 
@@ -4617,51 +4726,47 @@ function prenatal(p, d, pg_break) {
 				widths: [30, 75, 200, '*',],
 				body: body,
 			},
-		},],
-	);
-
+		},
+	],);
 
 	// Graphs for Routine Monitoring Records (index 16, 17 & 18)
 	index += 1;
 	subIndex = 0;
 	body = [];
 
-	// Temp until I figure out how to put the graph in the PDF
+	// Build configuration for Blood Pressure
+	let bpData = {
+		labels: chartArr.bloodPressure.chartLabels,
+		datasets: [
+			{
+				label: 'Systolic',
+				fill: false,
+				backgroundColor: 'blue',
+				borderColor: 'blue',
+				data: chartArr.bloodPressure.chartData[0],
+			},
+			{
+				label: 'Diastolic',
+				fill: false,
+				backgroundColor: 'red',
+				borderColor: 'red',
+				data: chartArr.bloodPressure.chartData[1],
+			},
+		]
+	};
+
+	// Add Blood Pressure header
 	body.push([
-		[
-			{ text: 'Graphs will go here!', style: ['tableDetail', 'lightFill'], },
-		],
-	]);
+		{ text: p.children[index].prompt, style: ['tableLabel'], alignment: 'center', },
+	],);
 
-	// Save the chart info
-	// chartArr.push([
-	// 	[
-	// 		`{'Systolic', 120, 125}`
-	// 	],
-	// ]);
-	// const myTestChart = drawLineChart('Blood Pressure', chartArr);
-	// console.log('myTestChart: ', myTestChart );
-	// const myTestChart2 = new XMLSerializer().serializeToString(document.querySelector('svg'));
-	// console.log( 'xxx: ', xxx );
-	// const myBase64Data = window.btoa(mySvg);
-	// console.log( 'myBase64Data: ', myBase64Data );
+	// Get the Blood Pressure chart and push to pdf
+	let bpImg = await doChart(bpData);
+	body.push([
+		{ image: bpImg, width: 800, alignment: 'center', },
+	],);
 
-	// const myBase64Data = window.btoa(myTestChart);
-	// console.log( 'myBase64Data: ', myBase64Data );
-	// const myTestChart = 
-
-	// body.push([{ 
-	// 	svg: myTestChart2,
-	// 	width: 600,
-	// 	height: 300,
-	// },],);
-
-	// body.push([{ 
-	// 	image: myTestChart,
-	// },],);
-
-	// console.log( 'graph body: ', body );
-
+	// Now push it to the full PDF
 	retPage.push([
 		{
 			layout: {
@@ -4681,7 +4786,96 @@ function prenatal(p, d, pg_break) {
 		},
 	]);
 
-	console.log('body with chart: ', retPage);
+	// Build configuration for Weight Gain
+	body = [];
+	let wgData = {
+		labels: chartArr.weightGain.chartLabels,
+		datasets: [
+			{
+				label: 'Weight Gain',
+				fill: false,
+				backgroundColor: 'blue',
+				borderColor: 'blue',
+				data: chartArr.weightGain.chartData,
+			},
+		]
+	};
+	
+	// Add Weight header
+	body.push([
+		{ text: p.children[index + 1].prompt, style: ['tableLabel'], alignment: 'center', },
+	],);
+
+	// Get the Weight Gain chart and push to pdf
+	let wgImg = await doChart(wgData);
+	body.push([
+		{ image: wgImg, width: 800, alignment: 'center', },
+	],);
+
+	// Now push it to the full PDF
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: ['*'],
+				body: body,
+			},
+		},
+	]);
+
+	// Build configuration for Hematocrit
+	body = [];
+	let hData = {
+		labels: chartArr.hematocrit.chartLabels,
+		datasets: [
+			{
+				label: 'Blood Hematocrit',
+				fill: false,
+				backgroundColor: 'blue',
+				borderColor: 'blue',
+				data: chartArr.hematocrit.chartData,
+			},
+		]
+	};
+	
+	// Add Blood Hematocrit header
+	body.push([
+		{ text: p.children[index + 2].prompt, style: ['tableLabel'], alignment: 'center', },
+	],);
+
+	// Get the Blood Hematocrit chart and push to pdf
+	let hImg = await doChart(hData);
+	body.push([
+		{ image: hImg, width: 800, alignment: 'center', },
+	],);
+
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 2; },
+			},
+			width: 'auto',
+			margin: [0, 10, 0, 0],
+			table: {
+				headerRows: 1,
+				widths: ['*'],
+				body: body,
+			},
+		},
+	]);
 
 	// Highest Blood Pressure
 	index += 3;
@@ -5303,15 +5497,36 @@ function prenatal(p, d, pg_break) {
 }
 
 // Build er_visit_and_hospital_medical_records record - p is the field name & d is the data & pg_break is true/false if need page break
-function er_visit_and_hospital_medical_records(p, d, pg_break) {
+async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 	// Name table
 	let index = 0;
+	let body = [];
 	let retPage = [];
 	let uArr = window.location.href.split("/");
 	let allRecs = (uArr[uArr.length - 1] === 'er_visit_and_hospital_medical_records' || pg_break) ? true : false;
 	let lenArr = d.length;
 	let startArr = 0;
 	let endArr = lenArr;
+	let chartRecs = [];
+	let chartArr;
+	let chartArrTemplate = {
+		bloodPressure: {
+			chartLabels: [],
+			chartData: [[],[]],
+		},
+		heartRate: {
+			chartLabels: [],
+			chartData: [],
+		},
+		respiration: {
+			chartLabels: [],
+			chartData: [],
+		},
+		temperature: {
+			chartLabels: [],
+			chartData: [],
+		},
+	};
 
 	console.log('p: ', p);
 	console.log('d: ', d);
@@ -5806,7 +6021,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			let endArr2 = lenArr2;
 
 			// Build Header rows
-			let body = [];
+			body = [];
 			let row = new Array();
 			row.push(
 				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', },
@@ -6306,6 +6521,9 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			row.push({ text: p.children[index].children[7].prompt, style: ['tableLabel', 'blueFill'], },);
 			body.push(row);
 
+			// Initialize graph object for each record
+			chartArr = JSON.parse(JSON.stringify(chartArrTemplate));
+
 			// Are there any records?
 			if (lenArr2 === 0) {
 				row = new Array();
@@ -6325,8 +6543,22 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 					row.push({ text: d[curRec].vital_signs[curRec2].oxygen_saturation, style: ['tableDetail'], },);
 					row.push({ text: d[curRec].vital_signs[curRec2].comments, style: ['tableDetail'], },);
 					body.push(row);
+
+					// Prepare array to display graphs
+					chartArr.bloodPressure.chartLabels.unshift(fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time));
+					chartArr.heartRate.chartLabels.unshift(fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time));
+					chartArr.respiration.chartLabels.unshift(fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time));
+					chartArr.temperature.chartLabels.unshift(fmtDateTime(d[curRec].vital_signs[curRec2].date_and_time));
+					chartArr.bloodPressure.chartData[0].unshift(+d[curRec].vital_signs[curRec2].bp_systolic || 0);
+					chartArr.bloodPressure.chartData[1].unshift(+d[curRec].vital_signs[curRec2].bp_diastolic || 0);
+					chartArr.heartRate.chartData.unshift(+d[curRec].vital_signs[curRec2].pulse || 0);
+					chartArr.respiration.chartData.unshift(+d[curRec].vital_signs[curRec2].respiration || 0);
+					chartArr.temperature.chartData.unshift(+d[curRec].vital_signs[curRec2].temperature || 0);
 				}
 			}
+
+			// Add to the chartRecs array to keep the # of records straight
+			chartRecs.push(chartArr);
 
 			// Show the table 
 			retPage.push([
@@ -6385,14 +6617,177 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			subIndex = 0;
 			body = [];
 
-			// Temp until I figure out how to put the graph in the PDF
+			// Build configuration for Temperature
+			let tData = {
+				labels: chartArr.temperature.chartLabels,
+				datasets: [
+					{
+						label: 'Temperature',
+						fill: false,
+						backgroundColor: 'blue',
+						borderColor: 'blue',
+						data: chartRecs[curRec].temperature.chartData,
+					},
+				]
+			};
+
+			// Add Temperature header
 			body.push([
-				[
-					{ text: 'Graphs will go here!', style: ['tableDetail', 'lightFill'], },
-				],
+				{ text: p.children[index].prompt, style: ['tableLabel'], alignment: 'center', },
+			],);
+
+			// Get the Temperature chart and push to pdf
+			let tImg = await doChart(tData);
+			body.push([
+				{ image: tImg, width: 800, alignment: 'center', },
+			],);
+
+			// Now push it to the full PDF
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					width: 'auto',
+					margin: [0, 10, 0, 0],
+					table: {
+						headerRows: 1,
+						widths: ['*'],
+						body: body,
+					},
+				},
 			]);
 
+			// Build configuration for Heart Rate
+			body = [];
+			let hrData = {
+				labels: chartArr.heartRate.chartLabels,
+				datasets: [
+					{
+						label: 'Heart Rate',
+						fill: false,
+						backgroundColor: 'blue',
+						borderColor: 'blue',
+						data: chartRecs[curRec].heartRate.chartData,
+					},
+				]
+			};
 
+			// Add Heart Rate header
+			body.push([
+				{ text: p.children[index + 1].prompt, style: ['tableLabel'], alignment: 'center', },
+			],);
+
+			// Get the Heart Rate chart and push to pdf
+			let hrImg = await doChart(hrData);
+			body.push([
+				{ image: hrImg, width: 800, alignment: 'center', },
+			],);
+
+			// Now push it to the full PDF
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					width: 'auto',
+					margin: [0, 10, 0, 0],
+					table: {
+						headerRows: 1,
+						widths: ['*'],
+						body: body,
+					},
+				},
+			]);
+
+			// Build configuration for Respiration
+			body = [];
+			let rData = {
+				labels: chartArr.respiration.chartLabels,
+				datasets: [
+					{
+						label: 'Respiration',
+						fill: false,
+						backgroundColor: 'blue',
+						borderColor: 'blue',
+						data: chartRecs[curRec].respiration.chartData,
+					},
+				]
+			};
+
+			// Add Respiration header
+			body.push([
+				{ text: p.children[index + 2].prompt, style: ['tableLabel'], alignment: 'center', },
+			],);
+
+			// Get the Respiration chart and push to pdf
+			let rImg = await doChart(rData);
+			body.push([
+				{ image: rImg, width: 800, alignment: 'center', },
+			],);
+
+			// Now push it to the full PDF
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					width: 'auto',
+					margin: [0, 10, 0, 0],
+					table: {
+						headerRows: 1,
+						widths: ['*'],
+						body: body,
+					},
+				},
+			]);
+
+			// Build configuration for Blood Pressure
+			body = [];
+			let bpData = {
+				labels: chartArr.bloodPressure.chartLabels,
+				datasets: [
+					{
+						label: 'Systolic',
+						fill: false,
+						backgroundColor: 'blue',
+						borderColor: 'blue',
+						data: chartRecs[curRec].bloodPressure.chartData[0],
+					},
+					{
+						label: 'Diastolic',
+						fill: false,
+						backgroundColor: 'red',
+						borderColor: 'red',
+						data: chartRecs[curRec].bloodPressure.chartData[1],
+					},
+				]
+			};
+
+			// Add Blood Pressure header
+			body.push([
+				{ text: p.children[index + 3].prompt, style: ['tableLabel'], alignment: 'center', },
+			],);
+
+			// Get the Blooc Pressure chart and push to pdf
+			let bpImg = await doChart(bpData);
+			body.push([
+				{ image: bpImg, width: 800, alignment: 'center', },
+			],);
+
+			// Now push it to the full PDF
 			retPage.push([
 				{
 					layout: {
@@ -6993,7 +7388,7 @@ function er_visit_and_hospital_medical_records(p, d, pg_break) {
 }
 
 // Build other_medical_office_visits record - p is the field name & d is the data & pg_break is true/false if need page break
-function other_medical_office_visits(p, d, pg_break) {
+async function other_medical_office_visits(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let retPage = [];
@@ -7913,7 +8308,7 @@ function other_medical_office_visits(p, d, pg_break) {
 }
 
 // Build medical_transport record - p is the field name & d is the data & pg_break is true/false if need page break
-function medical_transport(p, d, pg_break) {
+async function medical_transport(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -9580,7 +9975,7 @@ function social_and_environmental_profile(p, d, pg_break) {
 }
 
 // Build mental_health_profile record - p is the field name & d is the data & pg_break is true/false if need page break
-function mental_health_profile(p, d, pg_break) {
+async function mental_health_profile(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -10003,7 +10398,7 @@ function mental_health_profile(p, d, pg_break) {
 }
 
 // Build informant_interviews record - p is the field name & d is the data & pg_break is true/false if need page break
-function informant_interviews(p, d, pg_break) {
+async function informant_interviews(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let subIndex = 0;
@@ -10182,7 +10577,7 @@ function informant_interviews(p, d, pg_break) {
 }
 
 // Build case_narrative record - p is the field name & d is the data & pg_break is true/false if need page break
-function case_narrative(p, d, pg_break) {
+async function case_narrative(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let len = 0;
@@ -10229,7 +10624,7 @@ function case_narrative(p, d, pg_break) {
 }
 
 // Build committee_review record - p is the field name & d is the data & pg_break is true/false if need page break
-function committee_review(p, d, pg_break) {
+async function committee_review(p, d, pg_break) {
 	// Name table
 	let index = 4;      // Start on Committee Review Date
 	let retPage = [];
@@ -10514,7 +10909,7 @@ function committee_review(p, d, pg_break) {
 }
 
 // Core Summary - display all of the core summary fields
-function core_summary() {
+async function core_summary() {
 	let body = [];
 	// let arrMap = getArrayMap();
 
@@ -10522,10 +10917,10 @@ function core_summary() {
 	let retPage = [];
 
 	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-	body = core_pdf_summary(g_metadata, g_data, '/', g_ui, false, '');
+	body = await core_pdf_summary(g_metadata, g_data, '/', g_ui, false, '');
 
 	// Show the table
-	retPage.push([
+	await retPage.push([
 		{
 			layout: {
 				defaultBorder: false,
@@ -10540,379 +10935,320 @@ function core_summary() {
 				body: body,
 			},
 		},
-	],);
+	]);
 
 	return retPage;
 }
 
-function core_pdf_summary(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, p_metadata_path)
-{
+function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p_metadata_path) {
 	let is_core_summary = false;
 
-	if(p_is_core_summary)
-	{
+	if (p_is_core_summary) {
 		is_core_summary = true;
 	}
 
 	let result = [];
-	switch(p_metadata.type.toLowerCase())
-	{
+	switch (p_metadata.type.toLowerCase()) {
 		case 'group':
-			if(g_metadata_summary[p_metadata_path].is_core_summary > 0 ||
-				p_metadata.is_core_summary && p_metadata.is_core_summary == true)
-			{
+			if (g_metadata_summary[p_metadata_path].is_core_summary > 0 ||
+				p_metadata.is_core_summary && p_metadata.is_core_summary == true) {
 				result.push([
-					{ 
-						text: `${p_metadata.prompt}: `, 
-						style: ['subHeader', 'isUnderLine'], 
-						colspan: '2', 
+					{
+						text: `${p_metadata.prompt}: `,
+						style: ['subHeader', 'isUnderLine'],
+						colspan: '2',
 						margin: [5, 0, 0, 0],
 					},
 					{},
-				],);
-				if(p_metadata.is_core_summary || p_metadata.is_core_summary == true)
-				{
+				]);
+				if (p_metadata.is_core_summary || p_metadata.is_core_summary == true) {
 					is_core_summary = true;
 				}
 
-				if(p_metadata.children)
-				{
-					for(let i = 0; i < p_metadata.children.length; i++)
-					{
+				if (p_metadata.children) {
+					for (let i = 0; i < p_metadata.children.length; i++) {
 						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+						if (p_data[child.name] != null)
+							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
 				}
 			}
 			break;
 		case 'form':
-			if(
-				g_metadata_summary[p_metadata_path].is_core_summary > 0 && 
+			if (
+				g_metadata_summary[p_metadata_path].is_core_summary > 0 &&
 				(
 					p_metadata.cardinality == "+" || p_metadata.cardinality == "*"
 				)
-			)
-			{
+			) {
 				result.push([
-					{ 
-						text: p_metadata.prompt, 
-						style: ['coreHeader'], 
-						colSpan: '2', 
+					{
+						text: p_metadata.prompt,
+						style: ['coreHeader'],
+						colSpan: '2',
 						margin: [0, 5, 0, 0],
 					},
 					{},
 				]);
-				for(var form_index = 0; form_index < p_data.length; form_index++)
-				{
+				for (var form_index = 0; form_index < p_data.length; form_index++) {
 					var form_item = p_data[form_index];
 					result.push([
 						{ text: `Record: ${form_index + 1}`.toUpperCase(), style: ['tableLabel'], colSpan: '2', },
 						{},
 					]);
-					if(p_metadata.children)
-					{
-						for(var i = 0; i < p_metadata.children.length; i++)
-						{
+					if (p_metadata.children) {
+						for (var i = 0; i < p_metadata.children.length; i++) {
 							var child = p_metadata.children[i];
-							if(form_item[child.name] != null)
-							Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+							if (form_item[child.name] != null)
+								Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
 						}
 					}
 				}
 			}
-			else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
-			{
+			else if (g_metadata_summary[p_metadata_path].is_core_summary > 0) {
 				result.push([
 					{ text: `${p_metadata.prompt}: `, style: ['coreHeader'], colSpan: '2', },
 					{},
 				]);
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
+				if (p_metadata.children) {
+					for (var i = 0; i < p_metadata.children.length; i++) {
 						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+						if (p_data[child.name] != null)
+							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
 				}
 			}
-			break;	
-			case "grid":
-				let body = [];
-				let row;
-				let colWidths;
-				let colspan = 0;
-				if(p_metadata.is_core_summary && p_metadata.is_core_summary == true)
-				{
-					// Get the number of columns
-					colspan = p_metadata.children.length;
-					row = new Array();
-					row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, }, );
+			break;
+		case "grid":
+			let body = [];
+			let row;
+			let colWidths;
+			let colspan = 0;
+			if (p_metadata.is_core_summary && p_metadata.is_core_summary == true) {
+				// Get the number of columns
+				colspan = p_metadata.children.length;
+				row = new Array();
+				row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, },);
 
-					// Add the extra {} for the columns so it doesn't break
-					for (let j = 1; j < colspan; j++)
-					{
-						row.push( {}, );
-					}
-					body.push(row);
-
-					// Add the appropriate number of column widths so it will be at 100% across the page
-					colWidths = new Array();
-					colWidths.push('auto',);
-					for (let j = 1; j < colspan; j++)
-					{
-						colWidths.push('*',);
-					}
-
-					row = new Array();
-					for(var j = 0; j < p_metadata.children.length; j++)
-					{
-						var child = p_metadata.children[j];
-						row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], },);
-					}
-					body.push(row);
-					row = new Array();
-					for(var i = 0; i < p_data.length; i++)
-					{
-						if(p_data[i] != null)
-						{
-							for(var j = 0; j < p_metadata.children.length; j++)
-							{
-								var child = p_metadata.children[j];
-								if(p_data[i][child.name] != null)
-								{
-									if (child.type === 'list')
-									{
-										row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
-									}
-									else
-									{
-										row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
-									}
-								}
-								else
-								{
-									row.push({ text: '', style: ['tableDetail'], },);
-								}
-							}
-							body.push(row);
-						}
-					}
+				// Add the extra {} for the columns so it doesn't break
+				for (let j = 1; j < colspan; j++) {
+					row.push({},);
 				}
-				else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
-				{
-					for(var j = 0; j < p_metadata.children.length; j++)
-					{
-						var child = p_metadata.children[j];
-						if(child.is_core_summary && child.is_core_summary == true)
-						{
-							colspan = colspan + 1;	
-						}
-					}
+				body.push(row);
 
-					// Add the 1st line of the header
-					row = new Array();
-					row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, }, );
+				// Add the appropriate number of column widths so it will be at 100% across the page
+				colWidths = new Array();
+				colWidths.push('auto',);
+				for (let j = 1; j < colspan; j++) {
+					colWidths.push('*',);
+				}
 
-					// Add the extra {} for the columns so it doesn't break
-					for (let j = 1; j < colspan; j++)
-					{
-						row.push( {}, );
-					}
-					body.push(row);
-
-					// Add the appropriate number of column widths so it will be at 100% across the page
-					colWidths = new Array();
-					colWidths.push('auto',);
-					for (let j = 1; j < colspan; j++)
-					{
-						colWidths.push('*',);
-					}
-
-					row = new Array();
-					for(var j = 0; j < p_metadata.children.length; j++)
-					{
-						var child = p_metadata.children[j];
-						if(child.is_core_summary && child.is_core_summary == true)
-						{
-							row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], })
-						}
-					}
-					body.push(row);
-					row = new Array();
-					for(var i = 0; i < p_data.length; i++)
-					{
-						if(p_data[i] != null)
-						{
-							for(var j = 0; j < p_metadata.children.length; j++)
-							{
-								var child = p_metadata.children[j];
-								if(child.is_core_summary && child.is_core_summary == true)
-								{
-									if(p_data[i][child.name] != null)
-									{
-										if (child.type === 'list')
-										{
-											row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
-										}
-										else
-										{
-											row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
-										}
-									}
-									else
-									{
-										row.push({ text: '', style: ['tableDetail'], },);
-									}
+				row = new Array();
+				for (var j = 0; j < p_metadata.children.length; j++) {
+					var child = p_metadata.children[j];
+					row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], },);
+				}
+				body.push(row);
+				row = new Array();
+				for (var i = 0; i < p_data.length; i++) {
+					if (p_data[i] != null) {
+						for (var j = 0; j < p_metadata.children.length; j++) {
+							var child = p_metadata.children[j];
+							if (p_data[i][child.name] != null) {
+								if (child.type === 'list') {
+									row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
+								}
+								else {
+									row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
 								}
 							}
+							else {
+								row.push({ text: '', style: ['tableDetail'], },);
+							}
 						}
-					}
-					if (row.length > 0)
-					{
 						body.push(row);
 					}
 				}
-				// Display the grid table
-				if (body.length > 0) {
-					result.push([
-						{ 
-							table: {
-								widths: colWidths,
-								headerRows: 2,
-								body: body
-							}, 
-							colSpan: '2',
-						},
-						{},
-					],);
-				}
-				break;				
-			case 'app':	
-				if(
-					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
-					is_core_summary == true
-				)
-				{
-					result.push([
-						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: p_data[p_metadata.name], style: ['tableDetail'], },
-					],);
+			}
+			else if (g_metadata_summary[p_metadata_path].is_core_summary > 0) {
+				for (var j = 0; j < p_metadata.children.length; j++) {
+					var child = p_metadata.children[j];
+					if (child.is_core_summary && child.is_core_summary == true) {
+						colspan = colspan + 1;
+					}
 				}
 
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(child.type.toLowerCase() == "form" && p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, "g_metadata.children[" + i + "]"));
+				// Add the 1st line of the header
+				row = new Array();
+				row.push({ text: p_metadata.prompt, style: ['tableLabel', 'blueFill'], colSpan: colspan, },);
+
+				// Add the extra {} for the columns so it doesn't break
+				for (let j = 1; j < colspan; j++) {
+					row.push({},);
+				}
+				body.push(row);
+
+				// Add the appropriate number of column widths so it will be at 100% across the page
+				colWidths = new Array();
+				colWidths.push('auto',);
+				for (let j = 1; j < colspan; j++) {
+					colWidths.push('*',);
+				}
+
+				row = new Array();
+				for (var j = 0; j < p_metadata.children.length; j++) {
+					var child = p_metadata.children[j];
+					if (child.is_core_summary && child.is_core_summary == true) {
+						row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], })
 					}
 				}
-				break;		
-			case 'list':
-				if(
-					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
-					is_core_summary == true
-				)
-				{
-
-					let data_value_list = p_metadata.values;
-					let list_lookup = {};
-	
-					if(p_metadata.path_reference && p_metadata.path_reference != "")
-					{
-						data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-				
-						if(data_value_list == null)	
-						{
-							data_value_list = p_metadata.values;
-						}
-					}
-	
-					for(let list_index = 0; list_index < data_value_list.length; list_index++)
-					{
-						let list_item = data_value_list[list_index];
-						list_lookup[list_item.value] = list_item.display;
-					}
-	
-					if(Array.isArray(p_data))
-					{
-						let choiceList = '';
-						for(var i = 0; i < p_data.length; i++)
-						{
-							if
-							(
-								(p_data[i] == 9999 || p_data[i] == "9999") &&
-								p_data.length > 1
-							)
-							{
-								continue;
+				body.push(row);
+				row = new Array();
+				for (var i = 0; i < p_data.length; i++) {
+					if (p_data[i] != null) {
+						for (var j = 0; j < p_metadata.children.length; j++) {
+							var child = p_metadata.children[j];
+							if (child.is_core_summary && child.is_core_summary == true) {
+								if (p_data[i][child.name] != null) {
+									if (child.type === 'list') {
+										row.push({ text: lookupFieldArr(p_data[i][child.name], child.values), style: ['tableDetail'], },);
+									}
+									else {
+										row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
+									}
+								}
+								else {
+									row.push({ text: '', style: ['tableDetail'], },);
+								}
 							}
-							choiceList += `${list_lookup[p_data[i]]}, `;
 						}
-						if( choiceList.length > 0)
-						{
-							choiceList = choiceList.slice(0, -2);
-						}
-						result.push([
-							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right' },
-							{ text: `${choiceList}`, style: ['tableDetail'], },
-						],);
 					}
-					else
-					{
-						result.push([
-							{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-							{ text: list_lookup[p_data], style: ['tableDetail'], },
-						],);
-						}
 				}
-				break;
-			default:
-				if(
-					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
-					is_core_summary == true
-				)
-				{
+				if (row.length > 0) {
+					body.push(row);
+				}
+			}
+			// Display the grid table
+			if (body.length > 0) {
+				result.push([
+					{
+						table: {
+							widths: colWidths,
+							headerRows: 2,
+							body: body
+						},
+						colSpan: '2',
+					},
+					{},
+				]);
+			}
+			break;
+		case 'app':
+			if (
+				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+				is_core_summary == true
+			) {
+				result.push([
+					{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+					{ text: p_data[p_metadata.name], style: ['tableDetail'], },
+				]);
+			}
+
+			if (p_metadata.children) {
+				for (var i = 0; i < p_metadata.children.length; i++) {
+					var child = p_metadata.children[i];
+					if (child.type.toLowerCase() == "form" && p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, "g_metadata.children[" + i + "]"));
+				}
+			}
+			break;
+		case 'list':
+			if (
+				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+				is_core_summary == true
+			) {
+
+				let data_value_list = p_metadata.values;
+				let list_lookup = {};
+
+				if (p_metadata.path_reference && p_metadata.path_reference != "") {
+					data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+					if (data_value_list == null) {
+						data_value_list = p_metadata.values;
+					}
+				}
+
+				for (let list_index = 0; list_index < data_value_list.length; list_index++) {
+					let list_item = data_value_list[list_index];
+					list_lookup[list_item.value] = list_item.display;
+				}
+
+				if (Array.isArray(p_data)) {
+					let choiceList = '';
+					for (var i = 0; i < p_data.length; i++) {
+						if
+							(
+							(p_data[i] == 9999 || p_data[i] == "9999") &&
+							p_data.length > 1
+						) {
+							continue;
+						}
+						choiceList += `${list_lookup[p_data[i]]}, `;
+					}
+					if (choiceList.length > 0) {
+						choiceList = choiceList.slice(0, -2);
+					}
 					result.push([
-						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: p_data, style: ['tableDetail'], },
+						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right' },
+						{ text: `${choiceList}`, style: ['tableDetail'], },
 					]);
 				}
-
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
-					}
+				else {
+					result.push([
+						{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: list_lookup[p_data], style: ['tableDetail'], },
+					]);
 				}
-				break;
+			}
+			break;
+		default:
+			if (
+				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+				is_core_summary == true
+			) {
+				result.push([
+					{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+					{ text: p_data, style: ['tableDetail'], },
+				]);
+			}
+
+			if (p_metadata.children) {
+				for (var i = 0; i < p_metadata.children.length; i++) {
+					var child = p_metadata.children[i];
+					if (p_data[child.name] != null)
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+				}
+			}
+			break;
 	}
 
 	return result;
 }
 
-function convert_dictionary_path_to_lookup_object(p_path)
-{
+function convert_dictionary_path_to_lookup_object(p_path) {
 	//g_data.prenatal.routine_monitoring.systolic_bp
 	let result = null;
 	let temp_result = []
-	let temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	let temp = "g_metadata." + p_path.replace(new RegExp('/', 'gm'), ".").replace(new RegExp('\\.(\\d+)\\.', 'gm'), "[$1].").replace(new RegExp('\\.(\\d+)$', 'g'), "[$1]");
 	let index = temp.lastIndexOf('.');
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
 	let lookup_list = eval(temp_result[0]);
 
-	for(let i = 0; i < lookup_list.length; i++)
-	{
-		if(lookup_list[i].name == temp_result[1])
-		{
+	for (let i = 0; i < lookup_list.length; i++) {
+		if (lookup_list[i].name == temp_result[1]) {
 			result = lookup_list[i].values;
 			break;
 		}
