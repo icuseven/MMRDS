@@ -45,6 +45,8 @@ namespace mmria.common.model.couchdb
 
             public string note {get;set;}
 
+            public string metadata_version {get;set;}
+
             public DateTime? date_created {get;set;}
 
             public System.Collections.Generic.List<Change_Stack_Item> items {get;set;} = new();
