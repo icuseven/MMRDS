@@ -78,6 +78,54 @@
 
         return result;
     }
+
+
+    List<mmria.common.model.couchdb.Change_Stack> GetList()
+    {
+        List<mmria.common.model.couchdb.Change_Stack> result = new();
+            
+        foreach (var item in Model.ls)
+        {
+            if
+            (
+                !string.IsNullOrWhiteSpace(Model.user) && 
+                Model.user.ToUpper() != "ALL" &&
+                Model.user.ToUpper() != item.user_name.ToUpper()
+            )
+            {
+                continue;
+            }
+
+            result.Add(item);
+            List<mmria.common.model.couchdb.Change_Stack_Item> ItemsToRemove = new();
+            foreach (var change in item.items)
+            { 
+                if
+                (
+                    !string.IsNullOrWhiteSpace(Model.search_text) && 
+                    Model.search_text.ToUpper() != "ALL" &&
+                    (
+                        change.dictionary_path.IndexOf(Model.search_text) < 0
+                    )
+                )
+                {
+                    ItemsToRemove.Add(change);
+                    continue;
+                }
+            }
+
+            foreach(var change_item in ItemsToRemove)
+            {
+                item.items.Remove(change_item);
+            }
+
+        }   
+
+        return result;
+    }
+
+    var render_list = GetList();
+    var current_index = -1;
 }
 
 @section HeadScripts
@@ -163,8 +211,12 @@ user name
 
 
 
-@foreach (var item in Model.ls)
+@foreach (var item in render_list)
 {
+    current_index+=1;
+
+    previous_date = current_index + 1 < render_list.Count? render_list[current_index + 1].date_created : null;
+
     @if
     (
         !string.IsNullOrWhiteSpace(Model.user) && 
@@ -217,7 +269,7 @@ user name
        <tr bgcolor="@bg">
     
         <td>@change.date_created</td>
-        <td>@get_date_diff(change.date_created,previous_date)</td>
+        <td>@get_date_diff(previous_date, change.date_created)</td>
         <td>@change.user_name</td>
         <td>@get_note(item.note)</td>
         <td>@change.dictionary_path</td>
@@ -246,7 +298,7 @@ user name
         <td>[ <a href="#">more details</a> ]</td>
     </tr>
 
-    previous_date = change.date_created;
+    
 
     }
 
