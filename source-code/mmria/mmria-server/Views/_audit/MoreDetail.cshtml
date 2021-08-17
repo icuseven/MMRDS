@@ -57,10 +57,36 @@
     }
     </table>
 }
-<br/>
+<hr/>
+<p><strong>Abstractor:</strong> @change_item.user_name</p>
+<p><strong>Note:</strong> @get_note(Model.cs.note)</p>
 <p><strong>Old Value:</strong> @change_item.old_value</p>
+@if(Model.MedataNode.type.ToUpper()=="LIST")
+{
+    var old_list_array = change_item.old_value.Trim('[').Trim(']').Split(",");
+    bool is_add = true;
+    foreach(var val in old_list_array)
+    {
+        var check_val = val.Trim('"');
+        if(change_item.new_value == check_val)
+        {
+            is_add = false;
+            break;
+        }
+    }
 
-<p><strong>New Value:</strong> @change_item.new_value</p>
-
+    if(is_add)
+    {
+        <p><strong>New Value:</strong> value: @change_item.new_value Added to list</p>
+    }
+    else
+    {
+        <p><strong>New Value:</strong> value: @change_item.new_value Removed from list</p>
+    }
+}
+else
+{
+    <p><strong>New Value:</strong> @change_item.new_value</p>
+}
 
 
