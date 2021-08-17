@@ -3,7 +3,7 @@ var g_d = null;         // global data
 var section_name;       // section name
 var g_current;          // current report printing
 var writeText;          // record header field
-
+ 
 async function print_pdf(section) {
 	g_md = g_metadata;
 	g_d = g_data;
@@ -4673,17 +4673,17 @@ async function prenatal(p, d, pg_break) {
 						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					],
 					[
-						{ text: d.routine_monitoring[curRec].gestational_age_weeks, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].gestational_age_days, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].systolic_bp, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].diastolic, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].heart_rate, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].oxygen_saturation, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].gestational_age_weeks || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].gestational_age_days || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].systolic_bp || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].diastolic || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].heart_rate || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].oxygen_saturation || ' '}`, style: ['tableDetail'], },
 						{ text: lookupFieldArr(d.routine_monitoring[curRec].urine_protein, p.children[index].children[subIndex + 7].values), style: ['tableDetail'], },
 						{ text: lookupFieldArr(d.routine_monitoring[curRec].urine_ketones, p.children[index].children[subIndex + 8].values), style: ['tableDetail'], },
 						{ text: lookupFieldArr(d.routine_monitoring[curRec].urine_glucose, p.children[index].children[subIndex + 9].values), style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].blood_hematocrit, style: ['tableDetail'], },
-						{ text: d.routine_monitoring[curRec].weight, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].blood_hematocrit || ' '}`, style: ['tableDetail'], },
+						{ text: `${d.routine_monitoring[curRec].weight || ' '}`, style: ['tableDetail'], },
 					],
 				],
 			});
@@ -7858,12 +7858,12 @@ async function other_medical_office_visits(p, d, pg_break) {
 								{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 							],
 							[
-								{ text: d[curRec].vital_signs[curRec2].temperature, style: ['tableDetail'], },
-								{ text: d[curRec].vital_signs[curRec2].pulse, style: ['tableDetail'], },
-								{ text: d[curRec].vital_signs[curRec2].respiration, style: ['tableDetail'], },
-								{ text: d[curRec].vital_signs[curRec2].bp_systolic, style: ['tableDetail'], },
-								{ text: d[curRec].vital_signs[curRec2].bp_diastolic, style: ['tableDetail'], },
-								{ text: d[curRec].vital_signs[curRec2].oxygen_saturation, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].temperature || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].pulse || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].respiration || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].bp_systolic || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].bp_diastolic || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].vital_signs[curRec2].oxygen_saturation || ' '}`, style: ['tableDetail'], },
 							],
 						],
 					});
@@ -7933,10 +7933,10 @@ async function other_medical_office_visits(p, d, pg_break) {
 								{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 							],
 							[
-								{ text: d[curRec].laboratory_tests[curRec2].specimen, style: ['tableDetail'], },
-								{ text: d[curRec].laboratory_tests[curRec2].test_name, style: ['tableDetail'], },
-								{ text: d[curRec].laboratory_tests[curRec2].result, style: ['tableDetail'], },
-								{ text: d[curRec].laboratory_tests[curRec2].diagnostic_level, style: ['tableDetail'], },
+								{ text: `${d[curRec].laboratory_tests[curRec2].specimen || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].laboratory_tests[curRec2].test_name || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].laboratory_tests[curRec2].resul || ' '}`t, style: ['tableDetail'], },
+								{ text: `${d[curRec].laboratory_tests[curRec2].diagnostic_level || ' '}`, style: ['tableDetail'], },
 							],
 						],
 					});
@@ -8779,13 +8779,13 @@ async function medical_transport(p, d, pg_break) {
 								{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 							],
 							[
-								{ text: d[curRec].transport_vital_signs[curRec2].gestational_weeks, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].gestational_days, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].systolic_bp, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].diastolic_bp, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].heart_rate, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].oxygen_saturation, style: ['tableDetail'], },
-								{ text: d[curRec].transport_vital_signs[curRec2].blood_sugar, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].gestational_weeks || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].gestational_days || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].systolic_bp || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].diastolic_bp || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].heart_rate || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].oxygen_saturation || ' '}`, style: ['tableDetail'], },
+								{ text: `${d[curRec].transport_vital_signs[curRec2].blood_sugar || ' '}`, style: ['tableDetail'], },
 							],
 						],
 					});
