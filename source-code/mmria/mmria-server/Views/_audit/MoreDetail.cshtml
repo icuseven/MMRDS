@@ -1,0 +1,66 @@
+@using System.Security.Claims;
+@model mmria.server.Controllers.Audit_Detail_View
+@{
+    Layout = "_LayoutBase";
+
+    ViewBag.BreadCrumbs = true;
+
+    var row_number = 0;
+
+    DateTime? previous_date = null;
+
+    string get_note(string value)
+    {
+        if(value == "hash_change")
+        {
+            return "Browser Navigation";
+        }
+        else return value;
+    }
+
+    var current_index = -1;
+
+    var change_item = Model.cs.items[Model.change_item];
+
+    string list_old_value = "";
+    string list_new_value = "";
+}
+
+@section HeadScripts
+{
+  <script src="../scripts/_audit/index.js" type="text/javascript"></script>
+}
+<h1 class="h2" tabindex="-1">Case Audit Detail</h1>
+<h3>@Model.cv.last_name, @Model.cv.first_name</h3>
+<p><strong>Record Id:</strong> @Model.cv.record_id</p>
+<p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
+<p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
+
+<p><strong>MMRIA Path:</strong> @change_item.dictionary_path</p>
+<p><strong>SAS Name:</strong> @Model.MedataNode.sass_export_name</p>
+<p><strong>Description:</strong> @Model.MedataNode.description</p>
+@if(Model.MedataNode.type.ToUpper()=="LIST")
+{
+
+    <table border=1>
+        <tr>
+            <th>value</th>
+            <th>display</th>            
+        </tr>
+
+    @foreach(var item in Model.value_to_display)
+    {
+        <tr>
+            <td>@item.Key</td>
+            <td>@item.Value</td>
+        </tr>
+    }
+    </table>
+}
+<br/>
+<p><strong>Old Value:</strong> @change_item.old_value</p>
+
+<p><strong>New Value:</strong> @change_item.new_value</p>
+
+
+
