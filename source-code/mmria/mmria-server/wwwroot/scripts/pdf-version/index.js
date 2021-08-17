@@ -388,18 +388,7 @@ async function doChart(chartData) {
 		data: chartData,
 		options: {
 			maintainAspectRatio: false,
-			responsive: true,
-			scales: {
-				xAxes: [
-					{
-						ticks: {
-							autoSkip: false,
-							maxRotation: 90,
-							minRotation: 90,
-						},
-					},
-				],
-			},
+			responsive: true
 		},
 	};
 
