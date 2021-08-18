@@ -411,7 +411,7 @@ async function doChart(chartData) {
 	// Remove the elements so they don't show on the web page
 	canvas.remove();
 	container.remove();
-	// console.log('png xxx: ', png);
+	console.log('png xxx: ', png);
 
 	return png;
 }
