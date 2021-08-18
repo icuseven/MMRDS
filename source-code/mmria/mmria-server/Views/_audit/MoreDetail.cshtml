@@ -36,9 +36,9 @@
 <p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
 
 <p><strong>MMRIA Path:</strong> @change_item.dictionary_path</p>
-<p><strong>SAS Name:</strong> @Model.MedataNode.sass_export_name</p>
-<p><strong>Description:</strong> @Model.MedataNode.description</p>
-@if(Model.MedataNode.type.ToUpper()=="LIST")
+<p><strong>SAS Name:</strong> @Model.MetadataNode.sass_export_name</p>
+<p><strong>Description:</strong> @Model.MetadataNode.description</p>
+@if(Model.MetadataNode.type.ToUpper()=="LIST")
 {
 
     <table border=1>
@@ -60,7 +60,7 @@
 <p><strong>Abstractor:</strong> @change_item.user_name</p>
 <p><strong>Note:</strong> @get_note(Model.cs.note)</p>
 
-@if(Model.MedataNode.type.ToUpper()=="LIST")
+@if(Model.MetadataNode.type.ToUpper()=="LIST" && (Model.MetadataNode.is_multiselect != null &&  Model.MetadataNode.is_multiselect.Value))
 {
     <p><strong>Old Value:</strong> @change_item.old_value</p>
     var old_list_array = change_item.old_value.Trim('[').Trim(']').Split(",");
@@ -84,7 +84,7 @@
         <p><strong>New Value:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
     }
 }
-else if(Model.MedataNode.type.ToUpper()=="TEXTAREA")
+else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 {
     <script lang="javascript">
 

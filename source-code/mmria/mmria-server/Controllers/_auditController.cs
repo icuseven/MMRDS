@@ -31,7 +31,7 @@ namespace mmria.server.Controllers
         public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
         public mmria.common.model.couchdb.Change_Stack cs {get;set;}
 
-        public mmria.common.metadata.node MedataNode {get;set;}
+        public mmria.common.metadata.node MetadataNode {get;set;}
 
         public Dictionary<string, string> value_to_display {get;set;}
         public Dictionary<string, string> display_to_value {get;set;}
@@ -168,7 +168,7 @@ namespace mmria.server.Controllers
                 cv = case_view_item,
                 cs = cs,
                 change_item = change_item,
-                MedataNode = node,
+                MetadataNode = node,
                 value_to_display = x.value_to_display,
                 display_to_value = x.display_to_value
 
