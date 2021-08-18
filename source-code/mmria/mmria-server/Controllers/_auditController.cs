@@ -80,6 +80,12 @@ namespace mmria.server.Controllers
 
             foreach(var item in view_response.rows)
             {
+
+                for(var i = 0; i < item.doc.items.Count; i++)
+                {
+                    item.doc.items[i].temp_index = i;
+                }
+
                 item.doc.items.Sort(new Change_Stack_Item_DescendingDate());
                 if(showAll)
                 {
@@ -131,11 +137,16 @@ namespace mmria.server.Controllers
 
             var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
 
-            var cs = view_response.rows[0].doc;
+            var cs = view_response.rows.Where(i=> i.id == change_id).First().doc;
 				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
 				//string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-{Program.config_metadata_version}/metadata";
 				
-				
+
+            for(var i = 0; i < cs.items.Count; i++)
+            {
+                cs.items[i].temp_index = i;
+            }
+
 
             string metadata_url = $"{Program.config_couchdb_url}/metadata/version_specification-{cs.metadata_version}/metadata";
             
@@ -373,7 +384,7 @@ namespace mmria.server.Controllers
                     value.values = values;
                 }
             }
-
+            if(value.values != null)
             foreach(var value_item in value.values)
             {
                 var v = value_item.value;
