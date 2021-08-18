@@ -397,23 +397,34 @@ async function doChart(chartData) {
 	console.log('myImg: ', myImg);
 
 	// Convert to a PNG
-	let image = await myImg.toBase64Image();
-	console.log('image: ', image.length);
-	
+	let png = done(await myImg.toBase64Image());
+
 	// Add a pause before removing the canvas & container - Test to see it will display on the Dev machine
-	let myInterval = setInterval( () => {
-		console.log('In doChart');
-		if ( image.length > 0 ) {
-			console.log('*** Image created: ', image.length);
-			clearInterval(myInterval);
-		}
-	}, 500);
+	// let myInterval = setInterval( () => {
+	// 	console.log('In doChart');
+	// 	if ( image.length > 0 ) {
+	// 		console.log('*** Image created: ', image.length);
+	// 		clearInterval(myInterval);
+	// 	}
+	// }, 500);
 
 	// Remove the elements so they don't show on the web page
 	canvas.remove();
 	container.remove();
+	// console.log('png xxx: ', png);
 
-	return image;
+	return png;
+}
+
+function done(img) {
+	return new Promise((resolve, reject) => {
+		console.log('In done');
+		if (img) {
+			console.log('img is there', img.length)
+			resolve(img);
+		}
+		reject(console.log('Image load error: ', error));
+	});
 }
 
 // Draw Line Chart
@@ -4741,15 +4752,15 @@ async function prenatal(p, d, pg_break) {
 			{
 				label: 'Systolic',
 				fill: false,
-				backgroundColor: 'blue',
-				borderColor: 'blue',
+				backgroundColor: 'rgb(0, 0, 255)',
+				borderColor: 'rgb(0, 0, 255)',
 				data: chartArr.bloodPressure.chartData[0],
 			},
 			{
 				label: 'Diastolic',
 				fill: false,
-				backgroundColor: 'red',
-				borderColor: 'red',
+				backgroundColor: 'rgb(255, 0, 0)',
+				borderColor: 'rgb(255, 0, 0)',
 				data: chartArr.bloodPressure.chartData[1],
 			},
 		]
@@ -4796,8 +4807,8 @@ async function prenatal(p, d, pg_break) {
 			{
 				label: 'Weight Gain',
 				fill: false,
-				backgroundColor: 'blue',
-				borderColor: 'blue',
+				backgroundColor: 'rgb(0, 0, 255)',
+				borderColor: 'rgb(0, 0, 255)',
 				data: chartArr.weightGain.chartData,
 			},
 		]
@@ -4842,8 +4853,8 @@ async function prenatal(p, d, pg_break) {
 			{
 				label: 'Blood Hematocrit',
 				fill: false,
-				backgroundColor: 'blue',
-				borderColor: 'blue',
+				backgroundColor: 'rgb(0, 0, 255)',
+				borderColor: 'rgb(0, 0, 255)',
 				data: chartArr.hematocrit.chartData,
 			},
 		]
@@ -6672,8 +6683,8 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 					{
 						label: 'Heart Rate',
 						fill: false,
-						backgroundColor: 'blue',
-						borderColor: 'blue',
+						backgroundColor: 'rgb(0, 0, 255)',
+						borderColor: 'rgb(0, 0, 255)',
 						data: chartRecs[curRec].heartRate.chartData,
 					},
 				]
@@ -6718,8 +6729,8 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 					{
 						label: 'Respiration',
 						fill: false,
-						backgroundColor: 'blue',
-						borderColor: 'blue',
+						backgroundColor: 'rgb(0, 0, 255)',
+						borderColor: 'rgb(0, 0, 255)',
 						data: chartRecs[curRec].respiration.chartData,
 					},
 				]
@@ -6764,15 +6775,15 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 					{
 						label: 'Systolic',
 						fill: false,
-						backgroundColor: 'blue',
-						borderColor: 'blue',
+						backgroundColor: 'rgb(0, 0, 255)',
+						borderColor: 'rgb(0, 0, 255)',
 						data: chartRecs[curRec].bloodPressure.chartData[0],
 					},
 					{
 						label: 'Diastolic',
 						fill: false,
-						backgroundColor: 'red',
-						borderColor: 'red',
+						backgroundColor: 'rgb(255, 0, 0)',
+						borderColor: 'rgb(255, 0, 0)',
 						data: chartRecs[curRec].bloodPressure.chartData[1],
 					},
 				]
