@@ -156,6 +156,7 @@ namespace mmria.server.utils
                     Log.Information($"audit/_security completed successfully");
                 }
 
+                if (!await url_endpoint_exists ($"{Program.config_couchdb_url}/{Program.db_prefix}audit/_design/sortable", Program.config_timer_user_name, Program.config_timer_value)) 
                 try 
                 {
                     using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/audit_design_sortable.json")))

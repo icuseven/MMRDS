@@ -122,9 +122,9 @@
 {
   <script src="../scripts/_audit/index.js" type="text/javascript"></script>
 }
-<h1 class="h2" tabindex="-1">Case Audit</h1>
+<h1 class="h2" tabindex="-1">Case Audit Log</h1>
 <h3>@Model.cv.last_name, @Model.cv.first_name</h3>
-<p><strong>Record Id:</strong> @Model.cv.record_id</p>
+<p><strong>MMRIA Record ID:</strong> @Model.cv.record_id</p>
 <p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
 <p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
 
@@ -135,9 +135,9 @@
     </tr>
     <tr>
         <th>
-user name
+Updated By
     </th>
-    <th>search prompt or path</th>
+    <th>Search MMRIA Prompt/Path</th>
     <th>&nbsp;</th>
     </tr>
 <tr>
@@ -178,8 +178,8 @@ user name
         
     </td>
     <td>
-        <input id="apply_filter_button" type="Submit" value="apply filter"/>
-        <input id="clear_filter_button" type="button" value="clear filter" onclick="location.href='/_audit/@Model.id'"/>
+        <input id="apply_filter_button" type="Submit" value="Apply Filter"/>
+        <input id="clear_filter_button" type="button" value="Clear Filter" onclick="location.href='/_audit/@Model.id'"/>
 
     </td>
 </tr>
@@ -189,14 +189,14 @@ user name
 
 <table border=1>
 <tr bgcolor="#BBBBBB">
-<th>date_created</th>
-<th>time diff</th>
-<th>user_name</th>
-<th>abstractor action</th>
-<th>prompt</th>
-<th>mmria_path</th>
-<th>old value</th>
-<th>new value</th>
+<th>Update Date/Time</th>
+<th>Time Diff</th>
+<th>Update By</th>
+<th>Update Action</th>
+<th>MMRIA Field Prompt</th>
+<th>MMRIA Field Path</th>
+<th>Old Value</th>
+<th>New Value</th>
 <th></th>
 </tr>
 
@@ -225,14 +225,14 @@ user name
         @if(row_number % 15 == 0)
         {
             <tr bgcolor="#BBBBBB">
-            <th>date_created</th>
-            <th>time diff</th>
-            <th>user_name</th>
-            <th>abstractor action</th>
-            <th>prompt</th>
-            <th>mmria_path</th>
-            <th>old value</th>
-            <th>new value</th>
+            <th>Update Date/Time</th>
+            <th>Time Diff</th>
+            <th>Update By</th>
+            <th>Update Action</th>
+            <th>MMRIA Field Prompt</th>
+            <th>MMRIA Field Path</th>
+            <th>Old Value</th>
+            <th>New Value</th>
             <th></th>
             </tr>
         }
@@ -267,7 +267,7 @@ user name
             }
         </td>
         @{var link = $"/_audit/{Model.id}/{item._id}/{change.temp_index}";}
-        <td>[ <a href="@link">more details</a> ]</td>
+        <td>[ <a href="@link">Details</a> ]</td>
     </tr>
 
     

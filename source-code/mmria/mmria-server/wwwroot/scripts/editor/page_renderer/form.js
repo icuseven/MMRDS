@@ -106,7 +106,7 @@ function form_render(
 				p_result.push(g_data.home_record.first_name);
 				p_result.push(`</p>`);
 			}
-            p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">Audit</button></p>`);
+            p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 			if (g_data.home_record.record_id) 
             {
 				p_result.push("<p class='construct__info mb-0'>");
@@ -617,7 +617,7 @@ function form_render(
 				p_result.push(g_data.home_record.first_name);
 				p_result.push(`</p>`);
 			}
-            p_result.push(`<p>[ <button type="button"  onclick="show_audit_click('${g_data._id}')">Audit</button></p>`);
+            p_result.push(`<p>[ <button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 			if (g_data.home_record.record_id) 
             {
 				p_result.push("<p class='construct__info mb-0'>");
@@ -814,7 +814,7 @@ function form_render(
 			p_result.push(`</p>`);
 		}
 
-        p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">Audit</button></p>`);
+        p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 
 		if (g_data.home_record.record_id) {
 			p_result.push("<p class='construct__info mb-0'>");
@@ -1539,7 +1539,7 @@ function quick_edit_header_render(
 		p_result.push(g_data.home_record.first_name);
 		p_result.push("</h1>");
 	}
-    p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">Audit</button></p>`);
+    p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 	if (g_data.home_record.record_id) {
 		p_result.push("<p class='construct__info mb-0'>");
 		p_result.push(
