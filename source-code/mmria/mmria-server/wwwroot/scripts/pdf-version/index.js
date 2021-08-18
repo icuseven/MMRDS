@@ -398,6 +398,15 @@ async function doChart(chartData) {
 	// Convert to a PNG
 	let image = await myImg.toBase64Image();
 
+	// Add a pause before removing the canvas & container - Test to see it will display on the Dev machine
+	let myInterval = setInterval( () => {
+		console.log('In doChart');
+		if ( image.length > 0 ) {
+			console.log('*** Image created');
+			clearInterval(myInterval);
+		}
+	}, 500);
+
 	// Remove the elements so they don't show on the web page
 	canvas.remove();
 	container.remove();
@@ -4754,6 +4763,8 @@ async function prenatal(p, d, pg_break) {
 	body.push([
 		{ image: bpImg, width: 800, alignment: 'center', },
 	],);
+
+	console.log('bpImg: ', bpImg);
 
 	// Now push it to the full PDF
 	retPage.push([
