@@ -18,17 +18,16 @@
         else return value;
     }
 
-    var current_index = -1;
-
     var change_item = Model.cs.items[Model.change_item];
 
-    string list_old_value = "";
-    string list_new_value = "";
 }
 
 @section HeadScripts
 {
-  <script src="../scripts/_audit/index.js" type="text/javascript"></script>
+    <script src="/scripts/data-dictionary/jsdifflib/diffview.js" type="text/javascript"></script>
+    <script src="/scripts/data-dictionary/jsdifflib/difflib.js" type="text/javascript"></script>
+    <script src="/scripts/data-dictionary/diff.js" type="text/javascript"></script>
+    <script src="/scripts/_audit/index.js" type="text/javascript"></script>
 }
 <h1 class="h2" tabindex="-1">Case Audit Detail</h1>
 <h3>@Model.cv.last_name, @Model.cv.first_name</h3>
@@ -60,9 +59,10 @@
 <hr/>
 <p><strong>Abstractor:</strong> @change_item.user_name</p>
 <p><strong>Note:</strong> @get_note(Model.cs.note)</p>
-<p><strong>Old Value:</strong> @change_item.old_value</p>
+
 @if(Model.MedataNode.type.ToUpper()=="LIST")
 {
+    <p><strong>Old Value:</strong> @change_item.old_value</p>
     var old_list_array = change_item.old_value.Trim('[').Trim(']').Split(",");
     bool is_add = true;
     foreach(var val in old_list_array)
@@ -84,8 +84,23 @@
         <p><strong>New Value:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
     }
 }
+else if(Model.MedataNode.type.ToUpper()=="TEXTAREA")
+{
+    <script lang="javascript">
+
+        window.onload = function() {
+	    diffUsingJS();
+    }
+        
+    </script>
+    <div id="baseText"style="display:none;">@change_item.old_value</div>
+    <div id="newText"style="display:none;">@change_item.new_value</div>
+    <!--div id="diffoutput" style="white-space:pre;"></div-->
+    <div id="diffoutput"></div>
+}
 else
 {
+    <p><strong>Old Value:</strong> @change_item.old_value</p>
     <p><strong>New Value:</strong> @change_item.new_value</p>
 }
 

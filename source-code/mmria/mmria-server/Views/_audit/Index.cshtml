@@ -76,11 +76,11 @@
 
             result.Add(item);
             List<mmria.common.model.couchdb.Change_Stack_Item> ItemsToRemove = new();
-            var change_index = -1;
+            //var change_index = -1;
             foreach (var change in item.items)
             { 
-                change_index+=1;
-                change.temp_index = change_index;
+                //change_index+=1;
+                //change.temp_index = change_index;
                 if
                 (
                     !string.IsNullOrWhiteSpace(Model.search_text) && 
