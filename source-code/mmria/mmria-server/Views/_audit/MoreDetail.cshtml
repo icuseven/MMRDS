@@ -29,12 +29,64 @@
     <script src="/scripts/data-dictionary/diff.js" type="text/javascript"></script>
     <script src="/scripts/_audit/index.js" type="text/javascript"></script>
 }
+<input type="button" onclick="window.history.back();" value="<< back"/>
 <h1 class="h2" tabindex="-1">Case Audit Detail</h1>
 <h3>@Model.cv.last_name, @Model.cv.first_name</h3>
 <p><strong>Record Id:</strong> @Model.cv.record_id</p>
 <p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
 <p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
 
+
+<hr/>
+<p><strong>Abstractor:</strong> @change_item.user_name <strong>Note:</strong> @get_note(Model.cs.note)</p>
+
+@if(Model.MetadataNode.type.ToUpper()=="LIST" && (Model.MetadataNode.is_multiselect != null &&  Model.MetadataNode.is_multiselect.Value))
+{
+    var old_list_array = change_item.old_value.Trim('[').Trim(']').Split(",");
+    bool is_add = false;
+    foreach(var val in old_list_array)
+    {
+        var check_val = val.Trim('"');
+        if(change_item.new_value == check_val)
+        {
+            is_add = true;
+            break;
+        }
+    }
+
+    if(is_add)
+    {
+        <p><strong>Change made:</strong> The value <strong>@change_item.new_value</strong> was added to list</p>
+    }
+    else
+    {
+        <p><strong>Change made:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
+    }
+    <p><strong>List items:</strong> @change_item.old_value</p>
+}
+else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
+{
+    <script lang="javascript">
+
+        window.onload = function() {
+	    diffUsingJS();
+    }
+        
+    </script>
+    <div id="baseText"style="display:none;">@change_item.old_value</div>
+    <div id="newText"style="display:none;">@change_item.new_value</div>
+    <!--div id="diffoutput" style="white-space:pre;"></div-->
+    <div id="diffoutput"></div>
+}
+else
+{
+    <table>
+        <tr><th>Old Value</th><th>New Value</th></tr>
+        <tr><td>@change_item.old_value</td><td>@change_item.new_value</td></tr>
+    </table>
+}
+<hr/>
+<p><strong>Question Prompt:</strong> @change_item?.prompt</p>
 <p><strong>MMRIA Path:</strong> @change_item.dictionary_path</p>
 <p><strong>SAS Name:</strong> @Model.MetadataNode.sass_export_name</p>
 <p><strong>Description:</strong> @Model.MetadataNode.description</p>
@@ -56,52 +108,6 @@
     }
     </table>
 }
-<hr/>
-<p><strong>Abstractor:</strong> @change_item.user_name</p>
-<p><strong>Note:</strong> @get_note(Model.cs.note)</p>
-
-@if(Model.MetadataNode.type.ToUpper()=="LIST" && (Model.MetadataNode.is_multiselect != null &&  Model.MetadataNode.is_multiselect.Value))
-{
-    <p><strong>Old Value:</strong> @change_item.old_value</p>
-    var old_list_array = change_item.old_value.Trim('[').Trim(']').Split(",");
-    bool is_add = true;
-    foreach(var val in old_list_array)
-    {
-        var check_val = val.Trim('"');
-        if(change_item.new_value == check_val)
-        {
-            is_add = false;
-            break;
-        }
-    }
-
-    if(is_add)
-    {
-        <p><strong>New Value:</strong> The value <strong>@change_item.new_value</strong> was added to list</p>
-    }
-    else
-    {
-        <p><strong>New Value:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
-    }
-}
-else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
-{
-    <script lang="javascript">
-
-        window.onload = function() {
-	    diffUsingJS();
-    }
-        
-    </script>
-    <div id="baseText"style="display:none;">@change_item.old_value</div>
-    <div id="newText"style="display:none;">@change_item.new_value</div>
-    <!--div id="diffoutput" style="white-space:pre;"></div-->
-    <div id="diffoutput"></div>
-}
-else
-{
-    <p><strong>Old Value:</strong> @change_item.old_value</p>
-    <p><strong>New Value:</strong> @change_item.new_value</p>
-}
-
+<br/>
+<input type="button" onclick="window.history.back();" value="<< back"/>
 

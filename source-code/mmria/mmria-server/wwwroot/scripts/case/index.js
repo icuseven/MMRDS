@@ -102,6 +102,7 @@ function g_set_data_object_from_path
         new_value: value,
         dictionary_path: p_dictionary_path,
         metadata_type: metadata.type,
+        prompt: metadata.prompt,
         date_created: new Date().toISOString(),
         user_name: g_user_name
       });
@@ -262,6 +263,7 @@ function g_set_data_object_from_path
       new_value: value,
       dictionary_path: p_dictionary_path,
       metadata_type: metadata.type,
+      prompt: metadata.prompt,
       date_created: new Date().toISOString(),
       user_name: g_user_name
     });
@@ -1756,6 +1758,7 @@ function save_case(p_data, p_call_back, p_note)
           new_value: g_data.case_narrative.case_opening_overview,
           dictionary_path: "/case_narrative/case_opening_overview",
           metadata_type: "textarea",
+          prompt: 'Case Narrative',
           date_created: g_case_narrative_is_updated_date.toISOString(),
           user_name: g_user_name
         });
@@ -2499,6 +2502,7 @@ function enable_edit_click()
       new_value: new_date.toISOString(),
       dictionary_path: '/date_last_checked_out',
       metadata_type: 'datetime',
+      prompt: 'date_last_checked_out',
       date_created: new_date.toISOString(),
       user_name: g_user_name
     });

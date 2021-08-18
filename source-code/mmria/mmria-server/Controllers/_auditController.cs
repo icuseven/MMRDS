@@ -154,25 +154,38 @@ namespace mmria.server.Controllers
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
         
             this.lookup = get_look_up(metadata);
-
-            
-
             var node = get_metadata_node(metadata, cs.items[change_item].dictionary_path.Trim().TrimStart('/'));
-
-            var x = convert(node);
-
-            return View(new Audit_Detail_View()
+            if(node == null)
             {
-                id = p_id,
-                change_id = change_id,
-                cv = case_view_item,
-                cs = cs,
-                change_item = change_item,
-                MetadataNode = node,
-                value_to_display = x.value_to_display,
-                display_to_value = x.display_to_value
+                return View(new Audit_Detail_View()
+                {
+                    id = p_id,
+                    change_id = change_id,
+                    cv = case_view_item,
+                    cs = cs,
+                    change_item = change_item,
+                    MetadataNode = metadata.AsNode()
+                    
 
-            });
+                });
+            }
+            else
+            {
+                var x = convert(node);
+
+                return View(new Audit_Detail_View()
+                {
+                    id = p_id,
+                    change_id = change_id,
+                    cv = case_view_item,
+                    cs = cs,
+                    change_item = change_item,
+                    MetadataNode = node,
+                    value_to_display = x.value_to_display,
+                    display_to_value = x.display_to_value
+
+                });
+            }
         }
         public class Change_Stack_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack> 
         {

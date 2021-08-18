@@ -28,6 +28,16 @@ namespace mmria.common.metadata
 
 
 		}
+
+        public node AsNode()
+        {
+            return new node()
+            {
+                name = this.name,
+                prompt = this.prompt,
+                type = this.type
+            };
+        }
 	}
 }
 

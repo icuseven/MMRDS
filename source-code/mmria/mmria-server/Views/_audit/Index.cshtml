@@ -84,14 +84,23 @@
                 if
                 (
                     !string.IsNullOrWhiteSpace(Model.search_text) && 
-                    Model.search_text.ToUpper() != "ALL" &&
-                    (
-                        change.dictionary_path.IndexOf(Model.search_text) < 0
-                    )
+                    Model.search_text.ToUpper() != "ALL" 
                 )
                 {
-                    ItemsToRemove.Add(change);
-                    continue;
+                    if
+                    (
+                        change.dictionary_path.IndexOf(Model.search_text, StringComparison.OrdinalIgnoreCase) < 0 &&
+                        (
+                            change.prompt == null || 
+                            change.prompt.IndexOf(Model.search_text, StringComparison.OrdinalIgnoreCase) < 0
+                        )
+                    
+                    )
+                    {
+                        ItemsToRemove.Add(change);
+                        continue;
+                    }
+                    
                 }
             }
 
@@ -128,7 +137,7 @@
         <th>
 user name
     </th>
-    <th>search text</th>
+    <th>search prompt or path</th>
     <th>&nbsp;</th>
     </tr>
 <tr>
@@ -170,7 +179,7 @@ user name
     </td>
     <td>
         <input id="apply_filter_button" type="Submit" value="apply filter"/>
-        <input id="clear_filter_button" type="button" value="clear filter"/>
+        <input id="clear_filter_button" type="button" value="clear filter" onclick="location.href='/_audit/@Model.id'"/>
 
     </td>
 </tr>
@@ -184,6 +193,7 @@ user name
 <th>time diff</th>
 <th>user_name</th>
 <th>abstractor action</th>
+<th>prompt</th>
 <th>mmria_path</th>
 <th>old value</th>
 <th>new value</th>
@@ -198,30 +208,8 @@ user name
 
     previous_date = current_index + 1 < render_list.Count? render_list[current_index + 1].date_created : null;
 
-    @if
-    (
-        !string.IsNullOrWhiteSpace(Model.user) && 
-        Model.user.ToUpper() != "ALL" &&
-        Model.user.ToUpper() != item.user_name.ToUpper()
-    )
-    {
-        continue;
-    }
-
     foreach (var change in item.items)
     { 
-        @if
-        (
-            !string.IsNullOrWhiteSpace(Model.search_text) && 
-            Model.search_text.ToUpper() != "ALL" &&
-            (
-                change.dictionary_path.IndexOf(Model.search_text) < 0
-            )
-        )
-        {
-            continue;
-        }
-        
         row_number++;
 
         var bg = "";
@@ -241,6 +229,7 @@ user name
             <th>time diff</th>
             <th>user_name</th>
             <th>abstractor action</th>
+            <th>prompt</th>
             <th>mmria_path</th>
             <th>old value</th>
             <th>new value</th>
@@ -253,6 +242,7 @@ user name
         <td>@get_date_diff(previous_date, change.date_created)</td>
         <td>@change.user_name</td>
         <td>@get_note(item.note)</td>
+        <th>@change.prompt</th>
         <td>@change.dictionary_path</td>
         <td>
             @if(change.old_value?.Length> 30)
