@@ -22,6 +22,7 @@ namespace mmria.common.model.couchdb
 
             public string user_name {get;set;}
 
+            public int? temp_index {get; set; }
             public DateTime? date_created {get;set;}
             public string object_path {get;set;}
             public string metadata_path {get;set;}

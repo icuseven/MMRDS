@@ -16,28 +16,6 @@
         user_list.Add(item.user_name);
     }
 
-    var userName = "";
-    var is_installation_admin = false;
-
-    if(User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        userName = User.Identities.First(
-        u => u.IsAuthenticated && 
-        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
-    }
-
-
-    foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
-    {
-        switch(role.Value)
-        {
-            case "installation_admin":
-                is_installation_admin = true;
-                break;
-        }
-    }
-
     string get_note(string value)
     {
         if(value == "hash_change")
@@ -98,8 +76,11 @@
 
             result.Add(item);
             List<mmria.common.model.couchdb.Change_Stack_Item> ItemsToRemove = new();
+            var change_index = -1;
             foreach (var change in item.items)
             { 
+                change_index+=1;
+                change.temp_index = change_index;
                 if
                 (
                     !string.IsNullOrWhiteSpace(Model.search_text) && 
@@ -295,7 +276,8 @@ user name
                 @change.new_value;
             }
         </td>
-        <td>[ <a href="#">more details</a> ]</td>
+        @{var link = $"/_audit/{Model.id}/{item._id}/{change.temp_index}";}
+        <td>[ <a href="@link">more details</a> ]</td>
     </tr>
 
     
