@@ -394,15 +394,17 @@ async function doChart(chartData) {
 
 	// Create the image
 	let myImg = await new Chart(document.getElementById('myChart').getContext('2d'), config);
+	console.log('myImg: ', myImg);
 
 	// Convert to a PNG
 	let image = await myImg.toBase64Image();
-
+	console.log('image: ', image.length);
+	
 	// Add a pause before removing the canvas & container - Test to see it will display on the Dev machine
 	let myInterval = setInterval( () => {
 		console.log('In doChart');
 		if ( image.length > 0 ) {
-			console.log('*** Image created');
+			console.log('*** Image created: ', image.length);
 			clearInterval(myInterval);
 		}
 	}, 500);
