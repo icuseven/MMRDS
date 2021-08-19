@@ -123,25 +123,27 @@
   <script src="../scripts/_audit/index.js" type="text/javascript"></script>
 }
 <h1 class="h2" tabindex="-1">Case Audit Log</h1>
-<h3>@Model.cv.last_name, @Model.cv.first_name</h3>
-<p><strong>MMRIA Record ID:</strong> @Model.cv.record_id</p>
-<p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
-<p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
-
+<table border=0>
+<tr><td colspan=2 align=middle><h3>@Model.cv.last_name, @Model.cv.first_name</h3></td></tr>
+<tr><td colspan=2 align=middle><strong>MMRIA Record ID:</strong> @Model.cv.record_id</td></tr>
+<tr><td  style="padding:5px;"><strong>Date Created:</strong> @Model.cv.date_created</td><td  style="padding:5px;"><strong>Created By:</strong> @Model.cv.created_by</td></tr>
+<tr><td  style="padding:5px;"><strong>Date Last Updated:</strong> @Model.cv.date_last_updated</td><td  style="padding:5px;"><strong>Last Updated By:</strong> @Model.cv.last_updated_by</td></tr>
+</table>
+<hr/>
 <form method="get" action="/_audit/@Model.id">
 <table>
     <tr>
         <th colspan=3 align="center">Filter</th>
     </tr>
     <tr>
-        <th>
+        <th style="padding:5px;">
 Updated By
     </th>
-    <th>Search MMRIA Prompt/Path</th>
+    <th style="padding:5px;">Search MMRIA Prompt/Path</th>
     <th>&nbsp;</th>
     </tr>
 <tr>
-    <td>
+    <td style="padding:5px;">
         <select id="user" name="user">
             @if(string.IsNullOrWhiteSpace(Model.user) || Model.user.ToUpper() == "ALL")
             {
@@ -166,7 +168,7 @@ Updated By
             }
         </select>
     </td>
-    <td>
+    <td style="padding:5px;">
         @if(!string.IsNullOrWhiteSpace(Model.search_text)&& Model.search_text.ToUpper() == "ALL")
         {
             <input id="search_text" name="search_text" type="text" value="" />
@@ -185,10 +187,10 @@ Updated By
 </tr>
 </table>
 </form>
-<br/>
+<hr/>
 
 <table border=1>
-<tr bgcolor="#BBBBBB">
+<tr bgcolor="#BBBBBB" align=middle>
 <th>Update Date/Time</th>
 <th>Time Diff</th>
 <th>Update By</th>
@@ -224,7 +226,7 @@ Updated By
 
         @if(row_number % 15 == 0)
         {
-            <tr bgcolor="#BBBBBB">
+            <tr bgcolor="#BBBBBB" align=middle>
             <th>Update Date/Time</th>
             <th>Time Diff</th>
             <th>Update By</th>
@@ -267,7 +269,7 @@ Updated By
             }
         </td>
         @{var link = $"/_audit/{Model.id}/{item._id}/{change.temp_index}";}
-        <td>[ <a href="@link">Details</a> ]</td>
+        <td><a href="@link">Details</a></td>
     </tr>
 
     

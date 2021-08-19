@@ -26,16 +26,17 @@
 {
     <script src="/scripts/data-dictionary/jsdifflib/diffview.js" type="text/javascript"></script>
     <script src="/scripts/data-dictionary/jsdifflib/difflib.js" type="text/javascript"></script>
-    <script src="/scripts/data-dictionary/diff.js" type="text/javascript"></script>
+    <!--script src="/scripts/data-dictionary/diff.js" type="text/javascript"></script-->
     <script src="/scripts/_audit/index.js" type="text/javascript"></script>
 }
 <input type="button" onclick="window.history.back();" value="<< back"/>
 <h1 class="h2" tabindex="-1">Case Audit Detail</h1>
-<h3>@Model.cv.last_name, @Model.cv.first_name</h3>
-<p><strong>MMRIA Record ID:</strong> @Model.cv.record_id</p>
-<p><strong>Date Created:</strong> @Model.cv.date_created <strong>Created By:</strong> @Model.cv.created_by</p>
-<p><strong>Date Last Updated:</strong> @Model.cv.date_last_updated <strong>Last Updated By:</strong> @Model.cv.last_updated_by</p>
-
+<table border=0>
+<tr><td colspan=2 align=middle><h3>@Model.cv.last_name, @Model.cv.first_name</h3></td></tr>
+<tr><td colspan=2 align=middle><strong>MMRIA Record ID:</strong> @Model.cv.record_id</td></tr>
+<tr><td  style="padding:5px;"><strong>Date Created:</strong> @Model.cv.date_created</td><td  style="padding:5px;"><strong>Created By:</strong> @Model.cv.created_by</td></tr>
+<tr><td  style="padding:5px;"><strong>Date Last Updated:</strong> @Model.cv.date_last_updated</td><td  style="padding:5px;"><strong>Last Updated By:</strong> @Model.cv.last_updated_by</td></tr>
+</table>
 
 <hr/>
 <p><strong>Updated By:</strong> @change_item.user_name <strong>Update Action:</strong> @get_note(Model.cs.note)</p>
@@ -81,7 +82,7 @@ else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 else
 {
     <table>
-        <tr><th>Old Value</th><th>New Value</th></tr>
+        <tr align=middle><th>Old Value</th><th>New Value</th></tr>
         <tr><td>@change_item.old_value</td><td>@change_item.new_value</td></tr>
     </table>
 }
@@ -94,7 +95,7 @@ else
 {
 
     <table border=1>
-        <tr>
+        <tr align=middle>
             <th>Value</th>
             <th>Display</th>            
         </tr>
