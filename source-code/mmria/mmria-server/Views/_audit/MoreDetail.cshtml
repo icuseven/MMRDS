@@ -29,7 +29,7 @@
     <!--script src="/scripts/data-dictionary/diff.js" type="text/javascript"></script-->
     <script src="/scripts/_audit/index.js" type="text/javascript"></script>
 }
-<input type="button" onclick="window.close();" value="Close Audit Log"/><br/>
+<input type="button" onclick="window.close();" value="Close Audit Log"/><br/><br/>
 <input type="button" onclick="window.history.back();" value="<< back"/>
 <h1 class="h2" tabindex="-1">Case Audit Detail</h1>
 <table border=0>
@@ -41,7 +41,7 @@
 
 <hr/>
 <table>
-<tr><td  style="padding:5px;"><strong>Updated By:</strong> @change_item.user_name</td><td  style="padding:5px;"><strong>Update Action:</strong> @get_note(Model.cs.note)</td></tr>
+<tr><td><strong>Updated By:</strong> @change_item.user_name</td><td  style="padding:5px;"><strong>Update Action:</strong> @get_note(Model.cs.note)</td></tr>
 </table>
 @if(Model.MetadataNode.type.ToUpper()=="LIST" && (Model.MetadataNode.is_multiselect != null &&  Model.MetadataNode.is_multiselect.Value))
 {
@@ -59,13 +59,13 @@
 
     if(is_add)
     {
-        <p><strong>Change made:</strong> The value <strong>@change_item.new_value</strong> was added to list</p>
+        <p  style="padding:5px;"><strong>Change made:</strong> The value <strong>@change_item.new_value</strong> was added to list</p>
     }
     else
     {
-        <p><strong>Change made:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
+        <p  style="padding:5px;"><strong>Change made:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
     }
-    <p><strong>New List items:</strong> @change_item.old_value</p>
+    <p  style="padding:5px;"><strong>New List items:</strong> @change_item.old_value</p>
 }
 else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 {
@@ -83,7 +83,7 @@ else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 }
 else
 {
-    <table>
+    <table style="padding:5px;">
         <tr align=middle><th>Old Value</th><th>New Value</th></tr>
         <tr><td>@change_item.old_value</td><td>@change_item.new_value</td></tr>
     </table>
