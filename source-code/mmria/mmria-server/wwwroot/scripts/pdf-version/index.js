@@ -370,7 +370,7 @@ function getSectionTitle(name) {
 async function doChart(chartData) {
 	// Create a div element and give it an id
 	let container = document.createElement('div')
-	container.id = 'wrapper';
+	container.id = 'chartWrapper';
 
 	// Create a canvas element and give it an id, width
 	let canvas = document.createElement('canvas');
@@ -397,21 +397,14 @@ async function doChart(chartData) {
 	console.log('myImg: ', myImg);
 
 	// Convert to a PNG
-	let png = done(await myImg.toBase64Image());
+	// let png = done(await myImg.toBase64Image());
 
-	// Add a pause before removing the canvas & container - Test to see it will display on the Dev machine
-	// let myInterval = setInterval( () => {
-	// 	console.log('In doChart');
-	// 	if ( image.length > 0 ) {
-	// 		console.log('*** Image created: ', image.length);
-	// 		clearInterval(myInterval);
-	// 	}
-	// }, 500);
+	let png = done(canvas.toDataURL());
 
 	// Remove the elements so they don't show on the web page
 	canvas.remove();
 	container.remove();
-	console.log('png xxx: ', png);
+	console.log('png: ', png);
 
 	return png;
 }
