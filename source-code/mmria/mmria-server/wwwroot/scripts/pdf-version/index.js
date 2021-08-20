@@ -395,14 +395,15 @@ async function doChart(chartData) {
 	};
 
 	// Create the image
-	let myImg = await new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
-	console.log('myImg: ', myImg);
+	let myImgChart = new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
+	myImgChart.render();
+	// console.log('myImg: ', myImg);
 
 	// Convert to a PNG
-	// let png = done(await myImg.toBase64Image());
+	let png = myImgChart.toBase64Image();
 
 	// let png = done(canvas.toDataURL());
-	let png = canvas.toDataURL();
+	// let png = canvas.toDataURL();
 
 	// Remove the elements so they don't show on the web page
 	// canvas.remove();
