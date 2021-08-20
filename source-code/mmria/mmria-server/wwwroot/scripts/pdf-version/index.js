@@ -367,14 +367,16 @@ function getSectionTitle(name) {
 }
 
 // Create the chart using chart.js - return a png
+let chartNo = 0;
 async function doChart(chartData) {
+	chartNo += 1;
 	// Create a div element and give it an id
 	let container = document.createElement('div')
-	container.id = 'chartWrapper';
+	container.id = 'chartWrapper' + chartNo;
 
 	// Create a canvas element and give it an id, width
 	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart';
+	canvas.id = 'myChart' + chartNo;
 	canvas.setAttribute('width', '325px');
 	
 	// Add the canvas to the container
@@ -393,7 +395,7 @@ async function doChart(chartData) {
 	};
 
 	// Create the image
-	let myImg = await new Chart(document.getElementById('myChart').getContext('2d'), config);
+	let myImg = await new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
 	console.log('myImg: ', myImg);
 
 	// Convert to a PNG
@@ -403,8 +405,8 @@ async function doChart(chartData) {
 	let png = canvas.toDataURL();
 
 	// Remove the elements so they don't show on the web page
-	canvas.remove();
-	container.remove();
+	// canvas.remove();
+	// container.remove();
 	console.log('png in doChart: ', png);
 
 	return png;
