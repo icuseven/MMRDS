@@ -200,7 +200,7 @@ namespace mmria.server
                 try
                 {
                     string responseFromServer = await audit_curl.executeAsync();
-                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                    var audit_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
                 }
                 catch(Exception ex)
                 {
