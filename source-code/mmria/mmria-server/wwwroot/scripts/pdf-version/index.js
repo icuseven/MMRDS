@@ -399,12 +399,13 @@ async function doChart(chartData) {
 	// Convert to a PNG
 	// let png = done(await myImg.toBase64Image());
 
-	let png = done(canvas.toDataURL());
+	// let png = done(canvas.toDataURL());
+	let png = canvas.toDataURL();
 
 	// Remove the elements so they don't show on the web page
 	canvas.remove();
 	container.remove();
-	console.log('png: ', png);
+	console.log('png in doChart: ', png);
 
 	return png;
 }
