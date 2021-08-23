@@ -262,16 +262,13 @@ function fmtDataDate(dt) {
 	return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${fmtYear(dt.year)}`;
 }
 
-// Format date and time string with mm/dd/yyyy hh:mm am
+// Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
 	if (dt.length === 0) return '  ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
-	let ampm = hh > 12 ? 'pm' : 'am';
-	hh = hh % 12;
-	hh = hh ? hh : 12;		// change the hour 0 to 12
-	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)} ${ampm}`
+	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`
 	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`
 }
 
@@ -5021,7 +5018,7 @@ async function prenatal(p, d, pg_break) {
 			row.push({ text: d.diagnostic_procedures[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.diagnostic_procedures[curRec].gestational_age_days, style: ['tableDetail'], },);
 			row.push({ text: d.diagnostic_procedures[curRec].procedure, style: ['tableDetail'], },);
-			row.push({ text: d.diagnostic_procedures[curRec].results, style: ['tableDetail'], },);
+			row.push({ text: d.diagnostic_procedures[curRec].comments, style: ['tableDetail'], },);
 			body.push(row);
 		}
 	}
@@ -5108,7 +5105,7 @@ async function prenatal(p, d, pg_break) {
 			row.push({ text: fmtStrDate(d.problems_identified_grid[curRec].date_1st_noted), style: ['tableDetail'], },);
 			row.push({ text: d.problems_identified_grid[curRec].gestational_age_weeks, style: ['tableDetail'], },);
 			row.push({ text: d.problems_identified_grid[curRec].gestational_age_days, style: ['tableDetail'], },);
-			row.push({ text: d.problems_identified_grid[curRec].problems, style: ['tableDetail'], },);
+			row.push({ text: d.problems_identified_grid[curRec].problem, style: ['tableDetail'], },);
 			row.push({ text: d.problems_identified_grid[curRec].comments, style: ['tableDetail'], },);
 			body.push(row);
 		}
@@ -5445,7 +5442,7 @@ async function prenatal(p, d, pg_break) {
 			row = new Array();
 			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupFieldArr(d.other_sources_of_prenatal_care[curRec].place, p.children[index].children[0].values), style: ['tableDetail'], },);
-			row.push({ text: lookupFieldArr(d.other_sources_of_prenatal_care[curRec].provider_type, p.children[index].children[0].values), style: ['tableDetail'], },);
+			row.push({ text: lookupFieldArr(d.other_sources_of_prenatal_care[curRec].provider_type, p.children[index].children[1].values), style: ['tableDetail'], },);
 			row.push({ text: d.other_sources_of_prenatal_care[curRec].city, style: ['tableDetail'], },);
 			row.push({ text: lookupGlobalArr(d.other_sources_of_prenatal_care[curRec].state, 'state'), style: ['tableDetail'], },);
 			row.push({ text: fmtStrDate(d.other_sources_of_prenatal_care[curRec].begin_date), style: ['tableDetail'], },);
@@ -7643,23 +7640,23 @@ async function other_medical_office_visits(p, d, pg_break) {
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.city}: `, style: ['tableDetail'], },
+								{ text: `${d[curRec].location_of_medical_care_facility.city}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.feature_matching_geography_type}: `, style: ['tableDetail'], },
+								{ text: `${d[curRec].location_of_medical_care_facility.feature_matching_geography_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 13].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_code}: `, style: ['tableDetail'], },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_type}: `, style: ['tableDetail'], },
+								{ text: `${d[curRec].location_of_medical_care_facility.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 19].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].location_of_medical_care_facility.urban_status}: `, style: ['tableDetail'], },
+								{ text: `${d[curRec].location_of_medical_care_facility.urban_status}`, style: ['tableDetail'], },
 							],
 						],
 					},
@@ -7957,7 +7954,10 @@ async function other_medical_office_visits(p, d, pg_break) {
 								{ text: `${d[curRec].laboratory_tests[curRec2].specimen || ' '}`, style: ['tableDetail'], },
 								{ text: `${d[curRec].laboratory_tests[curRec2].test_name || ' '}`, style: ['tableDetail'], },
 								{ text: `${d[curRec].laboratory_tests[curRec2].result || ' '}`, style: ['tableDetail'], },
-								{ text: `${d[curRec].laboratory_tests[curRec2].diagnostic_level || ' '}`, style: ['tableDetail'], },
+								{ 
+									text: lookupFieldArr(d[curRec].laboratory_tests[curRec2].diagnostic_level, p.children[index].children[subIndex + 4].values), 
+									style: ['tableDetail'], 
+								},
 							],
 						],
 					});
@@ -9930,7 +9930,10 @@ function social_and_environmental_profile(p, d, pg_break) {
 			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
 			row.push({ text: lookupGlobalArr(d.if_yes_specify_substances[curRec].substance, 'substance'), style: ['tableDetail'], },);
 			row.push({ text: d.if_yes_specify_substances[curRec].substance_other, style: ['tableDetail'], },);
-			row.push({ text: d.if_yes_specify_substances[curRec].timing_of_substance_use, style: ['tableDetail'], },);
+			row.push({ 
+				text: lookupFieldArr(d.if_yes_specify_substances[curRec].timing_of_substance_use, p.children[index].children[2].values), 
+				style: ['tableDetail'], 
+			},);
 			body.push(row);
 		}
 	}
@@ -11077,6 +11080,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 							}
 						}
 						body.push(row);
+						row = new Array();
 					}
 				}
 			}
@@ -11132,10 +11136,9 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 								}
 							}
 						}
+						body.push(row);
+						row = new Array();
 					}
-				}
-				if (row.length > 0) {
-					body.push(row);
 				}
 			}
 			// Display the grid table
