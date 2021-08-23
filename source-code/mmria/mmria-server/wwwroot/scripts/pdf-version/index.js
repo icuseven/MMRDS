@@ -311,7 +311,7 @@ function lookupGlobalArr(val, lookupName) {
 	// Return the display value from the lookup array
 	let arr = g_md.lookup[lookupIndex].values;
 	let idx = arr.findIndex((s) => s.value === val);
-	idx = (idx === -1) ? arr.findIndex((s) => parseInt(s.value, 10) === val) : 0;   // This fixes bad data coming in
+	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
 
@@ -406,8 +406,8 @@ async function doChart(chartData) {
 	// let png = canvas.toDataURL();
 
 	// Remove the elements so they don't show on the web page
-	// canvas.remove();
-	// container.remove();
+	canvas.remove();
+	container.remove();
 	console.log('png in doChart: ', png);
 
 	return png;
@@ -877,11 +877,11 @@ async function home_record(p, d) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: reformatDate(d.case_status.projected_date), style: ['tableDetail'], },
+						{ text: reformatDate(d.case_status.projected_review_date), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: reformatDate(d.case_status.committee_review_date), style: ['tableDetail'], },
+						{ text: reformatDate(g_d.committee_review.date_of_review), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -1093,9 +1093,9 @@ async function death_certificate(p, d, pg_break) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: d.local_file_number, style: ['tableDetail'], },
+						{ text: d.certificate_identification.local_file_number, style: ['tableDetail'], },
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: d.state_file_number, style: ['tableDetail'], },
+						{ text: d.certificate_identification.state_file_number, style: ['tableDetail'], },
 					],
 				],
 			}
