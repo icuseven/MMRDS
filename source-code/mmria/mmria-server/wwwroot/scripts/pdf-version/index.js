@@ -1404,7 +1404,7 @@ async function death_certificate(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: lookupGlobalArr(d.race.omb_race_recode, 'omb_race_recode'),
+							text: lookupGlobalArr(d.race.omb_race_recode.toString(), 'omb_race_recode'),
 							style: ['tableDetail'],
 						},
 					],
@@ -2163,7 +2163,7 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 10].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.demographic_of_father.race.omb_race_recode, 'omb_race_recode'), style: ['tableDetail'], },
+						{ text: lookupGlobalArr(d.demographic_of_father.race.omb_race_recode.toString(), 'omb_race_recode'), style: ['tableDetail'], },
 					],
 				],
 			},
@@ -2411,7 +2411,7 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.race.omb_race_recode, 'omb_race_recode'), style: ['tableDetail'], },
+						{ text: lookupGlobalArr(d.race.omb_race_recode.toString(), 'omb_race_recode'), style: ['tableDetail'], },
 					],
 				],
 			},
@@ -2634,7 +2634,11 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupFieldArr(d.cigarette_smoking.prior_3_months_type, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
+						{ 
+							text: `${d.cigarette_smoking.prior_3_months} ` +
+								`${lookupFieldArr(d.cigarette_smoking.prior_3_months_type, p.children[index].children[subIndex + 1].values)}`, 
+							style: ['tableDetail'], 
+						},
 					],
 					[
 						{
@@ -2794,6 +2798,11 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			index = 0;
 			subIndex = 0;
+
+			// Check to see if there are multiple records, if so do a page break
+			if ( curRec > 0 ) {
+				retPage.push({ text: '', pageBreak: 'before' });
+			}
 
 			// Record Type, Multiple Gestations, Birth Order
 			retPage.push([
@@ -5560,6 +5569,11 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			index = 0;
 			subIndex = 0;
 
+			// Check to see if there are multiple records, if so do a page break
+			if ( curRec > 0 ) {
+				retPage.push({ text: '', pageBreak: 'before' });
+			}
+
 			// Record # & Medical Record Number
 			retPage.push([
 				{
@@ -6105,10 +6119,10 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{ text: `${d[curRec].maternal_biometrics.height.feet} / ${d[curRec].maternal_biometrics.height.inches}`, style: ['tableDetail'], },
-								{ text: `${p.children[index].children[subIndex].children[2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].maternal_biometrics.height.bmi}`, style: ['tableDetail'], },
 								{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 								{ text: `${d[curRec].maternal_biometrics.admission_weight}`, style: ['tableDetail'], },
+								{ text: `${p.children[index].children[subIndex].children[2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: `${d[curRec].maternal_biometrics.height.bmi}`, style: ['tableDetail'], },
 							],
 						],
 					},
@@ -6447,7 +6461,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 								{
 									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.month)} / ` +
 										`${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.day)} / ` +
-										`${fmtYear(d[curRec].onset_of_labor.date_of_rupture.year)} / `,
+										`${fmtYear(d[curRec].onset_of_labor.date_of_rupture.year)}`,
 									style: ['tableDetail'],
 								},
 								{},
@@ -6997,6 +7011,96 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 
 			// List of All Medications
 			index += 1;
+			lenArr2 = d[curRec].list_of_medications.length;
+			startArr2 = 0;
+			endArr2 = lenArr2;
+
+			// Build Header rows
+			body = [];
+			row = new Array();
+			row.push(
+				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', },
+				{}, {}, {}, {}, {});
+			body.push(row);
+			row = new Array();
+			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
+			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
+			body.push(row);
+
+			// Are there any records?
+			if (lenArr2 === 0) {
+				row = new Array();
+				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '6', },);
+				body.push(row);
+			} else {
+				// Build the table detail
+				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
+					row = new Array();
+					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
+					row.push({ text: `${fmtDateTime(d[curRec].list_of_medications[curRec2].date_and_time)}`, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].list_of_medications[curRec2].medication, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].list_of_medications[curRec2].dose_frequency_duration, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].list_of_medications[curRec2].adverse_reaction, style: ['tableDetail'], },);
+					row.push({ text: d[curRec].list_of_medications[curRec2].comments, style: ['tableDetail'], },);
+					body.push(row);
+				}
+			}
+
+			// Show the table 
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: true,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						headerRows: 2,
+						widths: [30, 100, '*', '*', '*', 250],
+						body: body,
+					},
+				},
+			]);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
+
+			// Were Surgical Procedures?
+			index += 1;
+			subIndex = 0;
+			retPage.push([
+				{
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					table: {
+						widths: [250, '*'],
+						headerRows: 0,
+						body: [
+							[
+								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+								{ text: lookupGlobalArr(d[curRec].any_surgical_procedures, 'yes_no'), style: ['tableDetail'], },
+							],
+						],
+					},
+				},
+			]);
+
+			// Give some space
+			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
+
+			// Surgical Procedures
+			index += 1;
 			lenArr2 = d[curRec].surgical_procedures.length;
 			startArr2 = 0;
 			endArr2 = lenArr2;
@@ -7060,96 +7164,6 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			// Give some space
 			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
 
-			// Were Surgical Procedures?
-			index += 1;
-			subIndex = 0;
-			retPage.push([
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					table: {
-						widths: [250, '*'],
-						headerRows: 0,
-						body: [
-							[
-								{ text: `${p.children[index].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: lookupGlobalArr(d[curRec].any_surgical_procedures, 'yes_no'), style: ['tableDetail'], },
-							],
-						],
-					},
-				},
-			]);
-
-			// Give some space
-			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
-
-			// List of All Medications
-			index += 1;
-			lenArr2 = d[curRec].list_of_medications.length;
-			startArr2 = 0;
-			endArr2 = lenArr2;
-
-			// Build Header rows
-			body = [];
-			row = new Array();
-			row.push(
-				{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '6', },
-				{}, {}, {}, {}, {});
-			body.push(row);
-			row = new Array();
-			row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
-			row.push({ text: p.children[index].children[0].prompt, style: ['tableLabel', 'blueFill'], },);
-			row.push({ text: p.children[index].children[1].prompt, style: ['tableLabel', 'blueFill'], },);
-			row.push({ text: p.children[index].children[2].prompt, style: ['tableLabel', 'blueFill'], },);
-			row.push({ text: p.children[index].children[3].prompt, style: ['tableLabel', 'blueFill'], },);
-			row.push({ text: p.children[index].children[4].prompt, style: ['tableLabel', 'blueFill'], },);
-			body.push(row);
-
-			// Are there any records?
-			if (lenArr2 === 0) {
-				row = new Array();
-				row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '6', },);
-				body.push(row);
-			} else {
-				// Build the table detail
-				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
-					row = new Array();
-					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
-					row.push({ text: `${fmtDateTime(d[curRec].list_of_medications[curRec2].date_and_time)}`, style: ['tableDetail'], },);
-					row.push({ text: d[curRec].list_of_medications[curRec2].medication, style: ['tableDetail'], },);
-					row.push({ text: d[curRec].list_of_medications[curRec2].dose_frequency_duration, style: ['tableDetail'], },);
-					row.push({ text: d[curRec].list_of_medications[curRec2].adverse_reaction, style: ['tableDetail'], },);
-					row.push({ text: d[curRec].list_of_medications[curRec2].comments, style: ['tableDetail'], },);
-					body.push(row);
-				}
-			}
-
-			// Show the table 
-			retPage.push([
-				{
-					layout: {
-						defaultBorder: true,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					table: {
-						headerRows: 2,
-						widths: [30, 100, '*', '*', '*', 250],
-						body: body,
-					},
-				},
-			]);
-
-			// Give some space
-			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
-
 			// Any Blood or Blood Product Transfusions?
 			index += 1;
 			subIndex = 0;
@@ -7180,7 +7194,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			// Give some space
 			retPage.push({ text: '', margin: [0, 10, 0, 0], },);
 
-			// List of All Medications
+			// Blood Products
 			index += 2;
 			lenArr2 = d[curRec].blood_product_grid.length;
 			startArr2 = 0;
@@ -7429,6 +7443,11 @@ async function other_medical_office_visits(p, d, pg_break) {
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			index = 0;
 			subIndex = 0;
+
+			// Check to see if there are multiple records, if so do a page break
+			if ( curRec > 0 ) {
+				retPage.push({ text: '', pageBreak: 'before' });
+			}
 
 			// Record # & Visit
 			retPage.push([
@@ -8353,6 +8372,11 @@ async function medical_transport(p, d, pg_break) {
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			index = 0;
 			subIndex = 0;
+
+			// Check to see if there are multiple records, if so do a page break
+			if ( curRec > 0 ) {
+				retPage.push({ text: '', pageBreak: 'before' });
+			}
 
 			// Date of Transport & GA
 			retPage.push([
@@ -10446,6 +10470,11 @@ async function informant_interviews(p, d, pg_break) {
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			index = 0;
 			subIndex = 0;
+
+			// Check to see if there are multiple records, if so do a page break
+			if ( curRec > 0 ) {
+				retPage.push({ text: '', pageBreak: 'before' });
+			}
 
 			// Date of Interview & Interview Type & Specify Other Type
 			retPage.push([
