@@ -3994,7 +3994,7 @@ async function prenatal(p, d, pg_break) {
 		// Build the table detail
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			row = new Array();
-			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], },);
+			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center', },);
 			row.push({ text: lookupFieldArr(d.pre_existing_conditons_grid[curRec].condition, p.children[index].children[0].values), style: ['tableDetail'], },);
 			row.push({ text: d.pre_existing_conditons_grid[curRec].other, style: ['tableDetail'], },);
 			row.push({ text: d.pre_existing_conditons_grid[curRec].duration, style: ['tableDetail'], },);
