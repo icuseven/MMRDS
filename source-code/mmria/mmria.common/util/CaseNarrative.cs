@@ -36,7 +36,7 @@ namespace mmria.common.util
 
             Regex StripTrailBlankSpaceExp = new Regex
             (
-                @"(<\/?([ ])+[^>]+>)",
+                @"<\/?[a-zA-Z]+([ ]+)[^>]+>",
                 
                 RegexOptions.IgnoreCase | RegexOptions.Multiline
             );
@@ -49,7 +49,7 @@ namespace mmria.common.util
             );
 
 
-            return CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),"");
+            return StripTrailBlankSpaceExp.Replace(CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),""), "");
         }
         public static string StripHtmlAttributes2(string value)
         {

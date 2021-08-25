@@ -216,10 +216,11 @@ function textarea_control_strip_html_attributes(p_value)
 
     let StripTrailBlankSpaceExp = /(<\/?([ ])+[^>]+>)/gi;
 
-    let StripHTMLExp = /(<\/?[^>]+>)/gi;
+    //let StripHTMLExp = /(<\/?[^>]+>)/gi;
 
+    let StripTrailBlankSpaceExp = /<\/?[a-zA-Z]+([ ]+)[^>]+>/gi;
 
-    let result = p_value.replace(AttributeRegEx,"").replace(PseudoTagRegex, "").replace(CommentRegex,"");
+    let result = p_value.replace(AttributeRegEx,"").replace(PseudoTagRegex, "").replace(CommentRegex,"").replace(StripTrailBlankSpaceExp, "");
 
     return result;
 
