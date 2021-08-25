@@ -199,5 +199,25 @@ function textarea_control_replace_return_with_br(p_value)
         result = p_value.replace(crlf_regex, "<br/>");
     }
 
-    return result
+    return result;
+}
+
+
+function textarea_control_strip_html_attributes(p_value)
+{
+    let AttributeRegEx = new /[a-zA-Z]+='[^']+'|[a-zA-Z]+=\"[^\"]+\"/gi;
+    
+
+    let PseudoTagRegex = /<\/?[a-z]:[^>]+>/gi;
+
+    let CommentRegex = /<!--\[[^>]+>/gi;
+
+
+    let StripTrailBlankSpaceExp = /(<\/?([ ])+[^>]+>)/gi;
+
+    let StripHTMLExp = /(<\/?[^>]+>)/gi;
+
+
+    return CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(p_value,""), ""),"");
+
 }

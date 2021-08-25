@@ -33,6 +33,14 @@ namespace mmria.common.util
                 RegexOptions.IgnoreCase | RegexOptions.Multiline
             );
 
+
+            Regex StripTrailBlankSpaceExp = new Regex
+            (
+                @"(<\/?([ ])+[^>]+>)",
+                
+                RegexOptions.IgnoreCase | RegexOptions.Multiline
+            );
+
             Regex StripHTMLExp = new Regex
             (
                 @"(<\/?[^>]+>)",
