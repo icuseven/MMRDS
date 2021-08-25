@@ -76,6 +76,14 @@ function g_set_data_object_from_path
     {
       var metadata = eval(p_metadata_path);
 
+
+        if(metadata.name == "case_narrative")
+        {
+            //value = textarea_control_strip_html_attributes(value);
+        }
+        
+      
+
       if (metadata.type.toLowerCase() == 'boolean') 
       {
         eval(p_object_path + ' = ' + value);

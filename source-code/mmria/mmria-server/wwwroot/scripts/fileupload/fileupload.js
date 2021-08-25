@@ -100,7 +100,7 @@ function setup_file_list()
 
     if (g_file_stat_list.length < 2) 
     {
-        g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
+        //g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
     }
 
     // process mor file 1st
