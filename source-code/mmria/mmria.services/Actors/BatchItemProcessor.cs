@@ -732,7 +732,7 @@ namespace RecordsProcessor_Worker.Actors
 
 
             string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
-            var metadata_curl = new mmria.server.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
+            var metadata_curl = new mmria.getset.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
             lookup = get_look_up(metadata);
@@ -2107,7 +2107,7 @@ namespace RecordsProcessor_Worker.Actors
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(new_case, settings);
 
-                var document_curl = new mmria.server.cURL("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+                var document_curl = new mmria.getset.cURL("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
 
                 var document_put_response = new mmria.common.model.couchdb.document_put_response();
                 try
@@ -2930,7 +2930,7 @@ namespace RecordsProcessor_Worker.Actors
                 /*
                                 string find_url = $"{db_server_url}/{db_name}/_find";
 
-                                var case_curl = new mmria.server.cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
+                                var case_curl = new mmria.getset.cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
                                 string responseFromServer = await case_curl.executeAsync();
 
                                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
@@ -11008,7 +11008,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 request_builder.Append($"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_last_name?skip=0&limit=100000");
 
                 string request_string = request_builder.ToString();
-                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                 string responseFromServer = case_view_curl.execute();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
@@ -11062,7 +11062,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 if (!string.IsNullOrWhiteSpace(case_id))
                 {
                     request_string = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
-                    var case_curl = new mmria.server.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                    var case_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                     string responseFromServer = case_curl.execute();
 
                     var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);

@@ -100,7 +100,7 @@ namespace mmria.services.vitalsimport
             try
             {
                 string request_string = $"{mmria.services.vitalsimport.Program.couchdb_url}/configuration/{mmria.services.vitalsimport.Program.config_id}";
-                var case_curl = new mmria.server.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
+                var case_curl = new mmria.getset.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
                 string responseFromServer = case_curl.execute();
 			    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 
