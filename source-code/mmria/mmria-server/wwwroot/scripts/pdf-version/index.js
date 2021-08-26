@@ -10655,7 +10655,7 @@ async function case_narrative(p, d, pg_break) {
 						{ text: 'Case Narrative', style: ['subHeader'], },
 					],
 					[
-						{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
+						{ text: htmlToPdfmake(d.case_opening_overview), style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
 					],
 				],
 			},
