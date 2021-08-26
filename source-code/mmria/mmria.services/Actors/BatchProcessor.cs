@@ -134,8 +134,18 @@ function validate_length(p_array, p_max_length)
 
             
 
-            var nat_list = message?.nat?.Split("\n");
-            var fet_list = message?.fet?.Split("\n");
+            string[] nat_list = message?.nat?.Split("\n");
+            string[] fet_list = message?.fet?.Split("\n");
+
+            if(nat_list == null)
+            {
+                nat_list = new string[0];
+            }
+
+            if(fet_list == null)
+            {
+                fet_list = new string[0];
+            }
             
             var duplicate_count = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
             var duplicate_is_found = false;

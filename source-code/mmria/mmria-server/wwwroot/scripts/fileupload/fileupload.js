@@ -248,7 +248,8 @@ function setup_file_list()
     }
     else
     {
-        g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
+        g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
+        //g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
     }
 
     if (!is_mor) 
