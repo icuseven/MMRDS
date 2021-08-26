@@ -163,28 +163,14 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
 }
 
-function clean_rich_text_value(p_value)
-{
-
-}
 
 
 function tbw_change_paste(p_object_path, p_metadata_path, p_dictionary_path)
 {
-    let crlf_regex = /\n/g;
     let data = $('.trumbowyg-editor').html();
 
     let new_text = textarea_control_strip_html_attributes(data);
-    /*
-    if(data!= null)
-    {
-        new_text = data.replace(crlf_regex, "<br/>");
-    }
 
-    new_text = new_text.split('&quot;').join('\'');
-    new_text = new_text.split('Â').join('');
-    $('.trumbowyg-textarea').val(new_text);
-    */
     g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, new_text);
 }
 
@@ -214,7 +200,7 @@ function textarea_control_strip_html_attributes(p_value)
     let CommentRegex = /<!--\[[^>]+>/gi;
 
 
-    let StripTrailBlankSpaceExp = /(<\/?([ ])+[^>]+>)/gi;
+    //let StripTrailBlankSpaceExp = /(<\/?([ ])+[^>]+>)/gi;
 
     //let StripHTMLExp = /(<\/?[^>]+>)/gi;
 
