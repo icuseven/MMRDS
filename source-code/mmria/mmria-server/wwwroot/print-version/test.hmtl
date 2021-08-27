@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+    <title>Maternal Mortality Review Information App (MMRIA) | CDC</title>
+
+
+
+    <link href="./styles/d3/c3.min.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+
+    <script src="/scripts/pdf-version/pdfmake.min.js"></script>
+    <script src="/scripts/pdf-version/vfs_fonts.js"></script>
+    <script src="/scripts/pdf-version/chart.min.js" type="text/javascript"></script>
+
+  <script>
+    $(document).ready( function() {
+      if (typeof print_pdf === 'undefined' ) {
+        console.log( '**** case print_pdf is undefined ****' );
+      } else {
+        console.log( '#### case print_pdf is defined ####' );
+      }
+   });
+
+var g_md = null;        // global metadata
+var g_d = null;         // global data
+var section_name;       // section name
+var g_current;          // current report printing
+var writeText;          // record header field
+ 
+async function print_pdf(section) {
+	g_md = g_metadata;
+	g_d = g_data;
+	section_name = section;
+	// g_pdf_need_page_break = false;
+
+	console.log('g_md: ', g_md);
+	console.log('g_d: ', g_d);
+	console.log('section_name: ', section_name);
+	writeText = 'Happy';
+
+	// Get unique PDF name
+	// let pdfName = createNamePDF();
+
+	// Get the PDF Header Title
+	let pdfTitle = getHeaderName();
+
+	// Get the logoUrl for Header
+	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
+
+	// Create map of name and index of the g_md array children
+	let arrMap = getArrayMap();
+
+	// Format the content
+	let retContent = await formatContent(section_name, arrMap);
+
+	let doc = {
+		pageOrientation: 'landscape',
+		pageMargins: [20, 80, 20, 20],
+		// background: () => {
+		// 	return {
+		// 		canvas: [
+		// 			{
+		// 				type: 'rect',
+		// 				x: 0, y: 0, h: 595.28, w: 841.89,
+		// 				color: '#00BFFF'
+		// 			},
+		// 		],
+		// 	};
+		// },
+		info: {
+			title: pdfTitle,
+		},
+		header: (currentPage, pageCount) => {
+			// console.log( 'currentPage: ', currentPage );
+			// console.log( 'doc: ', doc );
+			if (section_name === 'all') {
+				let recLenArr = [];
+				let startPage = 0;
+				let endPage = 0;
+				let title = '';
+				for (let i = 0; i < doc.content.length; i++) {
+					startPage = doc.content[i].positions[0].pageNumber;
+					endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
+					recLenArr.push({ s: startPage, e: endPage });
+				}
+
+				let index = recLenArr.findIndex(item => ((currentPage >= item.s) && (currentPage <= item.e)));
+				for (let l = 0; l < doc.content[index].stack.length; l++) {
+					writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : writeText;
+				}
+			}
+			else if (section_name === 'core-summary') {
+				writeText = 'CORE SUMMARY';
+			} else {
+				writeText = getSectionTitle(section_name);
+			}
+			let headerObj = [
+				{
+					margin: 10,
+					columns: [
+						{
+							image: `${logoUrl}`,
+							width: 30,
+							margin: [0, 0, 0, 10]
+						},
+						{
+							width: '*',
+							text: pdfTitle,
+							alignment: 'center',
+							style: 'pageHeader'
+						},
+						{
+							width: 110,
+							layout: {
+								defaultBorder: false,
+							},
+							table: {
+								widths: [40, 60],
+								body: [
+									[
+										{ text: 'Page:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
+										{ text: currentPage + ' of ' + pageCount, style: 'headerPageDate' },
+									],
+									[
+										{ text: 'Printed:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
+										{ text: getTodayFormatted(), style: 'headerPageDate' },
+									],
+								],
+							},
+						},
+					],
+				},
+				{
+					margin: [10, 0, 10, 5],
+					layout: 'noBorders',
+					table: {
+						widths: '*',
+						body: [
+							[
+								{ text: writeText, style: ['formHeader', 'isBold', 'lightFill'], }
+							],
+						],
+					},
+				},
+			];
+			return headerObj;
+		},
+		styles: {
+			pageHeader: {
+				fontSize: 18,
+				color: '#000080',
+			},
+			headerPageDate: {
+				fontSize: 9,
+			},
+			formHeader: {
+				fontSize: 12,
+				color: '#000080',
+				margin: [2, 2, 2, 2],
+			},
+			coreHeader: {
+				fontSize: 14,
+				color: '#0000ff',
+				margin: [0, 10, 0, 5]
+			},
+			isBold: {
+				bold: true,
+			},
+			fgBlue: {
+				color: '#000080',
+			},
+			isUnderlined: {
+				decoration: 'underline',
+			},
+			lightFill: {
+				fillColor: '#dedede',
+			},
+			blueFill: {
+				fillColor: '#cce6ff',
+			},
+			subHeader: {
+				fontSize: 11,
+				color: '#000080',
+				bold: true,
+			},
+			tableLargeLabel: {
+				color: '#000000',
+				fontSize: 10,
+			},
+			tableLabel: {
+				color: '#1010dd',
+				fontSize: 9,
+				bold: true,
+			},
+			tableDetail: {
+				color: '#000000',
+				fontSize: 9,
+			},
+		},
+		defaultStyle: {
+			fontSize: 12,
+		},
+		content: retContent,
+	}
+	// pdfMake.createPdf( doc ).download( pdfName );
+	pdfMake.createPdf(doc).open();
+
+
+}
+
+
+
+
+
+let chartNo = 0;
+async function doChart(chartData) {
+	chartNo += 1;
+	// Create a div element and give it an id
+	let container = document.createElement('div')
+	container.id = 'chartWrapper' + chartNo;
+
+	// Create a canvas element and give it an id, width
+	let canvas = document.createElement('canvas');
+	canvas.id = 'myChart' + chartNo;
+	canvas.setAttribute('width', '325px');
+	
+	// Add the canvas to the container
+	container.appendChild(canvas);
+
+	// Add the container to the body so we can get to it - VERY IMPORTANT
+	document.body.appendChild(container);
+
+	const config = {
+		type: 'line',
+		data: chartData,
+		options: {
+			maintainAspectRatio: false,
+			responsive: true
+		},
+	};
+
+	// Create the image
+	let myImgChart = new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
+	myImgChart.render();
+	// console.log('myImg: ', myImg);
+
+	// Convert to a PNG
+	let png = myImgChart.toBase64Image();
+
+	// let png = done(canvas.toDataURL());
+	// let png = canvas.toDataURL();
+
+	// Remove the elements so they don't show on the web page
+	canvas.remove();
+	container.remove();
+	console.log('png in doChart: ', png);
+
+	return png;
+}
+
+
+</script>
+
+</head>
+<body>
+
+
+</body>
