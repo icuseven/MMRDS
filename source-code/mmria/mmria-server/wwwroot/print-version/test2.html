@@ -74,60 +74,19 @@ function window_load()
 
        
 
-    Img = doChart2(cdata);
-    //ImgBase = "";
+    Img = doChart(cdata);
+    
 
     window.setTimeout
     (
-        function(){SetImgAndPDF()}, 
+        function(){
+            //ImgBase = Img.toBase64Image();
+            pdfMake.createPdf(dd(Img.toBase64Image())).open();
+        }, 
     3000
     );
+   
 };
-
- 
-let chartNo2 = 0;
-function doChart2(chartData) 
-{
-	chartNo2 += 1;
-	// Create a div element and give it an id
-	let container = document.createElement('div')
-	container.id = 'chartWrapper' + chartNo2;
-
-	// Create a canvas element and give it an id, width
-	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart' + chartNo2;
-	canvas.setAttribute('width', '325px');
-	
-	// Add the canvas to the container
-	container.appendChild(canvas);
-
-	// Add the container to the body so we can get to it - VERY IMPORTANT
-	document.body.appendChild(container);
-
-	const config = {
-		type: 'line',
-		data: chartData,
-		options: {
-			maintainAspectRatio: false,
-			responsive: true
-		},
-	};
-
-	// Create the image
-	let myImgChart = new Chart(document.getElementById('myChart' + chartNo2).getContext('2d'), config);
-
-
-    return myImgChart;
-}
-
-
-
-
-function SetImgAndPDF() 
-{
-    ImgBase = Img.toBase64Image();
-    pdfMake.createPdf(dd(ImgBase)).open();
-}
 
 
 let chartNo = 0;
@@ -164,7 +123,7 @@ function doChart(chartData)
 	// console.log('myImg: ', myImg);
 
 	// Convert to a PNG
-	let png = myImgChart.toBase64Image();
+	//let png = myImgChart.toBase64Image();
 
 	// let png = done(canvas.toDataURL());
 	// let png = canvas.toDataURL();
@@ -172,9 +131,9 @@ function doChart(chartData)
 	// Remove the elements so they don't show on the web page
 	//canvas.remove();
 	//container.remove();
-	console.log('png in doChart: ', png);
+	//console.log('png in doChart: ', png);
 
-	return png;
+	return myImgChart;
 }
 
 

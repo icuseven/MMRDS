@@ -12,11 +12,12 @@
 
     <script src="/scripts/pdf-version/pdfmake.min.js"></script>
     <script src="/scripts/pdf-version/vfs_fonts.js"></script>
-    <script src="/scripts/pdf-version/chart.min.js" type="text/javascript"></script>
+    <script src="/scripts/d3/d3.min.js" type="text/javascript"></script>
+    <script src="/scripts/d3/c3.min.js" type="text/javascript"></script>
 </head>
 <body>
 
-
+    <div id="chart"></div>
 </body>
   <script>
 window.onload = window_load
@@ -52,10 +53,16 @@ function dd(p_image_base)
 	        width: 200
 		},
         { 
-            image: p_image_base, 
+            svg: '<svg width="325.938" height="275.938" viewBox="0 0 330 280"><defs><clipPath id="c3-1630331214412-clip"><rect width="283.938" height="221.938"></rect></clipPath><clipPath id="c3-1630331214412-clip-xaxis"><rect x="-41" y="-20" width="355.938" height="70"></rect></clipPath><clipPath id="c3-1630331214412-clip-yaxis"><rect x="-39" y="-4" width="60" height="245.938"></rect></clipPath><clipPath id="c3-1630331214412-clip-grid"><rect width="283.938" height="221.938"></rect></clipPath><clipPath id="c3-1630331214412-clip-subchart"><rect width="283.938"></rect></clipPath></defs><g transform="translate(40.5,4.5)"><text class="c3-text c3-empty" text-anchor="middle" dominant-baseline="middle" x="141.969" y="110.969"></text><rect class="c3-zoom-rect" width="283.938" height="221.938" style="opacity: 0;"></rect><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip)" class="c3-regions" style="visibility: visible;"></g><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-grid)" class="c3-grid" style="visibility: visible;"><g class="c3-xgrid-focus"><line class="c3-xgrid-focus" x1="-10" x2="-10" y1="0" y2="221.938" style="visibility: hidden;"></line></g></g><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip)" class="c3-chart"><g class="c3-event-rects c3-event-rects-single" style="fill-opacity: 0;"><rect class=" c3-event-rect c3-event-rect-0" x="-20.6614990234375" y="0" width="47.322998046875" height="221.938"></rect><rect class=" c3-event-rect c3-event-rect-1" x="35.3385009765625" y="0" width="47.322998046875" height="221.938"></rect><rect class=" c3-event-rect c3-event-rect-2" x="91.3385009765625" y="0" width="47.322998046875" height="221.938"></rect><rect class=" c3-event-rect c3-event-rect-3" x="146.3385009765625" y="0" width="47.322998046875" height="221.938"></rect><rect class=" c3-event-rect c3-event-rect-4" x="202.3385009765625" y="0" width="47.322998046875" height="221.938"></rect><rect class=" c3-event-rect c3-event-rect-5" x="258.3385009765625" y="0" width="47.322998046875" height="221.938"></rect></g><g class="c3-chart-bars"><g class="c3-chart-bar c3-target c3-target-data1" style="opacity: 0; pointer-events: none;"><g class=" c3-shapes c3-shapes-data1 c3-bars c3-bars-data1" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-data2" style="opacity: 0; pointer-events: none;"><g class=" c3-shapes c3-shapes-data2 c3-bars c3-bars-data2" style="cursor: pointer;"></g></g></g><g class="c3-chart-lines"><g class="c3-chart-line c3-target c3-target-data1" style="opacity: 0; pointer-events: none;"><g class=" c3-shapes c3-shapes-data1 c3-lines c3-lines-data1"><path class=" c3-shape c3-shape c3-line c3-line-data1" d="M3,194.08470512820514L59,113.82944871794871L115,161.03842307692307L170,19.411500000000007L226,137.4339358974359L282,90.22496153846153" style="stroke: rgb(31, 119, 180); opacity: 1;"></path></g><g class=" c3-shapes c3-shapes-data1 c3-areas c3-areas-data1"><path class=" c3-shape c3-shape c3-area c3-area-data1" d="M 3 194.08470512820514" style="fill: rgb(31, 119, 180); opacity: 0.2;"></path></g><g class=" c3-selected-circles c3-selected-circles-data1"></g><g class=" c3-shapes c3-shapes-data1 c3-circles c3-circles-data1" style="cursor: pointer;"><circle class=" c3-shape c3-shape-0 c3-circle c3-circle-0" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="3" cy="194.08470512820514"></circle><circle class=" c3-shape c3-shape-1 c3-circle c3-circle-1" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="59" cy="113.82944871794871"></circle><circle class=" c3-shape c3-shape-2 c3-circle c3-circle-2" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="115" cy="161.03842307692307"></circle><circle class=" c3-shape c3-shape-3 c3-circle c3-circle-3" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="170" cy="19.411500000000007"></circle><circle class=" c3-shape c3-shape-4 c3-circle c3-circle-4" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="226" cy="137.4339358974359"></circle><circle class=" c3-shape c3-shape-5 c3-circle c3-circle-5" r="2.5" style="fill: rgb(31, 119, 180); opacity: 1;" cx="282" cy="90.22496153846153"></circle></g></g><g class="c3-chart-line c3-target c3-target-data2" style="opacity: 0; pointer-events: none;"><g class=" c3-shapes c3-shapes-data2 c3-lines c3-lines-data2"><path class=" c3-shape c3-shape c3-line c3-line-data2" d="M3,184.64291025641023L59,198.80560256410257L115,203.5265L170,189.36380769230766L226,201.16605128205126L282,196.44515384615383" style="stroke: rgb(255, 127, 14); opacity: 1;"></path></g><g class=" c3-shapes c3-shapes-data2 c3-areas c3-areas-data2"><path class=" c3-shape c3-shape c3-area c3-area-data2" d="M 3 184.64291025641023" style="fill: rgb(255, 127, 14); opacity: 0.2;"></path></g><g class=" c3-selected-circles c3-selected-circles-data2"></g><g class=" c3-shapes c3-shapes-data2 c3-circles c3-circles-data2" style="cursor: pointer;"><circle class=" c3-shape c3-shape-0 c3-circle c3-circle-0" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="3" cy="184.64291025641023"></circle><circle class=" c3-shape c3-shape-1 c3-circle c3-circle-1" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="59" cy="198.80560256410257"></circle><circle class=" c3-shape c3-shape-2 c3-circle c3-circle-2" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="115" cy="203.5265"></circle><circle class=" c3-shape c3-shape-3 c3-circle c3-circle-3" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="170" cy="189.36380769230766"></circle><circle class=" c3-shape c3-shape-4 c3-circle c3-circle-4" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="226" cy="201.16605128205126"></circle><circle class=" c3-shape c3-shape-5 c3-circle c3-circle-5" r="2.5" style="fill: rgb(255, 127, 14); opacity: 1;" cx="282" cy="196.44515384615383"></circle></g></g></g><g class="c3-chart-arcs" transform="translate(141.969,105.969)"><text class="c3-chart-arcs-title" style="text-anchor: middle; opacity: 0;"></text></g><g class="c3-chart-texts"><g class="c3-chart-text c3-target c3-target-data1" style="opacity: 0; pointer-events: none;"><g class=" c3-texts c3-texts-data1"></g></g><g class="c3-chart-text c3-target c3-target-data2" style="opacity: 0; pointer-events: none;"><g class=" c3-texts c3-texts-data2"></g></g></g></g><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-grid)" class="c3-grid c3-grid-lines"><g class="c3-xgrid-lines"></g><g class="c3-ygrid-lines"></g></g><g class="c3-axis c3-axis-x" clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-xaxis)" transform="translate(0,221.938)" style="visibility: visible; opacity: 1;"><text class="c3-axis-x-label" transform="" style="text-anchor: end;" x="283.938" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(3, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><g class="tick" transform="translate(59, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">1</tspan></text></g><g class="tick" transform="translate(115, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">2</tspan></text></g><g class="tick" transform="translate(170, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">3</tspan></text></g><g class="tick" transform="translate(226, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">4</tspan></text></g><g class="tick" transform="translate(282, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">5</tspan></text></g><path class="domain" d="M0,6V0H283.938V6"></path></g><g class="c3-axis c3-axis-y" clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-yaxis)" transform="translate(0,0)" style="visibility: visible; opacity: 1;"><text class="c3-axis-y-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="1.2em"></text><g class="tick" transform="translate(0,209)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">0</tspan></text></g><g class="tick" transform="translate(0,185)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">50</tspan></text></g><g class="tick" transform="translate(0,162)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">100</tspan></text></g><g class="tick" transform="translate(0,138)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">150</tspan></text></g><g class="tick" transform="translate(0,114)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">200</tspan></text></g><g class="tick" transform="translate(0,91)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">250</tspan></text></g><g class="tick" transform="translate(0,67)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">300</tspan></text></g><g class="tick" transform="translate(0,44)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">350</tspan></text></g><g class="tick" transform="translate(0,20)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">400</tspan></text></g><path class="domain" d="M-6,1H0V221.938H-6"></path></g><g class="c3-axis c3-axis-y2" transform="translate(283.938,0)" style="visibility: hidden; opacity: 1;"><text class="c3-axis-y2-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(0,222)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0</tspan></text></g><g class="tick" transform="translate(0,200)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.1</tspan></text></g><g class="tick" transform="translate(0,178)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.2</tspan></text></g><g class="tick" transform="translate(0,156)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.3</tspan></text></g><g class="tick" transform="translate(0,134)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.4</tspan></text></g><g class="tick" transform="translate(0,112)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.5</tspan></text></g><g class="tick" transform="translate(0,90)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.6</tspan></text></g><g class="tick" transform="translate(0,68)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.7</tspan></text></g><g class="tick" transform="translate(0,46)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.8</tspan></text></g><g class="tick" transform="translate(0,24)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.9</tspan></text></g><g class="tick" transform="translate(0,1)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">1</tspan></text></g><path class="domain" d="M6,1H0V221.938H6"></path></g></g><g transform="translate(20.5,276.5)" style="visibility: hidden;"><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-subchart)" class="c3-chart"><g class="c3-chart-bars"></g><g class="c3-chart-lines"></g></g><g clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip)" class="c3-brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><rect class="background" x="0" width="303.938" style="visibility: hidden; cursor: crosshair;"></rect><rect class="extent" x="0" width="0" style="cursor: move;"></rect><g class="resize e" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g><g class="resize w" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g></g><g class="c3-axis-x" transform="translate(0,0)" clip-path="url(http://localhost:12345/print-version/test3.html#c3-1630331214412-clip-xaxis)" style="visibility: hidden; opacity: 1;"><g class="tick" transform="translate(3, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><g class="tick" transform="translate(59, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">1</tspan></text></g><g class="tick" transform="translate(115, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">2</tspan></text></g><g class="tick" transform="translate(170, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">3</tspan></text></g><g class="tick" transform="translate(226, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">4</tspan></text></g><g class="tick" transform="translate(282, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">5</tspan></text></g><path class="domain" d="M0,6V0H283.938V6"></path></g></g><g transform="translate(0,255.938)"><g class="c3-legend-item c3-legend-item-data1" style="visibility: visible; cursor: pointer;"><text x="126.7736875" y="9" style="pointer-events: none;">data1</text><rect class="c3-legend-item-event" x="112.7736875" y="-5" width="55.03125" height="18" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="110.7736875" y1="4" x2="120.7736875" y2="4" stroke-width="10" style="stroke: rgb(31, 119, 180); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-data2" style="visibility: visible; cursor: pointer;"><text x="181.8049375" y="9" style="pointer-events: none;">data2</text><rect class="c3-legend-item-event" x="167.8049375" y="-5" width="45.359375" height="18" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="165.8049375" y1="4" x2="175.8049375" y2="4" stroke-width="10" style="stroke: rgb(255, 127, 14); pointer-events: none;"></line></g></g><text class="c3-title" x="162.969" y="0"></text></svg><div class="c3-tooltip-container" style="position: absolute; pointer-events: none; display: none;"></div>', 
+            width: 325.938, 
+           // height: 275.938,
+            //alignment: 'center' 
+        },
+        /*{ 
+            svg: p_image_base, 
             width: 800, 
             alignment: 'center' 
-        }
+        }*/
 	]
 	
     } ;
@@ -74,107 +81,210 @@ function window_load()
 
        
 
-    Img = doChart2(cdata);
-    //ImgBase = "";
+    //Img = doChart(cdata);
+    Img = drawLineChart('name', 4);
+    
+    
 
     window.setTimeout
     (
-        function(){SetImgAndPDF()}, 
+        function(){
+            //ImgBase = Img.toBase64Image();
+            pdfMake.createPdf(dd(Img)).open();
+        }, 
     3000
     );
+   
 };
 
- 
-let chartNo2 = 0;
-function doChart2(chartData) 
+
+function drawLineChart(name, cols) 
 {
-	chartNo2 += 1;
-	// Create a div element and give it an id
-	let container = document.createElement('div')
-	container.id = 'chartWrapper' + chartNo2;
+	let result = document.getElementById("chart");
+	//result.id = "divChart";
+	result.width = 325.938;
+	result.height = 275.938;
 
-	// Create a canvas element and give it an id, width
-	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart' + chartNo2;
-	canvas.setAttribute('width', '325px');
-	
-	// Add the canvas to the container
-	container.appendChild(canvas);
-
-	// Add the container to the body so we can get to it - VERY IMPORTANT
-	document.body.appendChild(container);
-
-	const config = {
-		type: 'line',
-		data: chartData,
-		options: {
-			maintainAspectRatio: false,
-			responsive: true
+	console.log("result start: ", result);
+	var chart = c3.generate({
+		bindto: result,
+		size: {
+			height: 275.938,
+			width: 325.938
 		},
-	};
-
-	// Create the image
-	let myImgChart = new Chart(document.getElementById('myChart' + chartNo2).getContext('2d'), config);
-
-
-    return myImgChart;
-}
-
-
-
-
-function SetImgAndPDF() 
-{
-    ImgBase = Img.toBase64Image();
-    pdfMake.createPdf(dd(ImgBase)).open();
-}
-
-
-let chartNo = 0;
-function doChart(chartData) 
-{
-	chartNo += 1;
-	// Create a div element and give it an id
-	let container = document.createElement('div')
-	container.id = 'chartWrapper' + chartNo;
-
-	// Create a canvas element and give it an id, width
-	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart' + chartNo;
-	canvas.setAttribute('width', '325px');
-	
-	// Add the canvas to the container
-	container.appendChild(canvas);
-
-	// Add the container to the body so we can get to it - VERY IMPORTANT
-	document.body.appendChild(container);
-
-	const config = {
-		type: 'line',
-		data: chartData,
-		options: {
-			maintainAspectRatio: false,
-			responsive: true
+		data:
+		{
+			columns: [
+				['data1', 30, 200, 100, 400, 150, 250],
+				['data2', 50, 20, 10, 40, 15, 25]
+			],
 		},
-	};
+	});
 
-	// Create the image
-	let myImgChart = new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
-	//myImgChart.render();
-	// console.log('myImg: ', myImg);
+	let chartHeight = result.children[0].getAttribute('height');
+	let chartWidth = result.children[0].getAttribute('width');
+	console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 
-	// Convert to a PNG
-	let png = myImgChart.toBase64Image();
+    /*
+	let container = document.createElement('div');
+	container.id = 'contDiv';
+	let canvas = document.createElement('canvas');
+	canvas.id = 'myChart';
+	canvas.setAttribute('width', chartWidth);
+	canvas.setAttribute('height', chartHeight);
 
-	// let png = done(canvas.toDataURL());
-	// let png = canvas.toDataURL();
+	container.appendChild(canvas);
+	console.log('container: ', container);
+	let ctx = canvas.getContext('2d');
+*/
 
-	// Remove the elements so they don't show on the web page
-	//canvas.remove();
-	//container.remove();
-	console.log('png in doChart: ', png);
+	//let svgText = `<svg xmlns="http://www.w3.org/2000/svg" width="${chartWidth}" height="${chartHeight}">`;
+	let svgText = chart.element.innerHTML;
 
-	return png;
+
+    /*
+	console.log('svgText')
+
+	let png = 'Hello';
+	let svgImage = new Image();
+	svgImage.onload = () => {
+		ctx.drawImage(svgImage, chartWidth, chartHeight);
+		png = svgText.toDataURL();
+	}*/
+
+	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
+	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
+	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
+	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
+	// 	'</linearGradient></defs>' +
+	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
+	// let mySvg = chart.element.innerHTML;
+
+	// console.log( 'drawLineChart: ', name, ' - ', cols );
+	// let chartDefinition = {
+	// 	bindto: result,
+	// 	size: {
+	// 		height: 275.938, 
+	// 		width: 325.938
+	// 	},
+	// 	transition: {
+	// 		duration: null
+	// 	},
+	// 	onrendered: () => {
+	// 		d3.select('div #canvasChart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+	// 			.attr('transform', 'rotate(325) translate(-25,0)');	
+	// 	},
+	// 	axis: {
+	// 		x: {
+	// 			type: 'timeseries',
+	// 			localtime: false,
+	// 			label: {
+	// 				position: 'outer-right',
+	// 			},
+	// 			tick: {
+	// 				format: '%m/%d/%Y',
+	// 			},
+	// 			height: 55
+	// 		},
+	// 		y: {
+	// 			tick: {
+	// 				format: d3.format('.0f'),
+	// 			},
+	// 			min: 0,
+	// 			padding: {top: 0, bottom: 0},
+	// 		},
+	// 	},
+	// 	data: {
+	// 		x: 'x',
+	// 		xFormat: '%Y-%m-%d %H:%M:%S',
+	// 		columns: [
+	// 			['x','2020-12-3 0:0:0','2020-11-5 0:0:0','2020-10-1 0:0:0'],
+	// 			['systolic_bp',129.00,125.00,120.00],
+	// 			['diastolic',88.00,84.00,80.00]
+	// 		]
+	// 	},
+	// 	line: {
+	// 		connectNull: true
+	// 	}
+	// };
+
+	// // let mySvg = '';
+	// const chart = c3.generate(chartDefinition);
+
+	// set id for svg
+	// result.firstElementChild.setAttribute("id", "svgChart");
+	// console.log('chart: ', chart);
+	//console.log('result: ', result.firstElementChild);
+    console.log('svgText: ', svgText);
+
+	// let chartHeight = result.children[0].getAttribute('height');
+	// let chartWidth = result.children[0].getAttribute('width');
+	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+
+	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
+	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
+	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
+	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
+	// 	'</linearGradient></defs>' +
+	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
+	// let mySvg = chart.element.innerHTML;
+
+	// let mySvg = result.children[0];
+	// console.log('mySvg: ', mySvg);
+	// let svgString = new XMLSerializer().serializeToString(mySvg);
+	// console.log('svgString: ', svgString);
+	// let png;
+	// document.addEventListener('DOMContentLoaded', () => {
+	// 	console.log('in addEventListener');
+	// 	let canvas = document.getElementById('canvas');
+	// 	let ctx = canvas.getContext('2d');
+	// 	let DOMURL = self.URL || self.webkitURL || self;
+	// 	let img = new Image();
+	// 	let svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+	// 	let url = DOMURL.createObjectURL(svg);
+	// 	img.onload = () => {
+	// 		ctx.drawImage(img, 0, 0);
+	// 		png = canvas.toDataURL('image/png');
+	// 		console.log('png: ', png);
+	// 	}
+	// });
+
+	// let svg = result.querySelector('#divChart svg');
+	// console.log('svg query: ', svg);
+	// let svgElement = document.getElementById('')
+	// let svgData = new XMLSerializer().serializeToString(svg);
+	// console.log('svgData: ', svgData);
+	// let chartHeight = svg.getAttribute('height');
+	// let chartWidth = svg.getAttribute('width');
+	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+	// let svgURL = 'data:image/svg_xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+	// console.log('svgURL: ', svgURL);
+
+	// png = window.btoa(svgURL);
+	// console.log('png: ', png);
+	// return png;
+	// return new Promise((resolve, reject) => {
+	// 	let img = new Image();
+	// 	img.setAttribute('crossOrigin', 'anonymous');
+	// 	img.onload = () => {
+	// 		let canvas = document.createElement('canvas');
+	// 		canvas.width = chartWidth;
+	// 		canvas.height = chartHeight;
+	// 		let ctx = canvas.getContext('2d');
+	// 		ctx.drawImage(img, 0, 0);
+	// 		let dataURL = canvas.toDataURL('image/png');
+	// 		console.log('DataURL onload: ', dataURL);
+	// 		resolve(dataURL);
+	// 	};
+	// 	img.onerror = error => {
+	// 		reject(error);
+	// 	};
+	// 	img.src = svgURL;
+	// });
+
+	return svgText;
 }
 
 
