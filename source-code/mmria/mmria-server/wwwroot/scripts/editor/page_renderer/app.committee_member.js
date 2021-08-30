@@ -135,7 +135,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
                   <th class='th' scope='col'>Created</th>
                   <th class='th' scope='col'>Last Updated</th>
-                  <th class='th' scope='col'>Currently Edited By</th>
               </tr>
           </thead>
           <tbody class="tbody">
@@ -192,17 +191,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                       <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-                      <td class="td">
-                        ${is_checked_out ? (`
-                          <span class="icn-info">${lockedBy}</span>
-                        `) : ''}
-                        ${!is_checked_out && !is_checked_out_expired(item.value) ? (`
-                          <span class="row no-gutters align-items-center">
-                            <span class="icn icn--round icn--border bg-primary" title="Case is locked"><span class="d-flex x14 fill-w cdc-icon-lock-alt"></span></span>
-                            <span class="icn-info">${lockedBy}</span>
-                          </span>
-                        `) : ''}
-                      </td>
                     </tr>`
                   );
               }).join('')}
