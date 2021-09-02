@@ -3,7 +3,32 @@ var g_d = null;         // global data
 var section_name;       // section name
 var g_current;          // current report printing
 var writeText;          // record header field
- 
+
+
+function create_print_version
+(      
+    p_metadata,
+    p_data,
+    p_section,
+    p_number
+)
+{
+    let ctx = { 
+        metadata: g_metadata, 
+        data:g_d = g_data, 
+        path: "",
+        content: []
+    };
+    initialize_print_pdf(ctx);
+}
+
+function create_pdf_version(p_ctx) 
+{
+    let ctx = { metadata: g_metadata, data:g_d = g_data, content: []};
+    render_content(ctx)
+}
+
+
 async function print_pdf(section) {
 	g_md = g_metadata;
 	g_d = g_data;
