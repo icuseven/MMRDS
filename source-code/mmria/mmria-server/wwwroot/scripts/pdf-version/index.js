@@ -22,13 +22,19 @@ function create_print_version
     p_number
 )
 {
+    g_md = p_metadata;
+    g_d = p_data;
+    section_name = p_section;
+
     let ctx = { 
         metadata: p_metadata, 
         data: p_data, 
         mmria_path: "",
         content: []
     };
-    initialize_print_pdf(ctx);
+    //initialize_print_pdf(ctx);
+
+    print_pdf(p_section);
 }
 
 function create_pdf_version(p_ctx) 
@@ -38,10 +44,12 @@ function create_pdf_version(p_ctx)
 }
 
 
-async function print_pdf(section) {
-	g_md = g_metadata;
+async function print_pdf(section) 
+{
+	/*g_md = g_metadata;
 	g_d = g_data;
 	section_name = section;
+*/
 	// g_pdf_need_page_break = false;
 
 	console.log('g_md: ', g_md);
@@ -437,8 +445,8 @@ async function doChart(chartData) {
 	// let png = canvas.toDataURL();
 
 	// Remove the elements so they don't show on the web page
-	canvas.remove();
-	container.remove();
+	//canvas.remove();
+	//container.remove();
 	console.log('png in doChart: ', png);
 
 	return png;

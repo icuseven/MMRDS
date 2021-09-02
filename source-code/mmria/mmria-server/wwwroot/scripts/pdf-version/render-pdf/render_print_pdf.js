@@ -32,25 +32,87 @@ function get_print_pdf_context(p_result, p_post_html_render, p_metadata, p_data,
     return result;
 }
 
-function initialize_print_pdf(p_ctx) 
+async function initialize_print_pdf(p_ctx) 
 {
     print_pdf_calc_size(p_ctx);
     print_pdf_calc_layout(p_ctx);
     p_ctx.content = [];
     print_pdf_render_content(p_ctx);
-
-    pdfMake.createPdf(dd(p_ctx.content)).open();
+    
+    pdfMake.createPdf(await dd(p_ctx.content)).open();
 }
 
-function dd(p_items)
+async function dd(p_items)
+{
+    let result = {
+    pageOrientation: 'landscape',
+    pageMargins: [20, 80, 20, 20],
+    info: { title: getHeaderName() },
+    header: await get_header(1,1, section_name),
+    styles: get_style(),
+    defaultStyle: { fontSize: 12  },
+	content: p_items	
+    } ;
+
+    return result;
+}
+
+
+function get_style()
 {
     return {
-	content: p_items
-
-	
-    } ;
+        pageHeader: {
+            fontSize: 18,
+            color: '#000080',
+        },
+        headerPageDate: {
+            fontSize: 9,
+        },
+        formHeader: {
+            fontSize: 12,
+            color: '#000080',
+            margin: [2, 2, 2, 2],
+        },
+        coreHeader: {
+            fontSize: 14,
+            color: '#0000ff',
+            margin: [0, 10, 0, 5]
+        },
+        isBold: {
+            bold: true,
+        },
+        fgBlue: {
+            color: '#000080',
+        },
+        isUnderlined: {
+            decoration: 'underline',
+        },
+        lightFill: {
+            fillColor: '#dedede',
+        },
+        blueFill: {
+            fillColor: '#cce6ff',
+        },
+        subHeader: {
+            fontSize: 11,
+            color: '#000080',
+            bold: true,
+        },
+        tableLargeLabel: {
+            color: '#000000',
+            fontSize: 10,
+        },
+        tableLabel: {
+            color: '#1010dd',
+            fontSize: 9,
+            bold: true,
+        },
+        tableDetail: {
+            color: '#000000',
+            fontSize: 9,
+        },
+    };
 }
-
 
 async function print_pdf_render_content(p_ctx) 
 {
@@ -62,30 +124,41 @@ async function print_pdf_render_content(p_ctx)
             for(let i = 0; i < p_ctx.metadata.children.length; i++)
             {
                 let child = p_ctx.metadata.children[i];
-                if(p_ctx.data)// && child.type.toLocaleLowerCase() == "form")
+                if(p_ctx.data && child.type.toLocaleLowerCase() == "form")
                 {
                     //let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                     let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.content);
                     print_pdf_render_content(new_context);
                     
+                    return;
                 }
             }
             break;
         case "form":
-            return;
             if(p_ctx.metadata.cardinality == "1" || p_ctx.metadata.cardinality == "?")
             {
+                set_form_start(p_ctx.content, p_ctx.metadata);
+                let form_start = p_ctx.content[p_ctx.content.length -1];
+       
                 for(let i = 0; i < p_ctx.metadata.children.length; i++)
                 {
                     let child = p_ctx.metadata.children[i];
 
                     if(p_ctx.data && p_ctx.data[child.name])
                     {
-                        let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+
+                        //let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+                        let new_content = []
+                        let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, new_content);
                         print_pdf_render_content(new_context);
+
+                        form_start.table.body.push(new_content);
                     }
+
+                    
                     
                 }
+                return;
             }
             else // multiform
             {
@@ -99,7 +172,8 @@ async function print_pdf_render_content(p_ctx)
     
                         if(row_data)
                         {
-                            let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, row, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+                            //let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, row, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+                            let new_context = get_simple_ctx(child, row_data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.content);
                             new_context.multiform_index = row;
                             print_pdf_render_content(new_context);
                         }
@@ -111,12 +185,45 @@ async function print_pdf_render_content(p_ctx)
         case "group":
             for(let i = 0; i < p_ctx.metadata.children.length; i++)
             {
+                //p_ctx.content.push(get_group_start(p_ctx.metadata.prompt));
+
+                p_ctx.content.push({ text: p_ctx.metadata.name, style: ['subHeader'], colSpan: '2', });
+               
+                let group_body = {
+                layout: {
+                    defaultBorder: false,
+                    paddingLeft: function (i, node) { return 1; },
+                    paddingRight: function (i, node) { return 1; },
+                    paddingTop: function (i, node) { return 2; },
+                    paddingBottom: function (i, node) { return 2; },
+                },
+                id: p_ctx.mmria_path,
+                width: 'auto',
+                table: {
+                    headerRows: 1,
+                    widths: [250, 'auto'],
+                    body: [
+                        [
+                            { text: p_ctx.metadata.name, style: ['subHeader'], colSpan: '2', },
+                            {},
+                        ]
+                    ]
+                    }
+                };
+        
+
+                
+
                 let child = p_ctx.metadata.children[i];
                 if(p_ctx.data)
                 {
-                    let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+                    //let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
+                    let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, group_body.table.body);
                     print_pdf_render_content(new_context);
+                    
                 }
+                p_ctx.content.push(group_body);
+
             }
             break;
         case "grid":
@@ -138,28 +245,61 @@ async function print_pdf_render_content(p_ctx)
         case "number":
         case "time":
 
-                p_ctx.content.push({ text: p_ctx.metadata.prompt });
+                //p_ctx.content.push({ text: p_ctx.metadata.prompt });
+                p_ctx.content.push
+                (
+                    [
+                        { text: p_ctx.metadata.prompt, style: ['tableLabel'], alignment: 'right', }
+                        ,{ text: p_ctx.data, style: ['tableDetail'], }
+                ]
+                );
                 //p_ctx.content.push({ text: data });
+
+
             
             break;
         case "date":
 
-            p_ctx.content.push({ text: p_ctx.metadata.prompt });
+            p_ctx.content.push
+            (
+                [
+                    { text: p_ctx.metadata.prompt, style: ['tableLabel'], alignment: 'right', }
+                    ,{ text: p_ctx.data, style: ['tableDetail'], }
+            ]
+            );
             
             break;
         case "datetime":
 
-            p_ctx.content.push({ text: p_ctx.metadata.prompt });
+            p_ctx.content.push
+            (
+                [
+                    { text: p_ctx.metadata.prompt, style: ['tableLabel'], alignment: 'right', }
+                    ,{ text: p_ctx.data, style: ['tableDetail'], }
+            ]
+            );
             
             break;
         case "list":
 
-                //render_search_text_select_control(p_ctx);
+            p_ctx.content.push
+            (
+                [
+                    { text: p_ctx.metadata.prompt, style: ['tableLabel'], alignment: 'right', }
+                    ,{ text: p_ctx.data, style: ['tableDetail'], }
+            ]
+            );
             
             break;
         case "textarea":
 
-                //render_search_text_textarea_control(p_ctx);
+            p_ctx.content.push
+            (
+                [
+                    { text: p_ctx.metadata.prompt, style: ['tableLabel'], alignment: 'right', }
+                    ,{ text: p_ctx.data, style: ['tableDetail'], }
+            ]
+            );
             
             break;
     }
