@@ -8797,7 +8797,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
             if (value == "99")
-                value = "9999";
+                value = "";
 
             return value;
         }
@@ -8809,7 +8809,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             If value = 99, map to MMRIA value for missing [looks like this is just leaving the value empty/blank]*/
 
             if (value == "99" || value == "9999")
-                value = "9999";
+                value = "";
 
             return value;
         }
