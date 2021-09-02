@@ -5,7 +5,7 @@ var g_post_render = [];
 
 function get_simple_ctx(p_metadata, p_data, p_path, p_content)
 {
-    return { metadata: p_metadata, data:p_data = g_data, path: p_path,  content: p_content}
+    return { metadata: p_metadata, data:p_data, mmria_path: p_path,  content: p_content}
 }
 
 function get_print_pdf_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_is_read_only, p_form_index, p_grid_index, p_valid_date_or_datetime, p_entered_date_or_datetime_value)
@@ -36,9 +36,10 @@ function initialize_print_pdf(p_ctx)
 {
     print_pdf_calc_size(p_ctx);
     print_pdf_calc_layout(p_ctx);
+    p_ctx.content = [];
     print_pdf_render_content(p_ctx);
 
-    pdfMake.createPdf(dd(ctx.content)).open();
+    pdfMake.createPdf(dd(p_ctx.content)).open();
 }
 
 function dd(p_items)
@@ -64,8 +65,8 @@ async function print_pdf_render_content(p_ctx)
                 if(p_ctx.data)// && child.type.toLocaleLowerCase() == "form")
                 {
                     //let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
-                    let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.content);
-                    render_content(new_context);
+                    let new_context = get_simple_ctx(child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.content);
+                    print_pdf_render_content(new_context);
                     
                 }
             }
@@ -81,7 +82,7 @@ async function print_pdf_render_content(p_ctx)
                     if(p_ctx.data && p_ctx.data[child.name])
                     {
                         let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
-                        render_content(new_context);
+                        print_pdf_render_content(new_context);
                     }
                     
                 }
@@ -100,7 +101,7 @@ async function print_pdf_render_content(p_ctx)
                         {
                             let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, row, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
                             new_context.multiform_index = row;
-                            render_content(new_context);
+                            print_pdf_render_content(new_context);
                         }
                         
                     }
@@ -114,11 +115,12 @@ async function print_pdf_render_content(p_ctx)
                 if(p_ctx.data)
                 {
                     let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, p_ctx.grid_index, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
-                    render_content(new_context);
+                    print_pdf_render_content(new_context);
                 }
             }
             break;
         case "grid":
+            return;
             for(let i = 0; i < p_ctx.data.length; i++)
             {
                 let row_item = p_ctx.data[i];
@@ -127,7 +129,7 @@ async function print_pdf_render_content(p_ctx)
                     let child = p_ctx.metadata.children[j];
                     
                     let new_context = get_simple_ctx(p_ctx.result, p_ctx.post_html_render, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.is_read_only, p_ctx.form_index, i, p_ctx.is_valid_date_or_datetime, p_ctx.entered_date_or_datetime_value);
-                    render_content(new_context);
+                    print_pdf_render_content(new_context);
                 }
             
             }

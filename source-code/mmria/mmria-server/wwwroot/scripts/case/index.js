@@ -2389,7 +2389,36 @@ async function pdf_case_onclick(event)
   const dropdown = btn.previousSibling.previousSibling;		// Need to go back 2 fields to get the dropdown value
   // get value of selected option
   const section_name = dropdown.value;
-  await print_pdf( section_name );
+  //await print_pdf( section_name );
+
+  if (section_name) 
+  {
+    if (section_name == 'core-summary') 
+    {
+
+        window.setTimeout(function()
+        {
+            openTab('./pdf-version', '_pdf_print_version', section_name);
+        }, 1000);	
+
+      
+    } 
+    else 
+    {
+      // data-record of selected option
+      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
+      const record_number = selectedOption.dataset.record;
+      const tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
+
+
+      window.setTimeout(function()
+      {
+          openTab('./pdf-version', tabName, section_name, record_number);
+      }, 1000);	
+      
+    }
+  }
+
 }
 
 function print_case_onclick(event) 

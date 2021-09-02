@@ -1,38 +1,3 @@
-var g_md = null;        // global metadata
-var g_d = null;         // global data
-var section_name;       // section name
-var g_current;          // current report printing
-var writeText;          // record header field
-
-var g_size = {};
-var g_layout = {};
-var g_post_render = [];
-
-function get_print_pdf_context(p_result, p_post_html_render, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_is_read_only, p_form_index, p_grid_index, p_valid_date_or_datetime, p_entered_date_or_datetime_value)
-{
-    let result = {
-        result : p_result,
-        post_html_render: p_post_html_render,
-        metadata:p_metadata, 
-        
-        data:p_data, 
-        mmria_path:p_path,
-        metadata_path:p_metadata_path,
-        object_path:p_object_path,
-        search_text:p_search_text,
-        form_index: p_form_index,
-        grid_index: p_grid_index,
-        is_read_only: p_is_read_only,
-
-        is_valid_date_or_datetime: p_valid_date_or_datetime,
-        entered_date_or_datetime_value: p_entered_date_or_datetime_value
-
-    };
-
-    return result;
-}
-
-
 function print_pdf_calc_layout(p_ctx) 
 {
     switch(p_ctx.metadata.type.toLocaleLowerCase())
@@ -112,34 +77,29 @@ function print_pdf_calc_layout(p_ctx)
         case "string":
         case "number":
         case "time":
-            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
+            
                 //render_search_text_input_control(p_ctx);
-            }
+            
             break;
         case "date":
-            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
+            
                 //renderSearchDateControl(p_ctx);
-            }
+            
             break;
         case "datetime":
-            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
+            
                 //renderSearchDateTimeControl(p_ctx);
-            }
+            
             break;
         case "list":
-            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
+            
                 //render_search_text_select_control(p_ctx);
-            }
+            
             break;
         case "textarea":
-            if(p_ctx.metadata.prompt.toLocaleLowerCase().search(p_ctx.search_text.toLocaleLowerCase()) > -1)
-            {
+            
                 //render_search_text_textarea_control(p_ctx);
-            }  
+            
             break;
     }
 }

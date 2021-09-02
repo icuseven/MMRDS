@@ -4,6 +4,15 @@ var section_name;       // section name
 var g_current;          // current report printing
 var writeText;          // record header field
 
+$(function ()
+{//http://www.w3schools.com/html/html_layout.asp
+  'use strict';
+
+  	//profile.initialize_profile();
+
+	  //load_metadata();
+});
+
 
 function create_print_version
 (      
@@ -14,9 +23,9 @@ function create_print_version
 )
 {
     let ctx = { 
-        metadata: g_metadata, 
-        data:g_d = g_data, 
-        path: "",
+        metadata: p_metadata, 
+        data: p_data, 
+        mmria_path: "",
         content: []
     };
     initialize_print_pdf(ctx);
@@ -24,7 +33,7 @@ function create_print_version
 
 function create_pdf_version(p_ctx) 
 {
-    let ctx = { metadata: g_metadata, data:g_d = g_data, content: []};
+    let ctx = { metadata: p_ctx.metadata, data: p_ctx.data, content: []};
     render_content(ctx)
 }
 
