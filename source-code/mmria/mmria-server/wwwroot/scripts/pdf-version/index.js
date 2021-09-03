@@ -966,7 +966,10 @@ async function home_record(p, d) {
 		}
 	]);
 
-	// Case Progress Status
+	// Add a page break - per Gyan
+	retPage.push({ text: '', pageBreak: 'before' });
+
+	// Form Status
 	index = 13;
 	subIndex = 0;
 	retPage.push([
@@ -991,44 +994,44 @@ async function home_record(p, d) {
 					[
 						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.death_certificate, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.case_progress_report.other_medical_visits, 'case_progress'), style: ['tableDetail'], },
-					],
-					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.autopsy_report, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.case_progress_report.medical_transport, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.birth_certificate_parent_section, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.case_progress_report.social_and_psychological_profile, 'case_progress'), style: ['tableDetail'], },
-					],
-					[
 						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.birth_certificate_infant_or_fetal_death_section, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.case_progress_report.mental_health_profile, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.prenatal_care_record, 'case_progress'), style: ['tableDetail'], },
-						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupGlobalArr(d.case_progress_report.informant_interviews, 'case_progress'), style: ['tableDetail'], },
-					],
-					[
 						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.er_visits_and_hospitalizations, 'case_progress'), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.case_progress_report.other_medical_visits, 'case_progress'), style: ['tableDetail'], },
+						{ text: `${p.children[index].children[subIndex + 7].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.case_progress_report.medical_transport, 'case_progress'), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 8].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.case_progress_report.social_and_psychological_profile, 'case_progress'), style: ['tableDetail'], },
+						{ text: `${p.children[index].children[subIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.case_progress_report.mental_health_profile, 'case_progress'), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: lookupGlobalArr(d.case_progress_report.informant_interviews, 'case_progress'), style: ['tableDetail'], },
 						{ text: `${p.children[index].children[subIndex + 11].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.case_narrative, 'case_progress'), style: ['tableDetail'], },
 					],
 					[
-						{},
-						{},
 						{ text: `${p.children[index].children[subIndex + 12].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.case_progress_report.committe_review_worksheet, 'case_progress'), style: ['tableDetail'], },
+						{},
+						{},
 					],
 				],
 			}
