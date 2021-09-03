@@ -189,8 +189,49 @@ function textarea_control_replace_return_with_br(p_value)
     return result;
 }
 
-
 function textarea_control_strip_html_attributes(p_value)
+{
+    let node = document.createElement("body");
+    node.innerHTML = p_value;
+
+    DOMWalker(node);
+    
+}
+
+function DOMWalker(p_node)
+{
+    console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+
+    if(p_node.attributes != null)
+    {
+        let remove_list = [];
+
+        for(let i = 0; i < p_node.attributes.length; i++)
+        {
+            let attr = p_node.attributes[i];
+            console.log(`${attr.name} = ${attr.value}`);
+            if(attr.name != "style")
+            {
+                remove_list.push(attr.name);
+            }
+        }
+
+        remove_list.reverse ();
+        for(let i = 0; i < remove_list.length; i++)
+        {
+            p_node.removeAttribute(remove_list[i]);
+        }
+    }
+
+    for(let i = 0; i < p_node.childNodes.length; i++)
+    {
+        let child = p_node.childNodes[i];
+        DOMWalker(child);
+    }
+}
+
+
+function textarea_control_strip_html_attributes2(p_value)
 {
     let AttributeRegEx = /[a-zA-Z]+='[^']+'|[a-zA-Z]+=\"[^\"]+\"/gi;
     
