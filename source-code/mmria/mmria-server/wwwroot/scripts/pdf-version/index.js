@@ -988,7 +988,7 @@ async function home_record(p, d) {
 				widths: [250, '*', 200, '*'],
 				body: [
 					[
-						{ text: 'Case Progress Status', style: ['subHeader'], colSpan: '4', },
+						{ text: 'Form Status', style: ['subHeader'], colSpan: '4', },
 						{}, {}, {},
 					],
 					[
