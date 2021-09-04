@@ -10670,8 +10670,8 @@ async function case_narrative(p, d, pg_break) {
 	let len = 0;
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	//console.log('p: ', p);
+	//console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -10681,6 +10681,9 @@ async function case_narrative(p, d, pg_break) {
 		retPage.push({ text: '', pageBreak: 'before' });
 	}
 
+
+    let details = convert_html_to_pdf(d.case_opening_overview);
+    /*
 	retPage.push([
 		{
 			layout: {
@@ -10699,15 +10702,97 @@ async function case_narrative(p, d, pg_break) {
 					[
 						{ text: 'Case Narrative', style: ['subHeader'], },
 					],
-					[
-						{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
-					],
+					details
 				],
 			},
 		},],
-	);
+	);*/
+
+    retPage.push(details);
 
 	return retPage;
+}
+
+function convert_html_to_pdf(p_value)
+{
+    //{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
+    let result = [];
+    let CommentRegex = /<!--\[[^>]+>/gi;
+
+    let node = document.createElement("body");
+    node.innerHTML = p_value.replace(CommentRegex,"");
+
+    ConvertHTMLDOMWalker(result, node);
+
+    return result;
+    
+}
+
+const AcceptableTag = {
+    "body":true,
+    //"#text",true
+    "p":true,
+    "em":true,
+    "strong":true,
+    "u":true,
+    "ul":true,
+    "ol":true,
+    "li":true,
+    "br":true,
+    "del":true,
+    "hr":true,
+    "span":true
+}
+
+
+function ConvertHTMLDOMWalker(p_result, p_node)
+{
+    //console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+
+    if
+    (
+        AcceptableTag[p_node.nodeName.toLowerCase()] == null
+    )
+    {
+        if(p_node.nodeName.toLowerCase() != "#text")
+            console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+    }
+
+    if(p_node.nodeName=="P")
+    {
+        p_result.push({ text: p_node.innerText });
+    }
+    if(p_node.attributes != null)
+    {
+        let remove_list = [];
+
+        for(let i = 0; i < p_node.attributes.length; i++)
+        {
+            let attr = p_node.attributes[i];
+           
+            if(attr.name != "style")
+            {
+                console.log(`${attr.name} = ${attr.value}`);
+                remove_list.push(attr.name);
+            }
+        }
+
+        remove_list.reverse ();
+        for(let i = 0; i < remove_list.length; i++)
+        {
+            
+            p_node.removeAttribute(remove_list[i]);
+        }
+    }
+
+    for(let i = 0; i < p_node.childNodes.length; i++)
+    {
+        let child = p_node.childNodes[i];
+
+        ConvertHTMLDOMWalker(p_result, child);
+    }
+
+
 }
 
 // Build committee_review record - p is the field name & d is the data & pg_break is true/false if need page break
