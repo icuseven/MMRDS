@@ -171,6 +171,16 @@ function tbw_change_paste(p_object_path, p_metadata_path, p_dictionary_path)
 
     let new_text = textarea_control_strip_html_attributes(data);
 
+    if
+    (
+        new_text == null && data.length > 0 ||
+        new_text.length == 0 && data.length != 0
+    )
+    {
+        console.log("tbw_change_paste null error");
+        new_text = data;
+    }
+
     g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, new_text);
 }
 
@@ -195,12 +205,39 @@ function textarea_control_strip_html_attributes(p_value)
     node.innerHTML = p_value;
 
     DOMWalker(node);
+
+    return node.innerHTML;
     
+}
+
+const AcceptableTag = {
+    "body":true,
+    //"#text",true
+    "p":true,
+    "em":true,
+    "strong":true,
+    "u":true,
+    "ul":true,
+    "ol":true,
+    "li":true,
+    "br":true,
+    "del":true,
+    "hr":true,
+    "span":true
 }
 
 function DOMWalker(p_node)
 {
-    console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+    //console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+
+    if
+    (
+        AcceptableTag[p_node.nodeName.toLowerCase()] == null
+    )
+    {
+        if(p_node.nodeName.toLowerCase() != "#text")
+            console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+    }
 
     if(p_node.attributes != null)
     {
@@ -209,9 +246,10 @@ function DOMWalker(p_node)
         for(let i = 0; i < p_node.attributes.length; i++)
         {
             let attr = p_node.attributes[i];
-            console.log(`${attr.name} = ${attr.value}`);
+           
             if(attr.name != "style")
             {
+                console.log(`${attr.name} = ${attr.value}`);
                 remove_list.push(attr.name);
             }
         }
@@ -219,15 +257,29 @@ function DOMWalker(p_node)
         remove_list.reverse ();
         for(let i = 0; i < remove_list.length; i++)
         {
+            
             p_node.removeAttribute(remove_list[i]);
         }
     }
 
+    let node_remove_list = [];
     for(let i = 0; i < p_node.childNodes.length; i++)
     {
         let child = p_node.childNodes[i];
+        if(p_node.nodeName.toLowerCase() != "#comment")
+        {
+            node_remove_list.push(child)
+            continue;
+        }
         DOMWalker(child);
     }
+
+    for(let i = 0; i < node_remove_list.length; i++)
+    {
+        node_remove_list[i].remove();
+    }
+
+
 }
 
 
