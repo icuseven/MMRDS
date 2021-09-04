@@ -201,8 +201,11 @@ function textarea_control_replace_return_with_br(p_value)
 
 function textarea_control_strip_html_attributes(p_value)
 {
+
+    let CommentRegex = /<!--\[[^>]+>/gi;
+
     let node = document.createElement("body");
-    node.innerHTML = p_value;
+    node.innerHTML = p_value.replace(CommentRegex,"");
 
     DOMWalker(node);
 
@@ -262,21 +265,11 @@ function DOMWalker(p_node)
         }
     }
 
-    let node_remove_list = [];
     for(let i = 0; i < p_node.childNodes.length; i++)
     {
         let child = p_node.childNodes[i];
-        if(p_node.nodeName.toLowerCase() != "#comment")
-        {
-            node_remove_list.push(child)
-            continue;
-        }
-        DOMWalker(child);
-    }
 
-    for(let i = 0; i < node_remove_list.length; i++)
-    {
-        node_remove_list[i].remove();
+        DOMWalker(child);
     }
 
 
