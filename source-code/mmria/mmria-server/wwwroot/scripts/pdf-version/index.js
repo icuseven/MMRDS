@@ -10755,12 +10755,59 @@ function ConvertHTMLDOMWalker(p_result, p_node)
     )
     {
         if(p_node.nodeName.toLowerCase() != "#text")
+        {
             console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+        }
+        else
+        {
+            console.log(`text = ${p_node.innerText}`);
+        }
     }
 
-    if(p_node.nodeName=="P")
+/*
+font: string: name of the font
+fontSize: number: size of the font in pt
+fontFeatures: string[]: array of advanced typographic features supported in TTF fonts (supported features depend on font file)
+lineHeight: number: the line height (default: 1)
+bold: boolean: whether to use bold text (default: false)
+italics: boolean: whether to use italic text (default: false)
+alignment: string: (‘left’ or ‘center’ or ‘right’ or ‘justify’) the alignment of the text
+characterSpacing: number: size of the letter spacing in pt
+color: string: the color of the text (color name e.g., ‘blue’ or hexadecimal color e.g., ‘#ff5500’)
+background: string the background color of the text
+markerColor: string: the color of the bullets in a buletted list
+decoration: string: the text decoration to apply (‘underline’ or ‘lineThrough’ or ‘overline’)
+decorationStyle: string: the style of the text decoration (‘dashed’ or ‘dotted’ or ‘double’ or ‘wavy’)
+decorationColor: string: the color of the text decoration, see color
+*/
+
+    switch(p_node.nodeName.toUpperCase())
     {
-        p_result.push({ text: p_node.innerText });
+        case "#TEXT":
+            p_result.push({ text: p_node.textContent });
+            return;
+            break;
+        case "P":
+            
+                let text_array = [];
+                for(let i = 0; i < p_node.childNodes.length; i++)
+                {
+                    let child = p_node.childNodes[i];
+            
+                    ConvertHTMLDOMWalker(text_array, child);
+                }
+                p_result.push({ text: text_array });
+                return;
+                break;            
+        case "STRONG":
+                p_result.push({ text: p_node.textContent, bold: true });
+                return;
+                break;            
+        case "EM":
+            p_result.push({ text: p_node.textContent, italics: true });
+            return;
+            break;
+
     }
     if(p_node.attributes != null)
     {
