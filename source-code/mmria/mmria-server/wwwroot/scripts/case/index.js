@@ -2470,7 +2470,8 @@ function openTab(pageRoute, tabName, p_section, p_number)
         g_metadata,
         g_data,
         p_section,
-        p_number
+        p_number,
+        g_metadata_summary
       );
     });
   } 
@@ -2481,7 +2482,8 @@ function openTab(pageRoute, tabName, p_section, p_number)
       g_metadata,
       g_data,
       p_section,
-      p_number
+      p_number,
+      g_metadata_summary
     );
   }
 }

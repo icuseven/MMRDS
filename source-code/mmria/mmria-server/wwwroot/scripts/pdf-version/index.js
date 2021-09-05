@@ -1,8 +1,10 @@
 var g_md = null;        // global metadata
+var g_metadata = null; 
 var g_d = null;         // global data
 var section_name;       // section name
 var g_current;          // current report printing
 var writeText;          // record header field
+var g_metadata_summary = {};
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -19,12 +21,15 @@ function create_print_version
     p_metadata,
     p_data,
     p_section,
-    p_number
+    p_number,
+    p_metadata_summary
 )
 {
     g_md = p_metadata;
+    g_metadata = p_metadata;
     g_d = p_data;
     section_name = p_section;
+    g_metadata_summary = p_metadata_summary;
 
     let ctx = { 
         metadata: p_metadata, 
@@ -10760,7 +10765,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
         }
         else
         {
-            console.log(`text = ${p_node.innerText}`);
+            //console.log(`text = ${p_node.innerText}`);
         }
     }
 
@@ -11140,7 +11145,7 @@ async function core_summary() {
 	let retPage = [];
 
 	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-	body = await core_pdf_summary(g_metadata, g_data, '/', g_ui, false, '');
+	body = await core_pdf_summary(g_md, g_d, '/', false, '');
 
 	// Show the table
 	await retPage.push([
@@ -11163,7 +11168,7 @@ async function core_summary() {
 	return retPage;
 }
 
-function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p_metadata_path) {
+function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_metadata_path) {
 	let is_core_summary = false;
 
 	if (p_is_core_summary) {
@@ -11192,7 +11197,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 					for (let i = 0; i < p_metadata.children.length; i++) {
 						var child = p_metadata.children[i];
 						if (p_data[child.name] != null)
-							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
+							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
 				}
 			}
@@ -11223,7 +11228,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 						for (var i = 0; i < p_metadata.children.length; i++) {
 							var child = p_metadata.children[i];
 							if (form_item[child.name] != null)
-								Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
+								Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 						}
 					}
 				}
@@ -11237,7 +11242,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 					for (var i = 0; i < p_metadata.children.length; i++) {
 						var child = p_metadata.children[i];
 						if (p_data[child.name] != null)
-							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path + ".children[" + i + "]"));
+							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
 				}
 			}
@@ -11395,7 +11400,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 				for (var i = 0; i < p_metadata.children.length; i++) {
 					var child = p_metadata.children[i];
 					if (child.type.toLowerCase() == "form" && p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, "g_metadata.children[" + i + "]"));
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, "g_metadata.children[" + i + "]"));
 				}
 			}
 			break;
@@ -11464,7 +11469,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_ui, p_is_core_summary, p
 				for (var i = 0; i < p_metadata.children.length; i++) {
 					var child = p_metadata.children[i];
 					if (p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary));
 				}
 			}
 			break;
