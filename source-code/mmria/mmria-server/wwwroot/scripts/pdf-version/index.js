@@ -10802,7 +10802,11 @@ decorationColor: string: the color of the text decoration, see color
         case "STRONG":
                 p_result.push({ text: p_node.textContent, bold: true });
                 return;
-                break;            
+                break; 
+        case "BR":
+            p_result.push({ text: "\n"  });
+            return;
+            break;           
         case "EM":
             p_result.push({ text: p_node.textContent, italics: true });
             return;
