@@ -10733,6 +10733,100 @@ function convert_html_to_pdf(p_value)
     
 }
 
+
+function convert_attribute_to_pdf(p_node, p_result)
+{
+    //{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
+    let result = {};
+
+    if(p_result!= null)
+    {
+        result = p_result;   
+    }
+/*
+font: string: name of the font
+fontSize: number: size of the font in pt
+fontFeatures: string[]: array of advanced typographic features supported in TTF fonts (supported features depend on font file)
+lineHeight: number: the line height (default: 1)
+bold: boolean: whether to use bold text (default: false)
+italics: boolean: whether to use italic text (default: false)
+alignment: string: (‘left’ or ‘center’ or ‘right’ or ‘justify’) the alignment of the text
+characterSpacing: number: size of the letter spacing in pt
+color: string: the color of the text (color name e.g., ‘blue’ or hexadecimal color e.g., ‘#ff5500’)
+background: string the background color of the text
+markerColor: string: the color of the bullets in a buletted list
+decoration: string: the text decoration to apply (‘underline’ or ‘lineThrough’ or ‘overline’)
+decorationStyle: string: the style of the text decoration (‘dashed’ or ‘dotted’ or ‘double’ or ‘wavy’)
+decorationColor: string: the color of the text decoration, see color
+
+text-align: right;
+font-size: 18px; 
+color: rgb(255, 0, 0); 
+background-color: rgb(0, 255, 0);
+*/
+
+
+    if(p_node.attributes != null)
+    {
+
+
+        for(let i = 0; i < p_node.attributes.length; i++)
+        {
+            let attr = p_node.attributes[i];
+           
+            if(attr.name == "style")
+            {
+                
+
+                let style_array = attr.value.split(';');
+                for(var style_index = 0; style_index < style_array.length; style_index++)
+                {
+                    let kvp = style_array[style_index].split(":");
+                    switch(kvp[0].trim())
+                    {
+                        case "text-align":
+                                result['alignment']  = kvp[1].trim();
+                            break;
+                        case "font-size": 
+                                result['fontSize']  = kvp[1].trim().replace("px","");
+                            break;
+                        //case "bold": 
+                        //    result['bold']  = kvp[1];
+                        break;  
+                        case "color":
+                            result['color']  = `${rgb_to_hex(kvp[1].trim())}`;
+                            break; 
+                        case "background-color": 
+                        result['background']  = `${rgb_to_hex(kvp[1].trim())}`;
+                            break;
+                        default:
+                            console.log(`missing style: ${attr.name} = ${attr.value}`);
+                        break;
+                    }
+                }
+
+               break;
+            }
+        }
+    }
+
+
+    return result;
+    
+}
+
+function rgb_to_hex(p_value)
+{
+    var a = p_value.split("(")[1].split(")")[0];
+    a = a.split(",");
+    var b = a.map(function(x){             //For each array element
+        x = parseInt(x).toString(16);      //Convert to a base16 string
+        return (x.length==1) ? "0"+x : x;  //Add zero if we get only one character
+    })
+
+    return "#" + b.join("");
+}
+
 const AcceptableTag = {
     "body":true,
     //"#text",true
@@ -10769,22 +10863,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
         }
     }
 
-/*
-font: string: name of the font
-fontSize: number: size of the font in pt
-fontFeatures: string[]: array of advanced typographic features supported in TTF fonts (supported features depend on font file)
-lineHeight: number: the line height (default: 1)
-bold: boolean: whether to use bold text (default: false)
-italics: boolean: whether to use italic text (default: false)
-alignment: string: (‘left’ or ‘center’ or ‘right’ or ‘justify’) the alignment of the text
-characterSpacing: number: size of the letter spacing in pt
-color: string: the color of the text (color name e.g., ‘blue’ or hexadecimal color e.g., ‘#ff5500’)
-background: string the background color of the text
-markerColor: string: the color of the bullets in a buletted list
-decoration: string: the text decoration to apply (‘underline’ or ‘lineThrough’ or ‘overline’)
-decorationStyle: string: the style of the text decoration (‘dashed’ or ‘dotted’ or ‘double’ or ‘wavy’)
-decorationColor: string: the color of the text decoration, see color
-*/
+
 
     switch(p_node.nodeName.toUpperCase())
     {
@@ -10803,9 +10882,14 @@ decorationColor: string: the color of the text decoration, see color
                 }
                 p_result.push({ text: text_array });
                 return;
-                break;            
+                break; 
+        case "SPAN":
+            p_result.push(convert_attribute_to_pdf(p_node,{ text: p_node.textContent, }));
+            return;
+            break;            
         case "STRONG":
-                p_result.push({ text: p_node.textContent, bold: true });
+                let strong_attr = { bold: true };
+                p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, strong_attr) });
                 return;
                 break; 
         case "BR":
@@ -10813,7 +10897,8 @@ decorationColor: string: the color of the text decoration, see color
             return;
             break;           
         case "EM":
-            p_result.push({ text: p_node.textContent, italics: true });
+            let em_attr = { italics: true };
+            p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, em_attr) });
             return;
             break;
 
