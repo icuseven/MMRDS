@@ -192,6 +192,7 @@ Updated By
 
 <table border=1>
 <tr bgcolor="#BBBBBB" align=middle>
+<th>#</th>    
 <th>Update Date/Time</th>
 <th>Time Diff</th>
 <th>Update By</th>
@@ -207,6 +208,7 @@ Updated By
 
 @foreach (var item in render_list)
 {
+    // style="display: flex;width:150px;"
     current_index+=1;
 
     previous_date = current_index + 1 < render_list.Count? render_list[current_index + 1].date_created : null;
@@ -227,7 +229,8 @@ Updated By
 
         @if(row_number % 15 == 0)
         {
-            <tr bgcolor="#BBBBBB" align=middle>
+            <tr bgcolor="#BBBBBB" align=middle>    
+            <th>#</th>
             <th>Update Date/Time</th>
             <th>Time Diff</th>
             <th>Update By</th>
@@ -240,13 +243,13 @@ Updated By
             </tr>
         }
        <tr bgcolor="@bg">
-    
+        <td>@row_number</td>
         <td>@change.date_created</td>
         <td>@get_date_diff(previous_date, change.date_created)</td>
         <td>@change.user_name</td>
         <td>@get_note(item.note)</td>
         <td>@change.prompt</td>
-E        <td style="width:50px;">@change.dictionary_path</td>
+        <td>@change.dictionary_path.Replace("/", " /")</td>
         <td>
             @if(change.old_value?.Length> 30)
             {
