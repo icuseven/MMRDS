@@ -19,6 +19,10 @@ namespace mmria.server.Controllers
         public bool showAll {get;set;} = false;
         public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
         public List<mmria.common.model.couchdb.Change_Stack> ls {get;set;}
+
+        public int page_size {get;set;} 
+        public int page {get;set;} 
+        public int total {get;set;} 
     }
 
     public class Audit_Detail_View
@@ -49,8 +53,8 @@ namespace mmria.server.Controllers
             configuration = p_configuration;
         }
 
-        [Route("_audit/{p_id}")]
-        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, string user = "all", string search_text = "all", bool showAll = false)
+        [Route("_audit/{p_id}/{page?}")]
+        public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, int page = -1, string user = "all", string search_text = "all", bool showAll = false)
         {
 
 
@@ -96,6 +100,8 @@ namespace mmria.server.Controllers
                     result.Add(item.doc);
                 }
             }
+
+           const int page_size = 50;
             
             result.Sort(new Change_Stack_DescendingDate());
             return View
@@ -107,11 +113,14 @@ namespace mmria.server.Controllers
                     search_text = search_text,
                     showAll = showAll,
                     cv = case_view_item, 
-                    ls = result
+                    ls = page == -1? result : result.Skip((page-1) * page_size).Take(page_size).ToList(),
+                    page_size = page_size,
+                    page = page,
+                    total = result.Count
                 });
         }
 
-        [Route("_audit/{p_id}/{change_id}/{change_item}")]
+        [Route("_audit/{p_id}/detail/{change_id}/{change_item}")]
         public async Task<IActionResult> MoreDetail(System.Threading.CancellationToken cancellationToken, string p_id, string change_id, int change_item)
         {
 

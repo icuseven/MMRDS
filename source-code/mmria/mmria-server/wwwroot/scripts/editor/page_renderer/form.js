@@ -1665,5 +1665,6 @@ function get_metadata_value_node_by_mmria_path(
 
 function show_audit_click(p_id)
 {
-    window.open('./_audit/' + p_id, '_audit');
+    window.open('./_audit/' + p_id + '/1', '_audit');
+   //window.open('./_audit/' + p_id, '_audit');
 }

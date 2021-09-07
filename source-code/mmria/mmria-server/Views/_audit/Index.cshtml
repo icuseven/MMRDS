@@ -15,6 +15,18 @@
     {
         user_list.Add(item.user_name);
     }
+    int prev_page = -1;
+    int next_page = -1;
+    int number_of_pages = (Model.total / Model.page_size) + 1;
+    if(Model.page > 1)
+    {
+        prev_page = Model.page - 1;
+    }
+    
+    if(Model.page < number_of_pages)
+    {
+        next_page = Model.page + 1;
+    }
 
     string get_note(string value)
     {
@@ -190,6 +202,25 @@ Updated By
 </form>
 <hr/>
 
+@if(Model.page != -1)
+{
+<p>
+    Page: @Model.page of @number_of_pages
+    
+    @if(Model.page > 1)
+    {
+        <a href="/_audit/@(Model.id)/@(prev_page)">Previous</a>
+    }
+    
+    @if(Model.page < number_of_pages)
+    {
+        <a href="/_audit/@Model.id/@next_page">Next</a>
+    }
+</p>    
+}
+
+
+
 <table border=1>
 <tr bgcolor="#BBBBBB" align=middle>
 <th>#</th>    
@@ -272,7 +303,7 @@ Updated By
                 @change.new_value;
             }
         </td>
-        @{var link = $"/_audit/{Model.id}/{item._id}/{change.temp_index}";}
+        @{var link = $"/_audit/{Model.id}/detail/{item._id}/{change.temp_index}";}
         <td><a href="@link">Details</a></td>
     </tr>
 
