@@ -194,7 +194,7 @@ Updated By
 <tr bgcolor="#BBBBBB" align=middle>
 <th>#</th>    
 <th>Update Date/Time</th>
-<th>Time Diff</th>
+<th>Elaspe Time<br/>since<br/>Last Update</th>
 <th>Update By</th>
 <th>Update Action</th>
 <th>MMRIA Field Prompt</th>
@@ -232,7 +232,7 @@ Updated By
             <tr bgcolor="#BBBBBB" align=middle>    
             <th>#</th>
             <th>Update Date/Time</th>
-            <th>Time Diff</th>
+            <th>Elaspe Time<br/>since<br/>Last Update</th>
             <th>Update By</th>
             <th>Update Action</th>
             <th>MMRIA Field Prompt</th>
@@ -243,7 +243,7 @@ Updated By
             </tr>
         }
        <tr bgcolor="@bg">
-        <td>@row_number</td>
+        <td align=right>@row_number</td>
         <td>@change.date_created</td>
         <td>@get_date_diff(previous_date, change.date_created)</td>
         <td>@change.user_name</td>
