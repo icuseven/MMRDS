@@ -46,6 +46,24 @@ namespace mmria.server.Controllers
     [Authorize(Roles = "abstractor")]
     public class _auditController : Controller
     {
+
+        public struct Result_Struct
+        {
+            public mmria.common.model.couchdb.Change_Stack[] docs;
+        }
+
+        struct Selector_Struc
+        {
+            //public System.Dynamic.ExpandoObject selector;
+            public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
+            public string[] fields;
+
+            public string use_index;
+
+            public int limit;
+        }
+
+
         IConfiguration configuration;
         private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
         public _auditController(IConfiguration p_configuration)
@@ -53,10 +71,25 @@ namespace mmria.server.Controllers
             configuration = p_configuration;
         }
 
+        (string url, string post) get_find_url(string p_id)
+        {
+            var selector_struc = new Selector_Struc();
+            selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
+            selector_struc.limit = 1_000_000;
+            selector_struc.selector.Add("case_id", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
+            selector_struc.selector["case_id"].Add("$eq", p_id);
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
+
+            string result = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_find";
+            return (result, selector_struc_string);
+        }
+
         [Route("_audit/{p_id}/{page?}")]
         public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, int page = -1, string user = "all", string search_text = "all", bool showAll = false)
         {
-
 
             var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
@@ -72,32 +105,34 @@ namespace mmria.server.Controllers
                 case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
 
 
-            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
-            var audit_view_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+            //var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            var (request_string, post_data) = get_find_url(p_id);
+            var audit_view_curl = new cURL("POST",null,request_string,post_data, Program.config_timer_user_name, Program.config_timer_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
+            //var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
+            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
 
             List<mmria.common.model.couchdb.Change_Stack> result = new();
 
-            foreach(var item in view_response.rows)
+            foreach(var item in view_response.docs)
             {
 
-                for(var i = 0; i < item.doc.items.Count; i++)
+                for(var i = 0; i < item.items.Count; i++)
                 {
-                    item.doc.items[i].temp_index = i;
+                    item.items[i].temp_index = i;
                 }
 
-                item.doc.items.Sort(new Change_Stack_Item_DescendingDate());
+                item.items.Sort(new Change_Stack_Item_DescendingDate());
                 if(showAll)
                 {
-                    result.Add(item.doc);
+                    result.Add(item);
                 }
-                else if(item.doc.items.Count > 0 && item.doc.case_id == p_id)
+                else if(item.items.Count > 0 && item.case_id == p_id)
                 {
-                    result.Add(item.doc);
+                    result.Add(item);
                 }
             }
 
