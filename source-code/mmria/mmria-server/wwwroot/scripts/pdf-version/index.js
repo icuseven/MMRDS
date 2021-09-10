@@ -5,6 +5,7 @@ var section_name;       // section name
 var g_current;          // current report printing
 var writeText;          // record header field
 var g_metadata_summary = {};
+var g_record_number;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -30,6 +31,7 @@ function create_print_version
     g_d = p_data;
     section_name = p_section;
     g_metadata_summary = p_metadata_summary;
+	g_record_number = p_number;
 
     let ctx = { 
         metadata: p_metadata, 
@@ -57,9 +59,9 @@ async function print_pdf(section)
 */
 	// g_pdf_need_page_break = false;
 
-	console.log('g_md: ', g_md);
-	console.log('g_d: ', g_d);
-	console.log('section_name: ', section_name);
+	// console.log('g_md: ', g_md);
+	// console.log('g_d: ', g_d);
+	// console.log('section_name: ', section_name);
 	writeText = 'Happy';
 
 	// Get unique PDF name
@@ -95,8 +97,8 @@ async function print_pdf(section)
 			title: pdfTitle,
 		},
 		header: (currentPage, pageCount) => {
-			// console.log( 'currentPage: ', currentPage );
-			// console.log( 'doc: ', doc );
+			// // console.log( 'currentPage: ', currentPage );
+			// // console.log( 'doc: ', doc );
 			if (section_name === 'all') {
 				let recLenArr = [];
 				let startPage = 0;
@@ -309,6 +311,14 @@ function fmtDataDate(dt) {
 	return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${fmtYear(dt.year)}`;
 }
 
+// Format date by field (day, month, year)
+function fmtDateByFields(dt) {
+	let mm = dt.month === '9999' ? '  ' : fmt2Digits(dt.month);
+	let dd = dt.day === '9999' ? '  ' : fmt2Digits(dt.day);
+	let yy = dt.year === '9999' ? '    ' : dt.year;
+	return `${mm}/${dd}/${yy}`;
+}
+
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
 	if (dt.length === 0) return '  ';
@@ -316,7 +326,7 @@ function fmtDateTime(dt) {
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`
-	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`
+	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
@@ -346,25 +356,29 @@ function getArrayMap() {
 
 // Generic Find from global lookup array
 function lookupGlobalArr(val, lookupName) {
+	// Make sure val is a string
+	let valStr = `${val}`;
 	// See if val is blank
-	if (val === '') return val;
+	if (valStr === '') return valStr;
 
 	// Find the correct lookup table index
 	let lookupIndex = g_md.lookup.findIndex((s) => s.name === lookupName);
 
 	// Return the display value from the lookup array
 	let arr = g_md.lookup[lookupIndex].values;
-	let idx = arr.findIndex((s) => s.value === val);
+	let idx = arr.findIndex((s) => s.value === valStr);
 	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
+	// Make sure val is a string
+	let valStr = `${val}`;
 	// See if val is blank or array is empty
-	if (val === '' || arr.length === 0) return val;
+	if (valStr === '' || arr.length === 0) return valStr;
 
-	let idx = arr.findIndex((s) => s.value === val);
+	let idx = arr.findIndex((s) => s.value === valStr);
 	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
@@ -402,7 +416,7 @@ function lookupMultiChoiceArr(val, arr) {
 // Find section prompt name
 function getSectionTitle(name) {
 	if (name === 'all') {
-		console.log('title: ', g_current);
+		// console.log('title: ', g_current);
 	}
 
 	let idx = g_md.children.findIndex((s) => s.name === name);
@@ -441,7 +455,7 @@ async function doChart(chartData) {
 	// Create the image
 	let myImgChart = new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
 	myImgChart.render();
-	// console.log('myImg: ', myImg);
+	// // console.log('myImg: ', myImg);
 
 	// Convert to a PNG
 	let png = myImgChart.toBase64Image();
@@ -452,16 +466,16 @@ async function doChart(chartData) {
 	// Remove the elements so they don't show on the web page
 	//canvas.remove();
 	//container.remove();
-	console.log('png in doChart: ', png);
+	// console.log('png in doChart: ', png);
 
 	return png;
 }
 
 function done(img) {
 	return new Promise((resolve, reject) => {
-		console.log('In done');
+		// console.log('In done');
 		if (img) {
-			console.log('img is there', img.length)
+			// console.log('img is there', img.length)
 			resolve(img);
 		}
 		reject(console.log('Image load error: ', error));
@@ -475,7 +489,7 @@ async function drawLineChart(name, cols) {
 	result.width = 325.938;
 	result.height = 275.938;
 
-	console.log("result start: ", result);
+	// console.log("result start: ", result);
 	var chart = c3.generate({
 		bindto: result,
 		size: {
@@ -493,7 +507,7 @@ async function drawLineChart(name, cols) {
 
 	let chartHeight = result.children[0].getAttribute('height');
 	let chartWidth = result.children[0].getAttribute('width');
-	console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 
 	let container = document.createElement('div');
 	container.id = 'contDiv';
@@ -503,12 +517,12 @@ async function drawLineChart(name, cols) {
 	canvas.setAttribute('height', chartHeight);
 
 	container.appendChild(canvas);
-	console.log('container: ', container);
+	// console.log('container: ', container);
 	let ctx = canvas.getContext('2d');
 	let svgText = `<svg xmlns="http://www.w3.org/2000/svg" width="${chartWidth}" height="${chartHeight}">`;
 	svgText += chart.element.innerHTML;
 
-	console.log('svgText')
+	// console.log('svgText')
 
 	let png = 'Hello';
 	let svgImage = new Image();
@@ -526,7 +540,7 @@ async function drawLineChart(name, cols) {
 	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
 	// let mySvg = chart.element.innerHTML;
 
-	// console.log( 'drawLineChart: ', name, ' - ', cols );
+	// // console.log( 'drawLineChart: ', name, ' - ', cols );
 	// let chartDefinition = {
 	// 	bindto: result,
 	// 	size: {
@@ -579,12 +593,12 @@ async function drawLineChart(name, cols) {
 
 	// set id for svg
 	// result.firstElementChild.setAttribute("id", "svgChart");
-	// console.log('chart: ', chart);
-	console.log('result: ', result);
+	// // console.log('chart: ', chart);
+	// console.log('result: ', result);
 
 	// let chartHeight = result.children[0].getAttribute('height');
 	// let chartWidth = result.children[0].getAttribute('width');
-	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+	// // console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 
 	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
 	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
@@ -596,12 +610,12 @@ async function drawLineChart(name, cols) {
 	// let mySvg = chart.element.innerHTML;
 
 	// let mySvg = result.children[0];
-	// console.log('mySvg: ', mySvg);
+	// // console.log('mySvg: ', mySvg);
 	// let svgString = new XMLSerializer().serializeToString(mySvg);
-	// console.log('svgString: ', svgString);
+	// // console.log('svgString: ', svgString);
 	// let png;
 	// document.addEventListener('DOMContentLoaded', () => {
-	// 	console.log('in addEventListener');
+	// 	// console.log('in addEventListener');
 	// 	let canvas = document.getElementById('canvas');
 	// 	let ctx = canvas.getContext('2d');
 	// 	let DOMURL = self.URL || self.webkitURL || self;
@@ -611,23 +625,23 @@ async function drawLineChart(name, cols) {
 	// 	img.onload = () => {
 	// 		ctx.drawImage(img, 0, 0);
 	// 		png = canvas.toDataURL('image/png');
-	// 		console.log('png: ', png);
+	// 		// console.log('png: ', png);
 	// 	}
 	// });
 
 	// let svg = result.querySelector('#divChart svg');
-	// console.log('svg query: ', svg);
+	// // console.log('svg query: ', svg);
 	// let svgElement = document.getElementById('')
 	// let svgData = new XMLSerializer().serializeToString(svg);
-	// console.log('svgData: ', svgData);
+	// // console.log('svgData: ', svgData);
 	// let chartHeight = svg.getAttribute('height');
 	// let chartWidth = svg.getAttribute('width');
-	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
+	// // console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
 	// let svgURL = 'data:image/svg_xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-	// console.log('svgURL: ', svgURL);
+	// // console.log('svgURL: ', svgURL);
 
 	// png = window.btoa(svgURL);
-	// console.log('png: ', png);
+	// // console.log('png: ', png);
 	// return png;
 	// return new Promise((resolve, reject) => {
 	// 	let img = new Image();
@@ -639,7 +653,7 @@ async function drawLineChart(name, cols) {
 	// 		let ctx = canvas.getContext('2d');
 	// 		ctx.drawImage(img, 0, 0);
 	// 		let dataURL = canvas.toDataURL('image/png');
-	// 		console.log('DataURL onload: ', dataURL);
+	// 		// console.log('DataURL onload: ', dataURL);
 	// 		resolve(dataURL);
 	// 	};
 	// 	img.onerror = error => {
@@ -791,7 +805,7 @@ async function formatContent(sectionName, arrMap) {
 			break;
 		default:
 			// let a = info.fields[ 0 ].prompt;
-			// console.log( 'xxx: ', a );
+			// // console.log( 'xxx: ', a );
 			retContent = [
 				{ text: "Not done", bold: true, }
 			];
@@ -810,8 +824,8 @@ async function home_record(p, d) {
 	let subIndex = 0;
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -888,6 +902,9 @@ async function home_record(p, d) {
 	// Overall Case Status
 	index = 11;
 	subIndex = 0;
+
+	// console.log('overall case status: ', lookupFieldArr(d.case_status.overall_case_status, p.children[index].children[subIndex + 1].values));
+
 	retPage.push([
 		{
 			layout: {
@@ -1102,8 +1119,8 @@ async function death_certificate(p, d, pg_break) {
 	let subIndex = 0;
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -1127,20 +1144,21 @@ async function death_certificate(p, d, pg_break) {
 			margin: [0, 10, 0, 0],
 			table: {
 				headerRows: 1,
-				widths: [250, '*', 200, '*'],
+				widths: [250, '*'],
 				body: [
 					[
-						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '4', },
-						{}, {}, {},
+						{ text: p.children[index].prompt, style: ['subHeader'], colSpan: '2', },
+						{}, 
 					],
 					[
 						{ text: `${p.children[index].children[subIndex].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.certificate_identification.time_of_death, style: ['tableDetail'], },
-						{}, {},
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.certificate_identification.local_file_number, style: ['tableDetail'], },
+					],
+					[
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: d.certificate_identification.state_file_number, style: ['tableDetail'], },
 					],
@@ -1201,6 +1219,17 @@ async function death_certificate(p, d, pg_break) {
 						},
 						{
 							text: d.place_of_last_residence.county,
+							style: ['tableDetail'],
+						},
+					],
+					[
+						{
+							text: `${p.children[index].children[subIndex + 4].prompt}: `,
+							style: ['tableLabel'],
+							alignment: 'right',
+						},
+						{
+							text: lookupGlobalArr(d.place_of_last_residence.country_of_last_residence, 'country'),
 							style: ['tableDetail'],
 						},
 					],
@@ -1444,6 +1473,50 @@ async function death_certificate(p, d, pg_break) {
 						},
 						{
 							text: lookupRaceArr(d.race.race),
+							style: ['tableDetail'],
+						},
+					],
+					[
+						{
+							text: `${p.children[index].children[subIndex + 1].prompt}: `,
+							style: ['tableLabel'],
+							alignment: 'right',
+						},
+						{
+							text: d.race.other_race,
+							style: ['tableDetail'],
+						},
+					],
+					[
+						{
+							text: `${p.children[index].children[subIndex + 2].prompt}: `,
+							style: ['tableLabel'],
+							alignment: 'right',
+						},
+						{
+							text: d.race.other_asian,
+							style: ['tableDetail'],
+						},
+					],
+					[
+						{
+							text: `${p.children[index].children[subIndex + 3].prompt}: `,
+							style: ['tableLabel'],
+							alignment: 'right',
+						},
+						{
+							text: d.race.other_pacific_islander,
+							style: ['tableDetail'],
+						},
+					],
+					[
+						{
+							text: `${p.children[index].children[subIndex + 4].prompt}: `,
+							style: ['tableLabel'],
+							alignment: 'right',
+						},
+						{
+							text: d.race.principle_tribe,
 							style: ['tableDetail'],
 						},
 					],
@@ -1747,17 +1820,6 @@ async function death_certificate(p, d, pg_break) {
 							style: ['tableDetail'],
 						},
 					],
-					[
-						{
-							text: `${p.children[index].children[subIndex + 2].prompt}: `,
-							style: ['tableLabel'],
-							alignment: 'right',
-						},
-						{
-							text: d.death_information.other_death_outside_of_hospital,
-							style: ['tableDetail'],
-						},
-					],
 				],
 			},
 		},
@@ -1991,8 +2053,8 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 	let subIndex = 0;
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -2167,7 +2229,7 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${d.demographic_of_father.date_of_birth.month} / ${d.demographic_of_father.date_of_birth.year}`,
+							text: `${fmt2Digits(d.demographic_of_father.date_of_birth.month)} / ${fmtYear(d.demographic_of_father.date_of_birth.year)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -2210,6 +2272,22 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 					[
 						{ text: `${p.children[index].children[subIndex + 10].children[0].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupRaceArr(d.demographic_of_father.race.race_of_father), style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].children[1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.demographic_of_father.race.other_race, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].children[2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.demographic_of_father.race.other_asian, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].children[3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.demographic_of_father.race.other_pacific_islander, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 10].children[4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.demographic_of_father.race.principle_tribe, style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 10].children[5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -2810,8 +2888,7 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 	let index = 0;
 	let subIndex = 0;
 	let retPage = [];
-	uArr = window.location.href.split("/");
-	let allRecs = (uArr[uArr.length - 1] === 'birth_certificate_infant_fetal_section' || pg_break) ? true : false;
+	let allRecs = (typeof g_record_number === 'undefined' || pg_break) ? true : false;
 	let lenArr = d.length
 	let startArr = 0;
 	let endArr = lenArr;
@@ -2823,9 +2900,6 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 	let deathLenArr = 0;
 	let body = [];
 	let row = new Array();
-
-	console.log('p: ', p);
-	console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -2840,17 +2914,17 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 		retPage.push({ text: 'No records entered', style: ['tableDetail'], },);
 	} else {
 		if (!allRecs) {
-			startArr = parseInt(uArr[uArr.length - 1], 10);
+			startArr = g_record_number - 1;
 			endArr = startArr + 1;
 		}
-
+	
 		// Display record(s)
 		for (let curRec = startArr; curRec < endArr; curRec++) {
 			index = 0;
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -3133,10 +3207,6 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 			);
 			body.push(row);
 
-			console.log('deathStartArr: ', deathStartArr);
-			console.log('deathEndArr: ', deathEndArr);
-			console.log('deathLenArr: ', deathLenArr);
-
 			// Are there any fetal death records?
 			if (deathLenArr === 0) {
 				row = new Array();
@@ -3155,7 +3225,6 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 						{ text: d[curRec].causes_of_death[deathCurRec].icd_code, style: ['tableDetail'], },
 					);
 					body.push(row);
-					console.log('deathCurRec: ', deathCurRec);
 				}
 			}
 
@@ -3203,10 +3272,6 @@ async function birth_certificate_infant_fetal_section(p, d, pg_break) {
 				},
 			]);
 
-			// See if we need a page break
-			if (allRecs && (startArr !== endArr) && (curRec < endArr - 1)) {
-				retPage.push([{ text: '', pageBreak: 'before' },],);
-			}
 		}
 	}
 
@@ -3222,8 +3287,8 @@ async function autopsy_report(p, d, pg_break) {
 	let body = [];
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -3318,7 +3383,7 @@ async function autopsy_report(p, d, pg_break) {
 							style: ['tableLabel'],
 							alignment: 'right',
 						},
-						{ text: fmtDataDate(d.reporter_characteristics.date_of_autopsy), style: ['tableDetail'], },
+						{ text: fmtDateByFields(d.reporter_characteristics.date_of_autopsy), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -3723,8 +3788,8 @@ async function prenatal(p, d, pg_break) {
 	let subIndex = 0;
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -4370,9 +4435,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.intendedenes.date_birth_control_was_discontinued.month)} / ` +
-								`${fmt2Digits(d.intendedenes.date_birth_control_was_discontinued.day)} / ` +
-								`${fmtYear(d.intendedenes.date_birth_control_was_discontinued.year)}`,
+							text: `${fmtDateByFields(d.intendedenes.date_birth_control_was_discontinued)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4485,9 +4548,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.current_pregnancy.date_of_last_normal_menses.month)} / ` +
-								`${fmt2Digits(d.current_pregnancy.date_of_last_normal_menses.day)} / ` +
-								`${fmtYear(d.current_pregnancy.date_of_last_normal_menses.year)}`,
+							text: `${fmtDateByFields(d.current_pregnancy.date_of_last_normal_menses)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4500,9 +4561,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.current_pregnancy.estimated_date_of_confinement.month)} / ` +
-								`${fmt2Digits(d.current_pregnancy.estimated_date_of_confinement.day)} / ` +
-								`${fmtYear(d.current_pregnancy.estimated_date_of_confinement.year)}`,
+							text: `${fmtDateByFields(d.current_pregnancy.estimated_date_of_confinement)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4526,9 +4585,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.current_pregnancy.date_of_1st_prenatal_visit.month)} / ` +
-								`${fmt2Digits(d.current_pregnancy.date_of_1st_prenatal_visit.day)} / ` +
-								`${fmtYear(d.current_pregnancy.date_of_1st_prenatal_visit.year)}`,
+							text: `${fmtDateByFields(d.current_pregnancy.date_of_1st_prenatal_visit)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4549,9 +4606,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.current_pregnancy.date_of_1st_ultrasound.month)} / ` +
-								`${fmt2Digits(d.current_pregnancy.date_of_1st_ultrasound.day)} / ` +
-								`${fmtYear(d.current_pregnancy.date_of_1st_ultrasound.year)}`,
+							text: `${fmtDateByFields(d.current_pregnancy.date_of_1st_ultrasound)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4572,9 +4627,7 @@ async function prenatal(p, d, pg_break) {
 							alignment: 'right',
 						},
 						{
-							text: `${fmt2Digits(d.current_pregnancy.date_of_last_prenatal_visit.month)} / ` +
-								`${fmt2Digits(d.current_pregnancy.date_of_last_prenatal_visit.day)} / ` +
-								`${fmtYear(d.current_pregnancy.date_of_last_prenatal_visit.year)}`,
+							text: `${fmtDateByFields(d.current_pregnancy.date_of_last_prenatal_visit)}`,
 							style: ['tableDetail'],
 						},
 					],
@@ -4830,7 +4883,7 @@ async function prenatal(p, d, pg_break) {
 		{ image: bpImg, width: 800, alignment: 'center', },
 	],);
 
-	console.log('bpImg: ', bpImg);
+	// console.log('bpImg: ', bpImg);
 
 	// Now push it to the full PDF
 	retPage.push([
@@ -5568,8 +5621,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 	let index = 0;
 	let body = [];
 	let retPage = [];
-	let uArr = window.location.href.split("/");
-	let allRecs = (uArr[uArr.length - 1] === 'er_visit_and_hospital_medical_records' || pg_break) ? true : false;
+	let allRecs = (typeof g_record_number === 'undefined' || pg_break) ? true : false;
 	let lenArr = d.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -5594,8 +5646,8 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 		},
 	};
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -5610,7 +5662,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 		retPage.push({ text: 'No ER Visits and Hospitalization records entered', style: ['tableDetail'], },);
 	} else {
 		if (!allRecs) {
-			startArr = parseInt(uArr[uArr.length - 1], 10);
+			startArr = g_record_number - 1;
 			endArr = startArr + 1;
 		}
 
@@ -5620,7 +5672,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -5678,9 +5730,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_arrival.month)} / ` +
-										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_arrival.day)} / ` +
-										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_arrival.year)}`,
+									text: `${fmtDateByFields(d[curRec].basic_admission_and_discharge_information.date_of_arrival)}`,
 									style: ['tableDetail', 'lightFill'],
 								},
 								{},
@@ -5737,9 +5787,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.month)} / ` +
-										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.day)} / ` +
-										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission.year)}`,
+									text: `${fmtDateByFields(d[curRec].basic_admission_and_discharge_information.date_of_hospital_admission)}`,
 									style: ['tableDetail'],
 								},
 								{},
@@ -5858,9 +5906,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.month)} / ` +
-										`${fmt2Digits(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.day)} / ` +
-										`${fmtYear(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge.year)}`,
+									text: `${fmtDateByFields(d[curRec].basic_admission_and_discharge_information.date_of_hospital_discharge)}`,
 									style: ['tableDetail'],
 								},
 							],
@@ -6461,9 +6507,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.month)} / ` +
-										`${fmt2Digits(d[curRec].onset_of_labor.date_of_onset_of_labor.day)} / ` +
-										`${fmtYear(d[curRec].onset_of_labor.date_of_onset_of_labor.year)}`,
+									text: `${fmtDateByFields(d[curRec].onset_of_labor.date_of_onset_of_labor)}`,
 									style: ['tableDetail'],
 								},
 								{},
@@ -6509,9 +6553,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.month)} / ` +
-										`${fmt2Digits(d[curRec].onset_of_labor.date_of_rupture.day)} / ` +
-										`${fmtYear(d[curRec].onset_of_labor.date_of_rupture.year)}`,
+									text: `${fmtDateByFields(d[curRec].onset_of_labor.date_of_rupture)}`,
 									style: ['tableDetail'],
 								},
 								{},
@@ -7451,7 +7493,6 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 				},
 			]);
 
-
 		}
 	}
 
@@ -7463,14 +7504,13 @@ async function other_medical_office_visits(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let retPage = [];
-	let uArr = window.location.href.split("/");
-	let allRecs = (uArr[uArr.length - 1] === 'other_medical_office_visits' || pg_break) ? true : false;
+	let allRecs = (typeof g_record_number === 'undefined' || pg_break) ? true : false;
 	let lenArr = d.length;
 	let startArr = 0;
 	let endArr = lenArr;
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -7485,7 +7525,7 @@ async function other_medical_office_visits(p, d, pg_break) {
 		retPage.push({ text: 'No Other Medical Office Visits records entered', style: ['tableDetail'], },);
 	} else {
 		if (!allRecs) {
-			startArr = parseInt(uArr[uArr.length - 1], 10);
+			startArr = g_record_number -1;
 			endArr = startArr + 1;
 		}
 
@@ -7495,7 +7535,7 @@ async function other_medical_office_visits(p, d, pg_break) {
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -7527,9 +7567,7 @@ async function other_medical_office_visits(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${fmt2Digits(d[curRec].visit.date_of_medical_office_visit.month)} / ` +
-										`${fmt2Digits(d[curRec].visit.date_of_medical_office_visit.day)} / ` +
-										`${fmtYear(d[curRec].visit.date_of_medical_office_visit.year)}`,
+									text: `${fmtDateByFields(d[curRec].visit.date_of_medical_office_visit)}`,
 									style: ['tableDetail', 'lightFill'],
 								},
 								{},
@@ -8392,14 +8430,13 @@ async function medical_transport(p, d, pg_break) {
 	let index = 0;
 	let subIndex = 0;
 	let retPage = [];
-	let uArr = window.location.href.split("/");
-	let allRecs = (uArr[uArr.length - 1] === 'medical_transport' || pg_break) ? true : false;
+	let allRecs = (typeof g_record_number === 'undefined' || pg_break) ? true : false;
 	let lenArr = d.length;
 	let startArr = 0;
 	let endArr = lenArr;
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -8414,7 +8451,7 @@ async function medical_transport(p, d, pg_break) {
 		retPage.push({ text: 'No medical transports entered', style: ['tableDetail'], },);
 	} else {
 		if (!allRecs) {
-			startArr = parseInt(uArr[uArr.length - 1], 10);
+			startArr = g_record_number - 1;
 			endArr = startArr + 1;
 		}
 
@@ -8424,7 +8461,7 @@ async function medical_transport(p, d, pg_break) {
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -8856,9 +8893,9 @@ async function medical_transport(p, d, pg_break) {
 				// Build the table detail
 
 				for (let curRec2 = startArr2; curRec2 < endArr2; curRec2++) {
-					console.log('curRec: ', curRec);
-					console.log('curRec2: ', curRec2);
-					console.log('transport_vital_signs: ', d[curRec].transport_vital_signs);
+					// console.log('curRec: ', curRec);
+					// console.log('curRec2: ', curRec2);
+					// console.log('transport_vital_signs: ', d[curRec].transport_vital_signs);
 					row = new Array();
 					row.push({ text: `${curRec2 + 1}`, style: ['tableDetail'], alignment: 'center', },);
 					row.push({ text: fmtDateTime(d[curRec].transport_vital_signs[curRec2].date_and_time), style: ['tableDetail'], },);
@@ -9145,11 +9182,6 @@ async function medical_transport(p, d, pg_break) {
 					},
 				},
 			]);
-
-			// See if we need a page break
-			if (allRecs && (startArr !== endArr) && (curRec < endArr - 1)) {
-				retPage.push([{ text: '', pageBreak: 'before' },],);
-			}
 		}
 	}
 
@@ -9165,8 +9197,8 @@ function social_and_environmental_profile(p, d, pg_break) {
 	let body = [];
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Record Header
 	// Get the title for the Header
@@ -10069,8 +10101,8 @@ async function mental_health_profile(p, d, pg_break) {
 	let body = [];
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -10490,14 +10522,13 @@ async function informant_interviews(p, d, pg_break) {
 	let index = 0;
 	let subIndex = 0;
 	let retPage = [];
-	let uArr = window.location.href.split("/");
-	let allRecs = (uArr[uArr.length - 1] === 'informant_interviews' || pg_break) ? true : false;
+	let allRecs = (typeof g_record_number === 'undefined' || pg_break) ? true : false;
 	let lenArr = d.length;
 	let startArr = 0;
 	let endArr = lenArr;
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -10512,7 +10543,7 @@ async function informant_interviews(p, d, pg_break) {
 		retPage.push({ text: 'No interviews entered', style: ['tableDetail'], },);
 	} else {
 		if (!allRecs) {
-			startArr = parseInt(uArr[uArr.length - 1], 10);
+			startArr = g_record_number - 1;
 			endArr = startArr + 1;
 		}
 
@@ -10522,7 +10553,7 @@ async function informant_interviews(p, d, pg_break) {
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -10656,12 +10687,6 @@ async function informant_interviews(p, d, pg_break) {
 					},
 				},
 			]);
-
-
-			// See if we need a page break
-			if (allRecs && (startArr !== endArr) && (curRec < endArr - 1)) {
-				retPage.push([{ text: '', pageBreak: 'before' },],);
-			}
 		}
 	}
 
@@ -10675,8 +10700,8 @@ async function case_narrative(p, d, pg_break) {
 	let len = 0;
 	let retPage = [];
 
-	//console.log('p: ', p);
-	//console.log('d: ', d);
+	//// console.log('p: ', p);
+	//// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
@@ -10800,7 +10825,7 @@ background-color: rgb(0, 255, 0);
                         result['background']  = `${rgb_to_hex(kvp[1].trim())}`;
                             break;
                         default:
-                            console.log(`missing style: ${attr.name} = ${attr.value}`);
+                            // console.log(`missing style: ${attr.name} = ${attr.value}`);
                         break;
                     }
                 }
@@ -10846,7 +10871,7 @@ const AcceptableTag = {
 
 function ConvertHTMLDOMWalker(p_result, p_node)
 {
-    //console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+    //// console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
 
     if
     (
@@ -10855,11 +10880,11 @@ function ConvertHTMLDOMWalker(p_result, p_node)
     {
         if(p_node.nodeName.toLowerCase() != "#text")
         {
-            console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+            // console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
         }
         else
         {
-            //console.log(`text = ${p_node.innerText}`);
+            //// console.log(`text = ${p_node.innerText}`);
         }
     }
 
@@ -10913,7 +10938,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
            
             if(attr.name != "style")
             {
-                console.log(`${attr.name} = ${attr.value}`);
+                // console.log(`${attr.name} = ${attr.value}`);
                 remove_list.push(attr.name);
             }
         }
@@ -10942,8 +10967,8 @@ async function committee_review(p, d, pg_break) {
 	let index = 4;      // Start on Committee Review Date
 	let retPage = [];
 
-	console.log('p: ', p);
-	console.log('d: ', d);
+	// console.log('p: ', p);
+	// console.log('d: ', d);
 
 	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: 'CORE SUMMARY' });
