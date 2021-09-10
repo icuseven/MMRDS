@@ -47,7 +47,7 @@ namespace mmria.server.Controllers
     public class _auditController : Controller
     {
 
-        public struct Result_Struct
+        public struct Change_Stack_Result_Struct
         {
             public mmria.common.model.couchdb.Change_Stack[] docs;
         }
@@ -91,7 +91,7 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, int page = -1, string user = "all", string search_text = "all", bool showAll = false)
         {
 
-            var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+            var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
             var case_view_curl = new cURL("GET",null,case_view_request_string,null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
@@ -112,8 +112,7 @@ namespace mmria.server.Controllers
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            //var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
-            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<Change_Stack_Result_Struct>(responseFromServer);
 
             List<mmria.common.model.couchdb.Change_Stack> result = new();
 
@@ -159,7 +158,7 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> MoreDetail(System.Threading.CancellationToken cancellationToken, string p_id, string change_id, int change_item)
         {
 
-            var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+            var case_view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
             var case_view_curl = new cURL("GET",null,case_view_request_string,null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
@@ -182,15 +181,11 @@ namespace mmria.server.Controllers
             var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
 
             var cs = view_response.rows.Where(i=> i.id == change_id).First().doc;
-				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-				//string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-{Program.config_metadata_version}/metadata";
-				
 
             for(var i = 0; i < cs.items.Count; i++)
             {
                 cs.items[i].temp_index = i;
             }
-
 
             string metadata_url = $"{Program.config_couchdb_url}/metadata/version_specification-{cs.metadata_version}/metadata";
             
