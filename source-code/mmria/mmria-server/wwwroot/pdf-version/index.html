@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="theme-purple">
 <head>
 	<meta charset="utf-8">
 	<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 	<title>Maternal Mortality Review Information App (MMRIA) | CDC</title>
+    <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
+    <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
+    <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
+    <link rel="stylesheet" href="/styles/mmria-custom.css">
+    <link rel="stylesheet" href="/styles/template-package-override.css">
 	<link href="../styles/mmria.css" type="text/css" rel="stylesheet" />
 	<link href="../styles/d3/c3.min.css" type="text/css" rel="stylesheet" />
 	<link href="../styles/mmria-custom.css" type="text/css" rel="stylesheet" />
@@ -45,6 +51,13 @@
 			<img src="../images/mmria-secondary.svg" height="75" width="100" alt="Maternal Mortality Review Information App (MMRIA)" />
 		</h1>
 		<div id='profile_content_id'>
+            <h2>Print PDF Workspace</h2>
+            <span class="spinner-container spinner-content" style="display: none;">
+                <span class="spinner-body text-primary">
+                    <span class="spinner"></span>
+                    <span class="spinner-info">Loading...</span>
+                </span>
+            </span>
             <input type="button" onclick="window.close();" value="Close this window.">
         </div>
 		<div id='page_content_id' style='clear:"left"'>
