@@ -227,9 +227,16 @@ async function print_pdf(section)
 			fontSize: 12,
 		},
 		content: retContent,
-	}
+	};
 	// pdfMake.createPdf( doc ).download( pdfName );
-	pdfMake.createPdf(doc).open();
+
+	    
+    window.setTimeout
+    (
+        function(){pdfMake.createPdf(doc).open();}, 
+    3000
+    );
+
 
 
 }
@@ -469,6 +476,49 @@ async function doChart(chartData) {
 	// console.log('png in doChart: ', png);
 
 	return png;
+}
+
+
+async function doChart2(p_id_prefix, chartData) 
+{
+    let wrapper_id = `${p_id_prefix}chartWrapper`;
+	let container = document.getElementById(wrapper_id)
+
+    if(container != null)
+    {
+        container.remove();
+    }
+
+    container = document.createElement('div')
+    container.id = wrapper_id;
+    document.body.appendChild(container);
+
+    let canvas_id = `${p_id_prefix}myChart`;
+	let canvas = document.createElement('canvas');
+    canvas.id = canvas_id;
+    //canvas.setAttribute('height', '150');
+    canvas.setAttribute('width', '800px');
+    container.appendChild(canvas);
+    
+	
+
+	const config = {
+		type: 'line',
+		data: chartData,
+		options: {
+			maintainAspectRatio: false,
+			responsive: true
+		},
+	};
+
+
+    let myImgChart =  await new Chart(canvas.getContext('2d'), config);
+    //const width = 300; //px
+    //const height = 150; //px
+    //const canvasRenderService = new CanvasRenderService(width, height);
+
+
+    return myImgChart.toBase64Image();
 }
 
 function done(img) {
@@ -4878,7 +4928,7 @@ async function prenatal(p, d, pg_break) {
 	],);
 
 	// Get the Blood Pressure chart and push to pdf
-	let bpImg = await doChart(bpData);
+	let bpImg = await doChart2('bpData', bpData);
 	body.push([
 		{ image: bpImg, width: 800, alignment: 'center', },
 	],);
@@ -4926,7 +4976,7 @@ async function prenatal(p, d, pg_break) {
 	],);
 
 	// Get the Weight Gain chart and push to pdf
-	let wgImg = await doChart(wgData);
+	let wgImg = await doChart2('wgData', wgData);
 	body.push([
 		{ image: wgImg, width: 800, alignment: 'center', },
 	],);
@@ -4972,7 +5022,7 @@ async function prenatal(p, d, pg_break) {
 	],);
 
 	// Get the Blood Hematocrit chart and push to pdf
-	let hImg = await doChart(hData);
+	let hImg = await doChart2('hData', hData);
 	body.push([
 		{ image: hImg, width: 800, alignment: 'center', },
 	],);
@@ -6750,7 +6800,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			],);
 
 			// Get the Temperature chart and push to pdf
-			let tImg = await doChart(tData);
+			let tImg = await doChart2('tData', tData);
 			body.push([
 				{ image: tImg, width: 800, alignment: 'center', },
 			],);
@@ -6796,7 +6846,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			],);
 
 			// Get the Heart Rate chart and push to pdf
-			let hrImg = await doChart(hrData);
+			let hrImg = await doChart2('hrData', hrData);
 			body.push([
 				{ image: hrImg, width: 800, alignment: 'center', },
 			],);
@@ -6842,7 +6892,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			],);
 
 			// Get the Respiration chart and push to pdf
-			let rImg = await doChart(rData);
+			let rImg = await doChart2('rData', rData);
 			body.push([
 				{ image: rImg, width: 800, alignment: 'center', },
 			],);
@@ -6895,7 +6945,7 @@ async function er_visit_and_hospital_medical_records(p, d, pg_break) {
 			],);
 
 			// Get the Blooc Pressure chart and push to pdf
-			let bpImg = await doChart(bpData);
+			let bpImg = await doChart2('bpData', bpData);
 			body.push([
 				{ image: bpImg, width: 800, alignment: 'center', },
 			],);
