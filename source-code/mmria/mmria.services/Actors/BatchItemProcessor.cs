@@ -731,7 +731,7 @@ namespace RecordsProcessor_Worker.Actors
             var fet_field_set = fet_get_header(message.fet);
 
 
-            string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-20.12.01/metadata";
+            string metadata_url = $"{mmria.services.vitalsimport.Program.couchdb_url}/metadata/version_specification-{db_config_set.name_value["metadata_version"]}/metadata";
             var metadata_curl = new mmria.getset.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
