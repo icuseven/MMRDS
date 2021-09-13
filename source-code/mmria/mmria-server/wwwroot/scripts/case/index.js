@@ -2382,7 +2382,7 @@ function enable_print_button(event)
 //   console.log('event: ', event);
 }
 
-async function pdf_case_onclick(event) 
+function pdf_case_onclick(event) 
 {
   const btn = event.target;
   // const dropdown = document.getElementById('print_case_id');

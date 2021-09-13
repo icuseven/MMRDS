@@ -10902,6 +10902,7 @@ function rgb_to_hex(p_value)
     return "#" + b.join("");
 }
 
+/*
 const AcceptableTag = {
     "body":true,
     //"#text",true
@@ -10916,13 +10917,13 @@ const AcceptableTag = {
     "del":true,
     "hr":true,
     "span":true
-}
+}*/
 
 
 function ConvertHTMLDOMWalker(p_result, p_node)
 {
     //// console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
-
+/*
     if
     (
         AcceptableTag[p_node.nodeName.toLowerCase()] == null
@@ -10938,7 +10939,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
         }
     }
 
-
+*/
 
     switch(p_node.nodeName.toUpperCase())
     {

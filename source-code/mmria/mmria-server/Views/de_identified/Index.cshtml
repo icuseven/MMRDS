@@ -80,31 +80,6 @@
   <script src="./scripts/trumbowyg/trumbowyg.min.js"></script>
   <script src="./scripts/trumbowyg/trumbowyg.colors.min.js"></script>
   <script src="./scripts/trumbowyg/trumbowyg.fontsize.min.js"></script>
-
-   @*
-    pdfMake and Roboto fonts - Need to get local
-  *@
-  <script src="/scripts/pdf-version/pdfmake.min.js"></script>
-  <script src="/scripts/pdf-version/vfs_fonts.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake/browser.js"></script>  
-
-  @*
-    chart.js - because D3 and C3 do not work for pdfs
-  *@
-  <script src="/scripts/pdf-version/chart.min.js"></script>
-
-  @*
-    Temporary script to see if print_pdf was loaded
-  *@
-  <script>
-    $(document).ready( function() {
-      if (typeof print_pdf === 'undefined' ) {
-        console.log( '**** de_identified print_pdf is undefined ****' );
-      } else {
-        console.log( '#### de_identified print_pdf is defined ####' );
-      }
-    });
-  </script>
 }
 
 @section Scripts
