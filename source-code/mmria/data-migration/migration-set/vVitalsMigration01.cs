@@ -51,6 +51,8 @@ namespace migrate.set
 
 		private string state_prefix;
 
+		mmria.common.couchdb.ConfigurationSet ConfigurationSet = null;
+
         public VitalsMigration01
         (
             string p_host_db_url, 
@@ -60,7 +62,8 @@ namespace migrate.set
 			System.Text.StringBuilder p_output_builder,
 			Dictionary<string, HashSet<string>> p_summary_value_dictionary,
 			bool p_is_report_only_mode,
-			string p_state_prefix
+			string p_state_prefix,
+			mmria.common.couchdb.ConfigurationSet p_ConfigurationSet
         ) 
         {
 
@@ -72,6 +75,7 @@ namespace migrate.set
 			summary_value_dictionary = p_summary_value_dictionary;
 			is_report_only_mode = p_is_report_only_mode;
 			state_prefix = p_state_prefix;
+			ConfigurationSet = p_ConfigurationSet;
         }
 
 
@@ -82,6 +86,30 @@ namespace migrate.set
 			
 			this.output_builder.AppendLine($"{data_migration_name} started at: {begin_time.ToString("o")}");
 			
+			var batch_list = await GetVitalBatch();
+
+			HashSet<string> ImportStateSet = new(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var b in batch_list.rows)
+			{
+				if(b.doc.record_result.Count > 0)
+				{
+					ImportStateSet.Add(b.doc.record_result[0].ReportingState);
+					break;
+				}
+			}
+
+			var reporting_state = host_db_url.Replace("https://couchdb-mmria-", "").Replace(".apps.ecpaas.cdc.gov","");
+			if(!ImportStateSet.Contains(reporting_state))
+			{
+				Console.WriteLine($"State {reporting_state} has no vital imports");
+				Console.WriteLine($"{data_migration_name} Finished {DateTime.Now}");
+				return;
+			}
+
+
+
+
             var gs = new C_Get_Set_Value(this.output_builder);
 			try
 			{
@@ -280,45 +308,6 @@ namespace migrate.set
 			return result;
 		}
 
-/*
-		private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
-        {
-            bool result = false;
-			var gsv = new C_Get_Set_Value(this.output_builder);
-
-            //var case_item  = p_case_item as System.Collections.Generic.Dictionary<string, object>;
-
-            gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item);
-            gsv.set_value("last_updated_by", "migration_plan", case_item);
-
-
-            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
-
-            string put_url = $"{host_db_url}/{db_name}/{case_item["_id"]}";
-            cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
-
-            try
-            {
-                var responseFromServer = await document_curl.executeAsync();
-                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-                if(put_result.ok)
-                {
-                    result = true;
-                }
-                
-            }
-            catch(Exception ex)
-            {
-                //Console.Write("auth_session_token: {0}", auth_session_token);
-                Console.WriteLine(ex);
-            }
-
-            return result;
-        }
-		*/
 
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
@@ -561,6 +550,33 @@ namespace migrate.set
             //}
             return result;
         }
+
+		public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> GetVitalBatch() 
+		{ 
+            mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch> result = null;
+
+            try
+			{
+                var config = ConfigurationSet.detail_list["vital_import"];
+                
+                string url = $"{config.url}/vital_import/_all_docs?include_docs=true";
+
+
+				var user_curl = new cURL("GET", null, url, null, config.user_name, config.user_value);
+
+				var responseFromServer = await user_curl.executeAsync();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+                
+			}
+
+
+			return result;
+		}
 
 
     }
