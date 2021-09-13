@@ -10976,8 +10976,37 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, em_attr) });
             return;
             break;
+        case "UL":
+            let ul_array = [];
+            for(let i = 0; i < p_node.childNodes.length; i++)
+            {
+                let child = p_node.childNodes[i];
+        
+                ConvertHTMLDOMWalker(ul_array, child);
+            }
+            p_result.push({ ul: ul_array });
+            return;
+            break; 
+
+        case "OL":
+            let ol_array = [];
+            for(let i = 0; i < p_node.childNodes.length; i++)
+            {
+                let child = p_node.childNodes[i];
+        
+                ConvertHTMLDOMWalker(ol_array, child);
+            }
+            p_result.push({ ol: ol_array });
+            return;
+            break;
+        case "LI":
+            let li_node = { text: p_node.textContent }
+            p_result.push(convert_attribute_to_pdf(p_node, li_node));
+            return;
+            break;
 
     }
+    /*
     if(p_node.attributes != null)
     {
         let remove_list = [];
@@ -10999,7 +11028,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             
             p_node.removeAttribute(remove_list[i]);
         }
-    }
+    }*/
 
     for(let i = 0; i < p_node.childNodes.length; i++)
     {
