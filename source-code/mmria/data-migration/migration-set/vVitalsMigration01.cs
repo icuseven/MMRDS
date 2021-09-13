@@ -7,8 +7,9 @@ using System.Linq;
 namespace migrate.set
 {
 
-
-    public class vSEP_DataFix
+//20.12.01
+//21.04.19
+    public class VitalsMigration01
     {
 		class CsvItem
 		{
@@ -21,7 +22,7 @@ namespace migrate.set
 			public string last_updated_by {get;set;}
 		}
 
-		private string data_migration_name = "vSEP_DataFix";
+		private string data_migration_name = "VitalsMigration01";
         public string host_db_url;
 		public string db_name;
         public string config_timer_user_name;
@@ -50,7 +51,7 @@ namespace migrate.set
 
 		private string state_prefix;
 
-        public vSEP_DataFix
+        public VitalsMigration01
         (
             string p_host_db_url, 
 			string p_db_name, 
