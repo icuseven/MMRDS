@@ -790,9 +790,9 @@ var g_ui = {
 
   set_value: function (p_path, p_value) 
   {
-    console.log('g_ui.set_value: ', p_path, p_value);
-    console.log('value: ', p_value.value);
-    console.log('get_eval_string(p_path): ', g_ui.get_eval_string(p_path));
+    //console.log('g_ui.set_value: ', p_path, p_value);
+    //console.log('value: ', p_value.value);
+    //console.log('get_eval_string(p_path): ', g_ui.get_eval_string(p_path));
 
     eval
     (
@@ -1781,7 +1781,7 @@ function save_case(p_data, p_call_back, p_note)
     })
       .done(function (case_response) 
       {
-        console.log('save_case: success');
+        //console.log('save_case: success');
 
         g_change_stack = [];
         g_case_narrative_is_updated = false;
@@ -1843,7 +1843,7 @@ function delete_case(p_id, p_rev)
   })
     .done(function (case_response) 
     {
-      console.log('delete_case: success');
+      //console.log('delete_case: success');
 
       try 
       {
