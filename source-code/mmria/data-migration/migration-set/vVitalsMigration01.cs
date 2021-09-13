@@ -85,75 +85,8 @@ namespace migrate.set
             var gs = new C_Get_Set_Value(this.output_builder);
 			try
 			{
-/*
-				List<string> state_list = new()
-				{
-					"ma",
-					"nc",
-					"oh",
-					"tn",
-					"ut",
-					"wi"
-				};*/
-				
-
-				//C:\work-space\bk-file-set
-				//C:\work-space\bk-file-set\migration
-				//03/19/2020
-					
-				var csv_data = ParseCsv(System.IO.File.ReadAllText($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv"));
-
-
-				var value_column_index = csv_data[0].IndexOf("saepsoes_eosoe_stres");
-				var _id_column_index = csv_data[0].IndexOf("_id");
-				var date_created_column_index = csv_data[0].IndexOf("d_creat");
-				var created_by_column_index = csv_data[0].IndexOf("c_by");
-				var date_last_updated_column_index = csv_data[0].IndexOf("dl_updat");
-				var last_updated_by_column_index = csv_data[0].IndexOf("lu_by");
-
-				Dictionary<string, CsvItem> csv = new(StringComparer.OrdinalIgnoreCase);
-
-
-				foreach(var item in csv_data.Skip(1))
-				{
-					var id =item[_id_column_index];
-					var value = item[value_column_index];
-
-					if
-					(
-						string.IsNullOrWhiteSpace(value) || 
-						value.IndexOf("|") <1 && 
-						value.IndexOf("|") == value.LastIndexOf("|") 
-						//||
-						//value.IndexOf("|") == 0
-
-					)
-					continue;
-
-					{
-						csv.Add(id, new CsvItem()
-						{
-							value = value,
-							_id = id,
-							date_created = item[date_created_column_index],
-							created_by = item[created_by_column_index],
-							date_last_updated = item[date_last_updated_column_index],
-							last_updated_by = item[last_updated_by_column_index]
-						});
-					}
-				}
-			
-				//var csv_data = ConvertCSVtoDataTable($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv");
-
-				System.Console.WriteLine($"{state_prefix}: {csv.Count}");
-
-				//var sub = csv.Where( i=> i.value.IndexOf("|") < 0)).To
-
-
 				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-{Program.config_metadata_version}/metadata";
-				
-				//return;
+				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
 
 				//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
 				
@@ -186,7 +119,23 @@ namespace migrate.set
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
-				Metadata_Node sep_node = single_form_multi_value_set.Where(i=>i.path == "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress" ).First();
+				var race_value_list = this.lookup["lookup/race"];
+				var omb_race_recode_list = this.lookup["lookup/omb_race_recode"];
+				var value_to_display = new Dictionary<int,string>();
+				var display_to_value = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+				foreach(var item in race_value_list)
+				{
+					value_to_display.Add(int.Parse(item.value), item.display);
+					
+				}
+
+				foreach(var item in omb_race_recode_list)
+				{
+					display_to_value.Add(item.display, int.Parse(item.value));
+				}
+
+				display_to_value.Add("Black or African American", 1);
+				display_to_value.Add("American Indian or Alaska Native", 3);
 
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
@@ -207,68 +156,20 @@ namespace migrate.set
 							continue;
 						}
 
-						if(!csv.ContainsKey(mmria_id)) continue;
-
-						var old_item = csv[mmria_id.ToString()];
-
 // change single select into multiselect
 // home_record/how_was_this_death_identified
-
-						List<string> old_string_list = new();
-						List<long> old_list = new();
-
-						foreach(var item in old_item.value.Split("|"))
-						{
-							old_string_list.Add(item);
-							var key = item;
-
-							if(!sep_node.display_to_value.ContainsKey(item))
-							{
-								if(string.IsNullOrEmpty(key))
-								{
-									continue;
-								}
-
-								System.Console.WriteLine($"*** missing value:{key}");
-								this.output_builder.AppendLine($"missing value:{key}");
-								if(item == "History of Substance Use Treatment")
-									key = "History of Treatment for Substance Use";
-								else
-								{
-									System.Console.WriteLine(key);
-								}
-							}
-							
-
-							var item_value =  long.Parse(sep_node.display_to_value[key]);
-							old_list.Add(item_value);
-						}
 
 						try
 						{
 
-							var sep_path = "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress";
-							value_result = gs.get_value(doc, sep_path);
+							var how_was_this_death_identified_path = "home_record/how_was_this_death_identified";
+							value_result = gs.get_value(doc, how_was_this_death_identified_path);
 							var current_record_id = value_result.result;
 
 							int new_int_value  = 9999;
 
 							if (!value_result.is_error)
 							{
-								if(value_result.result is IList<object> value_list)
-								{
-									if(value_list.Count < 2)
-									{
-										Console.WriteLine($"_id: {mmria_id}");
-										Console.WriteLine($"old_list: {string.Join('|', old_list)}");
-										Console.WriteLine($"current_list: {string.Join('|', value_list)}");
-
-										this.output_builder.AppendLine($"-id: {mmria_id}");
-										this.output_builder.AppendLine($"old_list: {string.Join('|', old_list)}");
-										this.output_builder.AppendLine($"current_list: {string.Join('|', value_list)}");
-									}
-								}
-								/*
 								if(value_result.result is IList<object> value_list)
 								{
 									Console.WriteLine("item record_id: {mmria_id} Already converted skipping");
@@ -294,11 +195,11 @@ namespace migrate.set
 									}
 
 									var new_value = new List<object>() { new_int_value };
-									case_has_changed = case_has_changed && gs.set_objectvalue(sep_path, new_value, doc);
+									case_has_changed = case_has_changed && gs.set_objectvalue(how_was_this_death_identified_path, new_value, doc);
 									var output_text = $"item record_id: {mmria_id} Converted single item to list.  {value_result.result} => [ {new_int_value} ]";
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
-								}*/
+								}
 								
 								
 							}
@@ -660,78 +561,6 @@ namespace migrate.set
             //}
             return result;
         }
-
-		public static System.Data.DataTable ConvertCSVtoDataTable(string strFilePath)
-		{
-			System.Data.DataTable dt = new ();
-			using (System.IO.StreamReader sr = new (strFilePath))
-			{
-				string[] headers = sr.ReadLine().Split(',');
-				foreach (string header in headers)
-				{
-					dt.Columns.Add(header);
-				}
-
-				while (!sr.EndOfStream)
-				{
-					string[] rows = sr.ReadLine().Split(',');
-					System.Data.DataRow dr = dt.NewRow();
-					for (int i = 0; i < headers.Length; i++)
-					{
-						dr[i] = rows[i];
-					}
-					dt.Rows.Add(dr);
-				}
-
-			}
-
-
-			return dt;
-		}
-
-		static List<List<string>> ParseCsv(string csv) {
-            var parsedCsv = new List<List<string>>();
-            var row = new List<string>();
-            string field = "";
-            bool inQuotedField = false;
-
-            for (int i = 0; i < csv.Length; i++) {
-                char current = csv[i];
-                char next = i == csv.Length - 1 ? ' ' : csv[i + 1];
-
-                // if current character is not a quote or comma or carriage return or newline (or not a quote and currently in an a quoted field), just add the character to the current field text
-                if ((current != '"' && current != ',' && current != '\r' && current != '\n') || (current != '"' && inQuotedField)) {
-                    field += current;
-                } else if (current == ' ' || current == '\t') {
-                    continue; // ignore whitespace outside a quoted field
-                } else if (current == '"') {
-                    if (inQuotedField && next == '"') { // quote is escaping a quote within a quoted field
-                        i++; // skip escaping quote
-                        field += current;
-                    } else if (inQuotedField) { // quote signifies the end of a quoted field
-                        row.Add(field);
-                        if (next == ',') {
-                            i++; // skip the comma separator since we've already found the end of the field
-                        }
-                        field = "";
-                        inQuotedField = false;
-                    } else { // quote signifies the beginning of a quoted field
-                        inQuotedField = true; 
-                    }
-                } else if (current == ',') { //
-                    row.Add(field);
-                    field = "";
-                } else if (current == '\n') {
-                    row.Add(field);
-                    parsedCsv.Add(new List<string>(row));
-                    field = "";
-                    row.Clear();
-                }
-            }
-
-            return parsedCsv;
-        }
-
 
 
     }
