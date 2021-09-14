@@ -81,7 +81,7 @@ namespace migrate.set
 
         public async Task execute()
         {
-			this.output_builder.AppendLine($"v2.5 Data Migration started at: {DateTime.Now.ToString("o")}");
+			this.output_builder.AppendLine($"{data_migration_name} Data Migration started at: {DateTime.Now.ToString("o")}");
 			DateTime begin_time = System.DateTime.Now;
 			
 			this.output_builder.AppendLine($"{data_migration_name} started at: {begin_time.ToString("o")}");
@@ -253,7 +253,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && case_has_changed)
 						{
-							//var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
+							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
 						}
 
 					}

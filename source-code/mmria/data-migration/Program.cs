@@ -209,9 +209,9 @@ namespace migrate
 
 
 
-			bool is_test_list = true;
+			bool is_test_list = false;
 			
-			bool is_report_only_mode = true;
+			bool is_report_only_mode = false;
 
 
 			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
@@ -385,8 +385,8 @@ namespace migrate
 						//await sep_data_fix.execute();
 
 
-						var VitalsMigration01 = new migrate.set.VitalsMigration01(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix, ConfigurationSet);
-						await VitalsMigration01.execute();
+						//var VitalsMigration01 = new migrate.set.VitalsMigration01(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix, ConfigurationSet);
+						//await VitalsMigration01.execute();
 
 
 						//var Fix_American_Indian_Recode = new migrate.set.Fix_American_Indian_Recode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
