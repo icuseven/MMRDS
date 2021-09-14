@@ -88,14 +88,21 @@ namespace migrate.set
 			
 			var batch_list = await GetVitalBatch();
 
+			var mmria_id_set = new Dictionary<string,HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+
 			HashSet<string> ImportStateSet = new(StringComparer.OrdinalIgnoreCase);
 
 			foreach(var b in batch_list.rows)
 			{
 				if(b.doc.record_result.Count > 0)
 				{
-					ImportStateSet.Add(b.doc.record_result[0].ReportingState);
-					break;
+					var state = b.doc.record_result[0].ReportingState;
+					ImportStateSet.Add(state);
+					mmria_id_set[state] = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+					foreach(var r in b.doc.record_result)
+					{
+						mmria_id_set[state].Add(r.mmria_id);
+					}
 				}
 			}
 
@@ -184,6 +191,11 @@ namespace migrate.set
 							continue;
 						}
 
+						if(!mmria_id_set[reporting_state].Contains(mmria_id))
+						{
+							continue;
+						}
+
 // change single select into multiselect
 // home_record/how_was_this_death_identified
 
@@ -241,7 +253,7 @@ namespace migrate.set
 
 						if(!is_report_only_mode && case_has_changed)
 						{
-							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
+							//var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
 						}
 
 					}

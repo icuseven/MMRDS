@@ -40,6 +40,7 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
+			"az",
 					"ma",
 					"nc",
 					"oh",
@@ -380,17 +381,18 @@ namespace migrate
 
 						
 
-						var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
-						await sep_data_fix.execute();
+						//var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
+						//await sep_data_fix.execute();
 
+
+						var VitalsMigration01 = new migrate.set.VitalsMigration01(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix, ConfigurationSet);
+						await VitalsMigration01.execute();
 
 
 						//var Fix_American_Indian_Recode = new migrate.set.Fix_American_Indian_Recode(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await Fix_American_Indian_Recode.execute();
 							
                                           
-
-
 						//var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await SubstanceMigration.execute();
 
