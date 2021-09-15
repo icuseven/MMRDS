@@ -204,8 +204,12 @@ function textarea_control_strip_html_attributes(p_value)
 
     let CommentRegex = /<!--\[[^>]+>/gi;
 
+    let Strip5PlusBr = /<br\><br\><br\><br\>+/gi;
+
+    let StripTrailingBR = /<br><br>(<br>|<br>.?)+/gi;
+
     let node = document.createElement("body");
-    node.innerHTML = p_value.replace(CommentRegex,"");
+    node.innerHTML = p_value.replace(CommentRegex,"").replace(Strip5PlusBr,"<br>").replace(StripTrailingBR,"");
 
     DOMWalker(node);
 
@@ -239,7 +243,9 @@ function DOMWalker(p_node)
     )
     {
         if(p_node.nodeName.toLowerCase() != "#text")
-            console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+        {
+            //console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
+        }
     }
 
     if(p_node.attributes != null)
@@ -288,11 +294,15 @@ function textarea_control_strip_html_attributes2(p_value)
 
     //let StripTrailBlankSpaceExp = /(<\/?([ ])+[^>]+>)/gi;
 
-    //let StripHTMLExp = /(<\/?[^>]+>)/gi;
+    let Strip5PlusBr = /<br\><br\><br\><br\>+/gi;
 
     let StripTrailBlankSpaceExp = /<\/?[a-zA-Z]+([ ]+)[^>]+>/gi;
 
-    let result = p_value.replace(AttributeRegEx,"").replace(PseudoTagRegex, "").replace(CommentRegex,"").replace(StripTrailBlankSpaceExp, "");
+    let result = p_value.replace(AttributeRegEx,"")
+        .replace(PseudoTagRegex, "").
+        replace(CommentRegex,"")
+        .replace(StripTrailBlankSpaceExp, "")
+        .replace(Strip5PlusBr,"<br>");
 
     return result;
 

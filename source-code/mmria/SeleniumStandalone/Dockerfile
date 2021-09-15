@@ -7,12 +7,14 @@ LABEL authors=SeleniumHQ
 
 USER 1200
 
+RUN chmod 777 start-selenium-standalone.sh
+
 #====================================
 # Scripts to run Selenium Standalone
 #====================================
 COPY start-selenium-standalone.sh /opt/bin/start-selenium-standalone.sh
 
-RUN chmod 777 /opt/bin/start-selenium-standalone.sh
+
 
 #==============================
 # Supervisor configuration file

@@ -11358,7 +11358,8 @@ async function core_summary() {
 	return retPage;
 }
 
-function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_metadata_path) {
+function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_metadata_path) 
+{
 	let is_core_summary = false;
 
 	if (p_is_core_summary) {
