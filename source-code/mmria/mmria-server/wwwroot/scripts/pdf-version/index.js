@@ -516,7 +516,7 @@ async function doChart2(p_id_prefix, chartData)
     //const width = 300; //px
     //const height = 150; //px
     //const canvasRenderService = new CanvasRenderService(width, height);
-
+    myImgChart.draw();
 
     return myImgChart.toBase64Image();
 }
