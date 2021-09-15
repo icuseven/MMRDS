@@ -233,7 +233,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-        function(){pdfMake.createPdf(doc).open(window);}, 
+        //function(){pdfMake.createPdf(doc).open(window);}, 
+        function(){pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -507,7 +508,9 @@ async function doChart2(p_id_prefix, chartData)
 		data: chartData,
 		options: {
 			maintainAspectRatio: false,
-			responsive: true
+			responsive: true,
+            animation: null,
+            animate: false
 		},
 	};
 
@@ -517,8 +520,10 @@ async function doChart2(p_id_prefix, chartData)
     //const height = 150; //px
     //const canvasRenderService = new CanvasRenderService(width, height);
     myImgChart.draw();
+    myImgChart.render();
 
     return myImgChart.toBase64Image();
+    //return canvas.toDataURL();
 }
 
 function done(img) {
