@@ -233,8 +233,7 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-        //function(){pdfMake.createPdf(doc).open(window);}, 
-        function(){pdfMake.createPdf(doc).open();}, 
+        function(){pdfMake.createPdf(doc).open(window);}, 
     3000
     );
 
