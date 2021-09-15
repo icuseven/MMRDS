@@ -7,8 +7,6 @@ LABEL authors=SeleniumHQ
 
 USER 1200
 
-RUN chmod 777 start-selenium-standalone.sh
-
 #====================================
 # Scripts to run Selenium Standalone
 #====================================
