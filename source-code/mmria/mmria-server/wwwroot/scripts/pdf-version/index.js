@@ -70,6 +70,9 @@ async function print_pdf(section)
 	// Get the PDF Header Title
 	let pdfTitle = getHeaderName();
 
+	// Get report tab name
+	let reportTabName = getReportTabName(section);
+
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
 
@@ -94,7 +97,7 @@ async function print_pdf(section)
 		// 	};
 		// },
 		info: {
-			title: pdfTitle,
+			title: reportTabName,
 		},
 		header: (currentPage, pageCount) => {
 			// // console.log( 'currentPage: ', currentPage );
@@ -350,6 +353,62 @@ function getHeaderName() {
 	return 'MMRIA Record ID#: ' + g_d.home_record.record_id;
 }
 
+// Get Report Tab Name
+function getReportTabName(section) {
+	let nm = '';
+	switch (section) {
+		case 'home_record':
+			nm = 'Home Record'
+			break;
+		case 'death_certificate':
+			nm = 'Death Certificate';
+			break;
+		case 'birth_fetal_death_certificate_parent':
+			nm = 'Birth/Fetal Death Certificate - Parent Section';
+			break;
+		case 'birth_certificate_infant_fetal_section':
+			nm = 'Birth/Fetal Death Certificate - Infant/Fetal Section';
+			break;
+		case 'autopsy_report':
+			nm = 'Autopsy Report';
+			break;
+		case 'prenatal':
+			nm = 'Prenatal Care Record';
+			break;
+		case 'er_visit_and_hospital_medical_records':
+			nm = 'ER Visits and Hospitalizations';
+			break;
+		case 'other_medical_office_visits':
+			nm = 'Other Medical Office Visits';
+			break;
+		case 'medical_transport':
+			nm = 'Medical Transport';
+			break;
+		case 'social_and_environmental_profile':
+			nm = 'Social and Environmental Profile';
+			break;
+		case 'mental_health_profile':
+			nm = 'Mental Health Profile';
+			break;
+		case 'informant_interviews':
+			nm = 'Informant Interviews';
+			break;
+		case 'case_narrative':
+			nm = 'Case Narrative';
+			break;
+		case 'committee_review':
+			nm = 'Committee Review';
+			break;
+		case 'core-summary':
+			nm = 'Core Elements Only';
+			break;
+		case 'all':
+			nm = 'All Case Forms';
+			break;
+	}
+
+	return nm;
+}
 // Get the array for record selected
 function getArrayMap() {
 	let arr = [];
