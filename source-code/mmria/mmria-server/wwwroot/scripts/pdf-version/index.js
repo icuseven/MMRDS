@@ -509,7 +509,12 @@ async function doChart2(p_id_prefix, chartData)
 			maintainAspectRatio: false,
 			responsive: true,
             animation: null,
-            animate: false
+            animate: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			},
 		},
 	};
 
