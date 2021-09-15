@@ -2588,6 +2588,22 @@ async function birth_fetal_death_certificate_parent(p, d, pg_break) {
 						{ text: lookupRaceArr(d.race.race_of_mother), style: ['tableDetail'], },
 					],
 					[
+						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.race.other_race, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.race.other_asian, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.race.other_pacific_islander, style: ['tableDetail'], },
+					],
+					[
+						{ text: `${p.children[index].children[subIndex + 4].prompt}: `, style: ['tableLabel'], alignment: 'right', },
+						{ text: d.race.principle_tribe, style: ['tableDetail'], },
+					],
+					[
 						{ text: `${p.children[index].children[subIndex + 5].prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalArr(d.race.omb_race_recode.toString(), 'omb_race_recode'), style: ['tableDetail'], },
 					],
