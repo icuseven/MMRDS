@@ -1,11 +1,11 @@
-var g_md = null;        // global metadata
-var g_metadata = null; 
-var g_d = null;         // global data
-var section_name;       // section name
-var g_current;          // current report printing
-var writeText;          // record header field
-var g_metadata_summary = {};
-var g_record_number;
+let g_md = null;
+let g_metadata = null; 
+let g_d = null;
+let g_section_name;
+let g_current;
+let g_writeText;
+let g_metadata_summary = {};
+let g_record_number;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -17,7 +17,7 @@ $(function ()
 });
 
 
-function create_print_version
+async function create_print_version
 (      
     p_metadata,
     p_data,
@@ -26,10 +26,20 @@ function create_print_version
     p_metadata_summary
 )
 {
+
+    g_md = null;
+    g_metadata = null; 
+    g_d = null;
+    g_section_name = null;
+    g_current = null;
+    g_writeText = null;
+    g_metadata_summary = {};
+    g_record_number = null;
+
     g_md = p_metadata;
     g_metadata = p_metadata;
     g_d = p_data;
-    section_name = p_section;
+    g_section_name = p_section;
     g_metadata_summary = p_metadata_summary;
 	g_record_number = p_number;
 
@@ -41,7 +51,7 @@ function create_print_version
     };
     //initialize_print_pdf(ctx);
 
-    print_pdf(p_section);
+    await print_pdf(p_section);
 }
 
 function create_pdf_version(p_ctx) 
@@ -53,16 +63,7 @@ function create_pdf_version(p_ctx)
 
 async function print_pdf(section) 
 {
-	/*g_md = g_metadata;
-	g_d = g_data;
-	section_name = section;
-*/
-	// g_pdf_need_page_break = false;
-
-	// console.log('g_md: ', g_md);
-	// console.log('g_d: ', g_d);
-	// console.log('section_name: ', section_name);
-	writeText = 'Happy';
+	g_writeText = '';
 
 	// Get unique PDF name
 	// let pdfName = createNamePDF();
@@ -80,7 +81,7 @@ async function print_pdf(section)
 	let arrMap = getArrayMap();
 
 	// Format the content
-	let retContent = await formatContent(section_name, arrMap);
+	let retContent = await formatContent(g_section_name, arrMap);
 
 	let doc = {
 		pageOrientation: 'landscape',
@@ -102,7 +103,7 @@ async function print_pdf(section)
 		header: (currentPage, pageCount) => {
 			// // console.log( 'currentPage: ', currentPage );
 			// // console.log( 'doc: ', doc );
-			if (section_name === 'all') {
+			if (g_section_name === 'all') {
 				let recLenArr = [];
 				let startPage = 0;
 				let endPage = 0;
@@ -115,13 +116,13 @@ async function print_pdf(section)
 
 				let index = recLenArr.findIndex(item => ((currentPage >= item.s) && (currentPage <= item.e)));
 				for (let l = 0; l < doc.content[index].stack.length; l++) {
-					writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : writeText;
+					g_writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : g_writeText;
 				}
 			}
-			else if (section_name === 'core-summary') {
-				writeText = 'CORE SUMMARY';
+			else if (g_section_name === 'core-summary') {
+				g_writeText = 'CORE SUMMARY';
 			} else {
-				writeText = getSectionTitle(section_name);
+				g_writeText = getSectionTitle(g_section_name);
 			}
 			let headerObj = [
 				{
@@ -166,7 +167,7 @@ async function print_pdf(section)
 						widths: '*',
 						body: [
 							[
-								{ text: writeText, style: ['formHeader', 'isBold', 'lightFill'], }
+								{ text: g_writeText, style: ['formHeader', 'isBold', 'lightFill'], }
 							],
 						],
 					},
@@ -236,7 +237,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-        function(){pdfMake.createPdf(doc).open(window);}, 
+        async function(){await pdfMake.createPdf(doc).open(window);}, 
+        //async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -255,15 +257,15 @@ async function print_pdf(section)
 // getBase64ImageFromURL
 function getBase64ImageFromURL(url) {
 	return new Promise((resolve, reject) => {
-		var img = new Image();
+		let img = new Image();
 		img.setAttribute("crossOrigin", "anonymous");
 		img.onload = () => {
-			var canvas = document.createElement("canvas");
+			let canvas = document.createElement("canvas");
 			canvas.width = img.width;
 			canvas.height = img.height;
-			var ctx = canvas.getContext("2d");
+			let ctx = canvas.getContext("2d");
 			ctx.drawImage(img, 0, 0);
-			var dataURL = canvas.toDataURL("image/png");
+			let dataURL = canvas.toDataURL("image/png");
 			resolve(dataURL);
 		};
 		img.onerror = error => {
@@ -490,54 +492,6 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
-// Create the chart using chart.js - return a png
-let chartNo = 0;
-async function doChart(chartData) {
-	chartNo += 1;
-	// Create a div element and give it an id
-	let container = document.createElement('div')
-	container.id = 'chartWrapper' + chartNo;
-
-	// Create a canvas element and give it an id, width
-	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart' + chartNo;
-	canvas.setAttribute('width', '325px');
-	
-	// Add the canvas to the container
-	container.appendChild(canvas);
-
-	// Add the container to the body so we can get to it - VERY IMPORTANT
-	document.body.appendChild(container);
-
-	const config = {
-		type: 'line',
-		data: chartData,
-		options: {
-			maintainAspectRatio: false,
-			responsive: true
-		},
-	};
-
-	// Create the image
-	let myImgChart = new Chart(document.getElementById('myChart' + chartNo).getContext('2d'), config);
-	myImgChart.render();
-	// // console.log('myImg: ', myImg);
-
-	// Convert to a PNG
-	let png = myImgChart.toBase64Image();
-
-	// let png = done(canvas.toDataURL());
-	// let png = canvas.toDataURL();
-
-	// Remove the elements so they don't show on the web page
-	//canvas.remove();
-	//container.remove();
-	// console.log('png in doChart: ', png);
-
-	return png;
-}
-
-
 async function doChart2(p_id_prefix, chartData) 
 {
     let wrapper_id = `${p_id_prefix}chartWrapper`;
@@ -608,7 +562,7 @@ async function drawLineChart(name, cols) {
 	result.height = 275.938;
 
 	// console.log("result start: ", result);
-	var chart = c3.generate({
+	let chart = c3.generate({
 		bindto: result,
 		size: {
 			height: 275.938,
@@ -10938,7 +10892,7 @@ background-color: rgb(0, 255, 0);
                 
 
                 let style_array = attr.value.split(';');
-                for(var style_index = 0; style_index < style_array.length; style_index++)
+                for(let style_index = 0; style_index < style_array.length; style_index++)
                 {
                     let kvp = style_array[style_index].split(":");
                     switch(kvp[0].trim())
@@ -10976,9 +10930,13 @@ background-color: rgb(0, 255, 0);
 
 function rgb_to_hex(p_value)
 {
-    var a = p_value.split("(")[1].split(")")[0];
+    if(p_value.split("(").length < 2)
+    {
+        return p_value;
+    }
+    let a = p_value.split("(")[1].split(")")[0];
     a = a.split(",");
-    var b = a.map(function(x){             //For each array element
+    let b = a.map(function(x){             //For each array element
         x = parseInt(x).toString(16);      //Convert to a base16 string
         return (x.length==1) ? "0"+x : x;  //Add zero if we get only one character
     })
@@ -10986,45 +10944,11 @@ function rgb_to_hex(p_value)
     return "#" + b.join("");
 }
 
-/*
-const AcceptableTag = {
-    "body":true,
-    //"#text",true
-    "p":true,
-    "em":true,
-    "strong":true,
-    "u":true,
-    "ul":true,
-    "ol":true,
-    "li":true,
-    "br":true,
-    "del":true,
-    "hr":true,
-    "span":true
-}*/
+
 
 
 function ConvertHTMLDOMWalker(p_result, p_node)
 {
-    //// console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
-/*
-    if
-    (
-        AcceptableTag[p_node.nodeName.toLowerCase()] == null
-    )
-    {
-        if(p_node.nodeName.toLowerCase() != "#text")
-        {
-            // console.log(`${p_node.nodeType} = ${p_node.nodeName}`);
-        }
-        else
-        {
-            //// console.log(`text = ${p_node.innerText}`);
-        }
-    }
-
-*/
-
     switch(p_node.nodeName.toUpperCase())
     {
         case "#TEXT":
@@ -11470,7 +11394,7 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 
 				if (p_metadata.children) {
 					for (let i = 0; i < p_metadata.children.length; i++) {
-						var child = p_metadata.children[i];
+						let child = p_metadata.children[i];
 						if (p_data[child.name] != null)
 							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
@@ -11493,15 +11417,15 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 					},
 					{},
 				]);
-				for (var form_index = 0; form_index < p_data.length; form_index++) {
-					var form_item = p_data[form_index];
+				for (let form_index = 0; form_index < p_data.length; form_index++) {
+					let form_item = p_data[form_index];
 					result.push([
 						{ text: `Record: ${form_index + 1}`.toUpperCase(), style: ['tableLabel'], colSpan: '2', },
 						{},
 					]);
 					if (p_metadata.children) {
-						for (var i = 0; i < p_metadata.children.length; i++) {
-							var child = p_metadata.children[i];
+						for (let i = 0; i < p_metadata.children.length; i++) {
+							let child = p_metadata.children[i];
 							if (form_item[child.name] != null)
 								Array.prototype.push.apply(result, core_pdf_summary(child, form_item[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 						}
@@ -11514,8 +11438,8 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 					{},
 				]);
 				if (p_metadata.children) {
-					for (var i = 0; i < p_metadata.children.length; i++) {
-						var child = p_metadata.children[i];
+					for (let i = 0; i < p_metadata.children.length; i++) {
+						let child = p_metadata.children[i];
 						if (p_data[child.name] != null)
 							Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, p_metadata_path + ".children[" + i + "]"));
 					}
@@ -11547,16 +11471,16 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 				}
 
 				row = new Array();
-				for (var j = 0; j < p_metadata.children.length; j++) {
-					var child = p_metadata.children[j];
+				for (let j = 0; j < p_metadata.children.length; j++) {
+					let child = p_metadata.children[j];
 					row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], },);
 				}
 				body.push(row);
 				row = new Array();
-				for (var i = 0; i < p_data.length; i++) {
+				for (let i = 0; i < p_data.length; i++) {
 					if (p_data[i] != null) {
-						for (var j = 0; j < p_metadata.children.length; j++) {
-							var child = p_metadata.children[j];
+						for (let j = 0; j < p_metadata.children.length; j++) {
+							let child = p_metadata.children[j];
 							if (p_data[i][child.name] != null) {
 								if (child.type === 'list') {
 									let textStr;
@@ -11582,8 +11506,8 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 				}
 			}
 			else if (g_metadata_summary[p_metadata_path].is_core_summary > 0) {
-				for (var j = 0; j < p_metadata.children.length; j++) {
-					var child = p_metadata.children[j];
+				for (let j = 0; j < p_metadata.children.length; j++) {
+					let child = p_metadata.children[j];
 					if (child.is_core_summary && child.is_core_summary == true) {
 						colspan = colspan + 1;
 					}
@@ -11607,18 +11531,18 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 				}
 
 				row = new Array();
-				for (var j = 0; j < p_metadata.children.length; j++) {
-					var child = p_metadata.children[j];
+				for (let j = 0; j < p_metadata.children.length; j++) {
+					let child = p_metadata.children[j];
 					if (child.is_core_summary && child.is_core_summary == true) {
 						row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], })
 					}
 				}
 				body.push(row);
 				row = new Array();
-				for (var i = 0; i < p_data.length; i++) {
+				for (let i = 0; i < p_data.length; i++) {
 					if (p_data[i] != null) {
-						for (var j = 0; j < p_metadata.children.length; j++) {
-							var child = p_metadata.children[j];
+						for (let j = 0; j < p_metadata.children.length; j++) {
+							let child = p_metadata.children[j];
 							if (child.is_core_summary && child.is_core_summary == true) {
 								if (p_data[i][child.name] != null) {
 									if (child.type === 'list') {
@@ -11672,8 +11596,8 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 			}
 
 			if (p_metadata.children) {
-				for (var i = 0; i < p_metadata.children.length; i++) {
-					var child = p_metadata.children[i];
+				for (let i = 0; i < p_metadata.children.length; i++) {
+					let child = p_metadata.children[i];
 					if (child.type.toLowerCase() == "form" && p_data[child.name] != null)
 						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary, "g_metadata.children[" + i + "]"));
 				}
@@ -11703,7 +11627,7 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 
 				if (Array.isArray(p_data)) {
 					let choiceList = '';
-					for (var i = 0; i < p_data.length; i++) {
+					for (let i = 0; i < p_data.length; i++) {
 						if
 							(
 							(p_data[i] == 9999 || p_data[i] == "9999") &&
@@ -11741,8 +11665,8 @@ function core_pdf_summary(p_metadata, p_data, p_path,  p_is_core_summary, p_meta
 			}
 
 			if (p_metadata.children) {
-				for (var i = 0; i < p_metadata.children.length; i++) {
-					var child = p_metadata.children[i];
+				for (let i = 0; i < p_metadata.children.length; i++) {
+					let child = p_metadata.children[i];
 					if (p_data[child.name] != null)
 						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name,  is_core_summary));
 				}
