@@ -12,7 +12,7 @@ USER 1200
 #====================================
 COPY start-selenium-standalone.sh /opt/bin/start-selenium-standalone.sh
 
-
+RUN chmod -R 765 /opt/bin/
 
 #==============================
 # Supervisor configuration file
