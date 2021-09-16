@@ -258,7 +258,7 @@ function DOMWalker(p_node)
            
             if(attr.name != "style")
             {
-                console.log(`${attr.name} = ${attr.value}`);
+                //console.log(`${attr.name} = ${attr.value}`);
                 remove_list.push(attr.name);
             }
         }
