@@ -966,24 +966,32 @@ function form_render(
 					)
 				);
 			}
-		} else if (g_data && p_metadata.name === "case_narrative") {
+		} 
+        else if (g_data && p_metadata.name === "case_narrative") 
+        {
 			let noteTitle = null;
 			let noteUrl = null;
 			let notes = null;
 
 			//~~~ # RENDER THE CASE NARRATIVE TEXTAREA
-			for (var i = 0; i < p_metadata.children.length; i++) {
+			for (var i = 0; i < p_metadata.children.length; i++) 
+            {
 				var child = p_metadata.children[i];
 
-				if (p_data[child.name] || p_data[child.name] == 0) {
+				if (p_data[child.name] || p_data[child.name] == 0) 
+                {
 					// do nothing
-				} else {
+				} 
+                else 
+                {
 					p_data[child.name] = create_default_object(child, {})[child.name];
 				}
 
-				Array.prototype.push.apply(
+				Array.prototype.push.apply
+                (
 					p_result,
-					page_render(
+					page_render
+                    (
 						child,
 						p_data[child.name],
 						p_ui,
@@ -1005,13 +1013,16 @@ function form_render(
 			// Finally it sets the label HTML to the new version (see below)
 			let scan_for_narrative_label = setInterval(changeNarrativeLabel, 25);
 
-			function changeNarrativeLabel() {
-				let caseNarrativeLabel = document.querySelectorAll(
+			function changeNarrativeLabel() 
+            {
+				let caseNarrativeLabel = document.querySelectorAll
+                (
 					"#g_data_case_narrative_case_opening_overview"
 				)[0].children[0];
 
 				// Checks if the label exists
-				if (!isNullOrUndefined(caseNarrativeLabel)) {
+				if (!isNullOrUndefined(caseNarrativeLabel)) 
+                {
 					// Insert new HTML/TEXT
                     caseNarrativeLabel.innerHTML =`<h3 class="h3 mb-2 mt-0 font-weight-bold">Case Narrative</h3><p class="mb-0" style="line-height: normal">Use the pre-fill text below, and copy and paste from Reviewer's Notes below to create a comprehensive case narrative. Whatever you type here is what will be printed in the Print Version.</p>`;
 					// Stop the scanning

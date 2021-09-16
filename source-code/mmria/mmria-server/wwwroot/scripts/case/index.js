@@ -2977,51 +2977,24 @@ function diff_minutes(dt1, dt2)
 
 function g_textarea_oninput
 (
-  p_object_path,
-  p_metadata_path,
-  p_dictionary_path,
-  value
+    p_object_path,
+    p_metadata_path,
+    p_dictionary_path,
+    value
 ) 
 {
-  var metadata = eval(p_metadata_path);
+    var metadata = eval(p_metadata_path);
 
-  g_case_narrative_is_updated = true;
-  g_case_narrative_is_updated_date = new Date()
+    g_case_narrative_is_updated = true;
+    g_case_narrative_is_updated_date = new Date()
 
-  if 
-  (
-    metadata.type.toLowerCase() == 'list' &&
-    metadata['is_multiselect'] &&
-    metadata.is_multiselect == true
-  ) 
-  {
-    var item = eval(p_object_path);
-
-    if (item.indexOf(value) > -1) 
-    {
-      item.splice(item.indexOf(value), 1);
-    } 
-    else 
-    {
-      item.push(value);
-    }
-  } 
-  else if (metadata.type.toLowerCase() == 'boolean') 
-  {
-    eval(p_object_path + ' = ' + value);
-  } 
-  else 
-  {
     eval
     (
-      p_object_path +
-        ' = "' +
-        value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-        '"'
+        `${p_object_path}="${value.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`
     );
-  }
+  
 
-  set_local_case(g_data, null);
+    set_local_case(g_data, null);
 }
 
 function navigation_away() 

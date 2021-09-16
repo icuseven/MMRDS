@@ -47,16 +47,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
         if(p_metadata.name == "case_opening_overview")
         {
-            let crlf_regex = /\n/g;
-
-            let new_text = p_data;
-    
-            if(p_data!= null)
-            {
-                new_text = p_data.replace(crlf_regex, "<br/>");
-            }
-
-            page_render_create_textarea(p_result, p_metadata, new_text, p_metadata_path, p_object_path, p_dictionary_path);
+            page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
             let opts = {
                 btns: [
@@ -118,7 +109,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 .trumbowyg()
                 .on('tbwchange', function ()
                 {
-                    tbw_change_paste("${p_object_path}","${p_metadata_path}","${p_dictionary_path}");
+                    tbw_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}");
                 })
                 .on('tbwpaste', function ()
                 {
@@ -168,6 +159,38 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 function tbw_change_paste(p_object_path, p_metadata_path, p_dictionary_path)
 {
     let data = $('.trumbowyg-editor').html();
+
+    //g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, data);
+    //return;
+
+    let crlf_regex = /\n/g;
+
+    if(data!= null)
+    {
+        data = data.replace(crlf_regex, "");
+    }
+
+    let new_text = textarea_control_strip_html_attributes(data);
+
+    if
+    (
+        new_text == null && data.length > 0 ||
+        new_text.length == 0 && data.length != 0
+    )
+    {
+        console.log("tbw_change_paste null error");
+        new_text = data;
+    }
+
+    g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, new_text);
+}
+
+function tbw_onchange(p_object_path, p_metadata_path, p_dictionary_path)
+{
+    let data = $('.trumbowyg-editor').html();
+
+    //g_textarea_oninput(p_object_path, p_metadata_path,p_dictionary_path, data);
+    //return;
 
     let new_text = textarea_control_strip_html_attributes(data);
 
