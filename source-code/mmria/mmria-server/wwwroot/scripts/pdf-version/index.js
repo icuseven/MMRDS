@@ -92,7 +92,7 @@ async function print_pdf(section)
 	let pdfTitle = getHeaderName();
 
 	// Get report tab name
-	let reportTabName = getReportTabName(section);
+	let reportTabName = `MMRIA Record ID#:  ${g_d.home_record.record_id}/${TitleMap[g_section_name]}`;
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
