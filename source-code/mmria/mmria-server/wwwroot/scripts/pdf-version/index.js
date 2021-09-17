@@ -17,6 +17,26 @@ $(function ()
 });
 
 
+//: MMRIA#:<RecordID>/<Form Name
+let TitleMap = {
+"home_record":"Home",
+"death_certificate":"DC",
+"birth_fetal_death_certificate_parent":"BCDC-P",
+"birth_certificate_infant_fetal_section":"BCDC-I",
+"autopsy_report":"Autopsy",
+"prenatal":"PreNatal",
+"er_visit_and_hospital_medical_records":"ER",
+"other_medical_office_visits":"OfficeVisits",
+"medical_transport":"Transport",
+"social_and_environmental_profile":"SEP",
+"mental_health_profile":"MentalHealth",
+"informant_interviews":"Interview",
+"case_narrative":"Narrative",
+"committee_review":"Decision",
+"all":"ALL",
+"core-summary":"Core",
+};
+
 async function create_print_version
 (      
     p_metadata,
@@ -50,7 +70,7 @@ async function create_print_version
         content: []
     };
     //initialize_print_pdf(ctx);
-
+    document.title = getHeaderName();
     await print_pdf(p_section);
 }
 
@@ -351,8 +371,10 @@ function fmtStrDate(dt) {
 }
 
 // Get the header name
-function getHeaderName() {
-	return 'MMRIA Record ID#: ' + g_d.home_record.record_id;
+function getHeaderName() 
+{
+    //MMRIA#:<RecordID>/<Form Name
+	return `MMRIA Record ID#:  ${g_d.home_record.record_id}/${TitleMap[g_section_name]}`;
 }
 
 // Get Report Tab Name
@@ -10622,26 +10644,33 @@ async function informant_interviews(p, d, pg_break) {
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
 
 	// Need page break, used if print all or core
-	if (pg_break) {
+	if (pg_break) 
+    {
 		retPage.push({ text: '', pageBreak: 'before' });
 	}
 
 	// Are there any records
-	if (lenArr === 0) {
+	if (lenArr === 0) 
+    {
 		retPage.push({ text: 'No interviews entered', style: ['tableDetail'], },);
-	} else {
-		if (!allRecs) {
+	} 
+    else 
+    {
+		if (!allRecs) 
+        {
 			startArr = g_record_number - 1;
 			endArr = startArr + 1;
 		}
 
 		// Display record(s)
-		for (let curRec = startArr; curRec < endArr; curRec++) {
+		for (let curRec = startArr; curRec < endArr; curRec++) 
+        {
 			index = 0;
 			subIndex = 0;
 
 			// Check to see if there are multiple records, if so do a page break
-			if ( allRecs && curRec > 0 ) {
+			if ( allRecs && curRec > 0 ) 
+            {
 				retPage.push({ text: '', pageBreak: 'before' });
 			}
 
@@ -10781,50 +10810,21 @@ async function informant_interviews(p, d, pg_break) {
 	return retPage;
 }
 
-// Build case_narrative record - p is the field name & d is the data & pg_break is true/false if need page break
+
 async function case_narrative(p, d, pg_break) {
 	// Name table
 	let index = 0;
 	let len = 0;
 	let retPage = [];
 
-	//// console.log('p: ', p);
-	//// console.log('d: ', d);
-
-	// Get the title for the Header
 	retPage.push({ text: '', pageHeaderText: p.prompt.toUpperCase() });
 
-	// Need page break, used if print all or core
+
 	if (pg_break) {
 		retPage.push({ text: '', pageBreak: 'before' });
 	}
 
-
     let details = convert_html_to_pdf(d.case_opening_overview);
-    /*
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'case_narative',
-			width: 'auto',
-			table: {
-				headerRows: 1,
-				widths: ['auto'],
-				body: [
-					[
-						{ text: 'Case Narrative', style: ['subHeader'], },
-					],
-					details
-				],
-			},
-		},],
-	);*/
 
     retPage.push(details);
 
