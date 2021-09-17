@@ -233,8 +233,10 @@ function textarea_control_strip_html_attributes(p_value)
 
     let PseudoTagRegex = /<\/?[a-z]:[^>]+>/gi;
 
+    let crlf_regex = /\n/g;
+
     let node = document.createElement("body");
-    node.innerHTML = p_value.replace(CommentRegex,"").replace(Strip5PlusBr,"<br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"");
+    node.innerHTML = p_value.replace(CommentRegex,"").replace(Strip5PlusBr,"<br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"").replace(crlf_regex,"").trim();
 
     DOMWalker(node);
 
