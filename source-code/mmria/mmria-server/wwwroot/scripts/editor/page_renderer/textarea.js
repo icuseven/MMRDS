@@ -231,8 +231,10 @@ function textarea_control_strip_html_attributes(p_value)
 
     let StripTrailingBR = /<br><br>(<br>|<br>.?)+/gi;
 
+    let PseudoTagRegex = /<\/?[a-z]:[^>]+>/gi;
+
     let node = document.createElement("body");
-    node.innerHTML = p_value.replace(CommentRegex,"").replace(Strip5PlusBr,"<br>").replace(StripTrailingBR,"");
+    node.innerHTML = p_value.replace(CommentRegex,"").replace(Strip5PlusBr,"<br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"");
 
     DOMWalker(node);
 

@@ -10889,8 +10889,6 @@ background-color: rgb(0, 255, 0);
            
             if(attr.name == "style")
             {
-                
-
                 let style_array = attr.value.split(';');
                 for(let style_index = 0; style_index < style_array.length; style_index++)
                 {
@@ -10901,7 +10899,7 @@ background-color: rgb(0, 255, 0);
                                 result['alignment']  = kvp[1].trim();
                             break;
                         case "font-size": 
-                                result['fontSize']  = kvp[1].trim().replace("px","");
+                                result['fontSize']  = kvp[1].trim().replace("px","").replace("pt","");
                             break;
                         //case "bold": 
                         //    result['bold']  = kvp[1];
@@ -10968,7 +10966,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 return;
                 break; 
         case "SPAN":
-            p_result.push(convert_attribute_to_pdf(p_node,{ text: p_node.textContent, }));
+            p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, {})});
             return;
             break;            
         case "STRONG":
@@ -11015,29 +11013,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             break;
 
     }
-    /*
-    if(p_node.attributes != null)
-    {
-        let remove_list = [];
 
-        for(let i = 0; i < p_node.attributes.length; i++)
-        {
-            let attr = p_node.attributes[i];
-           
-            if(attr.name != "style")
-            {
-                // console.log(`${attr.name} = ${attr.value}`);
-                remove_list.push(attr.name);
-            }
-        }
-
-        remove_list.reverse ();
-        for(let i = 0; i < remove_list.length; i++)
-        {
-            
-            p_node.removeAttribute(remove_list[i]);
-        }
-    }*/
 
     for(let i = 0; i < p_node.childNodes.length; i++)
     {
