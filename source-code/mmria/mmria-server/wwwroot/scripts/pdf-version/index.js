@@ -10947,6 +10947,9 @@ function rgb_to_hex(p_value)
 
 function ConvertHTMLDOMWalker(p_result, p_node)
 {
+
+    let crlf_regex = /\n/g;
+
     switch(p_node.nodeName.toUpperCase())
     {
         case "#TEXT":
@@ -10966,12 +10969,12 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 return;
                 break; 
         case "SPAN":
-            p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, {})});
+            p_result.push({ text: p_node.textContent.replace(crlf_regex,""), style: convert_attribute_to_pdf(p_node, {})});
             return;
             break;            
         case "STRONG":
                 let strong_attr = { bold: true };
-                p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, strong_attr) });
+                p_result.push({ text: p_node.textContent.replace(crlf_regex,""), style: convert_attribute_to_pdf(p_node, strong_attr) });
                 return;
                 break; 
         case "BR":
@@ -10980,7 +10983,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             break;           
         case "EM":
             let em_attr = { italics: true };
-            p_result.push({ text: p_node.textContent, style: convert_attribute_to_pdf(p_node, em_attr) });
+            p_result.push({ text: p_node.textContent.replace(crlf_regex,""), style: convert_attribute_to_pdf(p_node, em_attr) });
             return;
             break;
         case "UL":
@@ -11007,7 +11010,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             return;
             break;
         case "LI":
-            let li_node = { text: p_node.textContent }
+            let li_node = { text: p_node.textContent.replace(crlf_regex,"") }
             p_result.push(convert_attribute_to_pdf(p_node, li_node));
             return;
             break;
