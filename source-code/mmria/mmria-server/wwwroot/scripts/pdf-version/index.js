@@ -373,8 +373,7 @@ function fmtStrDate(dt) {
 // Get the header name
 function getHeaderName() 
 {
-    //MMRIA#:<RecordID>/<Form Name
-	return `MMRIA Record ID#:  ${g_d.home_record.record_id}/${TitleMap[g_section_name]}`;
+	return `MMRIA Record ID#:  ${g_d.home_record.record_id}`;
 }
 
 // Get Report Tab Name
