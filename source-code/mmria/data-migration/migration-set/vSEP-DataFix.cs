@@ -10,6 +10,21 @@ namespace migrate.set
 
     public class vSEP_DataFix
     {
+
+		class DataTuple
+		{
+			public string _id {get;set;}
+			public string ReportingState{get;set;}
+			public string SourceFilePath{get;set;}
+
+			public DateTime? date_created{get;set;}
+			public string  created_by{get;set;}
+			public DateTime? DateLastUpdated{get;set;}
+			public string LastUpdateByWho{get;set;}
+			public string SEPValue {get;set;}  
+
+		}
+
 		class CsvItem
 		{
 			public CsvItem(){}
@@ -141,7 +156,14 @@ namespace migrate.set
 						});
 					}
 				}
-			
+
+				List<DataTuple> DataTupleList = new();
+				Dictionary<string, string> state_id_map = new();
+				
+            	DataTupleList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DataTuple>>(System.IO.File.ReadAllText("c:/temp/SEPData.json"));
+
+             	state_id_map = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText("c:/temp/SEPState_ID_Map.json"));
+
 				//var csv_data = ConvertCSVtoDataTable($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv");
 
 				System.Console.WriteLine($"{state_prefix}: {csv.Count}");
