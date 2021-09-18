@@ -11,6 +11,28 @@ namespace migrate.set
     public class vSEP_DataFix
     {
 
+		class DataTupleComparer : IComparer<DataTuple>
+		{
+			public int Compare(DataTuple x, DataTuple y)
+			{
+				if (!x.DateLastUpdated.HasValue || !y.DateLastUpdated.HasValue)
+				{
+					if(x.DateLastUpdated.HasValue  == y.DateLastUpdated.HasValue)
+					return 0;
+
+					if(!x.DateLastUpdated.HasValue)
+					return -1;
+
+					if(!y.DateLastUpdated.HasValue)
+					return 1;
+				}
+				
+				// CompareTo() method
+				return x.DateLastUpdated.Value.CompareTo(y.DateLastUpdated.Value);
+				
+			}
+		}
+
 		class DataTuple
 		{
 			public string _id {get;set;}
@@ -163,6 +185,43 @@ namespace migrate.set
             	DataTupleList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DataTuple>>(System.IO.File.ReadAllText("c:/temp/SEPData.json"));
 
              	state_id_map = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText("c:/temp/SEPState_ID_Map.json"));
+
+
+				var backup_list = DataTupleList.Where( i=> i.ReportingState.Equals(state_prefix, StringComparison.OrdinalIgnoreCase)).ToList();
+
+
+				backup_list.Sort(new DataTupleComparer());
+
+				foreach(var item in backup_list)
+				{
+/*
+csv.Add(id, new CsvItem()
+
+					if
+					(
+						string.IsNullOrWhiteSpace(value) || 
+						value.IndexOf("|") <1 && 
+						value.IndexOf("|") == value.LastIndexOf("|") 
+						//||
+						//value.IndexOf("|") == 0
+
+					)
+					continue;
+
+					{
+						csv.Add(id, new CsvItem()
+						{
+							value = value,
+							_id = id,
+							date_created = item[date_created_column_index],
+							created_by = item[created_by_column_index],
+							date_last_updated = item[date_last_updated_column_index],
+							last_updated_by = item[last_updated_by_column_index]
+						});
+					}*/
+				}
+
+
 
 				//var csv_data = ConvertCSVtoDataTable($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv");
 
