@@ -113,7 +113,7 @@ namespace migrate.set
 
         public async Task execute()
         {
-			this.output_builder.AppendLine($"v2.5 Data Migration started at: {DateTime.Now.ToString("o")}");
+			this.output_builder.AppendLine($"{this.data_migration_name} Data Migration started at: {DateTime.Now.ToString("o")}");
 			DateTime begin_time = System.DateTime.Now;
 			
 			this.output_builder.AppendLine($"{data_migration_name} started at: {begin_time.ToString("o")}");
@@ -121,8 +121,8 @@ namespace migrate.set
             var gs = new C_Get_Set_Value(this.output_builder);
 			try
 			{
-/*
-				List<string> state_list = new()
+
+				HashSet<string> state_list = new(StringComparer.OrdinalIgnoreCase)
 				{
 					"ma",
 					"nc",
@@ -130,52 +130,55 @@ namespace migrate.set
 					"tn",
 					"ut",
 					"wi"
-				};*/
+				};
 				
 
 				//C:\work-space\bk-file-set
 				//C:\work-space\bk-file-set\migration
 				//03/19/2020
-					
-				var csv_data = ParseCsv(System.IO.File.ReadAllText($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv"));
 
-
-				var value_column_index = csv_data[0].IndexOf("saepsoes_eosoe_stres");
-				var _id_column_index = csv_data[0].IndexOf("_id");
-				var date_created_column_index = csv_data[0].IndexOf("d_creat");
-				var created_by_column_index = csv_data[0].IndexOf("c_by");
-				var date_last_updated_column_index = csv_data[0].IndexOf("dl_updat");
-				var last_updated_by_column_index = csv_data[0].IndexOf("lu_by");
 
 				Dictionary<string, CsvItem> csv = new(StringComparer.OrdinalIgnoreCase);
 
-
-				foreach(var item in csv_data.Skip(1))
+				if(state_list.Contains(state_prefix) )	
 				{
-					var id =item[_id_column_index];
-					var value = item[value_column_index];
+					var csv_data = ParseCsv(System.IO.File.ReadAllText($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv"));
 
-					if
-					(
-						string.IsNullOrWhiteSpace(value) || 
-						value.IndexOf("|") <1 && 
-						value.IndexOf("|") == value.LastIndexOf("|") 
-						//||
-						//value.IndexOf("|") == 0
 
-					)
-					continue;
+					var value_column_index = csv_data[0].IndexOf("saepsoes_eosoe_stres");
+					var _id_column_index = csv_data[0].IndexOf("_id");
+					var date_created_column_index = csv_data[0].IndexOf("d_creat");
+					var created_by_column_index = csv_data[0].IndexOf("c_by");
+					var date_last_updated_column_index = csv_data[0].IndexOf("dl_updat");
+					var last_updated_by_column_index = csv_data[0].IndexOf("lu_by");
 
+					foreach(var item in csv_data.Skip(1))
 					{
-						csv.Add(id, new CsvItem()
+						var id =item[_id_column_index];
+						var value = item[value_column_index];
+
+						if
+						(
+							string.IsNullOrWhiteSpace(value) || 
+							value.IndexOf("|") <1 && 
+							value.IndexOf("|") == value.LastIndexOf("|") 
+							//||
+							//value.IndexOf("|") == 0
+
+						)
+						continue;
+
 						{
-							value = value,
-							_id = id,
-							date_created = item[date_created_column_index],
-							created_by = item[created_by_column_index],
-							date_last_updated = item[date_last_updated_column_index],
-							last_updated_by = item[last_updated_by_column_index]
-						});
+							csv.Add(id, new CsvItem()
+							{
+								value = value,
+								_id = id,
+								date_created = item[date_created_column_index],
+								created_by = item[created_by_column_index],
+								date_last_updated = item[date_last_updated_column_index],
+								last_updated_by = item[last_updated_by_column_index]
+							});
+						}
 					}
 				}
 
@@ -187,41 +190,66 @@ namespace migrate.set
              	state_id_map = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText("c:/temp/SEPState_ID_Map.json"));
 
 
-				var backup_list = DataTupleList.Where( i=> i.ReportingState.Equals(state_prefix, StringComparison.OrdinalIgnoreCase)).ToList();
+				var backup_list = DataTupleList.Where
+				( 
+					i=> i.ReportingState.Equals(state_prefix, StringComparison.OrdinalIgnoreCase) && 
+					!string.IsNullOrWhiteSpace(i.SEPValue) &&
+					i.SEPValue.Split("|").Length > 1
+				).ToList();
 
 
 				backup_list.Sort(new DataTupleComparer());
 
-				foreach(var item in backup_list)
+				if(csv.Count == 0)
 				{
-/*
-csv.Add(id, new CsvItem()
 
-					if
-					(
-						string.IsNullOrWhiteSpace(value) || 
-						value.IndexOf("|") <1 && 
-						value.IndexOf("|") == value.LastIndexOf("|") 
-						//||
-						//value.IndexOf("|") == 0
-
-					)
-					continue;
-
+					foreach(var item in backup_list)
 					{
-						csv.Add(id, new CsvItem()
+						var is_add = false;
+
+						if(csv.ContainsKey(item._id))
 						{
-							value = value,
-							_id = id,
-							date_created = item[date_created_column_index],
-							created_by = item[created_by_column_index],
-							date_last_updated = item[date_last_updated_column_index],
-							last_updated_by = item[last_updated_by_column_index]
-						});
-					}*/
+							var current_count = item.SEPValue.Split("|").Length;
+							var existing_count = csv[item._id].value.Split("|").Length;
+
+							if(current_count > existing_count)
+							{
+								csv[item._id] = new CsvItem()
+								{
+									value = item.SEPValue,
+									_id = item._id,
+									date_created = item?.date_created.Value.ToString("o"),
+									created_by = item.created_by,
+									date_last_updated = item?.DateLastUpdated.Value.ToString("o"),
+									last_updated_by = item.LastUpdateByWho
+								};
+							}
+						}
+						else
+						{
+							is_add = true;
+						}
+
+						if(is_add)
+						{
+							csv.Add(item._id, new CsvItem()
+							{
+								value = item.SEPValue,
+								_id = item._id,
+								date_created = item?.date_created.Value.ToString("o"),
+								created_by = item.created_by,
+								date_last_updated = item?.DateLastUpdated.Value.ToString("o"),
+								last_updated_by = item.LastUpdateByWho
+							});
+						}
+					}
+				
+					if(csv.Count == 0)
+					{
+						this.output_builder.AppendLine($"{state_prefix}: csv.Count:{csv.Count} Nothing to Process. Exiting");
+						return;
+					}
 				}
-
-
 
 				//var csv_data = ConvertCSVtoDataTable($"C:/Users/isu7/Downloads/RMOR_Backup/{state_prefix}/0/0.csv");
 
@@ -319,9 +347,16 @@ csv.Add(id, new CsvItem()
 								}
 							}
 							
-
-							var item_value =  long.Parse(sep_node.display_to_value[key]);
-							old_list.Add(item_value);
+							long key_check = -1;
+							if(long.TryParse(key, out key_check))
+							{
+								old_list.Add(key_check);
+							}
+							else
+							{
+								var item_value =  long.Parse(sep_node.display_to_value[key]);
+								old_list.Add(item_value);
+							}
 						}
 
 						try
