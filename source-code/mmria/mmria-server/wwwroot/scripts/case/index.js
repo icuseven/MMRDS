@@ -2382,6 +2382,8 @@ function enable_print_button(event)
 //   console.log('event: ', event);
 }
 
+
+let tab_number = 0;
 function pdf_case_onclick(event) 
 {
   const btn = event.target;
@@ -2391,6 +2393,8 @@ function pdf_case_onclick(event)
   const section_name = dropdown.value;
   //await print_pdf( section_name );
 
+  tab_number+= 1;
+
   if (section_name) 
   {
     if (section_name == 'core-summary') 
@@ -2398,7 +2402,7 @@ function pdf_case_onclick(event)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', '_pdf_print_version', section_name);
+            openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name);
         }, 1000);	
 
       
@@ -2413,7 +2417,7 @@ function pdf_case_onclick(event)
 
       window.setTimeout(function()
       {
-          openTab('./pdf-version', tabName, section_name, record_number);
+          openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number);
       }, 1000);	
       
     }

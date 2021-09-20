@@ -92,7 +92,7 @@ async function print_pdf(section)
 	let pdfTitle = getHeaderName();
 
 	// Get report tab name
-	let reportTabName = `MMRIA Record ID#:  ${g_d.home_record.record_id}/${TitleMap[g_section_name]}`;
+	let reportTabName = `MMRIA #:  ${g_d.home_record.record_id}/${TitleMap[g_section_name]}`;
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
@@ -10951,7 +10951,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
     switch(p_node.nodeName.toUpperCase())
     {
         case "#TEXT":
-            p_result.push({ text: p_node.textContent.replace(crlf_regex,"").trim() });
+            p_result.push({ text: p_node.textContent.trim() });
             return;
             break;
         case "P":
@@ -10967,12 +10967,12 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 return;
                 break; 
         case "SPAN":
-            p_result.push({ text: p_node.textContent.replace(crlf_regex,"").trim(), style: convert_attribute_to_pdf(p_node, {})});
+            p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {})});
             return;
             break;            
         case "STRONG":
                 let strong_attr = { bold: true };
-                p_result.push({ text: p_node.textContent.replace(crlf_regex,"").trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
+                p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
                 return;
                 break; 
         case "BR":
@@ -10981,7 +10981,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             break;           
         case "EM":
             let em_attr = { italics: true };
-            p_result.push({ text: p_node.textContent.replace(crlf_regex,"").trim(), style: convert_attribute_to_pdf(p_node, em_attr) });
+            p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, em_attr) });
             return;
             break;
         case "UL":
@@ -11008,7 +11008,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             return;
             break;
         case "LI":
-            let li_node = { text: p_node.textContent.replace(crlf_regex,"").trim() }
+            let li_node = { text: p_node.textContent.trim() }
             p_result.push(convert_attribute_to_pdf(p_node, li_node));
             return;
             break;

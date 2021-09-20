@@ -218,9 +218,9 @@ namespace migrate.set
 								{
 									value = item.SEPValue,
 									_id = item._id,
-									date_created = item?.date_created.Value.ToString("o"),
+									date_created = item.date_created.HasValue ? item.date_created.Value.ToString("o") : null,
 									created_by = item.created_by,
-									date_last_updated = item?.DateLastUpdated.Value.ToString("o"),
+									date_last_updated = item.DateLastUpdated.HasValue ? item.DateLastUpdated.Value.ToString("o") : null,
 									last_updated_by = item.LastUpdateByWho
 								};
 							}
@@ -236,9 +236,9 @@ namespace migrate.set
 							{
 								value = item.SEPValue,
 								_id = item._id,
-								date_created = item?.date_created.Value.ToString("o"),
+								date_created = item.date_created.HasValue ? item.date_created.Value.ToString("o") : null,
 								created_by = item.created_by,
-								date_last_updated = item?.DateLastUpdated.Value.ToString("o"),
+								date_last_updated = item.DateLastUpdated.HasValue ? item.DateLastUpdated.Value.ToString("o") : null,
 								last_updated_by = item.LastUpdateByWho
 							});
 						}
@@ -329,6 +329,7 @@ namespace migrate.set
 						{
 							old_string_list.Add(item);
 							var key = item;
+							long key_check = -1;
 
 							if(!sep_node.display_to_value.ContainsKey(item))
 							{
@@ -337,17 +338,22 @@ namespace migrate.set
 									continue;
 								}
 
-								System.Console.WriteLine($"*** missing value:{key}");
-								this.output_builder.AppendLine($"missing value:{key}");
+								//System.Console.WriteLine($"*** missing value:{key}");
+								//this.output_builder.AppendLine($"missing value:{key}");
 								if(item == "History of Substance Use Treatment")
+								{
 									key = "History of Treatment for Substance Use";
+								}
 								else
 								{
-									System.Console.WriteLine(key);
+									if(!long.TryParse(key, out key_check))
+									{
+										System.Console.WriteLine(key);
+									}
 								}
 							}
 							
-							long key_check = -1;
+							
 							if(long.TryParse(key, out key_check))
 							{
 								old_list.Add(key_check);
@@ -381,6 +387,19 @@ namespace migrate.set
 										this.output_builder.AppendLine($"-id: {mmria_id}");
 										this.output_builder.AppendLine($"old_list: {string.Join('|', old_list)}");
 										this.output_builder.AppendLine($"current_list: {string.Join('|', value_list)}");
+
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+
+									
+									case_has_changed = case_has_changed && gs.set_objectvalue(sep_path, old_list, doc);
+									var output_text = $"item record_id: {mmria_id} Applied SEP List Fix.  {string.Join('|',value_result.result)} => [ {string.Join('|',old_list)} ]";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+
 									}
 								}
 								/*
