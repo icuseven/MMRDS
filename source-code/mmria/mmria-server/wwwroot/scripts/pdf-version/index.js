@@ -10898,7 +10898,7 @@ background-color: rgb(0, 255, 0);
                                 result['alignment']  = kvp[1].trim();
                             break;
                         case "font-size": 
-                                result['fontSize']  = kvp[1].trim().replace("px","").replace("pt","");
+                                result['fontSize']  = kvp[1].trim().replace("px","").replace("pt","").replace("rem","");
                             break;
                         //case "bold": 
                         //    result['bold']  = kvp[1];
