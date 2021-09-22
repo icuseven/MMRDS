@@ -246,7 +246,7 @@ function textarea_control_strip_html_attributes(p_value)
 
 const AcceptableTag = {
     "body":true,
-    //"#text",true
+    "div":true,
     "p":true,
     "em":true,
     "strong":true,
@@ -257,7 +257,11 @@ const AcceptableTag = {
     "br":true,
     "del":true,
     "hr":true,
-    "span":true
+    "span":true,
+    "table":true,
+    "th":true,
+    "td":true,
+    "tbody":true
 }
 
 function DOMWalker(p_node)

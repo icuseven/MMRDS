@@ -10942,6 +10942,49 @@ function rgb_to_hex(p_value)
 }
 
 
+function GetTableHeader(p_result, p_node)
+{
+    //if(p_result.length > 0) return;
+
+    switch(p_node.nodeName.toUpperCase())
+    {
+        case "TH":
+            p_result.push(p_node.textContent.trim());
+            break;
+        case "TR":
+        default:
+            for(let i = 0; i < p_node.childNodes.length; i++)
+            {
+                let child = p_node.childNodes[i];
+        
+                GetTableHeader(p_result, child);
+            }
+            break;
+        
+    }
+}
+
+function GetTableDetailRow(p_result, p_node)
+{
+    //if(p_result.length > 0) return;
+    
+    switch(p_node.nodeName.toUpperCase())
+    {
+        case "TD":
+            p_result.push(p_node.textContent.trim());
+            break;
+        default:
+            for(let i = 0; i < p_node.childNodes.length; i++)
+            {
+                let child = p_node.childNodes[i];
+        
+                GetTableDetailRow(p_result, child);
+            }
+            break;
+        
+    }
+}
+
 
 
 function ConvertHTMLDOMWalker(p_result, p_node)
@@ -10950,12 +10993,65 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 
     switch(p_node.nodeName.toUpperCase())
     {
+        case "TABLE":
+
+
+            let header = [];
+            let widths = [];
+
+            
+            for(let i = 0; i < 1; i++)
+            {
+                let child = p_node.childNodes[i];
+        
+                GetTableHeader(header, child);
+            }
+
+            let body = [];
+
+            body.push(header);
+
+            let tbody = p_node.childNodes[0];
+            for(let i = 1; i < tbody.childNodes.length; i++)
+            {
+                let child = tbody.childNodes[i];
+                let detail_row = [];
+                GetTableDetailRow(detail_row, child);
+
+                if(widths.length == 0)
+                {
+                    for(let col_count = 0; col_count < detail_row.length; col_count++)
+                    {
+                        widths.push("auto");
+                    }
+
+                    while(header.length < widths.length)
+                    {
+                        header.push("");
+                    }
+                }
+                body.push(detail_row);
+            }
+
+            let table = {
+                layout: 'lightHorizontalLines', // optional
+                table: {
+                  headerRows: 2,
+                  widths:widths,
+          
+                  body: body
+                }
+              };
+
+              p_result.push(table);
+              return;
+        break;
         case "#TEXT":
             p_result.push({ text: p_node.textContent.trim() });
             return;
             break;
         case "P":
-            
+        case "DIV":
                 let text_array = [];
                 for(let i = 0; i < p_node.childNodes.length; i++)
                 {
@@ -10969,7 +11065,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
         case "SPAN":
             p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {})});
             return;
-            break;            
+            break;           
         case "STRONG":
                 let strong_attr = { bold: true };
                 p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
