@@ -2075,6 +2075,67 @@ namespace RecordsProcessor_Worker.Actors
 
                 birth_distance(gs, new_case);
                 death_distance(gs, new_case);
+
+                var item_result = gs.get_value(new_case, "birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery");
+
+                var weight_at_delivery = item_result.is_error || item_result.result == null ? null : item_result.result.ToString();
+                item_result = gs.get_value(new_case, "birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight");
+                var pre_pregnancy_weight = item_result.is_error || item_result.result == null ? null : item_result.result.ToString();
+                item_result = gs.get_value(new_case, "birth_fetal_death_certificate_parent/maternal_biometrics/height_feet");
+                var height_feet_string = item_result.is_error || item_result.result == null ? null : item_result.result.ToString();
+                item_result = gs.get_value(new_case, "birth_fetal_death_certificate_parent/maternal_biometrics/height_inches");
+                var height_inches_string = item_result.is_error || item_result.result == null  ? null : item_result.result.ToString();
+
+//Weight Gain during Pregnancy (lbs) (bfdcpmb_w_gain)
+//birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain
+//birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery
+//birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight
+
+    double weight_del = double.NaN;
+    double.TryParse(weight_at_delivery, out weight_del);
+
+    double weight_pp = double.NaN;
+    double.TryParse(pre_pregnancy_weight, out weight_pp);
+
+
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) 
+    {
+        var gain = weight_del - weight_pp;
+        gs.set_value("birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain", $"{gain:0.00}", new_case);
+    }
+
+
+
+//Pre-Pregnancy BMI* (bfdcpmb_bmi)
+//birth_fetal_death_certificate_parent/maternal_biometrics/bmi
+//birth_fetal_death_certificate_parent/maternal_biometrics/height_feet
+//birth_fetal_death_certificate_parent/maternal_biometrics/height_inches
+//birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight
+    double height_feet = double.NaN;
+    double.TryParse(height_feet_string, out height_feet);
+    
+    double height_inches  = double.NaN;
+    double.TryParse(height_inches_string, out height_inches);
+
+    double weight = double.NaN;
+
+    double.TryParse(pre_pregnancy_weight, out weight);
+    double height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
+        var bmi = calc_bmi(height, weight);
+        gs.set_value("birth_fetal_death_certificate_parent/maternal_biometrics/bmi", $"{bmi:0.00}", new_case);
+    }
+
+    double calc_bmi(double height, double weight) 
+    {
+        double bmi = double.NaN;
+        height /= 39.3700787;
+        weight /= 2.20462;
+        bmi = Math.Round(weight / Math.Pow(height, 2D) * 10D) / 10D;
+        return bmi;
+    }
+
                 #endregion
 
                 var case_dictionary = new_case as IDictionary<string, object>;
