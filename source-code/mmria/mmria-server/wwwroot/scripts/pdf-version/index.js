@@ -258,7 +258,7 @@ async function print_pdf(section)
     window.setTimeout
     (
         async function(){await pdfMake.createPdf(doc).open(window);}, 
-        //async function(){ await pdfMake.createPdf(doc).open();}, 
+       // async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -574,190 +574,6 @@ function done(img) {
 		reject(console.log('Image load error: ', error));
 	});
 }
-
-// Draw Line Chart
-async function drawLineChart(name, cols) {
-	let result = document.createElement("div");
-	result.id = "divChart";
-	result.width = 325.938;
-	result.height = 275.938;
-
-	// console.log("result start: ", result);
-	let chart = c3.generate({
-		bindto: result,
-		size: {
-			height: 275.938,
-			width: 325.938
-		},
-		data:
-		{
-			columns: [
-				['data1', 30, 200, 100, 400, 150, 250],
-				['data2', 50, 20, 10, 40, 15, 25]
-			],
-		},
-	});
-
-	let chartHeight = result.children[0].getAttribute('height');
-	let chartWidth = result.children[0].getAttribute('width');
-	// console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
-
-	let container = document.createElement('div');
-	container.id = 'contDiv';
-	let canvas = document.createElement('canvas');
-	canvas.id = 'myChart';
-	canvas.setAttribute('width', chartWidth);
-	canvas.setAttribute('height', chartHeight);
-
-	container.appendChild(canvas);
-	// console.log('container: ', container);
-	let ctx = canvas.getContext('2d');
-	let svgText = `<svg xmlns="http://www.w3.org/2000/svg" width="${chartWidth}" height="${chartHeight}">`;
-	svgText += chart.element.innerHTML;
-
-	// console.log('svgText')
-
-	let png = 'Hello';
-	let svgImage = new Image();
-	svgImage.onload = () => {
-		ctx.drawImage(svgImage, chartWidth, chartHeight);
-		png = svgText.toDataURL();
-	}
-
-	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
-	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
-	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
-	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
-	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
-	// 	'</linearGradient></defs>' +
-	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
-	// let mySvg = chart.element.innerHTML;
-
-	// // console.log( 'drawLineChart: ', name, ' - ', cols );
-	// let chartDefinition = {
-	// 	bindto: result,
-	// 	size: {
-	// 		height: 275.938, 
-	// 		width: 325.938
-	// 	},
-	// 	transition: {
-	// 		duration: null
-	// 	},
-	// 	onrendered: () => {
-	// 		d3.select('div #canvasChart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-	// 			.attr('transform', 'rotate(325) translate(-25,0)');	
-	// 	},
-	// 	axis: {
-	// 		x: {
-	// 			type: 'timeseries',
-	// 			localtime: false,
-	// 			label: {
-	// 				position: 'outer-right',
-	// 			},
-	// 			tick: {
-	// 				format: '%m/%d/%Y',
-	// 			},
-	// 			height: 55
-	// 		},
-	// 		y: {
-	// 			tick: {
-	// 				format: d3.format('.0f'),
-	// 			},
-	// 			min: 0,
-	// 			padding: {top: 0, bottom: 0},
-	// 		},
-	// 	},
-	// 	data: {
-	// 		x: 'x',
-	// 		xFormat: '%Y-%m-%d %H:%M:%S',
-	// 		columns: [
-	// 			['x','2020-12-3 0:0:0','2020-11-5 0:0:0','2020-10-1 0:0:0'],
-	// 			['systolic_bp',129.00,125.00,120.00],
-	// 			['diastolic',88.00,84.00,80.00]
-	// 		]
-	// 	},
-	// 	line: {
-	// 		connectNull: true
-	// 	}
-	// };
-
-	// // let mySvg = '';
-	// const chart = c3.generate(chartDefinition);
-
-	// set id for svg
-	// result.firstElementChild.setAttribute("id", "svgChart");
-	// // console.log('chart: ', chart);
-	// console.log('result: ', result);
-
-	// let chartHeight = result.children[0].getAttribute('height');
-	// let chartWidth = result.children[0].getAttribute('width');
-	// // console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
-
-	// let mySvg = '<?xml version="1.0" encoding="utf-8"?>';
-	// mySvg += '<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
-	// 	'<defs><linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">' +
-	// 	'<stop offset="0%" style="stop-color:rgb(224,224,224);stop-opacity:1"/>' +
-	// 	'<stop offset="100%" style="stop-color:rgb(153,153,153);stop-opacity:1"/>' +
-	// 	'</linearGradient></defs>' +
-	// 	'<path d="M 0 0 L 64 0 L 32 64 z" stroke="colourname" fill="url(#fill)"/></svg>';
-	// let mySvg = chart.element.innerHTML;
-
-	// let mySvg = result.children[0];
-	// // console.log('mySvg: ', mySvg);
-	// let svgString = new XMLSerializer().serializeToString(mySvg);
-	// // console.log('svgString: ', svgString);
-	// let png;
-	// document.addEventListener('DOMContentLoaded', () => {
-	// 	// console.log('in addEventListener');
-	// 	let canvas = document.getElementById('canvas');
-	// 	let ctx = canvas.getContext('2d');
-	// 	let DOMURL = self.URL || self.webkitURL || self;
-	// 	let img = new Image();
-	// 	let svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
-	// 	let url = DOMURL.createObjectURL(svg);
-	// 	img.onload = () => {
-	// 		ctx.drawImage(img, 0, 0);
-	// 		png = canvas.toDataURL('image/png');
-	// 		// console.log('png: ', png);
-	// 	}
-	// });
-
-	// let svg = result.querySelector('#divChart svg');
-	// // console.log('svg query: ', svg);
-	// let svgElement = document.getElementById('')
-	// let svgData = new XMLSerializer().serializeToString(svg);
-	// // console.log('svgData: ', svgData);
-	// let chartHeight = svg.getAttribute('height');
-	// let chartWidth = svg.getAttribute('width');
-	// // console.log('chart height and width: ', chartHeight, ' - ', chartWidth);
-	// let svgURL = 'data:image/svg_xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-	// // console.log('svgURL: ', svgURL);
-
-	// png = window.btoa(svgURL);
-	// // console.log('png: ', png);
-	// return png;
-	// return new Promise((resolve, reject) => {
-	// 	let img = new Image();
-	// 	img.setAttribute('crossOrigin', 'anonymous');
-	// 	img.onload = () => {
-	// 		let canvas = document.createElement('canvas');
-	// 		canvas.width = chartWidth;
-	// 		canvas.height = chartHeight;
-	// 		let ctx = canvas.getContext('2d');
-	// 		ctx.drawImage(img, 0, 0);
-	// 		let dataURL = canvas.toDataURL('image/png');
-	// 		// console.log('DataURL onload: ', dataURL);
-	// 		resolve(dataURL);
-	// 	};
-	// 	img.onerror = error => {
-	// 		reject(error);
-	// 	};
-	// 	img.src = svgURL;
-	// });
-
-	return png;
-}
-
 
 // ************************************************************************
 // ************************************************************************
@@ -10989,7 +10805,7 @@ function GetTableDetailRow(p_result, p_node)
 
 function ConvertHTMLDOMWalker(p_result, p_node)
 {
-    let crlf_regex = /\n/g;
+    //let crlf_regex = /\n/g;
 
     switch(p_node.nodeName.toUpperCase())
     {
@@ -11047,7 +10863,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
               return;
         break;
         case "#TEXT":
-            p_result.push({ text: p_node.textContent.trim() });
+            p_result.push({ text: p_node.textContent.trim().replace("<br>","\n") });
             return;
             break;
         case "P":
@@ -11059,6 +10875,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             
                     ConvertHTMLDOMWalker(text_array, child);
                 }
+                text_array.push({ text: "\n"  });
                 p_result.push({ text: text_array });
                 return;
                 break; 
