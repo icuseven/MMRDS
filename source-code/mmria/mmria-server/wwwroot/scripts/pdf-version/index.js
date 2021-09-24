@@ -257,8 +257,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-        async function(){await pdfMake.createPdf(doc).open(window);}, 
-       // async function(){ await pdfMake.createPdf(doc).open();}, 
+       async function(){await pdfMake.createPdf(doc).open(window);}, 
+        // async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -10827,26 +10827,41 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 
             body.push(header);
 
-            let tbody = p_node.childNodes[0];
-            for(let i = 1; i < tbody.childNodes.length; i++)
+            let tbody = null;
+            for(let i = 1; i < p_node.childNodes.length; i++)
             {
-                let child = tbody.childNodes[i];
-                let detail_row = [];
-                GetTableDetailRow(detail_row, child);
-
-                if(widths.length == 0)
+                if(p_node.childNodes[i].nodeName.toUpperCase() == "TBODY")
                 {
-                    for(let col_count = 0; col_count < detail_row.length; col_count++)
-                    {
-                        widths.push("auto");
-                    }
+                    tbody = p_node.childNodes[i];
+                    break;
+                }
+            }
 
-                    while(header.length < widths.length)
+            if(tbody!=null)
+            {
+                for(let i = 1; i < tbody.childNodes.length; i++)
+                {
+                    let child = tbody.childNodes[i];
+                    let detail_row = [];
+                    GetTableDetailRow(detail_row, child);
+
+                    if(detail_row.length  > 0)
                     {
-                        header.push("");
+                        if(widths.length == 0)
+                        {
+                            for(let col_count = 0; col_count < detail_row.length; col_count++)
+                            {
+                                widths.push("auto");
+                            }
+
+                            while(header.length < widths.length)
+                            {
+                                header.push("");
+                            }
+                        }
+                        body.push(detail_row);
                     }
                 }
-                body.push(detail_row);
             }
 
             let table = {
