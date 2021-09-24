@@ -1713,7 +1713,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 		p_result.push("</select>");
 
 		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="Print Form(s)" onclick="print_case_onclick(event)" disabled="true" />`);
-		p_result.push(`<input type="button" id="pdf-case-form" class="btn btn-primary ml-3" value="Print Pdf" onclick="pdf_case_onclick(event)" disabled="true" />`);
+		p_result.push(`<input type="button" id="pdf-case-form" class="btn btn-primary ml-3" value="Print PDF" onclick="pdf_case_onclick(event)" disabled="true" />`);
 	}
 }
 
