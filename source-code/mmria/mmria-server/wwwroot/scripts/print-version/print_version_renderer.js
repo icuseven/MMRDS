@@ -555,19 +555,41 @@ d3.select('#chart svg').append('text')
 
       break;
     case 'textarea':
-        result.push('<h9>');
-        result.push('<p>');
-        if(! p_is_grid_context)
+        if (p_metadata.name == 'case_opening_overview') 
         {
-            result.push(' <strong>');
-            result.push(p_metadata.prompt);
-            result.push('</strong>: ');
+            /*
+            result.push('<h9>');
+            result.push('<p>');
+            
+            if(! p_is_grid_context)
+            {
+                result.push(' <strong>');
+                result.push("Case Narrative");
+                result.push('</strong>: ');
+            }
+            result.push('</p>');
+            result.push('</h9>');*/
+            result.push('<div>');
+            result.push(print_version_textarea_replace_return_with_br(p_data));
+            result.push('</div>');
         }
-        result.push('</p>');
-        result.push('</h9>');
-        result.push('<div>');
-        result.push(print_version_textarea_replace_return_with_br(p_data));
-        result.push('</div>');
+        else
+        {
+            result.push('<h9>');
+            result.push('<p>');
+            if(! p_is_grid_context)
+            {
+                result.push(' <strong>');
+                result.push(p_metadata.prompt);
+                result.push('</strong>: ');
+            }
+            result.push('</p>');
+            result.push('</h9>');
+            result.push('<div>');
+            result.push(print_version_textarea_replace_return_with_br(p_data));
+            result.push('</div>');
+        }
+        
     break;
     default:
       if (p_metadata.name != 'case_opening_overview') 
