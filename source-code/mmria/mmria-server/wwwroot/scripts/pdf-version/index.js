@@ -10814,6 +10814,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 
             let header = [];
             let widths = [];
+            let number_of_header_rows = 2;
 
             
             for(let i = 0; i < 1; i++)
@@ -10828,18 +10829,20 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             body.push(header);
 
             let tbody = null;
-            for(let i = 1; i < p_node.childNodes.length; i++)
+            //let tbody_index = 0;
+            for(let i = 0; i < p_node.childNodes.length; i++)
             {
                 if(p_node.childNodes[i].nodeName.toUpperCase() == "TBODY")
                 {
                     tbody = p_node.childNodes[i];
+                    //tbody_index = i;
                     break;
                 }
             }
 
             if(tbody!=null)
             {
-                for(let i = 1; i < tbody.childNodes.length; i++)
+                for(let i = 0; i < tbody.childNodes.length; i++)
                 {
                     let child = tbody.childNodes[i];
                     let detail_row = [];
@@ -10849,17 +10852,38 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                     {
                         if(widths.length == 0)
                         {
-                            for(let col_count = 0; col_count < detail_row.length; col_count++)
+                            if(header.length > 0)
                             {
-                                widths.push("auto");
-                            }
 
-                            while(header.length < widths.length)
+                                header = detail_row;
+
+                                number_of_header_rows = 1;
+                                
+                                for(let col_count = 0; col_count < detail_row.length; col_count++)
+                                {
+                                    widths.push("auto");
+                                }
+                            }
+                            else
                             {
-                                header.push("");
+                                for(let col_count = 0; col_count < detail_row.length; col_count++)
+                                {
+                                    widths.push("auto");
+                                }
+
+                                while(header.length < widths.length)
+                                {
+                                    header.push("");
+                                }
+
+                                body.push(detail_row);
                             }
                         }
-                        body.push(detail_row);
+                        else
+                        {
+                            body.push(detail_row);
+                        }
+                        
                     }
                 }
             }
@@ -10867,7 +10891,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
             let table = {
                 layout: 'lightHorizontalLines', // optional
                 table: {
-                  headerRows: 2,
+                  headerRows: number_of_header_rows,
                   widths:widths,
           
                   body: body
