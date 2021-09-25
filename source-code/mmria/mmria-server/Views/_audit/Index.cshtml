@@ -282,7 +282,11 @@ Updated By
         <td>@change.prompt</td>
         <td>@change.dictionary_path.Replace("/", " /")</td>
         <td>
-            @if(!string.IsNullOrWhiteSpace(change.old_value) && change.old_value.Length> 30)
+            @if(string.IsNullOrWhiteSpace(change.old_value))
+            {
+                
+            }
+            else if(change.old_value.Length> 30)
             {
                 @change.old_value.Substring(0, 30);
                  
@@ -294,7 +298,11 @@ Updated By
             
         </td>
         <td>
-            @if(!string.IsNullOrWhiteSpace(change.new_value) && change.new_value?.Length> 30)
+            @if(string.IsNullOrWhiteSpace(change.new_value))
+            {
+
+            }
+            else if(!string.IsNullOrWhiteSpace(change.new_value) && change.new_value?.Length> 30)
             {
                 @change.new_value.Substring(0, 30); 
             }
