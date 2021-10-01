@@ -320,13 +320,13 @@ function getTodayFormatted() {
 
 // Format the month or day to always have 2 digits
 function fmt2Digits(val) {
-	if (val === '9999') return '  ';
+	if (val === null || val === '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
 }
 
 // Format the year to always have 4 digits, check for 9999
 function fmtYear(val) {
-	return (val === '9999') ? '    ' : val;
+	return (val === null || val === '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM-DD-YYYY
@@ -337,7 +337,7 @@ function reformatDate(dt) {
 
 // Format date from data and return mm / dd / yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === '9999') {
+	if (dt.year === null || dt.year === '9999') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${fmtYear(dt.year)}`;
@@ -345,15 +345,15 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = dt.month === '9999' ? '  ' : fmt2Digits(dt.month);
-	let dd = dt.day === '9999' ? '  ' : fmt2Digits(dt.day);
-	let yy = dt.year === '9999' ? '    ' : dt.year;
+	let mm = (dt.month === null || dt.month === '9999') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day === null || dt.day === '9999') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year === null || dt.year === '9999') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt.length === 0) return '  ';
+	if (dt === null || dt.length === 0) return '  ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
@@ -363,7 +363,7 @@ function fmtDateTime(dt) {
 
 // Reformat date from data string and return mm/dd/yyyy 
 function fmtStrDate(dt) {
-	if (dt.length === 0) {
+	if (dt === null || dt.length === 0) {
 		return ' / / ';
 	}
 	let dtParts = dt.split('-');
