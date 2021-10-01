@@ -445,6 +445,8 @@ function getArrayMap() {
 
 // Generic Find from global lookup array
 function lookupGlobalArr(val, lookupName) {
+	// See if val is null
+	if (val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank
@@ -462,6 +464,8 @@ function lookupGlobalArr(val, lookupName) {
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
+	// See if val is null
+	if (val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank or array is empty
@@ -474,6 +478,8 @@ function lookupFieldArr(val, arr) {
 
 // Return all races a person might be
 function lookupRaceArr(val) {
+	// See if val is null
+	if (val === null) return '';
 	// Return field with all races
 	let strRace = '';
 
@@ -489,6 +495,8 @@ function lookupRaceArr(val) {
 
 // Return all choices
 function lookupMultiChoiceArr(val, arr) {
+	// See if val is null
+	if (val === null) return '';
 	// Return field with all choices
 	let strChoice = '';
 
