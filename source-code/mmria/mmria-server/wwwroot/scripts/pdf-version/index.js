@@ -280,8 +280,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-      async function(){await pdfMake.createPdf(doc).open(window);}, 
-       //   async function(){ await pdfMake.createPdf(doc).open();}, 
+       async function(){await pdfMake.createPdf(doc).open(window);}, 
+        // async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -894,22 +894,6 @@ async function home_record(p, d) {
 	]);
 
 	// Overall Assessment of the Timing of Death
-
-    let overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = 0;
-    let overall_assessment_of_timing_of_death_abstrator_assigned_status = 9999;
-    if(d.overall_assessment_of_timing_of_death != null)
-    {
-     
-        if(d.overall_assessment_of_timeing_of_death.number_of_days_after_end_of_pregnancey != null)
-        {
-            overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey;
-        }
-
-        if(d.overall_assessment_of_timing_of_death.abstrator_assigned_status != null)
-        {
-            overall_assessment_of_timing_of_death_abstrator_assigned_status = d.overall_assessment_of_timing_of_death.abstrator_assigned_status;
-        }
-    }
 	index = 12;
 	subIndex = 0;
 	retPage.push([
@@ -933,11 +917,11 @@ async function home_record(p, d) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupFieldArr(overall_assessment_of_timing_of_death_abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
+						{ text: lookupFieldArr(d.overall_assessment_of_timing_of_death.abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: `${overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey}`, style: ['tableDetail'], },
+						{ text: `${d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey || 0}`, style: ['tableDetail'], },
 					],
 				],
 			}
@@ -11020,8 +11004,6 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 }
             }
 
-            let max_detail = 0;
-
             if(tbody!=null)
             {
                 for(let i = 0; i < tbody.childNodes.length; i++)
@@ -11030,18 +11012,11 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                     let detail_row = [];
                     GetTableDetailRow(detail_row, child);
 
-                    if(detail_row.length  > 0 && header.length == 0)
-                    {
-                        for(let col_count = 0; col_count < detail_row.length; col_count++)
-                        {
-                            header.push(detail_row[col_count]);
-                        }
-                    }
-                    else if(detail_row.length  > 0 )
+                    if(detail_row.length  > 0)
                     {
                         if(widths.length == 0)
                         {
-                            if(header.length  == detail_row.length)
+                            if(header.length > 0)
                             {
 
                                 header = detail_row;
@@ -11051,11 +11026,6 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 for(let col_count = 0; col_count < detail_row.length; col_count++)
                                 {
                                     widths.push("auto");
-                                }
-                                body.push(detail_row);
-                                if(max_detail < detail_row.length)
-                                {
-                                    max_detail = detail_row.length;
                                 }
                             }
                             else
@@ -11071,41 +11041,15 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 }
 
                                 body.push(detail_row);
-
-                                if(max_detail < detail_row.length)
-                                {
-                                    max_detail = detail_row.length;
-                                }
-                            
                             }
                         }
                         else
                         {
-                            if(detail_row.length < widths.length)
-                            {
-                                throw "Malformed table in Case Narrative.  Be sure that table columns are all the same. Table \"rows that span multiple columns\" are not permitted in the case narrative. Please delete table rows that display incorrectly in the Case Narrative Form; and then attempt to print the PDF again.";
-                            }
-                            else
-                            {
-                                body.push(detail_row);
-                            }
-
-                            if(max_detail < detail_row.length)
-                            {
-                                max_detail = detail_row.length;
-                            }
-                            
+                            body.push(detail_row);
                         }
                         
                     }
                 }
-
-
-            }
-
-            if(header.length != widths.length && header.length != max_detail)
-            {
-                console.log("here");
             }
 
             let table = {
