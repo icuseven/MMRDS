@@ -280,8 +280,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-       async function(){await pdfMake.createPdf(doc).open(window);}, 
-        // async function(){ await pdfMake.createPdf(doc).open();}, 
+      async function(){await pdfMake.createPdf(doc).open(window);}, 
+       //   async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -894,6 +894,22 @@ async function home_record(p, d) {
 	]);
 
 	// Overall Assessment of the Timing of Death
+
+    let overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = 0;
+    let overall_assessment_of_timing_of_death_abstrator_assigned_status = 9999;
+    if(d.overall_assessment_of_timing_of_death != null)
+    {
+     
+        if(d.overall_assessment_of_timeing_of_death.number_of_days_after_end_of_pregnancey != null)
+        {
+            overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey;
+        }
+
+        if(d.overall_assessment_of_timing_of_death.abstrator_assigned_status != null)
+        {
+            overall_assessment_of_timing_of_death_abstrator_assigned_status = d.overall_assessment_of_timing_of_death.abstrator_assigned_status;
+        }
+    }
 	index = 12;
 	subIndex = 0;
 	retPage.push([
@@ -917,11 +933,11 @@ async function home_record(p, d) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupFieldArr(d.overall_assessment_of_timing_of_death.abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
+						{ text: lookupFieldArr(overall_assessment_of_timing_of_death_abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: `${d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey || 0}`, style: ['tableDetail'], },
+						{ text: `${overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey}`, style: ['tableDetail'], },
 					],
 				],
 			}
@@ -11067,7 +11083,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                         {
                             if(detail_row.length < widths.length)
                             {
-                                throw "Malformed table in Case Narrative: " + header.join("|");
+                                throw "Malformed table in Case Narrative.  Be sure that table columns are all the same. Table \"rows that span multiple columns\" are not permitted in the case narrative. Please delete table rows that display incorrectly in the Case Narrative Form; and then attempt to print the PDF again.";
                             }
                             else
                             {
