@@ -900,7 +900,7 @@ async function home_record(p, d) {
     if(d.overall_assessment_of_timing_of_death != null)
     {
      
-        if(d.overall_assessment_of_timeing_of_death.number_of_days_after_end_of_pregnancey != null)
+        if(d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey != null)
         {
             overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey;
         }
@@ -910,6 +910,8 @@ async function home_record(p, d) {
             overall_assessment_of_timing_of_death_abstrator_assigned_status = d.overall_assessment_of_timing_of_death.abstrator_assigned_status;
         }
     }
+
+
 	index = 12;
 	subIndex = 0;
 	retPage.push([
