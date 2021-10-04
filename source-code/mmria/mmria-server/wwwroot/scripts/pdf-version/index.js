@@ -11004,6 +11004,8 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 }
             }
 
+            let max_detail = 0;
+
             if(tbody!=null)
             {
                 for(let i = 0; i < tbody.childNodes.length; i++)
@@ -11012,11 +11014,18 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                     let detail_row = [];
                     GetTableDetailRow(detail_row, child);
 
-                    if(detail_row.length  > 0)
+                    if(detail_row.length  > 0 && header.length == 0)
+                    {
+                        for(let col_count = 0; col_count < detail_row.length; col_count++)
+                        {
+                            header.push(detail_row[col_count]);
+                        }
+                    }
+                    else if(detail_row.length  > 0 )
                     {
                         if(widths.length == 0)
                         {
-                            if(header.length > 0)
+                            if(header.length  == detail_row.length)
                             {
 
                                 header = detail_row;
@@ -11026,6 +11035,11 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 for(let col_count = 0; col_count < detail_row.length; col_count++)
                                 {
                                     widths.push("auto");
+                                }
+                                body.push(detail_row);
+                                if(max_detail < detail_row.length)
+                                {
+                                    max_detail = detail_row.length;
                                 }
                             }
                             else
@@ -11041,15 +11055,41 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 }
 
                                 body.push(detail_row);
+
+                                if(max_detail < detail_row.length)
+                                {
+                                    max_detail = detail_row.length;
+                                }
+                            
                             }
                         }
                         else
                         {
-                            body.push(detail_row);
+                            if(detail_row.length < widths.length)
+                            {
+                                throw "Malformed table in Case Narrative: " + header.join("|");
+                            }
+                            else
+                            {
+                                body.push(detail_row);
+                            }
+
+                            if(max_detail < detail_row.length)
+                            {
+                                max_detail = detail_row.length;
+                            }
+                            
                         }
                         
                     }
                 }
+
+
+            }
+
+            if(header.length != widths.length && header.length != max_detail)
+            {
+                console.log("here");
             }
 
             let table = {
