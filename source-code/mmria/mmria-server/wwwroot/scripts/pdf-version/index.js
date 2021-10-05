@@ -69,9 +69,32 @@ async function create_print_version
         mmria_path: "",
         content: []
     };
-    //initialize_print_pdf(ctx);
-    document.title = getHeaderName();
-    await print_pdf(p_section);
+
+    try
+    {
+        //initialize_print_pdf(ctx);
+        document.title = getHeaderName();
+        await print_pdf(p_section);
+    }
+    catch(ex)
+    {
+        let profile_content_id = document.getElementById("profile_content_id");
+        {
+            profile_content_id.innerText = `
+An error has occurred generating PDF for ${ getHeaderName()}.
+ 
+Please email mmriasupport@cdc.gov the ERROR DETAILS regarding this Print-PDF issue.
+
+Error Details (Print PDF):
+
+Summary: ${ex}
+
+Stack: ${ex.stack}
+
+            `;
+        }
+        
+    }
 }
 
 function create_pdf_version(p_ctx) 
@@ -257,8 +280,8 @@ async function print_pdf(section)
 	    
     window.setTimeout
     (
-       async function(){await pdfMake.createPdf(doc).open(window);}, 
-        // async function(){ await pdfMake.createPdf(doc).open();}, 
+      async function(){await pdfMake.createPdf(doc).open(window);}, 
+       //   async function(){ await pdfMake.createPdf(doc).open();}, 
     3000
     );
 
@@ -320,13 +343,13 @@ function getTodayFormatted() {
 
 // Format the month or day to always have 2 digits
 function fmt2Digits(val) {
-	if (val === '9999') return '  ';
+	if (val === null || val === '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
 }
 
 // Format the year to always have 4 digits, check for 9999
 function fmtYear(val) {
-	return (val === '9999') ? '    ' : val;
+	return (val === null || val === '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM-DD-YYYY
@@ -337,7 +360,7 @@ function reformatDate(dt) {
 
 // Format date from data and return mm / dd / yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === '9999') {
+	if (dt.year === null || dt.year === '9999') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)} / ${fmt2Digits(dt.day)} / ${fmtYear(dt.year)}`;
@@ -345,15 +368,15 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = dt.month === '9999' ? '  ' : fmt2Digits(dt.month);
-	let dd = dt.day === '9999' ? '  ' : fmt2Digits(dt.day);
-	let yy = dt.year === '9999' ? '    ' : dt.year;
+	let mm = (dt.month === null || dt.month === '9999') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day === null || dt.day === '9999') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year === null || dt.year === '9999') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt.length === 0) return '  ';
+	if (dt === null || dt.length === 0) return '  ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
@@ -363,7 +386,7 @@ function fmtDateTime(dt) {
 
 // Reformat date from data string and return mm/dd/yyyy 
 function fmtStrDate(dt) {
-	if (dt.length === 0) {
+	if (dt === null || dt.length === 0) {
 		return ' / / ';
 	}
 	let dtParts = dt.split('-');
@@ -445,6 +468,8 @@ function getArrayMap() {
 
 // Generic Find from global lookup array
 function lookupGlobalArr(val, lookupName) {
+	// See if val is null
+	if (val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank
@@ -462,6 +487,8 @@ function lookupGlobalArr(val, lookupName) {
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
+	// See if val is null
+	if (val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank or array is empty
@@ -474,6 +501,8 @@ function lookupFieldArr(val, arr) {
 
 // Return all races a person might be
 function lookupRaceArr(val) {
+	// See if val is null
+	if (val === null) return '';
 	// Return field with all races
 	let strRace = '';
 
@@ -489,10 +518,12 @@ function lookupRaceArr(val) {
 
 // Return all choices
 function lookupMultiChoiceArr(val, arr) {
+	// See if val is null
+	if (val === null) return '';
 	// Return field with all choices
 	let strChoice = '';
 
-	if (val.length > 0) {
+	if (val != null && val.length > 0) {
 		for (let i = 0; i < val.length; i++) {
 			strChoice += lookupFieldArr(val[i], arr) + ', ';
 		}
@@ -863,6 +894,24 @@ async function home_record(p, d) {
 	]);
 
 	// Overall Assessment of the Timing of Death
+
+    let overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = 0;
+    let overall_assessment_of_timing_of_death_abstrator_assigned_status = 9999;
+    if(d.overall_assessment_of_timing_of_death != null)
+    {
+     
+        if(d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey != null)
+        {
+            overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey = d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey;
+        }
+
+        if(d.overall_assessment_of_timing_of_death.abstrator_assigned_status != null)
+        {
+            overall_assessment_of_timing_of_death_abstrator_assigned_status = d.overall_assessment_of_timing_of_death.abstrator_assigned_status;
+        }
+    }
+
+
 	index = 12;
 	subIndex = 0;
 	retPage.push([
@@ -886,11 +935,11 @@ async function home_record(p, d) {
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 1].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: lookupFieldArr(d.overall_assessment_of_timing_of_death.abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
+						{ text: lookupFieldArr(overall_assessment_of_timing_of_death_abstrator_assigned_status, p.children[index].children[subIndex + 1].values), style: ['tableDetail'], },
 					],
 					[
 						{ text: `${p.children[index].children[subIndex + 2].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-						{ text: `${d.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey || 0}`, style: ['tableDetail'], },
+						{ text: `${overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey}`, style: ['tableDetail'], },
 					],
 				],
 			}
@@ -8604,6 +8653,68 @@ async function medical_transport(p, d, pg_break) {
 			6:Str       Specify Other Level of Maternal Care  (other_maternal_level_of_care)
 			7:TA        Comments  (comments)
 			*/
+
+            let origin_information_address_street = ' ';
+            let origin_information_address_apartment = ' ';
+
+            let origin_information_address_city = ' ';
+            let origin_information_address_state = ' ';
+            let origin_information_address_country = ' ';
+            let origin_information_address_zip_code = ' ';
+            let origin_information_address_county = ' ';
+            let origin_information_address_feature_matching_geography_type = ' ';
+            let origin_information_address_naaccr_census_tract_certainty_code = ' ';
+            let origin_information_address_naaccr_census_tract_certainty_type = ' ';
+            let origin_information_address_urban_status = ' ';
+
+            if
+            (
+                d[curRec].origin_information != null &&
+                d[curRec].origin_information.address != null
+            )
+            {
+                if(d[curRec].origin_information.address.street != null)
+                origin_information_address_street = d[curRec].origin_information.address.street;
+                
+                if(d[curRec].origin_information.address.apartment != null)
+                {
+                    origin_information_address_apartment = d[curRec].origin_information.address.apartment;
+                }
+
+                if(d[curRec].origin_information.address.city != null)
+                origin_information_address_city = d[curRec].origin_information.address.city;
+
+                if(d[curRec].origin_information.address.state != null)
+                origin_information_address_state = d[curRec].origin_information.address.state;
+                
+                if(d[curRec].origin_information.address.country != null)
+                origin_information_address_country = d[curRec].origin_information.address.country;
+
+                if(d[curRec].origin_information.address.zip_code != null)
+                origin_information_address_zip_code = d[curRec].origin_information.address.zip_code;
+                
+                if(d[curRec].origin_information.address.county != null)
+                origin_information_address_county = d[curRec].origin_information.address.county;
+
+                if(d[curRec].origin_information.address.feature_matching_geography_type != null)
+                origin_information_address_feature_matching_geography_type = d[curRec].origin_information.address.feature_matching_geography_type;
+
+                if(d[curRec].origin_information.address.naaccr_census_tract_certainty_code != null)
+                origin_information_address_naaccr_census_tract_certainty_code = d[curRec].origin_information.address.naaccr_census_tract_certainty_code;
+
+                if(d[curRec].origin_information.address.naaccr_census_tract_certainty_type != null)
+                origin_information_address_naaccr_census_tract_certainty_type = d[curRec].origin_information.address.naaccr_census_tract_certainty_type;
+
+                if(d[curRec].origin_information.address.urban_status != null)
+                origin_information_address_urban_status = d[curRec].origin_information.address.urban_status;
+
+            }              
+                
+
+            
+
+
+
 			index += 1;
 			subIndex = 0;
 			let subSubIndex = 0;
@@ -8645,7 +8756,8 @@ async function medical_transport(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${d[curRec].origin_information.address.street} / ${d[curRec].origin_information.address.apartment}`,
+                                    
+									text: `${origin_information_address_street} / ${origin_information_address_apartment}`,
 									style: ['tableDetail'],
 								},
 							],
@@ -8659,32 +8771,32 @@ async function medical_transport(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${d[curRec].origin_information.address.city}, ${lookupGlobalArr(d[curRec].origin_information.address.state, 'state')}, ` +
-										`${lookupGlobalArr(d[curRec].origin_information.address.country, 'country')} ` +
-										`${d[curRec].origin_information.address.zip_code}`,
+									text: `${origin_information_address_city}, ${lookupGlobalArr(origin_information_address_state, 'state')}, ` +
+										`${lookupGlobalArr(origin_information_address_country, 'country')} ` +
+										`${origin_information_address_zip_code}`,
 									style: ['tableDetail'],
 								},
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 2].children[6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].origin_information.address.county}`, style: ['tableDetail'], },
+								{ text: `${origin_information_address_county}`, style: ['tableDetail'], },
 							],
 
 							[
 								{ text: `${p.children[index].children[subIndex + 2].children[9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].origin_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
+								{ text: `${origin_information_address_feature_matching_geography_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 2].children[14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
+								{ text: `${origin_information_address_naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 2].children[15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].origin_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
+								{ text: `${origin_information_address_naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 2].children[20].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].origin_information.address.urban_status}`, style: ['tableDetail'], },
+								{ text: `${origin_information_address_urban_status}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 3].prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -8946,6 +9058,72 @@ async function medical_transport(p, d, pg_break) {
 			7:Str       Specify Other Level of Maternal Care  (other_maternal_level_of_care)
 			8:Text      Comments  (comments)
 			*/
+
+
+            let destination_information_address_street = ' ';
+            let destination_information_address_apartment = ' ';
+
+            let destination_information_address_city = ' ';
+            let destination_information_address_state = ' ';
+            let destination_information_address_country = ' ';
+            let destination_information_address_zip_code = ' ';
+            let destination_information_address_county = ' ';
+            let destination_information_address_country_of_last_residence = ' ';
+            let destination_information_address_feature_matching_geography_type = ' ';
+            let destination_information_address_naaccr_census_tract_certainty_code = ' ';
+            let destination_information_address_naaccr_census_tract_certainty_type = ' ';
+            let destination_information_address_urban_status = ' ';
+            let destination_information_address_estimated_distance = ' ';
+
+            if
+            (
+                d[curRec].destination_information != null &&
+                d[curRec].destination_information.address != null
+            )
+            {
+                if(d[curRec].destination_information.address.street != null)
+                destination_information_address_street = d[curRec].destination_information.address.street;
+                
+                if(d[curRec].destination_information.address.apartment != null)
+                {
+                    destination_information_address_apartment = d[curRec].destination_information.address.apartment;
+                }
+
+                if(d[curRec].destination_information.address.city != null)
+                destination_information_address_city = d[curRec].destination_information.address.city;
+
+                if(d[curRec].destination_information.address.state != null)
+                destination_information_address_state = d[curRec].destination_information.address.state;
+                
+                if(d[curRec].destination_information.address.country != null)
+                destination_information_address_country = d[curRec].destination_information.address.country;
+
+                if(d[curRec].destination_information.address.zip_code != null)
+                destination_information_address_zip_code = d[curRec].destination_information.address.zip_code;
+                
+                if(d[curRec].destination_information.address.county != null)
+                destination_information_address_county = d[curRec].destination_information.address.county;
+
+                if(d[curRec].destination_information.address.feature_matching_geography_type != null)
+                destination_information_address_feature_matching_geography_type = d[curRec].destination_information.address.feature_matching_geography_type;
+
+                if(d[curRec].destination_information.address.naaccr_census_tract_certainty_code != null)
+                destination_information_address_naaccr_census_tract_certainty_code = d[curRec].destination_information.address.naaccr_census_tract_certainty_code;
+
+                if(d[curRec].destination_information.address.naaccr_census_tract_certainty_type != null)
+                destination_information_address_naaccr_census_tract_certainty_type = d[curRec].destination_information.address.naaccr_census_tract_certainty_type;
+
+                if(d[curRec].destination_information.address.urban_status != null)
+                destination_information_address_urban_status = d[curRec].destination_information.address.urban_status;
+
+                if(d[curRec].destination_information.address.estimated_distance != null)
+                destination_information_address_estimated_distance = d[curRec].destination_information.address.estimated_distance;
+
+                if(d[curRec].destination_information.address.country_of_last_residence != null)
+                destination_information_address_country_of_last_residence = d[curRec].destination_information.address.country_of_last_residence;
+            }       
+
+
 			index += 1;
 			subIndex = 0;
 			subSubIndex = 0;
@@ -8991,7 +9169,7 @@ async function medical_transport(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${d[curRec].destination_information.address.street} / ${d[curRec].destination_information.address.apartment}`,
+									text: `${destination_information_address_street} / ${destination_information_address_apartment}`,
 									style: ['tableDetail'],
 								},
 							],
@@ -9005,38 +9183,38 @@ async function medical_transport(p, d, pg_break) {
 									alignment: 'right',
 								},
 								{
-									text: `${d[curRec].destination_information.address.city}, ` +
-										`${lookupGlobalArr(d[curRec].destination_information.address.state, 'state')}, ` +
-										`${lookupGlobalArr(d[curRec].destination_information.address.country_of_last_residence, 'country')} ` +
-										`${d[curRec].destination_information.address.zip_code}`,
+									text: `${destination_information_address_city}, ` +
+										`${lookupGlobalArr(destination_information_address_state, 'state')}, ` +
+										`${lookupGlobalArr(destination_information_address_country_of_last_residence, 'country')} ` +
+										`${destination_information_address_zip_code}`,
 									style: ['tableDetail'],
 								},
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 6].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.county}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_county}`, style: ['tableDetail'], },
 							],
 
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 9].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.feature_matching_geography_type}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_feature_matching_geography_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 14].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_naaccr_census_tract_certainty_code}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 15].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_naaccr_census_tract_certainty_type}`, style: ['tableDetail'], },
 							],
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 20].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.urban_status}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_urban_status}`, style: ['tableDetail'], },
 							],
 
 							[
 								{ text: `${p.children[index].children[subIndex + 3].children[subSubIndex + 24].prompt}: `, style: ['tableLabel'], alignment: 'right', },
-								{ text: `${d[curRec].destination_information.address.estimated_distance}`, style: ['tableDetail'], },
+								{ text: `${destination_information_address_estimated_distance}`, style: ['tableDetail'], },
 							],
 
 							[
@@ -9442,68 +9620,72 @@ function social_and_environmental_profile(p, d, pg_break) {
 	// Give some space
 	retPage.push({ text: '', margin: [0, 10, 0, 0], },);
 
-	//05:Grid[c4]   Details of Arrests  (details_of_arrests)
-	/*
-	0:Date      Date  (date_of_arrest)
-	1:Str       Reason  (arest_reason)
-	2:Lst[6]    Occurrence  (occurrence)    
-	3:Str       Comments  (comments)
-	*/
-	index += 1;
-	lenArr = d.details_of_arrests.length;
-	startArr = 0;
-	endArr = lenArr;
 
-	// Build Header rows
-	body = [];
-	row = new Array();
-	row.push(
-		{ text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', },
-		{}, {}, {}, {});
-	body.push(row);
-	row = new Array();
-	row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                		// Rec #
-	row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  	// Date  (date_of_arrest)
-	row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                   // Reason  (arest_reason)
-	row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                   // Occurrence  (occurrence) 
-	row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                   // Comments  (comments)
-	body.push(row);
 
-	// Are there any records?
-	if (lenArr === 0) {
-		row = new Array();
-		row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', },);
-		body.push(row);
-	} else {
-		// Build the table detail   ... , alignment: 'center' },);
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			row = new Array();
-			row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
-			row.push({ text: fmtStrDate(d.details_of_arrests[curRec].date_of_arrest), style: ['tableDetail'], alignment: 'center' },);
-			row.push({ text: d.details_of_arrests[curRec].arest_reason, style: ['tableDetail'], },);
-			row.push({ text: lookupFieldArr(d.details_of_arrests[curRec].occurrence, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },);
-			row.push({ text: d.details_of_arrests[curRec].comments, style: ['tableDetail'], },);
-			body.push(row);
-		}
-	}
+        //05:Grid[c4]   Details of Arrests  (details_of_arrests)
+        /*
+        0:Date      Date  (date_of_arrest)
+        1:Str       Reason  (arest_reason)
+        2:Lst[6]    Occurrence  (occurrence)    
+        3:Str       Comments  (comments)
+        */
+        index += 1;
+        lenArr = d.details_of_arrests == null ? 0 : d.details_of_arrests.length;
+        startArr = 0;
+        endArr = lenArr;
 
-	// Show the table 
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: true,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			table: {
-				headerRows: 2,
-				widths: [30, 70, '*', 150, '*'],
-				body: body,
-			},
-		},],
-	);
+        // Build Header rows
+        body = [];
+        row = new Array();
+
+        row.push(
+            { text: p.children[index].prompt, style: ['subHeader', 'blueFill'], colSpan: '5', },
+            {}, {}, {}, {});
+        body.push(row);
+        row = new Array();
+        row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center' },);                                		// Rec #
+        row.push({ text: p.children[index].children[subIndex].prompt, style: ['tableLabel', 'blueFill'], alignment: 'center' },);  	// Date  (date_of_arrest)
+        row.push({ text: p.children[index].children[subIndex + 1].prompt, style: ['tableLabel', 'blueFill'], },);                   // Reason  (arest_reason)
+        row.push({ text: p.children[index].children[subIndex + 2].prompt, style: ['tableLabel', 'blueFill'], },);                   // Occurrence  (occurrence) 
+        row.push({ text: p.children[index].children[subIndex + 3].prompt, style: ['tableLabel', 'blueFill'], },);                   // Comments  (comments)
+        body.push(row);
+
+        // Are there any records?
+        if (lenArr === 0) {
+            row = new Array();
+            row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '5', },);
+            body.push(row);
+        } else {
+            // Build the table detail   ... , alignment: 'center' },);
+            for (let curRec = startArr; curRec < endArr; curRec++) {
+                row = new Array();
+                row.push({ text: `${curRec + 1}`, style: ['tableDetail'], alignment: 'center' },);
+                row.push({ text: fmtStrDate(d.details_of_arrests[curRec].date_of_arrest), style: ['tableDetail'], alignment: 'center' },);
+                row.push({ text: d.details_of_arrests[curRec].arest_reason, style: ['tableDetail'], },);
+                row.push({ text: lookupFieldArr(d.details_of_arrests[curRec].occurrence, p.children[index].children[subIndex + 2].values), style: ['tableDetail'], },);
+                row.push({ text: d.details_of_arrests[curRec].comments, style: ['tableDetail'], },);
+                body.push(row);
+            }
+        }
+
+        // Show the table 
+        retPage.push([
+            {
+                layout: {
+                    defaultBorder: true,
+                    paddingLeft: function (i, node) { return 1; },
+                    paddingRight: function (i, node) { return 1; },
+                    paddingTop: function (i, node) { return 2; },
+                    paddingBottom: function (i, node) { return 2; },
+                },
+                table: {
+                    headerRows: 2,
+                    widths: [30, 70, '*', 150, '*'],
+                    body: body,
+                },
+            },],
+        );
+    
 
 	//06:Grp[c3]    Health Care Access  (health_care_access)
 	/*
@@ -10840,6 +11022,8 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 }
             }
 
+            let max_detail = 0;
+
             if(tbody!=null)
             {
                 for(let i = 0; i < tbody.childNodes.length; i++)
@@ -10848,11 +11032,18 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                     let detail_row = [];
                     GetTableDetailRow(detail_row, child);
 
-                    if(detail_row.length  > 0)
+                    if(detail_row.length  > 0 && header.length == 0)
+                    {
+                        for(let col_count = 0; col_count < detail_row.length; col_count++)
+                        {
+                            header.push(detail_row[col_count]);
+                        }
+                    }
+                    else if(detail_row.length  > 0 )
                     {
                         if(widths.length == 0)
                         {
-                            if(header.length > 0)
+                            if(header.length  == detail_row.length)
                             {
 
                                 header = detail_row;
@@ -10862,6 +11053,11 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 for(let col_count = 0; col_count < detail_row.length; col_count++)
                                 {
                                     widths.push("auto");
+                                }
+                                body.push(detail_row);
+                                if(max_detail < detail_row.length)
+                                {
+                                    max_detail = detail_row.length;
                                 }
                             }
                             else
@@ -10877,15 +11073,41 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                                 }
 
                                 body.push(detail_row);
+
+                                if(max_detail < detail_row.length)
+                                {
+                                    max_detail = detail_row.length;
+                                }
+                            
                             }
                         }
                         else
                         {
-                            body.push(detail_row);
+                            if(detail_row.length < widths.length)
+                            {
+                                throw "Malformed table in Case Narrative.  Be sure that table columns are all the same. Table \"rows that span multiple columns\" are not permitted in the case narrative. Please delete table rows that display incorrectly in the Case Narrative Form; and then attempt to print the PDF again.";
+                            }
+                            else
+                            {
+                                body.push(detail_row);
+                            }
+
+                            if(max_detail < detail_row.length)
+                            {
+                                max_detail = detail_row.length;
+                            }
+                            
                         }
                         
                     }
                 }
+
+
+            }
+
+            if(header.length != widths.length && header.length != max_detail)
+            {
+                console.log("here");
             }
 
             let table = {
