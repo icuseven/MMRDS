@@ -1702,11 +1702,6 @@ function get_specific_case(p_id)
             g_autosave_interval = null;
           }
 
-          if($global.case_document_onload != null)
-          {
-            $global.case_document_onload();
-          }
-
           g_render();
         } 
         else 
@@ -1721,18 +1716,11 @@ function get_specific_case(p_id)
           }
         }
 
-        if($global.case_document_onload != null)
-        {
-        $global.case_document_onload();
-        }
+        
         g_render();
       } 
       else 
       {
-        if($global.case_document_onload != null)
-        {
-          $global.case_document_onload();
-        }
         g_render();
       }
     })
@@ -2570,6 +2558,12 @@ function enable_edit_click()
     g_data_is_checked_out = true;
     save_case(g_data, create_save_message, "enable_edit");
     g_autosave_interval = window.setInterval(autosave, 10000);
+
+    if($global.case_document_onload != null)
+    {
+        $global.case_document_begin_edit();
+    }
+
     g_render();
   }
 }
