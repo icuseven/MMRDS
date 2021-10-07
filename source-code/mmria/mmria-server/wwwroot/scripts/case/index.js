@@ -885,7 +885,7 @@ var g_ui = {
             new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
-        result.home_record.record_id = new_record_id;
+        result.home_record.record_id = new_record_id.toUpperCase();
     }
 
     var new_data = [];
