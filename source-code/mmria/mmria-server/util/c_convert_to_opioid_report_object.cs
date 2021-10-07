@@ -270,6 +270,33 @@ namespace mmria.server.utils
 			result.Add("mEducation MEduc4", get_new_struct("mEducation MEduc4"));
 			result.Add("mEducation MEduc5", get_new_struct("mEducation MEduc5"));
 
+            
+/*
+mUndCofDeath MUndCofDeath21 21
+mDeathCause  MCauseD30 30
+mDeathPrevent MDeathPrevent3 3
+mOMBRaceRcd  MOMBRaceRcd10 10
+mDeathbyRace  MDeathbyRace17 17
+
+*/
+
+            for(var i = 0; i < 21; i++)
+            result.Add($"mUndCofDeath MUndCofDeath{i+1}", get_new_struct($"mUndCofDeath MUndCofDeath{i+1}"));
+
+            for(var i = 15; i < 30; i++)
+            result.Add($"mDeathCause MCauseD{i+1}", get_new_struct($"mDeathCause MCauseD{i+1}"));
+
+            for(var i = 0; i < 3; i++)
+            result.Add($"mDeathPrevent MDeathPrevent{i+1}", get_new_struct($"mDeathPrevent MDeathPrevent{i+1}"));
+
+            for(var i = 0; i < 10; i++)
+            result.Add($"mOMBRaceRcd MOMBRaceRcd{i+1}", get_new_struct($"mOMBRaceRcd MOMBRaceRcd{i+1}"));
+
+            for(var i = 0; i < 17; i++)
+            result.Add($"mDeathbyRace MDeathbyRace{i+1}", get_new_struct($"mDeathbyRace MDeathbyRace{i+1}"));
+
+
+
 			return result;
 
 		}
@@ -2883,6 +2910,204 @@ MPregRel5	(Blank)
 			}
 
 
+
+			try
+			{	
+
+
+				var val_dynamic = get_value(p_source_object, "committee_review/did_obesity_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+                
+                // MCauseD16 committee_review/did_obesity_contribute_to_the_death=1
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD16";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD17 committee_review/did_obesity_contribute_to_the_death=0
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD17";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD18 committee_review/did_obesity_contribute_to_the_death=2
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD18";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD19 committee_review/did_obesity_contribute_to_the_death=7777
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 7777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD19";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD20 committee_review/did_obesity_contribute_to_the_death=9999 (include missing)
+                if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD20";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{	
+
+                var val_dynamic = get_value(p_source_object, "committee_review/did_discrimination_contribute_to_the_death");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+
+                // MCauseD21 committee_review/did_discrimination_contribute_to_the_death=1
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD25";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD22 committee_review/did_discrimination_contribute_to_the_death=0
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD25";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD23 committee_review/did_discrimination_contribute_to_the_death=2
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD25";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD24 committee_review/did_discrimination_contribute_to_the_death=7777
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD25";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD25 committee_review/did_discrimination_contribute_to_the_death=9999 (include missing)
+                if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD25";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{	
+                var val_dynamic = get_value(p_source_object, " committee_review/was_this_death_a_homicide");
+				string val = null;
+                if(val_dynamic != null)
+                {
+                    val = val_dynamic.ToString();
+                }
+
+                // MCauseD26 committee_review/was_this_death_a_homicide=1
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD30";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD27 committee_review/was_this_death_a_homicide=0
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD30";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD28 committee_review/was_this_death_a_homicide=2
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD30";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD29 committee_review/was_this_death_a_homicide=7777
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 7777)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD30";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+
+                // MCauseD30 committee_review/was_this_death_a_homicide=9999 (include missing)
+                if(val == null || string.IsNullOrWhiteSpace(val) ||  (val != null && int.TryParse(val, out test_int) && test_int == blank_value))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD30";
+					curr.value = 1;
+					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
 		}
 
 
@@ -4558,6 +4783,676 @@ foreach(var item in val_list)
 
 			}
 		}
+        private void popluate_mUndCofDeath (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			double test_double;
+
+            //mUndCofDeath MUndCofDeath21 21
+/*
+MUndCofDeath1 If /committee_review/pmss_mm= 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, or 10.10
+MUndCofDeath2 If /committee_review/pmss_mm= 20.1, 20.2, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, or 20.11
+MUndCofDeath3 If /committee_review/pmss_mm= 30.1 or 30.9
+MUndCofDeath4 If /committee_review/pmss_mm=31.1
+MUndCofDeath5 If /committee_review/pmss_mm=40.1, 50.1, or 60.1
+MUndCofDeath6 If /committee_review/pmss_mm=70.1
+MUndCofDeath7 If /committee_review/pmss_mm=80.1, 80.2, or 80.9
+MUndCofDeath8 If /committee_review/pmss_mm=82.1 or 82.9
+MUndCofDeath9 If /committee_review/pmss_mm=83.1 or 83.9
+MUndCofDeath10 If /committee_review/pmss_mm=85.1
+MUndCofDeath11 If /committee_review/pmss_mm=88.1, 88.2, or 88.9
+MUndCofDeath12 If /committee_review/pmss_mm=89.1, 89.3, 89.9
+MUndCofDeath13 If /committee_review/pmss_mm=90.1, 90.2, 90.3, 90.4, 90.5, 90.6, 90.7, 90.8, or 90.9
+MUndCofDeath14 If /committee_review/pmss_mm=91.1, 91.2, 91.3, or 91.9
+MUndCofDeath15 If /committee_review/pmss_mm=92.1 or 92.9
+MUndCofDeath16 If /committee_review/pmss_mm=93.1 or 93.9
+MUndCofDeath17 If /committee_review/pmss_mm=95.1
+MUndCofDeath18 If /committee_review/pmss_mm=96.1, 96.2, or 96.9
+MUndCofDeath19 If /committee_review/pmss_mm=97.1, 97.2, or  97.9
+MUndCofDeath20 If /committee_review/pmss_mm=100.1, 100.2, 100.3, 100.4, 100.5, or 100.9
+MUndCofDeath21 If /committee_review/pmss_mm=999.1
+*/
+
+HashSet<double> MUndCofDeath1 = new HashSet<double>() { 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, 10.10};
+HashSet<double> MUndCofDeath2 = new HashSet<double>() { 20.1, 20.2, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, 20.11};
+HashSet<double> MUndCofDeath3 = new HashSet<double>() { 30.1,30.9};
+HashSet<double> MUndCofDeath4 = new HashSet<double>() {31.1};
+HashSet<double> MUndCofDeath5 = new HashSet<double>() {40.1, 50.1, 60.1};
+HashSet<double> MUndCofDeath6 = new HashSet<double>() {70.1};
+HashSet<double> MUndCofDeath7 = new HashSet<double>() {80.1, 80.2,  80.9};
+HashSet<double> MUndCofDeath8 = new HashSet<double>() {82.1 , 82.9};
+HashSet<double> MUndCofDeath9 = new HashSet<double>() {83.1 , 83.9};
+HashSet<double> MUndCofDeath10 = new HashSet<double>(){85.1};
+HashSet<double> MUndCofDeath11 = new HashSet<double>(){88.1, 88.2,  88.9};
+HashSet<double> MUndCofDeath12 = new HashSet<double>(){89.1, 89.3, 89.9};
+HashSet<double> MUndCofDeath13 = new HashSet<double>(){90.1, 90.2, 90.3, 90.4, 90.5, 90.6, 90.7, 90.8, 90.9};
+HashSet<double> MUndCofDeath14 = new HashSet<double>(){91.1, 91.2, 91.3, 91.9};
+HashSet<double> MUndCofDeath15 = new HashSet<double>(){92.1, 92.9};
+HashSet<double> MUndCofDeath16 = new HashSet<double>(){93.1, 93.9};
+HashSet<double> MUndCofDeath17 = new HashSet<double>(){95.1};
+HashSet<double> MUndCofDeath18 = new HashSet<double>(){96.1, 96.2, 96.9};
+HashSet<double> MUndCofDeath19 = new HashSet<double>(){97.1, 97.2, 97.9};
+HashSet<double> MUndCofDeath20 = new HashSet<double>(){100.1, 100.2, 100.3, 100.4, 100.5, 100.9};
+HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
+
+            var pmss_mm_string = string.Empty;
+            double pmss_mm = double.NaN;
+      
+            dynamic dynamic_val = get_value(p_source_object, "committee_review/pmss_mm");
+
+            if(dynamic_val != null )
+            {
+                var object_val = dynamic_val as object;
+                pmss_mm_string = object_val.ToString();
+            }
+
+            if(double.TryParse(pmss_mm_string, out test_double))
+            {
+                pmss_mm = test_double;
+            }
+            
+            if(pmss_mm == double.NaN)
+            {
+                return;
+            }
+
+            try
+            {	
+                var (indicator_id, field_id) = pmss_mm switch
+                {
+                    double v when MUndCofDeath1.Contains(v) => ("mUndCofDeath", "MUndCofDeath1"),
+                    double v when MUndCofDeath2.Contains(v) => ("mUndCofDeath", "MUndCofDeath2"),
+                    double v when MUndCofDeath3.Contains(v) => ("mUndCofDeath", "MUndCofDeath3"),
+                    double v when MUndCofDeath4.Contains(v) => ("mUndCofDeath", "MUndCofDeath4"),
+                    double v when MUndCofDeath5.Contains(v) => ("mUndCofDeath", "MUndCofDeath5"),
+                    double v when MUndCofDeath6.Contains(v) => ("mUndCofDeath", "MUndCofDeath6"),
+                    double v when MUndCofDeath7.Contains(v) => ("mUndCofDeath", "MUndCofDeath7"),
+                    double v when MUndCofDeath8.Contains(v) => ("mUndCofDeath", "MUndCofDeath8"),
+                    double v when MUndCofDeath9.Contains(v) => ("mUndCofDeath", "MUndCofDeath9"),
+                    double v when MUndCofDeath10.Contains(v) => ("mUndCofDeath", "MUndCofDeath10"),
+                    double v when MUndCofDeath11.Contains(v) => ("mUndCofDeath", "MUndCofDeath11"),
+                    double v when MUndCofDeath12.Contains(v) => ("mUndCofDeath", "MUndCofDeath12"),
+                    double v when MUndCofDeath13.Contains(v) => ("mUndCofDeath", "MUndCofDeath13"),
+                    double v when MUndCofDeath14.Contains(v) => ("mUndCofDeath", "MUndCofDeath14"),
+                    double v when MUndCofDeath15.Contains(v) => ("mUndCofDeath", "MUndCofDeath15"),
+                    double v when MUndCofDeath16.Contains(v) => ("mUndCofDeath", "MUndCofDeath16"),
+                    double v when MUndCofDeath17.Contains(v) => ("mUndCofDeath", "MUndCofDeath17"),
+                    double v when MUndCofDeath18.Contains(v) => ("mUndCofDeath", "MUndCofDeath18"),
+                    double v when MUndCofDeath19.Contains(v) => ("mUndCofDeath", "MUndCofDeath19"),
+                    double v when MUndCofDeath20.Contains(v) => ("mUndCofDeath", "MUndCofDeath20"),
+                    double v when MUndCofDeath21.Contains(v) => ("mUndCofDeath", "MUndCofDeath21"),
+                    _ =>  ("", "")
+                };
+
+                if(!string.IsNullOrWhiteSpace(indicator_id))     
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = indicator_id;
+                    curr.field_id = field_id;
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+            
+                
+            }
+            catch(Exception ex)
+            {
+                System.Console.WriteLine (ex);
+            }
+
+ 
+
+		} 
+
+        private void popluate_mDeathPrevent (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+            //mDeathPrevent MDeathPrevent3 3
+
+
+
+
+
+
+
+
+            var was_this_death_preventable = string.Empty;
+            var chance_to_alter_outcome = -1;;
+
+            dynamic dynamic_val = get_value(p_source_object, "committee_review/was_this_death_preventable");
+
+            if(dynamic_val != null )
+            {
+                var object_val = dynamic_val as object;
+                was_this_death_preventable = object_val.ToString();
+            }
+
+            dynamic_val = get_value(p_source_object, "committee_review/chance_to_alter_outcome");
+
+            if(dynamic_val != null )
+            {
+                var object_val = dynamic_val as object;
+                if(int.TryParse(object_val.ToString(), out test_int))
+                {
+                    chance_to_alter_outcome = test_int;
+                }
+            }
+
+            if(string.IsNullOrEmpty(was_this_death_preventable))
+            {
+                was_this_death_preventable = "9999";
+            }
+
+
+            if
+            (
+                was_this_death_preventable == "9999"  && 
+                chance_to_alter_outcome == -1
+            )
+            {
+                return;
+            }
+                
+/*
+committee_review/was_this_death_preventable=1 (Yes) OR 
+committee_review/chance_to_alter_outcome=0 (Good Chance) OR 
+committee_review/chance_to_alter_outcome=1 (Some Chance
+*/
+                try
+                {	
+                   
+                    
+                    if
+                    (
+                        was_this_death_preventable == "1" || 
+                        chance_to_alter_outcome == 0 ||
+                        chance_to_alter_outcome == 1
+                        
+                    )
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mDeathPrevent";
+                        curr.field_id = "MDeathPrevent1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+/*
+committee_review/was_this_death_preventable=0 (No) OR
+committee_review/chance_to_alter_outcome=2 (No Chance)
+*/
+                try
+                {	
+                   
+                    
+                    if
+                    (
+                        //was_this_death_preventable == "1" || 
+                        chance_to_alter_outcome == 0 ||
+                        chance_to_alter_outcome == 2
+                        
+                    )
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mDeathPrevent";
+                        curr.field_id = "MDeathPrevent2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+/*
+committee_review/was_this_death_preventable=9999 (Blank) AND 
+committee_review/chance_to_alter_outcome=3 (Unable to Determine)
+*/
+
+                try
+                {	
+                   
+                    
+                    if
+                    (
+                        was_this_death_preventable == "9999" && 
+                        chance_to_alter_outcome == 3
+                        
+                    )
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mDeathPrevent";
+                        curr.field_id = "MDeathPrevent3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            
+
+        }
+
+        private void popluate_mOMBRaceRcd (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/socio_economic_characteristics/homelessness
+*/
+            dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+
+            if(dynamic_val != null && !(dynamic_val is IList<object>))
+            {
+                return;
+            }
+
+            var object_list = dynamic_val as IList<object>;
+
+            if(object_list!= null)
+            foreach(var object_val in object_list)
+            {
+                string val_1 = null;
+
+                if(object_val != null)
+                {
+                    val_1 = object_val.ToString();
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+
+                try
+                {	
+                   
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless4";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless5";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless6";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless7";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless8";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless9";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            }
+
+        }
+
+        private void popluate_mDeathbyRace (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/socio_economic_characteristics/homelessness
+*/
+            dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+
+            if(dynamic_val != null && !(dynamic_val is IList<object>))
+            {
+                return;
+            }
+
+            var object_list = dynamic_val as IList<object>;
+
+            if(object_list!= null)
+            foreach(var object_val in object_list)
+            {
+                string val_1 = null;
+
+                if(object_val != null)
+                {
+                    val_1 = object_val.ToString();
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+
+                try
+                {	
+                   
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless4";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless5";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless6";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless7";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless8";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                try
+                {	
+                    
+                    
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mHomeless";
+                        curr.field_id = "MHomeless9";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            }
+
+        }       
 
 	}
 }
