@@ -353,6 +353,23 @@ function case_status_value_blur(p_control)
 }
 */
 
+//CODE EXECTURED WHEN DOCUMENT EDIT IS SELECTED
+function $case_document_begin_edit () {
+    let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
+    let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
+    if (value === 9999
+        || value === 0
+        || value === 1
+        || value === 4
+        || value === 88
+    ) {
+        $('label[for=' + controlId + '], #' + controlId).hide();
+    }
+    else {
+        $('label[for=' + controlId + '], #' + controlId).show();
+    }
+}
+
 /*
 path=home_record/case_status/overall_case_status
 event=onchange
@@ -498,6 +515,29 @@ function $case_status_cancel()
     g_target_case_status = null;
     g_previous_case_status = null;
 }
+
+/*
+path=home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
+event=onchange
+*/
+function abstrator_assigned_status_value_change(p_control)
+{
+    let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
+    let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
+    if (value === 9999
+        || value === 0
+        || value === 1
+        || value === 4
+        || value === 88
+    ) {
+        $('label[for=' + controlId + '], #' + controlId).hide();
+    }
+    else {
+        $('label[for=' + controlId + '], #' + controlId).show();
+    }
+}
+
+
 
 //CALCULATE MOTHERS AGE AT DEATH ON DC
 /*

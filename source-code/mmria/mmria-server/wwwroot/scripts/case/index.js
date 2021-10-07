@@ -2559,12 +2559,11 @@ function enable_edit_click()
     save_case(g_data, create_save_message, "enable_edit");
     g_autosave_interval = window.setInterval(autosave, 10000);
 
-    if($global.case_document_begin_edit != null)
-    {
+    g_render();
+
+    if ($global.case_document_begin_edit != null) {
         $global.case_document_begin_edit();
     }
-
-    g_render();
   }
 }
 
