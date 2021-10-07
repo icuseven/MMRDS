@@ -1702,6 +1702,11 @@ function get_specific_case(p_id)
             g_autosave_interval = null;
           }
 
+          if($global.case_document_onload != null)
+          {
+            $global.case_document_onload();
+          }
+
           g_render();
         } 
         else 
@@ -1715,10 +1720,19 @@ function get_specific_case(p_id)
             g_autosave_interval = null;
           }
         }
+
+        if($global.case_document_onload != null)
+        {
+        $global.case_document_onload();
+        }
         g_render();
       } 
       else 
       {
+        if($global.case_document_onload != null)
+        {
+          $global.case_document_onload();
+        }
         g_render();
       }
     })
