@@ -5049,202 +5049,108 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
 
 			int test_int;
 
-/*
-social_and_environmental_profile/socio_economic_characteristics/homelessness
-*/
-            dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 
-            if(dynamic_val != null && !(dynamic_val is IList<object>))
+//birth_fetal_death_certificate_parent/race/omb_race_recode=0 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 0)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=1 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 1)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=2 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 2)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=3 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 3)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=4 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 4)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=5 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 5)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=6 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 6)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=14 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 14)
+//birth_fetal_death_certificate_parent/race/omb_race_recode=8888 AND death_certificate/race/omb_race_recode = 8888
+//birth_fetal_death_certificate_parent/race/omb_race_recode=9999 AND death_certificate/race/omb_race_recode = 9999
+
+
+            var birth_fetal_death_certificate_parent_race_omb_race_recode_string = string.Empty;
+            var death_certificate_race_race_string = string.Empty;
+
+            var birth_fetal_death_certificate_parent_race_race_of_mother = -1;
+            var death_certificate_race_race = -1;
+
+            dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+            
+            if(dynamic_val != null)
             {
-                return;
+                var object_val = dynamic_val as object;
+                birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
             }
 
-            var object_list = dynamic_val as IList<object>;
-
-            if(object_list!= null)
-            foreach(var object_val in object_list)
+            dynamic_val = get_value(p_source_object, "death_certificate/race/race");
+            if(dynamic_val != null)
             {
-                string val_1 = null;
+                var object_val = dynamic_val as object;
+                death_certificate_race_race_string = object_val.ToString();
+            }
 
-                if(object_val != null)
+            if(string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_omb_race_recode_string))
+            {
+                if(int.TryParse(birth_fetal_death_certificate_parent_race_omb_race_recode_string, out test_int))
                 {
-                    val_1 = object_val.ToString();
+                    birth_fetal_death_certificate_parent_race_race_of_mother = test_int;
                 }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+                else
+                {
+                    birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
+                }
+                
+            }
 
-                try
-                {	
-                   
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless1";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
+            if(string.IsNullOrWhiteSpace(death_certificate_race_race_string))
+            {
+                if(int.TryParse(death_certificate_race_race_string, out test_int))
                 {
-                    System.Console.WriteLine (ex);
+                    death_certificate_race_race = test_int;
                 }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+                else
+                {
+                    death_certificate_race_race = 9999;
+                }
+                
+            }
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless2";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
+           try
+            {	
+                var (indicator_id, field_id) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race) switch
                 {
-                    System.Console.WriteLine (ex);
-                }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=0 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 0)
+                    (int b, int d) when b==0 || d== 0 => ("mOMBRaceRcd", "MOMBRaceRcd1"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=1 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 1)
+                    (int b, int d) when b==1 || d== 1 => ("mOMBRaceRcd", "MOMBRaceRcd2"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=2 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 2)
+                    (int b, int d) when b==2 || d== 2 => ("mOMBRaceRcd", "MOMBRaceRcd3"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=3 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 3)
+                    (int b, int d) when b==3 || d== 3 => ("mOMBRaceRcd", "MOMBRaceRcd4"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=4 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 4)
+                    (int b, int d) when b==4 || d== 4 => ("mOMBRaceRcd", "MOMBRaceRcd5"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=5 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 5)
+                    (int b, int d) when b==5 || d== 5 => ("mOMBRaceRcd", "MOMBRaceRcd6"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=6 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 6)
+                    (int b, int d) when b==6 || d== 6 => ("mOMBRaceRcd", "MOMBRaceRcd7"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=14 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 14)
+                    (int b, int d) when b==14 || d== 14 => ("mOMBRaceRcd", "MOMBRaceRcd8"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=8888 AND death_certificate/race/omb_race_recode = 8888
+                    (int b, int d) when b==8888 || d== 8888 => ("mOMBRaceRcd", "MOMBRaceRcd9"),
+                    //birth_fetal_death_certificate_parent/race/omb_race_recode=9999 AND death_certificate/race/omb_race_recode = 9999
+                    (int b, int d) when b==9999 || d== 9999 => ("mOMBRaceRcd", "MOMBRaceRcd10"),
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless3";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+                _ =>  ("", "")
+                };
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless4";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
+                if(!string.IsNullOrWhiteSpace(indicator_id))     
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = indicator_id;
+                    curr.field_id = field_id;
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
                 }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless5";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless6";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless7";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless8";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless9";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
+            
+                
+            }
+            catch(Exception ex)
+            {
+                System.Console.WriteLine (ex);
             }
 
         }
@@ -5254,202 +5160,135 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 
 			int test_int;
 
-/*
-social_and_environmental_profile/socio_economic_characteristics/homelessness
-*/
-            dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 
-            if(dynamic_val != null && !(dynamic_val is IList<object>))
+            var birth_fetal_death_certificate_parent_race_race_of_mother_string = string.Empty;
+            var death_certificate_race_race_string = string.Empty;
+
+            var birth_fetal_death_certificate_parent_race_race_of_mother = -1;
+            var death_certificate_race_race = -1;
+
+            dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+            
+            if(dynamic_val != null)
             {
-                return;
+                var object_val = dynamic_val as object;
+                birth_fetal_death_certificate_parent_race_race_of_mother_string = object_val.ToString();
             }
 
-            var object_list = dynamic_val as IList<object>;
-
-            if(object_list!= null)
-            foreach(var object_val in object_list)
+            dynamic_val = get_value(p_source_object, "death_certificate/race/race");
+            if(dynamic_val != null)
             {
-                string val_1 = null;
+                var object_val = dynamic_val as object;
+                death_certificate_race_race_string = object_val.ToString();
+            }
 
-                if(object_val != null)
+            if(string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_race_of_mother_string))
+            {
+                if(int.TryParse(birth_fetal_death_certificate_parent_race_race_of_mother_string, out test_int))
                 {
-                    val_1 = object_val.ToString();
+                    birth_fetal_death_certificate_parent_race_race_of_mother = test_int;
                 }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+                else
+                {
+                    birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
+                }
+                
+            }
 
-                try
-                {	
-                   
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless1";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
+            if(string.IsNullOrWhiteSpace(death_certificate_race_race_string))
+            {
+                if(int.TryParse(death_certificate_race_race_string, out test_int))
                 {
-                    System.Console.WriteLine (ex);
+                    death_certificate_race_race = test_int;
                 }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+                else
+                {
+                    death_certificate_race_race = 9999;
+                }
+                
+            }
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless2";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+/*
+mDeathbyRace MDeathbyRace17
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless3";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-    //mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+/birth_fetal_death_certificate_parent/race/race_of_mother=0 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 0)
+/birth_fetal_death_certificate_parent/race/race_of_mother=1 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 1)
+/birth_fetal_death_certificate_parent/race/race_of_mother=2 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 2)
+/birth_fetal_death_certificate_parent/race/race_of_mother=3 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 3)
+/birth_fetal_death_certificate_parent/race/race_of_mother=4 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 4)
+/birth_fetal_death_certificate_parent/race/race_of_mother=5 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 5)
+/birth_fetal_death_certificate_parent/race/race_of_mother=6 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 6)
+/birth_fetal_death_certificate_parent/race/race_of_mother=7 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 7)
+/birth_fetal_death_certificate_parent/race/race_of_mother=8 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 8)
+/birth_fetal_death_certificate_parent/race/race_of_mother=9 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 9)
+/birth_fetal_death_certificate_parent/race/race_of_mother=10 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 10)
+/birth_fetal_death_certificate_parent/race/race_of_mother=11 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 11)
+/birth_fetal_death_certificate_parent/race/race_of_mother=12 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 12)
+/birth_fetal_death_certificate_parent/race/race_of_mother=13 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 13)
+/birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
+/birth_fetal_death_certificate_parent/race/race_of_mother=8888 AND /death_certificate/race/race= 8888
+/birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless4";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
+*/
+            
+            try
+            {	
+                var (indicator_id, field_id) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race) switch
                 {
-                    System.Console.WriteLine (ex);
-                }
 
-                try
-                {	
                     
-                    
-                    if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless5";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=0 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 0)
+                    (int b, int d) when b==0 || ((b == 8888 || b==9999) && d== 0) => ("mDeathbyRace", "MDeathbyRace1"),
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless6";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=1 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 1)
+                    (int b, int d) when b==1 || ((b == 8888 || b==9999) && d== 1) => ("mDeathbyRace", "MDeathbyRace2"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=2 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 2)
+                    (int b, int d) when b==2 || ((b == 8888 || b==9999) && d== 2) => ("mDeathbyRace", "MDeathbyRace3"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=3 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 3)
+                    (int b, int d) when b==3 || ((b == 8888 || b==9999) && d== 3) => ("mDeathbyRace", "MDeathbyRace4"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=4 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 4)
+                    (int b, int d) when b==4 || ((b == 8888 || b==9999) && d== 4) => ("mDeathbyRace", "MDeathbyRace5"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=5 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 5)
+                    (int b, int d) when b==5 || ((b == 8888 || b==9999) && d== 5) => ("mDeathbyRace", "MDeathbyRace6"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=6 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 6)
+                    (int b, int d) when b==6 || ((b == 8888 || b==9999) && d== 6) => ("mDeathbyRace", "MDeathbyRace7"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=7 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 7)
+                    (int b, int d) when b==7 || ((b == 8888 || b==9999) && d== 7) => ("mDeathbyRace", "MDeathbyRace8"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=8 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 8)
+                    (int b, int d) when b==8 || ((b == 8888 || b==9999) && d== 8) => ("mDeathbyRace", "MDeathbyRace9"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=9 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 9)
+                    (int b, int d) when b==9 || ((b == 8888 || b==9999) && d== 9) => ("mDeathbyRace", "MDeathbyRace10"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=10 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 10)
+                    (int b, int d) when b==10 || ((b == 8888 || b==9999) && d== 10) => ("mDeathbyRace", "MDeathbyRace11"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=11 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 11)
+                    (int b, int d) when b==11 || ((b == 8888 || b==9999) && d== 11) => ("mDeathbyRace", "MDeathbyRace12"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=12 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 12)
+                    (int b, int d) when b==12 || ((b == 8888 || b==9999) && d== 12) => ("mDeathbyRace", "MDeathbyRace13"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=13 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 13)
+                    (int b, int d) when b==13 || ((b == 8888 || b==9999) && d== 13) => ("mDeathbyRace", "MDeathbyRace14"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
+                    (int b, int d) when b==14 || ((b == 8888 || b==9999) && d== 14) => ("mDeathbyRace", "MDeathbyRace15"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=8888 AND /death_certificate/race/race= 8888
+                    (int b, int d) when b==8888 && d == 8888 => ("mDeathbyRace", "MDeathbyRace16"),
+                    //birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
+                    (int b, int d) when b==9999 && d== 9999 => ("mDeathbyRace", "MDeathbyRace17"),
+                    _ =>  ("", "")
+                };
 
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless7";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
+                if(!string.IsNullOrWhiteSpace(indicator_id))     
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = indicator_id;
+                    curr.field_id = field_id;
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
                 }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless8";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
-
-                try
-                {	
-                    
-                    
-                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
-                    {
-                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                        curr.indicator_id = "mHomeless";
-                        curr.field_id = "MHomeless9";
-                        curr.value = 1;
-                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    System.Console.WriteLine (ex);
-                }
+            
+                
+            }
+            catch(Exception ex)
+            {
+                System.Console.WriteLine (ex);
             }
 
         }       
