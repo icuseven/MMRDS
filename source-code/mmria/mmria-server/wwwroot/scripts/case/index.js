@@ -2561,7 +2561,8 @@ function enable_edit_click()
 
     g_render();
 
-    if ($global.case_document_begin_edit != null) {
+    if ($global.case_document_begin_edit != null) 
+    {
         $global.case_document_begin_edit();
     }
   }

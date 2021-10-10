@@ -1,22 +1,51 @@
-function jurisdiction_render(p_data)
+function jurisdiction_render(p_data, p_path)
 {
 	var result = [];
+
+    if(p_path == null)
+    {
+        p_path = "";
+    }
 
 	if( p_data._id)
 	{ 
 		
 		result.push("<div id='" + p_data._id.replace("/","_") + "'");
-		result.push("<p><b>Jurisdiction Tree<b> ");
-		result.push("<br/><input type='button' value='save jurisdiction tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
-		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+		result.push("<p><b>case_folder tree<b> ");
+
+        for (const key in g_managed_jurisdiction_set) 
+        {
+            if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+            {
+                if(p_data.name.indexOf(key) == 0)
+                {
+                    result.push("<br/><input type='button' value='save changes to case_folder tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
+                    result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+                    break;
+                }
+            }
+        }
+        
+		
 		result.push("</p><ul>");
 		result.push("<li>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
-		result.push(`<span>`);
-			result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })' />");
-			result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
-		result.push(`</span>`);
+        for (const key in g_managed_jurisdiction_set) 
+        {
+            if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+            {
+                if(p_data.name.indexOf(key) == 0)
+                {
+                    result.push(`<span>`);
+                    result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })' />");
+                    result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+                    result.push(`</span>`);
+                    break;
+                }
+            }
+        }
+		
 	}
 	else
 	{
@@ -24,9 +53,28 @@ function jurisdiction_render(p_data)
 		result.push(p_data.name);
 		result.push("&nbsp;");
 		result.push(`<span>`);
-			result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })' />&nbsp;<input type='button' value='delete' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
-			result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
-		result.push(`</span>`);
+
+        let new_path = `${p_path}${p_data.name}`;
+        if(p_path == "/")
+        {
+            new_path = p_data.name;
+        }
+
+        for (const key in g_managed_jurisdiction_set) 
+        {
+            if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+            {
+                if(new_path.indexOf(key) == 0)
+                {
+                    result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })' />&nbsp;<input type='button' value='delete' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
+                    result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+                    result.push(`</span>`);
+                    break;
+                }
+            }
+        }
+
+
 	}
 
 	if(p_data.children != null)
@@ -35,7 +83,12 @@ function jurisdiction_render(p_data)
 		{
 			result.push("<ul>");
 			var child = p_data.children[i];
-			Array.prototype.push.apply(result, jurisdiction_render(child));
+            let new_path = `${p_path}${p_data.name}`;
+            if(p_path == "")
+            {
+                new_path = p_data.name;
+            }
+			Array.prototype.push.apply(result, jurisdiction_render(child, new_path));
 			result.push("</ul>");
 			
 		}
@@ -45,7 +98,7 @@ function jurisdiction_render(p_data)
 	if(p_data._id)
 	{
 		result.push("</ul>");
-		result.push("<br/><input type='button' value='save jurisdiction tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
+		result.push("<br/><input type='button' value='save changes to case_folder tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
 		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 		result.push("</div>")
 	}

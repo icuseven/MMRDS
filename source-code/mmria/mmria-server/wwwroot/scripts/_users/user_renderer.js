@@ -88,10 +88,21 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push(p_created_by);
 	result.push("\")'");
 	result.push("'>");
+
+    let role_set = get_role_list();
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
 		var user_role = g_user_role_jurisdiction[i];
-		if(user_role.user_id == p_user.name)
+		if
+        (
+            role_set.indexOf(user_role.role_name) > -1  &&
+            (
+                g_managed_jurisdiction_set[user_role.jurisdiction_id] != null ||
+                g_managed_jurisdiction_set[user_role.jurisdiction_id] == true
+
+            ) &&
+            user_role.user_id == p_user.name
+        )
 		{
 			result.push("<option");
 
@@ -194,9 +205,24 @@ user_role_jurisdiction
 }
 
 
+function get_role_list()
+{
+    let result = [];
+    if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
+	{
+		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'power_bi_manager'];
+	}
+	else
+	{
+		result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
+	}
+
+    return result;
+}
+
 function render_role_list_for(p_user, p_created_by)
 {
-	var result = [];
+	let result = [];
 
 	result.push("<select size='7' id='role_list_for_");
 	result.push(p_user.name);
@@ -209,7 +235,11 @@ function render_role_list_for(p_user, p_created_by)
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
 		var user_role = g_user_role_jurisdiction[i];
-		if(user_role.user_id == p_user.name)
+        
+		if
+        (
+            user_role.user_id == p_user.name
+        )
 		{
 			result.push("<option");
 
@@ -303,35 +333,28 @@ function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 
 function user_role_render(p_user, p_user_role_jurisdiction)
 {
-	var result = [];
-	var role_set = null;
-
-	if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
-	{
-		role_set = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'power_bi_manager'];
-	}
-	else
-	{
-		role_set = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
-	}
+	let result = [];
+	let role_set = get_role_list();
 
 	result.push("<select id='selected_user_role_for_" + p_user.name + "_role' size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)
 	{
 		var item = role_set[i];
-		if(p_user_role_jurisdiction.role_name == item)
-		{
-			result.push("<option selected='true'>");
-			result.push(item);
-			result.push("</option>");
 
-		}
-		else
-		{
-			result.push("<option>");
-			result.push(item);
-			result.push("</option>");
-		}
+        if(p_user_role_jurisdiction.role_name == item)
+        {
+            result.push("<option selected='true'>");
+            result.push(item);
+            result.push("</option>");
+
+        }
+        else
+        {
+            result.push("<option>");
+            result.push(item);
+            result.push("</option>");
+        }
+        
 	}
 	result.push("</select>");
 
@@ -350,26 +373,45 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 		p_level = 0;
 	}
 
-	result.push("<option")
-	if(p_data.name == p_selected_id)
-	{
-		result.push(" selected=true")
-	}
-	result.push(">")
-	result.push(p_data.name);
-	result.push("</option>")
-	
 
 
-	if(p_data.children != null)
-	{
-		for(var i = 0; i < p_data.children.length; i++)
-		{
-			var child = p_data.children[i];
-			Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1, p_user_name));
-			
-		}
-	}
+    let is_managed_jusisdiction = false;
+
+    for (const key in g_managed_jurisdiction_set) 
+    {
+        if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+        {
+            if(p_data.name.indexOf(key) == 0)
+            {
+                is_managed_jusisdiction = true;
+                break;
+            }
+        }
+    }
+
+
+    if(is_managed_jusisdiction)
+    {
+        result.push("<option")
+        if(p_data.name == p_selected_id)
+        {
+            result.push(" selected=true")
+        }
+        result.push(">")
+        result.push(p_data.name);
+        result.push("</option>")
+    }
+
+    if(p_data.children != null)
+    {
+        for(var i = 0; i < p_data.children.length; i++)
+        {
+            var child = p_data.children[i];
+            Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1, p_user_name));
+            
+        }
+    }
+    
 
 	if( p_data._id)
 	{
@@ -412,7 +454,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("jurisdiction_id");
+	result.push("case_folder_access");
 	result.push("</td><td>")
 	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, p_user_role_jurisdiction.jurisdiction_id, 0, p_user.name));
 
