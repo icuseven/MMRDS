@@ -43,7 +43,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         
         if(p_data == child)
         {
-            if(p_data == "/")
+            if(child == "/")
             {
                 p_result.push("<option value='");
                 p_result.push(child.replace(/'/g, "&#39;"));
@@ -65,7 +65,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         }
         else
         {
-            if(p_data == "/")
+            if(child == "/")
             {
                 p_result.push("<option value='");
                 p_result.push(child.replace(/'/g, "&#39;"));
