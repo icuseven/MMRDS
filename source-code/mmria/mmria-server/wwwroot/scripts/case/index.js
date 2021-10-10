@@ -1260,7 +1260,10 @@ function load_user_role_jurisdiction()
             for (var i in response.rows) 
             {
                 var value = response.rows[i].value;
-                g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+                if(value.role_name=="abstractor")
+                {
+                    g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+                }
             }
 
             create_jurisdiction_list(g_jurisdiction_tree);
