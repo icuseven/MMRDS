@@ -29,7 +29,14 @@ function jurisdiction_render(p_data, p_path)
 		
 		result.push("</p><ul>");
 		result.push("<li>");
-		result.push(p_data.name);
+        if(p_data.name == "/")
+        {
+            result.push("Top Folder");
+        }
+        else
+        {
+		    result.push(p_data.name);
+        }
 		result.push("&nbsp;");
         for (const key in g_managed_jurisdiction_set) 
         {
