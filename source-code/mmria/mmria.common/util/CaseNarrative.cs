@@ -8,6 +8,18 @@ namespace mmria.common.util
     public static class CaseNarrative
     {
         
+        public static string StripHTML(string value)
+        {
+            System.Text.RegularExpressions.Regex oRegEx = new 
+            (
+                "<!*[^<>]*>",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase |System.Text.RegularExpressions.RegexOptions.Multiline
+            );
+
+            var result = oRegEx.Replace(value, "");
+            
+            return result;
+        }
 
         public static string StripHtmlAttributes(string value)
         {
