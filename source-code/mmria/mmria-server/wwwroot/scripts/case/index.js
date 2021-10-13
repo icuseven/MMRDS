@@ -879,10 +879,10 @@ var g_ui = {
     ) 
     {
         
-        let new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        let new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         while(g_record_id_list[new_record_id] != null)
         {
-            new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+            new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
         result.home_record.record_id = new_record_id.toUpperCase();
