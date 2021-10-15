@@ -76,7 +76,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<thead class='thead'>");
       role_list_html.push("<tr class='tr'>");
       role_list_html.push("<th class='th' scope='col'>Role Name</th>");
-      role_list_html.push("<th class='th' scope='col'>Jurisdiction</th>");
+      role_list_html.push("<th class='th' scope='col'>Case Folder Access</th>");
       role_list_html.push("<th class='th' scope='col'>Is Active</th>");
       role_list_html.push("<th class='th' scope='col'>Start Date</th>");
       role_list_html.push("<th class='th' scope='col'>End Date</th>");
@@ -124,7 +124,14 @@ function load_user_role_jurisdiction()
               }
               
                 role_list_html.push("<td class='td'>" + escape(value.role_name) + "</td>");
-                role_list_html.push("<td class='td'>" + escape(value.jurisdiction_id) + "</td>");
+                if(value.jurisdiction_id == "/")
+                {
+                    role_list_html.push("<td class='td'>Top Folder</td>");
+                }
+                else
+                {
+                    role_list_html.push("<td class='td'>" + escape(value.jurisdiction_id) + "</td>");
+                }
                 
                 if(diffDays < 0)
                 {
