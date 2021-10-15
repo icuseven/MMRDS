@@ -2393,7 +2393,7 @@ function pdf_case_onclick(event)
   const section_name = dropdown.value;
   //await print_pdf( section_name );
 
-  tab_number+= 1;
+//   tab_number+= 1;
 
   if (section_name) 
   {
@@ -2465,6 +2465,14 @@ function print_case_onclick(event)
 
 function openTab(pageRoute, tabName, p_section, p_number) 
 {
+	console.log('in openTab');
+	console.log('pageRoute: ', pageRoute);
+	console.log('tabName: ', tabName);
+	console.log('g_metadata: ', g_metadata);
+	console.log('g_data: ', g_data);
+	console.log('p_section: ', p_section);
+	console.log('p_number: ', p_number);
+
   // check if a WindowProxy object has already been created.
   if (!window[tabName] || window[tabName].closed) 
   {

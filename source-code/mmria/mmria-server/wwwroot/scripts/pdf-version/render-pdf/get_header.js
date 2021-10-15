@@ -1,6 +1,10 @@
-async function get_header(currentPage, pageCount, p_section_name)
+async function get_header(currentPage, pageCount, section_name)
 {
-    // console.log( 'currentPage: ', currentPage );
+    console.log( 'currentPage: ', currentPage );
+	console.log( 'pageCount: ', pageCount);
+	console.log( 'section_name', section_name);
+	let styles = get_style();
+	console.log('styles: ', styles);
     // console.log( 'doc: ', doc );
     if (section_name === 'all') 
     {
@@ -27,42 +31,42 @@ async function get_header(currentPage, pageCount, p_section_name)
     } else 
     {
         //writeText = getSectionTitle(section_name);
-        writeText = p_section_name;
+        writeText = section_name;
     }
     let headerObj = [
         {
             margin: 10,
             columns: [
-                {
-                    image: `${await getBase64ImageFromURL("/images/mmria-secondary.png")}`,
-                    width: 30,
-                    margin: [0, 0, 0, 10]
-                },
+                // {
+                //     image: `${await getBase64ImageFromURL("/images/mmria-secondary.png")}`,
+                //     width: 30,
+                //     margin: [0, 0, 0, 10]
+                // },
                 {
                     width: '*',
                     text:  getHeaderName(),
                     alignment: 'center',
                     style: 'pageHeader'
                 },
-                {
-                    width: 110,
-                    layout: {
-                        defaultBorder: false,
-                    },
-                    table: {
-                        widths: [40, 60],
-                        body: [
-                            [
-                                { text: 'Page:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
-                                { text: currentPage + ' of ' + pageCount, style: 'headerPageDate' },
-                            ],
-                            [
-                                { text: 'Printed:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
-                                { text: getTodayFormatted(), style: 'headerPageDate' },
-                            ],
-                        ],
-                    },
-                },
+                // {
+                //     width: 110,
+                //     layout: {
+                //         defaultBorder: false,
+                //     },
+                //     table: {
+                //         widths: [40, 60],
+                //         body: [
+                //             [
+                //                 { text: 'Page:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
+                //                 { text: currentPage + ' of ' + pageCount, style: 'headerPageDate' },
+                //             ],
+                //             [
+                //                 { text: 'Printed:', style: ['headerPageDate', 'isBold'], alignment: 'right' },
+                //                 { text: getTodayFormatted(), style: 'headerPageDate' },
+                //             ],
+                //         ],
+                //     },
+                // },
             ],
         },
         {
@@ -72,7 +76,7 @@ async function get_header(currentPage, pageCount, p_section_name)
                 widths: '*',
                 body: [
                     [
-                        { text: writeText, style: ['formHeader', 'isBold', 'lightFill'], }
+                        { text: writeText,  }
                     ],
                 ],
             },
@@ -102,7 +106,7 @@ function set_form_start(p_content, p_metadata)
             widths: [250, 'auto'],
             body: [
                 [
-                    { text: p_metadata.name, style: ['subHeader'], colSpan: '2', },
+                    { text: p_metadata.name, colSpan: '2', },
                     {},
                 ]
             ]
