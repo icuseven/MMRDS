@@ -373,6 +373,11 @@ namespace mmria.server.utils
               //System.Console.WriteLine("break");
             }
 
+            if(path == "case_narrative/case_opening_overview")
+            {
+                System.Console.WriteLine("break");
+            }
+
             dynamic val = get_value(case_doc as IDictionary<string, object>, path);
             try
             {
@@ -581,6 +586,11 @@ namespace mmria.server.utils
                 default:
                   if (val != null)
                   {
+                    if(path == "case_narrative/case_opening_overview")
+                    {
+                        val = mmria.common.util.CaseNarrative.StripHTML(val);
+                    }
+
                     if
                     (
                       (

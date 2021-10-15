@@ -3,6 +3,9 @@ var g_policy_values = null;
 var g_jurisdiction_tree = null;
 var g_user_role_jurisdiction = null;
 var g_current_u_id = null;
+var g_jurisdiction_list = [];
+
+let g_managed_jurisdiction_set = {}
 
 var g_ui = { 
 	user_summary_list:[],
@@ -91,6 +94,83 @@ function load_values()
 	});
 
 }
+
+function load_curent_user_role_jurisdiction()
+{
+
+  /*            
+  int skip = 0,
+  int take = 25,
+  string sort = "by_date_created",
+  string search_key = null,
+  bool descending = false
+  */
+
+	$.ajax
+    ({
+    url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
+    headers: {          
+      Accept: "text/plain; charset=utf-8",         
+      "Content-Type": "text/plain; charset=utf-8"   
+    } 
+	})
+    .done(function(response) 
+    {
+        g_jurisdiction_list = []
+
+        if(response)
+        {
+          for(var i in response.rows)
+          {
+
+            var current_date = new Date();
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+
+            var value = response.rows[i].value;
+
+            var diffDays = 0;
+            var effective_start_date = "";
+            var effective_end_date = "never";
+
+            if(value.effective_start_date && value.effective_start_date != "")
+            {
+                effective_start_date = value.effective_start_date.split('T')[0];
+            }
+
+            if(value.effective_end_date && value.effective_end_date != "")
+            {
+                effective_end_date = value.effective_end_date.split('T')[0];
+                diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
+            }
+
+
+            if(diffDays < 0)
+            {
+                role_list_html.push("<td class='td'>false</td>");
+            }
+            else
+            {
+                g_jurisdiction_list.push(value);
+                if
+                (
+                    value.role_name == "jurisdiction_admin" ||
+                    value.role_name == "installation_admin"
+                )
+                {
+                    g_managed_jurisdiction_set[value.jurisdiction_id] = true;
+                }
+            }
+
+
+          }
+            
+        }
+      
+
+        load_jurisdictions()
+	});
+}
+
 
 function load_jurisdictions()
 {
@@ -191,7 +271,7 @@ function load_user_name()
 				break;
 			}
 			
-			load_jurisdictions();
+			load_curent_user_role_jurisdiction();
 		}
         
 	});

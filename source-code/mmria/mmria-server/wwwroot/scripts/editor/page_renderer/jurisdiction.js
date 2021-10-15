@@ -7,7 +7,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push(
         `<label for="${convert_object_path_to_jquery_id(p_object_path)}_control"
             ${styleObject ? `style="${get_style_string(styleObject.prompt.style)}"` : ''}>
-            Jurisdiction ID
+            Case Folder
         </label>`
     );
 
@@ -43,21 +43,46 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         
         if(p_data == child)
         {
-            p_result.push("<option value='");
-            p_result.push(child.replace(/'/g, "&#39;"));
-            p_result.push("' selected ");
-            p_result.push(">");
-            p_result.push(child);
-            p_result.push("</option>");
+            if(child == "/")
+            {
+                p_result.push("<option value='");
+                p_result.push(child.replace(/'/g, "&#39;"));
+                p_result.push("' selected ");
+                p_result.push(">");
+                p_result.push("Top Folder");
+                p_result.push("</option>");
+            }
+            else
+            {
+                p_result.push("<option value='");
+                p_result.push(child.replace(/'/g, "&#39;"));
+                p_result.push("' selected ");
+                p_result.push(">");
+                p_result.push(child);
+                p_result.push("</option>");
+            }
+            
         }
         else
         {
-            p_result.push("<option value='");
-            p_result.push(child.replace(/'/g, "&#39;"));
-            p_result.push("' ");
-            p_result.push(">");
-            p_result.push(child);
-            p_result.push("</option>");
+            if(child == "/")
+            {
+                p_result.push("<option value='");
+                p_result.push(child.replace(/'/g, "&#39;"));
+                p_result.push("' ");
+                p_result.push(">");
+                p_result.push("Top Folder");
+                p_result.push("</option>");
+            }
+            else
+            {
+                p_result.push("<option value='");
+                p_result.push(child.replace(/'/g, "&#39;"));
+                p_result.push("' ");
+                p_result.push(">");
+                p_result.push(child);
+                p_result.push("</option>");
+            }
         }
     }
     p_result.push("</select></div>");

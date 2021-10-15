@@ -879,10 +879,10 @@ var g_ui = {
     ) 
     {
         
-        let new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        let new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         while(g_record_id_list[new_record_id] != null)
         {
-            new_record_id = reporting_state + '-' + result.home_record.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+            new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
         result.home_record.record_id = new_record_id.toUpperCase();
@@ -1260,7 +1260,10 @@ function load_user_role_jurisdiction()
             for (var i in response.rows) 
             {
                 var value = response.rows[i].value;
-                g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+                if(value.role_name=="abstractor")
+                {
+                    g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+                }
             }
 
             create_jurisdiction_list(g_jurisdiction_tree);
@@ -2561,7 +2564,8 @@ function enable_edit_click()
 
     g_render();
 
-    if ($global.case_document_begin_edit != null) {
+    if ($global.case_document_begin_edit != null) 
+    {
         $global.case_document_begin_edit();
     }
   }
