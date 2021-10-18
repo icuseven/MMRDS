@@ -61,7 +61,7 @@ namespace mmria.common.util
             );
 
 
-            return StripTrailBlankSpaceExp.Replace(CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),""), "");
+            return StripTrailBlankSpaceExp.Replace("<br>", "\n").Replace("&quot;", "\"").Replace("&pos;", "'").Replace("&nbsp;", " ").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">").Replace(CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),""), "");
         }
         public static string StripHtmlAttributes2(string value)
         {
