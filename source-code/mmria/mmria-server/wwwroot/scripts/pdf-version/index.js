@@ -409,7 +409,7 @@ function fmtStrDate(dt) {
 
 // Get the header name
 function getHeaderName() {
-	let headerStr = `MMRIA Record ID#:  ${g_d.home_record.record_id}\n` +
+	let headerStr = `MMRIA Record ID#:  ${g_d.home_record.record_id}\t--\t` +
 		`Agency ID#: ${g_d.home_record.agency_case_id}`;
 	return headerStr;
 }
