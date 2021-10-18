@@ -106,13 +106,26 @@ function form_render(
 				p_result.push(g_data.home_record.first_name);
 				p_result.push("</p>");
 			}
-			if (g_data.home_record.record_id) {
-				p_result.push("<p class='construct__info mb-0'>");
-				p_result.push(
-					"<strong>Record ID:</strong> " + g_data.home_record.record_id
-				);
-				p_result.push("</p>");
-			}
+
+            p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
+            if(g_data.home_record.jurisdiction_id == "/")
+            {
+                p_result.push("Top Folder");
+            }
+            else
+            {
+                p_result.push(g_data.home_record.jurisdiction_id);
+        
+            }
+            if (g_data.home_record.record_id) 
+            {
+                p_result.push
+                (
+                    " <strong>Record ID:</strong> " + g_data.home_record.record_id
+                );
+                
+            }
+            p_result.push("</p>");
 
 			p_result.push("<p class='construct__subtitle'");
 
@@ -596,7 +609,8 @@ function form_render(
 				"<div class='construct__header-main position-relative row no-gutters align-items-start'>"
 			);
 			p_result.push("<div class='col-6 position-static'>");
-			if (g_data) {
+			if (g_data) 
+            {
 				p_result.push(
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
@@ -605,13 +619,26 @@ function form_render(
 				p_result.push(g_data.home_record.first_name);
 				p_result.push("</p>");
 			}
-			if (g_data.home_record.record_id) {
-				p_result.push("<p class='construct__info mb-0'>");
-				p_result.push(
-					"<strong>Record ID:</strong> " + g_data.home_record.record_id
-				);
-				p_result.push("</p>");
-			}
+
+            p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
+            if(g_data.home_record.jurisdiction_id == "/")
+            {
+                p_result.push("Top Folder");
+            }
+            else
+            {
+                p_result.push(g_data.home_record.jurisdiction_id);
+        
+            }
+            if (g_data.home_record.record_id) 
+            {
+                p_result.push
+                (
+                    " <strong>Record ID:</strong> " + g_data.home_record.record_id
+                );
+                
+            }
+            p_result.push("</p>");
 
 			p_result.push("<p class='construct__subtitle'");
 
@@ -803,13 +830,25 @@ function form_render(
 			p_result.push("</p>");
 		}
 
-		if (g_data.home_record.record_id) {
-			p_result.push("<p class='construct__info mb-0'>");
-			p_result.push(
-				"<strong>Record ID:</strong> " + g_data.home_record.record_id
-			);
-			p_result.push("</p>");
-		}
+        p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
+        if(g_data.home_record.jurisdiction_id == "/")
+        {
+            p_result.push("Top Folder");
+        }
+        else
+        {
+            p_result.push(g_data.home_record.jurisdiction_id);
+    
+        }
+        if (g_data.home_record.record_id) 
+        {
+            p_result.push
+            (
+                " <strong>Record ID:</strong> " + g_data.home_record.record_id
+            );
+            
+        }
+        p_result.push("</p>");
 
 		p_result.push("<p class='construct__subtitle'");
 		if (p_metadata.description && p_metadata.description.length > 0) {
@@ -1620,13 +1659,27 @@ function quick_edit_header_render(
 		p_result.push(g_data.home_record.first_name);
 		p_result.push("</h1>");
 	}
-	if (g_data.home_record.record_id) {
-		p_result.push("<p class='construct__info mb-0'>");
-		p_result.push(
-			"<strong>Record ID:</strong> " + g_data.home_record.record_id
+
+    p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
+    if(g_data.home_record.jurisdiction_id == "/")
+    {
+        p_result.push("Top Folder");
+    }
+    else
+    {
+        p_result.push(g_data.home_record.jurisdiction_id);
+
+    }
+	if (g_data.home_record.record_id) 
+    {
+		p_result.push
+        (
+			" <strong>Record ID:</strong> " + g_data.home_record.record_id
 		);
-		p_result.push("</p>");
+		
 	}
+    p_result.push("</p>");
+
 	p_result.push("<p class='construct__subtitle'");
 	if (p_metadata.description && p_metadata.description.length > 0) {
 		p_result.push("rel='tooltip' data-original-title='");
