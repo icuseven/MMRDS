@@ -271,6 +271,12 @@ async function print_pdf(ctx) {
 				color: '#000000',
 				fontSize: 9,
 			},
+			labelDetail: {
+				color: '#ff0000',
+				fontSize: 9,
+				bold: true,
+				margin: [0, 5, 0, 0],
+			},
 		},
 		defaultStyle: {
 			fontSize: 12,
@@ -2387,7 +2393,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 								if (child.type === 'list') {
 									let textStr;
 									if (child.values.length === 0) {
-										textStr = lookupGlobalArr(p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
+										textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 									}
 									else {
 										textStr = lookupFieldArr(p_data[i][child.name], child.values);
@@ -2450,7 +2456,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 									if (child.type === 'list') {
 										let textStr;
 										if (child.values.length === 0) {
-											textStr = lookupGlobalArr(p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
+											textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 										}
 										else {
 											textStr = lookupFieldArr(p_data[i][child.name], child.values);
@@ -3217,13 +3223,17 @@ function print_pdf_render_content(ctx) {
 		case "button":
 			break;
 		case "label":
+			ctx.content.push([
+				{ text: `${ctx.metadata.prompt}`, style: ['labelDetail'], alignment: 'center', colSpan: '2', },
+				{},
+			],);
 			break;
 		default:
 			console.log('*** in DEFAULT', ctx.metadata.prompt);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: chkNull(ctx.data), style: ['tableDetail'] },
-			]);
+			],);
 			break;
 	}
 
