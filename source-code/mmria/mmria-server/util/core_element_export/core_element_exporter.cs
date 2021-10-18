@@ -1559,11 +1559,11 @@ namespace mmria.server.utils
 
       if (this.qualitativeStreamCount[index] == 0)
       {
-        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{mmria.common.util.CaseNarrative.StripHTML(p_data)}");
       }
       else
       {
-        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{mmria.common.util.CaseNarrative.StripHTML(p_data)}");
       }
       this.qualitativeStreamCount[index] += 1;
     }

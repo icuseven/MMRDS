@@ -16,7 +16,11 @@ namespace mmria.common.util
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase |System.Text.RegularExpressions.RegexOptions.Multiline
             );
 
-            var result = oRegEx.Replace(value, "");
+            var result = oRegEx.Replace
+            (
+                value.Replace("<br>", "\n").Replace("&quot;", "\"").Replace("&pos;", "'").Replace("&nbsp;", " ").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">"), 
+                ""
+            );
             
             return result;
         }
@@ -61,7 +65,12 @@ namespace mmria.common.util
             );
 
 
-            return StripTrailBlankSpaceExp.Replace("<br>", "\n").Replace("&quot;", "\"").Replace("&pos;", "'").Replace("&nbsp;", " ").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">").Replace(CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),""), "");
+            return StripTrailBlankSpaceExp.Replace
+            (
+                value,
+                ""
+            )
+            .Replace(CommentRegex.Replace(PseudoTagRegex.Replace(AttributeRegEx.Replace(value,""), ""),""), "");
         }
         public static string StripHtmlAttributes2(string value)
         {
