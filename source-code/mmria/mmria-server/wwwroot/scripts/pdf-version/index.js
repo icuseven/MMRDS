@@ -2818,38 +2818,38 @@ function print_pdf_render_content(ctx) {
 									// Blood Pressure Chart
 									ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
 									idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : colData[idx].text);
+									ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
 									idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : colData[idx].text);
+									ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
 									// Hematocrit Chart
 									ctx.chartArr.hematocrit.chartLabels.unshift(row[1].text);
 									idx = colPrompt.findIndex((s) => s.text === 'Blood Hematocrit (%): ');
-									ctx.chartArr.hematocrit.chartData.unshift((idx === -1) ? 0 : colData[idx].text);
+									ctx.chartArr.hematocrit.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
 									// Weight Gain Chart
 									ctx.chartArr.weightGain.chartLabels.unshift(row[1].text);
 									idx = colPrompt.findIndex((s) => s.text === 'Weight (lbs): ');
-									ctx.chartArr.weightGain.chartData.unshift((idx === -1) ? 0 : colData[idx].text);
+									ctx.chartArr.weightGain.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
 									break;
 								case 'vital_signs':
 									if (ctx.section_name === 'er_visit_and_hospital_medical_records') {
 										// Temperature Chart
 										ctx.chartArr.temperature.chartLabels.unshift(row[1].text);
 										idx = colPrompt.findIndex((s) => s.text === 'Temperature: ');
-										ctx.chartArr.temperature.chartData.unshift((idx === -1) ? 0 : colData[idx].text);
+										ctx.chartArr.temperature.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
 										// Heart Rate Chart
 										ctx.chartArr.heartRate.chartLabels.unshift(row[1].text);
 										idx = colPrompt.findIndex((s) => s.text === 'Heart Rate: ');
-										ctx.chartArr.heartRate.chartData.unshift((idx === -1) ? 0 : colData[idx].text);
+										ctx.chartArr.heartRate.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
 										// Respiration Chart
 										ctx.chartArr.respiration.chartLabels.unshift(row[1].text);
 										idx = colPrompt.findIndex((s) => s.text === 'Respiration: ');
-										ctx.chartArr.respiration.chartData.unshift((idx === -1) ? 0 : colData[idx].text);
+										ctx.chartArr.respiration.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
 										// Blood Pressure Chart
 										ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
 										idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : colData[idx].text);
+										ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
 										idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : colData[idx].text);
+										ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
 									}
 									break;
 								default:
