@@ -538,6 +538,16 @@ function generate_system_generated_definition_list_table()
 							<td class="td" width="266" >h_state</td>
 							<td class="td" width="1064">MMRIA host site</td>
 						</tr>
+                           
+                        <tr class="tr">
+							<td class="td" width="266" >addquarter</td>
+							<td class="td" width="1064">MMRIA record added in Quarter-Year</td>
+						</tr>
+                          
+                        <tr class="tr">
+                        <td class="td" width="266" >cmpquarter</td>
+                        <td class="td" width="1064">MMRIA record reviewed by committee in Quarter-Year</td>
+                    </tr>
 					</tbody>
 					<thead class="thead">
 						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">

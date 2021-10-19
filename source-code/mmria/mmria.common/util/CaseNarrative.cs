@@ -18,7 +18,7 @@ namespace mmria.common.util
 
             var result = oRegEx.Replace
             (
-                value.Replace("â€™","").Replace("<br>", "\n").Replace("&pos;", "'").Replace("&nbsp;", " ").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">"), 
+                value.Replace("â€™","").Replace("<br>", "\n").Replace("&quot;", "").Replace("&pos;", "'").Replace("&nbsp;", " ").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">"), 
                 ""
             );
             
