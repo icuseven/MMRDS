@@ -165,7 +165,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 }; 
                 const caseID = item.id;
                 const hostState = item.value.host_state;
-                const jurisdictionID = item.value.jurisdiction_id == "/" ? "/Top&nbsp;Folder" : item.value.jurisdiction_id;
+                const jurisdictionID = item.value.jurisdiction_id;
                 const firstName = item.value.first_name;
                 const lastName = item.value.last_name;
                 const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
