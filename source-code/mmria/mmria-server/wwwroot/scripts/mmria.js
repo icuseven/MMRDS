@@ -401,7 +401,8 @@ var $mmria = function()
             let el = document.getElementById("case-progress-info-id");
             el.close();
         },
-        confirm_dialog_show: function (p_title, p_header, p_inner_html, p_confirm_dialog_confirm_callback, p_confirm_dialog_cancel_callback){
+        confirm_dialog_show: function (p_title, p_header, p_inner_html, p_confirm_dialog_confirm_callback, p_confirm_dialog_cancel_callback)
+        {
             let element = document.getElementById("confirm-dialog-id");
             if(element == null)
             {
@@ -448,61 +449,30 @@ var $mmria = function()
         {
             let el = document.getElementById("confirm-dialog-id");
             el.close();
+        },
+        get_year_and_quarter: function (p_value)
+        {
+            let result = null;
+            
+            if(p_value != isNullOrUndefined)
+            {
+                if(p_value instanceof Date && !isNaN(p_value.valueOf()))
+                {
+                    result = `Q${Math.floor((p_value.getMonth() / 3) + 1)}-${p_value.getFullYear()}`;
+                }
+                else 
+                {
+                    let date = new Date(p_value);
+                 
+                    if(date instanceof Date && !isNaN(date.valueOf()))
+                    {
+                        result = `Q${Math.floor((date.getMonth() / 3) + 1)}-${date.getFullYear()}`;
+                    }
+                }
+            }
+
+            return result;
         }
     };
 
 }();
-/* http://esprima.org/demo/collector.js
-example
-vist
-function collect(node) {
-                var str, arg, value;
-                if (node.type === 'Literal') {
-                    if (node.value instanceof RegExp) {
-                        str = node.value.toString();
-                        if (str[0] === '/') {
-                            result.push({
-                                type: 'Literal',
-                                value: node.value,
-                                line: node.loc.start.line,
-                                column: node.loc.start.column,
-                                range: node.range
-                            });
-                        }
-                    }
-                }
-                if (node.type === 'NewExpression' || node.type === 'CallExpression') {
-                    if (node.callee.type === 'Identifier' && node.callee.name === 'RegExp') {
-                        arg = node['arguments'];
-                        if (arg.length === 1 && arg[0].type === 'Literal') {
-                            if (typeof arg[0].value === 'string') {
-                                value = createRegex(arg[0].value);
-                                if (value) {
-                                    result.push({
-                                        type: 'Literal',
-                                        value: value,
-                                        line: node.loc.start.line,
-                                        column: node.loc.start.column,
-                                        range: node.range
-                                    });
-                                }
-                            }
-                        }
-                        if (arg.length === 2 && arg[0].type === 'Literal' && arg[1].type === 'Literal') {
-                            if (typeof arg[0].value === 'string' && typeof arg[1].value === 'string') {
-                                value = createRegex(arg[0].value, arg[1].value);
-                                if (value) {
-                                    result.push({
-                                        type: 'Literal',
-                                        value: value,
-                                        line: node.loc.start.line,
-                                        column: node.loc.start.column,
-                                        range: node.range
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            */

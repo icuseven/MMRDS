@@ -188,7 +188,8 @@ function $get_intersection(p_list_1, p_list_2)
     return result;
 }
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
-function $calc_days(p_start_date, p_end_date) {
+function $calc_days(p_start_date, p_end_date) 
+{
     var days = null;
     p_start_date = p_start_date.getTime() / 86400000;
     p_end_date = p_end_date.getTime() / 86400000;
@@ -196,7 +197,8 @@ function $calc_days(p_start_date, p_end_date) {
     return days;
 }
 //CALCLATE NUMBER OF WEEKS BETWEEN 2 DATES
-function $calc_weeks(p_start_date, p_end_date) {
+function $calc_weeks(p_start_date, p_end_date) 
+{
     var weeks = null;
     p_start_date = p_start_date.getTime() / 604800000;
     p_end_date = p_end_date.getTime() / 604800000;
@@ -204,7 +206,8 @@ function $calc_weeks(p_start_date, p_end_date) {
     return weeks;
 }
 //CALCLATE NUMBER OF YEARS BETWEEN 2 DATES
-function $calc_years(p_start_date, p_end_date) {
+function $calc_years(p_start_date, p_end_date) 
+{
     var years = null;
     p_start_date = p_start_date.getTime() / 31557600000;
     p_end_date = p_end_date.getTime() / 31557600000;
@@ -212,7 +215,8 @@ function $calc_years(p_start_date, p_end_date) {
     return years;
 }
 //CALCLATE BMI FROM HEIGHT (IN INCHES)AND WEIGHT (IN POUNDS)
-function $calc_bmi(p_height, p_weight) {
+function $calc_bmi(p_height, p_weight) 
+{
     var bmi = null;
     var height = parseInt(p_height);
     var weight = parseInt(p_weight);
@@ -224,7 +228,8 @@ function $calc_bmi(p_height, p_weight) {
 // CALCULATE DISTANCE BETWEEN 2 COORDINATE PAIRS - HAVERSINE FORMULA (GREAT CIRCLE))
 // UNIT DEFAULT = MILES
 // LAT-LON ARE IN DECIMAL DEGREES
-function $calc_distance(lat1, lon1, lat2, lon2) {
+function $calc_distance(lat1, lon1, lat2, lon2) 
+{
     var radlat1 = Math.PI * lat1 / 180;
     var radlat2 = Math.PI * lat2 / 180;
     var theta = lon1 - lon2;
@@ -236,7 +241,8 @@ function $calc_distance(lat1, lon1, lat2, lon2) {
     return dist;
 }
 //VALIDATE A DATE WHEN USING YEAR-MONTH-DAY SEPARATE DATEPART INPUT
-function $isValidDate(p_year, p_month, p_day) {
+function $isValidDate(p_year, p_month, p_day) 
+{
     var year = parseInt(p_year);
     var month = parseInt(p_month);
     var day = parseInt(p_day);
@@ -266,7 +272,8 @@ function $isValidDate(p_year, p_month, p_day) {
     return valid;
 }
 //CALCLATE GESTATIONAL AGE WITH LMP 
-function $calc_ga_lmp(p_start_date, p_end_date) {
+function $calc_ga_lmp(p_start_date, p_end_date) 
+{
     result = [];
     var weeks = null;
     var days = null;
@@ -299,62 +306,17 @@ function $calc_ga_edd(p_start_date, p_end_date)
     return result;
 }
 //INDEX FUNCTION FOR MULTI-PAGE FORMS
-function $get_current_multiform_index() {
+function $get_current_multiform_index() 
+{
     var result = parseInt(window.location.href.substr(window.location.href.lastIndexOf('/') + 1, window.location.href.length - (window.location.href.lastIndexOf('/') + 1)));
     return result;
 }
 //----------------- Begin events ---------------------------------------------------
 
-// Case Status Value Change
-//4.	Review complete and decision entered, with associated Case Locked Date 
-//5.	Out of Scope and decision entered, with associated Case Locked Date
-//6.	False Positive and death certificate entered, with associated Case Locked Date 
-/*
-pa  th=home_record/case_status/overall_case_status
-eve  nt=onblur
 
-function case_status_value_blur(p_control) 
-{
-    let selected_value = new Number(p_control.value);
-    this.overall_case_status = selected_value;
-    if 
-    (
-        (
-            this.case_locked_date != null ||
-            this.case_locked_date != ""
-        )
-        &&
-        (
-            selected_value == 4 ||
-            selected_value == 5 ||
-            selected_value == 6
-        )
-    ) 
-    {
-        $mmria.show_confirmation_dialog($global.case_status_confirm, $global.case_status_cancel);
-    }
-    else if
-    (
-        (
-            this.case_locked_date != null ||
-            this.case_locked_date != ""
-        )
-         &&
-        ! (
-            selected_value == 4 ||
-            selected_value == 5 ||
-            selected_value == 6
-        )
-    )
-    {
-        this.case_locked_date = null;
-        $mmria.set_control_value('home_record/case_status/case_locked_date', this.case_locked_date);
-    }
-}
-*/
-
-//CODE EXECTURED WHEN DOCUMENT EDIT IS SELECTED
-function $case_document_begin_edit () {
+//CODE EXECUTED WHEN DOCUMENT EDIT IS SELECTED
+function $case_document_begin_edit ()
+ {
     let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
     let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
     if (value === 9999
@@ -369,6 +331,17 @@ function $case_document_begin_edit () {
         $('label[for=' + controlId + '], #' + controlId).show();
     }
 }
+
+
+/*
+path=committee_review/date_of_review
+event=onblur
+*/
+function committee_review_date_of_review_changed(p_control) 
+{
+    g_data.cmpquarter = $mmria.get_year_and_quarter(p_control.value);
+}
+
 
 /*
 path=home_record/case_status/overall_case_status
@@ -990,7 +963,8 @@ function eha_days_postpartum(p_control) {
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/days_postpartum
 event=onfocus
 */
-function ehd_days_postpartum(p_control) {
+function ehd_days_postpartum(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
