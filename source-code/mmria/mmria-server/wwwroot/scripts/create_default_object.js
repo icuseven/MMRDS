@@ -75,6 +75,7 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
          create_default_object(child, p_parent);
        }
        p_parent["host_state"] = sanitize_encodeHTML(window.location.host.split("-")[0]);
+       p_parent["addquarter"] = $mmria.get_year_and_quarter(new Date());
        break;
     case 'string':
     case 'textarea':
