@@ -288,8 +288,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			// async function () { await pdfMake.createPdf(doc).open(window); },
+			async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -1155,7 +1155,7 @@ async function birth_certificate_infant_fetal_section(ctx, pg_break) {
 				content: new_content,
 				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
 			};
-			body = await print_pdf_render_content(new_context);
+			body = print_pdf_render_content(new_context);
 			// body = body.slice(0, 50);
 			// console.log('body: ', body);
 
@@ -1375,7 +1375,7 @@ async function er_visit_and_hospital_medical_records(ctx, pg_break) {
 				chartArr: chartArrTemplateER,
 				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
 			};
-			body = await print_pdf_render_content(new_context);
+			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
 			// body = body.slice(0, 45);
 			// console.log('*** body slice: ', body);
@@ -1475,7 +1475,7 @@ async function other_medical_office_visits(ctx, pg_break) {
 				content: new_content,
 				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
 			};
-			body = await print_pdf_render_content(new_context);
+			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
 			// body = body.slice(0, 45);
 			// console.log('*** body slice: ', body);
@@ -1575,7 +1575,7 @@ async function medical_transport(ctx, pg_break) {
 				content: new_content,
 				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
 			};
-			body = await print_pdf_render_content(new_context);
+			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
 			// body = body.slice(0, 45);
 			// console.log('*** body slice: ', body);
@@ -1619,7 +1619,7 @@ async function medical_transport(ctx, pg_break) {
 //	pg_break: a flag to see if a page break is needed before doing the report
 //
 
-function social_and_environmental_profile(ctx, pg_break) {
+async function social_and_environmental_profile(ctx, pg_break) {
 	let body = [];
 	let retPage = [];
 
@@ -1795,7 +1795,7 @@ async function informant_interviews(ctx, pg_break) {
 				content: new_content,
 				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
 			};
-			body = await print_pdf_render_content(new_context);
+			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
 			// body = body.slice(0, 10);
 			// console.log('*** body partial: ', body);
@@ -2252,10 +2252,10 @@ async function core_summary() {
 	let retPage = [];
 
 	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-	body = await core_pdf_summary(g_md, g_d, '/', false, '');
+	body = core_pdf_summary(g_md, g_d, '/', false, '');
 
 	// Show the table
-	await retPage.push([
+	retPage.push([
 		{
 			layout: {
 				defaultBorder: false,
@@ -3208,12 +3208,22 @@ function print_pdf_render_content(ctx) {
 					break;
 			}
 			// Now push it to the context
+			console.log('chartBody: ', chartBody);
 			ctx.content.push([
 				{
-					widths: ['auto'],
+					layout: {
+						defaultBorder: false,
+						paddingLeft: function (i, node) { return 1; },
+						paddingRight: function (i, node) { return 1; },
+						paddingTop: function (i, node) { return 2; },
+						paddingBottom: function (i, node) { return 2; },
+					},
+					width: 'auto',
+					margin: [0, 10, 0, 0],
 					colSpan: '2',
 					table: {
-						headerRows: 1,
+						headerRows: 0,
+						widths: ['*'],
 						body: chartBody,
 					},
 				},
