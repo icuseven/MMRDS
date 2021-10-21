@@ -454,7 +454,11 @@ var $mmria = function()
         {
             let result = null;
             
-            if(p_value != isNullOrUndefined)
+            if
+            (
+                p_value != null &&
+                p_value != ""
+            )
             {
                 if(p_value instanceof Date && !isNaN(p_value.valueOf()))
                 {
