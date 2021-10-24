@@ -563,16 +563,25 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 }
 
 // Return all field choices
-function lookupFieldMultiChoiceArr(val, arr) {
+function lookupFieldMultiChoiceArr(val, arr) 
+{
 	// See if val is null
 	if (val === null) return '';
 
 	// Return field with all choices
 	let strChoice = '';
 	let idx;
-	for (let i = 0; i < val.length; i++) {
+	for (let i = 0; i < val.length; i++) 
+    {
 		idx = arr.findIndex((s) => s.value === val[i]);
-		strChoice += arr[idx].display + ', ';
+        if(arr[idx].display != null)
+        {
+		    strChoice += arr[idx].display + ', ';
+        }
+        else
+        {
+            strChoice += arr[idx].value + ', ';
+        }
 	}
 	idx = strChoice.lastIndexOf(', ');
 	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
