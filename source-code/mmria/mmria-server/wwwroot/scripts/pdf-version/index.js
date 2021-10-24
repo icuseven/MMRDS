@@ -537,7 +537,8 @@ function lookupFieldArr(val, arr) {
 // }
 
 // Return all global choices
-function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
+function lookupGlobalMultiChoiceArr(lookup, val, pathReference) 
+{
 	// See if val is null
 	if (val === null) return '';
 
@@ -552,9 +553,13 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 	let strChoice = '';
 	let arr = lookup[lookupIndex].values;
 	let idx;
-	for (let i = 0; i < val.length; i++) {
+	for (let i = 0; i < val.length; i++) 
+    {
 		idx = arr.findIndex((s) => s.value === val[i]);
-		strChoice += arr[idx].display + ', ';
+        if(idx != -1)
+        {
+		    strChoice += arr[idx].display + ', ';
+        }
 	}
 	idx = strChoice.lastIndexOf(', ');
 	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
@@ -574,14 +579,12 @@ function lookupFieldMultiChoiceArr(val, arr)
 	for (let i = 0; i < val.length; i++) 
     {
 		idx = arr.findIndex((s) => s.value === val[i]);
-        if(arr[idx].display != null)
+        if(idx != -1)
         {
 		    strChoice += arr[idx].display + ', ';
         }
-        else
-        {
-            strChoice += arr[idx].value + ', ';
-        }
+
+      
 	}
 	idx = strChoice.lastIndexOf(', ');
 	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
