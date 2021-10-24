@@ -392,7 +392,9 @@ g_data
             "3":true,
             "4":true,
         }
-        
+        let is_invalid_status = {
+            "9999": true
+        }
 
         if(
             is_correct_staus[g_data.home_record.case_progress_report.death_certificate] &&
@@ -407,7 +409,8 @@ g_data
             is_correct_staus[g_data.home_record.case_progress_report.mental_health_profile] &&
             is_correct_staus[g_data.home_record.case_progress_report.informant_interviews	] &&
             is_correct_staus[g_data.home_record.case_progress_report.case_narrative] &&
-            is_correct_staus[g_data.home_record.case_progress_report.committe_review_worksheet]
+            is_correct_staus[g_data.home_record.case_progress_report.committe_review_worksheet] &&
+            !(is_invalid_status[g_data.home_record.overall_assessment_of_timing_of_death.abstrator_assigned_status])
         )
         {
             is_valid_status = true;
@@ -416,26 +419,13 @@ g_data
         if(is_valid_status)
         {
             console.log(is_valid_status);
-            let is_invalid_status = {
-                "9999": true
-            }
-
-            if (is_invalid_status[g_data.home_record.overall_assessment_of_timing_of_death.abstrator_assigned_status])
-            {
-                is_valid_status = false;
-
-                g_data.home_record.case_status.overall_case_status = g_previous_case_status;
-                $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
-
-                $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", 'You must specify the “Abstractor assigned pregnancy status based on overall review of records” before marking a Case as “Review Complete and Decision Entered');
-            }
         }
         else
         {
             g_data.home_record.case_status.overall_case_status = g_previous_case_status;   
             $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
 
-            $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", 'Before a Case can be marked as "Review Complete and Decisions Entered", <p>the Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available“ or “Not Applicable”.</p>');
+            $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", '<p>Before a Case can be marked as "Review Complete and Decisions Entered":</p> <p style="padding-left: 10px;">1. The Form Status of All MMRIA Forms must be set to either “Complete”, “Not Available”, or “Not Applicable”.</p> <p style="padding-left: 10px;">2. You must specify the “Abstractor assigned pregnancy status based on overall review of records”. </p>');
         }
     }
     
