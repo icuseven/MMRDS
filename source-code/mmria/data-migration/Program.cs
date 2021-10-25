@@ -369,8 +369,8 @@ namespace migrate
 					}
 					else if(MigrationType == RunTypeEnum.DataMigration)
 					{
-						var v2_5 = new migrate.set.v2_5_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await v2_5.execute();
+						var v2_6 = new migrate.set.v2_6_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_6.execute();
 
 
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
@@ -381,8 +381,8 @@ namespace migrate
 
 						
 
-						//var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
-						//await sep_data_fix.execute();
+						var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
+						await sep_data_fix.execute();
 
 
 						//var VitalsMigration01 = new migrate.set.VitalsMigration01(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix, ConfigurationSet);
