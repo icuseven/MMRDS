@@ -1,5 +1,6 @@
 
 var g_de_identified_list = null;
+var g_selected_list = "global";
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -47,13 +48,35 @@ function load_de_identification_list()
 
 }
 
+
+function on_export_list_type_change(p_value)
+{
+    g_selected_list = p_value;
+
+    document.getElementById('output').innerHTML = render_de_identified_list().join("");
+}
+
 function render_de_identified_list()
 {
 
 	var result = [];
 	result.push("<br/>");
+    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
+
+
+    result.push("<option value='global' selected>global</option>");
+    result.push("<option value='ny'>ny</option>");
+
+    result.push(`
+    </select>
+    <input type='text' name='new_list_name' value=''/>
+    <input type='button' value='Add New List'/>
+    `);
+
+
+
 	result.push("<table>");
-	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>de identified list</th></tr>");
+	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] de identified list</th></tr>");
 	result.push("<tr>");
 	result.push("<th scope='col'>path</th>");
 	result.push("<th scope='col'>&nbsp;</th>");
@@ -86,7 +109,7 @@ function render_de_identified_list()
 
 	result.push("<tr><td colspan=2 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
-	result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
+	result.push("<tr><td colspan=2 align=center><input type='button' value='save [" + g_selected_list + "] list' onclick='server_save()' /></td></tr>")
 
 	
 	result.push("</table>");
