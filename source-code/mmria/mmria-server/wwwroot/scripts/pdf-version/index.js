@@ -484,7 +484,7 @@ function getArrayMap() {
 // Generic Find from global lookup array
 function lookupGlobalArr(lookup, val, pathReference) {
 	// See if val is null
-	if (val === null) return '';
+	if (val === undefined || val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank
@@ -507,7 +507,7 @@ function lookupGlobalArr(lookup, val, pathReference) {
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
 	// See if val is null
-	if (val === null) return '';
+	if (val === undefined || val === null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 
@@ -540,7 +540,7 @@ function lookupFieldArr(val, arr) {
 function lookupGlobalMultiChoiceArr(lookup, val, pathReference) 
 {
 	// See if val is null
-	if (val === null) return '';
+	if (val === undefined || val === null) return '';
 
 	// Get the path_reference name
 	let luIdx = pathReference.indexOf('/') + 1;
@@ -571,7 +571,7 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference)
 function lookupFieldMultiChoiceArr(val, arr) 
 {
 	// See if val is null
-	if (val === null) return '';
+	if (val === undefined || val === null) return '';
 
 	// Return field with all choices
 	let strChoice = '';
