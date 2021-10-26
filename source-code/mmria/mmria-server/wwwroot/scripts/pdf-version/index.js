@@ -142,7 +142,7 @@ async function print_pdf(ctx) {
 		header: (currentPage, pageCount) => {
 			// // console.log( 'currentPage: ', currentPage );
 			// // console.log( 'doc: ', doc );
-			if (ctx.section_name === 'all') {
+			if (ctx.section_name == 'all') {
 				let recLenArr = [];
 				let startPage = 0;
 				let endPage = 0;
@@ -158,7 +158,7 @@ async function print_pdf(ctx) {
 					g_writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : g_writeText;
 				}
 			}
-			else if (g_section_name === 'core-summary') {
+			else if (g_section_name == 'core-summary') {
 				g_writeText = 'CORE SUMMARY';
 			} else {
 				g_writeText = getSectionTitle(ctx.section_name);
@@ -288,8 +288,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -341,7 +341,7 @@ function createNamePDF() {
 
 // check field for null
 function chkNull(val) {
-	if (val === undefined || val === null) return '';
+	if (val == undefined || val == null) return '';
 	return val;
 }
 
@@ -357,13 +357,13 @@ function getTodayFormatted() {
 
 // Format the month or day to always have 2 digits
 function fmt2Digits(val) {
-	if (val === null || val === '9999') return '  ';
+	if (val == null || val == '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
 }
 
 // Format the year to always have 4 digits, check for 9999
 function fmtYear(val) {
-	return (val === null || val === '9999') ? '    ' : val;
+	return (val == null || val == '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
@@ -374,7 +374,7 @@ function reformatDate(dt) {
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === null || dt.year === '9999') {
+	if (dt.year == null || dt.year == '9999') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)}/${fmt2Digits(dt.day)}/ {fmtYear(dt.year)}`;
@@ -382,15 +382,15 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = (dt.month === null || dt.month === '9999') ? '  ' : fmt2Digits(dt.month);
-	let dd = (dt.day === null || dt.day === '9999') ? '  ' : fmt2Digits(dt.day);
-	let yy = (dt.year === null || dt.year === '9999') ? '    ' : dt.year;
+	let mm = (dt.month == null || dt.month == '9999') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day == null || dt.day == '9999') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year == null || dt.year == '9999') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0) return '  ';
+	if (dt == null || dt.length == 0) return '  ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
@@ -400,7 +400,7 @@ function fmtDateTime(dt) {
 
 // Reformat date from data string and return mm/dd/yyyy 
 function fmtStrDate(dt) {
-	if (dt === null || dt.length === 0) {
+	if (dt == null || dt.length == 0) {
 		return ' / / ';
 	}
 	let dtParts = dt.split('-');
@@ -484,45 +484,45 @@ function getArrayMap() {
 // Generic Find from global lookup array
 function lookupGlobalArr(lookup, val, pathReference) {
 	// See if val is null
-	if (val === null) return '';
+	if (val == null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank
-	if (valStr === '') return valStr;
+	if (valStr == '') return valStr;
 
 	// Get the path_reference name
 	let luIdx = pathReference.indexOf('/') + 1;
 	let lookupName = pathReference.substr(luIdx);
 
 	// Find the correct lookup table index
-	let lookupIndex = lookup.findIndex((s) => s.name === lookupName);
+	let lookupIndex = lookup.findIndex((s) => s.name == lookupName);
 
 	// Return the display value from the lookup array
 	let arr = lookup[lookupIndex].values;
-	let idx = arr.findIndex((s) => s.value === valStr);
-	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
-	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
+	let idx = arr.findIndex((s) => s.value == valStr);
+	idx = (idx == -1) ? 0 : idx;   // This fixes bad data coming in
+	return (arr[idx].display == '(blank)') ? ' ' : arr[idx].display;
 }
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
 	// See if val is null
-	if (val === null) return '';
+	if (val == null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 
 	// See if val is blank or array is empty
-	if (valStr === '' || arr.length === 0) return valStr;
+	if (valStr == '' || arr.length == 0) return valStr;
 
-	let idx = arr.findIndex((s) => s.value === valStr);
-	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
-	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
+	let idx = arr.findIndex((s) => s.value == valStr);
+	idx = (idx == -1) ? 0 : idx;   // This fixes bad data coming in
+	return (arr[idx].display == '(blank)') ? ' ' : arr[idx].display;
 }
 
 // // Return all races a person might be
 // function lookupRaceArr(val) {
 // 	// See if val is null
-// 	if (val === null) return '';
+// 	if (val == null) return '';
 // 	// Return field with all races
 // 	let strRace = '';
 
@@ -531,7 +531,7 @@ function lookupFieldArr(val, arr) {
 // 			strRace += lookupGlobalArr(val[i], 'race') + ', ';
 // 		}
 // 		let idx = strRace.lastIndexOf(', ');
-// 		strRace = (idx === -1) ? strRace : strRace.substring(0, idx);
+// 		strRace = (idx == -1) ? strRace : strRace.substring(0, idx);
 // 	}
 // 	return strRace;
 // }
@@ -540,14 +540,14 @@ function lookupFieldArr(val, arr) {
 function lookupGlobalMultiChoiceArr(lookup, val, pathReference) 
 {
 	// See if val is null
-	if (val === null) return '';
+	if (val == null) return '';
 
 	// Get the path_reference name
 	let luIdx = pathReference.indexOf('/') + 1;
 	let lookupName = pathReference.substr(luIdx);
 
 	// Find the correct lookup table index
-	let lookupIndex = lookup.findIndex((s) => s.name === lookupName);
+	let lookupIndex = lookup.findIndex((s) => s.name == lookupName);
 
 	// Return field with all choices
 	let strChoice = '';
@@ -555,14 +555,14 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference)
 	let idx;
 	for (let i = 0; i < val.length; i++) 
     {
-		idx = arr.findIndex((s) => s.value === val[i]);
+		idx = arr.findIndex((s) => s.value == val[i]);
         if(idx != -1)
         {
 		    strChoice += arr[idx].display + ', ';
         }
 	}
 	idx = strChoice.lastIndexOf(', ');
-	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
+	strChoice = (idx == -1) ? strChoice : strChoice.substring(0, idx);
 
 	return strChoice;
 }
@@ -571,15 +571,15 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference)
 function lookupFieldMultiChoiceArr(val, arr) 
 {
 	// See if val is null
-	if (val === null) return '';
+	if (val == null) return '';
 
 	// Return field with all choices
 	let strChoice = '';
 	let idx;
 	for (let i = 0; i < val.length; i++) 
     {
-		idx = arr.findIndex((s) => s.value === val[i]);
-        if(idx != -1)
+		idx = arr.findIndex((s) => s.value == val[i]);
+        if(idx != -1 && arr[idx].display != "")
         {
 		    strChoice += arr[idx].display + ', ';
         }
@@ -587,7 +587,7 @@ function lookupFieldMultiChoiceArr(val, arr)
       
 	}
 	idx = strChoice.lastIndexOf(', ');
-	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
+	strChoice = (idx == -1) ? strChoice : strChoice.substring(0, idx);
 
 	return strChoice;
 }
@@ -616,7 +616,7 @@ function getLookupField(lookup, data, metadata) {
 	// return string
 	let retStr = '';
 
-	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect === true) {
+	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect == true) {
 		// console.log('multiselect is true');
 		if (metadata.hasOwnProperty('path_reference') && metadata.path_reference.length > 0) {
 			// console.log('path_reference is true');
@@ -644,12 +644,12 @@ function getLookupField(lookup, data, metadata) {
 
 // Find section prompt name
 function getSectionTitle(name) {
-	if (name === 'all') {
+	if (name == 'all') {
 		// console.log('title: ', g_current);
 	}
 
-	let idx = g_md.children.findIndex((s) => s.name === name);
-	idx = (idx === -1) ? 0 : idx;		// fixes bad data coming in
+	let idx = g_md.children.findIndex((s) => s.name == name);
+	idx = (idx == -1) ? 0 : idx;		// fixes bad data coming in
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
@@ -776,72 +776,72 @@ async function formatContent(p_ctx, arrMap) {
 
 	switch (sectionName) {
 		case 'home_record':
-			arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
+			arrIndex = arrMap.findIndex((s) => s.name == 'home_record');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.home_record };
 			retContent.push(await home_record(ctx));
 			break;
 		case 'death_certificate':
-			arrIndex = arrMap.findIndex((s) => s.name === 'death_certificate');
+			arrIndex = arrMap.findIndex((s) => s.name == 'death_certificate');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.death_certificate };
 			retContent.push(await death_certificate(ctx, false));
 			break;
 		case 'birth_fetal_death_certificate_parent':
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
+			arrIndex = arrMap.findIndex((s) => s.name == 'birth_fetal_death_certificate_parent');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_fetal_death_certificate_parent };
 			retContent.push(await birth_fetal_death_certificate_parent(ctx, false));
 			break;
 		case 'birth_certificate_infant_fetal_section':
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
+			arrIndex = arrMap.findIndex((s) => s.name == 'birth_certificate_infant_fetal_section');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_certificate_infant_fetal_section };
 			retContent.push(await birth_certificate_infant_fetal_section(ctx, false));
 			break;
 		case 'autopsy_report':
-			arrIndex = arrMap.findIndex((s) => s.name === 'autopsy_report');
+			arrIndex = arrMap.findIndex((s) => s.name == 'autopsy_report');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.autopsy_report };
 			retContent.push(await autopsy_report(ctx, false));
 			break;
 		case 'prenatal':
-			arrIndex = arrMap.findIndex((s) => s.name === 'prenatal');
+			arrIndex = arrMap.findIndex((s) => s.name == 'prenatal');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.prenatal };
 			retContent.push(await prenatal(ctx, false));
 			break;
 		case 'er_visit_and_hospital_medical_records':
-			arrIndex = arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
+			arrIndex = arrMap.findIndex((s) => s.name == 'er_visit_and_hospital_medical_records');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.er_visit_and_hospital_medical_records };
 			retContent.push(await er_visit_and_hospital_medical_records(ctx, false));
 			break;
 		case 'other_medical_office_visits':
-			arrIndex = arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
+			arrIndex = arrMap.findIndex((s) => s.name == 'other_medical_office_visits');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.other_medical_office_visits };
 			retContent.push(await other_medical_office_visits(ctx, false));
 			break;
 		case 'medical_transport':
-			arrIndex = arrMap.findIndex((s) => s.name === 'medical_transport');
+			arrIndex = arrMap.findIndex((s) => s.name == 'medical_transport');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.medical_transport };
 			retContent.push(await medical_transport(ctx, false));
 			break;
 		case 'social_and_environmental_profile':
-			arrIndex = arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
+			arrIndex = arrMap.findIndex((s) => s.name == 'social_and_environmental_profile');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.social_and_environmental_profile };
 			retContent.push(await social_and_environmental_profile(ctx, false));
 			break;
 		case 'mental_health_profile':
-			arrIndex = arrMap.findIndex((s) => s.name === 'mental_health_profile');
+			arrIndex = arrMap.findIndex((s) => s.name == 'mental_health_profile');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.mental_health_profile };
 			retContent.push(await mental_health_profile(ctx, false));
 			break;
 		case 'informant_interviews':
-			arrIndex = arrMap.findIndex((s) => s.name === 'informant_interviews');
+			arrIndex = arrMap.findIndex((s) => s.name == 'informant_interviews');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.informant_interviews };
 			retContent.push(await informant_interviews(ctx, false));
 			break;
 		case 'case_narrative':
-			arrIndex = arrMap.findIndex((s) => s.name === 'case_narrative');
+			arrIndex = arrMap.findIndex((s) => s.name == 'case_narrative');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.case_narrative };
 			retContent.push(await case_narrative(ctx, false));
 			break;
 		case 'committee_review':
-			arrIndex = arrMap.findIndex((s) => s.name === 'committee_review');
+			arrIndex = arrMap.findIndex((s) => s.name == 'committee_review');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.committee_review };
 			retContent.push(await committee_review(ctx, false));
 			break;
@@ -851,72 +851,72 @@ async function formatContent(p_ctx, arrMap) {
 		case 'all':
 			// home_record
 			g_current = 'home_record';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'home_record');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'home_record');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.home_record };
 			retContent.push(await home_record(ctx));
 			// death_certificate
 			g_current = 'death_certificate';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'death_certificate');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'death_certificate');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.death_certificate };
 			retContent.push(await death_certificate(ctx, true));
 			// birth_fetal_death_certificate_parent
 			g_current = 'birth_fetal_death_certificate_parent';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'birth_fetal_death_certificate_parent');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_fetal_death_certificate_parent };
 			retContent.push(await birth_fetal_death_certificate_parent(ctx, true));
 			// birth_certificate_infant_fetal_section
 			g_current = 'birth_certificate_infant_fetal_section';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'birth_certificate_infant_fetal_section');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_certificate_infant_fetal_section };
 			retContent.push(await birth_certificate_infant_fetal_section(ctx, true));
 			// autopsy_report
 			g_current = 'autopsy_report';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'autopsy_report');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'autopsy_report');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.autopsy_report };
 			retContent.push(await autopsy_report(ctx, true));
 			// prenatal
 			g_current = 'prenatal';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'prenatal');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'prenatal');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.prenatal };
 			retContent.push(await prenatal(ctx, true));
 			// er_visit_and_hospital_medical_records
 			g_current = 'er_visit_and_hospital_medical_records';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'er_visit_and_hospital_medical_records');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.er_visit_and_hospital_medical_records };
 			retContent.push(await er_visit_and_hospital_medical_records(ctx, true));
 			// other_medical_office_visits
 			g_current = 'other_medical_office_visits';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'other_medical_office_visits');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.other_medical_office_visits };
 			retContent.push(await other_medical_office_visits(ctx, true));
 			// medical_transport
 			g_current = 'medical_transport';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'medical_transport');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'medical_transport');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.medical_transport };
 			retContent.push(await medical_transport(ctx, true));
 			// social_and_environmental_profile
 			g_current = 'social_and_environmental_profile';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'social_and_environmental_profile');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.social_and_environmental_profile };
 			retContent.push(await social_and_environmental_profile(ctx, true));
 			// mental_health_profile
 			g_current = 'mental_health_profile';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'mental_health_profile');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'mental_health_profile');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.mental_health_profile };
 			retContent.push(await mental_health_profile(ctx, true));
 			// informant_interviews
 			g_current = 'informant_interviews';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'informant_interviews');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'informant_interviews');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.informant_interviews };
 			retContent.push(await informant_interviews(ctx, true));
 			// case_narrative
 			g_current = 'case_narrative';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'case_narrative');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'case_narrative');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.case_narrative };
 			retContent.push(await case_narrative(ctx, true));
 			// committee_review
 			g_current = 'committee_review';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'committee_review');
+			arrIndex = await arrMap.findIndex((s) => s.name == 'committee_review');
 			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.committee_review };
 			retContent.push(await committee_review(ctx, true));
 			break;
@@ -1115,7 +1115,7 @@ async function birth_certificate_infant_fetal_section(ctx, pg_break) {
 	// Global fields
 	let body = [];
 	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
+	let allRecs = (typeof ctx.record_number == 'undefined' || pg_break) ? true : false;
 	let lenArr = ctx.data.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -1131,7 +1131,7 @@ async function birth_certificate_infant_fetal_section(ctx, pg_break) {
 	}
 
 	// Are there any records?
-	if (lenArr === 0) {
+	if (lenArr == 0) {
 		retPage.push([
 			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 			{},
@@ -1165,7 +1165,7 @@ async function birth_certificate_infant_fetal_section(ctx, pg_break) {
 				...ctx,
 				data: ctx.data[curRec],
 				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
+				record_number: (typeof ctx.current_record == 'undefined') ? curRec + 1 : ctx.record_number,
 			};
 			body = print_pdf_render_content(new_context);
 			// body = body.slice(0, 50);
@@ -1332,7 +1332,7 @@ async function er_visit_and_hospital_medical_records(ctx, pg_break) {
 	// Global fields
 	let body = [];
 	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
+	let allRecs = (typeof ctx.record_number == 'undefined' || pg_break) ? true : false;
 	let lenArr = ctx.data.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -1350,7 +1350,7 @@ async function er_visit_and_hospital_medical_records(ctx, pg_break) {
 	console.log('prenatal ctx: ', ctx);
 
 	// Are there any records?
-	if (lenArr === 0) {
+	if (lenArr == 0) {
 		retPage.push([
 			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 			{},
@@ -1385,7 +1385,7 @@ async function er_visit_and_hospital_medical_records(ctx, pg_break) {
 				data: ctx.data[curRec],
 				content: new_content,
 				chartArr: chartArrTemplateER,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
+				record_number: (typeof ctx.current_record == 'undefined') ? curRec + 1 : ctx.record_number,
 			};
 			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
@@ -1435,7 +1435,7 @@ async function other_medical_office_visits(ctx, pg_break) {
 	// Global fields
 	let body = [];
 	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
+	let allRecs = (typeof ctx.record_number == 'undefined' || pg_break) ? true : false;
 	let lenArr = ctx.data.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -1451,7 +1451,7 @@ async function other_medical_office_visits(ctx, pg_break) {
 	}
 
 	// Are there any records?
-	if (lenArr === 0) {
+	if (lenArr == 0) {
 		retPage.push([
 			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 			{},
@@ -1485,7 +1485,7 @@ async function other_medical_office_visits(ctx, pg_break) {
 				...ctx,
 				data: ctx.data[curRec],
 				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
+				record_number: (typeof ctx.current_record == 'undefined') ? curRec + 1 : ctx.record_number,
 			};
 			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
@@ -1535,7 +1535,7 @@ async function medical_transport(ctx, pg_break) {
 	// Global fields
 	let body = [];
 	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
+	let allRecs = (typeof ctx.record_number == 'undefined' || pg_break) ? true : false;
 	let lenArr = ctx.data.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -1551,7 +1551,7 @@ async function medical_transport(ctx, pg_break) {
 	}
 
 	// Are there any records?
-	if (lenArr === 0) {
+	if (lenArr == 0) {
 		retPage.push([
 			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 			{},
@@ -1585,7 +1585,7 @@ async function medical_transport(ctx, pg_break) {
 				...ctx,
 				data: ctx.data[curRec],
 				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
+				record_number: (typeof ctx.current_record == 'undefined') ? curRec + 1 : ctx.record_number,
 			};
 			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
@@ -1755,7 +1755,7 @@ async function informant_interviews(ctx, pg_break) {
 	// Global fields
 	let body = [];
 	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
+	let allRecs = (typeof ctx.record_number == 'undefined' || pg_break) ? true : false;
 	let lenArr = ctx.data.length;
 	let startArr = 0;
 	let endArr = lenArr;
@@ -1771,7 +1771,7 @@ async function informant_interviews(ctx, pg_break) {
 	}
 
 	// Are there any records?
-	if (lenArr === 0) {
+	if (lenArr == 0) {
 		retPage.push([
 			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 			{},
@@ -1805,7 +1805,7 @@ async function informant_interviews(ctx, pg_break) {
 				...ctx,
 				data: ctx.data[curRec],
 				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
+				record_number: (typeof ctx.current_record == 'undefined') ? curRec + 1 : ctx.record_number,
 			};
 			body = print_pdf_render_content(new_context);
 			console.log('*** body full: ', body);
@@ -2263,7 +2263,7 @@ async function core_summary() {
 	// Record Core Fields
 	let retPage = [];
 
-	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
+	// let arrIndex = arrMap.findIndex((s) => s.name == 'home_record');
 	body = core_pdf_summary(g_md, g_d, '/', false, '');
 
 	// Show the table
@@ -2402,9 +2402,9 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 						for (let j = 0; j < p_metadata.children.length; j++) {
 							let child = p_metadata.children[j];
 							if (p_data[i][child.name] != null) {
-								if (child.type === 'list') {
+								if (child.type == 'list') {
 									let textStr;
-									if (child.values.length === 0) {
+									if (child.values.length == 0) {
 										textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 									}
 									else {
@@ -2465,9 +2465,9 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 							let child = p_metadata.children[j];
 							if (child.is_core_summary && child.is_core_summary == true) {
 								if (p_data[i][child.name] != null) {
-									if (child.type === 'list') {
+									if (child.type == 'list') {
 										let textStr;
-										if (child.values.length === 0) {
+										if (child.values.length == 0) {
 											textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 										}
 										else {
@@ -2626,11 +2626,11 @@ function print_pdf_render_content(ctx) {
 	console.log('ctx: ', ctx);
 	switch (ctx.metadata.type.toLowerCase()) {
 		case "app":
-			console.log('in APP');
+			print_pdf_app_render_content(ctx);
 			break;
 		case "form":
 			console.log('*** in FORM: ', ctx.metadata.prompt);
-			if (ctx.metadata.cardinality === "1" || ctx.metadata.cardinality === "?") {
+			if (ctx.metadata.cardinality == "1" || ctx.metadata.cardinality == "?") {
 				ctx.metadata.children.forEach((child, index) => {
 					if ((ctx.data && ctx.data[child.name]) || child.type == 'chart') {
 						let new_content = [];
@@ -2678,19 +2678,19 @@ function print_pdf_render_content(ctx) {
 			// *** The last else statement will just process thru the children
 			// *** 
 			// ****************************************************************
-			if (ctx.metadata.children.length === 3
-				&& ctx.metadata.children[0].name === 'month'
-				&& ctx.metadata.children[1].name === 'day'
-				&& ctx.metadata.children[2].name === 'year'
+			if (ctx.metadata.children.length == 3
+				&& ctx.metadata.children[0].name == 'month'
+				&& ctx.metadata.children[1].name == 'day'
+				&& ctx.metadata.children[2].name == 'year'
 			) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: fmtDateByFields(ctx.data), style: ['tableDetail'], },
 				]);
 			} else if (ctx.metadata.children.length > 3
-				&& ctx.metadata.children[0].name === 'month'
-				&& ctx.metadata.children[1].name === 'day'
-				&& ctx.metadata.children[2].name === 'year'
+				&& ctx.metadata.children[0].name == 'month'
+				&& ctx.metadata.children[1].name == 'day'
+				&& ctx.metadata.children[2].name == 'year'
 			) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -2719,13 +2719,13 @@ function print_pdf_render_content(ctx) {
 				// 	If the automated_vitals_group child is NOT the automated user
 				//	Then skip it
 				let showIt = true;
-				if (ctx.metadata.name === 'automated_vitals_group' ||
-					ctx.metadata.name === 'vitals_import_group') {
-					showIt = ctx.createdBy === 'vitals-import' ? true : false;
+				if (ctx.metadata.name == 'automated_vitals_group' ||
+					ctx.metadata.name == 'vitals_import_group') {
+					showIt = ctx.createdBy == 'vitals-import' ? true : false;
 				}
 				if (showIt) {
 					console.log('****************************** groupLevel: ', ctx.groupLevel);
-					if (ctx.groupLevel === 0) {
+					if (ctx.groupLevel == 0) {
 						ctx.content.push([
 							{ text: ctx.metadata.prompt, style: ['subHeader'], colSpan: '2', },
 							{},
@@ -2763,10 +2763,10 @@ function print_pdf_render_content(ctx) {
 			colspan = ctx.metadata.children.length;
 
 			// If grid is over a certain size, then do something different
-			if (ctx.metadata.name === 'transport_vital_signs' ||
-				ctx.metadata.name === 'vital_signs' ||
-				ctx.metadata.name === 'laboratory_tests' ||
-				ctx.metadata.name === 'routine_monitoring'
+			if (ctx.metadata.name == 'transport_vital_signs' ||
+				ctx.metadata.name == 'vital_signs' ||
+				ctx.metadata.name == 'laboratory_tests' ||
+				ctx.metadata.name == 'routine_monitoring'
 			) {
 				colWidths = new Array();
 				colWidths = [30, 100, 200, '*'];
@@ -2783,7 +2783,7 @@ function print_pdf_render_content(ctx) {
 				gridBody.push(row);
 
 				// Are there any records?
-				if (ctx.data.length === 0) {
+				if (ctx.data.length == 0) {
 					row = new Array();
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', },
 						{}, {}, {});
@@ -2799,7 +2799,7 @@ function print_pdf_render_content(ctx) {
 						let colPrompt = new Array();
 						let colData = new Array();
 						for (let i = 1; i < metaChild.length - 1; i++) {
-							console.log('************ &&&&&&&&&&&&&&&&& ==============: ', metaChild[i].type);
+							console.log('************ &&&&&&&&&&&&&&&&& =======: ', metaChild[i].type);
 							switch (metaChild[i].type.toLowerCase()) {
 								case 'list':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -2829,39 +2829,39 @@ function print_pdf_render_content(ctx) {
 								case 'routine_monitoring':
 									// Blood Pressure Chart
 									ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
+									idx = colPrompt.findIndex((s) => s.text == 'Systolic BP: ');
+									ctx.chartArr.bloodPressure.chartData[0].unshift((idx == -1) ? 0 : +colData[idx].text);
+									idx = colPrompt.findIndex((s) => s.text == 'Diastolic BP: ');
+									ctx.chartArr.bloodPressure.chartData[1].unshift((idx == -1) ? 0 : +colData[idx].text);
 									// Hematocrit Chart
 									ctx.chartArr.hematocrit.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Blood Hematocrit (%): ');
-									ctx.chartArr.hematocrit.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
+									idx = colPrompt.findIndex((s) => s.text == 'Blood Hematocrit (%): ');
+									ctx.chartArr.hematocrit.chartData.unshift((idx == -1) ? 0 : +colData[idx].text);
 									// Weight Gain Chart
 									ctx.chartArr.weightGain.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Weight (lbs): ');
-									ctx.chartArr.weightGain.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
+									idx = colPrompt.findIndex((s) => s.text == 'Weight (lbs): ');
+									ctx.chartArr.weightGain.chartData.unshift((idx == -1) ? 0 : +colData[idx].text);
 									break;
 								case 'vital_signs':
-									if (ctx.section_name === 'er_visit_and_hospital_medical_records') {
+									if (ctx.section_name == 'er_visit_and_hospital_medical_records') {
 										// Temperature Chart
 										ctx.chartArr.temperature.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Temperature: ');
-										ctx.chartArr.temperature.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
+										idx = colPrompt.findIndex((s) => s.text == 'Temperature: ');
+										ctx.chartArr.temperature.chartData.unshift((idx == -1) ? 0 : +colData[idx].text);
 										// Heart Rate Chart
 										ctx.chartArr.heartRate.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Heart Rate: ');
-										ctx.chartArr.heartRate.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
+										idx = colPrompt.findIndex((s) => s.text == 'Heart Rate: ');
+										ctx.chartArr.heartRate.chartData.unshift((idx == -1) ? 0 : +colData[idx].text);
 										// Respiration Chart
 										ctx.chartArr.respiration.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Respiration: ');
-										ctx.chartArr.respiration.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
+										idx = colPrompt.findIndex((s) => s.text == 'Respiration: ');
+										ctx.chartArr.respiration.chartData.unshift((idx == -1) ? 0 : +colData[idx].text);
 										// Blood Pressure Chart
 										ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
+										idx = colPrompt.findIndex((s) => s.text == 'Systolic BP: ');
+										ctx.chartArr.bloodPressure.chartData[0].unshift((idx == -1) ? 0 : +colData[idx].text);
+										idx = colPrompt.findIndex((s) => s.text == 'Diastolic BP: ');
+										ctx.chartArr.bloodPressure.chartData[1].unshift((idx == -1) ? 0 : +colData[idx].text);
 									}
 									break;
 								default:
@@ -2879,7 +2879,7 @@ function print_pdf_render_content(ctx) {
 				// The 30 is for the record number and the auto is to make it use the whole width
 				colWidths.push(30, 'auto',);
 				// Do this to make sure auto is the 1st column width and we bypass it in the count
-				let jStart = ctx.metadata.children[0].type === 'label' ? 2 : 1;
+				let jStart = ctx.metadata.children[0].type == 'label' ? 2 : 1;
 				for (let j = jStart; j < colspan; j++) {
 					// Only add a column if it is NOT a label
 					if (ctx.metadata.children[j].type !== 'label') {
@@ -2909,7 +2909,7 @@ function print_pdf_render_content(ctx) {
 				// Do the detail lines
 				row = new Array();
 				// Check to see if there are records, if not then tell them so
-				if (ctx.data.length === 0) {
+				if (ctx.data.length == 0) {
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, },);
 					for (let i = 1; i < colWidths.length; i++) {
 						row.push({},);
@@ -3013,7 +3013,7 @@ function print_pdf_render_content(ctx) {
 			// *** Else just return the data value - just in case there is a problem
 			// **************************************************************************
 
-			if (ctx.metadata.hasOwnProperty('is_multiselect') && ctx.metadata.is_multiselect === true) {
+			if (ctx.metadata.hasOwnProperty('is_multiselect') && ctx.metadata.is_multiselect == true) {
 				// console.log('multiselect is true');
 				if (ctx.metadata.hasOwnProperty('path_reference') && ctx.metadata.path_reference.length > 0) {
 					// console.log('path_reference is true');
@@ -3056,7 +3056,7 @@ function print_pdf_render_content(ctx) {
 			break;
 		case "textarea":
 			console.log('*** in TEXTAREA', ctx);
-			if (ctx.metadata.name === 'case_opening_overview') {
+			if (ctx.metadata.name == 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
 				ctx.content.push([
 					{ text: narrative, style: ['tableDetail'], colSpan: '2' },
