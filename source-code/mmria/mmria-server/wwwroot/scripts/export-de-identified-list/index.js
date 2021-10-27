@@ -81,13 +81,13 @@ function render_de_identified_list()
     result.push("</select>")
     if(g_selected_list != "global")
     {
-        result.push(`<input type='button' value='remove ${g_selected_list} list ...' />`);
+        result.push(`<input type='button' value='remove ${g_selected_list} list ...' onclick='remove_name_path_list_click()'/>`);
     }
 
     result.push(`
     <br/><br/>
-    <input type='text' name='new_list_name' value='&nbsp;'/>
-    <input type='button' value='Add New List'/>
+    <input type='text' id='new_list_name' value='&nbsp;'/>
+    <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
     <br/>
     `);
 
@@ -224,30 +224,47 @@ function server_delete(p_migration_plan)
 
 
 
-function delete_plan_click(p_id)
+function remove_name_path_list_click(p_id)
 {
-	var selected_plan = null;
 
-	for(var i = 0; i < g_migration_plan_list.length; i++)
-	{
-		if(g_migration_plan_list[i]._id == p_id)
-		{
-			selected_plan = g_migration_plan_list[i]; 
-			break;
-		}
-	}	
 
-	if(selected_plan)
+	if(g_selected_list != 'global')
 	{
 
-		var answer = prompt ("Are you sure you want to delete plan: " + selected_plan.name, "Enter yes to confirm");
+		var answer = prompt ("Are you sure you want to remove the " + g_selected_list + " list?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
-			server_delete(selected_plan);
+			//server_delete(selected_plan);
 		}
 		
 
 	}
+}
+
+function add_name_path_list_click(p_id)
+{
+    let new_name = document.getElementById("new_list_name").value.trim();
+
+	if
+    (
+        new_name != null && 
+        new_name != '' &&
+        g_de_identified_list.name_path_list[new_name] == null
+    )
+	{
+
+		var answer = prompt ("Are you sure you want to add the " + new_name + " list?", "Enter yes to confirm");
+		if(answer == "yes")
+		{
+			//server_delete(selected_plan);
+		}
+		
+
+	}
+    else
+    {
+        alert("Add new list: invalid name. name must not be blank and must not already be on the list.")
+    }
 }
 
 function edit_plan_click(p_id)
