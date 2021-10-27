@@ -64,8 +64,18 @@ function render_de_identified_list()
     result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
 
 
-    result.push("<option value='global' selected>global</option>");
-    result.push("<option value='ny'>ny</option>");
+    for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
+    {
+        if(key == g_selected_list)
+        {
+            result.push(`<option value='${key}' selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value='${key}'>${key}</option>`);
+        }
+        
+    }
 
     result.push(`
     </select>
@@ -84,10 +94,10 @@ function render_de_identified_list()
 
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
-	
-	for(var i in g_de_identified_list.paths)
+	let selected_list = g_de_identified_list.name_path_list[g_selected_list];
+	for(var i in selected_list)
 	{
-		var item = g_de_identified_list.paths[i];
+		var item = selected_list[i];
 
 		if(i % 2)
 		{
