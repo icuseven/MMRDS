@@ -61,6 +61,7 @@ function render_de_identified_list()
 
 	var result = [];
 	result.push("<br/>");
+
     result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
 
 
@@ -77,10 +78,17 @@ function render_de_identified_list()
         
     }
 
+    result.push("</select>")
+    if(g_selected_list != "global")
+    {
+        result.push(`<input type='button' value='remove ${g_selected_list} list ...' />`);
+    }
+
     result.push(`
-    </select>
-    <input type='text' name='new_list_name' value=''/>
+    <br/><br/>
+    <input type='text' name='new_list_name' value='&nbsp;'/>
     <input type='button' value='Add New List'/>
+    <br/>
     `);
 
 
@@ -131,21 +139,21 @@ function render_de_identified_list()
 
 function update_item(p_index, p_value)
 {
-	g_de_identified_list.paths[p_index] = p_value;
+	g_de_identified_list.name_path_list[g_selected_list][p_index] = p_value;
 
 
 }
 
 function delete_item(p_index)
 {
-	g_de_identified_list.paths.splice(p_index,1);
+	g_de_identified_list.name_path_list[g_selected_list].splice(p_index,1);
 	document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
 
 function add_new_item_click()
 {
 	
-	g_de_identified_list.paths.push("");
+	g_de_identified_list.name_path_list[g_selected_list].push("");
 
 	document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
