@@ -127,7 +127,7 @@ function render_de_identified_list()
 
 	result.push("<tr><td colspan=2 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
-	result.push("<tr><td colspan=2 align=center><input type='button' value='save [" + g_selected_list + "] list' onclick='server_save()' /></td></tr>")
+	result.push("<tr><td colspan=2 align=center><input type='button' value='save lists' onclick='server_save()' /></td></tr>")
 
 	
 	result.push("</table>");
@@ -234,7 +234,12 @@ function remove_name_path_list_click(p_id)
 		var answer = prompt ("Are you sure you want to remove the " + g_selected_list + " list?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
-			//server_delete(selected_plan);
+            g_de_identified_list.name_path_list[g_selected_list] = [];
+			delete g_de_identified_list.name_path_list[g_selected_list];
+
+            g_selected_list = 'global';
+
+            document.getElementById('output').innerHTML = render_de_identified_list().join("");
 		}
 		
 
@@ -256,7 +261,16 @@ function add_name_path_list_click(p_id)
 		var answer = prompt ("Are you sure you want to add the " + new_name + " list?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
-			//server_delete(selected_plan);
+			g_de_identified_list.name_path_list[new_name] = [];
+
+
+            g_de_identified_list.name_path_list['global'].forEach
+            (path => {
+                g_de_identified_list.name_path_list[new_name].push(path)
+            });
+            g_selected_list = new_name;
+
+            document.getElementById('output').innerHTML = render_de_identified_list().join("");
 		}
 		
 
