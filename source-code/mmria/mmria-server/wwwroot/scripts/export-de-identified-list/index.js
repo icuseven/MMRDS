@@ -258,7 +258,7 @@ function add_name_path_list_click(p_id)
     )
 	{
 
-		var answer = prompt ("Are you sure you want to add the " + new_name + " list?", "Enter yes to confirm");
+		var answer = prompt ("Are you sure you want to add the " + new_name + " list?\n\nUse CDC host site prefix.\n\nhttp://demo-mmria.cdc.gov = demo\nhttp://fl-mmria.cdc.gov = fl\nhttps://test-mmria.apps.ecpaas-dev.cdc.gov = test", "Enter yes to confirm");
 		if(answer == "yes")
 		{
 			g_de_identified_list.name_path_list[new_name] = [];
