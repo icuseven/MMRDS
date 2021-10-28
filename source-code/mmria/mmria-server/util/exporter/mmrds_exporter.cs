@@ -223,11 +223,7 @@ namespace mmria.server.utils
         grantee_column.DefaultValue = queue_item.grantee_name;
         path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
 
-
-
-        cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
-        System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
-        de_identified_set = new HashSet<string>();
+       de_identified_set = new HashSet<string>();
 
         if (queue_item.de_identified_field_set != null)
         {
