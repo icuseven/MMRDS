@@ -72,6 +72,7 @@ async function create_print_version
 		is_grid_item: false,
 		createdBy: p_data.created_by,
 		groupLevel: 0,
+		p_data: p_data,
 	};
 
 	console.log(' let p_ctx = ', p_ctx);
@@ -123,7 +124,7 @@ async function print_pdf(ctx) {
 	let retContent = await formatContent(ctx, arrMap);
 
 	let doc = {
-		pageOrientation: 'landscape',
+		pageOrientation: 'portrait',
 		pageMargins: [20, 80, 20, 20],
 		// background: () => {
 		// 	return {
@@ -216,7 +217,7 @@ async function print_pdf(ctx) {
 		},
 		styles: {
 			pageHeader: {
-				fontSize: 14,
+				fontSize: 12,
 				color: '#000080',
 			},
 			headerPageDate: {
@@ -228,7 +229,7 @@ async function print_pdf(ctx) {
 				margin: [2, 2, 2, 2],
 			},
 			coreHeader: {
-				fontSize: 14,
+				fontSize: 12,
 				color: '#0000ff',
 				margin: [0, 10, 0, 5]
 			},
@@ -288,8 +289,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -341,7 +342,7 @@ function createNamePDF() {
 
 // check field for null
 function chkNull(val) {
-	if (val === undefined || val === null) return '';
+	if (val == null) return '';
 	return val;
 }
 
@@ -537,8 +538,7 @@ function lookupFieldArr(val, arr) {
 // }
 
 // Return all global choices
-function lookupGlobalMultiChoiceArr(lookup, val, pathReference) 
-{
+function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 	// See if val is null
 	if (val === null) return '';
 
@@ -553,13 +553,11 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference)
 	let strChoice = '';
 	let arr = lookup[lookupIndex].values;
 	let idx;
-	for (let i = 0; i < val.length; i++) 
-    {
+	for (let i = 0; i < val.length; i++) {
 		idx = arr.findIndex((s) => s.value === val[i]);
-        if(idx != -1)
-        {
-		    strChoice += arr[idx].display + ', ';
-        }
+		if (idx != -1 && arr[idx].display != null) {
+			strChoice += arr[idx].display + ', ';
+		}
 	}
 	idx = strChoice.lastIndexOf(', ');
 	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
@@ -568,23 +566,20 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference)
 }
 
 // Return all field choices
-function lookupFieldMultiChoiceArr(val, arr) 
-{
+function lookupFieldMultiChoiceArr(val, arr) {
 	// See if val is null
 	if (val === null) return '';
 
 	// Return field with all choices
 	let strChoice = '';
 	let idx;
-	for (let i = 0; i < val.length; i++) 
-    {
+	for (let i = 0; i < val.length; i++) {
 		idx = arr.findIndex((s) => s.value === val[i]);
-        if(idx != -1)
-        {
-		    strChoice += arr[idx].display + ', ';
-        }
+		if (idx != -1 && arr[idx].display != null) {
+			strChoice += arr[idx].display + ', ';
+		}
 
-      
+
 	}
 	idx = strChoice.lastIndexOf(', ');
 	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
@@ -617,25 +612,18 @@ function getLookupField(lookup, data, metadata) {
 	let retStr = '';
 
 	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect === true) {
-		// console.log('multiselect is true');
 		if (metadata.hasOwnProperty('path_reference') && metadata.path_reference.length > 0) {
-			// console.log('path_reference is true');
 			retStr = lookupGlobalMultiChoiceArr(lookup, data, metadata.path_reference);
 		} else if (metadata.values.length > 0) {
-			// console.log('path_reference is false and values length: ', metadata.values.length);
 			retStr = lookupFieldMultiChoiceArr(data, metadata.values);
 		} else {
-			// console.log('values has 0 length');
 			retStr = chkNull(data);
 		}
 	} else if (metadata.hasOwnProperty('path_reference') && metadata.path_reference.length > 0) {
-		// console.log('multiselect does not exist and path_reference is true');
 		retStr = lookupGlobalArr(lookup, data, metadata.path_reference);
 	} else if (metadata.values.length > 0) {
-		// console.log('path_reference is false and values length is: ', metadata.values.length);
 		retStr = lookupFieldArr(data, metadata.values);
 	} else {
-		// console.log('default');
 		retStr = chkNull(data);
 	}
 
@@ -645,7 +633,6 @@ function getLookupField(lookup, data, metadata) {
 // Find section prompt name
 function getSectionTitle(name) {
 	if (name === 'all') {
-		// console.log('title: ', g_current);
 	}
 
 	let idx = g_md.children.findIndex((s) => s.name === name);
@@ -671,8 +658,6 @@ async function doChart2(p_id_prefix, chartData) {
 	//canvas.setAttribute('height', '150');
 	canvas.setAttribute('width', '800px');
 	container.appendChild(canvas);
-
-
 
 	const config = {
 		type: 'line',
@@ -704,9 +689,7 @@ async function doChart2(p_id_prefix, chartData) {
 
 function done(img) {
 	return new Promise((resolve, reject) => {
-		// console.log('In done');
 		if (img) {
-			// console.log('img is there', img.length)
 			resolve(img);
 		}
 		reject(console.log('Image load error: ', error));
@@ -722,46 +705,6 @@ function done(img) {
 // ************************************************************************
 
 // ************************************************************************
-// Global variables for the charts
-// ************************************************************************
-
-// ER Visits and Hospitalizations Template
-let chartArrTemplateER = {
-	bloodPressure: {
-		chartLabels: [],
-		chartData: [[], []],
-	},
-	heartRate: {
-		chartLabels: [],
-		chartData: [],
-	},
-	respiration: {
-		chartLabels: [],
-		chartData: [],
-	},
-	temperature: {
-		chartLabels: [],
-		chartData: [],
-	},
-};
-// Prenatal Care Record Template
-let chartArrTemplatePrenatal = {
-	bloodPressure: {
-		chartLabels: [],
-		chartData: [[], []],
-	},
-	weightGain: {
-		chartLabels: [],
-		chartData: [],
-	},
-	hematocrit: {
-		chartLabels: [],
-		chartData: [],
-	},
-};
-
-
-// ************************************************************************
 // ************************************************************************
 //
 // Start - Build the record based on what kind it is
@@ -770,1191 +713,88 @@ let chartArrTemplatePrenatal = {
 // ************************************************************************
 async function formatContent(p_ctx, arrMap) {
 	let retContent = [];
+	let body = [];
 	let arrIndex;
 	let sectionName = p_ctx.section_name;
 	let ctx;
 
 	switch (sectionName) {
-		case 'home_record':
-			arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.home_record };
-			retContent.push(await home_record(ctx));
+		// Show all reports
+		case 'all':
+			if (p_ctx.metadata.children) {
+				for (let i = 0; i < p_ctx.metadata.children.length; i++) {
+					let child = p_ctx.metadata.children[i];
+					if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
+						// If not the Home Record, then do a page break
+						if (child.name !== 'home_record') {
+							retContent.push({ text: '', pageBreak: 'before' });
+						}
+						// Setup the correct ctx information to run the correct report
+						ctx = { ...p_ctx, metadata: child, data: p_ctx.data[child.name] };
+						body = print_pdf_render(ctx);
+						retContent.push([
+							{
+								layout: {
+									defaultBorder: false,
+									paddingLeft: function (i, node) { return 1; },
+									paddingRight: function (i, node) { return 1; },
+									paddingTop: function (i, node) { return 2; },
+									paddingBottom: function (i, node) { return 1; },
+								},
+								id: child.name,
+								width: 'auto',
+								table: {
+									headerRows: 0,
+									widths: [250, 'auto'],
+									body: body,
+								},
+							},
+						]);
+					}
+				}
+			}
 			break;
-		case 'death_certificate':
-			arrIndex = arrMap.findIndex((s) => s.name === 'death_certificate');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.death_certificate };
-			retContent.push(await death_certificate(ctx, false));
-			break;
-		case 'birth_fetal_death_certificate_parent':
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_fetal_death_certificate_parent };
-			retContent.push(await birth_fetal_death_certificate_parent(ctx, false));
-			break;
-		case 'birth_certificate_infant_fetal_section':
-			arrIndex = arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_certificate_infant_fetal_section };
-			retContent.push(await birth_certificate_infant_fetal_section(ctx, false));
-			break;
-		case 'autopsy_report':
-			arrIndex = arrMap.findIndex((s) => s.name === 'autopsy_report');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.autopsy_report };
-			retContent.push(await autopsy_report(ctx, false));
-			break;
-		case 'prenatal':
-			arrIndex = arrMap.findIndex((s) => s.name === 'prenatal');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.prenatal };
-			retContent.push(await prenatal(ctx, false));
-			break;
-		case 'er_visit_and_hospital_medical_records':
-			arrIndex = arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.er_visit_and_hospital_medical_records };
-			retContent.push(await er_visit_and_hospital_medical_records(ctx, false));
-			break;
-		case 'other_medical_office_visits':
-			arrIndex = arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.other_medical_office_visits };
-			retContent.push(await other_medical_office_visits(ctx, false));
-			break;
-		case 'medical_transport':
-			arrIndex = arrMap.findIndex((s) => s.name === 'medical_transport');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.medical_transport };
-			retContent.push(await medical_transport(ctx, false));
-			break;
-		case 'social_and_environmental_profile':
-			arrIndex = arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.social_and_environmental_profile };
-			retContent.push(await social_and_environmental_profile(ctx, false));
-			break;
-		case 'mental_health_profile':
-			arrIndex = arrMap.findIndex((s) => s.name === 'mental_health_profile');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.mental_health_profile };
-			retContent.push(await mental_health_profile(ctx, false));
-			break;
-		case 'informant_interviews':
-			arrIndex = arrMap.findIndex((s) => s.name === 'informant_interviews');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.informant_interviews };
-			retContent.push(await informant_interviews(ctx, false));
-			break;
-		case 'case_narrative':
-			arrIndex = arrMap.findIndex((s) => s.name === 'case_narrative');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.case_narrative };
-			retContent.push(await case_narrative(ctx, false));
-			break;
-		case 'committee_review':
-			arrIndex = arrMap.findIndex((s) => s.name === 'committee_review');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.committee_review };
-			retContent.push(await committee_review(ctx, false));
-			break;
+
+		// Core Summary
 		case 'core-summary':
 			retContent.push(await core_summary());
 			break;
-		case 'all':
-			// home_record
-			g_current = 'home_record';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'home_record');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.home_record };
-			retContent.push(await home_record(ctx));
-			// death_certificate
-			g_current = 'death_certificate';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'death_certificate');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.death_certificate };
-			retContent.push(await death_certificate(ctx, true));
-			// birth_fetal_death_certificate_parent
-			g_current = 'birth_fetal_death_certificate_parent';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_fetal_death_certificate_parent');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_fetal_death_certificate_parent };
-			retContent.push(await birth_fetal_death_certificate_parent(ctx, true));
-			// birth_certificate_infant_fetal_section
-			g_current = 'birth_certificate_infant_fetal_section';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'birth_certificate_infant_fetal_section');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.birth_certificate_infant_fetal_section };
-			retContent.push(await birth_certificate_infant_fetal_section(ctx, true));
-			// autopsy_report
-			g_current = 'autopsy_report';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'autopsy_report');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.autopsy_report };
-			retContent.push(await autopsy_report(ctx, true));
-			// prenatal
-			g_current = 'prenatal';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'prenatal');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.prenatal };
-			retContent.push(await prenatal(ctx, true));
-			// er_visit_and_hospital_medical_records
-			g_current = 'er_visit_and_hospital_medical_records';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'er_visit_and_hospital_medical_records');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.er_visit_and_hospital_medical_records };
-			retContent.push(await er_visit_and_hospital_medical_records(ctx, true));
-			// other_medical_office_visits
-			g_current = 'other_medical_office_visits';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'other_medical_office_visits');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.other_medical_office_visits };
-			retContent.push(await other_medical_office_visits(ctx, true));
-			// medical_transport
-			g_current = 'medical_transport';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'medical_transport');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.medical_transport };
-			retContent.push(await medical_transport(ctx, true));
-			// social_and_environmental_profile
-			g_current = 'social_and_environmental_profile';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'social_and_environmental_profile');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.social_and_environmental_profile };
-			retContent.push(await social_and_environmental_profile(ctx, true));
-			// mental_health_profile
-			g_current = 'mental_health_profile';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'mental_health_profile');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.mental_health_profile };
-			retContent.push(await mental_health_profile(ctx, true));
-			// informant_interviews
-			g_current = 'informant_interviews';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'informant_interviews');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.informant_interviews };
-			retContent.push(await informant_interviews(ctx, true));
-			// case_narrative
-			g_current = 'case_narrative';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'case_narrative');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.case_narrative };
-			retContent.push(await case_narrative(ctx, true));
-			// committee_review
-			g_current = 'committee_review';
-			arrIndex = await arrMap.findIndex((s) => s.name === 'committee_review');
-			ctx = { ...p_ctx, metadata: g_md.children[arrIndex], data: g_d.committee_review };
-			retContent.push(await committee_review(ctx, true));
-			break;
+
+		// Show selected report
 		default:
-			// let a = info.fields[ 0 ].prompt;
-			// // console.log( 'xxx: ', a );
-			retContent = [
-				{ text: "Not done", bold: true, }
-			];
+			if (p_ctx.metadata.children) {
+				arrIndex = arrMap.findIndex((s) => s.name === sectionName);
+				let child = p_ctx.metadata.children[arrIndex];
+				if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
+					// Setup the ctx information to run the correct report
+					ctx = { ...p_ctx, metadata: child, data: p_ctx.data[child.name] };
+					body = await print_pdf_render_content(ctx);
+					retContent.push([
+						{
+							layout: {
+								defaultBorder: false,
+								paddingLeft: function (i, node) { return 1; },
+								paddingRight: function (i, node) { return 1; },
+								paddingTop: function (i, node) { return 2; },
+								paddingBottom: function (i, node) { return 1; },
+							},
+							id: child.name,
+							width: 'auto',
+							table: {
+								headerRows: 0,
+								widths: [250, 'auto'],
+								body: body,
+							},
+						},
+					]);
+				}
+			}
+			break;
 	}
 
 	return retContent;
 }
 
-//
-// Build home_record
-// 	ctx contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//
-
-async function home_record(ctx) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	console.log('home ctx: ', ctx);
-
-	// Loop thru the metadata for home_record
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'home_record',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build death_certificate record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function death_certificate(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('death certificate ctx: ', ctx);
-
-	// Loop thru the metadata for death_certificate
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'death_certificate',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build birth_fetal_death_certificate_parent record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function birth_fetal_death_certificate_parent(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('birth_fetal_death_certificate_parent ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	// Loop thru the metadata for birth_fetal_death_certificate_parent
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'birth_fetal_death_certificate_parent',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build birth_certificate_infant_fetal_section record 
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function birth_certificate_infant_fetal_section(ctx, pg_break) {
-	// Global fields
-	let body = [];
-	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
-	let lenArr = ctx.data.length;
-	let startArr = 0;
-	let endArr = lenArr;
-
-	console.log('birth_certificate_infant_fetal_section ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	// Are there any records?
-	if (lenArr === 0) {
-		retPage.push([
-			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
-			{},
-		]);
-	} else {
-		if (!allRecs) {
-			startArr = ctx.record_number - 1;
-			endArr = startArr + 1;
-		}
-
-		// Display records
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			// Check to see if there are multiple records, if so do a page break, if not first record
-			if (allRecs && curRec > 0) {
-				retPage.push([
-					{ text: '', pageBreak: 'before', colSpan: '2', },
-					{},
-				]);
-			}
-
-			// Display the record number
-			retPage.push([
-				{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
-				{},
-			]);
-
-			// Loop thru the metadata
-			body = new Array();
-			let new_content = [];
-			let new_context = {
-				...ctx,
-				data: ctx.data[curRec],
-				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
-			};
-			body = print_pdf_render_content(new_context);
-			// body = body.slice(0, 50);
-			// console.log('body: ', body);
-
-			// Show the table
-			retPage.push(
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					id: 'birth_certificate_infant_fetal_section',
-					width: 'auto',
-					table: {
-						headerRows: 0,
-						widths: [250, 'auto'],
-						body: body,
-					},
-				},
-			);
-		}
-	}
-
-	return retPage;
-}
-
-// Build autopsy_report
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function autopsy_report(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('autopsy_report ctx: ', ctx);
-
-	// Loop thru the metadata for autopsy_report
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'birth_fetal_death_certificate_parent',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build prenatal record 
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function prenatal(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	let new_ctx = {
-		...ctx,
-		chartArr: chartArrTemplatePrenatal,
-	};
-
-	console.log('prenatal ctx: ', new_ctx);
-
-	// Loop thru the metadata for home_record
-	body = print_pdf_render_content(new_ctx);
-	console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'prenatal',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build er_visit_and_hospital_medical_records record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function er_visit_and_hospital_medical_records(ctx, pg_break) {
-	// Global fields
-	let body = [];
-	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
-	let lenArr = ctx.data.length;
-	let startArr = 0;
-	let endArr = lenArr;
-
-	console.log('er_visit_and_hospital_medical_records ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('prenatal ctx: ', ctx);
-
-	// Are there any records?
-	if (lenArr === 0) {
-		retPage.push([
-			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
-			{},
-		]);
-	} else {
-		if (!allRecs) {
-			startArr = ctx.record_number - 1;
-			endArr = startArr + 1;
-		}
-
-		// Display records
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			// Check to see if there are multiple records, if so do a page break, if not first record
-			if (allRecs && curRec > 0) {
-				retPage.push([
-					{ text: '', pageBreak: 'before', colSpan: '2', },
-					{},
-				]);
-			}
-
-			// Display the record number
-			retPage.push([
-				{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
-				{},
-			]);
-
-			// Loop thru the metadata
-			body = new Array();
-			let new_content = [];
-			let new_context = {
-				...ctx,
-				data: ctx.data[curRec],
-				content: new_content,
-				chartArr: chartArrTemplateER,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
-			};
-			body = print_pdf_render_content(new_context);
-			console.log('*** body full: ', body);
-			// body = body.slice(0, 45);
-			// console.log('*** body slice: ', body);
-
-			// Show the table
-			retPage.push(
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					id: 'er_visit_and_hospital_medical_records',
-					width: 'auto',
-					table: {
-						headerRows: 0,
-						widths: [250, 'auto'],
-						body: body,
-					},
-				},
-			);
-		}
-	}
-
-	return retPage;
-}
-
-// Build other_medical_office_visits record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function other_medical_office_visits(ctx, pg_break) {
-	// Global fields
-	let body = [];
-	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
-	let lenArr = ctx.data.length;
-	let startArr = 0;
-	let endArr = lenArr;
-
-	console.log('other_medical_office_visits ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	// Are there any records?
-	if (lenArr === 0) {
-		retPage.push([
-			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
-			{},
-		]);
-	} else {
-		if (!allRecs) {
-			startArr = ctx.record_number - 1;
-			endArr = startArr + 1;
-		}
-
-		// Display records
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			// Check to see if there are multiple records, if so do a page break, if not first record
-			if (allRecs && curRec > 0) {
-				retPage.push([
-					{ text: '', pageBreak: 'before', colSpan: '2', },
-					{},
-				]);
-			}
-
-			// Display the record number
-			retPage.push([
-				{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
-				{},
-			]);
-
-			// Loop thru the metadata
-			body = new Array();
-			let new_content = [];
-			let new_context = {
-				...ctx,
-				data: ctx.data[curRec],
-				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
-			};
-			body = print_pdf_render_content(new_context);
-			console.log('*** body full: ', body);
-			// body = body.slice(0, 45);
-			// console.log('*** body slice: ', body);
-
-			// Show the table
-			retPage.push(
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					id: 'other_medical_office_visits',
-					width: 'auto',
-					table: {
-						headerRows: 0,
-						widths: [250, 'auto'],
-						body: body,
-					},
-				},
-			);
-		}
-	}
-
-	return retPage;
-}
-
-// Build medical_transport record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function medical_transport(ctx, pg_break) {
-	// Global fields
-	let body = [];
-	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
-	let lenArr = ctx.data.length;
-	let startArr = 0;
-	let endArr = lenArr;
-
-	console.log('other_medical_office_visits ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	// Are there any records?
-	if (lenArr === 0) {
-		retPage.push([
-			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
-			{},
-		]);
-	} else {
-		if (!allRecs) {
-			startArr = ctx.record_number - 1;
-			endArr = startArr + 1;
-		}
-
-		// Display records
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			// Check to see if there are multiple records, if so do a page break, if not first record
-			if (allRecs && curRec > 0) {
-				retPage.push([
-					{ text: '', pageBreak: 'before', colSpan: '2', },
-					{},
-				]);
-			}
-
-			// Display the record number
-			retPage.push([
-				{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
-				{},
-			]);
-
-			// Loop thru the metadata
-			body = new Array();
-			let new_content = [];
-			let new_context = {
-				...ctx,
-				data: ctx.data[curRec],
-				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
-			};
-			body = print_pdf_render_content(new_context);
-			console.log('*** body full: ', body);
-			// body = body.slice(0, 45);
-			// console.log('*** body slice: ', body);
-
-			// Show the table
-			retPage.push(
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					id: 'other_medical_office_visits',
-					width: 'auto',
-					table: {
-						headerRows: 0,
-						widths: [250, 'auto'],
-						body: body,
-					},
-				},
-			);
-		}
-	}
-
-	return retPage;
-}
-
-// Build social_and_environmental_profile record 
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function social_and_environmental_profile(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('social_and_environmental_profile ctx: ', ctx);
-
-	// Loop thru the metadata for autopsy_report
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-	// body = body.slice(0, 20);
-	// console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'social_and_environmental_profile',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build mental_health_profile record 
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function mental_health_profile(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('mental_health_profile ctx: ', ctx);
-
-	// Loop thru the metadata for autopsy_report
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-	// body = body.slice(0, 20);
-	// console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'mental_health_profile',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build informant_interviews record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function informant_interviews(ctx, pg_break) {
-	// Global fields
-	let body = [];
-	let retPage = [];
-	let allRecs = (typeof ctx.record_number === 'undefined' || pg_break) ? true : false;
-	let lenArr = ctx.data.length;
-	let startArr = 0;
-	let endArr = lenArr;
-
-	console.log('informant_interviews ctx: ', ctx);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	// Are there any records?
-	if (lenArr === 0) {
-		retPage.push([
-			{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
-			{},
-		]);
-	} else {
-		if (!allRecs) {
-			startArr = ctx.record_number - 1;
-			endArr = startArr + 1;
-		}
-
-		// Display records
-		for (let curRec = startArr; curRec < endArr; curRec++) {
-			// Check to see if there are multiple records, if so do a page break, if not first record
-			if (allRecs && curRec > 0) {
-				retPage.push([
-					{ text: '', pageBreak: 'before', colSpan: '2', },
-					{},
-				]);
-			}
-
-			// Display the record number
-			retPage.push([
-				{ text: `Record #${curRec + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
-				{},
-			]);
-
-			// Loop thru the metadata
-			body = new Array();
-			let new_content = [];
-			let new_context = {
-				...ctx,
-				data: ctx.data[curRec],
-				content: new_content,
-				record_number: (typeof ctx.current_record === 'undefined') ? curRec + 1 : ctx.record_number,
-			};
-			body = print_pdf_render_content(new_context);
-			console.log('*** body full: ', body);
-			// body = body.slice(0, 10);
-			// console.log('*** body partial: ', body);
-
-			// Show the table
-			retPage.push(
-				{
-					layout: {
-						defaultBorder: false,
-						paddingLeft: function (i, node) { return 1; },
-						paddingRight: function (i, node) { return 1; },
-						paddingTop: function (i, node) { return 2; },
-						paddingBottom: function (i, node) { return 2; },
-					},
-					id: 'informant_interviews',
-					width: 'auto',
-					table: {
-						headerRows: 0,
-						widths: [250, 'auto'],
-						body: body,
-					},
-				},
-			);
-		}
-	}
-
-	// console.log('************** retPage: ', retPage);
-
-	return retPage;
-}
-
-// Build case_narrative
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function case_narrative(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	console.log('p: ', ctx.metadata);
-	console.log('d: ', ctx.data);
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('case_narrative ctx: ', ctx);
-
-	// Loop thru the metadata for autopsy_report
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-	// body = body.slice(0, 20);
-	// console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'case_narrative',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Build committee_review record
-//	ctx: contains the following fields:
-//		content[]
-//		data
-//		metadata
-//		lookup
-//		mmria_path
-//		record_number
-//		section_name
-//		is_grid_item
-//		gridLevel
-//	pg_break: a flag to see if a page break is needed before doing the report
-//
-
-async function committee_review(ctx, pg_break) {
-	let body = [];
-	let retPage = [];
-
-	// Get the title for the Header
-	retPage.push({ text: '', pageHeaderText: ctx.metadata.prompt.toUpperCase() });
-
-	// Need page break, used if print all or core
-	if (pg_break) {
-		retPage.push({ text: '', pageBreak: 'before' });
-	}
-
-	console.log('committee_review ctx: ', ctx);
-
-	// Loop thru the metadata for autopsy_report
-	body = print_pdf_render_content(ctx);
-	console.log('body: ', body);
-	// body = body.slice(0, 20);
-	// console.log('body: ', body);
-
-	// Show the table
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 2; },
-			},
-			id: 'committee_review',
-			width: 'auto',
-			table: {
-				headerRows: 0,
-				widths: [250, 'auto'],
-				body: body,
-			},
-		},
-	]);
-
-	return retPage;
-}
 
 function convert_html_to_pdf(p_value) {
 	//{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
@@ -1969,7 +809,6 @@ function convert_html_to_pdf(p_value) {
 	return result;
 
 }
-
 
 function convert_attribute_to_pdf(p_node, p_result) {
 	//{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
@@ -2056,7 +895,6 @@ function rgb_to_hex(p_value) {
 
 	return "#" + b.join("");
 }
-
 
 function GetTableHeader(p_result, p_node) {
 	//if(p_result.length > 0) return;
@@ -2618,55 +1456,84 @@ function convert_dictionary_path_to_lookup_object(p_path) {
 	return result;
 }
 
-
 // Recursive function to traverse the metadata
 function print_pdf_render_content(ctx) {
 	// Find the correct type
-	console.log('in print_pdf_render_content');
 	console.log('ctx: ', ctx);
 	switch (ctx.metadata.type.toLowerCase()) {
 		case "app":
 			console.log('in APP');
 			break;
 		case "form":
-			console.log('*** in FORM: ', ctx.metadata.prompt);
-			if (ctx.metadata.cardinality === "1" || ctx.metadata.cardinality === "?") {
-				ctx.metadata.children.forEach((child, index) => {
-					if ((ctx.data && ctx.data[child.name]) || child.type == 'chart') {
-						let new_content = [];
-						let new_context = {
-							...ctx,
-							metadata: child,
-							data: ctx.data[child.name],
-							mmria_path: ctx.mmria_path + "/" + child.name,
-							content: new_content,
-						};
-						let ret = print_pdf_render_content(new_context);
-						ctx.content.push(...ret);
+			console.log('*************** type: ', ctx.metadata.type);
+			// multiform 
+			if (ctx.metadata.cardinality === '*' || ctx.metadata.cardinality === '+') {
+				if (ctx.metadata.children && ctx.data.length > 0) {
+					// See if we do all records or just one
+					let startArr = 0;
+					let endArr = ctx.data.length;
+					if (typeof ctx.record_number !== 'undefined') {
+						startArr = ctx.record_number - 1;
+						endArr = startArr + 1;
 					}
-				});
-			}
-			else // multiform 
-			{
-				console.log('** Start MULTIFORM **: ');
-				ctx.metadata.children.forEach((child, index) => {
-					if ((ctx.data && ctx.data[child.name]) || child.type == 'chart') {
-						let new_content = [];
-						let new_context = {
-							...ctx,
-							metadata: child,
-							data: ctx.data[child.name],
-							mmria_path: ctx.mmria_path + "/" + child.name,
-							content: new_content,
-						};
-						let ret = print_pdf_render_content(new_context);
-						ctx.content.push(...ret);
+					for (startArr; startArr < endArr; startArr++) {
+						if (typeof ctx.record_number === 'undefined' && startArr > 0) {
+							ctx.content.push([
+								{ text: '', pageBreak: 'before', colSpan: '2', },
+								{},
+							]);
+						}
+
+						// Display the record number
+						ctx.content.push([
+							{ text: `Record #${startArr + 1}`.toUpperCase(), style: ['subHeader'], colSpan: '2', },
+							{},
+						]);
+
+						let formItem = ctx.data[startArr];
+						ctx.metadata.children.forEach((child) => {
+							if (formItem[child.name] || child.type == 'chart') {
+								let new_content = [];
+								let new_context = {
+									...ctx,
+									metadata: child,
+									data: formItem[child.name],
+									mmria_path: ctx.mmria_path + "/" + child.name,
+									content: new_content,
+									multiFormIndex: startArr,
+								};
+								let ret = print_pdf_render_content(new_context);
+								ctx.content.push(...ret);
+							}
+						});
 					}
-				});
+				} else {
+					ctx.content.push([
+						{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
+						{},
+					]);
+				}
+			} else {
+				if (ctx.metadata.children) {
+					ctx.metadata.children.forEach((child, index) => {
+						if ((ctx.data && ctx.data[child.name]) || child.type == 'chart') {
+							let new_content = [];
+							let new_context = {
+								...ctx,
+								metadata: child,
+								data: ctx.data[child.name],
+								mmria_path: ctx.mmria_path + "/" + child.name,
+								content: new_content,
+							};
+							let ret = print_pdf_render_content(new_context);
+							ctx.content.push(...ret);
+						}
+					});
+				}
 			}
 			break;
 		case "group":
-			console.log('*** in GROUP', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			// ****************************************************************
 			// *** The 1st if statement will see if the group has 3 children 
 			// *** and they are month, day and year
@@ -2724,7 +1591,6 @@ function print_pdf_render_content(ctx) {
 					showIt = ctx.createdBy === 'vitals-import' ? true : false;
 				}
 				if (showIt) {
-					console.log('****************************** groupLevel: ', ctx.groupLevel);
 					if (ctx.groupLevel === 0) {
 						ctx.content.push([
 							{ text: ctx.metadata.prompt, style: ['subHeader'], colSpan: '2', },
@@ -2745,7 +1611,6 @@ function print_pdf_render_content(ctx) {
 							let ret = print_pdf_render_content(new_context);
 							if (ret.length > 0) {
 								ctx.content.push(...ret);
-								console.log('****** group 2 ctx: ', ret);
 							}
 						}
 					});
@@ -2753,7 +1618,7 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "grid":
-			console.log('*** in GRID', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			let gridBody = [];
 			let row;
 			let colWidths;
@@ -2799,7 +1664,6 @@ function print_pdf_render_content(ctx) {
 						let colPrompt = new Array();
 						let colData = new Array();
 						for (let i = 1; i < metaChild.length - 1; i++) {
-							console.log('************ &&&&&&&&&&&&&&&&& ==============: ', metaChild[i].type);
 							switch (metaChild[i].type.toLowerCase()) {
 								case 'list':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -2823,54 +1687,6 @@ function print_pdf_render_content(ctx) {
 						row.push({ columns: [colPrompt, colData], },);
 						row.push({ text: chkNull(dataChild[metaChild[metaChild.length - 1].name]), style: ['tableDetail'], },);
 						gridBody.push(row)
-						if (colPrompt.length > 0) {
-							let idx;
-							switch (ctx.metadata.name) {
-								case 'routine_monitoring':
-									// Blood Pressure Chart
-									ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-									ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
-									// Hematocrit Chart
-									ctx.chartArr.hematocrit.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Blood Hematocrit (%): ');
-									ctx.chartArr.hematocrit.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
-									// Weight Gain Chart
-									ctx.chartArr.weightGain.chartLabels.unshift(row[1].text);
-									idx = colPrompt.findIndex((s) => s.text === 'Weight (lbs): ');
-									ctx.chartArr.weightGain.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
-									break;
-								case 'vital_signs':
-									if (ctx.section_name === 'er_visit_and_hospital_medical_records') {
-										// Temperature Chart
-										ctx.chartArr.temperature.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Temperature: ');
-										ctx.chartArr.temperature.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
-										// Heart Rate Chart
-										ctx.chartArr.heartRate.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Heart Rate: ');
-										ctx.chartArr.heartRate.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
-										// Respiration Chart
-										ctx.chartArr.respiration.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Respiration: ');
-										ctx.chartArr.respiration.chartData.unshift((idx === -1) ? 0 : +colData[idx].text);
-										// Blood Pressure Chart
-										ctx.chartArr.bloodPressure.chartLabels.unshift(row[1].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Systolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[0].unshift((idx === -1) ? 0 : +colData[idx].text);
-										idx = colPrompt.findIndex((s) => s.text === 'Diastolic BP: ');
-										ctx.chartArr.bloodPressure.chartData[1].unshift((idx === -1) ? 0 : +colData[idx].text);
-									}
-									break;
-								default:
-									console.log('ctx.metadata.name not yet setup: ', ctx.metadata.name);
-									break;
-							}
-							console.log('+++++++++++++++++++++++++ colPrompt: ', colPrompt);
-							console.log('+++++++++++++++++++++++++ colData: ', colData);
-						}
 					});
 				}
 			} else {
@@ -2883,7 +1699,7 @@ function print_pdf_render_content(ctx) {
 				for (let j = jStart; j < colspan; j++) {
 					// Only add a column if it is NOT a label
 					if (ctx.metadata.children[j].type !== 'label') {
-						colWidths.push('*',);
+						colWidths.push('auto',);
 					};
 				}
 
@@ -2929,7 +1745,6 @@ function print_pdf_render_content(ctx) {
 								case 'string':
 								case 'number':
 								case 'time':
-								case 'hidden':
 									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
@@ -2941,6 +1756,7 @@ function print_pdf_render_content(ctx) {
 								case 'datetime':
 									row.push({ text: fmtDateTime(dataChild[metaChild.name]), style: ['tableDetail'] },);
 									break;
+								case 'hidden':
 								default:
 									break;
 							}
@@ -2973,29 +1789,28 @@ function print_pdf_render_content(ctx) {
 		case "number":
 		case "time":
 		case "jurisdiction":
-		case "hidden":
-			console.log('*** in STRING, NUMBER, TIME, JURISDICTION, HIDDEN', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: chkNull(ctx.data), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
-			console.log('*** in DATE', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: reformatDate(ctx.data), style: ['tableDetail'] },
 			]);
 			break;
 		case "datetime":
-			console.log('*** in DATETIME', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: fmtDateTime(ctx.data), style: ['tableDetail'] },
 			]);
 			break;
 		case "list":
-			console.log('in LIST', ctx.metadata.prompt);
+			console.log('*************** type: ', ctx.metadata.type);
 			// **************************************************************************
 			// *** The 1st if will see if is_multiselect exists and set to true
 			// ***		Then check to see if  path_reference exist and if it exists
@@ -3014,40 +1829,33 @@ function print_pdf_render_content(ctx) {
 			// **************************************************************************
 
 			if (ctx.metadata.hasOwnProperty('is_multiselect') && ctx.metadata.is_multiselect === true) {
-				// console.log('multiselect is true');
 				if (ctx.metadata.hasOwnProperty('path_reference') && ctx.metadata.path_reference.length > 0) {
-					// console.log('path_reference is true');
 					ctx.content.push([
 						{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupGlobalMultiChoiceArr(ctx.lookup, ctx.data, ctx.metadata.path_reference), style: ['tableDetail'] },
 					]);
 				} else if (ctx.metadata.values.length > 0) {
-					// console.log('path_reference is false and values length: ', ctx.metadata.values.length);
 					ctx.content.push([
 						{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: lookupFieldMultiChoiceArr(ctx.data, ctx.metadata.values), style: ['tableDetail'] },
 					]);
 				} else {
-					// console.log('values has 0 length');
 					ctx.content.push([
 						{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 						{ text: chkNull(ctx.data), style: ['tableDetail'] },
 					]);
 				}
 			} else if (ctx.metadata.hasOwnProperty('path_reference') && ctx.metadata.path_reference.length > 0) {
-				// console.log('multiselect does not exist and path_reference is true');
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: lookupGlobalArr(ctx.lookup, ctx.data, ctx.metadata.path_reference), style: ['tableDetail'] },
 				]);
 			} else if (ctx.metadata.values.length > 0) {
-				// console.log('path_reference is false and values length is: ', ctx.metadata.values.length);
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: lookupFieldArr(ctx.data, ctx.metadata.values), style: ['tableDetail'] },
 				]);
 			} else {
-				// console.log('default');
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: chkNull(ctx.data), style: ['tableDetail'] },
@@ -3055,7 +1863,7 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "textarea":
-			console.log('*** in TEXTAREA', ctx);
+			console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
 				ctx.content.push([
@@ -3070,157 +1878,163 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "chart":
+			console.log('*************** type: ', ctx.metadata.type);
 			console.log('*** in CHART 1a  ***************************************', ctx.metadata.prompt);
 			console.log('*** in CHART 1b  ***************************************', ctx.metadata.name);
 			// Add the graph header
 			let chartBody = [];
-			chartBody.push([
-				{
-					text: `${ctx.metadata.prompt.substring(0, ctx.metadata.prompt.lastIndexOf(' '))}`,
-					style: ['tableLabel'],
-					alignment: 'center',
-				},
-			]);
-			// Create data object to send to chart
-			switch (ctx.metadata.name) {
-				case 'temperature_graph':
-					let tData = {
-						labels: ctx.chartArr.temperature.chartLabels,
-						datasets: [
-							{
-								label: 'Temperature',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.temperature.chartData,
-							},
-						]
-					};
+			chartBody.push([{ text: `${ctx.metadata.prompt}`, style: ['tableLabel'], alignment: 'center', },]);
 
-					// Add the graph
-					let tImg = doChart2('tData', tData);
-					chartBody.push([
-						{ image: tImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Temperature: ', tData);
-					break;
-				case 'pulse_graph':
-					let hrData = {
-						labels: ctx.chartArr.heartRate.chartLabels,
-						datasets: [
-							{
-								label: 'Heart Rate',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.heartRate.chartData,
-							},
-						]
-					};
+			// Check to see if there are multiple fields for x and/or y axis
+			let x_axis_path = ctx.metadata.x_axis.split(',');
+			let y_axis_path = ctx.metadata.y_axis.split(',');
+			let y_axis_field_cnt = y_axis_path.length;
 
-					// Add the graph
-					let hrImg = doChart2('hrData', hrData);
-					chartBody.push([
-						{ image: hrImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Heart Rate: ', hrData);
-					break;
-				case 'respiration_graph':
-					let rData = {
-						labels: ctx.chartArr.respiration.chartLabels,
-						datasets: [
-							{
-								label: 'Respiration',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.respiration.chartData,
-							},
-						]
-					};
+			// Break the path into parts
+			let x_axis_parts = [];
+			x_axis_path.forEach((p) => {
+				x_axis_parts.push(p.split('/'));
+			});
+			let y_axis_parts = [];
+			y_axis_path.forEach((p) => {
+				y_axis_parts.push(p.split('/'));
+			});
 
-					// Add the graph
-					let rImg = doChart2('rData', rData);
-					chartBody.push([
-						{ image: rImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Respiration: ', rData);
-					break;
-				case 'blood_pressure_graph':
-					let bpData = {
-						labels: ctx.chartArr.bloodPressure.chartLabels,
-						datasets: [
-							{
-								label: 'Systolic',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.bloodPressure.chartData[0],
-							},
-							{
-								label: 'Diastolic',
-								fill: false,
-								backgroundColor: 'rgb(255, 0, 0)',
-								borderColor: 'rgb(255, 0, 0)',
-								data: ctx.chartArr.bloodPressure.chartData[1],
-							},
-						]
-					};
+			let thereBeRecords = true;
 
-					// Add the graph
-					let bpImg = doChart2('bpData', bpData);
-					chartBody.push([
-						{ image: bpImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Blood Pressure: ', bpData);
-					break;
-				case 'hematocrit_graph':
-					let hData = {
-						labels: ctx.chartArr.hematocrit.chartLabels,
-						datasets: [
-							{
-								label: 'Hematocrit',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.bloodPressure.chartData,
-							},
-						]
-					};
+			console.log('CHART x_axis_path: ', x_axis_path);
+			console.log('CHART y_axis_path: ', y_axis_path);
+			console.log('CHART x_axis_parts: ', x_axis_parts);
+			console.log('CHART y_axis_parts: ', y_axis_parts);
+			console.log('CHART record #: ', ctx.record_number);
 
-					// Add the graph
-					let hImg = doChart2('hData', hData);
+			// See if single record
+			if (typeof ctx.multiFormIndex === 'undefined') {
+				console.log('CHART single record');
+				// Check to see if there are any records using the path parts
+				if (ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]].length === 0) {
 					chartBody.push([
-						{ image: hImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Hematocrit: ', hData);
-					break;
-				case 'weight_gain_graph':
-					let wgData = {
-						labels: ctx.chartArr.weightGain.chartLabels,
-						datasets: [
-							{
-								label: 'Weight Gain',
-								fill: false,
-								backgroundColor: 'rgb(0, 0, 255)',
-								borderColor: 'rgb(0, 0, 255)',
-								data: ctx.chartArr.weightGain.chartData,
-							},
-						]
-					};
-
-					// Add the graph
-					let wgImg = doChart2('wgData', wgData);
+						{
+							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
+						},
+					]);
+					thereBeRecords = false;
+				} else if (ctx.p_data[x_axis_parts[0][0]].length === 0) {
 					chartBody.push([
-						{ image: wgImg, width: 800, alignment: 'center', }
-					],);
-					console.log('** Weight Gain: ', wgData);
-					break;
-				default:
-					break;
+						{
+							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
+						},
+					]);
+					thereBeRecords = false;
+				}
 			}
+			if (thereBeRecords) {
+				// Labels will be from the x_axis
+				let xLabels = [];
+				let xRec = ( typeof ctx.multiFormIndex === 'undefined' )
+					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
+					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
+				console.log('  xRec: ', xRec);
+				// Loop thru to get the dates
+				xRec.forEach((x) => {
+					xLabels.unshift(fmtDateTime(x[x_axis_parts[0][2]]));
+				});
+				console.log('   *** xLabels: ', xLabels);
+
+				// Data will be from the y_axis
+				let yRec = ( typeof ctx.multiFormIndex === 'undefined' )
+					? ctx.p_data[y_axis_parts[0][0]][y_axis_parts[0][1]]
+					: ctx.p_data[y_axis_parts[0][0]][ctx.multiFormIndex][y_axis_parts[0][1]];
+				let yDataOne = [];
+				let yDataTwo = [];
+				let colorOne = 'rgb(0, 0, 255)';
+				let colorTwo = 'rgb(255, 0, 0)';
+				let optData;
+
+				console.log('  yRec: ', yRec);
+				if (y_axis_field_cnt === 1) {
+					// Create option info
+					yRec.forEach((y) => {
+						yDataOne.unshift(y[y_axis_parts[0][2]]);
+					});
+
+					optData = {
+						labels: xLabels,
+						datasets: [
+							{
+								label: y_axis_parts[0][2],
+								fill: false,
+								backgroundColor: colorOne,
+								borderColor: colorOne,
+								data: yDataOne,
+							},
+						]
+					};
+				} else {
+					// Create option info
+					yRec.forEach((y) => {
+						yDataOne.unshift(y[y_axis_parts[0][2]]);
+						yDataTwo.unshift(y[y_axis_parts[1][2]]);
+					});
+
+					optData = {
+						labels: xLabels,
+						datasets: [
+							{
+								label: y_axis_parts[0][2],
+								fill: false,
+								backgroundColor: colorOne,
+								borderColor: colorOne,
+								data: yDataOne,
+							},
+							{
+								label: y_axis_parts[1][2],
+								fill: false,
+								backgroundColor: colorTwo,
+								borderColor: colorTwo,
+								data: yDataTwo,
+							},
+						]
+					};
+				}
+				console.log('   *** yData: ', yDataOne, ' - ', yDataTwo);
+				console.log('   ************* optData: ', optData);
+
+				// Create the graph
+				let retImg = '';
+				let imgName = ( typeof ctx.multiFormIndex === 'undefined' )
+					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
+					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
+				retImg = doChart2( imgName, optData );
+				console.log('   ******* retImg: ', retImg);
+				console.log('   ***** ', imgName);
+
+				
+
+				// TODO: Try and figure out why the image is not going into the PDF 
+				var divs = document.getElementsByTagName("div"), i = divs.length;
+				while (i--) {
+					console.log(i, ' - ', divs[i]);
+				}
+				let imgNm = imgName + 'myChart';
+				console.log(imgNm);
+				let elem = document.getElementById(imgNm);
+				console.log('   ********    elem: ', elem);
+				let x = elem.toDataURL();
+				console.log('   x   : ', x);
+
+
+
+				// Add image to chartBody
+				chartBody.push([
+					{ image: retImg, width: 800, alignment: 'center', }
+				]);
+			}
+
 			// Now push it to the context
 			console.log('chartBody: ', chartBody);
+			console.log('***** ctx in CHART: ', ctx);
+			console.log('p_data: ', ctx.p_data);
 			ctx.content.push([
 				{
 					layout: {
@@ -3240,22 +2054,26 @@ function print_pdf_render_content(ctx) {
 					},
 				},
 				{},
-			],);
+			]);
 			break;
 		case "button":
+		case "hidden":
+				console.log('*************** type: ', ctx.metadata.type);
 			break;
 		case "label":
-			ctx.content.push([
-				{ text: `${ctx.metadata.prompt}`, style: ['labelDetail'], alignment: 'center', colSpan: '2', },
-				{},
-			],);
+			console.log('*************** type: ', ctx.metadata.type);
+			// ctx.content.push([
+			// 	{ text: `${ctx.metadata.prompt}`, style: ['labelDetail'], alignment: 'center', colSpan: '2', },
+			// 	{},
+			// ]);
 			break;
 		default:
+			console.log('*************** type: ', ctx.metadata.type);
 			console.log('*** in DEFAULT', ctx.metadata.prompt);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: chkNull(ctx.data), style: ['tableDetail'] },
-			],);
+			]);
 			break;
 	}
 
