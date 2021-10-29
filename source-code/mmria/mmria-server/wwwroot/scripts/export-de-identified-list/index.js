@@ -103,9 +103,10 @@ function render_de_identified_list()
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
 	let selected_list = g_de_identified_list.name_path_list[g_selected_list];
-	for(var i in selected_list)
+    selected_list.sort();
+	for(let i in selected_list)
 	{
-		var item = selected_list[i];
+		let item = selected_list[i];
 
 		if(i % 2)
 		{
