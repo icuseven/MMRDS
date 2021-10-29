@@ -19,9 +19,8 @@ function dictionary_render(p_metadata, p_path)
 					<select id="form_filter" class="custom-select mr-2">
 						${render_form_filter(g_filter)}
 					</select>
-					<select id="metadata_version_filter" class="custom-select mr-2">
-						<option value="">Select Metadata Version</option>
-						<option value="19.10.17">19.10.17</option>
+					<select id="metadata_version_filter" class="custom-select mr-2" onchange="metadata_version_filter_change(this.value)">
+						${render_metadata_version_filter()}
 					</select>
 					<button
 						type="submit"
