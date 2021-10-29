@@ -1,5 +1,6 @@
 
 var g_de_identified_list = null;
+var g_selected_list = "global";
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -47,13 +48,53 @@ function load_de_identification_list()
 
 }
 
+
+function on_export_list_type_change(p_value)
+{
+    g_selected_list = p_value;
+
+    document.getElementById('output').innerHTML = render_de_identified_list().join("");
+}
+
 function render_de_identified_list()
 {
 
 	var result = [];
 	result.push("<br/>");
+
+    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
+
+
+    for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
+    {
+        if(key == g_selected_list)
+        {
+            result.push(`<option value='${key}' selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value='${key}'>${key}</option>`);
+        }
+        
+    }
+
+    result.push("</select>")
+    if(g_selected_list != "global")
+    {
+        result.push(`<input type='button' value='remove ${g_selected_list} list ...' onclick='remove_name_path_list_click()'/>`);
+    }
+
+    result.push(`
+    <br/><br/>
+    <input type='text' id='new_list_name' value='&nbsp;'/>
+    <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
+    <br/>
+    `);
+
+
+
 	result.push("<table>");
-	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>de identified list</th></tr>");
+	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] de identified list</th></tr>");
 	result.push("<tr>");
 	result.push("<th scope='col'>path</th>");
 	result.push("<th scope='col'>&nbsp;</th>");
@@ -61,10 +102,10 @@ function render_de_identified_list()
 
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
 
-	
-	for(var i in g_de_identified_list.paths)
+	let selected_list = g_de_identified_list.name_path_list[g_selected_list];
+	for(var i in selected_list)
 	{
-		var item = g_de_identified_list.paths[i];
+		var item = selected_list[i];
 
 		if(i % 2)
 		{
@@ -86,7 +127,7 @@ function render_de_identified_list()
 
 	result.push("<tr><td colspan=2 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
-	result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
+	result.push("<tr><td colspan=2 align=center><input type='button' value='save lists' onclick='server_save()' /></td></tr>")
 
 	
 	result.push("</table>");
@@ -98,21 +139,21 @@ function render_de_identified_list()
 
 function update_item(p_index, p_value)
 {
-	g_de_identified_list.paths[p_index] = p_value;
+	g_de_identified_list.name_path_list[g_selected_list][p_index] = p_value;
 
 
 }
 
 function delete_item(p_index)
 {
-	g_de_identified_list.paths.splice(p_index,1);
+	g_de_identified_list.name_path_list[g_selected_list].splice(p_index,1);
 	document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
 
 function add_new_item_click()
 {
 	
-	g_de_identified_list.paths.push("");
+	g_de_identified_list.name_path_list[g_selected_list].push("");
 
 	document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
@@ -183,30 +224,61 @@ function server_delete(p_migration_plan)
 
 
 
-function delete_plan_click(p_id)
+function remove_name_path_list_click(p_id)
 {
-	var selected_plan = null;
 
-	for(var i = 0; i < g_migration_plan_list.length; i++)
-	{
-		if(g_migration_plan_list[i]._id == p_id)
-		{
-			selected_plan = g_migration_plan_list[i]; 
-			break;
-		}
-	}	
 
-	if(selected_plan)
+	if(g_selected_list != 'global')
 	{
 
-		var answer = prompt ("Are you sure you want to delete plan: " + selected_plan.name, "Enter yes to confirm");
+		var answer = prompt ("Are you sure you want to remove the " + g_selected_list + " list?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
-			server_delete(selected_plan);
+            g_de_identified_list.name_path_list[g_selected_list] = [];
+			delete g_de_identified_list.name_path_list[g_selected_list];
+
+            g_selected_list = 'global';
+
+            document.getElementById('output').innerHTML = render_de_identified_list().join("");
 		}
 		
 
 	}
+}
+
+function add_name_path_list_click(p_id)
+{
+    let new_name = document.getElementById("new_list_name").value.trim();
+
+	if
+    (
+        new_name != null && 
+        new_name != '' &&
+        g_de_identified_list.name_path_list[new_name] == null
+    )
+	{
+
+		var answer = prompt ("Are you sure you want to add the " + new_name + " list?\n\nUse CDC host site prefix.\n\nhttp://demo-mmria.cdc.gov = demo\nhttp://fl-mmria.cdc.gov = fl\nhttps://test-mmria.apps.ecpaas-dev.cdc.gov = test", "Enter yes to confirm");
+		if(answer == "yes")
+		{
+			g_de_identified_list.name_path_list[new_name] = [];
+
+
+            g_de_identified_list.name_path_list['global'].forEach
+            (path => {
+                g_de_identified_list.name_path_list[new_name].push(path)
+            });
+            g_selected_list = new_name;
+
+            document.getElementById('output').innerHTML = render_de_identified_list().join("");
+		}
+		
+
+	}
+    else
+    {
+        alert("Add new list: invalid name. name must not be blank and must not already be on the list.")
+    }
 }
 
 function edit_plan_click(p_id)
