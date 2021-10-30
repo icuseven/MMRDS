@@ -123,7 +123,8 @@ namespace migrate.set
 				display_to_value.Add("American Indian or Alaska Native", 3);
 
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
-
+				var test_lower_case_regex = new System.Text.RegularExpressions.Regex("[a-z]");
+				
 				foreach(var case_item in case_response.rows)
 				{
 					var case_has_changed = false;
@@ -141,6 +142,110 @@ namespace migrate.set
 							continue;
 						}
 
+
+
+
+					try
+					{
+						var record_id_path = "home_record/record_id";
+						value_result = gs.get_value(doc, record_id_path);
+						var test_record_id_object = value_result.result;
+						if
+						(
+							!string.IsNullOrWhiteSpace(test_record_id_object.ToString())
+						)
+						{
+							if(test_lower_case_regex.IsMatch(test_record_id_object.ToString()))
+
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								var record_id = test_record_id_object.ToString().ToUpperCase();
+								case_has_changed = case_has_changed && gs.set_value(record_id_path, record_id, doc);
+								var output_text = $"item _id: {mmria_id} Converted {record_id_path} to uppercase.  {value_result.result} => {record_id}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							
+						}
+
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+
+
+
+					try
+					{
+						var addquarter_path = "addquarter";
+						value_result = gs.get_value(doc, addquarter_path);
+						var test_addquarter_object = value_result.result;
+						if
+						(
+							string.IsNullOrWhiteSpace(test_addquarter_object.ToString())
+						)
+						{
+							if(test_lower_case_regex.IsMatch(test_addquarter_object.ToString()))
+
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								var record_id = test_addquarter_object.ToString().ToUpperCase();
+								case_has_changed = case_has_changed && gs.set_value(addquarter_path, record_id, doc);
+								var output_text = $"item _id: {mmria_id} Converted {addquarter_path} to uppercase.  {value_result.result} => {record_id}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							
+						}
+
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+
+
+					try
+					{
+						var cmpquarter_path = "cmpquarter";
+						value_result = gs.get_value(doc, cmpquarter_path);
+						var test_cmpquarter_object = value_result.result;
+						if
+						(
+							string.IsNullOrWhiteSpace(test_cmpquarter_object.ToString())
+						)
+						{
+							if(test_lower_case_regex.IsMatch(test_cmpquarter_object.ToString()))
+
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								var record_id = test_cmpquarter_object.ToString().ToUpperCase();
+								case_has_changed = case_has_changed && gs.set_value(cmpquarter_path, record_id, doc);
+								var output_text = $"item _id: {mmria_id} Converted {cmpquarter_path} to uppercase.  {value_result.result} => {record_id}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							
+						}
+
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+
+
+/*
 // change single select into multiselect
 // home_record/how_was_this_death_identified
 
@@ -194,6 +299,7 @@ namespace migrate.set
 						{
 							Console.WriteLine(ex);
 						}
+						*/
 						
 
 						if(!is_report_only_mode && case_has_changed)
