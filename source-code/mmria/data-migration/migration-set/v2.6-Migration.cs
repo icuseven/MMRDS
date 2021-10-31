@@ -679,13 +679,22 @@ namespace migrate.set
 					var date_string = p_value.ToString();
 					if(date_string.IndexOf("-") > -1)
 					{
-						DateTime date_time = DateTime.ParseExact
-						(
-							date_string,
-							"yyyy-MM-dd", //"MM/dd/yyyy", 
-							System.Globalization.CultureInfo.InvariantCulture
-						);
-						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+						var int_array = date_string.Split("-");
+						if(int_array.Length == 3)
+						{
+							DateTime date_time = new DateTime(int.Parse(int_array[0]), int.Parse(int_array[1]), int.Parse(int_array[2]));
+							result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+						}
+						else
+						{
+							DateTime date_time = DateTime.ParseExact
+							(
+								date_string,
+								"yyyy-MM-dd", //"MM/dd/yyyy", 
+								System.Globalization.CultureInfo.InvariantCulture
+							);
+							result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+						}
 					}
 					else if(date_string.IndexOf("/") > -1)
 					{
