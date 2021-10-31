@@ -259,7 +259,7 @@ namespace migrate.set
 
 
 				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-{Program.config_metadata_version}/metadata";
+				string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-{Program.config_metadata_version}/metadata";
 				
 				//return;
 

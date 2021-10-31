@@ -155,7 +155,7 @@ namespace migrate.set
 							continue;
 						}
 
-						string substance_mapping_url = "https://testdb-mmria.services-dev.cdc.gov/metadata/substance-mapping";
+						string substance_mapping_url = "https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/substance-mapping";
 						cURL substance_mapping_curl = new cURL("GET", null, substance_mapping_url, null, config_metadata_user_name, config_metadata_value);
 						Substance_Mapping substance_mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<Substance_Mapping>(substance_mapping_curl.execute());
 						

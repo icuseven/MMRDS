@@ -71,7 +71,7 @@ namespace migrate.set
 			try
 			{
 				//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-				string metadata_url = $"https://testdb-mmria.services-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
+				string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
 
 				//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
 				
@@ -156,19 +156,18 @@ namespace migrate.set
 						)
 						{
 							if(test_lower_case_regex.IsMatch(test_record_id_object.ToString()))
-
-
+							{
 								if(case_change_count == 0)
 								{
 									case_change_count += 1;
 									case_has_changed = true;
 								}
-								var record_id = test_record_id_object.ToString().ToUpperCase();
+								var record_id = test_record_id_object.ToString().ToUpper();
 								case_has_changed = case_has_changed && gs.set_value(record_id_path, record_id, doc);
 								var output_text = $"item _id: {mmria_id} Converted {record_id_path} to uppercase.  {value_result.result} => {record_id}";
 								this.output_builder.AppendLine(output_text);
 								Console.WriteLine(output_text);
-							
+							}
 						}
 
 					}
@@ -182,26 +181,30 @@ namespace migrate.set
 					try
 					{
 						var addquarter_path = "addquarter";
+						var date_created_path = "date_created";
 						value_result = gs.get_value(doc, addquarter_path);
 						var test_addquarter_object = value_result.result;
 						if
 						(
+							test_addquarter_object == null ||
 							string.IsNullOrWhiteSpace(test_addquarter_object.ToString())
 						)
 						{
-							if(test_lower_case_regex.IsMatch(test_addquarter_object.ToString()))
-
-
+							value_result = gs.get_value(doc, date_created_path);
+							var new_value = get_year_and_quarter(value_result.result);
+							if(!string.IsNullOrWhiteSpace(new_value))
+							{
 								if(case_change_count == 0)
 								{
 									case_change_count += 1;
 									case_has_changed = true;
 								}
-								var record_id = test_addquarter_object.ToString().ToUpperCase();
-								case_has_changed = case_has_changed && gs.set_value(addquarter_path, record_id, doc);
-								var output_text = $"item _id: {mmria_id} Converted {addquarter_path} to uppercase.  {value_result.result} => {record_id}";
+								
+								case_has_changed = case_has_changed && gs.set_value(addquarter_path, new_value, doc);
+								var output_text = $"item _id: {mmria_id} updated {addquarter_path}: {test_addquarter_object} => {new_value}";
 								this.output_builder.AppendLine(output_text);
 								Console.WriteLine(output_text);
+							}
 							
 						}
 
@@ -215,26 +218,30 @@ namespace migrate.set
 					try
 					{
 						var cmpquarter_path = "cmpquarter";
+						var committee_review_date_of_review_path = "committee_review/date_of_review";
 						value_result = gs.get_value(doc, cmpquarter_path);
 						var test_cmpquarter_object = value_result.result;
 						if
 						(
+							test_cmpquarter_object == null ||
 							string.IsNullOrWhiteSpace(test_cmpquarter_object.ToString())
 						)
 						{
-							if(test_lower_case_regex.IsMatch(test_cmpquarter_object.ToString()))
-
-
+							value_result = gs.get_value(doc, committee_review_date_of_review_path);
+							var new_value = get_year_and_quarter(value_result.result);
+							if(!string.IsNullOrWhiteSpace(new_value))
+							{
 								if(case_change_count == 0)
 								{
 									case_change_count += 1;
 									case_has_changed = true;
 								}
-								var record_id = test_cmpquarter_object.ToString().ToUpperCase();
-								case_has_changed = case_has_changed && gs.set_value(cmpquarter_path, record_id, doc);
-								var output_text = $"item _id: {mmria_id} Converted {cmpquarter_path} to uppercase.  {value_result.result} => {record_id}";
+								
+								case_has_changed = case_has_changed && gs.set_value(cmpquarter_path, new_value, doc);
+								var output_text = $"item _id: {mmria_id} updated {cmpquarter_path} : {test_cmpquarter_object} => {new_value}";
 								this.output_builder.AppendLine(output_text);
 								Console.WriteLine(output_text);
+							}
 							
 						}
 
@@ -650,6 +657,64 @@ namespace migrate.set
             //        bi++;
             //    }
             //}
+            return result;
+        }
+
+
+		string get_year_and_quarter(object p_value)
+        {
+            var result = string.Empty;
+            
+			if(p_value != null && !string.IsNullOrWhiteSpace(p_value.ToString()))
+			try
+			{
+		
+				if(p_value is DateTime)
+				{
+					var date_time = (DateTime) p_value;
+					result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+				}
+				else
+				{
+					var date_string = p_value.ToString();
+					if(date_string.IndexOf("-") > -1)
+					{
+						DateTime date_time = DateTime.ParseExact
+						(
+							date_string,
+							"yyyy-MM-dd", //"MM/dd/yyyy", 
+							System.Globalization.CultureInfo.InvariantCulture
+						);
+						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+					}
+					else if(date_string.IndexOf("/") > -1)
+					{
+						DateTime date_time = DateTime.ParseExact
+						(
+							date_string,
+							"MM/dd/yyyy", 
+							System.Globalization.CultureInfo.InvariantCulture
+						);
+						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+					}
+					else
+					{
+						DateTime date_time = DateTime.ParseExact
+						(
+							date_string,
+							"yyyy-MM-dd", //"MM/dd/yyyy", 
+							System.Globalization.CultureInfo.InvariantCulture
+						);
+						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+					}
+				}
+            
+			}
+			catch
+			{
+				// do nothing
+			}
+
             return result;
         }
 

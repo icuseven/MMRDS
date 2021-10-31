@@ -40,7 +40,8 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"az",
+			"localhost",
+			/*"az",
 					"ma",
 					"nc",
 					"oh",
@@ -49,7 +50,7 @@ namespace migrate
 					"wi"
 			
 			//"fl_dev"
-			/*
+			
 			"localhost",
 			"afd",
 "dc",
@@ -209,12 +210,12 @@ namespace migrate
 
 
 
-			bool is_test_list = false;
+			bool is_test_list = true;
 			
-			bool is_report_only_mode = false;
+			bool is_report_only_mode = true;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
 
 			
 
@@ -381,8 +382,8 @@ namespace migrate
 
 						
 
-						var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
-						await sep_data_fix.execute();
+						//var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
+						//await sep_data_fix.execute();
 
 
 						//var VitalsMigration01 = new migrate.set.VitalsMigration01(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix, ConfigurationSet);
