@@ -141,23 +141,25 @@ async function print_pdf(ctx) {
 			title: reportTabName,
 		},
 		header: (currentPage, pageCount) => {
-			// // console.log( 'currentPage: ', currentPage );
-			// // console.log( 'doc: ', doc );
+			// console.log( 'currentPage: ', currentPage );
+			// console.log('pageCount: ', pageCount);
+			// console.log( 'doc: ', doc );
+			// console.log('ctx: ', ctx);
 			if (ctx.section_name === 'all') {
 				let recLenArr = [];
 				let startPage = 0;
 				let endPage = 0;
-				let title = '';
+				let header = '***';
 				for (let i = 0; i < doc.content.length; i++) {
 					startPage = doc.content[i].positions[0].pageNumber;
 					endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
-					recLenArr.push({ s: startPage, e: endPage });
+					header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText !== undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
+					recLenArr.push({ s: startPage, e: endPage, p: header });
 				}
 
+				// Set the header title
 				let index = recLenArr.findIndex(item => ((currentPage >= item.s) && (currentPage <= item.e)));
-				for (let l = 0; l < doc.content[index].stack.length; l++) {
-					g_writeText = (doc.content[index].stack[l].pageHeaderText !== undefined) ? doc.content[index].stack[l].pageHeaderText : g_writeText;
-				}
+				g_writeText = recLenArr[index].p;
 			}
 			else if (g_section_name === 'core-summary') {
 				g_writeText = 'CORE SUMMARY';
@@ -520,23 +522,6 @@ function lookupFieldArr(val, arr) {
 	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
 }
 
-// // Return all races a person might be
-// function lookupRaceArr(val) {
-// 	// See if val is null
-// 	if (val === null) return '';
-// 	// Return field with all races
-// 	let strRace = '';
-
-// 	if (val.length > 0) {
-// 		for (let i = 0; i < val.length; i++) {
-// 			strRace += lookupGlobalArr(val[i], 'race') + ', ';
-// 		}
-// 		let idx = strRace.lastIndexOf(', ');
-// 		strRace = (idx === -1) ? strRace : strRace.substring(0, idx);
-// 	}
-// 	return strRace;
-// }
-
 // Return all global choices
 function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 	// See if val is null
@@ -640,9 +625,10 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
-async function doChart2(p_id_prefix, chartData) {
+function doChart2(p_id_prefix, chartData) {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
-	let container = document.getElementById(wrapper_id)
+	let container = document.getElementById(wrapper_id);
+	let myChart;
 
 	if (container != null) {
 		container.remove();
@@ -655,8 +641,8 @@ async function doChart2(p_id_prefix, chartData) {
 	let canvas_id = `${p_id_prefix}myChart`;
 	let canvas = document.createElement('canvas');
 	canvas.id = canvas_id;
-	//canvas.setAttribute('height', '150');
-	canvas.setAttribute('width', '800px');
+	// canvas.setAttribute('height', '150');
+	canvas.setAttribute('width', '500');
 	container.appendChild(canvas);
 
 	const config = {
@@ -676,7 +662,7 @@ async function doChart2(p_id_prefix, chartData) {
 	};
 
 
-	let myImgChart = await new Chart(canvas.getContext('2d'), config);
+	let myImgChart = new Chart(canvas.getContext('2d'), config);
 	//const width = 300; //px
 	//const height = 150; //px
 	//const canvasRenderService = new CanvasRenderService(width, height);
@@ -684,16 +670,7 @@ async function doChart2(p_id_prefix, chartData) {
 	myImgChart.render();
 
 	return myImgChart.toBase64Image();
-	//return canvas.toDataURL();
-}
-
-function done(img) {
-	return new Promise((resolve, reject) => {
-		if (img) {
-			resolve(img);
-		}
-		reject(console.log('Image load error: ', error));
-	});
+	// return canvas.toDataURL();
 }
 
 // ************************************************************************
@@ -725,13 +702,23 @@ async function formatContent(p_ctx, arrMap) {
 				for (let i = 0; i < p_ctx.metadata.children.length; i++) {
 					let child = p_ctx.metadata.children[i];
 					if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
-						// If not the Home Record, then do a page break
-						if (child.name !== 'home_record') {
-							retContent.push({ text: '', pageBreak: 'before' });
-						}
 						// Setup the correct ctx information to run the correct report
-						ctx = { ...p_ctx, metadata: child, data: p_ctx.data[child.name] };
-						body = print_pdf_render(ctx);
+						let new_content = [];
+						let new_context = { 
+							...p_ctx, 
+							metadata: 
+							child, 
+							content: new_content,
+							data: p_ctx.data[child.name] };
+						body = await print_pdf_render_content(new_context);
+
+						// If not the Home Record and is all records, then do a page break
+						if (p_ctx.section_name === 'all' && child.name !== 'home_record') {
+							body.unshift([ { text: '', pageBreak: 'before', colSpan: '2', }, {}, ]);
+						}
+						// Get the page header
+						body.unshift([ { text: '', pageHeaderText: child.prompt, colSpan: '2', }, {}, ]);
+						// Push the form to the stack
 						retContent.push([
 							{
 								layout: {
@@ -787,6 +774,7 @@ async function formatContent(p_ctx, arrMap) {
 							},
 						},
 					]);
+					body = [];
 				}
 			}
 			break;
@@ -1459,13 +1447,13 @@ function convert_dictionary_path_to_lookup_object(p_path) {
 // Recursive function to traverse the metadata
 function print_pdf_render_content(ctx) {
 	// Find the correct type
-	console.log('ctx: ', ctx);
+	// console.log('ctx: ', ctx);
 	switch (ctx.metadata.type.toLowerCase()) {
 		case "app":
 			console.log('in APP');
 			break;
 		case "form":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			// multiform 
 			if (ctx.metadata.cardinality === '*' || ctx.metadata.cardinality === '+') {
 				if (ctx.metadata.children && ctx.data.length > 0) {
@@ -1533,7 +1521,7 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "group":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			// ****************************************************************
 			// *** The 1st if statement will see if the group has 3 children 
 			// *** and they are month, day and year
@@ -1618,7 +1606,7 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "grid":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			let gridBody = [];
 			let row;
 			let colWidths;
@@ -1789,28 +1777,28 @@ function print_pdf_render_content(ctx) {
 		case "number":
 		case "time":
 		case "jurisdiction":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: chkNull(ctx.data), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: reformatDate(ctx.data), style: ['tableDetail'] },
 			]);
 			break;
 		case "datetime":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: fmtDateTime(ctx.data), style: ['tableDetail'] },
 			]);
 			break;
 		case "list":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			// **************************************************************************
 			// *** The 1st if will see if is_multiselect exists and set to true
 			// ***		Then check to see if  path_reference exist and if it exists
@@ -1863,7 +1851,7 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "textarea":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
 				ctx.content.push([
@@ -1878,9 +1866,9 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "chart":
-			console.log('*************** type: ', ctx.metadata.type);
-			console.log('*** in CHART 1a  ***************************************', ctx.metadata.prompt);
-			console.log('*** in CHART 1b  ***************************************', ctx.metadata.name);
+			// console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*** in CHART 1a  ***************************************', ctx.metadata.prompt);
+			// console.log('*** in CHART 1b  ***************************************', ctx.metadata.name);
 			// Add the graph header
 			let chartBody = [];
 			chartBody.push([{ text: `${ctx.metadata.prompt}`, style: ['tableLabel'], alignment: 'center', },]);
@@ -1902,15 +1890,15 @@ function print_pdf_render_content(ctx) {
 
 			let thereBeRecords = true;
 
-			console.log('CHART x_axis_path: ', x_axis_path);
-			console.log('CHART y_axis_path: ', y_axis_path);
-			console.log('CHART x_axis_parts: ', x_axis_parts);
-			console.log('CHART y_axis_parts: ', y_axis_parts);
-			console.log('CHART record #: ', ctx.record_number);
+			// console.log('CHART x_axis_path: ', x_axis_path);
+			// console.log('CHART y_axis_path: ', y_axis_path);
+			// console.log('CHART x_axis_parts: ', x_axis_parts);
+			// console.log('CHART y_axis_parts: ', y_axis_parts);
+			// console.log('CHART record #: ', ctx.record_number);
 
 			// See if single record
 			if (typeof ctx.multiFormIndex === 'undefined') {
-				console.log('CHART single record');
+				// console.log('CHART single record');
 				// Check to see if there are any records using the path parts
 				if (ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]].length === 0) {
 					chartBody.push([
@@ -1934,12 +1922,12 @@ function print_pdf_render_content(ctx) {
 				let xRec = ( typeof ctx.multiFormIndex === 'undefined' )
 					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
 					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
-				console.log('  xRec: ', xRec);
+				// console.log('  xRec: ', xRec);
 				// Loop thru to get the dates
 				xRec.forEach((x) => {
 					xLabels.unshift(fmtDateTime(x[x_axis_parts[0][2]]));
 				});
-				console.log('   *** xLabels: ', xLabels);
+				// console.log('   *** xLabels: ', xLabels);
 
 				// Data will be from the y_axis
 				let yRec = ( typeof ctx.multiFormIndex === 'undefined' )
@@ -1951,7 +1939,7 @@ function print_pdf_render_content(ctx) {
 				let colorTwo = 'rgb(255, 0, 0)';
 				let optData;
 
-				console.log('  yRec: ', yRec);
+				// console.log('  yRec: ', yRec);
 				if (y_axis_field_cnt === 1) {
 					// Create option info
 					yRec.forEach((y) => {
@@ -1997,8 +1985,8 @@ function print_pdf_render_content(ctx) {
 						]
 					};
 				}
-				console.log('   *** yData: ', yDataOne, ' - ', yDataTwo);
-				console.log('   ************* optData: ', optData);
+				// console.log('   *** yData: ', yDataOne, ' - ', yDataTwo);
+				// console.log('   ************* optData: ', optData);
 
 				// Create the graph
 				let retImg = '';
@@ -2006,35 +1994,16 @@ function print_pdf_render_content(ctx) {
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
 				retImg = doChart2( imgName, optData );
-				console.log('   ******* retImg: ', retImg);
-				console.log('   ***** ', imgName);
-
-				
-
-				// TODO: Try and figure out why the image is not going into the PDF 
-				var divs = document.getElementsByTagName("div"), i = divs.length;
-				while (i--) {
-					console.log(i, ' - ', divs[i]);
-				}
-				let imgNm = imgName + 'myChart';
-				console.log(imgNm);
-				let elem = document.getElementById(imgNm);
-				console.log('   ********    elem: ', elem);
-				let x = elem.toDataURL();
-				console.log('   x   : ', x);
-
-
 
 				// Add image to chartBody
 				chartBody.push([
-					{ image: retImg, width: 800, alignment: 'center', }
+					{ image: retImg, width: 500, alignment: 'center', }
 				]);
 			}
 
 			// Now push it to the context
-			console.log('chartBody: ', chartBody);
-			console.log('***** ctx in CHART: ', ctx);
-			console.log('p_data: ', ctx.p_data);
+			// console.log('chartBody: ', chartBody);
+			// console.log('***** ctx in CHART: ', ctx);
 			ctx.content.push([
 				{
 					layout: {
@@ -2058,18 +2027,18 @@ function print_pdf_render_content(ctx) {
 			break;
 		case "button":
 		case "hidden":
-				console.log('*************** type: ', ctx.metadata.type);
+				// console.log('*************** type: ', ctx.metadata.type);
 			break;
 		case "label":
-			console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*************** type: ', ctx.metadata.type);
 			// ctx.content.push([
 			// 	{ text: `${ctx.metadata.prompt}`, style: ['labelDetail'], alignment: 'center', colSpan: '2', },
 			// 	{},
 			// ]);
 			break;
 		default:
-			console.log('*************** type: ', ctx.metadata.type);
-			console.log('*** in DEFAULT', ctx.metadata.prompt);
+			// console.log('*************** type: ', ctx.metadata.type);
+			// console.log('*** in DEFAULT', ctx.metadata.prompt);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 				{ text: chkNull(ctx.data), style: ['tableDetail'] },
