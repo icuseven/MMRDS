@@ -37,6 +37,7 @@ namespace migrate.set
 
 		public bool is_data_correction = false;
 
+		private string state_prefix;
 
         public v2_6_Migration
         (
@@ -46,7 +47,8 @@ namespace migrate.set
             string p_config_timer_value,
 			System.Text.StringBuilder p_output_builder,
 			Dictionary<string, HashSet<string>> p_summary_value_dictionary,
-			bool p_is_report_only_mode
+			bool p_is_report_only_mode,
+			string p_state_prefix
         ) 
         {
 
@@ -57,6 +59,7 @@ namespace migrate.set
 			output_builder = p_output_builder;
 			summary_value_dictionary = p_summary_value_dictionary;
 			is_report_only_mode = p_is_report_only_mode;
+			state_prefix = p_state_prefix;
         }
 
 
@@ -121,6 +124,24 @@ namespace migrate.set
 
 				display_to_value.Add("Black or African American", 1);
 				display_to_value.Add("American Indian or Alaska Native", 3);
+
+				HashSet<string> prefix_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				{
+					"ny",
+					"pa",
+
+				};
+
+
+				if(prefix_list.Contains(state_prefix))
+				{
+					// update case folder tree
+					// update jurisdiction_roles
+					
+				}
+
+
+
 
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 				var test_lower_case_regex = new System.Text.RegularExpressions.Regex("[a-z]");

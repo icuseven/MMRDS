@@ -40,7 +40,8 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"localhost",
+			"test",
+			//"localhost",
 			/*"az",
 					"ma",
 					"nc",
@@ -212,7 +213,7 @@ namespace migrate
 
 			bool is_test_list = true;
 			
-			bool is_report_only_mode = true;
+			bool is_report_only_mode = false;
 
 
 			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
@@ -370,7 +371,7 @@ namespace migrate
 					}
 					else if(MigrationType == RunTypeEnum.DataMigration)
 					{
-						var v2_6 = new migrate.set.v2_6_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						var v2_6 = new migrate.set.v2_6_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
 						await v2_6.execute();
 
 
