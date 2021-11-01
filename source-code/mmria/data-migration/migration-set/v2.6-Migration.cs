@@ -137,7 +137,7 @@ namespace migrate.set
 				{
 					// update case folder tree
 					// update jurisdiction_roles
-					
+
 				}
 
 
@@ -271,6 +271,15 @@ namespace migrate.set
 					{
 						Console.WriteLine(ex);
 					}
+
+
+
+				if(prefix_list.Contains(state_prefix))
+				{
+					// update jurisdiction_id on case 
+					
+				}
+
 
 
 /*
