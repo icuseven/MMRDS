@@ -59,13 +59,54 @@
 
     if(is_add)
     {
-        <p  style="padding:5px;"><strong>Change made:</strong> The value <strong>@change_item.new_value</strong> was added to list</p>
+        <p  style="padding:5px;"><strong>Change made:</strong> The value 
+            <strong> @change_item.new_value</strong> 
+            @if(Model.value_to_display.ContainsKey(change_item.new_value))
+            {
+              <span>[ <em>@Model.value_to_display[change_item.new_value]</em> ]</span>
+            }
+            - was added to list
+        </p>
     }
     else
     {
-        <p  style="padding:5px;"><strong>Change made:</strong> The value: <strong>@change_item.new_value</strong> was removed from list</p>
+        <p  style="padding:5px;"><strong>Change made:</strong> The value:
+            <strong> @change_item.new_value</strong> 
+            @if(Model.value_to_display.ContainsKey(change_item.new_value))
+            {
+              <span>[ <em>@Model.value_to_display[change_item.new_value]</em> ]</span>
+            }
+            - was removed from list
+        </p>
     }
     <p  style="padding:5px;"><strong>New List items:</strong> @change_item.old_value</p>
+}
+else if(Model.MetadataNode.type.ToUpper()=="LIST")
+{
+    <table style="padding:5px;" border=1>
+        <tr align=middle><th>Old Value</th><th>New Value</th></tr>
+        <tr><td>
+        @if(Model.value_to_display.ContainsKey(change_item.old_value))
+        {
+            @change_item.old_value @Model.value_to_display[change_item.old_value]
+        }
+        else
+        {
+            @change_item.old_value 
+        }</td>
+        <td>
+            @if(Model.value_to_display.ContainsKey(@change_item.new_value))
+            {
+                @change_item.new_value  @Model.value_to_display[change_item.new_value]
+            }
+            else
+            {
+                @change_item.new_value
+            }
+            
+        </td></tr>
+    </table>
+    
 }
 else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 {
@@ -83,7 +124,7 @@ else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
 }
 else
 {
-    <table style="padding:5px;">
+    <table style="padding:5px;" border=1>
         <tr align=middle><th>Old Value</th><th>New Value</th></tr>
         <tr><td>@change_item.old_value</td><td>@change_item.new_value</td></tr>
     </table>

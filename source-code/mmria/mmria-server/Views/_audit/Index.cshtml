@@ -222,7 +222,7 @@ Updated By
 
 
 <table border=1>
-<tr bgcolor="#BBBBBB" align=middle>
+<tr bgcolor="#e3d3e4" align=middle>
 <th>#</th>    
 <th>Update Date/Time</th>
 <th>Elaspe Time<br/>since<br/>Last Update</th>
@@ -252,12 +252,12 @@ Updated By
         
         @if(row_number % 2 == 0)
         {
-            bg = "#CCCCCC";
+            bg = "#f0f0f0";
 
         }
 
 
-
+/*
         @if(row_number % 15 == 0)
         {
             <tr bgcolor="#BBBBBB" align=middle>    
@@ -273,6 +273,7 @@ Updated By
             <th></th>
             </tr>
         }
+        */
        <tr bgcolor="@bg">
         <td align=right>@row_number</td>
         <td>@change.date_created</td>
