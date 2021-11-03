@@ -1,5 +1,5 @@
 let g_md = null;
-let g_metadata = null;
+let g_metadata;
 let g_d = null;
 let g_section_name;
 let g_current;
@@ -397,7 +397,8 @@ function fmtDateTime(dt) {
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
-	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`
+	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
+	strTime = (strTime === '00:00') ? '' : strTime;
 	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
@@ -628,7 +629,6 @@ function getSectionTitle(name) {
 function doChart2(p_id_prefix, chartData) {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
-	let myChart;
 
 	if (container != null) {
 		container.remove();
@@ -641,8 +641,8 @@ function doChart2(p_id_prefix, chartData) {
 	let canvas_id = `${p_id_prefix}myChart`;
 	let canvas = document.createElement('canvas');
 	canvas.id = canvas_id;
-	// canvas.setAttribute('height', '150');
-	canvas.setAttribute('width', '500');
+	// canvas.setAttribute('height', '300');
+	canvas.setAttribute('width', '800');
 	container.appendChild(canvas);
 
 	const config = {
@@ -655,7 +655,19 @@ function doChart2(p_id_prefix, chartData) {
 			animate: false,
 			scales: {
 				y: {
-					beginAtZero: true
+					beginAtZero: true,
+					ticks: {
+						font: {
+							size: 20,
+						}
+					}
+				},
+				x: {
+					ticks: {
+						font: {
+							size: 26,
+						}
+					}
 				}
 			},
 		},
@@ -1925,7 +1937,7 @@ function print_pdf_render_content(ctx) {
 				// console.log('  xRec: ', xRec);
 				// Loop thru to get the dates
 				xRec.forEach((x) => {
-					xLabels.unshift(fmtDateTime(x[x_axis_parts[0][2]]));
+					xLabels.unshift(reformatDate(x[x_axis_parts[0][2]]));
 				});
 				// console.log('   *** xLabels: ', xLabels);
 
@@ -1997,7 +2009,7 @@ function print_pdf_render_content(ctx) {
 
 				// Add image to chartBody
 				chartBody.push([
-					{ image: retImg, width: 500, alignment: 'center', }
+					{ image: retImg, width: 550, alignment: 'center', }
 				]);
 			}
 
