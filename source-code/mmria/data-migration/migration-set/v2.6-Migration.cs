@@ -758,6 +758,77 @@ namespace migrate.set
         }
 
 
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> GetJurisdictionTree()
+		{
+
+			mmria.common.model.couchdb.jurisdiction_tree result = null;
+
+			try
+			{
+                string jurisdiction_tree_url = $"{host_db_url}/jurisdiction/jurisdiction_tree";
+
+				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, config_timer_user_name, config_timer_value);
+				string response_from_server = await jurisdiction_curl.executeAsync ();
+
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine($"{ex}");
+			}
+
+			return result;
+		}
+
+
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> SetJurisdictionTree
+        (
+            mmria.common.model.couchdb.jurisdiction_tree jurisdiction_tree
+        ) 
+		{ 
+			string jurisdiction_json;
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+
+			try
+			{
+				jurisdiction_tree.last_updated_by = "v2.6-data-migration";
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_tree, settings);
+
+				string jurisdiction_tree_url = $"{host_db_url}/jurisdiction/jurisdiction_tree";
+
+				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, jurisdiction_json, config_timer_user_name, config_timer_value);
+
+
+
+                try
+                {
+                    string responseFromServer = await document_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"jurisdiction_treeController:{ex}");
+                }
+
+				if (!result.ok) 
+				{
+
+				}
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine ($"{ex}");
+			}
+				
+			return result;
+		} 
+
+
     }
 }
 
