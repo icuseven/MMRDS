@@ -135,7 +135,7 @@ namespace migrate.set
 
 				if(prefix_list.Contains(state_prefix))
 				{
-					// update case folder tree
+					await update_case_folder_tree(state_prefix);
 					// update jurisdiction_roles
 
 				}
@@ -758,7 +758,42 @@ namespace migrate.set
         }
 
 
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> GetJurisdictionTree()
+
+		async Task update_case_folder_tree(string prefix)
+		{
+			var jurisiction_tree = await GetJurisdictionTree();
+
+			//"id": "jurisdiction_tree//north_ga",
+			//"name": "/north_ga",
+
+			//"id": "jurisdiction_tree//Georgia//Georgia/area1",
+          	//"name": "/Georgia/area1",
+
+			//"id": "jurisdiction_tree//Georgia//Georgia/area1//Georgia/area1/sub//Georgia/area1/sub/sub",
+            //"name": "/Georgia/area1/sub/sub",
+
+			if(prefix == "pa")
+			{
+				var pa_node = jurisiction_tree.children.Where(c => c.name == "/pa");
+				var phila_node = jurisiction_tree.children.Where(c => c.name == "/phila");
+				var shared_node = jurisiction_tree.children.Where(c => c.name == "/shared");
+
+				foreach(var child in jurisiction_tree.children)
+				{
+
+					//child.name 
+				}
+			}
+			else if( prefix == "ny" || prefix == "localhost")
+			{
+				foreach(var child in jurisiction_tree.children)
+				{
+
+					//child.name 
+				}
+			}
+		}
+		async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> GetJurisdictionTree()
 		{
 
 			mmria.common.model.couchdb.jurisdiction_tree result = null;
@@ -782,7 +817,7 @@ namespace migrate.set
 		}
 
 
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> SetJurisdictionTree
+		async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> SetJurisdictionTree
         (
             mmria.common.model.couchdb.jurisdiction_tree jurisdiction_tree
         ) 
