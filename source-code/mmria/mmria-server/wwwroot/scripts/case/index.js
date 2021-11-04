@@ -2395,7 +2395,7 @@ function pdf_case_onclick(event)
   // const dropdown = document.getElementById('print_case_id');
   const dropdown = btn.previousSibling.previousSibling;		// Need to go back 2 fields to get the dropdown value
   // get value of selected option
-  const section_name = dropdown.value;
+  let section_name = dropdown.value;
   //await print_pdf( section_name );
 
 //   tab_number+= 1;
@@ -2421,7 +2421,8 @@ function pdf_case_onclick(event)
 
         if(section_name == "all_hidden")
         {
-            tabName = 'all';
+            tabName = '_all';
+            section_name = 'all';
 
             window.setTimeout(function()
             {
