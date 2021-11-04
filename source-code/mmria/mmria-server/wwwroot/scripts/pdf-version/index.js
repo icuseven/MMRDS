@@ -83,8 +83,7 @@ async function create_print_version
 		p_data: p_data
 	};
 
-	console.log(' let p_ctx = ', p_ctx);
-	console.log('g_show_hidden: ', g_show_hidden);
+	// console.log(' let p_ctx = ', p_ctx);
 
 	try {
 		// initialize_print_pdf(ctx);
@@ -1920,12 +1919,6 @@ function print_pdf_render_content(ctx) {
 			});
 
 			let thereBeRecords = true;
-
-			// console.log('CHART x_axis_path: ', x_axis_path);
-			// console.log('CHART y_axis_path: ', y_axis_path);
-			// console.log('CHART x_axis_parts: ', x_axis_parts);
-			// console.log('CHART y_axis_parts: ', y_axis_parts);
-			// console.log('CHART record #: ', ctx.record_number);
 
 			// See if single record
 			if (typeof ctx.multiFormIndex === 'undefined') {
