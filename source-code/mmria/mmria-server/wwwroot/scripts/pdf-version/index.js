@@ -6,6 +6,7 @@ let g_current;
 let g_writeText;
 let g_metadata_summary = {};
 let g_record_number;
+let g_show_hidden = false;
 
 $(function () {//http://www.w3schools.com/html/html_layout.asp
 	'use strict';
@@ -42,8 +43,10 @@ async function create_print_version
 		p_data,
 		p_section,
 		p_number,
-		p_metadata_summary
-	) {
+		p_metadata_summary,
+        p_show_hidden
+	) 
+    {
 
 	g_md = null;
 	g_metadata = null;
@@ -61,6 +64,11 @@ async function create_print_version
 	g_metadata_summary = p_metadata_summary;
 	g_record_number = p_number;
 
+    if(p_show_hidden != null && p_show_hidden)
+    {
+        g_show_hidden = true;
+    }
+
 	let p_ctx = {
 		metadata: p_metadata,
 		data: p_data,
@@ -72,7 +80,7 @@ async function create_print_version
 		is_grid_item: false,
 		createdBy: p_data.created_by,
 		groupLevel: 0,
-		p_data: p_data,
+		p_data: p_data
 	};
 
 	console.log(' let p_ctx = ', p_ctx);
@@ -2042,8 +2050,12 @@ function print_pdf_render_content(ctx) {
 			]);
 			break;
 		case "button":
+                break;
 		case "hidden":
-				// console.log('*************** type: ', ctx.metadata.type);
+				if(g_show_hidden)
+                {
+                    // console.log('*************** type: ', ctx.metadata.type);
+                }
 			break;
 		case "label":
 			// console.log('*************** type: ', ctx.metadata.type);
