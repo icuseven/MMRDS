@@ -1872,8 +1872,12 @@ function print_pdf_render_content(ctx) {
 				]);
 			} else {
 				ctx.content.push([
-					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-					{ text: chkNull(ctx.data), style: ['tableDetail'] },
+					{ text: `${ctx.metadata.prompt}: `, style: ['subHeader'], colSpan: '2', },
+					{},
+				],
+				[
+					{ text: chkNull(ctx.data), style: ['tableDetail'], colSpan: '2', }, 
+					{},
 				]);
 			}
 			break;
