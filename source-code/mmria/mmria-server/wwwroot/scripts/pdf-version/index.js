@@ -84,6 +84,7 @@ async function create_print_version
 	};
 
 	console.log(' let p_ctx = ', p_ctx);
+	console.log('g_show_hidden: ', g_show_hidden);
 
 	try {
 		// initialize_print_pdf(ctx);
@@ -246,8 +247,14 @@ async function print_pdf(ctx) {
 			isBold: {
 				bold: true,
 			},
+			isItalics: {
+				italics: true,
+			},
 			fgBlue: {
 				color: '#000080',
+			},
+			fgRed: {
+				color: '#990000',
 			},
 			isUnderlined: {
 				decoration: 'underline',
@@ -1666,7 +1673,7 @@ function print_pdf_render_content(ctx) {
 					let metaChild = ctx.metadata.children;
 					ctx.data.forEach((dataChild, dataIndex) => {
 						row = new Array();
-						row.push({ text: `${dataIndex + 1}`, style: ['tableDetail'], alignment: 'center', },);
+						row.push({ text: `${dataIndex + 1}`, style: ['tableDetail', 'isItalics', 'isBold'], alignment: 'center', },);
 						row.push({ text: fmtDateTime(dataChild[metaChild[0].name]), style: ['tableDetail'], },);
 						// Create a two column table for the Medical Info column - exclude the first (datetime) and last (comments)  
 						let colPrompt = new Array();
@@ -1743,7 +1750,7 @@ function print_pdf_render_content(ctx) {
 					// Get the fields for each row
 					ctx.data.forEach((dataChild, dataIndex) => {
 						// Add the record number
-						row.push({ text: `${dataIndex + 1}`, style: ['tableDetail'], alignment: 'center', },);
+						row.push({ text: `${dataIndex + 1}`, style: ['tableDetail', 'isItalics', 'isBold'], alignment: 'center', },);
 						// get metadata info for each row
 						ctx.metadata.children.forEach((metaChild, metaIndex) => {
 							switch (metaChild.type.toLowerCase()) {
@@ -2050,12 +2057,17 @@ function print_pdf_render_content(ctx) {
 			]);
 			break;
 		case "button":
-                break;
+            break;
 		case "hidden":
-				if(g_show_hidden)
-                {
-                    // console.log('*************** type: ', ctx.metadata.type);
-                }
+			// console.log('*************** type: ', ctx.metadata.type);
+			// console.log('g_show_hidden: ', g_show_hidden);
+			if(g_show_hidden)
+			{
+				ctx.content.push([
+					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
+					{ text: chkNull(ctx.data), style: ['tableDetail', 'fgRed'], },
+				]);
+			}
 			break;
 		case "label":
 			// console.log('*************** type: ', ctx.metadata.type);
