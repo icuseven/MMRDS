@@ -2414,16 +2414,27 @@ function pdf_case_onclick(event)
     } 
     else 
     {
-      // data-record of selected option
-      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
-      const record_number = selectedOption.dataset.record;
-      const tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
+        // data-record of selected option
+        const selectedOption = dropdown.options[dropdown.options.selectedIndex];
+        const record_number = selectedOption.dataset.record;
+        let tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
 
+        if(section_name == "all_hidden")
+        {
+            tabName = 'all';
 
-      window.setTimeout(function()
-      {
-          openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number);
-      }, 1000);	
+            window.setTimeout(function()
+            {
+                openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number, true);
+            }, 1000);	
+        }
+        else
+        {
+            window.setTimeout(function()
+            {
+                openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number);
+            }, 1000);	
+        }
       
     }
   }
@@ -2468,7 +2479,7 @@ function print_case_onclick(event)
   
 }
 
-function openTab(pageRoute, tabName, p_section, p_number) 
+function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden) 
 {
 	console.log('in openTab');
 	console.log('pageRoute: ', pageRoute);
@@ -2488,7 +2499,8 @@ function openTab(pageRoute, tabName, p_section, p_number)
         g_data,
         p_section,
         p_number,
-        g_metadata_summary
+        g_metadata_summary,
+        p_show_hidden
       );
     });
   } 
@@ -2500,7 +2512,8 @@ function openTab(pageRoute, tabName, p_section, p_number)
       g_data,
       p_section,
       p_number,
-      g_metadata_summary
+      g_metadata_summary,
+      p_show_hidden
     );
   }
 }
