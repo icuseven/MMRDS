@@ -288,6 +288,10 @@ async function print_pdf(ctx) {
 				color: '#000000',
 				fontSize: 9,
 			},
+			narrativeDetail: {
+				color: '#000000',
+				fontSize: 8,
+			},
 			labelDetail: {
 				color: '#ff0000',
 				fontSize: 9,
@@ -640,7 +644,7 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
-function doChart2(p_id_prefix, chartData) {
+function doChart2(p_id_prefix, chartData, chartTitle) {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
 
@@ -663,6 +667,17 @@ function doChart2(p_id_prefix, chartData) {
 		type: 'line',
 		data: chartData,
 		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: chartTitle,
+					color: '#1010dd',
+					font: {
+						weight: 'bold',
+						size: 36
+					}
+				}
+			},
 			maintainAspectRatio: false,
 			responsive: true,
 			animation: null,
@@ -1881,7 +1896,7 @@ function print_pdf_render_content(ctx) {
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
 				ctx.content.push([
-					{ text: narrative, style: ['tableDetail'], colSpan: '2' },
+					{ text: narrative, style: ['narrativeDetail'], colSpan: '2' },
 					{},
 				]);
 			} else {
@@ -1897,11 +1912,7 @@ function print_pdf_render_content(ctx) {
 			break;
 		case "chart":
 			// console.log('*************** type: ', ctx.metadata.type);
-			// console.log('*** in CHART 1a  ***************************************', ctx.metadata.prompt);
-			// console.log('*** in CHART 1b  ***************************************', ctx.metadata.name);
-			// Add the graph header
 			let chartBody = [];
-			chartBody.push([{ text: `${ctx.metadata.prompt}`, style: ['tableLabel'], alignment: 'center', },]);
 
 			// Check to see if there are multiple fields for x and/or y axis
 			let x_axis_path = ctx.metadata.x_axis.split(',');
@@ -2017,7 +2028,7 @@ function print_pdf_render_content(ctx) {
 				let imgName = ( typeof ctx.multiFormIndex === 'undefined' )
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
-				retImg = doChart2( imgName, optData );
+				retImg = doChart2( imgName, optData, ctx.metadata.prompt );
 
 				// Add image to chartBody
 				chartBody.push([
