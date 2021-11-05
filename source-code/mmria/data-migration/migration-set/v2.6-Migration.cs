@@ -774,9 +774,11 @@ namespace migrate.set
 
 			if(prefix == "pa")
 			{
-				var pa_node = jurisiction_tree.children.Where(c => c.name == "/pa");
-				var phila_node = jurisiction_tree.children.Where(c => c.name == "/phila");
-				var shared_node = jurisiction_tree.children.Where(c => c.name == "/shared");
+				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//pa");
+				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Philadelphia");
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
+
+
 
 				foreach(var child in jurisiction_tree.children)
 				{
@@ -786,6 +788,11 @@ namespace migrate.set
 			}
 			else if( prefix == "ny" || prefix == "localhost")
 			{
+
+				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny");
+				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc");
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
+
 				foreach(var child in jurisiction_tree.children)
 				{
 
