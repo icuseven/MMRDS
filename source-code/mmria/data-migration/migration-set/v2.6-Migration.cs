@@ -774,29 +774,98 @@ namespace migrate.set
 
 			if(prefix == "pa")
 			{
-				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//pa");
-				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Philadelphia");
-				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
-
-
-
-				foreach(var child in jurisiction_tree.children)
+				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//pa").FirstOrDefault();
+				
+				if(pa_node == null)
 				{
+					pa_node = new mmria.common.model.couchdb.jurisdiction();
 
-					//child.name 
+					pa_node.id = $"jurisdiction_tree//Philadelphia";
+					pa_node.name = "/Philadelphia";
+					pa_node.date_created = DateTime.Now;
+					pa_node.created_by = "isu7";
+					pa_node.date_last_updated = DateTime.Now;
+					pa_node.last_updated_by = "isu7";
+					pa_node.is_active = true;
+					pa_node.is_enabled = true;
+					pa_node.parent_id = "jurisdiction_tree";
+					
 				}
+
+
+				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Philadelphia").FirstOrDefault();
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Shared").FirstOrDefault();
+				if(shared_node == null)
+				{
+					shared_node = new mmria.common.model.couchdb.jurisdiction();
+					shared_node.id = $"jurisdiction_tree//Shared";
+					shared_node.name = "/Shared";
+					shared_node.date_created = DateTime.Now;
+					shared_node.created_by = "isu7";
+					shared_node.date_last_updated = DateTime.Now;
+					shared_node.last_updated_by = "isu7";
+					shared_node.is_active = true;
+					shared_node.is_enabled = true;
+					shared_node.parent_id = "jurisdiction_tree";
+
+
+					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
+					foreach(var child in phila_node.children)
+					{
+						child.id = $"jurisdiction_tree//Shared";
+						child.name = "/Shared";
+						new_list.Add(child);
+					}
+					shared_node.children = new_list.ToArray();
+					phila_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+				}
+
 			}
+
+
+				
 			else if( prefix == "ny" || prefix == "localhost")
 			{
 
-				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny");
-				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc");
-				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
-
-				foreach(var child in jurisiction_tree.children)
+				var ny_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny").FirstOrDefault();
+				if(ny_node == null)
 				{
+					ny_node = new mmria.common.model.couchdb.jurisdiction();
+					ny_node.id = $"jurisdiction_tree//ny";
+					ny_node.name = "/Philadelphia";
+					ny_node.date_created = DateTime.Now;
+					ny_node.created_by = "isu7";
+					ny_node.date_last_updated = DateTime.Now;
+					ny_node.last_updated_by = "isu7";
+					ny_node.is_active = true;
+					ny_node.is_enabled = true;
+					ny_node.parent_id = "jurisdiction_tree";
+				}
+				var nyc_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc").FirstOrDefault();
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Shared").FirstOrDefault();
+				if(shared_node == null)
+				{
+					shared_node = new mmria.common.model.couchdb.jurisdiction();
+					shared_node.id = $"jurisdiction_tree//Shared";
+					shared_node.name = "/Shared";
+					shared_node.date_created = DateTime.Now;
+					shared_node.created_by = "isu7";
+					shared_node.date_last_updated = DateTime.Now;
+					shared_node.last_updated_by = "isu7";
+					shared_node.is_active = true;
+					shared_node.is_enabled = true;
+					shared_node.parent_id = "jurisdiction_tree";
 
-					//child.name 
+					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
+					foreach(var child in nyc_node.children)
+					{
+						child.id = $"jurisdiction_tree//Shared";
+						child.name = "/Shared";
+						new_list.Add(child);
+					}
+
+					shared_node.children = new_list.ToArray();
+					nyc_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
 				}
 			}
 		}
