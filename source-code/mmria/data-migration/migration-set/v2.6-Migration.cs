@@ -277,6 +277,42 @@ namespace migrate.set
 				if(prefix_list.Contains(state_prefix))
 				{
 					// update jurisdiction_id on case 
+
+					try
+					{
+						var home_record_jurisdiction_id_path = "home_record/jurisdiction_id";
+						value_result = gs.get_value(doc, home_record_jurisdiction_id_path);
+						var test_dynamic = value_result.result;
+						if
+						(
+							test_dynamic != null ||
+							!string.IsNullOrWhiteSpace(test_dynamic.ToString())
+						)
+						{
+							var current_value = test_dynamic.ToString();
+
+							if(current_value == "/Philadelphia" || current_value == "/nyc")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								case_has_changed = case_has_changed && gs.set_value(home_record_jurisdiction_id_path, "/Shared", doc);
+								var output_text = $"item _id: {mmria_id} updated {home_record_jurisdiction_id_path} : {current_value} => /Shared";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							
+							}
+							
+						}
+
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 					
 				}
 
