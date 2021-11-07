@@ -136,7 +136,7 @@ namespace migrate.set
 				if(prefix_list.Contains(state_prefix))
 				{
 					await update_case_folder_tree(state_prefix);
-					// update jurisdiction_roles
+					await update_jurisdiction_roles(state_prefix);
 
 				}
 
@@ -793,7 +793,63 @@ namespace migrate.set
             return result;
         }
 
+		async Task  update_jurisdiction_roles(string prefix)
+		{
+			var RoleList =  await GetUserRoleJurisdictionSet();
 
+			var new_role_list = new List<mmria.common.model.couchdb.user_role_jurisdiction>();
+
+			foreach
+			(
+				var role in RoleList.Where
+				(
+					r => r.role_name != "installation_admin" &&
+					r.role_name != "form_designer" &&
+					(
+						r.user_id != "isu7@cdc.gov" ||
+						r.user_id != "cuv5@cdc.gov" ||
+						r.user_id != "ylr2@cdc.gov" 
+					)
+				)
+			)
+			{
+				switch (role.jurisdiction_id)
+				{
+					case "/":
+						if(prefix == "pa")
+						{
+							role.jurisdiction_id = $"pa/{role.jurisdiction_id}";
+						}
+						else if(prefix == "ny")
+						{
+							role.jurisdiction_id = $"ny/{role.jurisdiction_id}";
+						}
+						new_role_list.Add(role);
+
+					break;
+					case "/nyc":
+					/*
+					  "_id": "0aeb90b8-bdbe-de98-45fb-119c60cb5619",
+  "_rev": "1-26ed2ad983d01dca2a058bca08c11e8e",
+  "role_name": "committee_member",
+  "user_id": "user1",
+  "jurisdiction_id": "/",
+  "effective_start_date": "2020-01-23T05:00:00Z",
+  "is_active": true,
+  "date_created": "2020-01-23T20:55:37.203Z",
+  "created_by": "mmrds",
+  "date_last_updated": "2020-01-23T20:55:37.203Z",
+  "last_updated_by": "mmrds",
+  "data_type": "user_role_jursidiction"
+  */
+					break;
+					case "/Philadelphia":
+
+					break;
+				}
+			}
+
+		}
 
 		async Task update_case_folder_tree(string prefix)
 		{
@@ -918,6 +974,29 @@ namespace migrate.set
 				string response_from_server = await jurisdiction_curl.executeAsync ();
 
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine($"{ex}");
+			}
+
+			return result;
+		}
+
+		async System.Threading.Tasks.Task<IList<mmria.common.model.couchdb.user_role_jurisdiction>> GetUserRoleJurisdictionSet()
+		{
+
+			IList<mmria.common.model.couchdb.user_role_jurisdiction> result = null;
+
+			try
+			{
+                string jurisdiction_tree_url = $"{host_db_url}/jurisdiction/_all_docs?include_docs=true";
+
+				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, config_timer_user_name, config_timer_value);
+				string response_from_server = await jurisdiction_curl.executeAsync ();
+
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
 			}
 			catch(Exception ex) 
