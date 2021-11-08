@@ -443,47 +443,7 @@ namespace migrate.set
 			}
 			return result;
 		}
-
-/*
-		private async Task<bool> sav_e_case_del(IDictionary<string, object> case_item)
-        {
-            bool result = false;
-			var gsv = new C_Get_Set_Value(this.output_builder);
-
-            //var case_item  = p_case_item as System.Collections.Generic.Dictionary<string, object>;
-
-            gsv.set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item);
-            gsv.set_value("last_updated_by", "migration_plan", case_item);
-
-
-            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
-
-            string put_url = $"{host_db_url}/{db_name}/{case_item["_id"]}";
-            cURL document_curl = new cURL ("PUT", null, put_url, object_string, config_timer_user_name, config_timer_value);
-
-            try
-            {
-                var responseFromServer = await document_curl.executeAsync();
-                var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-                if(put_result.ok)
-                {
-                    result = true;
-                }
-                
-            }
-            catch(Exception ex)
-            {
-                //Console.Write("auth_session_token: {0}", auth_session_token);
-                Console.WriteLine(ex);
-            }
-
-            return result;
-        }
-		*/
-
+		
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
 			var current_type = p_node.type.ToLowerInvariant();
