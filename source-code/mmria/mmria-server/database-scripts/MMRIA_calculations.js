@@ -427,7 +427,7 @@ g_data
                 g_data.home_record.case_status.overall_case_status = g_previous_case_status;
                 $mmria.set_control_value('home_record/case_status/overall_case_status', g_previous_case_status);
 
-                $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", '<p>Before a Case can be marked as "Review Complete and Decisions Entered":</p> <p style="padding-left: 10px;">You must specify the “Abstractor-assigned pregnancy status based on overall review of records” before marking a Case as “Review Complete and Decision Entered</p>');
+                $mmria.info_dialog_show("Invalid Status Selection", "Case Progress", '<p>Before a Case can be marked as "Review Complete and Decisions Entered":</p> <p style="padding-left: 10px;">You must specify the “Abstractor-assigned pregnancy status based on overall review of records”.</p>');
             }
         }
         else
