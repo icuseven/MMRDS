@@ -797,7 +797,7 @@ namespace migrate.set
 		{
 			var RoleList =  await GetUserRoleJurisdictionSet();
 
-			var new_role_list = new List<mmria.common.model.couchdb.user_role_jurisdiction>();
+			var new_role_list = new cBulkDocumentRequest<mmria.common.model.couchdb.user_role_jurisdiction>();
 
 			foreach
 			(
@@ -824,9 +824,9 @@ namespace migrate.set
 						{
 							role.jurisdiction_id = $"ny/{role.jurisdiction_id}";
 						}
-						new_role_list.Add(role);
+						new_role_list.docs.Add(role);
 
-						new_role_list.Add
+						new_role_list.docs.Add
 						(
 							new mmria.common.model.couchdb.user_role_jurisdiction()
 							{
@@ -847,7 +847,7 @@ namespace migrate.set
 					break;
 					case "/nyc":
 
-					new_role_list.Add
+					new_role_list.docs.Add
 						(
 							new mmria.common.model.couchdb.user_role_jurisdiction()
 							{
@@ -867,7 +867,7 @@ namespace migrate.set
 					break;
 					case "/Philadelphia":
 
-					new_role_list.Add
+					new_role_list.docs.Add
 						(
 							new mmria.common.model.couchdb.user_role_jurisdiction()
 							{
@@ -1093,6 +1093,48 @@ namespace migrate.set
 				
 			return result;
 		} 
+
+		public class cBulkDocumentRequest<T>
+		{
+			public cBulkDocumentRequest ()
+			{
+				docs = new List<T> ();
+			}
+
+			public List<T> docs { get; set; }
+
+		}
+
+		public class cBulkDocumentResponseItem
+		{
+			public cBulkDocumentResponseItem ()
+			{
+
+			}
+
+			public string id { get; set; }
+			public bool ok { get; set; }
+			public string rev { get; set; }
+
+		}
+
+		private async Task<string> Put_JurisdictionDocument (cBulkDocument p_bulk_document)
+		{
+
+			string result = null;
+			string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_bulk_document);
+			string URL = $"{host_db_url}/jurisdiction/_bulk_docs";
+			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, config_timer_user_name, config_timer_value);
+			try
+			{
+				result = await document_curl.executeAsync ();
+			}
+			catch (Exception ex)
+			{
+				result = ex.ToString ();
+			}
+			return result;
+		}
 
 
     }
