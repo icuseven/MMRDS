@@ -53,7 +53,7 @@ function render_de_identified_list()
 	var result = [];
 	result.push("<br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>de identified list " + g_de_identified_list.paths.length + "</th></tr>");
+	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>de identified list (" + g_de_identified_list.paths.length + ")</th></tr>");
 	result.push("<tr>");
 	result.push("<th scope='col'>path</th>");
 	result.push("<th scope='col'>&nbsp;</th>");

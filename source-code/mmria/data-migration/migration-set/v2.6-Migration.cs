@@ -136,7 +136,7 @@ namespace migrate.set
 				if(prefix_list.Contains(state_prefix))
 				{
 					await update_case_folder_tree(state_prefix);
-					// update jurisdiction_roles
+					await update_jurisdiction_roles(state_prefix);
 
 				}
 
@@ -277,6 +277,42 @@ namespace migrate.set
 				if(prefix_list.Contains(state_prefix))
 				{
 					// update jurisdiction_id on case 
+
+					try
+					{
+						var home_record_jurisdiction_id_path = "home_record/jurisdiction_id";
+						value_result = gs.get_value(doc, home_record_jurisdiction_id_path);
+						var test_dynamic = value_result.result;
+						if
+						(
+							test_dynamic != null ||
+							!string.IsNullOrWhiteSpace(test_dynamic.ToString())
+						)
+						{
+							var current_value = test_dynamic.ToString();
+
+							if(current_value == "/Philadelphia" || current_value == "/nyc")
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								case_has_changed = case_has_changed && gs.set_value(home_record_jurisdiction_id_path, "/Shared", doc);
+								var output_text = $"item _id: {mmria_id} updated {home_record_jurisdiction_id_path} : {current_value} => /Shared";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							
+							}
+							
+						}
+
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 					
 				}
 
@@ -757,7 +793,103 @@ namespace migrate.set
             return result;
         }
 
+		async Task  update_jurisdiction_roles(string prefix)
+		{
+			var RoleList =  await GetUserRoleJurisdictionSet();
 
+			var new_role_list = new cBulkDocumentRequest<mmria.common.model.couchdb.user_role_jurisdiction>();
+
+			foreach
+			(
+				var role in RoleList.Where
+				(
+					r => r.role_name != "installation_admin" &&
+					r.role_name != "form_designer" &&
+					(
+						r.user_id != "isu7@cdc.gov" ||
+						r.user_id != "cuv5@cdc.gov" ||
+						r.user_id != "ylr2@cdc.gov" 
+					)
+				)
+			)
+			{
+				switch (role.jurisdiction_id)
+				{
+					case "/":
+						if(prefix == "pa")
+						{
+							role.jurisdiction_id = $"pa/{role.jurisdiction_id}";
+						}
+						else if(prefix == "ny")
+						{
+							role.jurisdiction_id = $"ny/{role.jurisdiction_id}";
+						}
+						new_role_list.docs.Add(role);
+
+						new_role_list.docs.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
+
+					break;
+					case "/nyc":
+
+					new_role_list.docs.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
+					break;
+					case "/Philadelphia":
+
+					new_role_list.docs.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
+
+					break;
+				}
+			}
+
+		}
 
 		async Task update_case_folder_tree(string prefix)
 		{
@@ -774,29 +906,98 @@ namespace migrate.set
 
 			if(prefix == "pa")
 			{
-				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//pa");
-				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Philadelphia");
-				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
-
-
-
-				foreach(var child in jurisiction_tree.children)
+				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//pa").FirstOrDefault();
+				
+				if(pa_node == null)
 				{
+					pa_node = new mmria.common.model.couchdb.jurisdiction();
 
-					//child.name 
+					pa_node.id = $"jurisdiction_tree//Philadelphia";
+					pa_node.name = "/Philadelphia";
+					pa_node.date_created = DateTime.Now;
+					pa_node.created_by = "isu7";
+					pa_node.date_last_updated = DateTime.Now;
+					pa_node.last_updated_by = "isu7";
+					pa_node.is_active = true;
+					pa_node.is_enabled = true;
+					pa_node.parent_id = "jurisdiction_tree";
+					
 				}
+
+
+				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Philadelphia").FirstOrDefault();
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Shared").FirstOrDefault();
+				if(shared_node == null)
+				{
+					shared_node = new mmria.common.model.couchdb.jurisdiction();
+					shared_node.id = $"jurisdiction_tree//Shared";
+					shared_node.name = "/Shared";
+					shared_node.date_created = DateTime.Now;
+					shared_node.created_by = "isu7";
+					shared_node.date_last_updated = DateTime.Now;
+					shared_node.last_updated_by = "isu7";
+					shared_node.is_active = true;
+					shared_node.is_enabled = true;
+					shared_node.parent_id = "jurisdiction_tree";
+
+
+					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
+					foreach(var child in phila_node.children)
+					{
+						child.id = $"jurisdiction_tree//Shared";
+						child.name = "/Shared";
+						new_list.Add(child);
+					}
+					shared_node.children = new_list.ToArray();
+					phila_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+				}
+
 			}
+
+
+				
 			else if( prefix == "ny" || prefix == "localhost")
 			{
 
-				var pa_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny");
-				var phila_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc");
-				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared");
-
-				foreach(var child in jurisiction_tree.children)
+				var ny_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny").FirstOrDefault();
+				if(ny_node == null)
 				{
+					ny_node = new mmria.common.model.couchdb.jurisdiction();
+					ny_node.id = $"jurisdiction_tree//ny";
+					ny_node.name = "/Philadelphia";
+					ny_node.date_created = DateTime.Now;
+					ny_node.created_by = "isu7";
+					ny_node.date_last_updated = DateTime.Now;
+					ny_node.last_updated_by = "isu7";
+					ny_node.is_active = true;
+					ny_node.is_enabled = true;
+					ny_node.parent_id = "jurisdiction_tree";
+				}
+				var nyc_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc").FirstOrDefault();
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Shared").FirstOrDefault();
+				if(shared_node == null)
+				{
+					shared_node = new mmria.common.model.couchdb.jurisdiction();
+					shared_node.id = $"jurisdiction_tree//Shared";
+					shared_node.name = "/Shared";
+					shared_node.date_created = DateTime.Now;
+					shared_node.created_by = "isu7";
+					shared_node.date_last_updated = DateTime.Now;
+					shared_node.last_updated_by = "isu7";
+					shared_node.is_active = true;
+					shared_node.is_enabled = true;
+					shared_node.parent_id = "jurisdiction_tree";
 
-					//child.name 
+					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
+					foreach(var child in nyc_node.children)
+					{
+						child.id = $"jurisdiction_tree//Shared";
+						child.name = "/Shared";
+						new_list.Add(child);
+					}
+
+					shared_node.children = new_list.ToArray();
+					nyc_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
 				}
 			}
 		}
@@ -813,6 +1014,29 @@ namespace migrate.set
 				string response_from_server = await jurisdiction_curl.executeAsync ();
 
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine($"{ex}");
+			}
+
+			return result;
+		}
+
+		async System.Threading.Tasks.Task<IList<mmria.common.model.couchdb.user_role_jurisdiction>> GetUserRoleJurisdictionSet()
+		{
+
+			IList<mmria.common.model.couchdb.user_role_jurisdiction> result = null;
+
+			try
+			{
+                string jurisdiction_tree_url = $"{host_db_url}/jurisdiction/_all_docs?include_docs=true";
+
+				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, config_timer_user_name, config_timer_value);
+				string response_from_server = await jurisdiction_curl.executeAsync ();
+
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
 			}
 			catch(Exception ex) 
@@ -869,6 +1093,48 @@ namespace migrate.set
 				
 			return result;
 		} 
+
+		public class cBulkDocumentRequest<T>
+		{
+			public cBulkDocumentRequest ()
+			{
+				docs = new List<T> ();
+			}
+
+			public List<T> docs { get; set; }
+
+		}
+
+		public class cBulkDocumentResponseItem
+		{
+			public cBulkDocumentResponseItem ()
+			{
+
+			}
+
+			public string id { get; set; }
+			public bool ok { get; set; }
+			public string rev { get; set; }
+
+		}
+
+		private async Task<string> Put_JurisdictionDocument (cBulkDocument p_bulk_document)
+		{
+
+			string result = null;
+			string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_bulk_document);
+			string URL = $"{host_db_url}/jurisdiction/_bulk_docs";
+			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, config_timer_user_name, config_timer_value);
+			try
+			{
+				result = await document_curl.executeAsync ();
+			}
+			catch (Exception ex)
+			{
+				result = ex.ToString ();
+			}
+			return result;
+		}
 
 
     }
