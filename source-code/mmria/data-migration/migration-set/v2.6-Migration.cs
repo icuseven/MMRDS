@@ -826,24 +826,64 @@ namespace migrate.set
 						}
 						new_role_list.Add(role);
 
+						new_role_list.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
+
 					break;
 					case "/nyc":
-					/*
-					  "_id": "0aeb90b8-bdbe-de98-45fb-119c60cb5619",
-  "_rev": "1-26ed2ad983d01dca2a058bca08c11e8e",
-  "role_name": "committee_member",
-  "user_id": "user1",
-  "jurisdiction_id": "/",
-  "effective_start_date": "2020-01-23T05:00:00Z",
-  "is_active": true,
-  "date_created": "2020-01-23T20:55:37.203Z",
-  "created_by": "mmrds",
-  "date_last_updated": "2020-01-23T20:55:37.203Z",
-  "last_updated_by": "mmrds",
-  "data_type": "user_role_jursidiction"
-  */
+
+					new_role_list.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
 					break;
 					case "/Philadelphia":
+
+					new_role_list.Add
+						(
+							new mmria.common.model.couchdb.user_role_jurisdiction()
+							{
+								_id = Guid.NewGuid().ToString(),
+								role_name = role.role_name,
+								user_id = role.user_id,
+								jurisdiction_id = "/Shared",
+								effective_start_date = DateTime.Now,
+								is_active = true,
+								date_created = DateTime.Now,
+								created_by = "isu7@cdc.gov",
+								date_last_updated = DateTime.Now,
+								last_updated_by = "isu7@cdc.gov",
+								data_type = "user_role_jursidiction"
+							}
+						);
 
 					break;
 				}
