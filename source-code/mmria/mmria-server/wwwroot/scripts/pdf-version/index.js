@@ -2020,9 +2020,6 @@ function print_pdf_render_content(ctx) {
 						]
 					};
 				}
-				// console.log('   *** yData: ', yDataOne, ' - ', yDataTwo);
-				// console.log('   ************* optData: ', optData);
-
 				// Create the graph
 				let retImg = '';
 				let imgName = ( typeof ctx.multiFormIndex === 'undefined' )
