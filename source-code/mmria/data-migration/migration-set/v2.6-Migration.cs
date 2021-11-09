@@ -166,223 +166,161 @@ namespace migrate.set
 
 
 
-					try
-					{
-						var record_id_path = "home_record/record_id";
-						value_result = gs.get_value(doc, record_id_path);
-						var test_record_id_object = value_result.result;
-						if
-						(
-							!string.IsNullOrWhiteSpace(test_record_id_object.ToString())
-						)
-						{
-							if(test_lower_case_regex.IsMatch(test_record_id_object.ToString()))
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								var record_id = test_record_id_object.ToString().ToUpper();
-								case_has_changed = case_has_changed && gs.set_value(record_id_path, record_id, doc);
-								var output_text = $"item _id: {mmria_id} Converted {record_id_path} to uppercase.  {value_result.result} => {record_id}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-						}
-
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine(ex);
-					}
-
-
-
-					try
-					{
-						var addquarter_path = "addquarter";
-						var date_created_path = "date_created";
-						value_result = gs.get_value(doc, addquarter_path);
-						var test_addquarter_object = value_result.result;
-						if
-						(
-							test_addquarter_object == null ||
-							string.IsNullOrWhiteSpace(test_addquarter_object.ToString())
-						)
-						{
-							value_result = gs.get_value(doc, date_created_path);
-							var new_value = get_year_and_quarter(value_result.result);
-							if(!string.IsNullOrWhiteSpace(new_value))
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								
-								case_has_changed = case_has_changed && gs.set_value(addquarter_path, new_value, doc);
-								var output_text = $"item _id: {mmria_id} updated {addquarter_path}: {test_addquarter_object} => {new_value}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-							
-						}
-
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine(ex);
-					}
-
-
-					try
-					{
-						var cmpquarter_path = "cmpquarter";
-						var committee_review_date_of_review_path = "committee_review/date_of_review";
-						value_result = gs.get_value(doc, cmpquarter_path);
-						var test_cmpquarter_object = value_result.result;
-						if
-						(
-							test_cmpquarter_object == null ||
-							string.IsNullOrWhiteSpace(test_cmpquarter_object.ToString())
-						)
-						{
-							value_result = gs.get_value(doc, committee_review_date_of_review_path);
-							var new_value = get_year_and_quarter(value_result.result);
-							if(!string.IsNullOrWhiteSpace(new_value))
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								
-								case_has_changed = case_has_changed && gs.set_value(cmpquarter_path, new_value, doc);
-								var output_text = $"item _id: {mmria_id} updated {cmpquarter_path} : {test_cmpquarter_object} => {new_value}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-							
-						}
-
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine(ex);
-					}
-
-
-
-				if(prefix_list.Contains(state_prefix))
-				{
-					// update jurisdiction_id on case 
-
-					try
-					{
-						var home_record_jurisdiction_id_path = "home_record/jurisdiction_id";
-						value_result = gs.get_value(doc, home_record_jurisdiction_id_path);
-						var test_dynamic = value_result.result;
-						if
-						(
-							test_dynamic != null ||
-							!string.IsNullOrWhiteSpace(test_dynamic.ToString())
-						)
-						{
-							var current_value = test_dynamic.ToString();
-
-							if(current_value == "/Philadelphia" || current_value == "/nyc")
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								
-								case_has_changed = case_has_changed && gs.set_value(home_record_jurisdiction_id_path, "/Shared", doc);
-								var output_text = $"item _id: {mmria_id} updated {home_record_jurisdiction_id_path} : {current_value} => /Shared";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							
-							}
-							
-						}
-
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine(ex);
-					}
-					
-				}
-
-
-
-/*
-// change single select into multiselect
-// home_record/how_was_this_death_identified
-
 						try
 						{
-
-							var how_was_this_death_identified_path = "home_record/how_was_this_death_identified";
-							value_result = gs.get_value(doc, how_was_this_death_identified_path);
-							var current_record_id = value_result.result;
-
-							int new_int_value  = 9999;
-
-							if (!value_result.is_error)
+							var record_id_path = "home_record/record_id";
+							value_result = gs.get_value(doc, record_id_path);
+							var test_record_id_object = value_result.result;
+							if
+							(
+								!string.IsNullOrWhiteSpace(test_record_id_object.ToString())
+							)
 							{
-								if(value_result.result is IList<object> value_list)
+								if(test_lower_case_regex.IsMatch(test_record_id_object.ToString()))
 								{
-									Console.WriteLine("item record_id: {mmria_id} Already converted skipping");
-								}
-								else if(value_result.result != null)
-								{
-									Console.WriteLine("Not IList");
-
-									if(!int.TryParse(value_result.result.ToString(), out new_int_value))
-									{
-										new_int_value = 9999;
-										//Console.WriteLine($"Value is NOT int {value_result.result}");
-									}
-									else
-									{
-										Console.WriteLine($"Value {value_result.result}");
-									}
-
 									if(case_change_count == 0)
 									{
 										case_change_count += 1;
 										case_has_changed = true;
 									}
-
-									var new_value = new List<object>() { new_int_value };
-									case_has_changed = case_has_changed && gs.set_objectvalue(how_was_this_death_identified_path, new_value, doc);
-									var output_text = $"item record_id: {mmria_id} Converted single item to list.  {value_result.result} => [ {new_int_value} ]";
+									var record_id = test_record_id_object.ToString().ToUpper();
+									case_has_changed = case_has_changed && gs.set_value(record_id_path, record_id, doc);
+									var output_text = $"item _id: {mmria_id} Converted {record_id_path} to uppercase.  {value_result.result} => {record_id}";
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 								}
-								
-								
 							}
-						
+
 						}
 						catch(Exception ex)
 						{
 							Console.WriteLine(ex);
 						}
-						*/
-						
 
-						if(!is_report_only_mode && case_has_changed)
+
+
+						try
 						{
-							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
+							var addquarter_path = "addquarter";
+							var date_created_path = "date_created";
+							value_result = gs.get_value(doc, addquarter_path);
+							var test_addquarter_object = value_result.result;
+							if
+							(
+								test_addquarter_object == null ||
+								string.IsNullOrWhiteSpace(test_addquarter_object.ToString())
+							)
+							{
+								value_result = gs.get_value(doc, date_created_path);
+								var new_value = get_year_and_quarter(value_result.result);
+								if(!string.IsNullOrWhiteSpace(new_value))
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+									
+									case_has_changed = case_has_changed && gs.set_value(addquarter_path, new_value, doc);
+									var output_text = $"item _id: {mmria_id} updated {addquarter_path}: {test_addquarter_object} => {new_value}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+								
+							}
+
+						}
+						catch(Exception ex)
+						{
+							Console.WriteLine(ex);
 						}
 
+
+						try
+						{
+							var cmpquarter_path = "cmpquarter";
+							var committee_review_date_of_review_path = "committee_review/date_of_review";
+							value_result = gs.get_value(doc, cmpquarter_path);
+							var test_cmpquarter_object = value_result.result;
+							if
+							(
+								test_cmpquarter_object == null ||
+								string.IsNullOrWhiteSpace(test_cmpquarter_object.ToString())
+							)
+							{
+								value_result = gs.get_value(doc, committee_review_date_of_review_path);
+								var new_value = get_year_and_quarter(value_result.result);
+								if(!string.IsNullOrWhiteSpace(new_value))
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+									
+									case_has_changed = case_has_changed && gs.set_value(cmpquarter_path, new_value, doc);
+									var output_text = $"item _id: {mmria_id} updated {cmpquarter_path} : {test_cmpquarter_object} => {new_value}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+								
+							}
+
+						}
+						catch(Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
+
+
+
+						if(prefix_list.Contains(state_prefix))
+						{
+							// update jurisdiction_id on case 
+
+							try
+							{
+								var home_record_jurisdiction_id_path = "home_record/jurisdiction_id";
+								value_result = gs.get_value(doc, home_record_jurisdiction_id_path);
+								var test_dynamic = value_result.result;
+								if
+								(
+									test_dynamic != null ||
+									!string.IsNullOrWhiteSpace(test_dynamic.ToString())
+								)
+								{
+									var current_value = test_dynamic.ToString();
+
+									if(current_value == "/Philadelphia" || current_value == "/nyc")
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+										case_has_changed = case_has_changed && gs.set_value(home_record_jurisdiction_id_path, "/Shared", doc);
+										var output_text = $"item _id: {mmria_id} updated {home_record_jurisdiction_id_path} : {current_value} => /Shared";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);
+									
+									}
+									
+								}
+
+							}
+							catch(Exception ex)
+							{
+								Console.WriteLine(ex);
+							}
+							
+						}
 					}
 
-            
+					if(!is_report_only_mode && case_has_changed)
+					{
+						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>, data_migration_name);
+					}
 				}
 			}
 			catch(Exception ex)
@@ -391,7 +329,7 @@ namespace migrate.set
 			}
 
 			Console.WriteLine($"{data_migration_name} Finished {DateTime.Now}");
-    	}
+		}
         public class Metadata_Node
 		{
 			public Metadata_Node(){}
@@ -443,7 +381,7 @@ namespace migrate.set
 			}
 			return result;
 		}
-		
+
 		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
 			var current_type = p_node.type.ToLowerInvariant();
@@ -576,117 +514,6 @@ namespace migrate.set
 			}
 			return result;
 		}	
-
-
-        private string calculate_omb_recode(IList<string> p_value_list)
-        {
-            string result = "(blank)";
-            var asian_list = new string[7]{ 
-                    "Asian Indian",
-                    "Chinese",
-                    "Filipino",
-                    "Japanese",
-                    "Korean",
-                    "Vietnamese",
-                    "Other Asian"
-                };
-            var islander_list = new string[4]{
-                    "Native Hawaiian",
-                    "Guamanian or Chamorro",
-                    "Samoan",
-                    "Other Pacific Islander"
-                };
-            if (p_value_list.Count == 0)
-            {
-            }
-            else if (p_value_list.Count == 1)
-            {
-                if (get_intersection(p_value_list, asian_list)?.Count > 0) {
-                    result = "Asian";
-                } else if (get_intersection(p_value_list, islander_list)?.Count > 0) {
-                    result = "Pacific Islander";
-                } else
-                {
-                    result = p_value_list[0];
-                }
-            }
-            else
-            {
-                if (p_value_list.Contains("Race Not Specified"))
-                {
-                    result = "Race Not Specified";
-                }
-                else
-                {
-                    var asian_intersection_count = get_intersection(p_value_list, asian_list)?.Count;
-                    var is_asian = 0;
-                    var islander_intersection_count = get_intersection(p_value_list, islander_list)?.Count;
-                    var is_islander = 0;
-                    if (asian_intersection_count > 0)
-                        is_asian = 1;
-                    if (islander_intersection_count > 0)
-                        is_islander = 1;
-                    var number_not_in_asian_or_islander_categories = p_value_list.Count - asian_intersection_count - islander_intersection_count;
-                    var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
-                    switch (total_unique_items)
-                    {
-                        case 1:
-                            if (is_asian == 1)
-                            {
-                                result = "Asian";
-                            }
-                            else if (is_islander == 1)
-                            {
-                                result = "Pacific Islander";
-                            }
-                            else
-                            {
-                                Console.WriteLine("This should never happen bug");
-                            }
-                            break;
-                        case 2:
-                            result = "Bi-Racial";
-                            break;
-                        default:
-                            result = "Multi-Racial";
-                            break;
-                    }
-                }
-            }
-            return result;
-        }
-
-        public IList<string> get_intersection(IList<string> p_list_1, IList<string> p_list_2)
-        {
-            var result = p_list_1.Intersect(p_list_2)?.ToArray();
-
-            //var a = p_list_1;
-            //var b = p_list_2;
-            //a.sort();
-            //b.sort();
-            //var ai = 0, bi = 0;
-            //var result = [];
-            //while (ai < a.length && bi < b.length)
-            //{
-            //    if (a[ai] < b[bi])
-            //    {
-            //        ai++;
-            //    }
-            //    else if (a[ai] > b[bi])
-            //    {
-            //        bi++;
-            //    }
-            //    else
-            //    {
-            //        result.push(a[ai]);
-            //        ai++;
-            //        bi++;
-            //    }
-            //}
-            return result;
-        }
-
-
 		string get_year_and_quarter(object p_value)
         {
             var result = string.Empty;
@@ -757,7 +584,9 @@ namespace migrate.set
 		{
 			var RoleList =  await GetUserRoleJurisdictionSet();
 
-			var new_role_list = new cBulkDocumentRequest<mmria.common.model.couchdb.user_role_jurisdiction>();
+			var case_has_changed = false;
+
+			var new_role_list = new cBulk_user_role_jurisdiction();
 
 			foreach
 			(
@@ -849,11 +678,20 @@ namespace migrate.set
 				}
 			}
 
+			if(!is_report_only_mode && case_has_changed)
+			{
+				var save_result = await Put_JurisdictionDocument(new_role_list);
+			}
+
 		}
 
 		async Task update_case_folder_tree(string prefix)
 		{
 			var jurisiction_tree = await GetJurisdictionTree();
+
+			var case_has_changed = false;
+
+			var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
 
 			//"id": "jurisdiction_tree//north_ga",
 			//"name": "/north_ga",
@@ -872,8 +710,8 @@ namespace migrate.set
 				{
 					pa_node = new mmria.common.model.couchdb.jurisdiction();
 
-					pa_node.id = $"jurisdiction_tree//Philadelphia";
-					pa_node.name = "/Philadelphia";
+					pa_node.id = $"jurisdiction_tree//pa";
+					pa_node.name = "/pa";
 					pa_node.date_created = DateTime.Now;
 					pa_node.created_by = "isu7";
 					pa_node.date_last_updated = DateTime.Now;
@@ -881,6 +719,8 @@ namespace migrate.set
 					pa_node.is_active = true;
 					pa_node.is_enabled = true;
 					pa_node.parent_id = "jurisdiction_tree";
+
+					new_list.Add(pa_node);
 					
 				}
 
@@ -890,8 +730,8 @@ namespace migrate.set
 				if(shared_node == null)
 				{
 					shared_node = new mmria.common.model.couchdb.jurisdiction();
-					shared_node.id = $"jurisdiction_tree//Shared";
-					shared_node.name = "/Shared";
+					shared_node.id = $"jurisdiction_tree//shared";
+					shared_node.name = "/shared";
 					shared_node.date_created = DateTime.Now;
 					shared_node.created_by = "isu7";
 					shared_node.date_last_updated = DateTime.Now;
@@ -899,17 +739,10 @@ namespace migrate.set
 					shared_node.is_active = true;
 					shared_node.is_enabled = true;
 					shared_node.parent_id = "jurisdiction_tree";
+					new_list.Add(shared_node);
 
-
-					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
-					foreach(var child in phila_node.children)
-					{
-						child.id = $"jurisdiction_tree//Shared";
-						child.name = "/Shared";
-						new_list.Add(child);
-					}
-					shared_node.children = new_list.ToArray();
 					phila_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+					new_list.Add(phila_node);
 				}
 
 			}
@@ -924,7 +757,7 @@ namespace migrate.set
 				{
 					ny_node = new mmria.common.model.couchdb.jurisdiction();
 					ny_node.id = $"jurisdiction_tree//ny";
-					ny_node.name = "/Philadelphia";
+					ny_node.name = "/ny";
 					ny_node.date_created = DateTime.Now;
 					ny_node.created_by = "isu7";
 					ny_node.date_last_updated = DateTime.Now;
@@ -932,14 +765,17 @@ namespace migrate.set
 					ny_node.is_active = true;
 					ny_node.is_enabled = true;
 					ny_node.parent_id = "jurisdiction_tree";
+
+					new_list.Add(ny_node);
 				}
+
 				var nyc_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//nyc").FirstOrDefault();
-				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//Shared").FirstOrDefault();
+				var shared_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//shared").FirstOrDefault();
 				if(shared_node == null)
 				{
 					shared_node = new mmria.common.model.couchdb.jurisdiction();
-					shared_node.id = $"jurisdiction_tree//Shared";
-					shared_node.name = "/Shared";
+					shared_node.id = $"jurisdiction_tree//shared";
+					shared_node.name = "/shared";
 					shared_node.date_created = DateTime.Now;
 					shared_node.created_by = "isu7";
 					shared_node.date_last_updated = DateTime.Now;
@@ -947,18 +783,18 @@ namespace migrate.set
 					shared_node.is_active = true;
 					shared_node.is_enabled = true;
 					shared_node.parent_id = "jurisdiction_tree";
+					new_list.Add(shared_node);
 
-					var new_list = new List<mmria.common.model.couchdb.jurisdiction>();
-					foreach(var child in nyc_node.children)
-					{
-						child.id = $"jurisdiction_tree//Shared";
-						child.name = "/Shared";
-						new_list.Add(child);
-					}
 
-					shared_node.children = new_list.ToArray();
 					nyc_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+					new_list.Add(nyc_node);
 				}
+			}
+
+			if(!is_report_only_mode && case_has_changed)
+			{
+				jurisiction_tree.children = new_list.ToArray();
+				var save_result = await SetJurisdictionTree(jurisiction_tree);
 			}
 		}
 		async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> GetJurisdictionTree()
@@ -1054,14 +890,14 @@ namespace migrate.set
 			return result;
 		} 
 
-		public class cBulkDocumentRequest<T>
+		public class cBulk_user_role_jurisdiction
 		{
-			public cBulkDocumentRequest ()
+			public cBulk_user_role_jurisdiction ()
 			{
-				docs = new List<T> ();
+				docs = new List<mmria.common.model.couchdb.user_role_jurisdiction> ();
 			}
 
-			public List<T> docs { get; set; }
+			public List<mmria.common.model.couchdb.user_role_jurisdiction> docs { get; set; }
 
 		}
 
@@ -1078,7 +914,7 @@ namespace migrate.set
 
 		}
 
-		private async Task<string> Put_JurisdictionDocument (cBulkDocument p_bulk_document)
+		private async Task<string> Put_JurisdictionDocument(cBulk_user_role_jurisdiction p_bulk_document)
 		{
 
 			string result = null;
