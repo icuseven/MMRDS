@@ -1690,7 +1690,7 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 		p_result.push('<optgroup label="Other">');
 		p_result.push('<option value="core-summary">Core Elements Only</option>');
 		p_result.push('<option value="all">All Case Forms</option>');
-        p_result.push('<option value="all_hidden">All Case Forms w Hidden Fields</option>');
+        p_result.push('<option value="all_hidden">All Case Forms with Hidden Fields</option>');
 		p_result.push("</optgroup>");
 		p_result.push("</select>");
 
