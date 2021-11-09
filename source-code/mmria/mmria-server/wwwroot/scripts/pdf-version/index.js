@@ -264,6 +264,9 @@ async function print_pdf(ctx) {
 			blueFill: {
 				fillColor: '#cce6ff',
 			},
+			lightBlueFill: {
+				fillColor: '#f0f8ff',
+			},
 			subHeader: {
 				margin: [0, 10, 0, 0],
 				fontSize: 11,
@@ -1716,6 +1719,101 @@ function print_pdf_render_content(ctx) {
 						row.push({ columns: [colPrompt, colData], },);
 						row.push({ text: chkNull(dataChild[metaChild[metaChild.length - 1].name]), style: ['tableDetail'], },);
 						gridBody.push(row)
+					});
+				}
+			} else if ( ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comments' ||
+						ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comment' ||
+						ctx.metadata.children[ctx.metadata.children.length - 1].name === 'pregrid_comments') {
+				// Save the comment field name
+				let commentFieldName = ctx.metadata.children[ctx.metadata.children.length - 1].name;
+
+				// Get the number of fields
+				colWidths = new Array();
+				// The 30 is for the record number and the auto is to make it use the whole width
+				colWidths.push(30, 'auto',);
+				let adjColspan = colspan - 1;
+				for (let j = 1; j < adjColspan; j++) {
+					colWidths.push('auto',);
+				};
+
+				// Do the header row
+				row = new Array();
+				row.push({ text: ctx.metadata.prompt, style: ['gridHeader', 'blueFill'], colSpan: `${colWidths.length}`, }, );
+				// Add the extra {} for the columns so it doesn't break;
+				for (let j = 1; j < colWidths.length; j++) {
+					row.push({},);
+				}
+				gridBody.push(row);
+				
+				// Do header columns
+				row = new Array();
+				row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+				for (let j = 0; j < adjColspan; j++) {
+					row.push({ text: ctx.metadata.children[j].prompt, style: ['tableLabel', 'blueFill'], },);
+				}
+				gridBody.push(row);
+
+				// Do the detail lines
+				// Check to see if there are records, if not then tell them so
+				if (ctx.data.length === 0) {
+					row = new Array();
+					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, }, );
+					for (let i = 1; i < colWidths.length; i++) {
+						row.push({},);
+					}
+					gridBody.push(row);
+				} else {
+					ctx.data.forEach((dataChild, dataIndex) => {
+						// Add the record number
+						row = new Array();
+						row.push(
+							{ 
+								text: `${dataIndex + 1}`, 
+								style: ['tableDetail', 'isItalics', 'isBold'], 
+								alignment: 'center', 
+								border: [true, true, true, false],
+							},);
+						for (let i = 0; i < adjColspan; i++) {
+							let metaChild = ctx.metadata.children[i];
+							switch (metaChild.type.toLowerCase()) {
+								case 'list':
+									row.push( { text: getLookupField(ctx.lookup, dataChild[metaChild.name], metaChild ), style: ['tableDetail'], }, );
+									break;
+								case 'string':
+								case 'number':
+								case 'time':
+									row.push( { text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									break;
+								case 'textarea':
+									row.push( { text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									break;
+								case 'date':
+									row.push( { text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									break;
+								case 'datetime':
+									row.push( { text: fmtDateTime(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									break;
+								case 'hidden':
+								default:
+									break;
+							}
+						}
+						gridBody.push(row);
+						row = new Array();
+						// Allow for first column that has been row spanned (*** Tried to use the row span but it doesn't work, so I am faking it)
+						row.push({ text: '', border: [true, false, true, false], },);
+						row.push({ text: ctx.metadata.children[adjColspan].prompt, style: ['tableLabel', 'lightBlueFill'], colSpan: `${adjColspan}` }, );
+						for (let i = 1; i < adjColspan; i++) {
+							row.push({},);
+						}
+						gridBody.push(row);
+						row = new Array();
+						row.push({ text: '', border: [true, false, true, true], },);
+						row.push({ text: chkNull(dataChild[commentFieldName]), style: ['tableDetail'], colSpan: `${adjColspan}` });
+						for (let i = 1; i < adjColspan; i++) {
+							row.push({},);
+						}
+						gridBody.push(row);
 					});
 				}
 			} else {
