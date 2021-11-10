@@ -312,8 +312,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
