@@ -22,7 +22,7 @@ namespace mmria.common.util
                 ""
             );
             
-            return result;
+            return value;
         }
 
         public static string StripHtmlAttributes(string value)
