@@ -312,8 +312,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			// async function () { await pdfMake.createPdf(doc).open(window); },
+			async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -1655,6 +1655,11 @@ function print_pdf_render_content(ctx) {
 			let row;
 			let colWidths;
 			let colspan = 0;
+
+			// Check to see if Committee Decisions / Recommendations of the Committee is blank
+			if ( ctx.section_name === 'committee_review' && ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
+				break;
+			}
 
 			// Get the number of columns in the grid 
 			colspan = ctx.metadata.children.length;
