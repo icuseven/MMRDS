@@ -1994,7 +1994,7 @@ function print_pdf_render_content(ctx) {
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
 				ctx.content.push([
-					{ text: narrative, style: ['narrativeDetail'], colSpan: '2' },
+					{ text: narrative, colSpan: '2' },
 					{},
 				]);
 			} else {
