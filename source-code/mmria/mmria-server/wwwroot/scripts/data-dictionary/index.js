@@ -74,7 +74,7 @@ async function get_release_version()
 
         if(item._id.indexOf("version_specification") == 0 && g_metadata_set[item._id] == null)
         {
-        g_metadata_set[item._id] = await load_metadata(item.name);
+            g_metadata_set[item._id] = await load_metadata(item.name);
         }
     }
 
@@ -83,23 +83,12 @@ async function get_release_version()
 
     document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
 
-      //render();
-
-      //let available_version = document.getElementById("metadata_version_filter");
-		
-
-
-      
-    //await metadata_version_filter_change();
-
 	$('.spinner-content').removeClass('spinner-active');
 }
 
 async function load_metadata(p_version_id)
 {
     let result;
-
-	//var metadata_url = `${location.protocol}//${location.host}/api/metadata`;
 
     result = await $.ajax
     (

@@ -43,7 +43,7 @@ var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
 
-function g_set_data_object_from_path
+async function g_set_data_object_from_path
 (
   p_object_path,
   p_metadata_path,
@@ -1165,24 +1165,9 @@ $(function ()
 
   $.datetimepicker.setLocale('en');
 
-  load_jurisdiction_tree();
+  window.setTimeout(load_jurisdiction_tree, 0);
 });
 
-function load_values() 
-{
-  $.ajax
-  ({
-    url: location.protocol + '//' + location.host + '/api/values',
-  })
-  .done
-  (
-    function (response) 
-    {
-        g_couchdb_url = response.couchdb_url;
-        load_jurisdiction_tree();
-    }
-  );
-}
 
 function Get_Record_Id_List(p_call_back) 
 {
@@ -1211,73 +1196,69 @@ function Get_Record_Id_List(p_call_back)
   );
 }
 
-function load_jurisdiction_tree() 
+async function load_jurisdiction_tree() 
 {
-  var metadata_url =
-    location.protocol + '//' + location.host + '/api/jurisdiction_tree';
+    var metadata_url = `${location.protocol}//${location.host}/api/jurisdiction_tree`;
 
-    $.ajax
+    const jurisdiction_tree = await $.ajax
     ({
-    url: metadata_url,
-    })
-    .done
-    (
-        function (response) 
+        url: metadata_url,
+    });
+
+
+    g_jurisdiction_tree = jurisdiction_tree;
+
+    const my_user_response = await $.ajax
+    ({
+        url: location.protocol + '//' + location.host + '/api/user/my-user',
+    });
+
+    
+    g_user_name = my_user_response.name;
+
+
+    const my_role_list_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/user_role_jurisdiction_view/my-roles`, //&search_key=' + g_uid,
+    });
+    
+    g_user_role_jurisdiction_list = [];
+    for (let i in my_role_list_response.rows) 
+    {
+        let value = my_role_list_response.rows[i].value;
+        if(value.role_name=="abstractor")
         {
-            g_jurisdiction_tree = response;
-
-            load_my_user();
+            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
         }
-    );
+    }
+
+    create_jurisdiction_list(g_jurisdiction_tree);
+
+    $('#landing_page').hide();
+    $('#logout_page').hide();
+    $('#footer').hide();
+    $('#root').removeClass('header');
+
+  
+
+    const release_version = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/release-version`,
+    });
+    
+    
+    g_release_version = release_version;
+
+    const default_ui_specification = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/ui_specification`,
+    });
+  
+    g_default_ui_specification = default_ui_specification;
+    get_metadata();
+  
 }
-
-function load_my_user() 
-{
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/user/my-user',
-  })
-  .done(function (response){
-    g_user_name = response.name;
-
-    load_user_role_jurisdiction();
-  });
-}
-
-function load_user_role_jurisdiction() 
-{
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      '/api/user_role_jurisdiction_view/my-roles', //&search_key=' + g_uid,
-  })
-  .done
-    (
-        function (response) 
-        {
-            g_user_role_jurisdiction_list = [];
-            for (var i in response.rows) 
-            {
-                var value = response.rows[i].value;
-                if(value.role_name=="abstractor")
-                {
-                    g_user_role_jurisdiction_list.push(value.jurisdiction_id);
-                }
-            }
-
-            create_jurisdiction_list(g_jurisdiction_tree);
-
-            $('#landing_page').hide();
-            $('#logout_page').hide();
-            $('#footer').hide();
-            $('#root').removeClass('header');
-
-            get_release_version();
-
-        }
-    );
-}
+  
 
 function create_jurisdiction_list(p_data) 
 {
@@ -1305,51 +1286,6 @@ function create_jurisdiction_list(p_data)
 }
 
 var update_session_timer_interval_id = null;
-
-function load_profile() 
-{
-  profile.on_login_call_back = function () 
-  {
-    $('#landing_page').hide();
-    $('#logout_page').hide();
-    $('#footer').hide();
-    $('#root').removeClass('header');
-
-    get_release_version();
-  };
-
-  profile.on_logout_call_back = function (p_user_name, p_password) 
-  {
-    if (update_session_timer_interval_id != null) 
-    {
-      window.clearInterval(update_session_timer_interval_id);
-      update_session_timer_interval_id = null;
-    }
-
-    //$("#landing_page").show();
-    $('#root').addClass('header');
-    $('#footer').show();
-    if 
-    (
-      profile.user_roles &&
-      profile.user_roles.length > 0 &&
-      profile.user_roles.indexOf('_admin') < 0 &&
-      profile.user_roles.indexOf('committee_member') < 0
-    ) 
-    {
-      //replicate_db_and_log_out(p_user_name, p_password);
-    }
-
-    document.getElementById('navbar').innerHTML = '<p>testtestTestTEST</p>';
-    document.getElementById('form_content_id').innerHTML = '';
-
-    var url = location.protocol + '//' + location.host + '/';
-
-    window.location.href = url;
-  };
-
-  profile.initialize_profile();
-}
 
 function get_case_set(p_call_back) 
 {
@@ -1426,30 +1362,9 @@ function get_case_set(p_call_back)
     });
 }
 
-function get_ui_specification() 
-{
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      `/api/version/${g_release_version}/ui_specification`,
-  }).done(function (response) {
-    g_default_ui_specification = response;
-    get_metadata();
-  });
-}
 
-function get_release_version() 
-{
-  $.ajax({
-    url:
-      location.protocol + '//' + location.host + '/api/version/release-version',
-  }).done(function (response) {
-    g_release_version = response;
-    get_ui_specification();
-  });
-}
+
+
 
 function get_metadata() 
 {
