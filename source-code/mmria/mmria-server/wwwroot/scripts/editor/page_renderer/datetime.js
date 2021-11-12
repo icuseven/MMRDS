@@ -417,7 +417,7 @@ function create_datetime_event(p_result, p_event_name, p_code_json, p_metadata_p
 }
 
 
-function DateTime_Onblur
+async function DateTime_Onblur
 (
     p_is_date,
     p_object_path,
@@ -459,7 +459,8 @@ function DateTime_Onblur
     {
         is_date = false;
     }
-    g_set_data_object_from_path
+
+    await g_set_data_object_from_path
     (
         p_object_path,
         p_metadata_path,
