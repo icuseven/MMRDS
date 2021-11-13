@@ -115,6 +115,7 @@ async function g_set_data_object_from_path
         user_name: g_user_name
       });
 
+      await autorecalculate(p_dictionary_path);
       /*
       if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
       {
@@ -278,6 +279,8 @@ async function g_set_data_object_from_path
 
     g_data.date_last_updated = new Date();
     //g_data.last_updated_by = g_uid;
+
+    await autorecalculate(p_dictionary_path);
 
 if
 (
@@ -2860,8 +2863,6 @@ function is_case_checked_out(p_case)
 {
   let is_checked_out = false;
 
-  let checked_out_html = '';
-
   let current_date = new Date();
 
   if 
@@ -3540,26 +3541,31 @@ function update_charts()
         let convertedArray = [];
         let xconvertedArray = [];
 
-        if (p_metadata.y_label && p_metadata.y_label != "") {
+        if (p_metadata.y_label && p_metadata.y_label != "") 
+        {
             var y_labels = p_metadata.y_label.split(",");
             var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
-        else {
-
+        else 
+        {
             var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
 
-        if (p_metadata.x_axis && p_metadata.x_axis != "") {
+        if (p_metadata.x_axis && p_metadata.x_axis != "") 
+        {
             x_columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("]", "").replace("'", "").slice(0, -1).split(",").map(String));
         }
 
-        columns_data.forEach(function (item, index) {
+        columns_data.forEach
+        (function (item, index) {
             var output = {};
 
             if (!item) return;
@@ -3570,7 +3576,8 @@ function update_charts()
 
         });
 
-        x_columns_data.forEach(function (item, index) {
+        x_columns_data.forEach
+        (function (item, index) {
             var output = {};
 
             if (!item) return;
@@ -3583,13 +3590,15 @@ function update_charts()
 
         let xdata;
 
-        Object.values(xconvertedArray).forEach(function (obj, index) {
+        Object.values(xconvertedArray).forEach
+        (function (obj, index) {
             var key = Object.keys(obj)[0];
             var data = [key];
             xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
         });
 
-        Object.values(convertedArray).forEach(function (obj, index)  {
+        Object.values(convertedArray).forEach
+        (function (obj, index)  {
             var key = Object.keys(obj)[0];
             var data = [key];
 
@@ -3605,5 +3614,59 @@ function update_charts()
 
         });
         item.flush();
+    }
+}
+
+
+const independent_autocalc_list = new Set()
+
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/month");
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/day");
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/year");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/month");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/day");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/year");
+
+
+const dependent_autocalc_list = new Set();
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days");
+dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days");
+dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks");
+dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days");
+dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_weeks");
+dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_days");
+dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_weeks");
+dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_days");
+dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks");
+dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days");
+
+
+async function autorecalculate(p_independent_variable_mmria_path)
+{
+    if(! independent_autocalc_list.has(p_independent_variable_mmria_path))
+    {
+        return;
     }
 }
