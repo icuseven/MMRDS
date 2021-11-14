@@ -3671,27 +3671,55 @@ async function autorecalculate(p_independent_variable_mmria_path)
     }
 
 
-    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
-    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
-    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
-    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
-    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
-    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    const edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    const edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    const edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    const lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    const lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    const lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
 
-    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
-    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
-    var event_date = new Date(event_year, event_month - 1, event_day);
-    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
-    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    const edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    const lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+
+    let is_edd = false;
+    let is_lmp = false;
+
     if 
     (
-        $global.isValidDate(event_year, event_month, event_day) == true && 
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
         $global.isValidDate(edd_year, edd_month, edd_day) == true
     )
-    //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
-    //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
     {
-        ga = $global.calc_ga_edd(event_date, edd_date);
+        is_edd = true;
+
+    }
+    else if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    )
+    {
+        is_lmp = true;
+    }
+/*
+
+    is_edd
+    edd_date
+    is_lmp
+    lmp_date
+
+
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var event_date = autorecalculate_get_event_date();
+    const result = new Date(event_year, event_month - 1, event_day);
+
+    ga = $global.calc_ga_edd(event_date, edd_date);
+    ga = $global.calc_ga_lmp(lmp_date, event_date);
+    */
+   const ga = [];
+
         if (ga.length > 1) 
         {
             g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
@@ -3765,16 +3793,7 @@ async function autorecalculate(p_independent_variable_mmria_path)
             g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];              
 
         }
-    }
-    else if 
-    (
-        $global.isValidDate(event_year, event_month, event_day) == true && 
-        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
-    )
-    //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
-    //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
-    {
-        ga = $global.calc_ga_lmp(lmp_date, event_date);
+
         if (ga.length > 1) 
         {
             g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
@@ -3849,5 +3868,83 @@ async function autorecalculate(p_independent_variable_mmria_path)
             g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];
 
         }
+    
+}
+
+
+
+function autorecalculate_get_event_date
+(
+    p_mmria_path,
+    p_is_edd,
+    p_edd_date,
+    p_is_lmp,
+    p_lmp_date
+)
+{
+    /*
+    dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit");
+    dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days");
+    dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_days");
+    dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_weeks");
+    dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_days");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks");
+    dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days");
+    dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks");
+    dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days");
+    dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_weeks");
+    dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_days");
+    dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_weeks");
+    dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_days");
+    dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks");
+    dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days");
+    
+    is_edd
+    edd_date
+    is_lmp
+    lmp_date
+    
+
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var event_date = autorecalculate_get_event_date();
+    const result = new Date(event_year, event_month - 1, event_day);
+
+    
+    const event_year = parseInt(p_value.year);
+    const event_month = parseInt(p_value.month);
+    const event_day = parseInt(p_value.day);
+
+    let result = [];
+
+    event_date = new Date(event_year, event_month - 1, event_day);
+
+    if(p_is_edd)
+    {
+        ga = $global.calc_ga_edd(event_date, edd_date);
     }
+    else if(p_is_lmp_date)
+    {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+    }
+
+    return result;*/
 }
