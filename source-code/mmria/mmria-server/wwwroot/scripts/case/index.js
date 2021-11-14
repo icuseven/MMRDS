@@ -3808,24 +3808,42 @@ async function autorecalculate(p_independent_variable_mmria_path)
 
 
             //er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records.forEach
+            (
+                function (item, index) 
+                {
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+        
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+        
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+        
+                }
+            );
 
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+            g_data.other_medical_office_visits.forEach
+            (
+                function (item, index) 
+                {
+                    g_data.other_medical_office_visits[index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+                    g_data.other_medical_office_visits[index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+                }
+            );
 
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
-            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+            g_data.medical_transport.forEach
+            (
+                function (item, index) 
+                {
+                    g_data.medical_transport[index].date_of_transport.gestational_age_weeks = ga[0];
+                    g_data.medical_transport[index].date_of_transport.gestational_age_days = ga[1];
 
-            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
-            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
-
-            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_weeks = ga[0];
-            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_days = ga[1];
-
-            g_data.medical_transport[current_mt_index].transport_vital_signs.gestational_weeks = ga[0];
-            g_data.medical_transport[current_mt_index].transport_vital_signs.gestational_days = ga[1];
-
+                    g_data.medical_transport[index].transport_vital_signs.gestational_weeks = ga[0];
+                    g_data.medical_transport[index].transport_vital_signs.gestational_days = ga[1];
+                }
+            )
             
             g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_weeks = ga[0];
             g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];
