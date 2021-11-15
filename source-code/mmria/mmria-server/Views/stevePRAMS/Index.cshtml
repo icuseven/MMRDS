@@ -29,6 +29,23 @@
       }
     }
 
+    var BeginDate = "";
+    var EndDate = "";
+
+    if(DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+    {
+        var friday = DateTime.Now.AddDays(-3);
+        BeginDate = $"{friday.Year}-{friday.Month:00}-{friday.Day:00}";
+        var yesterday = DateTime.Now.AddDays(-1);
+        EndDate = $"{yesterday.Year}-{yesterday.Month:00}-{yesterday.Day:00}";
+    }
+    else
+    {
+        var yesterday = DateTime.Now.AddDays(-1);
+        BeginDate = $"{yesterday.Year}-{yesterday.Month:00}-{yesterday.Day:00}";
+        EndDate = $"{yesterday.Year}-{yesterday.Month:00}-{yesterday.Day:00}";
+    }
+
 }
 
 @*@section HeadScripts
@@ -46,10 +63,10 @@
 }*@
 
 Begin Date<br/>
-<input type="Date" value=""/><br/>
+<input type="Date" value="@BeginDate"/><br/>
 <br/>
 End Date<br/>
-<input type="Date" value=""/><br/>
+<input type="Date" value="@EndDate"/><br/>
 <br/>
 STEVE Mailbox<br/>
 <select>
@@ -58,4 +75,4 @@ STEVE Mailbox<br/>
 </select>
 <br/>
 <br/>
-<input type="button" value="Start Download" />
+<input class="btn btn-primary" type="button" value="Start Download" />
