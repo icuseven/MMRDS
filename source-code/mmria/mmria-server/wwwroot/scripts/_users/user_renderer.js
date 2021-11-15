@@ -396,14 +396,14 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 
     if(is_managed_jusisdiction)
     {
-        result.push("<option")
+        result.push(`<option value=${p_data.name}`);
         if(p_data.name == p_selected_id)
         {
             result.push(" selected=true")
         }
-        result.push(">")
+        result.push(">");
         result.push(p_data.name == "/" ? "Top Folder" : p_data.name);
-        result.push("</option>")
+        result.push("</option>");
     }
 
     if(p_data.children != null)
