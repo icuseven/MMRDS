@@ -113,7 +113,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 			result.push(" ");
 			result.push(user_role.role_name);
 			result.push(" ");
-			result.push(user_role.jurisdiction_id);
+			result.push(user_role.jurisdiction_id  == "/"? "Top Folder": user_role.jurisdiction_id);
 			result.push(" ");
 			if(user_role.effective_start_date instanceof Date && user_role.effective_start_date != "Invalid Date")
 			{
@@ -210,9 +210,13 @@ function get_role_list()
     let result = [];
     if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
 	{
-		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'power_bi_manager'];
+		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'power_bi_manager','steve_mmria', 'steve_prams'];
 	}
-	else
+	else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+    {
+        result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams'];
+    }
+    else
 	{
 		result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
 	}
@@ -398,7 +402,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
             result.push(" selected=true")
         }
         result.push(">")
-        result.push(p_data.name);
+        result.push(p_data.name == "/" ? "Top Folder" : p_data.name);
         result.push("</option>")
     }
 
