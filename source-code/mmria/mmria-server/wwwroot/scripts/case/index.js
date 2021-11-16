@@ -3631,6 +3631,34 @@ function update_charts()
 }
 
 
+const independent_autocalc_niosh_set = new Set();
+
+independent_autocalc_niosh_set.add("/death_certificate/demographics/occupation_business_industry");
+independent_autocalc_niosh_set.add("/death_certificate/demographics/primary_occupation");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
+independent_autocalc_niosh_set.add("/social_and_environmental_profile/socio_economic_characteristics/occupation");
+
+const independent_autocalc_gestation_event_set = new Set();
+
+independent_autocalc_gestation_event_set.add("/prenatal.current_pregnancy.date_of_1st_prenatal_visit");
+independent_autocalc_gestation_event_set.add("/prenatal.routine_monitoring.date_and_time");
+independent_autocalc_gestation_event_set.add("/prenatal.diagnostic_procedures.date");
+independent_autocalc_gestation_event_set.add("/prenatal.problems_identified_grid.date_1st_noted");
+independent_autocalc_gestation_event_set.add("/prenatal.medications_and_drugs_during_pregnancy.date");
+independent_autocalc_gestation_event_set.add("/prenatal.pre_delivery_hospitalizations_details.date");
+independent_autocalc_gestation_event_set.add("/prenatal.medical_referrals.date");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_arrival");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_admission");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_discharge");
+independent_autocalc_gestation_event_set.add("/other_medical_office_visits[p_index].visit.date_of_medical_office_visit");
+independent_autocalc_gestation_event_set.add("/medical_transport[p_index].date_of_transport");
+independent_autocalc_gestation_event_set.add("/medical_transport[p_index].transport_vital_signs.date_and_time");
+independent_autocalc_gestation_event_set.add("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening");
+
+
 const independent_autocalc_list = new Set()
 
 independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/month");
@@ -3678,12 +3706,25 @@ dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental
 
 async function autorecalculate(p_independent_variable_mmria_path)
 {
-    if(! independent_autocalc_list.has(p_independent_variable_mmria_path))
+    if(independent_autocalc_list.has(p_independent_variable_mmria_path))
     {
-        return;
+        return await autorecalculate_all_gestation();
     }
 
+    if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
+    {
 
+    }
+
+    if(independent_autocalc_niosh_set.has(p_independent_variable_mmria_path))
+    {
+
+    }
+
+}
+
+async function autorecalculate_all_gestation()
+{
     const edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     const edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     const edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -3989,22 +4030,6 @@ function autorecalculate_get_event_date_combined(p_value)
 
 
 
-const s2_set = new Set();
-
-s2_set.add("/prenatal.current_pregnancy.date_of_1st_prenatal_visit");
-s2_set.add("/prenatal.routine_monitoring.date_and_time");
-s2_set.add("/prenatal.diagnostic_procedures.date");
-s2_set.add("/prenatal.problems_identified_grid.date_1st_noted");
-s2_set.add("/prenatal.medications_and_drugs_during_pregnancy.date");
-s2_set.add("/prenatal.pre_delivery_hospitalizations_details.date");
-s2_set.add("/prenatal.medical_referrals.date");
-s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_arrival");
-s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_admission");
-s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_discharge");
-s2_set.add("/other_medical_office_visits[p_index].visit.date_of_medical_office_visit");
-s2_set.add("/medical_transport[p_index].date_of_transport");
-s2_set.add("/medical_transport[p_index].transport_vital_signs.date_and_time");
-s2_set.add("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening");
 
 /*
 /death_certificate/demographics/occupation_business_industry
