@@ -2372,7 +2372,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
-	const section_name = dropdown.value;
+	let section_name = dropdown.value;
   
 	if (section_name) 
 	{
@@ -2391,13 +2391,26 @@ function print_case_onclick(event)
 		// data-record of selected option
 		const selectedOption = dropdown.options[dropdown.options.selectedIndex];
 		const record_number = selectedOption.dataset.record;
-		const tabName = section_name === 'all' ? '_all' : '_print_version';
+		let tabName = section_name === 'all' ? '_all' : '_print_version';
   
+        if(section_name == "all_hidden")
+        {
+            tabName = '_all';
+            section_name = 'all';
+
+            window.setTimeout(function()
+            {
+                openTab('./print-version',  tabName, section_name, record_number, true);
+            }, 1000);	
+        }
+        else
+        {
   
-		window.setTimeout(function()
-		{
-			openTab('./print-version', tabName, section_name, record_number);
-		}, 1000);	
+            window.setTimeout(function()
+            {
+                openTab('./print-version', tabName, section_name, record_number);
+            }, 1000);	
+        }
 		
 	  }
 	}
@@ -3973,3 +3986,92 @@ function autorecalculate_get_event_date_combined(p_value)
 
     return result;
 }
+
+
+
+const s2_set = new Set();
+
+s2_set.add("/prenatal.current_pregnancy.date_of_1st_prenatal_visit");
+s2_set.add("/prenatal.routine_monitoring.date_and_time");
+s2_set.add("/prenatal.diagnostic_procedures.date");
+s2_set.add("/prenatal.problems_identified_grid.date_1st_noted");
+s2_set.add("/prenatal.medications_and_drugs_during_pregnancy.date");
+s2_set.add("/prenatal.pre_delivery_hospitalizations_details.date");
+s2_set.add("/prenatal.medical_referrals.date");
+s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_arrival");
+s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_admission");
+s2_set.add("/er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_discharge");
+s2_set.add("/other_medical_office_visits[p_index].visit.date_of_medical_office_visit");
+s2_set.add("/medical_transport[p_index].date_of_transport");
+s2_set.add("/medical_transport[p_index].transport_vital_signs.date_and_time");
+s2_set.add("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening");
+
+/*
+/death_certificate/demographics/occupation_business_industry
+/death_certificate/demographics/primary_occupation
+
+/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
+/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+
+/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry
+/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation
+
+/social_and_environmental_profile/socio_economic_characteristics/occupation
+
+*/
+
+const niosh_autocalc_set = new Set();
+
+/*
+
+ Industry and Occupation Code 1-3
+
+NIOSH Industry and Occupation Computerized Coding System (NIOCCS)
+ - Mother’s Occupation Code #1 on SEP. 
+ See (external link) 
+ https://csams.cdc.gov/nioccs/HelpWebService.aspx and 
+ https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.
+*/
+
+
+//death_certificate/demographics/occupation_business_industry
+//death_certificate/demographics/primary_occupation
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_1");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_2");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_3");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_1");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_2");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3");
+
+//birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
+//birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3");
+
+//birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry
+//birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation
+
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3");
+
+//social_and_environmental_profile/socio_economic_characteristics/occupation
+
+
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3");
+
+
+

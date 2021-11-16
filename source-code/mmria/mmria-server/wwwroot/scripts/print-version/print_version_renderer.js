@@ -591,6 +591,26 @@ d3.select('#chart svg').append('text')
         }
         
     break;
+    case 'hidden':
+        if(g_show_hidden)
+        {
+            result.push('<h9>');
+            result.push('<p>');
+            if(! p_is_grid_context)
+            {
+                result.push(' <strong>');
+                result.push(p_metadata.prompt);
+                result.push('</strong>: ');
+            }
+    
+            result.push('</p>');
+            result.push('</h9>');
+            result.push('<div>');
+            result.push(p_data);
+            result.push('</div>');
+        }
+
+    break;
     default:
       if (p_metadata.name != 'case_opening_overview') 
       {
@@ -623,16 +643,7 @@ d3.select('#chart svg').append('text')
         result.push('</div>');
       }
 
-      /*
-			if(p_metadata.children)
-			{
-				for(let i = 0; i < p_metadata.children.length; i++)
-				{
-					let child = p_metadata.children[i];
-					if(p_data[child.name] != null)
-					Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
-				}
-			}*/
+
 
       break;
   }

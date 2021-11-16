@@ -4,6 +4,7 @@ var g_copy_clip_board = null;
 var g_delete_value_clip_board = null;
 var g_delete_attribute_clip_board = null;
 var g_delete_node_clip_board = null;
+var g_show_hidden = false;
 
 var g_ui = { is_collapsed : [] };
 
@@ -20,10 +21,14 @@ $(function ()
 });
 
 
-function create_print_version(p_metadata, p_data, p_section, p_number)
+function create_print_version(p_metadata, p_data, p_section, p_number, p_metadata_summary, p_show_hidden)
 {
 	g_data = p_data;
 	g_metadata = p_metadata;
+    if(p_show_hidden != null)
+    {
+        g_show_hidden = p_show_hidden;
+    }
 	
 	var post_html_call_back = [];
 
