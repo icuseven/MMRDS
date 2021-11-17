@@ -4367,10 +4367,18 @@ async function get_niosh_codes(p_occupation, p_industry)
     if(has_occupation || has_industry)
     {
         const niosh_url = builder.join("");
-        result = await $.ajax
-        ({
-            url: niosh_url,
-        });
+
+        try
+        {
+            result = await $.ajax
+            ({
+                url: niosh_url,
+            });
+        }
+        catch(e)
+        {
+            // do nothing for now
+        }
     }
     //{"Industry": [{"Code": "611110","Title": "Elementary and Secondary Schools","Probability": "9.999934E-001"},{"Code": "611310","Title": "Colleges, Universities, and Professional Schools","Probability": "2.598214E-006"},{"Code": "009990","Title": "Insufficient information","Probability": "2.312557E-006"}],"Occupation": [{"Code": "00-9900","Title": "Insufficient Information","Probability": "9.999897E-001"},{"Code": "11-9032","Title": "Education Administrators, Elementary and Secondary School","Probability": "6.550550E-006"},{"Code": "53-3022","Title": "Bus Drivers, School or Special Client","Probability": "4.932875E-007"}],"Scheme": "NAICS 2012 and SOC 2010"}
     return result;
