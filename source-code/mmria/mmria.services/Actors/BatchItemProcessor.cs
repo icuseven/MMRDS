@@ -2152,9 +2152,7 @@ namespace RecordsProcessor_Worker.Actors
     {
         primary_occupation = item_result.ToString();
     }
-
-
-    item_result = gs.get_value(new_case, "/death_certificate/demographics/occupation_business_industry").result;
+    item_result = gs.get_value(new_case, "/death_certificate/demographics/occupation_business_industry");
     if
     (
         !item_result.is_error && 
@@ -2164,97 +2162,168 @@ namespace RecordsProcessor_Worker.Actors
     {
         business_industry = item_result.ToString();
     }
-
-
     var niosh_result = get_niosh_codes
     (
         primary_occupation,
        business_industry
     );
-                        
-    if(niosh_result.Industry.Length > 0)                      
-    gs.set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code, new_case);
-    if(niosh_result.Industry.Length > 1)
-    gs.set_value("death_certificate/demographics/dc_m_industry_code_2",  niosh_result.Industry[1].Code, new_case);
-    if(niosh_result.Industry.Length > 2)
-    gs.set_value("death_certificate/demographics/dc_m_industry_code_3",  niosh_result.Industry[2].Code, new_case);
-    if(niosh_result.Occupation.Length > 0)
-    gs.set_value("death_certificate/demographics/dc_m_occupation_code_1",  niosh_result.Occupation[0].Code, new_case);
-    if(niosh_result.Occupation.Length > 1)
-    gs.set_value("death_certificate/demographics/dc_m_occupation_code_2", niosh_result.Occupation[1].Code, new_case);
-    if(niosh_result.Occupation.Length > 2)
-    gs.set_value("death_certificate/demographics/dc_m_occupation_code_3", niosh_result.Occupation[2].Code, new_case);
+
+    if(!niosh_result.is_error)
+    {   
+        if(niosh_result.Industry.Length > 0)                      
+        gs.set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code, new_case);
+        if(niosh_result.Industry.Length > 1)
+        gs.set_value("death_certificate/demographics/dc_m_industry_code_2",  niosh_result.Industry[1].Code, new_case);
+        if(niosh_result.Industry.Length > 2)
+        gs.set_value("death_certificate/demographics/dc_m_industry_code_3",  niosh_result.Industry[2].Code, new_case);
+        if(niosh_result.Occupation.Length > 0)
+        gs.set_value("death_certificate/demographics/dc_m_occupation_code_1",  niosh_result.Occupation[0].Code, new_case);
+        if(niosh_result.Occupation.Length > 1)
+        gs.set_value("death_certificate/demographics/dc_m_occupation_code_2", niosh_result.Occupation[1].Code, new_case);
+        if(niosh_result.Occupation.Length > 2)
+        gs.set_value("death_certificate/demographics/dc_m_occupation_code_3", niosh_result.Occupation[2].Code, new_case);
+    }
 
 
 
-/**/
+    primary_occupation = null;
+    business_industry = null;
 
+    item_result = gs.get_value(new_case, "/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.ToString())
+    )
+    {
+        primary_occupation = item_result.ToString();
+    }
+    item_result = gs.get_value(new_case, "/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.ToString())
+    )
+    {
+        business_industry = item_result.ToString();
+    }
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
 
-
-/*
-            case "/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry":
-            case "/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation":
-
-
-                niosh_result = get_niosh_codes
-                (
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.occupation_business_industry,
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.primary_occupation
-                )
-            
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3");
-       
-         
-            
-                                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3");
-                    */
-
-
+    if(! niosh_result.is_error)
+    {   
+        if(niosh_result.Industry.Length > 0)                      
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1", niosh_result.Industry[0].Code, new_case);
+        if(niosh_result.Industry.Length > 1)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2",  niosh_result.Industry[1].Code, new_case);
+        if(niosh_result.Industry.Length > 2)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3",  niosh_result.Industry[2].Code, new_case);
+        if(niosh_result.Occupation.Length > 0)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1",  niosh_result.Occupation[0].Code, new_case);
+        if(niosh_result.Occupation.Length > 1)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2", niosh_result.Occupation[1].Code, new_case);
+        if(niosh_result.Occupation.Length > 2)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3", niosh_result.Occupation[2].Code, new_case);
+    }
 
  
-            /*
-            case "/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry":
-            case "/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation":
-                niosh_result = get_niosh_codes
-                (
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.occupation_business_industry,
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.primary_occupation
-                )    
-           
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3");
+    primary_occupation = null;
+    business_industry = null;
 
-           
-            
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3");
-                */
+    item_result = gs.get_value(new_case, "/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.ToString())
+    )
+    {
+        primary_occupation = item_result.ToString();
+    }
+    item_result = gs.get_value(new_case, "/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.ToString())
+    )
+    {
+        business_industry = item_result.ToString();
+    }
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if(! niosh_result.is_error)
+    {   
+        if(niosh_result.Industry.Length > 0)                      
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1", niosh_result.Industry[0].Code, new_case);
+        if(niosh_result.Industry.Length > 1)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2",  niosh_result.Industry[1].Code, new_case);
+        if(niosh_result.Industry.Length > 2)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3",  niosh_result.Industry[2].Code, new_case);
+        if(niosh_result.Occupation.Length > 0)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1",  niosh_result.Occupation[0].Code, new_case);
+        if(niosh_result.Occupation.Length > 1)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2", niosh_result.Occupation[1].Code, new_case);
+        if(niosh_result.Occupation.Length > 2)
+        gs.set_value("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3", niosh_result.Occupation[2].Code, new_case);
+    }
 
 
+    primary_occupation = null;
+    business_industry = null;
 
- /*
-            case "/social_and_environmental_profile/socio_economic_characteristics/occupation":
-                niosh_result = get_niosh_codes
-                (
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.occupation,
-                    null
-                )
+    item_result = gs.get_value(new_case, "/social_and_environmental_profile/socio_economic_characteristics/occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.ToString())
+    )
+    {
+        primary_occupation = item_result.ToString();
+    }
+
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if(! niosh_result.is_error)
+    {   
+        if(niosh_result.Industry.Length > 0)                      
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code, new_case);
+        if(niosh_result.Industry.Length > 1)
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code, new_case);
+        if(niosh_result.Industry.Length > 2)
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code, new_case);
+        if(niosh_result.Occupation.Length > 0)
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code, new_case);
+        if(niosh_result.Occupation.Length > 1)
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code, new_case);
+        if(niosh_result.Occupation.Length > 2)
+        gs.set_value("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code, new_case);
+    }
+
  
            
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3");
 
-               */
+
+
+
+
+
+
+               
 
 
 
@@ -11467,6 +11536,8 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             public NioshResultItem[] Occupation { get;set; }
 
             public string Scheme {get;set;}
+
+            public bool is_error {get;set;} = false;
         }
 
         NioshResult get_niosh_codes(string p_occupation, string p_industry)
@@ -11498,9 +11569,16 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
                 var niosh_curl = new mmria.getset.cURL("GET", null, niosh_url, null);
 
-                string responseFromServer = niosh_curl.execute();
+                try
+                {
+                    string responseFromServer = niosh_curl.execute();
 
-                result = Newtonsoft.Json.JsonConvert.DeserializeObject<NioshResult>(responseFromServer);
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<NioshResult>(responseFromServer);
+                }
+                catch
+                {
+                    result.is_error = true;
+                }
                 
             }
             //{"Industry": [{"Code": "611110","Title": "Elementary and Secondary Schools","Probability": "9.999934E-001"},{"Code": "611310","Title": "Colleges, Universities, and Professional Schools","Probability": "2.598214E-006"},{"Code": "009990","Title": "Insufficient information","Probability": "2.312557E-006"}],"Occupation": [{"Code": "00-9900","Title": "Insufficient Information","Probability": "9.999897E-001"},{"Code": "11-9032","Title": "Education Administrators, Elementary and Secondary School","Probability": "6.550550E-006"},{"Code": "53-3022","Title": "Bus Drivers, School or Special Client","Probability": "4.932875E-007"}],"Scheme": "NAICS 2012 and SOC 2010"}
