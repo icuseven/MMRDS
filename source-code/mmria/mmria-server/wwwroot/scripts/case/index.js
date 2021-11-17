@@ -3873,15 +3873,19 @@ async function autorecalculate
                     g_data.death_certificate.demographics.occupation_business_industry
                 )
 
-                                /*
-                niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_1");
-niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_2");
-niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_3");
+                if(niosh_result.Industry.length > 0)
+                g_data.death_certificate.demographics.dc_m_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.death_certificate.demographics.dc_m_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.death_certificate.demographics.dc_m_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.death_certificate.demographics.dc_m_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.death_certificate.demographics.dc_m_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.death_certificate.demographics.dc_m_occupation_code_3 = niosh_result.Occupation[2].Code;
 
-                niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_1");
-niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_2");
-niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3");
-*/
 
             break;
             case "/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry":
@@ -3893,17 +3897,21 @@ niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3")
                     g_data.birth_fetal_death_certificate_parent.demographic_of_Father.occupation_business_industry,
                     g_data.birth_fetal_death_certificate_parent.demographic_of_Father.primary_occupation
                 )
-            /*
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3");
-       
-         
             
-                                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2");
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3");
-                    */
+
+                if(niosh_result.Industry.length > 0)             
+                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = niosh_result.Occupation[2].Code;
+
             break;
             case "/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry":
             case "/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation":
@@ -3913,17 +3921,19 @@ niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3")
                     g_data.birth_fetal_death_certificate_parent.demographic_of_mother.primary_occupation
                 )    
             
-            /*
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3");
+                if(niosh_result.Industry.length > 0)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = niosh_result.Occupation[2].Code;
 
-           
-            
-                niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2");
-niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3");
-                */
             break;
             case "/social_and_environmental_profile/socio_economic_characteristics/occupation":
                 niosh_result = await get_niosh_codes
@@ -3932,15 +3942,21 @@ niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mot
                     null
                 )
  
-            /*
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2");
-niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3");
 
-               */
+                if(niosh_result.Industry.length > 0)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.Occupation[2].Code;
+
+
             break;
         }
     }
