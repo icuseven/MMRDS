@@ -829,7 +829,7 @@ async function formatContent(p_ctx, arrMap) {
 
 
 function convert_html_to_pdf(p_value) {
-	//{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
+	//{ text: d.case_opening_overview, style: ['tableDetail'], },
 	let result = [];
 	let CommentRegex = /<!--\[[^>]+>/gi;
 
@@ -843,7 +843,7 @@ function convert_html_to_pdf(p_value) {
 }
 
 function convert_attribute_to_pdf(p_node, p_result) {
-	//{ text: d.case_opening_overview, style: ['tableDetail'], },		// TODO: htmlToPdfmake needs to be added when Word data cleaned up
+	//{ text: d.case_opening_overview, style: ['tableDetail'], },
 	let result = {};
 
 	if (p_result != null) {
