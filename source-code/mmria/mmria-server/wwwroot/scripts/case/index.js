@@ -4347,7 +4347,7 @@ niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_charact
 
 async function get_niosh_codes(p_occupation, p_industry)
 {
-    let result = {};
+    let result = { Industry:[], Occupation:[] };
     const builder = [ "https://wwwn.cdc.gov/nioccs/IOCode.ashx?n=3" ];
     let has_occupation = false;
     let has_industry = false;
