@@ -3721,6 +3721,42 @@ async function autorecalculate
 
     if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
     {
+
+        const edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+        const edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+        const edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+        const lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+        const lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+        const lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    
+        const edd_date = new Date(edd_year, edd_month - 1, edd_day);
+        const lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    
+        let is_edd = false;
+        let is_lmp = false;
+    
+        if 
+        (
+            //$global.isValidDate(event_year, event_month, event_day) == true && 
+            $global.isValidDate(edd_year, edd_month, edd_day) == true
+        )
+        {
+            is_edd = true;
+    
+        }
+        else if 
+        (
+            //$global.isValidDate(event_year, event_month, event_day) == true && 
+            $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+        )
+        {
+            is_lmp = true;
+        }
+        else
+        {
+            return;
+        }
+
         let ga = [];
         switch(p_independent_variable_mmria_path)
         {
