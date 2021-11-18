@@ -43,7 +43,7 @@ var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
 
-function g_set_data_object_from_path
+async function g_set_data_object_from_path
 (
   p_object_path,
   p_metadata_path,
@@ -115,6 +115,7 @@ function g_set_data_object_from_path
         user_name: g_user_name
       });
 
+      await autorecalculate(p_dictionary_path);
       /*
       if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
       {
@@ -278,6 +279,8 @@ function g_set_data_object_from_path
 
     g_data.date_last_updated = new Date();
     //g_data.last_updated_by = g_uid;
+
+    await autorecalculate(p_dictionary_path, p_form_index, p_grid_index);
 
 if
 (
@@ -1165,24 +1168,9 @@ $(function ()
 
   $.datetimepicker.setLocale('en');
 
-  load_jurisdiction_tree();
+  window.setTimeout(load_and_set_data, 0);
 });
 
-function load_values() 
-{
-  $.ajax
-  ({
-    url: location.protocol + '//' + location.host + '/api/values',
-  })
-  .done
-  (
-    function (response) 
-    {
-        g_couchdb_url = response.couchdb_url;
-        load_jurisdiction_tree();
-    }
-  );
-}
 
 function Get_Record_Id_List(p_call_back) 
 {
@@ -1211,73 +1199,110 @@ function Get_Record_Id_List(p_call_back)
   );
 }
 
-function load_jurisdiction_tree() 
+async function load_and_set_data() 
 {
-  var metadata_url =
-    location.protocol + '//' + location.host + '/api/jurisdiction_tree';
+    const metadata_url = `${location.protocol}//${location.host}/api/jurisdiction_tree`;
 
-    $.ajax
+    const jurisdiction_tree = await $.ajax
     ({
-    url: metadata_url,
-    })
-    .done
-    (
-        function (response) 
+        url: metadata_url,
+    });
+
+
+    g_jurisdiction_tree = jurisdiction_tree;
+
+    const my_user_response = await $.ajax
+    ({
+        url: location.protocol + '//' + location.host + '/api/user/my-user',
+    });
+
+    
+    g_user_name = my_user_response.name;
+
+
+    const my_role_list_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/user_role_jurisdiction_view/my-roles`, //&search_key=' + g_uid,
+    });
+    
+    g_user_role_jurisdiction_list = [];
+    for (let i in my_role_list_response.rows) 
+    {
+        let value = my_role_list_response.rows[i].value;
+        if(value.role_name=="abstractor")
         {
-            g_jurisdiction_tree = response;
-
-            load_my_user();
+            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
         }
-    );
-}
+    }
 
-function load_my_user() 
-{
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/user/my-user',
-  })
-  .done(function (response){
-    g_user_name = response.name;
+    create_jurisdiction_list(g_jurisdiction_tree);
 
-    load_user_role_jurisdiction();
-  });
-}
+    $('#landing_page').hide();
+    $('#logout_page').hide();
+    $('#footer').hide();
+    $('#root').removeClass('header');
 
-function load_user_role_jurisdiction() 
-{
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      '/api/user_role_jurisdiction_view/my-roles', //&search_key=' + g_uid,
-  })
-  .done
+    const release_version = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/release-version`,
+    });
+    
+    
+    g_release_version = release_version;
+
+    const default_ui_specification = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/ui_specification`,
+    });
+  
+    g_default_ui_specification = default_ui_specification;
+    
+
+    document.getElementById('form_content_id').innerHTML = '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
+
+    const metadata_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/metadata`,
+    });
+
+    g_metadata = metadata_response;
+    metadata_summary(g_metadata_summary, g_metadata, 'g_metadata', 0, 0);
+    default_object = create_default_object(g_metadata, {});
+
+    build_other_specify_lookup(g_other_specify_lookup, g_metadata);
+
+    set_list_lookup
     (
-        function (response) 
-        {
-            g_user_role_jurisdiction_list = [];
-            for (var i in response.rows) 
-            {
-                var value = response.rows[i].value;
-                if(value.role_name=="abstractor")
-                {
-                    g_user_role_jurisdiction_list.push(value.jurisdiction_id);
-                }
-            }
-
-            create_jurisdiction_list(g_jurisdiction_tree);
-
-            $('#landing_page').hide();
-            $('#logout_page').hide();
-            $('#footer').hide();
-            $('#root').removeClass('header');
-
-            get_release_version();
-
-        }
+      g_display_to_value_lookup,
+      g_value_to_display_lookup,
+      g_value_to_index_number_lookup,
+      g_metadata,
+      ''
     );
+
+    for (let i in g_metadata.lookup) 
+    {
+      const child = g_metadata.lookup[i];
+
+      g_look_up['lookup/' + child.name] = child.values;
+    }
+
+    get_case_set();
+
+    g_ui.url_state = url_monitor.get_url_state(window.location.href);
+    if (window.onhashchange) 
+    {
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    } 
+    else 
+    {
+      window.onhashchange = window_on_hash_change;
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    }
+
+    window.onbeforeunload = navigation_away;
 }
+  
 
 function create_jurisdiction_list(p_data) 
 {
@@ -1305,51 +1330,6 @@ function create_jurisdiction_list(p_data)
 }
 
 var update_session_timer_interval_id = null;
-
-function load_profile() 
-{
-  profile.on_login_call_back = function () 
-  {
-    $('#landing_page').hide();
-    $('#logout_page').hide();
-    $('#footer').hide();
-    $('#root').removeClass('header');
-
-    get_release_version();
-  };
-
-  profile.on_logout_call_back = function (p_user_name, p_password) 
-  {
-    if (update_session_timer_interval_id != null) 
-    {
-      window.clearInterval(update_session_timer_interval_id);
-      update_session_timer_interval_id = null;
-    }
-
-    //$("#landing_page").show();
-    $('#root').addClass('header');
-    $('#footer').show();
-    if 
-    (
-      profile.user_roles &&
-      profile.user_roles.length > 0 &&
-      profile.user_roles.indexOf('_admin') < 0 &&
-      profile.user_roles.indexOf('committee_member') < 0
-    ) 
-    {
-      //replicate_db_and_log_out(p_user_name, p_password);
-    }
-
-    document.getElementById('navbar').innerHTML = '<p>testtestTestTEST</p>';
-    document.getElementById('form_content_id').innerHTML = '';
-
-    var url = location.protocol + '//' + location.host + '/';
-
-    window.location.href = url;
-  };
-
-  profile.initialize_profile();
-}
 
 function get_case_set(p_call_back) 
 {
@@ -1426,30 +1406,9 @@ function get_case_set(p_call_back)
     });
 }
 
-function get_ui_specification() 
-{
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      `/api/version/${g_release_version}/ui_specification`,
-  }).done(function (response) {
-    g_default_ui_specification = response;
-    get_metadata();
-  });
-}
 
-function get_release_version() 
-{
-  $.ajax({
-    url:
-      location.protocol + '//' + location.host + '/api/version/release-version',
-  }).done(function (response) {
-    g_release_version = response;
-    get_ui_specification();
-  });
-}
+
+
 
 function get_metadata() 
 {
@@ -1487,41 +1446,6 @@ function get_metadata()
 
       g_look_up['lookup/' + child.name] = child.values;
     }
-
-    //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-    function create_validator(p_metadata, p_path) 
-    {
-      let result = null;
-      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-      /*
-        default_value
-        validation
-        validation_description
-        min_value
-        max_value
-        max_length
-        regex_pattern
-
-        is_required
-      */
-      switch (p_metadata.type.toLowerCase()) {
-        case 'boolean':
-
-        case 'string':
-        case 'number':
-        case 'hidden':
-        case 'list':
-        case 'textarea':
-        case 'time':
-        case 'date':
-        case 'datetime':
-          break;
-      }
-
-      return result;
-    }
-
-    //window.location.href = location.protocol + '//' + location.host;
 
     get_case_set();
 
@@ -2448,7 +2372,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
-	const section_name = dropdown.value;
+	let section_name = dropdown.value;
   
 	if (section_name) 
 	{
@@ -2467,13 +2391,26 @@ function print_case_onclick(event)
 		// data-record of selected option
 		const selectedOption = dropdown.options[dropdown.options.selectedIndex];
 		const record_number = selectedOption.dataset.record;
-		const tabName = section_name === 'all' ? '_all' : '_print_version';
+		let tabName = section_name === 'all' ? '_all' : '_print_version';
   
+        if(section_name == "all_hidden")
+        {
+            tabName = '_all';
+            section_name = 'all';
+
+            window.setTimeout(function()
+            {
+                openTab('./print-version',  tabName, section_name, record_number, true);
+            }, 1000);	
+        }
+        else
+        {
   
-		window.setTimeout(function()
-		{
-			openTab('./print-version', tabName, section_name, record_number);
-		}, 1000);	
+            window.setTimeout(function()
+            {
+                openTab('./print-version', tabName, section_name, record_number);
+            }, 1000);	
+        }
 		
 	  }
 	}
@@ -2938,8 +2875,6 @@ function is_case_locked(p_case)
 function is_case_checked_out(p_case) 
 {
   let is_checked_out = false;
-
-  let checked_out_html = '';
 
   let current_date = new Date();
 
@@ -3619,26 +3554,31 @@ function update_charts()
         let convertedArray = [];
         let xconvertedArray = [];
 
-        if (p_metadata.y_label && p_metadata.y_label != "") {
+        if (p_metadata.y_label && p_metadata.y_label != "") 
+        {
             var y_labels = p_metadata.y_label.split(",");
             var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
-        else {
-
+        else 
+        {
             var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) {
+            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
 
-        if (p_metadata.x_axis && p_metadata.x_axis != "") {
+        if (p_metadata.x_axis && p_metadata.x_axis != "") 
+        {
             x_columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("]", "").replace("'", "").slice(0, -1).split(",").map(String));
         }
 
-        columns_data.forEach(function (item, index) {
+        columns_data.forEach
+        (function (item, index) {
             var output = {};
 
             if (!item) return;
@@ -3649,7 +3589,8 @@ function update_charts()
 
         });
 
-        x_columns_data.forEach(function (item, index) {
+        x_columns_data.forEach
+        (function (item, index) {
             var output = {};
 
             if (!item) return;
@@ -3662,13 +3603,15 @@ function update_charts()
 
         let xdata;
 
-        Object.values(xconvertedArray).forEach(function (obj, index) {
+        Object.values(xconvertedArray).forEach
+        (function (obj, index) {
             var key = Object.keys(obj)[0];
             var data = [key];
             xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
         });
 
-        Object.values(convertedArray).forEach(function (obj, index)  {
+        Object.values(convertedArray).forEach
+        (function (obj, index)  {
             var key = Object.keys(obj)[0];
             var data = [key];
 
@@ -3685,4 +3628,759 @@ function update_charts()
         });
         item.flush();
     }
+}
+
+
+const independent_autocalc_niosh_set = new Set();
+
+independent_autocalc_niosh_set.add("/death_certificate/demographics/occupation_business_industry");
+independent_autocalc_niosh_set.add("/death_certificate/demographics/primary_occupation");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
+independent_autocalc_niosh_set.add("/social_and_environmental_profile/socio_economic_characteristics/occupation");
+
+const independent_autocalc_gestation_event_set = new Set();
+
+
+independent_autocalc_gestation_event_set.add("/prenatal/other_lab_tests/date_and_time");
+independent_autocalc_gestation_event_set.add("/prenatal.current_pregnancy.date_of_1st_prenatal_visit");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit");
+independent_autocalc_gestation_event_set.add("/prenatal.routine_monitoring.date_and_time");
+independent_autocalc_gestation_event_set.add("/prenatal.diagnostic_procedures.date");
+independent_autocalc_gestation_event_set.add("/prenatal.problems_identified_grid.date_1st_noted");
+independent_autocalc_gestation_event_set.add("/prenatal.medications_and_drugs_during_pregnancy.date");
+independent_autocalc_gestation_event_set.add("/prenatal.pre_delivery_hospitalizations_details.date");
+independent_autocalc_gestation_event_set.add("/prenatal.medical_referrals.date");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_admission");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge");
+independent_autocalc_gestation_event_set.add("/other_medical_office_visits.visit.date_of_medical_office_visit");
+independent_autocalc_gestation_event_set.add("/medical_transport.date_of_transport");
+independent_autocalc_gestation_event_set.add("/medical_transport.transport_vital_signs.date_and_time");
+independent_autocalc_gestation_event_set.add("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening");
+
+
+const independent_autocalc_list = new Set()
+
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/month");
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/day");
+independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/year");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/month");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/day");
+independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/year");
+
+
+const dependent_autocalc_list = new Set();
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit");
+dependent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days");
+dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/routine_monitoring/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/other_lab_tests/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/diagnostic_procedures/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/problems_identified_grid/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/pre_delivery_hospitalizations_details/gestational_age_days");
+dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_weeks");
+dependent_autocalc_list.add("/prenatal/medical_referrals/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks");
+dependent_autocalc_list.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days");
+dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks");
+dependent_autocalc_list.add("/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days");
+dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_weeks");
+dependent_autocalc_list.add("/medical_transport/date_of_transport/gestational_age_days");
+dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_weeks");
+dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestational_days");
+dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks");
+dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days");
+
+
+async function autorecalculate
+(
+    p_independent_variable_mmria_path,
+    p_form_index,
+    p_grid_index
+)
+{
+    if(independent_autocalc_list.has(p_independent_variable_mmria_path))
+    {
+        return await autorecalculate_all_gestation();
+    }
+
+    if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
+    {
+        let ga = [];
+        switch(p_independent_variable_mmria_path)
+        {
+            case "/prenatal/other_lab_tests/date_and_time":
+                ga = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.other_lab_tests.gestational_age_weeks = ga[0];
+                    g_data.prenatal.other_lab_tests.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal.current_pregnancy.date_of_1st_prenatal_visit":
+                ga = autorecalculate_get_event_date("/prenatal.current_pregnancy.date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_weeks = ga[0];
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal/current_pregnancy/date_of_last_prenatal_visit":
+                ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+                }
+
+            break;
+            case "/prenatal.routine_monitoring.date_and_time":
+                ga = autorecalculate_get_event_date("/prenatal.routine_monitoring.date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.routine_monitoring.gestational_age_weeks.gestational_age_weeks = ga[0];
+                    g_data.prenatal.routine_monitoring.gestational_age_weeks.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal.diagnostic_procedures.date":
+                ga = autorecalculate_get_event_date("/prenatal.diagnostic_procedures.date", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.diagnostic_procedures.gestational_age_weeks = ga[0];
+                    g_data.prenatal.diagnostic_procedures.gestational_age_days = ga[1];
+                }
+            
+            break;
+            case "/prenatal.problems_identified_grid.date_1st_noted":
+                ga = autorecalculate_get_event_date("/prenatal.problems_identified_grid.date_1st_noted", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g.data.prenatal.problems_identified_grid.gestational_age_weeks = ga[0];
+                    g.data.prenatal.problems_identified_grid.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal.medications_and_drugs_during_pregnancy.date":
+                ga = autorecalculate_get_event_date("/prenatal.medications_and_drugs_during_pregnancy.date", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.medications_and_drugs_during_pregnancy.gestational_age_weeks = ga[0];
+                    g_data.prenatal.medications_and_drugs_during_pregnancy.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal.pre_delivery_hospitalizations_details.date":
+                ga = autorecalculate_get_event_date("/prenatal.pre_delivery_hospitalizations_details.date", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.pre_delivery_hospitalizations_details.gestational_age_weeks = ga[0];
+                    g_data.prenatal.pre_delivery_hospitalizations_details.gestational_age_days = ga[1];
+                }
+            break;
+            case "/prenatal.medical_referrals.date":
+                ga = autorecalculate_get_event_date("/prenatal.medical_referrals.date", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.prenatal.medical_referrals.gestational_age_weeks = ga[0];
+                    g_data.prenatal.medical_referrals.gestational_age_days = ga[1];
+                }
+            break;
+            case "/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival":
+                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+                }
+            break;
+            case "/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_admission":
+                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+                }
+            break;
+            case "/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge":
+                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+                }
+            break;
+            case "/other_medical_office_visits.visit.date_of_medical_office_visit":
+                
+                ga = autorecalculate_get_event_date("/other_medical_office_visits.visit.date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+                }
+    
+            break;
+            case "/medical_transport.date_of_transport":
+                ga = autorecalculate_get_event_date("/medical_transport.date_of_transport", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = ga[0];
+                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = ga[1];
+                }
+            break;
+            case "/medical_transport.transport_vital_signs.date_and_time":
+                ga = autorecalculate_get_event_date("/medical_transport.transport_vital_signs.date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.medical_transport[p_form_index].transport_vital_signs.gestational_weeks = ga[0];
+                    g_data.medical_transport[p_form_index].transport_vital_signs.gestational_days = ga[1];
+                }
+            break;
+            case "/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening":
+                ga = autorecalculate_get_event_date("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening", is_edd, edd_date, is_lmp, lmp_date)
+                if (ga.length > 1) 
+                {
+                    g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_weeks = ga[0];
+                    g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];              
+                }
+            break;
+        }
+        
+    }
+
+    if(independent_autocalc_niosh_set.has(p_independent_variable_mmria_path))
+    {
+        let niosh_result = {};
+        switch(p_independent_variable_mmria_path)
+        {
+            case "/death_certificate/demographics/occupation_business_industry":
+            case "/death_certificate/demographics/primary_occupation":
+                niosh_result = await get_niosh_codes
+                (
+                    g_data.death_certificate.demographics.primary_occupation,
+                    g_data.death_certificate.demographics.occupation_business_industry
+                )
+
+                if(niosh_result.Industry.length > 0)
+                g_data.death_certificate.demographics.dc_m_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.death_certificate.demographics.dc_m_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.death_certificate.demographics.dc_m_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.death_certificate.demographics.dc_m_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.death_certificate.demographics.dc_m_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.death_certificate.demographics.dc_m_occupation_code_3 = niosh_result.Occupation[2].Code;
+
+
+            break;
+            case "/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry":
+            case "/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation":
+
+
+                niosh_result = await get_niosh_codes
+                (
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.occupation_business_industry,
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.primary_occupation
+                )
+            
+
+                if(niosh_result.Industry.length > 0)             
+                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                niosh_result.g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = niosh_result.Occupation[2].Code;
+
+            break;
+            case "/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry":
+            case "/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation":
+                niosh_result = await get_niosh_codes
+                (
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.occupation_business_industry,
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.primary_occupation
+                )    
+            
+                if(niosh_result.Industry.length > 0)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = niosh_result.Occupation[2].Code;
+
+            break;
+            case "/social_and_environmental_profile/socio_economic_characteristics/occupation":
+                niosh_result = await get_niosh_codes
+                (
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.occupation,
+                    null
+                )
+ 
+
+                if(niosh_result.Industry.length > 0)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.Industry[0].Code;
+                if(niosh_result.Industry.length > 1)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.Industry[1].Code;
+                if(niosh_result.Industry.length > 2)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.Industry[2].Code;
+                if(niosh_result.Occupation.length > 0)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.Occupation[0].Code;
+                if(niosh_result.Occupation.length > 1)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.Occupation[1].Code;
+                if(niosh_result.Occupation.length > 2)
+                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.Occupation[2].Code;
+
+
+            break;
+        }
+    }
+
+}
+
+async function autorecalculate_all_gestation()
+{
+    const edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    const edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    const edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    const lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    const lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    const lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+
+    const edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    const lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+
+    let is_edd = false;
+    let is_lmp = false;
+
+    if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(edd_year, edd_month, edd_day) == true
+    )
+    {
+        is_edd = true;
+
+    }
+    else if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    )
+    {
+        is_lmp = true;
+    }
+    else
+    {
+        return;
+    }
+/*
+
+    is_edd
+    edd_date
+    is_lmp
+    lmp_date
+
+
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var event_date = autorecalculate_get_event_date();
+    const result = new Date(event_year, event_month - 1, event_day);
+
+    ga = $global.calc_ga_edd(event_date, edd_date);
+    ga = $global.calc_ga_lmp(lmp_date, event_date);
+    */
+
+    let ga = [];
+
+    ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.current_pregnancy.date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_weeks = ga[0];
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.routine_monitoring.date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.routine_monitoring.gestational_age_weeks.gestational_age_weeks = ga[0];
+        g_data.prenatal.routine_monitoring.gestational_age_weeks.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.other_lab_tests.gestational_age_weeks = ga[0];
+        g_data.prenatal.other_lab_tests.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.diagnostic_procedures.date", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.diagnostic_procedures.gestational_age_weeks = ga[0];
+        g_data.prenatal.diagnostic_procedures.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.problems_identified_grid.date_1st_noted", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g.data.prenatal.problems_identified_grid.gestational_age_weeks = ga[0];
+        g.data.prenatal.problems_identified_grid.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.medications_and_drugs_during_pregnancy.date", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.medications_and_drugs_during_pregnancy.gestational_age_weeks = ga[0];
+        g_data.prenatal.medications_and_drugs_during_pregnancy.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.pre_delivery_hospitalizations_details.date", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.pre_delivery_hospitalizations_details.gestational_age_weeks = ga[0];
+        g_data.prenatal.pre_delivery_hospitalizations_details.gestational_age_days = ga[1];
+    }
+
+    ga = autorecalculate_get_event_date("/prenatal.medical_referrals.date", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.prenatal.medical_referrals.gestational_age_weeks = ga[0];
+        g_data.prenatal.medical_referrals.gestational_age_days = ga[1];
+    }
+
+    //er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks
+    g_data.er_visit_and_hospital_medical_records.forEach
+    (
+        function (item, index) 
+        {
+            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+            }
+
+            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+            }
+
+            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
+                g_data.er_visit_and_hospital_medical_records[index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+            }
+        }
+    );
+
+    g_data.other_medical_office_visits.forEach
+    (
+        function (item, index) 
+        {
+            ga = autorecalculate_get_event_date("/other_medical_office_visits.visit.date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.other_medical_office_visits[index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+                g_data.other_medical_office_visits[index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+            }
+        }
+    );
+
+    g_data.medical_transport.forEach
+    (
+        function (item, index) 
+        {
+            ga = autorecalculate_get_event_date("/medical_transport.date_of_transport", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.medical_transport[index].date_of_transport.gestational_age_weeks = ga[0];
+                g_data.medical_transport[index].date_of_transport.gestational_age_days = ga[1];
+            }
+
+            ga = autorecalculate_get_event_date("/medical_transport.transport_vital_signs.date_and_time", is_edd, edd_date, is_lmp, lmp_date)
+            if (ga.length > 1) 
+            {
+                g_data.medical_transport[index].transport_vital_signs.gestational_weeks = ga[0];
+                g_data.medical_transport[index].transport_vital_signs.gestational_days = ga[1];
+            }
+        }
+    )
+
+    ga = autorecalculate_get_event_date("/mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_weeks = ga[0];
+        g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];              
+    }
+        
+}
+
+
+
+function autorecalculate_get_event_date
+(
+    p_mmria_path,
+    p_is_edd,
+    p_edd_date,
+    p_is_lmp,
+    p_lmp_date,
+    p_index
+)
+{
+    let result = [];
+
+    let event_date = null;
+
+    switch(p_mmria_path)
+    {
+        
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks":
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit);
+        break;
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit":
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit);
+        break;
+        case "/prenatal/routine_monitoring/gestational_age_weeks":
+        case "/prenatal/routine_monitoring/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.routine_monitoring.date_and_time);
+        break;
+        case "/prenatal/other_lab_tests/gestational_age_weeks":
+        case "/prenatal/other_lab_tests/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.other_lab_tests.date_and_time);
+        break;
+        case "/prenatal/diagnostic_procedures/gestational_age_weeks":
+        case "/prenatal/diagnostic_procedures/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.diagnostic_procedures.date)
+        break;
+        case "/prenatal/problems_identified_grid/gestational_age_weeks":
+        case "/prenatal/problems_identified_grid/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.problems_identified_grid.date_1st_noted)
+        break;
+        case "/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks":
+        case "/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.medications_and_drugs_during_pregnancy.date)
+        break;
+        case "/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks":
+        case "/prenatal/pre_delivery_hospitalizations_details/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.pre_delivery_hospitalizations_details.date)
+        break;
+        case "/prenatal/medical_referrals/gestational_age_weeks":
+        case "/prenatal/medical_referrals/gestational_age_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.prenatal.medical_referrals.date)
+        break;
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_arrival)
+        break;
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_admission)
+        break;
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_index].basic_admission_and_discharge_information.date_of_hospital_discharge)
+        break;
+        case "/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks":
+        case "/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.other_medical_office_visits[p_index].visit.date_of_medical_office_visit)
+        break;
+        case "/medical_transport/date_of_transport/gestational_age_weeks":
+        case "/medical_transport/date_of_transport/gestational_age_days":
+            event_date = autorecalculate_get_event_date_separate(g_data.medical_transport[p_index].date_of_transport)
+        break;
+        case "/medical_transport/transport_vital_signs/gestational_weeks":
+        case "/medical_transport/transport_vital_signs/gestational_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.medical_transport[p_index].transport_vital_signs.date_and_time)
+        break;
+        case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks":
+        case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days":
+            event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
+        break;
+        
+    }
+
+    if(p_is_edd)
+    {
+        ga = $global.calc_ga_edd(event_date, p_edd_date);
+    }
+    else if(p_is_lmp)
+    {
+        ga = $global.calc_ga_lmp(p_lmp_date, event_date);
+    }
+
+    return result;
+}
+
+function autorecalculate_get_event_date_separate(p_value)
+{
+    const event_year = parseInt(p_value.year);
+    const event_month = parseInt(p_value.month);
+    const event_day = parseInt(p_value.day);
+
+    const result = new Date(event_year, event_month - 1, event_day);
+
+
+    return result;
+}
+
+function autorecalculate_get_event_date_combined(p_value)
+{
+    const event_year = parseInt(p_value.year);
+    const event_month = parseInt(p_value.month);
+    const event_day = parseInt(p_value.day);
+
+    const result = new Date(event_year, event_month - 1, event_day);
+
+
+    return result;
+}
+
+
+
+
+/*
+/death_certificate/demographics/occupation_business_industry
+/death_certificate/demographics/primary_occupation
+
+/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
+/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+
+/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry
+/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation
+
+/social_and_environmental_profile/socio_economic_characteristics/occupation
+
+*/
+
+const niosh_autocalc_set = new Set();
+
+/*
+
+ Industry and Occupation Code 1-3
+
+NIOSH Industry and Occupation Computerized Coding System (NIOCCS)
+ - Mother’s Occupation Code #1 on SEP. 
+ See (external link) 
+ https://csams.cdc.gov/nioccs/HelpWebService.aspx and 
+ https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.
+*/
+
+
+//death_certificate/demographics/occupation_business_industry
+//death_certificate/demographics/primary_occupation
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_1");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_2");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_industry_code_3");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_1");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_2");
+niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3");
+
+//birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
+//birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3");
+
+//birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry
+//birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation
+
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2");
+niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3");
+
+//social_and_environmental_profile/socio_economic_characteristics/occupation
+
+
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2");
+niosh_autocalc_set.add("/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3");
+
+
+async function get_niosh_codes(p_occupation, p_industry)
+{
+    let result = { Industry:[], Occupation:[] };
+    const builder = [ "https://wwwn.cdc.gov/nioccs/IOCode.ashx?n=3" ];
+    let has_occupation = false;
+    let has_industry = false;
+
+    if(p_occupation && p_occupation.length > 0)
+    {
+        has_occupation = true;
+        builder.push("&o=${p_occupation}");
+    }
+
+    if(p_industry && p_industry.length > 0)
+    {
+        has_industry = true;
+        builder.push("&i=${p_industry}");
+    }
+
+    if(has_occupation || has_industry)
+    {
+        const niosh_url = builder.join("");
+
+        try
+        {
+            result = await $.ajax
+            ({
+                url: niosh_url,
+            });
+        }
+        catch(e)
+        {
+            // do nothing for now
+        }
+    }
+    //{"Industry": [{"Code": "611110","Title": "Elementary and Secondary Schools","Probability": "9.999934E-001"},{"Code": "611310","Title": "Colleges, Universities, and Professional Schools","Probability": "2.598214E-006"},{"Code": "009990","Title": "Insufficient information","Probability": "2.312557E-006"}],"Occupation": [{"Code": "00-9900","Title": "Insufficient Information","Probability": "9.999897E-001"},{"Code": "11-9032","Title": "Education Administrators, Elementary and Secondary School","Probability": "6.550550E-006"},{"Code": "53-3022","Title": "Bus Drivers, School or Special Client","Probability": "4.932875E-007"}],"Scheme": "NAICS 2012 and SOC 2010"}
+    return result;
+
 }

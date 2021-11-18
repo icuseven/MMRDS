@@ -1287,7 +1287,7 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 }
 
 
-function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control_value)
+async function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control_value)
 {
 
     //p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx
@@ -1366,7 +1366,7 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
     }
     else
     {}*/
-        g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_control_value);
+        await g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_control_value);
     
 
 
@@ -1375,7 +1375,7 @@ function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary
     // other specify - end
 }
 
-function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_path,  p_dictionary_path, p_data)
+async function list_checkbox_mutually_exclusive_input_click(p_object_path, p_metadata_path,  p_dictionary_path, p_data)
 {   
     let metadata = eval(p_metadata_path);
     let current_data_array = eval(p_object_path);
@@ -1523,7 +1523,7 @@ for(let i = 0; i < other_specify_list_key.length; i++)
     }
     else
     {
-        g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path, p_data);
+        await g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path, p_data);
         if(onclick_function.length > 0)
         {
             eval(onclick_function);
@@ -1545,10 +1545,10 @@ for(let i = 0; i < other_specify_list_key.length; i++)
 
 }
 
-function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
+async function set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictionary_path, p_data)
 {
     eval(p_object_path + "=[];");
-    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    await g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
     $mmria.confirm_dialog_confirm_close();
 
     let p_metadata = eval(p_metadata_path);
@@ -1613,7 +1613,7 @@ function cancel_set_to_mutually_exclusive(p_object_path,p_metadata_path,p_dictio
 }
 
 
-function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_other_specify_dictionary_path, p_data)
+async function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_other_specify_dictionary_path, p_data)
 {
 
     eval(p_other_specify_object_path + " = '';");
@@ -1621,7 +1621,7 @@ function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_dictio
     $mmria.set_control_value(p_other_specify_dictionary_path, "");
     $mmria.set_control_visibility(convert_object_path_to_jquery_id(p_other_specify_object_path), "none");
     $mmria.confirm_dialog_confirm_close();
-    g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
+    await g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_data);
 
     let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
     let click_code = [];

@@ -13,6 +13,8 @@
   var is_installation_admin = false;
   var is_jurisdiction_admin = false;
   var is_data_analyst = false;
+  var is_steve_mmria = false;
+  var is_steve_prams = false;
 
   ViewBag.Sidebar = false;
   
@@ -68,6 +70,16 @@
           break;          
         case "cdc_admin":
             is_cdc_admin = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+        case "steve_mmria":
+            is_steve_mmria = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+        case "steve_prams":
+            is_steve_prams = true;
             is_authenticated = true;
             is_guest = false;
             break;
@@ -207,6 +219,32 @@ else
             <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
             <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
             
+          </ul>
+        </div>
+      </li>
+    }
+
+    
+    @if(is_steve_mmria)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">STEVE - MMRIA</h4></div>
+        <div class="card-body">
+          <ul>
+            <li> <a href="/steveMMRIA">Download MMRIA data from STEVE</a></li>
+          </ul>
+        </div>
+      </li>
+    }
+
+    
+    @if(is_steve_prams)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">STEVE - PRAMS</h4></div>
+        <div class="card-body">
+          <ul>
+            <li> <a href="/stevePRAMS">Download PRAMS data from STEVE</a></li>
           </ul>
         </div>
       </li>

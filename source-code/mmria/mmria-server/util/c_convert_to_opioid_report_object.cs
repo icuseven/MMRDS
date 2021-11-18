@@ -554,6 +554,11 @@ mDeathbyRace  MDeathbyRace17 17
 		
 			this.popluate_mSubstAutop(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
+            this.popluate_mUndCofDeath(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+            this.popluate_mDeathPrevent(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);	
+            this.popluate_mOMBRaceRcd(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+            this.popluate_mDeathbyRace(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+
 			foreach(var indicator_item in this.indicators)
 			{
 				report_object.data.Add(indicator_item.Value);
