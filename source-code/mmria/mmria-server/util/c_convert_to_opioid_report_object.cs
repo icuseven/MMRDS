@@ -5073,7 +5073,7 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
             var birth_fetal_death_certificate_parent_race_race_of_mother = -1;
             var death_certificate_race_race = -1;
 
-            dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+            dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
             
             if(dynamic_val != null)
             {
@@ -5081,7 +5081,7 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
             }
 
-            dynamic_val = get_value(p_source_object, "death_certificate/race/race");
+            dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode");
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
