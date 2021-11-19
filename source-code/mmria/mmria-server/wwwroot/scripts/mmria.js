@@ -460,7 +460,13 @@ var $mmria = function()
                 p_value != ""
             )
             {
-                if(p_value instanceof Date && !isNaN(p_value.valueOf()))
+                if
+                (
+                    p_value instanceof Date && 
+                    !isNaN(p_value.valueOf()) &&
+                    p_value.getFullYear() >= 1900 &&
+                    p_value.getFullYear() <= 2100
+                )
                 {
                     result = `Q${Math.floor((p_value.getMonth() / 3) + 1)}-${p_value.getFullYear()}`;
                 }
@@ -468,7 +474,13 @@ var $mmria = function()
                 {
                     let date = new Date(p_value);
                  
-                    if(date instanceof Date && !isNaN(date.valueOf()))
+                    if
+                    (
+                        date instanceof Date && 
+                        !isNaN(date.valueOf())
+                        && p_value.getFullYear() >= 1900 &&
+                        p_value.getFullYear() <= 2100
+                    )
                     {
                         result = `Q${Math.floor((date.getMonth() / 3) + 1)}-${date.getFullYear()}`;
                     }
