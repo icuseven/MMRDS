@@ -478,8 +478,8 @@ var $mmria = function()
                     (
                         date instanceof Date && 
                         !isNaN(date.valueOf())
-                        && p_value.getFullYear() >= 1900 &&
-                        p_value.getFullYear() <= 2100
+                        && date.getFullYear() >= 1900 &&
+                        date.getFullYear() <= 2100
                     )
                     {
                         result = `Q${Math.floor((date.getMonth() / 3) + 1)}-${date.getFullYear()}`;
