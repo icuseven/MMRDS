@@ -4391,13 +4391,13 @@ async function get_niosh_codes(p_occupation, p_industry)
     if(p_occupation && p_occupation.length > 0)
     {
         has_occupation = true;
-        builder.push("&o=${p_occupation}");
+        builder.push(`&o=${p_occupation}`);
     }
 
     if(p_industry && p_industry.length > 0)
     {
         has_industry = true;
-        builder.push("&i=${p_industry}");
+        builder.push(`&i=${p_industry}`);
     }
 
     if(has_occupation || has_industry)
