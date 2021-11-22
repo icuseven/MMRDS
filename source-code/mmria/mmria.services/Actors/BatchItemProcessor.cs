@@ -11555,33 +11555,11 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
 
 
 
-        public class NioshResultItem
+
+
+        mmria.common.niosh.NioshResult get_niosh_codes(string p_occupation, string p_industry)
         {
-            public NioshResultItem(){}
-
-            public string Code { get;set; }
-            public string Title { get;set; }
-            public string Probability { get;set; }
-        }
-        public class NioshResult
-        {
-            public NioshResult()
-            {
-                this.Industry = new();
-                this.Occupation = new();
-            }
-
-            public List<NioshResultItem> Industry { get;set; }
-            public List<NioshResultItem> Occupation { get;set; }
-
-            public string Scheme {get;set;}
-
-            public bool is_error {get;set;} = false;
-        }
-
-        NioshResult get_niosh_codes(string p_occupation, string p_industry)
-        {
-            var result = new NioshResult();
+            var result = new mmria.common.niosh.NioshResult();
             var builder = new StringBuilder();
             builder.Append("https://wwwn.cdc.gov/nioccs/IOCode.ashx?n=3");
             var has_occupation = false;
@@ -11612,7 +11590,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
                 {
                     string responseFromServer = niosh_curl.execute();
 
-                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<NioshResult>(responseFromServer);
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.niosh.NioshResult>(responseFromServer);
                 }
                 catch
                 {
