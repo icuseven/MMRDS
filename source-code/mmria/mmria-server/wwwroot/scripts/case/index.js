@@ -4561,15 +4561,19 @@ function arc_er_hosp_bmi(p_form_index)
 path=birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain
 event=onfocus
 */
-function weight_gain(p_control) 
+
+autocalc_map.set("/birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery", arc_weight_gain );
+autocalc_map.set("/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_weight_gain );
+
+function arc_weight_gain() 
 {
-    var weight_del = parseFloat(this.weight_at_delivery);
-    var weight_pp = parseFloat(this.pre_pregnancy_weight);
+    var weight_del = parseFloat(g_data.birth_fetal_death_certificate_parent.maternal_biometrics.weight_at_delivery);
+    var weight_pp = parseFloat(g_data.birth_fetal_death_certificate_parent.maternal_biometrics.pre_pregnancy_weight);
     if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) 
     {
         var gain = weight_del - weight_pp;
-        this.weight_gain = gain;
-        p_control.value = this.weight_gain;
+        g_data.birth_fetal_death_certificate_parent.maternal_biometrics.weight_gain = gain;
+
     }
 }
 //CALCULATE WEIGHT GAIN DURING PREGNANCY ) ON PC
@@ -4577,14 +4581,19 @@ function weight_gain(p_control)
 path=prenatal/current_pregnancy/weight_gain
 event=onfocus
 */
-function weight_gain(p_control) {
-    var weight_del = parseFloat(this.weight_at_last_visit);
-    var weight_pp = parseFloat(this.pre_pregnancy_weight);
+
+autocalc_map.set("/prenatal/current_pregnancy/weight_at_last_visit", arc_weight_gain);
+autocalc_map.set("/prenatal/current_pregnancy/pre_pregnancy_weight", arc_weight_gain);
+
+function arc_weight_gain() 
+{
+    var weight_del = parseFloat(g_data.prenatal.current_pregnancy.weight_at_last_visit);
+    var weight_pp = parseFloat(g_data.prenatal.current_pregnancy.pre_pregnancy_weight);
     if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) 
     {
         var gain = weight_del - weight_pp;
-        this.weight_gain = gain;
-        p_control.value = this.weight_gain;
+        g_data.prenatal.current_pregnancy.weight_gain = gain;
+
     }
 }
 //CALCULATE INTER-BIRTH INTERVAL IN MONTHS ON BC
