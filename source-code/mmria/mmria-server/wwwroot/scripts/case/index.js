@@ -4441,6 +4441,11 @@ const autocalc_map = new Map([
     [ "/birth_fetal_death_certificate_parent/maternal_biometrics/height_feet", arc_prepregnancy_bmi],
     [ "/birth_fetal_death_certificate_parent/maternal_biometrics/height_inches", arc_prepregnancy_bmi],
     [ "/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_prepregnancy_bmi],
+
+    [ "/autopsy_report.biometrics/mother/height.feet", arc_autopsy_bmi ],
+    [ "/autopsy_report.biometrics/mother/height.inches", arc_autopsy_bmi ],
+    [ "/autopsy_report.biometrics/mother/weight", arc_autopsy_bmi ],
+
 ]
 );
 
@@ -4478,18 +4483,21 @@ function arc_prepregnancy_bmi()
 /*
 path=autopsy_report/biometrics/mother/bmi
 event=onfocus
+
+
+
 */
-function autopsy_bmi(p_control) 
+function arc_autopsy_bmi() 
 {
     var bmi = null;
-    var height_feet = parseFloat(this.height.feet);
-    var height_inches = parseFloat(this.height.inches);
-    var weight = parseFloat(this.weight);
+    var height_feet = parseFloat(g_data.autopsy_report.biometrics.mother.height.feet);
+    var height_inches = parseFloat(g_data.autopsy_report.biometrics.mother.height.inches);
+    var weight = parseFloat(g_data.autopsy_report.biometrics.mother.weight);
     var height = height_feet * 12 + height_inches;
     if (height > 24 && height < 108 && weight > 50 && weight < 800) 
     {
         var bmi = $global.calc_bmi(height, weight);
-        this.bmi = bmi;
+        g_data.autopsy_report.biometrics.mother.bmi = bmi;
         p_control.value = this.bmi;
     }
 }
