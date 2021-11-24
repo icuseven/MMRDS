@@ -3719,6 +3719,11 @@ async function autorecalculate
         return await autorecalculate_all_gestation();
     }
 
+    if(autocalc_map.has(p_independent_variable_mmria_path))
+    {
+        return autocalc_map.get(p_independent_variable_mmria_path)();
+    }
+
     if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
     {
 
@@ -4429,23 +4434,44 @@ async function get_niosh_codes(p_occupation, p_industry)
 
 }
 
+
+
+
+const autocalc_map = new Map([
+    [ "/birth_fetal_death_certificate_parent/maternal_biometrics/height_feet", arc_prepregnancy_bmi],
+    [ "/birth_fetal_death_certificate_parent/maternal_biometrics/height_inches", arc_prepregnancy_bmi],
+    [ "/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_prepregnancy_bmi],
+]
+);
+
+//autocalc_map.
 //$calc_bmi(p_height, p_weight) 
 
 //CALCULATE PRE-PREGNANCY BMI ON BC
 /*
 path=birth_fetal_death_certificate_parent/maternal_biometrics/bmi
 event=onfocus
+
+birth_fetal_death_certificate_parent/maternal_biometrics/bmi
+birth_fetal_death_certificate_parent/maternal_biometrics/height_feet
+birth_fetal_death_certificate_parent/maternal_biometrics/height_inches
+birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight
+
+
+
 */
-function prepregnancy_bmi(p_control) {
+function arc_prepregnancy_bmi() 
+{
     var bmi = null;
-    var height_feet = parseFloat(this.height_feet);
-    var height_inches = parseFloat(this.height_inches);
-    var weight = parseFloat(this.pre_pregnancy_weight);
+    var height_feet = parseFloat(g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_feet);
+    var height_inches = parseFloat(g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_inches);
+    var weight = parseFloat(g_data.birth_fetal_death_certificate_parent.maternal_biometrics.pre_pregnancy_weight);
     var height = height_feet * 12 + height_inches;
-    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
         var bmi = $global.calc_bmi(height, weight);
-        this.bmi = bmi;
-        p_control.value = this.bmi;
+        g_data.birth_fetal_death_certificate_parent.maternal_biometrics.bmi = bmi;
+        
     }
 }
 //CALCULATE BMI FOR AUTOPSY
@@ -4453,13 +4479,15 @@ function prepregnancy_bmi(p_control) {
 path=autopsy_report/biometrics/mother/bmi
 event=onfocus
 */
-function autopsy_bmi(p_control) {
+function autopsy_bmi(p_control) 
+{
     var bmi = null;
     var height_feet = parseFloat(this.height.feet);
     var height_inches = parseFloat(this.height.inches);
     var weight = parseFloat(this.weight);
     var height = height_feet * 12 + height_inches;
-    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
         var bmi = $global.calc_bmi(height, weight);
         this.bmi = bmi;
         p_control.value = this.bmi;
@@ -4470,13 +4498,15 @@ function autopsy_bmi(p_control) {
 path=prenatal/current_pregnancy/bmi
 event=onfocus
 */
-function prenatal_bmi(p_control) {
+function prenatal_bmi(p_control) 
+{
     var bmi = null;
     var height_feet = parseFloat(this.height.feet);
     var height_inches = parseFloat(this.height.inches);
     var weight = parseFloat(this.pre_pregnancy_weight);
     var height = height_feet * 12 + height_inches;
-    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
         var bmi = $global.calc_bmi(height, weight);
         this.bmi = bmi;
         p_control.value = this.bmi;
@@ -4487,14 +4517,16 @@ function prenatal_bmi(p_control) {
 path=er_visit_and_hospital_medical_records/maternal_biometrics/height/bmi
 event=onfocus
 */
-function er_hosp_bmi(p_control) {
+function er_hosp_bmi(p_control) 
+{
     var bmi = null;
     var height_feet = parseFloat(this.feet);
     var height_inches = parseFloat(this.inches);
     var current_er_index = $global.get_current_multiform_index();
     var weight = parseFloat(g_data.er_visit_and_hospital_medical_records[current_er_index].maternal_biometrics.admission_weight);
     var height = height_feet * 12 + height_inches;
-    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
         var bmi = $global.calc_bmi(height, weight);
         this.bmi = bmi;
         p_control.value = this.bmi;
@@ -4507,10 +4539,12 @@ function er_hosp_bmi(p_control) {
 path=birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain
 event=onfocus
 */
-function weight_gain(p_control) {
+function weight_gain(p_control) 
+{
     var weight_del = parseFloat(this.weight_at_delivery);
     var weight_pp = parseFloat(this.pre_pregnancy_weight);
-    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) {
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) 
+    {
         var gain = weight_del - weight_pp;
         this.weight_gain = gain;
         p_control.value = this.weight_gain;
@@ -4524,7 +4558,8 @@ event=onfocus
 function weight_gain(p_control) {
     var weight_del = parseFloat(this.weight_at_last_visit);
     var weight_pp = parseFloat(this.pre_pregnancy_weight);
-    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) {
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) 
+    {
         var gain = weight_del - weight_pp;
         this.weight_gain = gain;
         p_control.value = this.weight_gain;
@@ -4535,7 +4570,8 @@ function weight_gain(p_control) {
 path=birth_fetal_death_certificate_parent/pregnancy_history/live_birth_interval
 event=onfocus
 */
-function birth_interval(p_control) {
+function birth_interval(p_control) 
+{
     var interval = null;
     var start_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year);
     var start_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month);
@@ -4543,7 +4579,8 @@ function birth_interval(p_control) {
     var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) 
+    {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var event_date = new Date(event_year, event_month - 1, event_day);
         interval = Math.trunc($global.calc_days(start_date, event_date) / 30.4375);
@@ -4556,7 +4593,8 @@ function birth_interval(p_control) {
 path=birth_fetal_death_certificate_parent/pregnancy_history/pregnancy_interval
 event=onfocus
 */
-function pregnancy_interval(p_control) {
+function pregnancy_interval(p_control) 
+{
     var interval = null;
     var fd_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.year);
     var fd_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.month);
@@ -4567,13 +4605,16 @@ function pregnancy_interval(p_control) {
     var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    if ($global.isValidDate(fd_year, fd_month, fd_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+    if ($global.isValidDate(fd_year, fd_month, fd_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) 
+    {
         var fd_date = new Date(fd_year, fd_month - 1, fd_day);
         var event_date = new Date(event_year, event_month - 1, event_day);
         interval = Math.trunc($global.calc_days(fd_date, event_date) / 30.4375);
         this.pregnancy_interval = interval;
         p_control.value = this.pregnancy_interval;
-    } else if ($global.isValidDate(lb_year, lb_month, lb_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+    } 
+    else if ($global.isValidDate(lb_year, lb_month, lb_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) 
+    {
         var lb_date = new Date(lb_year, lb_month - 1, lb_day);
         var event_date = new Date(event_year, event_month - 1, event_day);
         interval = Math.trunc($global.calc_days(lb_date, end_date) / 30.4375);
@@ -4588,7 +4629,8 @@ function pregnancy_interval(p_control) {
 path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
 event=onclick
 */
-function birth_2_death(p_control) {
+function birth_2_death(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -4596,7 +4638,8 @@ function birth_2_death(p_control) {
     var end_year = parseInt(g_data.home_record.date_of_death.year);
     var end_month = parseInt(g_data.home_record.date_of_death.month);
     var end_day = parseInt(g_data.home_record.date_of_death.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) 
+    {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
@@ -4611,7 +4654,8 @@ function birth_2_death(p_control) {
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum
 event=onfocus
 */
-function eha_days_postpartum(p_control) {
+function eha_days_postpartum(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -4621,7 +4665,8 @@ function eha_days_postpartum(p_control) {
     var end_day = parseInt(this.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -4632,7 +4677,8 @@ function eha_days_postpartum(p_control) {
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum
 event=onfocus
 */
-function eha_days_postpartum(p_control) {
+function eha_days_postpartum(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -4642,7 +4688,8 @@ function eha_days_postpartum(p_control) {
     var end_day = parseInt(this.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -4664,7 +4711,8 @@ function ehd_days_postpartum(p_control)
     var end_day = parseInt(this.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -4675,7 +4723,8 @@ function ehd_days_postpartum(p_control)
 path=other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum
 event=onfocus
 */
-function ehd_days_postpartum(p_control) {
+function ehd_days_postpartum(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -4685,7 +4734,8 @@ function ehd_days_postpartum(p_control) {
     var end_day = parseInt(this.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -4696,7 +4746,8 @@ function ehd_days_postpartum(p_control) {
 path=medical_transport/date_of_transport/days_postpartum
 event=onfocus
 */
-function mt_days_postpartum(p_control) {
+function mt_days_postpartum(p_control) 
+{
     var days = null;
     var end_year = parseInt(this.year);
     var end_month = parseInt(this.month);
@@ -4706,7 +4757,8 @@ function mt_days_postpartum(p_control) {
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -4717,18 +4769,24 @@ function mt_days_postpartum(p_control) {
 path=mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
 event=onfocus
 */
-function mh_days_postpartum(p_control) {
+function mh_days_postpartum(p_control) 
+{
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && this.date_of_screening != null && this.date_of_screening != '') {
-        if (this.date instanceof Date && start_date <= this.date_of_screening) {
+    if ($global.isValidDate(start_year, start_month, start_day) == true && this.date_of_screening != null && this.date_of_screening != '') 
+    {
+        if (this.date instanceof Date && start_date <= this.date_of_screening) 
+        {
             days = $global.calc_days(start_date, this.date_of_screening);
-        } else {
+        } 
+        else 
+        {
             var end_date = new Date(this.date_of_screening);
-            if (start_date <= end_date) {
+            if (start_date <= end_date) 
+            {
                 days = $global.calc_days(start_date, end_date);
             }
         }
