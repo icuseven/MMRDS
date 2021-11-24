@@ -4428,3 +4428,433 @@ async function get_niosh_codes(p_occupation, p_industry)
     return result;
 
 }
+
+//$calc_bmi(p_height, p_weight) 
+
+//CALCULATE PRE-PREGNANCY BMI ON BC
+/*
+path=birth_fetal_death_certificate_parent/maternal_biometrics/bmi
+event=onfocus
+*/
+function prepregnancy_bmi(p_control) {
+    var bmi = null;
+    var height_feet = parseFloat(this.height_feet);
+    var height_inches = parseFloat(this.height_inches);
+    var weight = parseFloat(this.pre_pregnancy_weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+        var bmi = $global.calc_bmi(height, weight);
+        this.bmi = bmi;
+        p_control.value = this.bmi;
+    }
+}
+//CALCULATE BMI FOR AUTOPSY
+/*
+path=autopsy_report/biometrics/mother/bmi
+event=onfocus
+*/
+function autopsy_bmi(p_control) {
+    var bmi = null;
+    var height_feet = parseFloat(this.height.feet);
+    var height_inches = parseFloat(this.height.inches);
+    var weight = parseFloat(this.weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+        var bmi = $global.calc_bmi(height, weight);
+        this.bmi = bmi;
+        p_control.value = this.bmi;
+    }
+}
+//CALCULATE BMI FOR PRENATAL CARE RECORD
+/*
+path=prenatal/current_pregnancy/bmi
+event=onfocus
+*/
+function prenatal_bmi(p_control) {
+    var bmi = null;
+    var height_feet = parseFloat(this.height.feet);
+    var height_inches = parseFloat(this.height.inches);
+    var weight = parseFloat(this.pre_pregnancy_weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+        var bmi = $global.calc_bmi(height, weight);
+        this.bmi = bmi;
+        p_control.value = this.bmi;
+    }
+}
+//CALCULATE BMI FOR ER VISIT OR HOSPITALIZATION MEDICAL RECORD
+/*
+path=er_visit_and_hospital_medical_records/maternal_biometrics/height/bmi
+event=onfocus
+*/
+function er_hosp_bmi(p_control) {
+    var bmi = null;
+    var height_feet = parseFloat(this.feet);
+    var height_inches = parseFloat(this.inches);
+    var current_er_index = $global.get_current_multiform_index();
+    var weight = parseFloat(g_data.er_visit_and_hospital_medical_records[current_er_index].maternal_biometrics.admission_weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+        var bmi = $global.calc_bmi(height, weight);
+        this.bmi = bmi;
+        p_control.value = this.bmi;
+    }
+}
+
+
+//CALCULATE WEIGHT GAIN DURING PREGNANCY ON BC
+/*
+path=birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain
+event=onfocus
+*/
+function weight_gain(p_control) {
+    var weight_del = parseFloat(this.weight_at_delivery);
+    var weight_pp = parseFloat(this.pre_pregnancy_weight);
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) {
+        var gain = weight_del - weight_pp;
+        this.weight_gain = gain;
+        p_control.value = this.weight_gain;
+    }
+}
+//CALCULATE WEIGHT GAIN DURING PREGNANCY ) ON PC
+/*
+path=prenatal/current_pregnancy/weight_gain
+event=onfocus
+*/
+function weight_gain(p_control) {
+    var weight_del = parseFloat(this.weight_at_last_visit);
+    var weight_pp = parseFloat(this.pre_pregnancy_weight);
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) {
+        var gain = weight_del - weight_pp;
+        this.weight_gain = gain;
+        p_control.value = this.weight_gain;
+    }
+}
+//CALCULATE INTER-BIRTH INTERVAL IN MONTHS ON BC
+/*
+path=birth_fetal_death_certificate_parent/pregnancy_history/live_birth_interval
+event=onfocus
+*/
+function birth_interval(p_control) {
+    var interval = null;
+    var start_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year);
+    var start_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month);
+    var start_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day);
+    var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(start_date, event_date) / 30.4375);
+        this.live_birth_interval = interval;
+        p_control.value = this.live_birth_interval;
+    }
+}
+//CALCULATE INTER-PREGNANCY INTERVAL IN MONTHS ON BC
+/*
+path=birth_fetal_death_certificate_parent/pregnancy_history/pregnancy_interval
+event=onfocus
+*/
+function pregnancy_interval(p_control) {
+    var interval = null;
+    var fd_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.year);
+    var fd_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.month);
+    var fd_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.day);
+    var lb_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year);
+    var lb_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month);
+    var lb_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day);
+    var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(fd_year, fd_month, fd_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var fd_date = new Date(fd_year, fd_month - 1, fd_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(fd_date, event_date) / 30.4375);
+        this.pregnancy_interval = interval;
+        p_control.value = this.pregnancy_interval;
+    } else if ($global.isValidDate(lb_year, lb_month, lb_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var lb_date = new Date(lb_year, lb_month - 1, lb_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(lb_date, end_date) / 30.4375);
+        this.pregnancy_interval = interval;
+        p_control.value = this.pregnancy_interval;
+    }
+}
+
+
+//CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
+/*
+path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
+event=onclick
+*/
+function birth_2_death(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var days = $global.calc_days(start_date, end_date);
+        this.length_between_child_birth_and_death_of_mother = days;
+        $mmria.save_current_record();
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
+    }
+}
+
+//CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ARRIVAL
+/*
+path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum
+event=onfocus
+*/
+function eha_days_postpartum(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(this.year);
+    var end_month = parseInt(this.month);
+    var end_day = parseInt(this.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+        days = $global.calc_days(start_date, end_date);
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+//CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ADMISSION
+/*
+path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum
+event=onfocus
+*/
+function eha_days_postpartum(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(this.year);
+    var end_month = parseInt(this.month);
+    var end_day = parseInt(this.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+        days = $global.calc_days(start_date, end_date);
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+//CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT DISCHARGE
+/*
+path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/days_postpartum
+event=onfocus
+*/
+function ehd_days_postpartum(p_control) 
+{
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(this.year);
+    var end_month = parseInt(this.month);
+    var end_day = parseInt(this.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+        days = $global.calc_days(start_date, end_date);
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+//CALCULATE DAYS POST-PARTUM ON OFFICE VISIT FORM
+/*
+path=other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum
+event=onfocus
+*/
+function ehd_days_postpartum(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(this.year);
+    var end_month = parseInt(this.month);
+    var end_day = parseInt(this.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+        days = $global.calc_days(start_date, end_date);
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+//CALCULATE DAYS POST-PARTUM IN MEDICAL TRANSPORT FORM 
+/*
+path=medical_transport/date_of_transport/days_postpartum
+event=onfocus
+*/
+function mt_days_postpartum(p_control) {
+    var days = null;
+    var end_year = parseInt(this.year);
+    var end_month = parseInt(this.month);
+    var end_day = parseInt(this.day);
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
+        days = $global.calc_days(start_date, end_date);
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+//CALCULATE DAYS POST-PARTUM IN MENTAL HEALTH FORM IN MENTAL HEALTH CONDITIONS GRID
+/*
+path=mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+event=onfocus
+*/
+function mh_days_postpartum(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var start_date = new Date(start_year, start_month - 1, start_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && this.date_of_screening != null && this.date_of_screening != '') {
+        if (this.date instanceof Date && start_date <= this.date_of_screening) {
+            days = $global.calc_days(start_date, this.date_of_screening);
+        } else {
+            var end_date = new Date(this.date_of_screening);
+            if (start_date <= end_date) {
+                days = $global.calc_days(start_date, end_date);
+            }
+        }
+        this.days_postpartum = days;
+        p_control.value = this.days_postpartum;
+    }
+}
+
+//CALCULATE TIME BETWEEN ONSET OF LABOR AND ARRIVAL AT HOSPITAL
+/*
+path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival
+event=onclick
+*/
+function duration_of_labor(p_control)
+{
+    var hours = null;
+    var current_dol_index = $global.get_current_multiform_index();
+    var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.year);
+    var onset_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.month);
+    var onset_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.day);
+	
+	var onset_time = null;
+    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor instanceof Date) 
+	{
+		onset_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor;
+    }
+	else
+	{
+        onset_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor);
+    }
+	
+    var arrival_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.year);
+    var arrival_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.month);
+    var arrival_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.day);
+	
+	var arrival_time = null;
+    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival instanceof Date) 
+	{
+        arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
+    } 
+	else 
+	{
+        arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
+    }
+    if ($global.isValidDate(onset_year, onset_month, onset_day) == true && $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != null) && (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)) {
+        var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
+        var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
+        var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
+        if (hours > 1) 
+        {
+            g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = hours;
+            $mmria.save_current_record();
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival);
+        }
+    }
+}
+
+
+
+// OMB RACE RECODE FOR CASE ON DC FORM
+/*
+path=death_certificate/race/race
+event=onclick
+*/
+function omb_race_recode_dc(p_control) 
+{
+    var race_recode = null;
+    var race = this.race;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+}
+
+
+// OMB RACE RECODE FOR MOM ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/race/race_of_mother
+event=onclick
+*/
+function omb_mrace_recode_bc(p_control) 
+{
+    var race_recode = null;
+    var race = this.race_of_mother;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
+}
+// OMB RACE RECODE FOR DAD ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
+event=onclick
+*/
+function omb_frace_recode_bc(p_control) 
+{
+    var race_recode = null;
+    var race = this.race_of_father;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
+}
+
+
+
+/*
+path=medical_transport/destination_information/address/calculated_distance
+event=onclick
+*/
+function medical_transport_destination_information_address_calculated_distance(p_control) 
+{
+    let dist = null;
+    var current_mt_index = $global.get_current_multiform_index();
+    let res_lat = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.latitude);
+    let res_lon = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.longitude);
+    let hos_lat = parseFloat(this.latitude);
+    let hos_lon = parseFloat(this.longitude);
+    if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) 
+    {
+        dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+        this.estimated_distance = dist;
+        $mmria.save_current_record();
+        $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_distance);
+    }
+}
+
+
+
