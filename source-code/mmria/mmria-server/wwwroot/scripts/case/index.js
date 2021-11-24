@@ -3721,7 +3721,7 @@ async function autorecalculate
 
     if(autocalc_map.has(p_independent_variable_mmria_path))
     {
-        return autocalc_map.get(p_independent_variable_mmria_path)();
+        return autocalc_map.get(p_independent_variable_mmria_path)(p_form_index);
     }
 
     if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
@@ -4442,14 +4442,22 @@ const autocalc_map = new Map([
     [ "/birth_fetal_death_certificate_parent/maternal_biometrics/height_inches", arc_prepregnancy_bmi],
     [ "/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_prepregnancy_bmi],
 
-    [ "/autopsy_report.biometrics/mother/height.feet", arc_autopsy_bmi ],
-    [ "/autopsy_report.biometrics/mother/height.inches", arc_autopsy_bmi ],
+    [ "/autopsy_report.biometrics/mother/height/feet", arc_autopsy_bmi ],
+    [ "/autopsy_report.biometrics/mother/height/inches", arc_autopsy_bmi ],
     [ "/autopsy_report.biometrics/mother/weight", arc_autopsy_bmi ],
 
+    [ "/prenatal/current_pregnancy/height/feet", arc_prenatal_bmi ],
+    [ "/prenatal/current_pregnancy/height/inches", arc_prenatal_bmi ],
+    [ "/prenatal/current_pregnancy/pre_pregnancy_weight", arc_prenatal_bmi ],
+    
+    [ "/er_visit_and_hospital_medical_records/maternal_biometrics/height/feet", arc_er_hosp_bmi ],
+    [ "/er_visit_and_hospital_medical_records/maternal_biometrics/height/inches", arc_er_hosp_bmi ],
+    [ "/er_visit_and_hospital_medical_records/maternal_biometrics/admission_weight", arc_er_hosp_bmi ],
+    
 ]
 );
 
-//autocalc_map.
+
 //$calc_bmi(p_height, p_weight) 
 
 //CALCULATE PRE-PREGNANCY BMI ON BC
@@ -4461,9 +4469,6 @@ birth_fetal_death_certificate_parent/maternal_biometrics/bmi
 birth_fetal_death_certificate_parent/maternal_biometrics/height_feet
 birth_fetal_death_certificate_parent/maternal_biometrics/height_inches
 birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight
-
-
-
 */
 function arc_prepregnancy_bmi() 
 {
@@ -4483,9 +4488,6 @@ function arc_prepregnancy_bmi()
 /*
 path=autopsy_report/biometrics/mother/bmi
 event=onfocus
-
-
-
 */
 function arc_autopsy_bmi() 
 {
@@ -4498,46 +4500,58 @@ function arc_autopsy_bmi()
     {
         var bmi = $global.calc_bmi(height, weight);
         g_data.autopsy_report.biometrics.mother.bmi = bmi;
-        p_control.value = this.bmi;
     }
 }
 //CALCULATE BMI FOR PRENATAL CARE RECORD
 /*
 path=prenatal/current_pregnancy/bmi
 event=onfocus
+
+prenatal/current_pregnancy/height/feet
+prenatal/current_pregnancy/height/inches
+prenatal/current_pregnancy/pre_pregnancy_weight
+arc_prenatal_bmi
 */
-function prenatal_bmi(p_control) 
+function arc_prenatal_bmi() 
 {
     var bmi = null;
-    var height_feet = parseFloat(this.height.feet);
-    var height_inches = parseFloat(this.height.inches);
-    var weight = parseFloat(this.pre_pregnancy_weight);
+    var height_feet = parseFloat(g_data.prenatal.current_pregnancy.height.feet);
+    var height_inches = parseFloat(g_data.prenatal.current_pregnancy.height.inches);
+    var weight = parseFloat(g_data.prenatal.current_pregnancy.pre_pregnancy_weight);
     var height = height_feet * 12 + height_inches;
     if (height > 24 && height < 108 && weight > 50 && weight < 800) 
     {
         var bmi = $global.calc_bmi(height, weight);
-        this.bmi = bmi;
-        p_control.value = this.bmi;
+        g_data.prenatal.current_pregnancy.bmi = bmi;
     }
 }
 //CALCULATE BMI FOR ER VISIT OR HOSPITALIZATION MEDICAL RECORD
 /*
 path=er_visit_and_hospital_medical_records/maternal_biometrics/height/bmi
 event=onfocus
+
+er_visit_and_hospital_medical_records/maternal_biometrics
+/er_visit_and_hospital_medical_records/maternal_biometrics/height/feet
+/er_visit_and_hospital_medical_records/maternal_biometrics/height/inches
+/er_visit_and_hospital_medical_records/maternal_biometrics/admission_weight
+
+arc_er_hosp_bmi
+g_data.er_visit_and_hospital_medical_records[p_form_index].maternal_biometrics
+
 */
-function er_hosp_bmi(p_control) 
+function arc_er_hosp_bmi(p_form_index) 
 {
     var bmi = null;
-    var height_feet = parseFloat(this.feet);
-    var height_inches = parseFloat(this.inches);
-    var current_er_index = $global.get_current_multiform_index();
-    var weight = parseFloat(g_data.er_visit_and_hospital_medical_records[current_er_index].maternal_biometrics.admission_weight);
+    var height_feet = parseFloat(g_data.er_visit_and_hospital_medical_records[p_form_index].maternal_biometrics.height.feet);
+    var height_inches = parseFloat(g_data.er_visit_and_hospital_medical_records[p_form_index].maternal_biometrics.height.inches);
+
+    var weight = parseFloat(g_data.er_visit_and_hospital_medical_records[p_form_index].maternal_biometrics.admission_weight);
     var height = height_feet * 12 + height_inches;
     if (height > 24 && height < 108 && weight > 50 && weight < 800) 
     {
         var bmi = $global.calc_bmi(height, weight);
-        this.bmi = bmi;
-        p_control.value = this.bmi;
+        g_data.er_visit_and_hospital_medical_records[p_form_index].maternal_biometrics.height.bmi = bmi;
+
     }
 }
 
