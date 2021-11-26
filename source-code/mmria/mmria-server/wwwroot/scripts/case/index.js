@@ -4831,9 +4831,9 @@ function arc_ehd_days_postpartum(p_form_index)
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
+    var end_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.year);
+    var end_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.month);
+    var end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
@@ -4847,22 +4847,32 @@ function arc_ehd_days_postpartum(p_form_index)
 path=other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum
 event=onfocus
 */
-function ehd_days_postpartum(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_ehd_days_postpartum);
+
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/year", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/month", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/day", arc_ehd_days_postpartum);
+
+
+
+function arc_ehd_days_postpartum(p_form_index) 
 {
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(this.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
+    var end_year = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.year);
+    var end_month = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.month);
+    var end_day = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
+        other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum = days;
     }
 }
 //CALCULATE DAYS POST-PARTUM IN MEDICAL TRANSPORT FORM 
@@ -4870,12 +4880,22 @@ function ehd_days_postpartum(p_control)
 path=medical_transport/date_of_transport/days_postpartum
 event=onfocus
 */
-function mt_days_postpartum(p_control) 
+
+
+autocalc_map.safe_set("/medical_transport/date_of_transport/year", arc_mt_days_postpartum);
+autocalc_map.safe_set("/medical_transport/date_of_transport/month", arc_mt_days_postpartum);
+autocalc_map.safe_set("/medical_transport/date_of_transport/day", arc_mt_days_postpartum);
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_mt_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_mt_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_mt_days_postpartum);
+
+function arc_mt_days_postpartum(p_form_index) 
 {
     var days = null;
-    var end_year = parseInt(this.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
+    var end_year = parseInt(g_data.medical_transport[p_form_index].date_of_transport.year);
+    var end_month = parseInt(g_data.medical_transport[p_form_index].date_of_transport.month);
+    var end_day = parseInt(g_data.medical_transport[p_form_index].date_of_transport.day);
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
@@ -4884,8 +4904,8 @@ function mt_days_postpartum(p_control)
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
+        g_data.medical_transport[p_form_index].date_of_transport.days_postpartum = days;
+        //p_control.value = this.days_postpartum;
     }
 }
 //CALCULATE DAYS POST-PARTUM IN MENTAL HEALTH FORM IN MENTAL HEALTH CONDITIONS GRID
@@ -5039,4 +5059,244 @@ function medical_transport_destination_information_address_calculated_distance(p
 }
 
 
+/*
+path=home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
+event=onchange
+*/
+function abstrator_assigned_status_value_change(p_control)
+{
+    let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
+    let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
+    if (value === 9999
+        || value === 0
+        || value === 1
+        || value === 4
+        || value === 88
+    ) {
+        $('label[for=' + controlId + '], #' + controlId).hide();
+    }
+    else {
+        $('label[for=' + controlId + '], #' + controlId).show();
+    }
+}
 
+
+//CALCULATE MOTHERS AGE AT DEATH ON DC
+/*
+path=death_certificate/demographics/age
+event=onfocus
+*/
+function mothers_age_death(p_control) 
+{
+    var years = null;
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = parseInt(this.date_of_birth.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
+        this.age = years;
+        p_control.value = this.age;
+    }
+}
+//CALCULATE MOTHERS AGE AT DELIVERY ON BC
+/*
+path=birth_fetal_death_certificate_parent/demographic_of_mother/age
+event=onfocus
+*/
+function mothers_age_delivery(p_control) {
+    var years = null;
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = parseInt(this.date_of_birth.day);
+    var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
+    ) 
+    {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
+        this.age = years;
+        p_control.value = this.age;
+    }
+}
+//CALCULATE FATHERS AGE AT DELIVERY ON BC
+/*
+path=birth_fetal_death_certificate_parent/demographic_of_father/age
+event=onfocus
+*/
+function fathers_age_delivery(p_control) 
+{
+    var years = null;
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = 1;
+    var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
+    )
+    {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
+        this.age = years;
+        p_control.value = this.age;
+    }
+}
+
+
+/*
+2	Form: Prenatal Care Record
+Grid: Other Laboratory Tests
+ GA Weeks:	/prenatal/other_lab_tests/gestational_age_weeks
+ GA Days:	/prenatal/other_lab_tests/gestational_age_days
+3	Form: Prenatal Care Record
+Grid: Diagnostic Procedures
+ GA Weeks:	/prenatal/diagnostic_procedures/gestational_age_weeks
+ GA Days:	/prenatal/diagnostic_procedures/gestational_age_days
+4	Form: Prenatal Care Record
+Grid: Problems identified during the sentinel pregnancy
+ GA Weeks:	/prenatal/problems_identified_grid/gestational_age_weeks
+ GA Days:	/prenatal/problems_identified_grid/gestational_age_days
+5	Form: Prenatal Care Record
+Grid: Prescribed Medications/Drugs
+ GA Weeks:	/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks
+ GA Days:	/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days
+6	Form: Prenatal Care Record
+Grid: Pre-Delivery Hospitalization Details
+ GA Weeks:	/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks
+ GA Days:	/prenatal/pre_delivery_hospitalizations_details/gestational_age_days
+7	Form: Prenatal Care Record
+Grid: Medical Referral Details
+ GA Weeks:	/prenatal/medical_referrals/gestational_age_weeks
+ GA Days:	/prenatal/medical_referrals/gestational_age_days
+8	Form: Medical Transport
+Grid: Transport Vital Signs
+ GA Weeks:	/medical_transport/transport_vital_signs/gestational_weeks
+ GA Days:	/medical_transport/transport_vital_signs/gestational_days
+9	Form: Mental Health Profile
+Grid: Where there documented screeings and referrrals for mental health conditions
+ GA Weeks	/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks)
+ GA Days 	/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+
+==========================================================
+ TRIGGER FIELDS (PCR-EDD/LMP: Prenatal Care Record - EDD or LMP Date)
+   EDD:        /prenatal/current_pregnancy/estimated_date_of_confinement/month
+                   /prenatal/current_pregnancy/estimated_date_of_confinement/day
+                   /prenatal/current_pregnancy/estimated_date_of_confinement/year
+
+ 
+
+   LMP:        /prenatal/current_pregnancy/date_of_last_normal_menses/month
+                   /prenatal/current_pregnancy/date_of_last_normal_menses/day
+                   /prenatal/current_pregnancy/date_of_last_normal_menses/year
+
+ 
+
+==========================================================
+Form: Prenatal Care Record
+Grid: Other Laboratory Tests
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date:        /prenatal/other_lab_tests/date_and_time
+
+ 
+
+ DESTINATION FIELDS
+  GA Weeks: /prenatal/other_lab_tests/gestational_age_weeks
+  GA Days:    /prenatal/other_lab_tests/gestational_age_days
+----------------------------------------------------------------------------------------------------
+Grid: Diagnostic Procedures
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date:        /prenatal/diagnostic_procedures/date
+
+ 
+
+ DESTINATION FIELDS
+  GA Weeks: /prenatal/diagnostic_procedures/gestational_age_weeks
+  GA Days:    /prenatal/diagnostic_procedures/gestational_age_days
+----------------------------------------------------------------------------------------------------
+Grid: Problems identified during the sentinel pregnancy
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date First Noted:    /prenatal/problems_identified_grid/date_1st_noted        
+
+ 
+
+ DESTINATION FIELDS
+   GA Weeks: /prenatal/problems_identified_grid/gestational_age_weeks
+   GA Days:    /prenatal/problems_identified_grid/gestational_age_days
+----------------------------------------------------------------------------------------------------
+Grid: Prescribed Medications/Drugs
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date:        /prenatal/medications_and_drugs_during_pregnancy/date    
+
+ 
+
+ DESTINATION FIELDS
+   GA Weeks: /prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks
+   GA Days:    /prenatal/medications_and_drugs_during_pregnancy/gestational_age_days
+----------------------------------------------------------------------------------------------------
+Grid: Pre-Delivery Hospitalization Details
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date:        /prenatal/pre_delivery_hospitalizations_details/date    
+
+ 
+
+ DESTINATION FIELDS
+  DESTINATION FIELDS
+   GA Weeks: /prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks
+   GA Days:    /prenatal/pre_delivery_hospitalizations_details/gestational_age_days
+----------------------------------------------------------------------------------------------------
+Grid: Medical Referral Details
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date:        /prenatal/medical_referrals/date    
+
+ 
+
+ DESTINATION FIELDS
+   GA Weeks: /prenatal/medical_referrals/gestational_age_weeks
+   GA Days:    /prenatal/medical_referrals/gestational_age_days
+==========================================================
+Form: Medical Transport
+Grid: Transport Vital Signs
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date and Time:/medical_transport/transport_vital_signs/date_and_time
+
+ 
+
+ DESTINATION FIELDS
+   GA Weeks:    /medical_transport/transport_vital_signs/gestational_weeks
+   GA Days:    /medical_transport/transport_vital_signs/gestational_days
+==========================================================
+Form: Mental Health Profile
+Grid: Where there documented screeings and referrrals for mental health conditions
+ TRIGGER FIELDS (PCR-EDD/LMP+)
+  Date of Screening:    /mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening        
+
+ 
+
+ DESTINATION FIELDS
+   GA Weeks:    /mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+   GA Days:     /mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+==========================================================
+
+Hi James, The Trigger field path for the 8 grids are above. 
+Along with the "Date" field itself in the grid, 
+the 2 M/D/Y date fields (EDD / LMP) in the 
+Prenatal Care Record act as triggers.
+
+
+ */
