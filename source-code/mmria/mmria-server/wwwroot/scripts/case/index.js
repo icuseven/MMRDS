@@ -3721,7 +3721,19 @@ async function autorecalculate
 
     if(autocalc_map.has(p_independent_variable_mmria_path))
     {
-        return autocalc_map.get(p_independent_variable_mmria_path)(p_form_index);
+        let entry = autocalc_map.get(p_independent_variable_mmria_path);
+        
+        if(Array.isArray(entry))
+        {
+            for(let i = 0; i < entry.length; i++)
+            {
+                entry[i](p_form_index);
+            }
+        }
+        else
+        {
+            return entry(p_form_index);
+        }
     }
 
     if(independent_autocalc_gestation_event_set.has(p_independent_variable_mmria_path))
@@ -4458,6 +4470,28 @@ const autocalc_map = new Map([
 );
 
 
+autocalc_map.safe_set = function (p_path, p_function)
+{
+    if(this.has(p_path))
+    {
+        if(Array.isArray( this.get(p_path) ))
+        {
+            this.get(p_path).push(p_func);
+        }
+        else
+        {
+            let current_function = this.get(p_path);
+
+            this.set(p_path, [ current_function, p_function ]);
+        }
+    }
+    else
+    {
+        this.set(p_path, p_function);
+
+    }
+}
+
 //$calc_bmi(p_height, p_weight) 
 
 //CALCULATE PRE-PREGNANCY BMI ON BC
@@ -4562,8 +4596,8 @@ path=birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain
 event=onfocus
 */
 
-autocalc_map.set("/birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery", arc_weight_gain );
-autocalc_map.set("/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_weight_gain );
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery", arc_weight_gain );
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight", arc_weight_gain );
 
 function arc_weight_gain() 
 {
@@ -4582,8 +4616,8 @@ path=prenatal/current_pregnancy/weight_gain
 event=onfocus
 */
 
-autocalc_map.set("/prenatal/current_pregnancy/weight_at_last_visit", arc_weight_gain);
-autocalc_map.set("/prenatal/current_pregnancy/pre_pregnancy_weight", arc_weight_gain);
+autocalc_map.safe_set("/prenatal/current_pregnancy/weight_at_last_visit", arc_weight_gain);
+autocalc_map.safe_set("/prenatal/current_pregnancy/pre_pregnancy_weight", arc_weight_gain);
 
 function arc_weight_gain() 
 {
@@ -4602,12 +4636,12 @@ path=birth_fetal_death_certificate_parent/pregnancy_history/live_birth_interval
 event=onfocus
 */
 
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_birth_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_birth_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day", arc_birth_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_birth_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_birth_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_interval);
 
 function arc_birth_interval() 
 {
@@ -4634,15 +4668,15 @@ event=onfocus
 */
 
 
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/year", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/month", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/day", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_pregnancy_interval);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/year", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/month", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/day", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_pregnancy_interval);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_pregnancy_interval);
 
 
 function arc_pregnancy_interval() 
@@ -4680,14 +4714,14 @@ path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_dea
 event=onclick
 */
 
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_2_death);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_birth_2_death);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_2_death);
 
 
-autocalc_map.set("/home_record/date_of_death/year", arc_birth_2_death);
-autocalc_map.set("/home_record/date_of_death/month", arc_birth_2_death);
-autocalc_map.set("/home_record/date_of_death/day", arc_birth_2_death);
+autocalc_map.safe_set("/home_record/date_of_death/year", arc_birth_2_death);
+autocalc_map.safe_set("/home_record/date_of_death/month", arc_birth_2_death);
+autocalc_map.safe_set("/home_record/date_of_death/day", arc_birth_2_death);
 
 
 function arc_birth_2_death() 
@@ -4715,13 +4749,13 @@ path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_informa
 event=onfocus
 */
 
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_eha_days_postpartum);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum);
-autocalc_map.set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum);
 
-autocalc_map.set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.year", arc_eha_days_postpartum);
-autocalc_map.set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.month", arc_eha_days_postpartum);
-autocalc_map.set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.day", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.year", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.month", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.day", arc_eha_days_postpartum);
 
 function arc_eha_days_postpartum() 
 {
@@ -4746,22 +4780,33 @@ function arc_eha_days_postpartum()
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum
 event=onfocus
 */
-function eha_days_postpartum(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum);
+
+
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/month", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day", arc_eha_days_postpartum);
+
+
+
+function arc_eha_days_postpartum(p_form_index) 
 {
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(this.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
+    var end_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.year);
+    var end_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.month);
+    var end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum = days;
     }
 }
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT DISCHARGE
@@ -4769,13 +4814,24 @@ function eha_days_postpartum(p_control)
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/days_postpartum
 event=onfocus
 */
-function ehd_days_postpartum(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_ehd_days_postpartum);
+
+
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/month", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/day", arc_ehd_days_postpartum);
+
+
+function arc_ehd_days_postpartum(p_form_index) 
 {
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(this.year);
+    var end_year = parseInt(g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_hospital_discharge.year);
     var end_month = parseInt(this.month);
     var end_day = parseInt(this.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
@@ -4783,8 +4839,7 @@ function ehd_days_postpartum(p_control)
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.days_postpartum = days;
     }
 }
 //CALCULATE DAYS POST-PARTUM ON OFFICE VISIT FORM
