@@ -4476,7 +4476,7 @@ autocalc_map.safe_set = function (p_path, p_function)
     {
         if(Array.isArray( this.get(p_path) ))
         {
-            this.get(p_path).push(p_func);
+            this.get(p_path).push(p_function);
         }
         else
         {
@@ -4913,7 +4913,14 @@ function arc_mt_days_postpartum(p_form_index)
 path=mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
 event=onfocus
 */
-function mh_days_postpartum(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_mh_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_mh_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_mh_days_postpartum);
+
+autocalc_map.safe_set("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", arc_mh_days_postpartum);
+
+function arc_mh_days_postpartum() 
 {
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
@@ -4922,20 +4929,20 @@ function mh_days_postpartum(p_control)
     var start_date = new Date(start_year, start_month - 1, start_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && this.date_of_screening != null && this.date_of_screening != '') 
     {
-        if (this.date instanceof Date && start_date <= this.date_of_screening) 
+        if (this.date instanceof Date && start_date <= g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening) 
         {
-            days = $global.calc_days(start_date, this.date_of_screening);
+            days = $global.calc_days(start_date, g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
         } 
         else 
         {
-            var end_date = new Date(this.date_of_screening);
+            var end_date = new Date(g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
             if (start_date <= end_date) 
             {
                 days = $global.calc_days(start_date, end_date);
             }
         }
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
+        g_data.mental_health_profile.were_there_documented_mental_health_conditions.days_postpartum = days;
+        //p_control.value = this.days_postpartum;
     }
 }
 
