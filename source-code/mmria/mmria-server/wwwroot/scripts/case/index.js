@@ -4951,46 +4951,66 @@ function arc_mh_days_postpartum()
 path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival
 event=onclick
 */
-function duration_of_labor(p_control)
+
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/year", arc_duration_of_labor);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/month", arc_duration_of_labor);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/day", arc_duration_of_labor);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor", arc_duration_of_labor);
+
+function arc_duration_of_labor(p_form_index)
 {
     var hours = null;
     var current_dol_index = $global.get_current_multiform_index();
-    var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.year);
-    var onset_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.month);
-    var onset_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.day);
+    var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.year);
+    var onset_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.month);
+    var onset_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.day);
 	
 	var onset_time = null;
-    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor instanceof Date) 
+    if (g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor instanceof Date) 
 	{
-		onset_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor;
+		onset_time = g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor;
     }
 	else
 	{
-        onset_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor);
+        onset_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor);
     }
 	
-    var arrival_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.year);
-    var arrival_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.month);
-    var arrival_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.day);
+    var arrival_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.year);
+    var arrival_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.month);
+    var arrival_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.day);
 	
 	var arrival_time = null;
-    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival instanceof Date) 
+    if (g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival instanceof Date) 
 	{
-        arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
+        arrival_time = g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
     } 
 	else 
 	{
-        arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
+        arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
     }
-    if ($global.isValidDate(onset_year, onset_month, onset_day) == true && $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != null) && (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)) {
+    if 
+    (
+        $global.isValidDate(onset_year, onset_month, onset_day) == true && 
+        $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && 
+        (
+            g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != '' || 
+            g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != null
+        ) 
+        && 
+        (
+            g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' ||
+            g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null
+        )
+    ) 
+    {
         var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
         var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
         var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
         if (hours > 1) 
         {
-            g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = hours;
-            $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival);
+            g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = hours;
+            //$mmria.save_current_record();
+            //$mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival);
         }
     }
 }
@@ -5002,14 +5022,16 @@ function duration_of_labor(p_control)
 path=death_certificate/race/race
 event=onclick
 */
-function omb_race_recode_dc(p_control) 
+
+autocalc_map.safe_set("/death_certificate/race/race", arc_omb_race_recode_dc);
+function arc_omb_race_recode_dc() 
 {
     var race_recode = null;
-    var race = this.race;
+    var race = g_data.death_certificate.race.race;
     race_recode = $global.calculate_omb_recode(race);
-    this.omb_race_recode = race_recode;
-    $mmria.save_current_record();
-    $mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+    g_data.death_certificate.race.omb_race_recode = race_recode;
+    //$mmria.save_current_record();
+    //$mmria.set_control_value('death_certificate/race/omb_race_recode', g_data.death_certificate.race.omb_race_recode);
 }
 
 
@@ -5018,28 +5040,35 @@ function omb_race_recode_dc(p_control)
 path=birth_fetal_death_certificate_parent/race/race_of_mother
 event=onclick
 */
-function omb_mrace_recode_bc(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/race/race_of_mother", arc_omb_mrace_recode_bc);
+
+function arc_omb_mrace_recode_bc() 
 {
     var race_recode = null;
-    var race = this.race_of_mother;
+    var race = g_data.birth_fetal_death_certificate_parent.race.race_of_mother;
     race_recode = $global.calculate_omb_recode(race);
-    this.omb_race_recode = race_recode;
-    $mmria.save_current_record();
-    $mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
+    g_data.birth_fetal_death_certificate_parent.race.omb_race_recode = race_recode;
+    //$mmria.save_current_record();
+    //$mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', g_data.birth_fetal_death_certificate_parent.race.omb_race_recode);
 }
+
 // OMB RACE RECODE FOR DAD ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
 event=onclick
 */
-function omb_frace_recode_bc(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father", arc_omb_frace_recode_bc);
+
+function arc_omb_frace_recode_bc() 
 {
     var race_recode = null;
-    var race = this.race_of_father;
+    var race = g_data.birth_fetal_death_certificate_parent.demographic_of_father.race.race_of_father;
     race_recode = $global.calculate_omb_recode(race);
-    this.omb_race_recode = race_recode;
-    $mmria.save_current_record();
-    $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
+    g_data.birth_fetal_death_certificate_parent.demographic_of_father.race.omb_race_recode = race_recode;
+    //$mmria.save_current_record();
+    //$mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', g_data.birth_fetal_death_certificate_parent.demographic_of_father.race.omb_race_recode);
 }
 
 
@@ -5048,61 +5077,56 @@ function omb_frace_recode_bc(p_control)
 path=medical_transport/destination_information/address/calculated_distance
 event=onclick
 */
-function medical_transport_destination_information_address_calculated_distance(p_control) 
+
+autocalc_map.safe_set("/medical_transport/origin_information/address/latitude", arc_medical_transport_destination_information_address_calculated_distance);
+autocalc_map.safe_set("/medical_transport/origin_information/address/longitude", arc_medical_transport_destination_information_address_calculated_distance);
+
+
+function arc_medical_transport_destination_information_address_calculated_distance() 
 {
     let dist = null;
-    var current_mt_index = $global.get_current_multiform_index();
-    let res_lat = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.latitude);
-    let res_lon = parseFloat(g_data.medical_transport[current_mt_index].origin_information.address.longitude);
-    let hos_lat = parseFloat(this.latitude);
-    let hos_lon = parseFloat(this.longitude);
+
+    let res_lat = parseFloat(g_data.medical_transport[p_form_index].origin_information.address.latitude);
+    let res_lon = parseFloat(g_data.medical_transport[p_form_index].origin_information.address.longitude);
+    let hos_lat = parseFloat(g_data.medical_transport[p_form_index].origin_information.address.latitude);
+    let hos_lon = parseFloat(g_data.medical_transport[p_form_index].origin_information.address.longitude);
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) 
     {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
-        this.estimated_distance = dist;
-        $mmria.save_current_record();
-        $mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', this.estimated_distance);
+        g_data.medical_transport[p_form_index].origin_information.address.estimated_distance = dist;
+        //$mmria.save_current_record();
+        //$mmria.set_control_value('medical_transport/destination_information/address/estimated_distance', g_data.medical_transport[current_mt_index].origin_information.address.estimated_distance);
     }
 }
-
-
-/*
-path=home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
-event=onchange
-*/
-function abstrator_assigned_status_value_change(p_control)
-{
-    let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
-    let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
-    if (value === 9999
-        || value === 0
-        || value === 1
-        || value === 4
-        || value === 88
-    ) {
-        $('label[for=' + controlId + '], #' + controlId).hide();
-    }
-    else {
-        $('label[for=' + controlId + '], #' + controlId).show();
-    }
-}
-
 
 //CALCULATE MOTHERS AGE AT DEATH ON DC
 /*
 path=death_certificate/demographics/age
 event=onfocus
 */
-function mothers_age_death(p_control) 
+
+autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/year", arc_mothers_age_death);
+autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/month", arc_mothers_age_death);
+autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/day", arc_mothers_age_death);
+autocalc_map.safe_set("/home_record/date_of_death/year", arc_mothers_age_death);
+autocalc_map.safe_set("/home_record/date_of_death/month", arc_mothers_age_death);
+autocalc_map.safe_set("/home_record/date_of_death/day", arc_mothers_age_death);
+
+function arc_mothers_age_death() 
 {
     var years = null;
-    var start_year = parseInt(this.date_of_birth.year);
-    var start_month = parseInt(this.date_of_birth.month);
-    var start_day = parseInt(this.date_of_birth.day);
+    var start_year = parseInt(g_data.death_certificate.demographics.date_of_birth.year);
+    var start_month = parseInt(g_data.death_certificate.demographics.date_of_birth.month);
+    var start_day = parseInt(g_data.death_certificate.demographics.date_of_birth.day);
     var end_year = parseInt(g_data.home_record.date_of_death.year);
     var end_month = parseInt(g_data.home_record.date_of_death.month);
     var end_day = parseInt(g_data.home_record.date_of_death.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
+    ) 
+    {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
@@ -5142,11 +5166,18 @@ function mothers_age_delivery(p_control) {
 path=birth_fetal_death_certificate_parent/demographic_of_father/age
 event=onfocus
 */
-function fathers_age_delivery(p_control) 
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/year", arc_fathers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/month", arc_fathers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_fathers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_fathers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_fathers_age_delivery);
+
+function arc_fathers_age_delivery() 
 {
     var years = null;
-    var start_year = parseInt(this.date_of_birth.year);
-    var start_month = parseInt(this.date_of_birth.month);
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.month);
     var start_day = 1;
     var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -5160,8 +5191,8 @@ function fathers_age_delivery(p_control)
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
-        this.age = years;
-        p_control.value = this.age;
+        g_data.birth_fetal_death_certificate_parent.demographic_of_father.age = years;
+        //p_control.value = g_data.birth_fetal_death_certificate_parent.demographic_of_father.age;
     }
 }
 
