@@ -138,7 +138,9 @@ switch(p_metadata.type.toLowerCase())
 			break;
 		case "chart":
 			result.charts = 1;
-			break;			
+			break;	
+        case "jurisdiction":
+                break;		
 		default:
 			if(p_metadata.type != "app")
 			{
