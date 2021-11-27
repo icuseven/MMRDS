@@ -3706,6 +3706,26 @@ dependent_autocalc_list.add("/medical_transport/transport_vital_signs/gestationa
 dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks");
 dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days");
 
+// grids
+/*
+/prenatal/other_lab_tests/gestational_age_weeks"
+/prenatal/other_lab_tests/gestational_age_days"
+/prenatal/diagnostic_procedures/gestational_age_weeks"
+/prenatal/diagnostic_procedures/gestational_age_days"
+/prenatal/problems_identified_grid/gestational_age_weeks"
+/prenatal/problems_identified_grid/gestational_age_days"
+/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks"
+/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days"
+/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks"
+/prenatal/pre_delivery_hospitalizations_details/gestational_age_days"
+/prenatal/medical_referrals/gestational_age_weeks"
+/prenatal/medical_referrals/gestational_age_days"
+/medical_transport/transport_vital_signs/gestational_weeks"
+/medical_transport/transport_vital_signs/gestational_days"
+/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks"
+/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days"
+*/
+
 
 async function autorecalculate
 (
@@ -4086,6 +4106,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4093,6 +4114,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.routine_monitoring.gestational_age_weeks.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4100,6 +4122,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.other_lab_tests.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/diagnostic_procedures/date", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4107,6 +4130,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.diagnostic_procedures.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4114,6 +4138,7 @@ async function autorecalculate_all_gestation()
         g.data.prenatal.problems_identified_grid.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/medications_and_drugs_during_pregnancy/date", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4121,6 +4146,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.medications_and_drugs_during_pregnancy.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/pre_delivery_hospitalizations_details/date", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4128,6 +4154,7 @@ async function autorecalculate_all_gestation()
         g_data.prenatal.pre_delivery_hospitalizations_details.gestational_age_days = ga[1];
     }
 
+    // GRID
     ga = autorecalculate_get_event_date("/prenatal/medical_referrals/date", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4176,6 +4203,7 @@ async function autorecalculate_all_gestation()
         }
     );
 
+    //GRID
     g_data.medical_transport.forEach
     (
         function (item, index) 
@@ -4196,6 +4224,8 @@ async function autorecalculate_all_gestation()
         }
     )
 
+
+    //GRID
     ga = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
@@ -4203,6 +4233,27 @@ async function autorecalculate_all_gestation()
         g_data.mental_health_profile.were_there_documented_mental_health_conditions.gestational_days = ga[1];              
     }
         
+
+/*
+    /prenatal/other_lab_tests/gestational_age_weeks
+    /prenatal/other_lab_tests/gestational_age_days
+    /prenatal/diagnostic_procedures/gestational_age_weeks
+    /prenatal/diagnostic_procedures/gestational_age_days
+    /prenatal/problems_identified_grid/gestational_age_weeks
+    /prenatal/problems_identified_grid/gestational_age_days
+    /prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks
+    /prenatal/medications_and_drugs_during_pregnancy/gestational_age_days
+    /prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks
+    /prenatal/pre_delivery_hospitalizations_details/gestational_age_days
+    /prenatal/medical_referrals/gestational_age_weeks
+    /prenatal/medical_referrals/gestational_age_days
+    /medical_transport/transport_vital_signs/gestational_weeks
+    /medical_transport/transport_vital_signs/gestational_days
+    /mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+    /mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+    */
+    
+
 }
 
 
@@ -5197,7 +5248,33 @@ function arc_fathers_age_delivery()
 }
 
 
+
+
+
+
 /*
+
+
+/prenatal/other_lab_tests/gestational_age_weeks
+/prenatal/other_lab_tests/gestational_age_days
+/prenatal/diagnostic_procedures/gestational_age_weeks
+/prenatal/diagnostic_procedures/gestational_age_days
+/prenatal/problems_identified_grid/gestational_age_weeks
+/prenatal/problems_identified_grid/gestational_age_days
+/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks
+/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days
+/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks
+/prenatal/pre_delivery_hospitalizations_details/gestational_age_days
+/prenatal/medical_referrals/gestational_age_weeks
+/prenatal/medical_referrals/gestational_age_days
+/medical_transport/transport_vital_signs/gestational_weeks
+/medical_transport/transport_vital_signs/gestational_days
+/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+
+
+
+
 2	Form: Prenatal Care Record
 Grid: Other Laboratory Tests
  GA Weeks:	/prenatal/other_lab_tests/gestational_age_weeks
