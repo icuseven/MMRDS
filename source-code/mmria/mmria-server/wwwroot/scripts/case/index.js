@@ -5236,8 +5236,8 @@ function arc_mothers_age_death()
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
-        this.age = years;
-        p_control.value = this.age;
+        g_data.death_certificate.demographics.age = years;
+        //p_control.value = this.age;
     }
 }
 //CALCULATE MOTHERS AGE AT DELIVERY ON BC
@@ -5245,7 +5245,17 @@ function arc_mothers_age_death()
 path=birth_fetal_death_certificate_parent/demographic_of_mother/age
 event=onfocus
 */
-function mothers_age_delivery(p_control) {
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/year", arc_mothers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/month", arc_mothers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/day", arc_mothers_age_delivery);
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_mothers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_mothers_age_delivery);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_mothers_age_delivery);
+
+function arc_mothers_age_delivery() 
+{
     var years = null;
     var start_year = parseInt(this.date_of_birth.year);
     var start_month = parseInt(this.date_of_birth.month);
@@ -5263,8 +5273,8 @@ function mothers_age_delivery(p_control) {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
-        this.age = years;
-        p_control.value = this.age;
+        g_data.birth_fetal_death_certificate_parent.demographic_of_mother.age = years;
+        //p_control.value = this.age;
     }
 }
 //CALCULATE FATHERS AGE AT DELIVERY ON BC
