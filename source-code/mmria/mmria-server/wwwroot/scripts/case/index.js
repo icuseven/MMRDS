@@ -3810,8 +3810,8 @@ async function autorecalculate
                 ga = autorecalculate_get_event_date("/prenatal/current_pregnancy.date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
-                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_weeks = ga[0];
-                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
                 }
             break;
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit":
@@ -3827,8 +3827,11 @@ async function autorecalculate
                 ga = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
-                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_weeks.gestational_age_weeks = ga[0];
-                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_weeks.gestational_age_days = ga[1];
+                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_weeks = ga[0];
+                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_days = ga[1];
+
+                    $mmria.set_control_value("prenatal/routine_monitoring/gestational_age_weeks", ga[0], p_form_index, p_grid_index);
+                    $mmria.set_control_value("prenatal/routine_monitoring/gestational_age_days", ga[1], p_form_index, p_grid_index);
                 }
             break;
             case "/prenatal/diagnostic_procedures/date":
@@ -4149,7 +4152,7 @@ async function autorecalculate_all_gestation()
     );
 
     // GRID
-    g.data.prenatal.problems_identified_grid.forEach
+    g_data.prenatal.problems_identified_grid.forEach
     (
         function(item, index)
         {
@@ -4340,18 +4343,22 @@ function autorecalculate_get_event_date
         break;
         case "/prenatal/routine_monitoring/gestational_age_weeks":
         case "/prenatal/routine_monitoring/gestational_age_days":
+        case "/prenatal/routine_monitoring/date_and_time":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.routine_monitoring[p_grid_index].date_and_time);
         break;
         case "/prenatal/other_lab_tests/gestational_age_weeks":
         case "/prenatal/other_lab_tests/gestational_age_days":
+        case "/prenatal/other_lab_tests/date_and_time":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.other_lab_tests[p_grid_index].date_and_time);
         break;
         case "/prenatal/diagnostic_procedures/gestational_age_weeks":
         case "/prenatal/diagnostic_procedures/gestational_age_days":
+        case "/prenatal/diagnostic_procedures/date":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.diagnostic_procedures[p_grid_index].date)
         break;
         case "/prenatal/problems_identified_grid/gestational_age_weeks":
         case "/prenatal/problems_identified_grid/gestational_age_days":
+        case "/prenatal/problems_identified_grid/date_1st_noted":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.problems_identified_grid[p_grid_index].date_1st_noted)
         break;
         case "/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks":
@@ -4360,6 +4367,7 @@ function autorecalculate_get_event_date
         break;
         case "/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks":
         case "/prenatal/pre_delivery_hospitalizations_details/gestational_age_days":
+        case "/prenatal/pre_delivery_hospitalizations_details/date":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.pre_delivery_hospitalizations_details[p_grid_index].date)
         break;
         case "/prenatal/medical_referrals/gestational_age_weeks":
@@ -4388,22 +4396,36 @@ function autorecalculate_get_event_date
         break;
         case "/medical_transport/transport_vital_signs/gestational_weeks":
         case "/medical_transport/transport_vital_signs/gestational_days":
+        case "/medical_transport/transport_vital_signs/date_and_time":
             event_date = autorecalculate_get_event_date_combined(g_data.medical_transport[p_form_index].transport_vital_signs.date_and_time)
         break;
         case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks":
         case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days":
+        case "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening":
             event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
         break;
-        
+        /*
+        /prenatal/routine_monitoring/date_and_time
+        /prenatal/other_lab_tests/date_and_time
+        /prenatal/diagnostic_procedures/date
+        /prenatal/problems_identified_grid/date_1st_noted   
+        /prenatal/pre_delivery_hospitalizations_details/date    
+        /medical_transport/transport_vital_signs/date_and_time
+        /mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening        
+        */
+
     }
 
-    if(p_is_edd)
+    if(event_date != null)
     {
-        ga = $global.calc_ga_edd(event_date, p_edd_date);
-    }
-    else if(p_is_lmp)
-    {
-        ga = $global.calc_ga_lmp(p_lmp_date, event_date);
+        if(p_is_edd)
+        {
+            result = $global.calc_ga_edd(event_date, p_edd_date);
+        }
+        else if(p_is_lmp)
+        {
+            result = $global.calc_ga_lmp(p_lmp_date, event_date);
+        }
     }
 
     return result;
@@ -4423,11 +4445,16 @@ function autorecalculate_get_event_date_separate(p_value)
 
 function autorecalculate_get_event_date_combined(p_value)
 {
-    const event_year = parseInt(p_value.year);
-    const event_month = parseInt(p_value.month);
-    const event_day = parseInt(p_value.day);
+    let result = null;
+    const arr = p_value.split("-");
+    if(arr.length > 2)
+    {
+        const event_year = parseInt(arr[0]);
+        const event_month = parseInt(arr[1]);
+        const event_day = parseInt(arr[2]);
 
-    const result = new Date(event_year, event_month - 1, event_day);
+        result = new Date(event_year, event_month - 1, event_day);
+    }
 
 
     return result;
@@ -5480,3 +5507,4 @@ Prenatal Care Record act as triggers.
 
 
  */
+

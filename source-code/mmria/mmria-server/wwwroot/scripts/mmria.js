@@ -224,7 +224,7 @@ var $mmria = function()
                 break;
             }
         },
-        save_current_record: function(p_call_back)
+        save_current_record: function(p_call_back, p_note)
         {
             if (g_is_data_analyst_mode != null) 
             {
