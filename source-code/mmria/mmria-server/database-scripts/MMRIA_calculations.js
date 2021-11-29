@@ -269,6 +269,10 @@ function $isValidDate(p_year, p_month, p_day)
     // the only month with 28 days (29 if year isLeap)
     var isLeap = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
     var valid = months31.indexOf(month) !== -1 && day <= 31 || months30.indexOf(month) !== -1 && day <= 30 || months28.indexOf(month) !== -1 && day <= 28 || months28.indexOf(month) !== -1 && day <= 29 && isLeap;
+    
+    if(year < 1900 || year > 2100)
+        valid = false;
+        
     return valid;
 }
 //CALCLATE GESTATIONAL AGE WITH LMP 

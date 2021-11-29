@@ -3747,7 +3747,7 @@ async function autorecalculate
         {
             for(let i = 0; i < entry.length; i++)
             {
-                entry[i](p_form_index);
+                entry[i](p_form_index, p_grid_index);
             }
         }
         else
@@ -4146,6 +4146,9 @@ async function autorecalculate_all_gestation()
     {
         g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
         g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+
+        $mmria.set_control_value("prenatal.current_pregnancy.date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0]);
+        $mmria.set_control_value("prenatal.current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1]);
     }
 
     ga = autorecalculate_get_event_date("/prenatal.current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
@@ -4153,6 +4156,9 @@ async function autorecalculate_all_gestation()
     {
         g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_weeks = ga[0];
         g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
+
+        $mmria.set_control_value("prenatalcurrent_pregnancy.date_of_1st_prenatal_visit/gestational_age_weeks", ga[0]);
+        $mmria.set_control_value("prenatalcurrent_pregnancy.date_of_1st_prenatal_visit/gestational_age_days", ga[1]);
     }
 
     // GRID
@@ -4163,8 +4169,12 @@ async function autorecalculate_all_gestation()
             ga = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, null, index)
             if (ga.length > 1) 
             {
-                item.gestational_age_weeks.gestational_age_weeks = ga[0];
-                item.gestational_age_weeks.gestational_age_days = ga[1];
+                item.gestational_age_weeks = ga[0];
+                item.gestational_age_days = ga[1];
+
+                prenatal/routine_monitoring/
+                $mmria.set_control_value("prenatal/routine_monitoring/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/routine_monitoring/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4179,6 +4189,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/other_lab_tests/gestational_age_weeks", ga[0],null,  index);
+                $mmria.set_control_value("prenatal/other_lab_tests/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4192,6 +4205,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/diagnostic_proceduresgestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/diagnostic_proceduresgestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4206,6 +4222,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/problems_identified_grid/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/problems_identified_grid/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4220,6 +4239,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/medications_and_drugs_during_pregnancy/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4234,6 +4256,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/pre_delivery_hospitalizations_details/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4248,6 +4273,9 @@ async function autorecalculate_all_gestation()
             {
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("prenatal/medical_referrals/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/medical_referrals/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4262,6 +4290,9 @@ async function autorecalculate_all_gestation()
             {
                 item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
             }
 
             ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, index)
@@ -4269,6 +4300,9 @@ async function autorecalculate_all_gestation()
             {
                 item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
             }
 
             ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, index)
@@ -4276,6 +4310,9 @@ async function autorecalculate_all_gestation()
             {
                 item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
             }
         }
     );
@@ -4289,6 +4326,9 @@ async function autorecalculate_all_gestation()
             {
                 item.visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
                 item.visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("other_medical_office_visits/visit/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("other_medical_office_visits/visit/gestational_age_days", ga[1], index);
             }
         }
     );
@@ -4303,6 +4343,9 @@ async function autorecalculate_all_gestation()
             {
                 form_item.date_of_transport.gestational_age_weeks = ga[0];
                 form_item.date_of_transport.gestational_age_days = ga[1];
+
+                $mmria.set_control_value("medical_transport/gestational_age_weeks", ga[0], form_index);
+                $mmria.set_control_value("medical_transport/gestational_age_days", ga[1], form_index);
             }
 
             form_item.transport_vital_signs.forEach
@@ -4314,6 +4357,9 @@ async function autorecalculate_all_gestation()
                     {
                         grid_item.transport_vital_signs.gestational_weeks = ga[0];
                         grid_item.transport_vital_signs.gestational_days = ga[1];
+
+                        $mmria.set_control_value("medical_transport/transport_vital_signs/gestational_age_weeks", ga[0], form_index, grid_index);
+                        $mmria.set_control_value("medical_transport/transport_vital_signs/gestational_age_days", ga[1], form_index, grid_index);
                     }
                 }
             );
@@ -4330,7 +4376,10 @@ async function autorecalculate_all_gestation()
             if (ga.length > 1) 
             {
                 item.gestational_weeks = ga[0];
-                item.gestational_days = ga[1];              
+                item.gestational_days = ga[1];  
+                
+                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_days", ga[1], index);
             }
         }
     );
