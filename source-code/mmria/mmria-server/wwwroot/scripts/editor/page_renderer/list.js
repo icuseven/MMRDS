@@ -580,25 +580,28 @@ function editable_list_set_visibility(p_data, p_object_path)
 
     const el = document.querySelector('div [id="' + query_path + '"]');
 
-    if
-    (
-        el != null &&
+    if(el != null)
+    {
+        if
         (
-        p_data == null || 
-        p_data == ""  
+            
+            (
+            p_data == null || 
+            p_data == ""  
+            )
         )
-    )
-    {
-        el.style.visibility = "hidden";
+        {
+            el.style.visibility = "hidden";
+        }
+        else if(p_data.indexOf("Other") == 0)
+        {
+            el.style.visibility = "";
+        }  
+        else
+        {
+            el.style.visibility = "hidden";
+        }  
     }
-    else if(p_data.indexOf("Other") == 0)
-    {
-        el.style.visibility = "";
-    }  
-    else
-    {
-        el.style.visibility = "hidden";
-    }  
 }
 
 function editable_list_onchange(p_select_list, p_object_path)
