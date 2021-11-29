@@ -5081,14 +5081,14 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
             }
 
-            dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode");
+            dynamic_val = get_value(p_source_object, "death_certificate/race/omb_race_recode");
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
                 death_certificate_race_race_string = object_val.ToString();
             }
 
-            if(string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_omb_race_recode_string))
+            if(!string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_omb_race_recode_string))
             {
                 if(int.TryParse(birth_fetal_death_certificate_parent_race_omb_race_recode_string, out test_int))
                 {
@@ -5101,7 +5101,7 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 
             }
 
-            if(string.IsNullOrWhiteSpace(death_certificate_race_race_string))
+            if(!string.IsNullOrWhiteSpace(death_certificate_race_race_string))
             {
                 if(int.TryParse(death_certificate_race_race_string, out test_int))
                 {
