@@ -578,21 +578,26 @@ function editable_list_set_visibility(p_data, p_object_path)
 {
     let query_path = convert_object_path_to_jquery_id(p_object_path);
 
+    const el = document.querySelector('div [id="' + query_path + '"]');
+
     if
     (
+        el != null &&
+        (
         p_data == null || 
         p_data == ""  
+        )
     )
     {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
+        el.style.visibility = "hidden";
     }
     else if(p_data.indexOf("Other") == 0)
     {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "";
+        el.style.visibility = "";
     }  
     else
     {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
+        el.style.visibility = "hidden";
     }  
 }
 
