@@ -3736,7 +3736,7 @@ async function autorecalculate
 {
     if(independent_autocalc_list.has(p_independent_variable_mmria_path))
     {
-        return await autorecalculate_all_gestation();
+        return await autorecalculate_all_gestation(p_form_index, p_grid_index);
     }
 
     if(autocalc_map.has(p_independent_variable_mmria_path))
@@ -4085,7 +4085,11 @@ async function autorecalculate
 
 }
 
-async function autorecalculate_all_gestation()
+async function autorecalculate_all_gestation
+(
+    p_form_index,
+    p_grid_index
+)
 {
     const edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     const edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
@@ -5225,7 +5229,7 @@ autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/dat
 function arc_duration_of_labor(p_form_index)
 {
     if(p_form_index == null) return;
-    
+
     var hours = null;
     var current_dol_index = $global.get_current_multiform_index();
     var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.year);
@@ -5417,9 +5421,9 @@ autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_deliver
 function arc_mothers_age_delivery() 
 {
     var years = null;
-    var start_year = parseInt(this.date_of_birth.year);
-    var start_month = parseInt(this.date_of_birth.month);
-    var start_day = parseInt(this.date_of_birth.day);
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.day);
     var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
