@@ -4850,10 +4850,10 @@ path=prenatal/current_pregnancy/weight_gain
 event=onfocus
 */
 
-autocalc_map.safe_set("/prenatal/current_pregnancy/weight_at_last_visit", arc_weight_gain);
-autocalc_map.safe_set("/prenatal/current_pregnancy/pre_pregnancy_weight", arc_weight_gain);
+autocalc_map.safe_set("/prenatal/current_pregnancy/weight_at_last_visit", arc_weight_gain2);
+autocalc_map.safe_set("/prenatal/current_pregnancy/pre_pregnancy_weight", arc_weight_gain2);
 
-function arc_weight_gain() 
+function arc_weight_gain2() 
 {
     var weight_del = parseFloat(g_data.prenatal.current_pregnancy.weight_at_last_visit);
     var weight_pp = parseFloat(g_data.prenatal.current_pregnancy.pre_pregnancy_weight);
