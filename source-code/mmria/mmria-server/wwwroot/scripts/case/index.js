@@ -4543,16 +4543,19 @@ function autorecalculate_get_event_date_separate(p_value)
 function autorecalculate_get_event_date_combined(p_value)
 {
     let result = null;
-    const arr = p_value.split("-");
-    if(arr.length > 2)
+
+    if(p_value != null)
     {
-        const event_year = parseInt(arr[0]);
-        const event_month = parseInt(arr[1]);
-        const event_day = parseInt(arr[2]);
+        const arr = p_value.split("-");
+        if(arr.length > 2)
+        {
+            const event_year = parseInt(arr[0]);
+            const event_month = parseInt(arr[1]);
+            const event_day = parseInt(arr[2]);
 
-        result = new Date(event_year, event_month - 1, event_day);
+            result = new Date(event_year, event_month - 1, event_day);
+        }
     }
-
 
     return result;
 }
