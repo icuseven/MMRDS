@@ -10,7 +10,6 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
 
     if(other_specify!= null)
     {
-        console.log("here");
         let object_path = `g_data.${other_specify.list.replace(/\//g,".")}`;
         let other_data = eval(object_path);
 
@@ -36,7 +35,7 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
                 visibility_html = 'display:none;';
             }
         }
-    }/**/
+    }
 
 
     p_result.push(`<div id="${convert_object_path_to_jquery_id(p_object_path)}" class="form-control-outer" mpath="${p_metadata_path}" style="${visibility_html}">`);

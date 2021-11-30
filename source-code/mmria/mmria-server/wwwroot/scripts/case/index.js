@@ -5231,7 +5231,7 @@ function arc_duration_of_labor(p_form_index)
     if(p_form_index == null) return;
 
     var hours = null;
-    var current_dol_index = $global.get_current_multiform_index();
+
     var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.year);
     var onset_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.month);
     var onset_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.day);
@@ -5500,5 +5500,27 @@ function arc_birth_2_death()
         var days = $global.calc_days(start_date, end_date);
         g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
         $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
+    }
+}
+
+
+autocalc_map.safe_set("/autopsy_report/biometrics/mother/height/feet", arc_autopsy_biometrics_mother_bmi);
+autocalc_map.safe_set("/autopsy_report/biometrics/mother/height/inches", arc_autopsy_biometrics_mother_bmi);
+autocalc_map.safe_set("/autopsy_report/biometrics/mother/weight", arc_autopsy_biometrics_mother_bmi);
+
+
+function arc_autopsy_biometrics_mother_bmi(p_form_index) 
+{
+    var bmi = null;
+    var height_feet = parseFloat(g_data.autopsy_report.biometrics.mother.height.feet);
+    var height_inches = parseFloat(g_data.autopsy_report.biometrics.mother.height.inches);
+
+    var weight = parseFloat(g_data.autopsy_report.biometrics.mother.weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) 
+    {
+        var bmi = $global.calc_bmi(height, weight);
+        g_data.autopsy_report.biometrics.mother.bmi = bmi;
+        $mmria.set_control_value("autopsy_report/biometrics/mother/bmi", bmi, p_form_index);
     }
 }
