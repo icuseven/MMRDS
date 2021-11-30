@@ -5498,7 +5498,7 @@ function arc_birth_2_death()
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
-        birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
+        g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
         $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
     }
 }
