@@ -5026,6 +5026,9 @@ autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_an
 
 function arc_eha_days_postpartum(p_form_index) 
 {
+
+    if(p_form_index == null) return;
+
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -5060,6 +5063,8 @@ autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_an
 
 function arc_ehd_days_postpartum(p_form_index) 
 {
+    if(p_form_index == null) return;
+
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -5094,6 +5099,8 @@ autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office
 
 function arc_ehd_days_postpartum(p_form_index) 
 {
+    if(p_form_index == null) return;
+
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -5127,6 +5134,9 @@ autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_deliver
 
 function arc_mt_days_postpartum(p_form_index) 
 {
+
+    if(p_form_index == null) return;
+
     var days = null;
     var end_year = parseInt(g_data.medical_transport[p_form_index].date_of_transport.year);
     var end_month = parseInt(g_data.medical_transport[p_form_index].date_of_transport.month);
@@ -5158,6 +5168,10 @@ autocalc_map.safe_set("/mental_health_profile/were_there_documented_mental_healt
 
 function arc_mh_days_postpartum(p_form_index, p_grid_index) 
 {
+    if(p_form_index == null) return;
+
+    if(p_grid_index == null) return;
+
     var days = null;
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
@@ -5210,6 +5224,8 @@ autocalc_map.safe_set("/er_visit_and_hospital_medical_records/onset_of_labor/dat
 
 function arc_duration_of_labor(p_form_index)
 {
+    if(p_form_index == null) return;
+    
     var hours = null;
     var current_dol_index = $global.get_current_multiform_index();
     var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].onset_of_labor.date_of_onset_of_labor.year);
