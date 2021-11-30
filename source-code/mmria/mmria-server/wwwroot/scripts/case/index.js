@@ -4746,7 +4746,7 @@ function arc_prepregnancy_bmi()
     {
         var bmi = $global.calc_bmi(height, weight);
         g_data.birth_fetal_death_certificate_parent.maternal_biometrics.bmi = bmi;
-        $mmria.set_control_value("birth_fetal_death_certificate_parent/maternal_biometrics", bmi);
+        $mmria.set_control_value("birth_fetal_death_certificate_parent/maternal_biometrics/bmi", bmi);
         
     }
 }
@@ -4975,7 +4975,7 @@ function arc_birth_2_death()
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
         g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
-        $mmria.set_control_value("birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother", days);
+        $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
     }
 }
 
@@ -5477,4 +5477,28 @@ function arc_fathers_age_delivery()
 }
 
 
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days", arc_birth_2_death);
 
+function arc_birth_2_death() 
+{
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
+    ) 
+    {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var days = $global.calc_days(start_date, end_date);
+        birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
+        $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
+    }
+}
