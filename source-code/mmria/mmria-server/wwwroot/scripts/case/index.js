@@ -3645,7 +3645,7 @@ const independent_autocalc_gestation_event_set = new Set();
 
 
 independent_autocalc_gestation_event_set.add("/prenatal/other_lab_tests/date_and_time");
-independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy.date_of_1st_prenatal_visit");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit");
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit");
 independent_autocalc_gestation_event_set.add("/prenatal/routine_monitoring/date_and_time");
 independent_autocalc_gestation_event_set.add("/prenatal/diagnostic_procedures/date");
@@ -3660,6 +3660,12 @@ independent_autocalc_gestation_event_set.add("/other_medical_office_visits/visit
 independent_autocalc_gestation_event_set.add("/medical_transport/date_of_transport");
 independent_autocalc_gestation_event_set.add("/medical_transport/transport_vital_signs/date_and_time");
 independent_autocalc_gestation_event_set.add("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/month");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/day");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit/year");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/month");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/day");
+independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/year")
 
 
 const independent_autocalc_list = new Set()
@@ -3670,6 +3676,7 @@ independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_con
 independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/month");
 independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/day");
 independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/year");
+
 
 
 const dependent_autocalc_list = new Set();
@@ -3810,7 +3817,10 @@ async function autorecalculate
                 }
             break;
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit":
-                ga = autorecalculate_get_event_date("/prenatal/current_pregnancy.date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+            case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/month":
+            case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/day":
+            case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/year":
+                ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
                     g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
@@ -3821,14 +3831,17 @@ async function autorecalculate
                 }
             break;
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit":
+            case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/month":
+            case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/day":
+            case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/year":
                 ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
-                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
                     g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
 
-                    $mmria.set_control_value("prenatal.current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0], p_form_index, p_grid_index);
-                    $mmria.set_control_value("prenatal.current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1], p_form_index, p_grid_index);
+                    $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0], p_form_index, p_grid_index);
+                    $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1], p_form_index, p_grid_index);
                 }
 
             break;
@@ -4151,18 +4164,18 @@ async function autorecalculate_all_gestation
         g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
         g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
 
-        $mmria.set_control_value("prenatal.current_pregnancy.date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0]);
-        $mmria.set_control_value("prenatal.current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1]);
+        $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0]);
+        $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1]);
     }
 
     ga = autorecalculate_get_event_date("/prenatal.current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
-        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_weeks = ga[0];
-        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks.gestational_age_days = ga[1];
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
 
-        $mmria.set_control_value("prenatalcurrent_pregnancy.date_of_1st_prenatal_visit/gestational_age_weeks", ga[0]);
-        $mmria.set_control_value("prenatalcurrent_pregnancy.date_of_1st_prenatal_visit/gestational_age_days", ga[1]);
+        $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks", ga[0]);
+        $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days", ga[1]);
     }
 
     // GRID
@@ -4198,7 +4211,7 @@ async function autorecalculate_all_gestation
             }
         }
     );
-    // GRID
+    // GRID 
     g_data.prenatal.diagnostic_procedures.forEach
     (
         function (item, index)
@@ -4209,8 +4222,8 @@ async function autorecalculate_all_gestation
                 item.gestational_age_weeks = ga[0];
                 item.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("prenatal/diagnostic_proceduresgestational_age_weeks", ga[0], null, index);
-                $mmria.set_control_value("prenatal/diagnostic_proceduresgestational_age_days", ga[1], null, index);
+                $mmria.set_control_value("prenatal/diagnostic_procedures/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("prenatal/diagnostic_procedures/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4294,8 +4307,8 @@ async function autorecalculate_all_gestation
                 item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days", ga[1], index);
             }
 
             ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, index)
@@ -4304,8 +4317,8 @@ async function autorecalculate_all_gestation
                 item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days", ga[1], index);
             }
 
             ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, index)
@@ -4314,8 +4327,8 @@ async function autorecalculate_all_gestation
                 item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
                 item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_weeks", ga[0], index);
-                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/gestational_age_days", ga[1], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days", ga[1], index);
             }
         }
     );
@@ -4330,8 +4343,8 @@ async function autorecalculate_all_gestation
                 item.visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
                 item.visit.date_of_medical_office_visit.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("other_medical_office_visits/visit/gestational_age_weeks", ga[0], index);
-                $mmria.set_control_value("other_medical_office_visits/visit/gestational_age_days", ga[1], index);
+                $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks", ga[0], index);
+                $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days", ga[1], index);
             }
         }
     );
@@ -4347,8 +4360,8 @@ async function autorecalculate_all_gestation
                 form_item.date_of_transport.gestational_age_weeks = ga[0];
                 form_item.date_of_transport.gestational_age_days = ga[1];
 
-                $mmria.set_control_value("medical_transport/gestational_age_weeks", ga[0], form_index);
-                $mmria.set_control_value("medical_transport/gestational_age_days", ga[1], form_index);
+                $mmria.set_control_value("medical_transport/date_of_transport/gestational_age_weeks", ga[0], form_index);
+                $mmria.set_control_value("medical_transport/date_of_transport/gestational_age_days", ga[1], form_index);
             }
 
             form_item.transport_vital_signs.forEach
@@ -4358,11 +4371,11 @@ async function autorecalculate_all_gestation
                     ga = autorecalculate_get_event_date("/medical_transport/transport_vital_signs/date_and_time", is_edd, edd_date, is_lmp, lmp_date, form_index, grid_index)
                     if (ga.length > 1) 
                     {
-                        grid_item.transport_vital_signs.gestational_weeks = ga[0];
-                        grid_item.transport_vital_signs.gestational_days = ga[1];
+                        grid_item.gestational_weeks = ga[0];
+                        grid_item.gestational_days = ga[1];
 
-                        $mmria.set_control_value("medical_transport/transport_vital_signs/gestational_age_weeks", ga[0], form_index, grid_index);
-                        $mmria.set_control_value("medical_transport/transport_vital_signs/gestational_age_days", ga[1], form_index, grid_index);
+                        $mmria.set_control_value("medical_transport/transport_vital_signs/date_and_time/gestational_age_weeks", ga[0], form_index, grid_index);
+                        $mmria.set_control_value("medical_transport/transport_vital_signs/date_and_time/gestational_age_days", ga[1], form_index, grid_index);
                     }
                 }
             );
@@ -4432,12 +4445,18 @@ function autorecalculate_get_event_date
         
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks":
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days":
-        case "/prenatal.current_pregnancy/date_of_1st_prenatal_visit":
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit":
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/month":
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/day":
+        case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/year":
             event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit);
         break;
         case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit":
         case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days":
-        case "/prenatal.current_pregnancy.date_of_last_prenatal_visit":
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit":
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/month":
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/day":
+        case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/year":
   
             event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit);
         break;
@@ -4511,6 +4530,9 @@ function autorecalculate_get_event_date
         case "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening":
             event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
         break;
+        default:
+            console.log("autorecalculate_get_event_date: switch missing" + p_mmria_path)
+            break;
         /*
         /prenatal/routine_monitoring/date_and_time
         /prenatal/other_lab_tests/date_and_time

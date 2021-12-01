@@ -208,7 +208,14 @@ var $mmria = function()
                 jq.push('[grid_index="' + p_grid_index +  '"]');
             }
             var control = document.querySelector(jq.join(""));
-            control.value = p_value;
+            if(control != null)
+            {
+                control.value = p_value;
+            }
+            else
+            {
+                //console.log("control not found: " + p_dictionary_path);
+            }
         },
         set_control_visibility: function(p_element_id, p_value)
         {

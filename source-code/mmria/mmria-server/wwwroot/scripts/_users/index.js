@@ -153,11 +153,24 @@ function load_curent_user_role_jurisdiction()
                 g_jurisdiction_list.push(value);
                 if
                 (
-                    value.role_name == "jurisdiction_admin" ||
-                    value.role_name == "installation_admin"
+                    value.role_name == "jurisdiction_admin" 
                 )
                 {
                     g_managed_jurisdiction_set[value.jurisdiction_id] = true;
+                }
+                else if
+                (
+                    value.role_name == "installation_admin"
+                )
+                {
+                    if(value.jurisdiction_id == null)
+                    {
+                        g_managed_jurisdiction_set["/"] = true;
+                    }
+                    else
+                    {
+                        g_managed_jurisdiction_set[value.jurisdiction_id] = true;
+                    }
                 }
             }
 
