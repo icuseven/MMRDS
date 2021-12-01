@@ -3666,6 +3666,17 @@ independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_o
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/month");
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/day");
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit/year")
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/month");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/day");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year");
+
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/month");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year");
+
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/month");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/day");
+independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year");
 
 
 const independent_autocalc_list = new Set()
@@ -3759,7 +3770,7 @@ async function autorecalculate
         }
         else
         {
-            return entry(p_form_index, p_grid_index);
+            entry(p_form_index, p_grid_index);
         }
     }
 
@@ -3800,6 +3811,11 @@ async function autorecalculate
         {
             return;
         }
+
+
+
+
+
 
         let ga = [];
         switch(p_independent_variable_mmria_path)
@@ -3872,8 +3888,8 @@ async function autorecalculate
                 ga = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
-                    g.data.prenatal.problems_identified_grid[p_grid_index].gestational_age_weeks = ga[0];
-                    g.data.prenatal.problems_identified_grid[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_weeks = ga[0];
+                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_days = ga[1];
 
                     $mmria.set_control_value("prenatal/problems_identified_grid/gestational_age_weeks", ga[0], p_form_index, p_grid_index);
                     $mmria.set_control_value("prenatal/problems_identified_grid/gestational_age_days", ga[1], p_form_index, p_grid_index);
@@ -3913,17 +3929,25 @@ async function autorecalculate
                 }
             break;
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/time_of_arrival":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/month":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/day":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year":
                 ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
                     g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
                     g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
 
-                    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information.date_of_arrival/gestational_age_weeks", ga[0], p_form_index, p_grid_index);
-                    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information.date_of_arrival/gestational_age_days", ga[1], p_form_index, p_grid_index);
+                    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks", ga[0], p_form_index, p_grid_index);
+                    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days", ga[1], p_form_index, p_grid_index);
                 }
             break;
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/month":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year":
+                    
                 ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
@@ -3935,6 +3959,11 @@ async function autorecalculate
                 }
             break;
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/month":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/day":
+            case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year":
+        
+
                 ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
@@ -4161,10 +4190,10 @@ async function autorecalculate_all_gestation
     ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
-        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
         g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
 
-        $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0]);
+        $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit", ga[0]);
         $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1]);
     }
 
@@ -4442,7 +4471,10 @@ function autorecalculate_get_event_date
 
     switch(p_mmria_path)
     {
-        
+        case "/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information/date_of_hospital_admission":
+            //console.log("here");
+            event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission);
+        break;
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks":
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days":
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit":
@@ -5143,9 +5175,9 @@ function arc_ehd_days_postpartum(p_form_index)
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.year);
-    var end_month = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.month);
-    var end_day = parseInt(other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.day);
+    var end_year = parseInt(g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.year);
+    var end_month = parseInt(g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.month);
+    var end_day = parseInt(g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 

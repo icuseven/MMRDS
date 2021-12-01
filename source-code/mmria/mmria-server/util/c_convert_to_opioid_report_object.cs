@@ -3008,7 +3008,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD25";
+					curr.field_id = "MCauseD22";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3018,7 +3018,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD25";
+					curr.field_id = "MCauseD23";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3028,7 +3028,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD25";
+					curr.field_id = "MCauseD24";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3050,7 +3050,7 @@ MPregRel5	(Blank)
 
 			try
 			{	
-                var val_dynamic = get_value(p_source_object, " committee_review/was_this_death_a_homicide");
+                var val_dynamic = get_value(p_source_object, "committee_review/was_this_death_a_homicide");
 				string val = null;
                 if(val_dynamic != null)
                 {
@@ -5157,9 +5157,9 @@ if bfdcpr_or_recod=0 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=0) then
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=14 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 14)
                     (int b, int d) when b==14 || ((b == 8888 || b == 9999) && d== 14 ) => ("mOMBRaceRcd", "MOMBRaceRcd8"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=8888 AND death_certificate/race/omb_race_recode = 8888
-                    (int b, int d) when b==8888 || d== 8888 => ("mOMBRaceRcd", "MOMBRaceRcd9"),
+                    (int b, int d) when b==8888 && d== 8888 => ("mOMBRaceRcd", "MOMBRaceRcd9"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=9999 AND death_certificate/race/omb_race_recode = 9999
-                    (int b, int d) when b==9999 || d== 9999 => ("mOMBRaceRcd", "MOMBRaceRcd10"),
+                    (int b, int d) when b==9999 && d== 9999 => ("mOMBRaceRcd", "MOMBRaceRcd10"),
 
                 _ =>  ("", "")
                 };
