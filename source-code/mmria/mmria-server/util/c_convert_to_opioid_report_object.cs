@@ -5070,8 +5070,8 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
             var birth_fetal_death_certificate_parent_race_omb_race_recode_string = string.Empty;
             var death_certificate_race_race_string = string.Empty;
 
-            var birth_fetal_death_certificate_parent_race_race_of_mother = -1;
-            var death_certificate_race_race = -1;
+            var birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
+            var death_certificate_race_race = 9999;
 
             dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
             
@@ -5094,10 +5094,11 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 {
                     birth_fetal_death_certificate_parent_race_race_of_mother = test_int;
                 }
+                /*
                 else
                 {
                     birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
-                }
+                }*/
                 
             }
 
@@ -5107,33 +5108,54 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 {
                     death_certificate_race_race = test_int;
                 }
+                /*
                 else
                 {
                     death_certificate_race_race = 9999;
-                }
+                }*/
                 
             }
+
+/*
+
+Omb Recode Race:
+
+if bfdcpr_or_recod=0 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=0) then OMB='White';
+      if bfdcpr_or_recod=1 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=1) then OMB='Black or African American';
+      if bfdcpr_or_recod=2 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=2) then OMB='American Indian or Alaska Native';
+      if bfdcpr_or_recod=3 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=3) then OMB='Native Hawaiian or Pacific Islander';
+      if bfdcpr_or_recod=4 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=4) then OMB='Asian';
+      if bfdcpr_or_recod=5 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=5) then OMB='Bi-Racial';
+      if bfdcpr_or_recod=6 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=6) then OMB='Multi-Racial';
+      if bfdcpr_or_recod=14 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=14) then OMB='Other Race';
+      if bfdcpr_or_recod=8888 and dcr_or_recod=8888 then OMB='Race Not Specified';
+
+
+
+*/
+
+
 
            try
             {	
                 var (indicator_id, field_id) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race) switch
                 {
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=0 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 0)
-                    (int b, int d) when b==0 || d== 0 => ("mOMBRaceRcd", "MOMBRaceRcd1"),
+                    (int b, int d) when b==0 || ((b == 8888 || b == 9999) && d== 0 ) => ("mOMBRaceRcd", "MOMBRaceRcd1"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=1 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 1)
-                    (int b, int d) when b==1 || d== 1 => ("mOMBRaceRcd", "MOMBRaceRcd2"),
+                    (int b, int d) when b==1 || ((b == 8888 || b == 9999) && d== 1 ) => ("mOMBRaceRcd", "MOMBRaceRcd2"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=2 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 2)
-                    (int b, int d) when b==2 || d== 2 => ("mOMBRaceRcd", "MOMBRaceRcd3"),
+                    (int b, int d) when b==2 || ((b == 8888 || b == 9999) && d== 2 ) => ("mOMBRaceRcd", "MOMBRaceRcd3"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=3 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 3)
-                    (int b, int d) when b==3 || d== 3 => ("mOMBRaceRcd", "MOMBRaceRcd4"),
+                    (int b, int d) when b==3 || ((b == 8888 || b == 9999) && d== 3 ) => ("mOMBRaceRcd", "MOMBRaceRcd4"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=4 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 4)
-                    (int b, int d) when b==4 || d== 4 => ("mOMBRaceRcd", "MOMBRaceRcd5"),
+                    (int b, int d) when b==4 || ((b == 8888 || b == 9999) && d== 4 ) => ("mOMBRaceRcd", "MOMBRaceRcd5"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=5 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 5)
-                    (int b, int d) when b==5 || d== 5 => ("mOMBRaceRcd", "MOMBRaceRcd6"),
+                    (int b, int d) when b==5 || ((b == 8888 || b == 9999) && d== 5 ) => ("mOMBRaceRcd", "MOMBRaceRcd6"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=6 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 6)
-                    (int b, int d) when b==6 || d== 6 => ("mOMBRaceRcd", "MOMBRaceRcd7"),
+                    (int b, int d) when b==6 || ((b == 8888 || b == 9999) && d== 6 ) => ("mOMBRaceRcd", "MOMBRaceRcd7"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=14 OR (birth_fetal_death_certificate_parent/race/omb_race_recode in (8888, 9999) AND death_certificate/race/omb_race_recode = 14)
-                    (int b, int d) when b==14 || d== 14 => ("mOMBRaceRcd", "MOMBRaceRcd8"),
+                    (int b, int d) when b==14 || ((b == 8888 || b == 9999) && d== 14 ) => ("mOMBRaceRcd", "MOMBRaceRcd8"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=8888 AND death_certificate/race/omb_race_recode = 8888
                     (int b, int d) when b==8888 || d== 8888 => ("mOMBRaceRcd", "MOMBRaceRcd9"),
                     //birth_fetal_death_certificate_parent/race/omb_race_recode=9999 AND death_certificate/race/omb_race_recode = 9999
@@ -5169,8 +5191,8 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
             var birth_fetal_death_certificate_parent_race_race_of_mother_string = string.Empty;
             var death_certificate_race_race_string = string.Empty;
 
-            var birth_fetal_death_certificate_parent_race_race_of_mother = -1;
-            var death_certificate_race_race = -1;
+            var birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
+            var death_certificate_race_race = 9999;
 
             dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
             
@@ -5193,10 +5215,11 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 {
                     birth_fetal_death_certificate_parent_race_race_of_mother = test_int;
                 }
+                /*
                 else
                 {
                     birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
-                }
+                }*/
                 
             }
 
@@ -5206,10 +5229,11 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                 {
                     death_certificate_race_race = test_int;
                 }
+                /*
                 else
                 {
                     death_certificate_race_race = 9999;
-                }
+                }*/
                 
             }
 
@@ -5233,6 +5257,28 @@ mDeathbyRace MDeathbyRace17
 /birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
 /birth_fetal_death_certificate_parent/race/race_of_mother=8888 AND /death_certificate/race/race= 8888
 /birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
+
+
+
+                Race: mDeathbyRace
+
+
+if bfdcpr_ro_mothe='White' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='White') then race='White';
+if bfdcpr_ro_mothe='Black or African American' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Black or African American') then race='Black or African American';
+if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='American Indian or Alaska Native') then race='American Indian or Alaska Native';
+      if bfdcpr_ro_mothe='Native Hawaiian' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Native Hawaiian') then race='Native Hawaiian';
+      if bfdcpr_ro_mothe='Guamanian or Chamorro' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Guamanian or Chamorro') then race='Guamanian or Chamorro';
+      if bfdcpr_ro_mothe='Samoan' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Samoan') then race='Samoan';
+      if bfdcpr_ro_mothe='Other Pacific Islander' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Other Pacific Islander') then race='Other Pacific Islander';
+      if bfdcpr_ro_mothe='Asian Indian' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Asian Indian') then race='Asian Indian';
+      if bfdcpr_ro_mothe='Chinese' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Chinese') then race='Chinese';
+      if bfdcpr_ro_mothe='Filipino' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Filipino') then race='Filipino';
+      if bfdcpr_ro_mothe='Japanese' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Japanese') then race='Japanese';
+      if bfdcpr_ro_mothe='Korean' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Korean') then race='Korean';
+      if bfdcpr_ro_mothe='Vietnamese' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Vietnamese') then race='Vietnamese';
+      if bfdcpr_ro_mothe='Other Asian' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Other Asian') then race='Other Asian';
+      if bfdcpr_ro_mothe='Other Race' or (bfdcpr_ro_mothe in ('Race Not Specified','(blank)') and dcr_race='Other Race') then race='Other Race';
+      if bfdcpr_ro_mothe='Race Not Specified' and dcr_race='Race Not Specified' then race='Race Not Specified';
 
 */
             
