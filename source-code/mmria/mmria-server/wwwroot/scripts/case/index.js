@@ -4432,10 +4432,13 @@ function autorecalculate_get_event_date
         
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks":
         case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days":
+        case "/prenatal.current_pregnancy/date_of_1st_prenatal_visit":
             event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit);
         break;
         case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit":
         case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days":
+        case "/prenatal.current_pregnancy.date_of_last_prenatal_visit":
+  
             event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit);
         break;
         case "/prenatal/routine_monitoring/gestational_age_weeks":
@@ -4460,6 +4463,7 @@ function autorecalculate_get_event_date
         break;
         case "/prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks":
         case "/prenatal/medications_and_drugs_during_pregnancy/gestational_age_days":
+        case "/prenatal/medications_and_drugs_during_pregnancy/date":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.medications_and_drugs_during_pregnancy[p_grid_index].date)
         break;
         case "/prenatal/pre_delivery_hospitalizations_details/gestational_age_weeks":
@@ -4469,26 +4473,32 @@ function autorecalculate_get_event_date
         break;
         case "/prenatal/medical_referrals/gestational_age_weeks":
         case "/prenatal/medical_referrals/gestational_age_days":
+        case "/prenatal/medical_referrals/date":
             event_date = autorecalculate_get_event_date_combined(g_data.prenatal.medical_referrals[p_grid_index].date)
         break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks":
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival":
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival)
         break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks":
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission":
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission)
         break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks":
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days":
+        case "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge)
         break;
         case "/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks":
         case "/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days":
+        case "/other_medical_office_visits/visit/date_of_medical_office_visit":
             event_date = autorecalculate_get_event_date_separate(g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit)
         break;
         case "/medical_transport/date_of_transport/gestational_age_weeks":
         case "/medical_transport/date_of_transport/gestational_age_days":
+        case "/medical_transport/date_of_transport":
             event_date = autorecalculate_get_event_date_separate(g_data.medical_transport[p_form_index].date_of_transport)
         break;
         case "/medical_transport/transport_vital_signs/gestational_weeks":
