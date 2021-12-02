@@ -4999,7 +4999,7 @@ committee_review/chance_to_alter_outcome=2 (No Chance)
                     
                     if
                     (
-                        //was_this_death_preventable == "1" || 
+                        was_this_death_preventable == "0" || 
                         chance_to_alter_outcome == 0 ||
                         chance_to_alter_outcome == 2
                         
