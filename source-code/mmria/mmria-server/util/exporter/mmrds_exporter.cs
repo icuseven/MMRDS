@@ -31,11 +31,11 @@ namespace mmria.server.utils
 
     mmria.common.metadata.app current_metadata;
 
-    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
-    private int[] qualitativeStreamCount = new int[] { 0, 0, 0 };
+    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[4];
+    private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0 };
     private const int max_qualitative_length = 31000;
 
-    private const string over_limit_message = "Over the qualitative limit. check the over-the-qualitative-limit.txt file for details.";
+    private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit folder for details.";
 
     private mmria.server.model.actor.ScheduleInfoMessage Configuration;
 
@@ -101,6 +101,9 @@ namespace mmria.server.utils
           System.IO.Directory.CreateDirectory(export_directory);
         }
 
+		// Save the home directory so we can put the case-narrative-plaintext-all.txt in the main directory
+		// See this.qualitativeStreamWriter[3] below.
+		string export_root_directory = export_directory;
 
         export_directory = System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name, "over-the-limit");
 
@@ -112,6 +115,7 @@ namespace mmria.server.utils
         this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
         this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
         this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
+        this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
 
 
         string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
@@ -582,9 +586,10 @@ namespace mmria.server.utils
                 default:
                   if (val != null)
                   {
+					string clearText = "";
                     if(path == "case_narrative/case_opening_overview")
                     {
-                        val = mmria.common.util.CaseNarrative.StripHTML(val);
+                        clearText = mmria.common.util.CaseNarrative.StripHTML(val);
                     }
 
                     if
@@ -605,6 +610,18 @@ namespace mmria.server.utils
                         -1
                       );
 
+					  if (clearText.Length > 0) {
+						  // Write the stripped html to case-narrative-plaintext-all.txt
+						  WriteQualitativeData
+						  (
+							mmria_case_id,
+							path,
+							clearText,
+							-1,
+							-1,
+							true
+						  );
+					  }
                       val = over_limit_message;
                     }
 
@@ -2592,7 +2609,13 @@ namespace mmria.server.utils
     }
 
 
-    private void WriteQualitativeData(string p_record_id, string p_mmria_path, string p_data, int p_index, int p_parent_index)
+    private void WriteQualitativeData(
+		string p_record_id, 
+		string p_mmria_path, 
+		string p_data, 
+		int p_index, 
+		int p_parent_index,
+		bool isClearText=false)
     {
       const string record_split = "************************************************************";
       const string header_split = "\n\n";
@@ -2602,7 +2625,7 @@ namespace mmria.server.utils
       switch (p_mmria_path.Trim().ToLower())
       {
         case "case_narrative/case_opening_overview":
-          index = 1;
+          index = (isClearText) ? 3 : 1;
           break;
         case "informant_interviews/interview_narrative":
           index = 2;
@@ -2615,17 +2638,14 @@ namespace mmria.server.utils
 
       if (this.qualitativeStreamCount[index] == 0)
       {
-        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
       }
       else
       {
-        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
       }
       this.qualitativeStreamCount[index] += 1;
     }
-
-
-
 
   }
 }
