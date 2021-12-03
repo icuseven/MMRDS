@@ -5188,52 +5188,59 @@ if bfdcpr_or_recod=0 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=0) then
 			int test_int;
 
 
-            var birth_fetal_death_certificate_parent_race_race_of_mother_string = string.Empty;
-            var death_certificate_race_race_string = string.Empty;
+            var birth_fetal_death_certificate_parent_race_race_of_mother_object_list = new List<object>();
+            var death_certificate_race_race_object_list = new List<object>();
 
-            var birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
-            var death_certificate_race_race = 9999;
+            var birth_fetal_death_certificate_parent_race_race_of_mother = new HashSet<int>();
+            var death_certificate_race_race = new HashSet<int>();
 
             dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
             
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
-                birth_fetal_death_certificate_parent_race_race_of_mother_string = object_val.ToString();
+                birth_fetal_death_certificate_parent_race_race_of_mother_object_list = object_val as List<object>;
             }
 
             dynamic_val = get_value(p_source_object, "death_certificate/race/race");
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
-                death_certificate_race_race_string = object_val.ToString();
+                death_certificate_race_race_object_list = object_val as List<object>;
             }
 
-            if(string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_race_of_mother_string))
+            if(birth_fetal_death_certificate_parent_race_race_of_mother_object_list!=null)
             {
-                if(int.TryParse(birth_fetal_death_certificate_parent_race_race_of_mother_string, out test_int))
+                foreach(var item in birth_fetal_death_certificate_parent_race_race_of_mother_object_list)
                 {
-                    birth_fetal_death_certificate_parent_race_race_of_mother = test_int;
+                    if
+                    (
+                        item != null &&
+                        !string.IsNullOrWhiteSpace(item.ToString()) &&
+                        int.TryParse(item.ToString(), out test_int)                      
+                    )
+                    {
+                        birth_fetal_death_certificate_parent_race_race_of_mother.Add(test_int);
+                    }
                 }
-                /*
-                else
-                {
-                    birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
-                }*/
                 
             }
 
-            if(string.IsNullOrWhiteSpace(death_certificate_race_race_string))
+            if(death_certificate_race_race_object_list!= null)
             {
-                if(int.TryParse(death_certificate_race_race_string, out test_int))
+                foreach(var item in death_certificate_race_race_object_list)
                 {
-                    death_certificate_race_race = test_int;
+                    if
+                    (
+                        item != null &&
+                        !string.IsNullOrWhiteSpace(item.ToString()) &&
+                        int.TryParse(item.ToString(), out test_int)                      
+                    )
+                    {
+                        death_certificate_race_race.Add(test_int);
+                    }
                 }
-                /*
-                else
-                {
-                    death_certificate_race_race = 9999;
-                }*/
+                
                 
             }
 
@@ -5284,57 +5291,180 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
             
             try
             {	
-                var (indicator_id, field_id) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race) switch
-                {
-
-                    
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=0 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 0)
-                    (int b, int d) when b==0 || ((b == 8888 || b==9999) && d== 0) => ("mDeathbyRace", "MDeathbyRace1"),
-
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=1 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 1)
-                    (int b, int d) when b==1 || ((b == 8888 || b==9999) && d== 1) => ("mDeathbyRace", "MDeathbyRace2"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=2 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 2)
-                    (int b, int d) when b==2 || ((b == 8888 || b==9999) && d== 2) => ("mDeathbyRace", "MDeathbyRace3"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=3 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 3)
-                    (int b, int d) when b==3 || ((b == 8888 || b==9999) && d== 3) => ("mDeathbyRace", "MDeathbyRace4"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=4 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 4)
-                    (int b, int d) when b==4 || ((b == 8888 || b==9999) && d== 4) => ("mDeathbyRace", "MDeathbyRace5"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=5 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 5)
-                    (int b, int d) when b==5 || ((b == 8888 || b==9999) && d== 5) => ("mDeathbyRace", "MDeathbyRace6"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=6 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 6)
-                    (int b, int d) when b==6 || ((b == 8888 || b==9999) && d== 6) => ("mDeathbyRace", "MDeathbyRace7"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=7 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 7)
-                    (int b, int d) when b==7 || ((b == 8888 || b==9999) && d== 7) => ("mDeathbyRace", "MDeathbyRace8"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=8 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 8)
-                    (int b, int d) when b==8 || ((b == 8888 || b==9999) && d== 8) => ("mDeathbyRace", "MDeathbyRace9"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=9 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 9)
-                    (int b, int d) when b==9 || ((b == 8888 || b==9999) && d== 9) => ("mDeathbyRace", "MDeathbyRace10"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=10 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 10)
-                    (int b, int d) when b==10 || ((b == 8888 || b==9999) && d== 10) => ("mDeathbyRace", "MDeathbyRace11"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=11 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 11)
-                    (int b, int d) when b==11 || ((b == 8888 || b==9999) && d== 11) => ("mDeathbyRace", "MDeathbyRace12"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=12 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 12)
-                    (int b, int d) when b==12 || ((b == 8888 || b==9999) && d== 12) => ("mDeathbyRace", "MDeathbyRace13"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=13 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 13)
-                    (int b, int d) when b==13 || ((b == 8888 || b==9999) && d== 13) => ("mDeathbyRace", "MDeathbyRace14"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
-                    (int b, int d) when b==14 || ((b == 8888 || b==9999) && d== 14) => ("mDeathbyRace", "MDeathbyRace15"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=8888 AND /death_certificate/race/race= 8888
-                    (int b, int d) when b==8888 && d == 8888 => ("mDeathbyRace", "MDeathbyRace16"),
-                    //birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
-                    (int b, int d) when b==9999 && d== 9999 => ("mDeathbyRace", "MDeathbyRace17"),
-                    _ =>  ("", "")
-                };
-
-                if(!string.IsNullOrWhiteSpace(indicator_id))     
+                var (b, d) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race);
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=0 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 0)
+                if(b.Contains(0) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(0)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                    curr.indicator_id = indicator_id;
-                    curr.field_id = field_id;
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace1";
                     curr.value = 1;
                     this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
                 }
-            
+        
+
+                //birth_fetal_death_certificate_parent/race/race_of_mother=1 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 1)
+                if(b.Contains(1) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(1)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace2";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=2 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 2)
+                if(b.Contains(2) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(2)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace3";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+
+                //birth_fetal_death_certificate_parent/race/race_of_mother=3 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 3)
+                if(b.Contains(3) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(3)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace4";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=4 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 4)
+                if(b.Contains(4) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(4)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace5";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=5 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 5)
+                if(b.Contains(5) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(5)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace6";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=6 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 6)
+                if(b.Contains(6) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(6)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace7";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=7 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 7)
+                if(b.Contains(7) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(7)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace8";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=8 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 8)
+                if(b.Contains(8) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(8)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace9";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+
+                //birth_fetal_death_certificate_parent/race/race_of_mother=9 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 9)
+                if(b.Contains(9) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(9)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace10";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=10 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 10)
+                if(b.Contains(10) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(10)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace11";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=11 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 11)
+                if(b.Contains(11) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(11)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace12";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=12 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 12)
+                if(b.Contains(12) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(12)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace13";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=13 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 13)
+                if(b.Contains(13) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(13)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id =  "MDeathbyRace14";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
+                if(b.Contains(14) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(14)))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace15";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+
+                //birth_fetal_death_certificate_parent/race/race_of_mother=8888 AND /death_certificate/race/race= 8888
+                if(b.Contains(8888) && d.Contains(8888))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace16";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+                
+                //birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
+                if(b.Contains(9999) && d.Contains(9999))
+                {           
+                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                    curr.indicator_id = "mDeathbyRace";
+                    curr.field_id = "MDeathbyRace17";
+                    curr.value = 1;
+                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                }
+   
+        
                 
             }
             catch(Exception ex)

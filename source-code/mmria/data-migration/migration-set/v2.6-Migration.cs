@@ -394,16 +394,15 @@ namespace migrate.set
         )
     )
     {   
-        if(niosh_result.Industry.Count > 0)
-		{                      
-        	if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+                   
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
 		}
+		
+		case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+		
         if(niosh_result.Industry.Count > 1)
 		{                      
         	if(case_change_count == 0)
@@ -503,16 +502,15 @@ namespace migrate.set
         )
     )
     {   
-        if(niosh_result.Industry.Count > 0)
-		{                      
-        	if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1", niosh_result.Industry[0].Code, doc);
+                
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
 		}
+		
+		case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
 
         if(niosh_result.Industry.Count > 1)
 		{                      
@@ -612,16 +610,15 @@ namespace migrate.set
         )
     )
     {   
-        if(niosh_result.Industry.Count > 0)
-		{                      
-        	if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+                  
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
 		}
+		
+		case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
 
         if(niosh_result.Industry.Count > 1)
 		{                      
@@ -679,12 +676,12 @@ namespace migrate.set
 		}
     }
 
-/*
+
 
     primary_occupation = null;
     business_industry = null;
 
-    item_result = gs.get_value(doc, "/social_and_environmental_profile/socio_economic_characteristics/occupation");
+    item_result = gs.get_value(doc, "social_and_environmental_profile/socio_economic_characteristics/occupation");
     if
     (
         !item_result.is_error && 
@@ -710,21 +707,74 @@ namespace migrate.set
         )
     )
     {   
-        if(niosh_result.Industry.Count > 0)                      
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+                              
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
+		}
+		
+		case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
+
         if(niosh_result.Industry.Count > 1)
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		}
+
         if(niosh_result.Industry.Count > 2)
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		}
+
         if(niosh_result.Occupation.Count > 0)
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		}
+
         if(niosh_result.Occupation.Count > 1)
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		}
+
+
         if(niosh_result.Occupation.Count > 2)
-        gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		}
     }
 
- */
+ 
 
 
 
