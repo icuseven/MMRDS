@@ -3635,8 +3635,8 @@ const independent_autocalc_niosh_set = new Set();
 
 independent_autocalc_niosh_set.add("/death_certificate/demographics/occupation_business_industry");
 independent_autocalc_niosh_set.add("/death_certificate/demographics/primary_occupation");
-independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry");
-independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry");
+independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation");
 independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
 independent_autocalc_niosh_set.add("/birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
 independent_autocalc_niosh_set.add("/social_and_environmental_profile/socio_economic_characteristics/occupation");
