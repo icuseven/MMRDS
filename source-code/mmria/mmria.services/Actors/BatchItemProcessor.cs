@@ -2138,6 +2138,10 @@ namespace RecordsProcessor_Worker.Actors
 
 
 
+  //addquarter
+    gs.set_value("addquarter", get_year_and_quarter(DateTime.Now), new_case);
+
+
 
     string primary_occupation = null;
     string business_industry = null;
@@ -11601,6 +11605,73 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             //{"Industry": [{"Code": "611110","Title": "Elementary and Secondary Schools","Probability": "9.999934E-001"},{"Code": "611310","Title": "Colleges, Universities, and Professional Schools","Probability": "2.598214E-006"},{"Code": "009990","Title": "Insufficient information","Probability": "2.312557E-006"}],"Occupation": [{"Code": "00-9900","Title": "Insufficient Information","Probability": "9.999897E-001"},{"Code": "11-9032","Title": "Education Administrators, Elementary and Secondary School","Probability": "6.550550E-006"},{"Code": "53-3022","Title": "Bus Drivers, School or Special Client","Probability": "4.932875E-007"}],"Scheme": "NAICS 2012 and SOC 2010"}
             return result;
 
+        }
+
+
+        string get_year_and_quarter(object p_value)
+        {
+            var result = string.Empty;
+            
+			if(p_value != null && !string.IsNullOrWhiteSpace(p_value.ToString()))
+			try
+			{
+		
+				if(p_value is DateTime)
+				{
+					var date_time = (DateTime) p_value;
+					result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+				}
+				else
+				{
+					var date_string = p_value.ToString();
+					if(date_string.IndexOf("-") > -1)
+					{
+						var int_array = date_string.Split("-");
+						if(int_array.Length == 3)
+						{
+							DateTime date_time = new DateTime(int.Parse(int_array[0]), int.Parse(int_array[1]), int.Parse(int_array[2]));
+							result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+						}
+						else
+						{
+							DateTime date_time = DateTime.ParseExact
+							(
+								date_string,
+								"yyyy-MM-dd", //"MM/dd/yyyy", 
+								System.Globalization.CultureInfo.InvariantCulture
+							);
+							result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+						}
+					}
+					else if(date_string.IndexOf("/") > -1)
+					{
+						DateTime date_time = DateTime.ParseExact
+						(
+							date_string,
+							"MM/dd/yyyy", 
+							System.Globalization.CultureInfo.InvariantCulture
+						);
+						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+					}
+					else
+					{
+						DateTime date_time = DateTime.ParseExact
+						(
+							date_string,
+							"yyyy-MM-dd", //"MM/dd/yyyy", 
+							System.Globalization.CultureInfo.InvariantCulture
+						);
+						result = $"Q{System.Math.Floor(((date_time.Month -1) / 3D) + 1D)}-{date_time.Year}";
+					}
+				}
+            
+			}
+			catch
+			{
+				// do nothing
+			}
+
+            return result;
         }
     }
 }
