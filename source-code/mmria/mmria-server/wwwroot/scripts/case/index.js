@@ -4498,7 +4498,7 @@ function autorecalculate_get_event_date
 
     switch(p_mmria_path)
     {
-        case "/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information/date_of_hospital_admission":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission":
             //console.log("here");
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission);
         break;
