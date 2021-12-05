@@ -4206,7 +4206,7 @@ async function autorecalculate_all_gestation
         $mmria.set_control_value("prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days", ga[1]);
     }
 
-    ga = autorecalculate_get_event_date("/prenatal.current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+    ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
     {
         g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
