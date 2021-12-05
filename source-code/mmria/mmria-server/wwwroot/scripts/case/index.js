@@ -4023,6 +4023,32 @@ async function autorecalculate
                     $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks", ga[0], p_form_index, p_grid_index);
                     $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_days", ga[1], p_form_index, p_grid_index);
                 }
+
+
+                let test_date = autorecalculate_get_event_date_combined("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening")
+                if 
+                (
+                    test_date instanceof Date && 
+                    //start_date <= g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening
+                    start_date <= test_date
+                ) 
+                {
+                    days = $global.calc_days(start_date, g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
+                    g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
+                    $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
+                } 
+                else 
+                {
+                    var end_date = new Date(g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
+                    if (start_date <= end_date) 
+                    {
+                        days = $global.calc_days(start_date, end_date);
+        
+                        g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
+                        $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
+                    }
+                }
+
             break;
         }
         
@@ -4491,6 +4517,11 @@ function autorecalculate_get_event_date
     /mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
     /mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
     /mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+   
+   
+   /er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge
+   
+   
     */
     
 
@@ -4498,6 +4529,9 @@ function autorecalculate_get_event_date
 
     switch(p_mmria_path)
     {
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
+            event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge);
+        break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission":
             //console.log("here");
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission);
@@ -5290,7 +5324,7 @@ function arc_mh_days_postpartum(p_form_index, p_grid_index)
         ) 
         {
             days = $global.calc_days(start_date, g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
-            g_data.mental_health_profile.were_there_documented_mental_health_conditions.days_postpartum = days;
+            g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
             $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
         } 
         else 
