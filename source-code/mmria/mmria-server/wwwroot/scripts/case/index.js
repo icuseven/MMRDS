@@ -3679,6 +3679,10 @@ independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_rec
 independent_autocalc_gestation_event_set.add("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year");
 
 
+
+
+
+
 const independent_autocalc_list = new Set()
 
 independent_autocalc_list.add("/prenatal/current_pregnancy/estimated_date_of_confinement/month");
@@ -4185,6 +4189,11 @@ async function autorecalculate_all_gestation
     ga = $global.calc_ga_lmp(lmp_date, event_date);
     */
 
+
+
+
+
+
     let ga = [];
 
     ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
@@ -4423,8 +4432,8 @@ async function autorecalculate_all_gestation
                 item.gestational_weeks = ga[0];
                 item.gestational_days = ga[1];  
                 
-                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_weeks", ga[0], index);
-                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_days", ga[1], index);
+                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_weeks", ga[0], null, index);
+                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/gestational_age_days", ga[1], null, index);
             }
         }
     );
@@ -4468,6 +4477,24 @@ function autorecalculate_get_event_date
     let result = [];
 
     let event_date = null;
+/*
+    /prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks
+    /prenatal/problems_identified_grid/gestational_age_days
+    /prenatal/medications_and_drugs_during_pregnancy/gestational_age_weeks
+    
+    //multiform Grid
+    /medical_transport/transport_vital_signs/gestational_weeks
+    /medical_transport/transport_vital_signs/gestational_days
+    
+
+    //Grid
+    /mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+    /mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+    /mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+    */
+    
+
+
 
     switch(p_mmria_path)
     {
@@ -4560,7 +4587,7 @@ function autorecalculate_get_event_date
         case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks":
         case "/mental_health_profile/were_there_documented_mental_health_conditions/gestational_days":
         case "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening":
-            event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions.date_of_screening);
+            event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
         break;
         default:
             console.log("autorecalculate_get_event_date: switch missing" + p_mmria_path)
