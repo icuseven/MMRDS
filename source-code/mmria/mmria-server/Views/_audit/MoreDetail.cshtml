@@ -20,6 +20,8 @@
 
     var change_item = Model.cs.items[Model.change_item];
 
+    int test_int = 0;
+
 }
 
 @section HeadScripts
@@ -79,7 +81,26 @@
             - was removed from list
         </p>
     }
-    <p  style="padding:5px;"><strong>New List items:</strong> @change_item.old_value</p>
+    <p  style="padding:5px;">
+        <strong>New List items:</strong> @change_item.old_value <br/>
+        @if(!string.IsNullOrWhiteSpace(change_item.old_value))
+        {
+            var arr = change_item.old_value.Trim('[').Trim(']').Split(",");
+            <ul>
+                @foreach(var item in arr)
+                {
+                    @if(int.TryParse(item.Trim('"'), out test_int))
+                    {
+                        <li>@test_int - @Model.value_to_display[test_int.ToString()]</li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+
+        }
+    </p>
 }
 else if(Model.MetadataNode.type.ToUpper()=="LIST")
 {
