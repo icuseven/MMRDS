@@ -11568,13 +11568,13 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
             if(!string.IsNullOrWhiteSpace(p_occupation))
             {
                 has_occupation = true;
-                builder.Append($"&o=${p_occupation}");
+                builder.Append($"&o={p_occupation}");
             }
 
             if(!string.IsNullOrWhiteSpace(p_industry))
             {
                 has_industry = true;
-                builder.Append($"&i=${p_industry}");
+                builder.Append($"&i={p_industry}");
             }
 
             

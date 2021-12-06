@@ -38,13 +38,13 @@ namespace mmria.server
                 if(!string.IsNullOrWhiteSpace(o))
                 {
                     has_occupation = true;
-                    builder.Append($"&o=${o}");
+                    builder.Append($"&o={o}");
                 }
 
                 if(!string.IsNullOrWhiteSpace(i))
                 {
                     has_industry = true;
-                    builder.Append($"&i=${i}");
+                    builder.Append($"&i={i}");
                 }
 
                 
