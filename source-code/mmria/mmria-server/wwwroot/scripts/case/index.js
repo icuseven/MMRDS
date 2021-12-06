@@ -4792,11 +4792,11 @@ async function get_niosh_codes(p_occupation, p_industry)
 
         if(has_occupation)
         {
-            builder.push(`i=${p_industry}`);
+            builder.push(`&i=${p_industry}`);
         }
         else
         {
-            builder.push(`&i=${p_industry}`);
+            builder.push(`i=${p_industry}`);
         }
     }
 
