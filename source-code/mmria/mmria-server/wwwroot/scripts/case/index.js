@@ -4082,14 +4082,14 @@ async function autorecalculate
 
 
             break;
-            case "/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry":
-            case "/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation":
+            case "/birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry":
+            case "/birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation":
 
 
                 niosh_result = await get_niosh_codes
                 (
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.occupation_business_industry,
-                    g_data.birth_fetal_death_certificate_parent.demographic_of_Father.primary_occupation
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.occupation_business_industry,
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.primary_occupation
                 )
             
 
@@ -4709,8 +4709,8 @@ function autorecalculate_get_event_date_combined(p_value)
 /death_certificate/demographics/occupation_business_industry
 /death_certificate/demographics/primary_occupation
 
-/birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
-/birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+/birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry
+/birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation
 
 /birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry
 /birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation
@@ -4742,8 +4742,8 @@ niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_1")
 niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_2");
 niosh_autocalc_set.add("/death_certificate/demographics/dc_m_occupation_code_3");
 
-//birth_fetal_death_certificate_parent/demographic_of_Father/occupation_business_industry
-//birth_fetal_death_certificate_parent/demographic_of_Father/primary_occupation
+//birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry
+//birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation
 
 niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
 niosh_autocalc_set.add("/birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2");
