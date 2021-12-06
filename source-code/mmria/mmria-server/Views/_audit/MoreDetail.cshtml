@@ -109,7 +109,7 @@ else if(Model.MetadataNode.type.ToUpper()=="LIST")
     </table>
     
 }
-else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
+else if(change_item.metadata_type.ToUpper()=="TEXTAREA")
 {
     <script lang="javascript">
 
@@ -123,12 +123,102 @@ else if(Model.MetadataNode.type.ToUpper()=="TEXTAREA")
     <!--div id="diffoutput" style="white-space:pre;"></div-->
     <div id="diffoutput"></div>
 }
+else if
+(
+    change_item.metadata_type.ToUpper()=="DATETIME"
+)
+{
+    <table style="padding:5px;" border=1>
+        
+        <tr bgcolor="#e3d3e4" align=middle><th>Old Value</th><th>New Value</th></tr>
+        <tr><td>
+            @if(!string.IsNullOrWhiteSpace(change_item.old_value))
+            {
+                if(DateTime.TryParse (change_item.old_value, out DateTime date))
+                {
+                    @date.ToString()
+                }
+                else
+                {
+                    @change_item.old_value
+                }
+            }
+            else
+            {
+
+            }
+        </td><td>
+            @if(!string.IsNullOrWhiteSpace(change_item.new_value))
+            {
+                if(DateTime.TryParse (change_item.new_value, out DateTime date))
+                {
+                    @date.ToString()
+                }
+                else
+                {
+                    @change_item.new_value
+                }
+            }
+            else
+            {
+
+            }
+
+        </td></tr>
+
+    </table>
+}
+else if
+(
+    change_item.metadata_type.ToUpper()=="DATE"
+)
+{
+    <table style="padding:5px;" border=1>
+        
+        <tr bgcolor="#e3d3e4" align=middle><th>Old Value</th><th>New Value</th></tr>
+        <tr><td>
+            @if(!string.IsNullOrWhiteSpace(change_item.old_value))
+            {
+                if(DateTime.TryParse (change_item.old_value, out DateTime date))
+                {
+                    @date.ToShortDateString()
+                }
+                else
+                {
+                    @change_item.old_value
+                }
+            }
+            else
+            {
+
+            }
+        </td><td>
+            @if(!string.IsNullOrWhiteSpace(change_item.new_value))
+            {
+                if(DateTime.TryParse (change_item.new_value, out DateTime date))
+                {
+                    @date.ToShortDateString()
+                }
+                else
+                {
+                    @change_item.new_value
+                }
+            }
+            else
+            {
+
+            }
+
+        </td></tr>
+
+    </table>
+}
 else
 {
     <table style="padding:5px;" border=1>
-        <tr bgcolor="#e3d3e4" align=middle><th>Old Value</th><th>New Value</th></tr>
+         <tr bgcolor="#e3d3e4" align=middle><th>Old Value</th><th>New Value</th></tr>
         <tr><td>@change_item.old_value</td><td>@change_item.new_value</td></tr>
-    </table>
+            </table>
 }
 <hr/>
 <p><strong>MMRIA Field Prompt:</strong> @change_item?.prompt</p>
