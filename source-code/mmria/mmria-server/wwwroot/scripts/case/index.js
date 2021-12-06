@@ -4242,6 +4242,20 @@ async function autorecalculate_all_gestation
         $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days", ga[1]);
     }
 
+
+
+    ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_ultrasound", is_edd, edd_date, is_lmp, lmp_date)
+    if (ga.length > 1) 
+    {
+        if (ga.length > 1) 
+        {
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+        }
+    }
+
     // GRID
     g_data.prenatal.routine_monitoring.forEach
     (
@@ -4529,6 +4543,9 @@ function autorecalculate_get_event_date
 
     switch(p_mmria_path)
     {
+        case "/prenatal/current_pregnancy/date_of_1st_ultrasound":
+            event_date = autorecalculate_get_event_date_separate(g_data.prenatal.current_pregnancy.date_of_1st_ultrasound);
+        break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge);
         break;
@@ -5022,6 +5039,76 @@ function arc_birth_interval()
         $mmria.set_control_value("birth_fetal_death_certificate_parent/pregnancy_history/live_birth_interval", interval);
     }
 }
+
+
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_prenatal_1st_ultra_ga);
+
+
+autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/month", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/day", arc_prenatal_1st_ultra_ga);
+autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/year", arc_prenatal_1st_ultra_ga);
+
+//CALCULATE GESTATIONAL AGE AT 1ST PRENATAL VISIT (LMP OR EDD) ON PC
+/*
+path=prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks
+event=onfocus
+*/
+function arc_prenatal_1st_ultra_ga(p_control) 
+{
+    var ga = [];
+    var weeks = null;
+    var days = null;
+    var event_year = parseInt(g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.year);
+    var event_month = parseInt(g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.month);
+    var event_day = parseInt(g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.day);
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+    if 
+    (
+        $global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(edd_year, edd_month, edd_day) == true
+    ) 
+    {
+        ga = $global.calc_ga_edd(event_date, edd_date);
+        if (ga.length > 1) 
+        {
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+        }
+    } 
+    else if 
+    (
+        $global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    ) 
+    {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga.length > 1) 
+        {
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+        }
+    }
+}
+
+
 //CALCULATE INTER-PREGNANCY INTERVAL IN MONTHS ON BC
 /*
 path=birth_fetal_death_certificate_parent/pregnancy_history/pregnancy_interval
