@@ -836,7 +836,9 @@ function convert_html_to_pdf(p_value) {
 	let node = document.createElement("body");
 	node.innerHTML = p_value.replace(CommentRegex, "");
 
+	console.log('*** before DOMWalker: ', node);
 	ConvertHTMLDOMWalker(result, node);
+	console.log('*** after DOMWalker: ', result);
 
 	return result;
 
@@ -849,6 +851,7 @@ function convert_attribute_to_pdf(p_node, p_result) {
 	if (p_result != null) {
 		result = p_result;
 	}
+
 	/*
 	font: string: name of the font
 	fontSize: number: size of the font in pt
@@ -873,7 +876,6 @@ function convert_attribute_to_pdf(p_node, p_result) {
 
 
 	if (p_node.attributes != null) {
-
 
 		for (let i = 0; i < p_node.attributes.length; i++) {
 			let attr = p_node.attributes[i];
@@ -908,7 +910,6 @@ function convert_attribute_to_pdf(p_node, p_result) {
 			}
 		}
 	}
-
 
 	return result;
 
@@ -1061,7 +1062,6 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 			let text_array = [];
 			for (let i = 0; i < p_node.childNodes.length; i++) {
 				let child = p_node.childNodes[i];
-
 				ConvertHTMLDOMWalker(text_array, child);
 			}
 			text_array.push({ text: "\n" });
@@ -1110,6 +1110,8 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 		case "LI":
 			let li_node = { text: p_node.textContent.trim() }
 			p_result.push(convert_attribute_to_pdf(p_node, li_node));
+			// console.log('*** case LI li_node: ', li_node);
+			// console.log('*** case LI p_node: ', p_node);
 			return;
 			break;
 
@@ -1998,10 +2000,56 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
-				ctx.content.push([
-					{ text: narrative, colSpan: '2' },
-					{},
-				]);
+				// console.log('***** ctx.data: ', ctx.data);
+				console.log('***** narrative: ', narrative);
+				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
+				for ( let i = 0; i < narrative.length; i++ ) {
+					if ( narrative[i].hasOwnProperty('ul') === true ) {
+						// Found a record with the ul: key
+						narrative[i].ul.forEach( (u) => {
+							let ulRet = '' + u.text;
+							ctx.content.push( [
+								{ ul: [ ulRet, ], colSpan: '2', },
+								{}, 
+							]);
+						});
+					} else if ( narrative[i].hasOwnProperty('ol') === true ) {
+						// Found a record with the ol: key
+						narrative[i].ol.forEach( (o) => {
+							let olRet = '' + o.text;
+							ctx.content.push( [
+								{ ol: [ olRet, ], colSpan: '2', },
+								{}, 
+							]);
+						});
+					} else if ( narrative[i].hasOwnProperty('table') === true ) {
+						// Found a table record
+						let myHeaderRows = narrative[i].table.headerRows;
+						let myBody = [];
+						narrative[i].table.body.forEach( (b) => {
+							myBody.push( b );
+						});
+						let myWidths = narrative[i].table.widths;
+
+						ctx.content.push( [
+							{
+								layout: 'lightHorizontalLines',
+								table: {
+									headerRows: myHeaderRows,
+									widths: myWidths,
+									body: myBody,
+							}, colSpan: '2',	
+							}, {},
+						],);
+						// console.log('ctx.content: ', ctx.content);
+					} else {
+						// Regular default
+						ctx.content.push([
+							{ text: narrative[i], colSpan: '2' },
+							{},
+						]);
+					}
+				}
 			} else {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['subHeader'], colSpan: '2', },
