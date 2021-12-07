@@ -4901,11 +4901,6 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
                 };
 
 
-            if(indicator_id == "MUndCofDeath1" && !static_check.ContainsKey(current_id))
-            {
-                
-            }
-
                 if(!string.IsNullOrWhiteSpace(indicator_id))     
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
