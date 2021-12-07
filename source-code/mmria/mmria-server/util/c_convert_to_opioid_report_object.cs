@@ -5205,8 +5205,31 @@ if bfdcpr_or_recod=0 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=0) then
             var birth_fetal_death_certificate_parent_race_race_of_mother = new HashSet<int>();
             var death_certificate_race_race = new HashSet<int>();
 
+            /*
+
+            string current_id = get_value(p_source_object, "_id").ToString();
+            
+var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+{
+"22ddb666-7a43-49d5-94a5-22475ced0593",
+"3851677b-91d2-46e9-af35-9bf9c0e53d72",
+"3937b3bd-0746-4d24-8bf4-8ca63ce0e153",
+"983deae6-361b-4295-89fb-fc0de82f16cb",
+"a53c843b-e7f9-4ea6-9237-0c9a00105fe6",
+"d662697f-b0e3-4624-b653-4c7f3808e775",
+};
+
+            if(id_set.Contains(current_id))
+            {
+
+            }
+*/
+
+
+
             dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
             
+
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
@@ -5299,13 +5322,16 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
       if bfdcpr_ro_mothe='Race Not Specified' and dcr_race='Race Not Specified' then race='Race Not Specified';
 
 */
+
+
+
             
             try
             {	
                 var (b, d) = (birth_fetal_death_certificate_parent_race_race_of_mother, death_certificate_race_race);
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=0 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 0)
-                if(b.Contains(0) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(0)))
+                if(b.Contains(0) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(0)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5316,7 +5342,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
         
 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=1 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 1)
-                if(b.Contains(1) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(1)))
+                if(b.Contains(1) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(1)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5326,7 +5352,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=2 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 2)
-                if(b.Contains(2) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(2)))
+                if(b.Contains(2) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(2)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5336,7 +5362,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=3 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 3)
-                if(b.Contains(3) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(3)))
+                if(b.Contains(3) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(3)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5346,7 +5372,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=4 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 4)
-                if(b.Contains(4) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(4)))
+                if(b.Contains(4) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(4)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5356,7 +5382,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=5 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 5)
-                if(b.Contains(5) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(5)))
+                if(b.Contains(5) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(5)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5366,7 +5392,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=6 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 6)
-                if(b.Contains(6) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(6)))
+                if(b.Contains(6) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(6)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5376,7 +5402,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=7 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 7)
-                if(b.Contains(7) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(7)))
+                if(b.Contains(7) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(7)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5386,7 +5412,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=8 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 8)
-                if(b.Contains(8) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(8)))
+                if(b.Contains(8) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(8)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5396,7 +5422,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=9 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 9)
-                if(b.Contains(9) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(9)))
+                if(b.Contains(9) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(9)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5406,7 +5432,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=10 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 10)
-                if(b.Contains(10) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(10)))
+                if(b.Contains(10) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(10)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5416,7 +5442,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=11 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 11)
-                if(b.Contains(11) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(11)))
+                if(b.Contains(11) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(11)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5426,7 +5452,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=12 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 12)
-                if(b.Contains(12) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(12)))
+                if(b.Contains(12) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(12)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5436,7 +5462,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=13 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 13)
-                if(b.Contains(13) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(13)))
+                if(b.Contains(13) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(13)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5446,7 +5472,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=14 OR (/birth_fetal_death_certificate_parent/race/race_of_mother in (8888, 9999) AND /death_certificate/race/race= 14)
-                if(b.Contains(14) || ((b.Contains(8888) || b.Contains(9999)) && d.Contains(14)))
+                if(b.Contains(14) || ((b.Count == 0 || b.Contains(8888) || b.Contains(9999)) && d.Contains(14)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
@@ -5466,7 +5492,7 @@ if bfdcpr_ro_mothe='American Indian or Alaska Native' or (bfdcpr_ro_mothe in ('R
                 }
                 
                 //birth_fetal_death_certificate_parent/race/race_of_mother=9999 AND /death_certificate/race/race= 9999
-                if(b.Contains(9999) && d.Contains(9999))
+                if((b.Count == 0 || b.Contains(9999)) && (d.Count == 0 || d.Contains(9999)))
                 {           
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                     curr.indicator_id = "mDeathbyRace";
