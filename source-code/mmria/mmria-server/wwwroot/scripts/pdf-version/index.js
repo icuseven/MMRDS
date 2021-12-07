@@ -836,9 +836,7 @@ function convert_html_to_pdf(p_value) {
 	let node = document.createElement("body");
 	node.innerHTML = p_value.replace(CommentRegex, "");
 
-	console.log('*** before DOMWalker: ', node);
 	ConvertHTMLDOMWalker(result, node);
-	console.log('*** after DOMWalker: ', result);
 
 	return result;
 
@@ -1108,10 +1106,28 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 			return;
 			break;
 		case "LI":
-			let li_node = { text: p_node.textContent.trim() }
-			p_result.push(convert_attribute_to_pdf(p_node, li_node));
-			// console.log('*** case LI li_node: ', li_node);
-			// console.log('*** case LI p_node: ', p_node);
+			if ( p_node.childNodes.length > 1 ) {
+				// Do this if there are multiple p tags in a single bullet
+				let li_array = [];
+				for ( let i = 0; i < p_node.childNodes.length; i++ ) {
+					let child = p_node.childNodes[i];
+
+					ConvertHTMLDOMWalker(li_array, child);
+
+				}
+				// Create a single text string
+				let strLi = '';
+				li_array.forEach( (a) => {
+					a.text.forEach( (b) => {
+						strLi += b.text;
+					});
+				});
+				p_result.push( { text: strLi } );
+			} else {
+				// Do this if there is a single record
+				let li_node = { text: p_node.textContent.trim() }
+				p_result.push(convert_attribute_to_pdf(p_node, li_node));
+			}
 			return;
 			break;
 
@@ -2000,8 +2016,6 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
-				// console.log('***** ctx.data: ', ctx.data);
-				console.log('***** narrative: ', narrative);
 				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
 				for ( let i = 0; i < narrative.length; i++ ) {
 					if ( narrative[i].hasOwnProperty('ul') === true ) {
