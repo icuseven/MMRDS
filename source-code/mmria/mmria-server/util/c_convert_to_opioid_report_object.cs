@@ -4788,10 +4788,15 @@ foreach(var item in val_list)
 
 			}
 		}
+
+
         private void popluate_mUndCofDeath (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
 			double test_double;
+
+            var current_id = get_value(p_source_object, "_id").ToString();
+
 
             //mUndCofDeath MUndCofDeath21 21
 /*
@@ -4861,6 +4866,12 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
                 return;
             }
 
+
+
+
+
+
+
             try
             {	
                 var (indicator_id, field_id) = pmss_mm switch
@@ -4888,6 +4899,12 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
                     double v when MUndCofDeath21.Contains(v) => ("mUndCofDeath", "MUndCofDeath21"),
                     _ =>  ("", "")
                 };
+
+
+            if(indicator_id == "MUndCofDeath1" && !static_check.ContainsKey(current_id))
+            {
+                
+            }
 
                 if(!string.IsNullOrWhiteSpace(indicator_id))     
                 {           
@@ -5000,7 +5017,6 @@ committee_review/chance_to_alter_outcome=2 (No Chance)
                     if
                     (
                         was_this_death_preventable == "0" || 
-                        chance_to_alter_outcome == 0 ||
                         chance_to_alter_outcome == 2
                         
                     )
