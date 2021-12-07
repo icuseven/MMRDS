@@ -312,8 +312,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -836,9 +836,9 @@ function convert_html_to_pdf(p_value) {
 	let node = document.createElement("body");
 	node.innerHTML = p_value.replace(CommentRegex, "");
 
-	// console.log('*** before DOMWalker: ', node);
+	console.log('*** before DOMWalker: ', node);
 	ConvertHTMLDOMWalker(result, node);
-	// console.log('*** after DOMWalker: ', result);
+	console.log('*** after DOMWalker: ', result);
 
 	return result;
 
@@ -851,10 +851,6 @@ function convert_attribute_to_pdf(p_node, p_result) {
 	if (p_result != null) {
 		result = p_result;
 	}
-
-	// console.log('result: ', result);
-	// console.log('p_node: ', p_node);
-	// console.log('p_result: ', p_result);
 
 	/*
 	font: string: name of the font
@@ -2004,6 +2000,8 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
 				let narrative = convert_html_to_pdf(ctx.data);
+				// console.log('***** ctx.data: ', ctx.data);
+				console.log('***** narrative: ', narrative);
 				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
 				for ( let i = 0; i < narrative.length; i++ ) {
 					if ( narrative[i].hasOwnProperty('ul') === true ) {
