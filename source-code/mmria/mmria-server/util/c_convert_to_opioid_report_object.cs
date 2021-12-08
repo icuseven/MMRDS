@@ -2998,7 +2998,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD25";
+					curr.field_id = "MCauseD21";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3062,7 +3062,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD30";
+					curr.field_id = "MCauseD26";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3072,7 +3072,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD30";
+					curr.field_id = "MCauseD27";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3082,7 +3082,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD30";
+					curr.field_id = "MCauseD28";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -3092,7 +3092,7 @@ MPregRel5	(Blank)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
-					curr.field_id = "MCauseD30";
+					curr.field_id = "MCauseD29";
 					curr.value = 1;
 					this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
 				}
@@ -4977,6 +4977,9 @@ committee_review/was_this_death_preventable=1 (Yes) OR
 committee_review/chance_to_alter_outcome=0 (Good Chance) OR 
 committee_review/chance_to_alter_outcome=1 (Some Chance
 */
+
+            val is_preventable = false;
+
                 try
                 {	
                    
@@ -4989,6 +4992,7 @@ committee_review/chance_to_alter_outcome=1 (Some Chance
                         
                     )
                     {
+                        is_preventable = true;
                         var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
                         curr.indicator_id = "mDeathPrevent";
                         curr.field_id = "MDeathPrevent1";
@@ -5011,8 +5015,11 @@ committee_review/chance_to_alter_outcome=2 (No Chance)
                     
                     if
                     (
-                        was_this_death_preventable == "0" || 
-                        chance_to_alter_outcome == 2
+                        !is_preventable &&
+                        (
+                            was_this_death_preventable == "0" || 
+                            chance_to_alter_outcome == 2
+                        )
                         
                     )
                     {
