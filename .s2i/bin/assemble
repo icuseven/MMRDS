@@ -283,6 +283,9 @@ if [ ! -f "$DOTNET_APP_PATH/${APP_DLL_NAME}" ]; then
   exit 1
 fi
 
+
+touch /opt/app-root/app/secrets.json
+
 # Create run script in publish folder
 cat << EOF >"$DOTNET_APP_PATH/$DOTNET_DEFAULT_CMD"
 #!/bin/bash
