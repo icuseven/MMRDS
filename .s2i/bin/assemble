@@ -284,7 +284,12 @@ if [ ! -f "$DOTNET_APP_PATH/${APP_DLL_NAME}" ]; then
 fi
 
 
-touch /opt/app-root/app/secrets.json
+cat >/opt/app-root/app/secrets.json <<EOF
+{}
+EOF
+
+
+
 
 # Create run script in publish folder
 cat << EOF >"$DOTNET_APP_PATH/$DOTNET_DEFAULT_CMD"
