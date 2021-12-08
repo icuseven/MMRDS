@@ -3024,7 +3024,7 @@ MPregRel5	(Blank)
 				}
 
                 // MCauseD24 committee_review/did_discrimination_contribute_to_the_death=7777
-                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 777)
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 7777)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
