@@ -4978,7 +4978,7 @@ committee_review/chance_to_alter_outcome=0 (Good Chance) OR
 committee_review/chance_to_alter_outcome=1 (Some Chance
 */
 
-            val is_preventable = false;
+            var is_preventable = false;
 
                 try
                 {	
