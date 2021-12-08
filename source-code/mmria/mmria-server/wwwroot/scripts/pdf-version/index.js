@@ -398,7 +398,7 @@ function reformatDate(dt) {
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === null || dt.year === '9999') {
+	if (dt.year === null || dt.year === '9999' || dt.year === '') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)}/${fmt2Digits(dt.day)}/ {fmtYear(dt.year)}`;
@@ -406,9 +406,9 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = (dt.month === null || dt.month === '9999') ? '  ' : fmt2Digits(dt.month);
-	let dd = (dt.day === null || dt.day === '9999') ? '  ' : fmt2Digits(dt.day);
-	let yy = (dt.year === null || dt.year === '9999') ? '    ' : dt.year;
+	let mm = (dt.month === null || dt.month === '9999' || dt.month === '') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day === null || dt.day === '9999' || dt.day === '') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year === null || dt.year === '9999' || dt.year === '') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
