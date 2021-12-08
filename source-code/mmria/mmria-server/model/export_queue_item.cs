@@ -5,7 +5,11 @@ namespace mmria.server
 {
 	public class export_queue_item
 	{
-		
+		public enum ExportTypeEnum
+        {
+            csv,
+            excel
+        }
 		public export_queue_item ()
 		{
 			//de_identified_field_set= new HashSet<string>();
@@ -13,6 +17,8 @@ namespace mmria.server
 		}
 
 		public string _id {get; set;}
+
+        
 		public string _rev {get; set;}
 		public bool? _deleted { get; set;}
 		public DateTime? date_created { get; set;}
@@ -30,9 +36,12 @@ namespace mmria.server
         
         public string de_identified_selection_type {get; set;}
         public string[] de_identified_field_set {get; set;}
+
 		public string case_filter_type {get; set;}
         public string[] case_set {get; set;}
 
+        public ExportTypeEnum ExportType { get; set; } = ExportTypeEnum.csv;
+        public string[] field_set {get; set;}
 
 	}
 }
