@@ -328,10 +328,12 @@ function $case_document_begin_edit ()
         || value === 1
         || value === 4
         || value === 88
-    ) {
+    ) 
+    {
         $('label[for=' + controlId + '], #' + controlId).hide();
     }
-    else {
+    else 
+    {
         $('label[for=' + controlId + '], #' + controlId).show();
     }
 }
