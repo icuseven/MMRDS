@@ -78,6 +78,7 @@ namespace mmria.server.Controllers
             selector_struc.limit = 1_000_000;
             selector_struc.selector.Add("case_id", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
             selector_struc.selector["case_id"].Add("$eq", p_id);
+            selector_struc.use_index = "case-id-date-last-updated-index";
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
