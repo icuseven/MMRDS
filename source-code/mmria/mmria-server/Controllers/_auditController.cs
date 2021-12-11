@@ -163,7 +163,7 @@ namespace mmria.server.Controllers
             var case_view_curl = new cURL("GET",null,case_view_request_string,null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            //cancellationToken.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
 
             var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
@@ -172,15 +172,16 @@ namespace mmria.server.Controllers
                 case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
 
 
-            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            //var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{change_id}";
             var audit_view_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
-            //cancellationToken.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
 
-            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
+            
+            var cs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.Change_Stack>(responseFromServer);
 
-            var cs = view_response.rows.Where(i=> i.id == change_id).First().doc;
 
             for(var i = 0; i < cs.items.Count; i++)
             {
