@@ -112,7 +112,9 @@ async function g_set_data_object_from_path
         metadata_type: metadata.type,
         prompt: metadata.prompt,
         date_created: new Date().toISOString(),
-        user_name: g_user_name
+        user_name: g_user_name,
+        form_index: p_form_index,
+        grid_index: p_grid_index
       });
 
       await autorecalculate(p_dictionary_path);
@@ -274,7 +276,9 @@ async function g_set_data_object_from_path
       metadata_type: metadata.type,
       prompt: metadata.prompt,
       date_created: new Date().toISOString(),
-      user_name: g_user_name
+      user_name: g_user_name,
+      form_index: p_form_index,
+      grid_index: p_grid_index
     });
 
     g_data.date_last_updated = new Date();
