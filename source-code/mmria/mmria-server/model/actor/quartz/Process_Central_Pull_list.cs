@@ -18,7 +18,7 @@ namespace mmria.server.model.actor.quartz
         {
              
 
-             Console.WriteLine($"Process_Central_Pull_list OnRecieve {System.DateTime.Now}");
+            //Console.WriteLine($"Process_Central_Pull_list OnRecieve {System.DateTime.Now}");
 
             
             switch (message)
