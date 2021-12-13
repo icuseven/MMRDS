@@ -42,7 +42,7 @@ namespace mmria.server.utils
             foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in user_role_response.rows)
             {
 
-                bool is_jurisdiction_ok = false;
+                //bool is_jurisdiction_ok = false;
                 foreach((string, ResourceRightEnum) jurisdiction_item in jurisdiction_hashset)
                 {
                     var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.Item1);

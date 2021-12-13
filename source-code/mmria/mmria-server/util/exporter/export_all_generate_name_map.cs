@@ -415,7 +415,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 				{
 					p_Table.Columns.Add(column);
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					column.ColumnName = "_" + p_path_to_int_map[path].ToString();
 					p_Table.Columns.Add(column);
@@ -470,7 +470,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			// /birth_certificate_infant_fetal_section
 			bool is_added_item = false;
 			int form_prefix = 0;
-			int field_prefix = 0;
+			//int field_prefix = 0;
 
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
 			string[] temp = p_path.Split('/');
@@ -800,7 +800,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}

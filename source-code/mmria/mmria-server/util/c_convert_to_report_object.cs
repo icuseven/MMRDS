@@ -109,7 +109,7 @@ namespace mmria.server.utils
 		public string execute ()
 		{
 			string result = null;
-            Get_Value_Result value_result = null;
+            //Get_Value_Result value_result = null;
 
 			string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
@@ -153,7 +153,7 @@ namespace mmria.server.utils
 					report_object.year_of_death = System.Convert.ToInt32(val);
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -168,7 +168,7 @@ namespace mmria.server.utils
 					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
