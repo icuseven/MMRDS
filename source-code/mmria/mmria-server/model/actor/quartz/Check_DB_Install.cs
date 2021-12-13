@@ -16,7 +16,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfoMessage:
 
-				Console.WriteLine($"Starup/Install Check - start {System.DateTime.Now}");
+				//Console.WriteLine($"Starup/Install Check - start {System.DateTime.Now}");
 				if 
 				(
 					url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&

@@ -13,7 +13,7 @@ namespace mmria.server.model.actor.quartz
 
         protected override void OnReceive(object message)
         {
-                Console.WriteLine($"Rebuild_Export_Queue Baby {System.DateTime.Now}");
+            //Console.WriteLine($"Rebuild_Export_Queue Baby {System.DateTime.Now}");
 
             
             switch (message)
