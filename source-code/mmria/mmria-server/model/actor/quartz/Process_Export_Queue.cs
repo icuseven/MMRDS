@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Process_Export_Queue : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
-        protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
+        //protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
+        //protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
 
         protected override void OnReceive(object message)
         {
@@ -16,7 +16,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfoMessage:
             
-                Console.WriteLine($"Process_Export_Queue {System.DateTime.Now}");
+                //Console.WriteLine($"Process_Export_Queue {System.DateTime.Now}");
 
                 //System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
                 try

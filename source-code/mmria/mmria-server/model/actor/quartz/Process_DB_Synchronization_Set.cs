@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Process_DB_Synchronization_Set : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Process_DB_Synchronization_Set started");
-        protected override void PostStop() => Console.WriteLine("Process_DB_Synchronization_Set stopped");
+        //protected override void PreStart() => Console.WriteLine("Process_DB_Synchronization_Set started");
+        //protected override void PostStop() => Console.WriteLine("Process_DB_Synchronization_Set stopped");
 
         protected override void OnReceive(object message)
         {

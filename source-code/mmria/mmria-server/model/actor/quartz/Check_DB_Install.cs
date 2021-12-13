@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Check_DB_Install : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Check_DB_Install started");
-        protected override void PostStop() => Console.WriteLine("Check_DB_Install stopped");
+        //protected override void PreStart() => Console.WriteLine("Check_DB_Install started");
+        //protected override void PostStop() => Console.WriteLine("Check_DB_Install stopped");
 
         protected override void OnReceive(object message)
         {
@@ -57,10 +57,10 @@ namespace mmria.server.model.actor.quartz
 					}
 					catch(Exception ex)
 					{
-						Console.WriteLine($"Failed configuration \n{ex}");
+						Console.WriteLine($"Check_DB_Install Failed configuration \n{ex}");
 					}
 				}
-				Console.WriteLine($"Starup/Install Check - end {System.DateTime.Now}");
+				//Console.WriteLine($"Starup/Install Check - end {System.DateTime.Now}");
                 break;
             }
 
