@@ -11,6 +11,12 @@
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
+
+    var SortedDictionary  = new SortedDictionary<string, mmria.common.couchdb.DBConfigurationDetail>();
+    foreach(var kvp in Model.detail_list)
+    {
+        SortedDictionary.Add(kvp.Key, kvp.Value);
+    }
 }
 
 <h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
@@ -22,7 +28,7 @@
         <label for="StateDatabase" class="d-block text-right mb-0 mr-3" style="width: 156px">MMRIA Site:</label>
         <select id="StateDatabase" class="form-control w-auto" name="StateDatabase">
             <option value="">Select site</option>
-            @foreach (var item in Model.detail_list)
+            @foreach (var item in SortedDictionary)
             {
                 <option value="@item.Key">@item.Key</option>
             }

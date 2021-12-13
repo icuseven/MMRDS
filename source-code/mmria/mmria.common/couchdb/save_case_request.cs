@@ -29,6 +29,9 @@ namespace mmria.common.model.couchdb
             public string old_value {get;set;}
             public string new_value {get;set;}
             public string dictionary_path {get;set;}
+
+            public int? form_index {get;set;}
+            public int? grid_index {get;set;}
             public string prompt {get;set;}
             
             

@@ -3024,7 +3024,7 @@ MPregRel5	(Blank)
 				}
 
                 // MCauseD24 committee_review/did_discrimination_contribute_to_the_death=7777
-                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 777)
+                if(!string.IsNullOrWhiteSpace(val) && int.TryParse(val, out test_int) && test_int == 7777)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
@@ -4853,7 +4853,8 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
             if(dynamic_val != null )
             {
                 var object_val = dynamic_val as object;
-                pmss_mm_string = object_val.ToString();
+                if(object_val!=null)
+                    pmss_mm_string = object_val.ToString();
             }
 
             if(double.TryParse(pmss_mm_string, out test_double))
@@ -4943,7 +4944,8 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
             if(dynamic_val != null )
             {
                 var object_val = dynamic_val as object;
-                was_this_death_preventable = object_val.ToString();
+                if(object_val!=null)
+                    was_this_death_preventable = object_val.ToString();
             }
 
             dynamic_val = get_value(p_source_object, "committee_review/chance_to_alter_outcome");
@@ -4951,7 +4953,11 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
             if(dynamic_val != null )
             {
                 var object_val = dynamic_val as object;
-                if(int.TryParse(object_val.ToString(), out test_int))
+                if
+                (
+                    object_val != null &&
+                    int.TryParse(object_val.ToString(), out test_int)
+                )
                 {
                     chance_to_alter_outcome = test_int;
                 }
@@ -4978,7 +4984,7 @@ committee_review/chance_to_alter_outcome=0 (Good Chance) OR
 committee_review/chance_to_alter_outcome=1 (Some Chance
 */
 
-            val is_preventable = false;
+            var is_preventable = false;
 
                 try
                 {	
@@ -5096,14 +5102,16 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
-                birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
+                if ( object_val!=null )
+                    birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
             }
 
             dynamic_val = get_value(p_source_object, "death_certificate/race/omb_race_recode");
             if(dynamic_val != null)
             {
                 var object_val = dynamic_val as object;
-                death_certificate_race_race_string = object_val.ToString();
+                if ( object_val!= null )
+                    death_certificate_race_race_string = object_val.ToString();
             }
 
             if(!string.IsNullOrWhiteSpace(birth_fetal_death_certificate_parent_race_omb_race_recode_string))

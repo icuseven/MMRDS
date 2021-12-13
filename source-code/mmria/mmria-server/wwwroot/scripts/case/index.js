@@ -112,7 +112,9 @@ async function g_set_data_object_from_path
         metadata_type: metadata.type,
         prompt: metadata.prompt,
         date_created: new Date().toISOString(),
-        user_name: g_user_name
+        user_name: g_user_name,
+        form_index: p_form_index,
+        grid_index: p_grid_index
       });
 
       await autorecalculate(p_dictionary_path);
@@ -274,7 +276,9 @@ async function g_set_data_object_from_path
       metadata_type: metadata.type,
       prompt: metadata.prompt,
       date_created: new Date().toISOString(),
-      user_name: g_user_name
+      user_name: g_user_name,
+      form_index: p_form_index,
+      grid_index: p_grid_index
     });
 
     g_data.date_last_updated = new Date();
@@ -4068,17 +4072,59 @@ async function autorecalculate
                 )
 
                 if(niosh_result.industry.length > 0)
-                g_data.death_certificate.demographics.dc_m_industry_code_1 = niosh_result.industry[0].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_1 = niosh_result.industry[0].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_1 = "";
+                }
+                
                 if(niosh_result.industry.length > 1)
-                g_data.death_certificate.demographics.dc_m_industry_code_2 = niosh_result.industry[1].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_2 = niosh_result.industry[1].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_2 = "";
+                }
+                
                 if(niosh_result.industry.length > 2)
-                g_data.death_certificate.demographics.dc_m_industry_code_3 = niosh_result.industry[2].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_3 = niosh_result.industry[2].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_industry_code_3 = "";
+                }
+                
                 if(niosh_result.occupation.length > 0)
-                g_data.death_certificate.demographics.dc_m_occupation_code_1 = niosh_result.occupation[0].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_1 = niosh_result.occupation[0].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_1 = "";
+                }
+                
                 if(niosh_result.occupation.length > 1)
-                g_data.death_certificate.demographics.dc_m_occupation_code_2 = niosh_result.occupation[1].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_2 = niosh_result.occupation[1].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_2 = "";
+                }
+                
                 if(niosh_result.occupation.length > 2)
-                g_data.death_certificate.demographics.dc_m_occupation_code_3 = niosh_result.occupation[2].code;
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_3 = niosh_result.occupation[2].code;
+                }
+                else
+                {
+                    g_data.death_certificate.demographics.dc_m_occupation_code_3 = "";
+                }
+                
 
 
             break;
@@ -4093,18 +4139,60 @@ async function autorecalculate
                 )
             
 
-                if(niosh_result.industry.length > 0)             
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = niosh_result.industry[0].code;
+                if(niosh_result.industry.length > 0)
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = niosh_result.industry[0].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = "";
+                }             
+                
                 if(niosh_result.industry.length > 1)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = niosh_result.industry[1].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = niosh_result.industry[1].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = "";
+                }
+                
                 if(niosh_result.industry.length > 2)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = niosh_result.industry[2].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = niosh_result.industry[2].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = "";
+                }
+                
                 if(niosh_result.occupation.length > 0)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = niosh_result.occupation[0].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = niosh_result.occupation[0].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = "";
+                }
+                
                 if(niosh_result.occupation.length > 1)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = niosh_result.occupation[1].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = niosh_result.occupation[1].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = "";
+                }
+                
                 if(niosh_result.occupation.length > 2)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = niosh_result.occupation[2].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = niosh_result.occupation[2].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = "";
+                }
+                
 
             break;
             case "/birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry":
@@ -4116,17 +4204,59 @@ async function autorecalculate
                 )    
             
                 if(niosh_result.industry.length > 0)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = niosh_result.industry[0].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = niosh_result.industry[0].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = "";
+                }
+                
                 if(niosh_result.industry.length > 1)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = niosh_result.industry[1].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = niosh_result.industry[1].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = "";
+                }
+                
                 if(niosh_result.industry.length > 2)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = niosh_result.industry[2].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = niosh_result.industry[2].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = "";
+                }
+                
                 if(niosh_result.occupation.length > 0)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = niosh_result.occupation[0].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = niosh_result.occupation[0].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = "";
+                }
+                
                 if(niosh_result.occupation.length > 1)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = niosh_result.occupation[1].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = niosh_result.occupation[1].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = "";
+                }
+                
                 if(niosh_result.occupation.length > 2)
-                g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = niosh_result.occupation[2].code;
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = niosh_result.occupation[2].code;
+                }
+                else
+                {
+                    g_data.birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = "";
+                }
+                
 
             break;
             case "/social_and_environmental_profile/socio_economic_characteristics/occupation":
@@ -4138,17 +4268,59 @@ async function autorecalculate
  
 
                 if(niosh_result.industry.length > 0)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.industry[0].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.industry[0].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = "";
+                }
+                
                 if(niosh_result.industry.length > 1)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.industry[1].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.industry[1].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = "";
+                }
+                
                 if(niosh_result.industry.length > 2)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.industry[2].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.industry[2].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = "";
+                }
+                
                 if(niosh_result.occupation.length > 0)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.occupation[0].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.occupation[0].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = "";
+                }
+                
                 if(niosh_result.occupation.length > 1)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.occupation[1].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.occupation[1].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = "";
+                }
+                
                 if(niosh_result.occupation.length > 2)
-                g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.occupation[2].code;
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.occupation[2].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = "";
+                }
+                
 
 
             break;
