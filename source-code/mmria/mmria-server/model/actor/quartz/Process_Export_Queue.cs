@@ -336,7 +336,7 @@ namespace mmria.server.model.actor.quartz
 							System.IO.Directory.Delete(export_directory, true);
 						}
 					}
-					catch(Exception Ex)
+					catch(Exception)
 					{
 						// do nothing for now
 						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
@@ -352,7 +352,7 @@ namespace mmria.server.model.actor.quartz
 						}
 
 					}
-					catch(Exception Ex)
+					catch(Exception)
 					{
 						// do nothing for now
                         System.Console.WriteLine ("Program.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
@@ -367,7 +367,7 @@ namespace mmria.server.model.actor.quartz
 
 					responseFromServer = get_curl.execute ();
 				}
-				catch(Exception ex)
+				catch(Exception)
 				{
 					// do nothing for now
 				}

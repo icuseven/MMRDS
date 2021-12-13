@@ -91,7 +91,7 @@ namespace mmria.server.model.actor.quartz
 								
 			
 								}
-								catch (Exception ex)
+								catch (Exception)
 								{
 									//System.Console.WriteLine ("Sync Delete case");
 									//System.Console.WriteLine (ex);
@@ -113,7 +113,7 @@ namespace mmria.server.model.actor.quartz
 									}
 			
 								}
-								catch (Exception ex)
+								catch (Exception)
 								{
 									//System.Console.WriteLine ("Sync PUT case");
 									//System.Console.WriteLine (ex);

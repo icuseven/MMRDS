@@ -294,7 +294,7 @@ namespace mmria.server.model.actor.quartz
 							{
 								process_node(ref is_changed, child, object_dictionary[child.name]);
 							}
-							catch(Exception ex)
+							catch(Exception)
 							{
 								Console.WriteLine("unable to process" + child.name + " : " + child.type);
 							}
@@ -318,7 +318,7 @@ namespace mmria.server.model.actor.quartz
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -349,7 +349,7 @@ namespace mmria.server.model.actor.quartz
 									{
 										process_node(ref is_changed, child, object_dictionary[child.name]);
 									}
-									catch(Exception ex)
+									catch(Exception)
 									{
 										Console.WriteLine("unable to process" + child.name + " : " + child.type);
 									}
@@ -372,7 +372,7 @@ namespace mmria.server.model.actor.quartz
 								{
 									process_node(ref is_changed, child, object_dictionary[child.name]);
 								}
-								catch(Exception ex)
+								catch(Exception)
 								{
 									Console.WriteLine("unable to process" + child.name + " : " + child.type);
 								}
@@ -386,7 +386,7 @@ namespace mmria.server.model.actor.quartz
 					{
 						process_list(ref is_changed, this.lookup,  p_metadata, p_value);
 					}
-					catch(Exception ex)
+					catch(Exception)
 					{
 						Console.WriteLine("unable to process" + p_metadata.name + " : " + p_metadata.type);
 					}
@@ -469,7 +469,7 @@ namespace mmria.server.model.actor.quartz
 				builder.Length = builder.Length - 1;
 
 				var metadata_path = builder.ToString();
-				object new_item = null;
+				//object new_item = null;
 
 				switch(p_case)
 				{
