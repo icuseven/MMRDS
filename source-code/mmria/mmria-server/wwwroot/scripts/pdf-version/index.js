@@ -309,6 +309,7 @@ async function print_pdf(ctx) {
 	};
 	// pdfMake.createPdf( doc ).download( pdfName );
 
+	console.log('*** doc: ', doc);
 
 	window.setTimeout
 		(
@@ -392,6 +393,7 @@ function fmtYear(val) {
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
 function reformatDate(dt) {
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let date = new Date(dt);
 	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
 }
@@ -414,7 +416,7 @@ function fmtDateByFields(dt) {
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0) return '  ';
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
@@ -2023,7 +2025,7 @@ function print_pdf_render_content(ctx) {
 						narrative[i].ul.forEach( (u) => {
 							let ulRet = '' + u.text;
 							ctx.content.push( [
-								{ ul: [ ulRet, ], colSpan: '2', },
+								{ ul: [ ulRet, ], style: ['narrativeDetail'], colSpan: '2', },
 								{}, 
 							]);
 						});
@@ -2032,7 +2034,7 @@ function print_pdf_render_content(ctx) {
 						narrative[i].ol.forEach( (o) => {
 							let olRet = '' + o.text;
 							ctx.content.push( [
-								{ ol: [ olRet, ], colSpan: '2', },
+								{ ol: [ olRet, ], style: ['narrativeDetail'], colSpan: '2', },
 								{}, 
 							]);
 						});
@@ -2048,6 +2050,7 @@ function print_pdf_render_content(ctx) {
 						ctx.content.push( [
 							{
 								layout: 'lightHorizontalLines',
+								style: ['narrativeDetail'],
 								table: {
 									headerRows: myHeaderRows,
 									widths: myWidths,
@@ -2059,7 +2062,7 @@ function print_pdf_render_content(ctx) {
 					} else {
 						// Regular default
 						ctx.content.push([
-							{ text: narrative[i], colSpan: '2' },
+							{ text: narrative[i], style: ['narrativeDetail'], colSpan: '2' },
 							{},
 						]);
 					}
