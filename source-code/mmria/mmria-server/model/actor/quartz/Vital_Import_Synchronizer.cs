@@ -17,7 +17,7 @@ namespace mmria.server.model.actor.quartz
         {
              
 
-             Console.WriteLine($"Rebuild_Export_Queue Baby {System.DateTime.Now}");
+             //Console.WriteLine($"Vital_Import_Synchronizer onreceive {System.DateTime.Now}");
 
             
             switch (message)
