@@ -1677,7 +1677,7 @@ function print_pdf_render_content(ctx) {
 			let colspan = 0;
 
 			// Check to see if Committee Decisions / Recommendations of the Committee is blank
-			if ( ctx.section_name === 'committee_review' && ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
+			if ( ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
 				break;
 			}
 
@@ -2024,8 +2024,9 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ul: key
 						narrative[i].ul.forEach( (u) => {
 							let ulRet = '' + u.text;
+							// bullet list removed -  removed style: ['narrativeDetail'], 
 							ctx.content.push( [
-								{ ul: [ ulRet, ], style: ['narrativeDetail'], colSpan: '2', },
+								{ ul: [ ulRet, ], colSpan: '2', },
 								{}, 
 							]);
 						});
@@ -2033,8 +2034,9 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ol: key
 						narrative[i].ol.forEach( (o) => {
 							let olRet = '' + o.text;
+							// ordered list -  removed style: ['narrativeDetail'], 
 							ctx.content.push( [
-								{ ol: [ olRet, ], style: ['narrativeDetail'], colSpan: '2', },
+								{ ol: [ olRet, ], colSpan: '2', },
 								{}, 
 							]);
 						});
@@ -2047,10 +2049,10 @@ function print_pdf_render_content(ctx) {
 						});
 						let myWidths = narrative[i].table.widths;
 
+						// table removed -  - removed style: ['narrativeDetail'], 
 						ctx.content.push( [
 							{
 								layout: 'lightHorizontalLines',
-								style: ['narrativeDetail'],
 								table: {
 									headerRows: myHeaderRows,
 									widths: myWidths,
@@ -2060,9 +2062,9 @@ function print_pdf_render_content(ctx) {
 						],);
 						// console.log('ctx.content: ', ctx.content);
 					} else {
-						// Regular default
+						// Regular default - removed style: ['narrativeDetail'], 
 						ctx.content.push([
-							{ text: narrative[i], style: ['narrativeDetail'], colSpan: '2' },
+							{ text: narrative[i], colSpan: '2' },
 							{},
 						]);
 					}
