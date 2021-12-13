@@ -106,7 +106,7 @@ namespace mmria.server.model.actor.quartz
                 }
                 
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
                 Console.WriteLine($"failed end_point exists check: {p_target_server}");

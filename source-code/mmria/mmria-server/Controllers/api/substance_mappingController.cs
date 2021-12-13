@@ -63,7 +63,7 @@ namespace mmria.server.Controllers
 
           cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
 
-          bool save_document = false;
+          //bool save_document = false;
 
 
           try
