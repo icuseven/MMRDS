@@ -309,6 +309,7 @@ async function print_pdf(ctx) {
 	};
 	// pdfMake.createPdf( doc ).download( pdfName );
 
+	console.log('*** doc: ', doc);
 
 	window.setTimeout
 		(
@@ -392,6 +393,7 @@ function fmtYear(val) {
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
 function reformatDate(dt) {
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let date = new Date(dt);
 	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
 }
@@ -414,7 +416,7 @@ function fmtDateByFields(dt) {
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0) return '  ';
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
@@ -1675,7 +1677,7 @@ function print_pdf_render_content(ctx) {
 			let colspan = 0;
 
 			// Check to see if Committee Decisions / Recommendations of the Committee is blank
-			if ( ctx.section_name === 'committee_review' && ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
+			if ( ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
 				break;
 			}
 
@@ -2022,6 +2024,7 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ul: key
 						narrative[i].ul.forEach( (u) => {
 							let ulRet = '' + u.text;
+							// bullet list removed -  removed style: ['narrativeDetail'], 
 							ctx.content.push( [
 								{ ul: [ ulRet, ], colSpan: '2', },
 								{}, 
@@ -2031,6 +2034,7 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ol: key
 						narrative[i].ol.forEach( (o) => {
 							let olRet = '' + o.text;
+							// ordered list -  removed style: ['narrativeDetail'], 
 							ctx.content.push( [
 								{ ol: [ olRet, ], colSpan: '2', },
 								{}, 
@@ -2045,6 +2049,7 @@ function print_pdf_render_content(ctx) {
 						});
 						let myWidths = narrative[i].table.widths;
 
+						// table removed -  - removed style: ['narrativeDetail'], 
 						ctx.content.push( [
 							{
 								layout: 'lightHorizontalLines',
@@ -2057,7 +2062,7 @@ function print_pdf_render_content(ctx) {
 						],);
 						// console.log('ctx.content: ', ctx.content);
 					} else {
-						// Regular default
+						// Regular default - removed style: ['narrativeDetail'], 
 						ctx.content.push([
 							{ text: narrative[i], colSpan: '2' },
 							{},
