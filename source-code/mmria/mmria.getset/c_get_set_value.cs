@@ -73,7 +73,7 @@ namespace migrate
 				builder.Length = builder.Length - 1;
 
 				var metadata_path = builder.ToString();
-				object new_item = null;
+				//object new_item = null;
 
 				switch(p_case)
 				{
@@ -343,7 +343,7 @@ namespace migrate
 		{
 			List<(int, dynamic)> result = new List<(int, dynamic)>();
 
-			dynamic current = null;
+			//dynamic current = null;
 
 			try
 			{
@@ -851,7 +851,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}
@@ -940,7 +940,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}

@@ -62,7 +62,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -82,7 +82,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -102,7 +102,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -122,7 +122,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -142,7 +142,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -163,7 +163,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -183,7 +183,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -203,7 +203,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -223,7 +223,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -243,7 +243,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -263,7 +263,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -284,7 +284,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }
@@ -303,7 +303,7 @@ namespace migrate
                 }
 
             }
-            catch(System.Exception ex)
+            catch(System.Exception)
             {
                 // do nothing
             }

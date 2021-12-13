@@ -60,7 +60,7 @@ namespace mmria.server
 
 				var byName = (IDictionary<string,object>)code_gen_request;
 				var payload = byName["payload"].ToString(); 
-				string id_val = null;
+				//string id_val = null;
 
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();

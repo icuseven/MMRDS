@@ -136,7 +136,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                         .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
                         .CreateLogger();
                     }
-                    catch(System.Exception ex)
+                    catch(System.Exception)
                     {
                         Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                         .WriteTo.Console()

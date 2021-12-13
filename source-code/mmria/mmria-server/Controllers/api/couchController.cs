@@ -87,7 +87,7 @@ namespace mmria.server
             client.BaseAddress = target.Uri;
 
             // Needs to get filled with response.
-            string content;
+            //string content;
             System.IO.StreamReader reader;
             string jsonInput;
             System.Net.Http.HttpRequestMessage request_message;

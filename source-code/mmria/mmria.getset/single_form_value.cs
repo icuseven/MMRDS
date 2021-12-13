@@ -73,7 +73,7 @@ namespace migrate
 				builder.Length = builder.Length - 1;
 
 				var metadata_path = builder.ToString();
-				object new_item = null;
+				//object new_item = null;
 
 				switch(p_case)
 				{
@@ -181,7 +181,7 @@ namespace migrate
 				builder.Length = builder.Length - 1;
 
 				var metadata_path = builder.ToString();
-				object new_item = null;
+				//object new_item = null;
 
 				switch(p_case)
 				{
@@ -267,7 +267,7 @@ namespace migrate
 				builder.Length = builder.Length - 1;
 
 				var metadata_path = builder.ToString();
-				object new_item = null;
+				//object new_item = null;
 
 				switch(p_case)
 				{

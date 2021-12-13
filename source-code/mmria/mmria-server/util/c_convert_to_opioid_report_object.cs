@@ -355,7 +355,7 @@ mDeathbyRace  MDeathbyRace17 17
                     }
 
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     //System.Console.WriteLine (ex);
                 }
@@ -384,7 +384,7 @@ mDeathbyRace  MDeathbyRace17 17
                     }
 
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     //System.Console.WriteLine (ex);
                 }
@@ -418,7 +418,7 @@ mDeathbyRace  MDeathbyRace17 17
 					opioid_report_value_header.year_of_death = report_object.year_of_death;
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -432,7 +432,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -447,7 +447,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -469,7 +469,7 @@ mDeathbyRace  MDeathbyRace17 17
 					
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -483,7 +483,7 @@ mDeathbyRace  MDeathbyRace17 17
 					opioid_report_value_header.host_state = val.ToString();
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -498,7 +498,7 @@ mDeathbyRace  MDeathbyRace17 17
 					opioid_report_value_header.jurisdiction_id = report_object.jurisdiction_id;
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//System.Console.WriteLine (ex);
 			}
@@ -770,7 +770,7 @@ mDeathbyRace  MDeathbyRace17 17
 		{
 			List<(int, dynamic)> result = new List<(int, dynamic)>();
 
-			dynamic current = null;
+			//dynamic current = null;
 
 			try
 			{
@@ -868,7 +868,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 		private string get_race_ethnicity (System.Dynamic.ExpandoObject p_source_object)
 		{
-			string result = "9999";
+			//string result = "9999";
 
 			string val = null;
 			object val_object = null;
@@ -1823,7 +1823,7 @@ death_certificate/Race/race = Other
 					{
 						result = new DateTime(start_year, start_month, start_day);
 					}
-					catch(Exception ex)
+					catch(Exception)
 					{
 						
 					}

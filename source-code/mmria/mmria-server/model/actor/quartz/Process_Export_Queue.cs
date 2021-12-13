@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Process_Export_Queue : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
-        protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
+        //protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
+        //protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
 
         protected override void OnReceive(object message)
         {
@@ -16,7 +16,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfoMessage:
             
-                Console.WriteLine($"Process_Export_Queue {System.DateTime.Now}");
+                //Console.WriteLine($"Process_Export_Queue {System.DateTime.Now}");
 
                 //System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
                 try
@@ -336,7 +336,7 @@ namespace mmria.server.model.actor.quartz
 							System.IO.Directory.Delete(export_directory, true);
 						}
 					}
-					catch(Exception Ex)
+					catch(Exception)
 					{
 						// do nothing for now
 						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
@@ -352,7 +352,7 @@ namespace mmria.server.model.actor.quartz
 						}
 
 					}
-					catch(Exception Ex)
+					catch(Exception)
 					{
 						// do nothing for now
                         System.Console.WriteLine ("Program.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
@@ -367,7 +367,7 @@ namespace mmria.server.model.actor.quartz
 
 					responseFromServer = get_curl.execute ();
 				}
-				catch(Exception ex)
+				catch(Exception)
 				{
 					// do nothing for now
 				}

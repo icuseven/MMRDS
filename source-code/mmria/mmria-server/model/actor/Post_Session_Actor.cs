@@ -130,7 +130,7 @@ namespace mmria.server.model.actor
                             return;//result;
                         }
                     } 
-                    catch (Exception ex) 
+                    catch (Exception) 
                     {
                         // do nothing for now document doesn't exsist.
                         //System.Console.WriteLine ($"err caseController.Post\n{ex}");

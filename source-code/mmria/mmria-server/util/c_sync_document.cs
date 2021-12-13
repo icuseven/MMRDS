@@ -143,7 +143,7 @@ namespace mmria.server.utils
 
 		
 					} 
-					catch (Exception ex) 
+					catch (Exception) 
 					{
 
 					}
@@ -164,7 +164,7 @@ namespace mmria.server.utils
 				System.Console.WriteLine(de_id_result);
 
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("c_sync_document de_id");
 				//System.Console.WriteLine(ex);
@@ -204,7 +204,7 @@ namespace mmria.server.utils
 				System.Console.WriteLine(aggregate_result);
 
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Console.WriteLine("sync aggregate_id");
 				//System.Console.WriteLine(ex);

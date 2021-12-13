@@ -9,6 +9,22 @@ using System.Threading.Tasks;
 
 namespace mmria.server
 {
+    public class cURL_Result
+    {
+        public enum ResultTypeEnum
+        {
+            none,
+            some,
+            error
+        }
+
+        public ResultTypeEnum ResultType {get; init; }
+
+        public int ResponseNumber {get; init;}
+        public string value {get;init;}
+
+        
+    }
 	public class cURL
 	{
 		string method;

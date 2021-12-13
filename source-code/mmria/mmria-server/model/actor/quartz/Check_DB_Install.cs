@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Check_DB_Install : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Check_DB_Install started");
-        protected override void PostStop() => Console.WriteLine("Check_DB_Install stopped");
+        //protected override void PreStart() => Console.WriteLine("Check_DB_Install started");
+        //protected override void PostStop() => Console.WriteLine("Check_DB_Install stopped");
 
         protected override void OnReceive(object message)
         {
@@ -16,7 +16,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfoMessage:
 
-				Console.WriteLine($"Starup/Install Check - start {System.DateTime.Now}");
+				//Console.WriteLine($"Starup/Install Check - start {System.DateTime.Now}");
 				if 
 				(
 					url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&
@@ -57,10 +57,10 @@ namespace mmria.server.model.actor.quartz
 					}
 					catch(Exception ex)
 					{
-						Console.WriteLine($"Failed configuration \n{ex}");
+						Console.WriteLine($"Check_DB_Install Failed configuration \n{ex}");
 					}
 				}
-				Console.WriteLine($"Starup/Install Check - end {System.DateTime.Now}");
+				//Console.WriteLine($"Starup/Install Check - end {System.DateTime.Now}");
                 break;
             }
 
@@ -106,7 +106,7 @@ namespace mmria.server.model.actor.quartz
                 }
                 
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
                 Console.WriteLine($"failed end_point exists check: {p_target_server}");

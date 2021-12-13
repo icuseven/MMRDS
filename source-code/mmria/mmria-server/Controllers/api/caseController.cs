@@ -243,7 +243,7 @@ namespace mmria.server
             try
             {
                 string request_string = null;
-				mmria.server.utils.c_sync_document sync_document = null;
+				//mmria.server.utils.c_sync_document sync_document = null;
 
                 if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {

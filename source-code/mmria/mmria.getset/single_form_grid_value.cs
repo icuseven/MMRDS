@@ -36,7 +36,7 @@ namespace migrate
 
 			List<(int, dynamic)> result = new List<(int, dynamic)>();
 
-			dynamic current = null;
+			//dynamic current = null;
 
 			try
 			{
@@ -127,7 +127,7 @@ namespace migrate
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				is_error = true;
 
