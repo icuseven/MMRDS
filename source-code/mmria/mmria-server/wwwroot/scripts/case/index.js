@@ -3845,14 +3845,32 @@ async function autorecalculate
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/day":
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/year":
                 ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                
+                
+                
                 if (ga.length > 1) 
                 {
                     g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
                     g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
-
-                    $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks", ga[0], p_form_index, p_grid_index);
-                    $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days", ga[1], p_form_index, p_grid_index);
                 }
+                else
+                {
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = "";
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = "";
+                }
+                $mmria.set_control_value
+                (
+                    "prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks", 
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks, 
+                    p_form_index, p_grid_index
+                );
+                $mmria.set_control_value
+                (
+                    "prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days", 
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days, 
+                    p_form_index, p_grid_index
+                );
+                
             break;
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit":
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/month":
@@ -4414,7 +4432,7 @@ async function autorecalculate_all_gestation
         $mmria.set_control_value("prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days", ga[1]);
     }
 
-
+/*
 
     ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_ultrasound", is_edd, edd_date, is_lmp, lmp_date)
     if (ga.length > 1) 
@@ -4426,7 +4444,7 @@ async function autorecalculate_all_gestation
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
         }
-    }
+    }*/
 
     // GRID
     g_data.prenatal.routine_monitoring.forEach
@@ -4844,11 +4862,27 @@ function autorecalculate_get_event_date
 
 function autorecalculate_get_event_date_separate(p_value)
 {
+    let result = null;
+
     const event_year = parseInt(p_value.year);
     const event_month = parseInt(p_value.month);
     const event_day = parseInt(p_value.day);
 
-    const result = new Date(event_year, event_month - 1, event_day);
+    if
+    (
+        event_year != null &&
+        event_month != null &&
+        event_day != null &&
+        event_year != "" &&
+        event_month != "" &&
+        event_day != "" &&
+        event_year != 9999 &&
+        event_month != 9999 &&
+        event_day != 9999
+    )
+    {
+        result = new Date(event_year, event_month - 1, event_day);
+    }
 
 
     return result;
