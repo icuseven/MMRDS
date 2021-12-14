@@ -314,8 +314,8 @@ async function print_pdf(ctx) {
 
 	window.setTimeout
 		(
-			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			// async function () { await pdfMake.createPdf(doc).open(window); },
+			async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 
@@ -1744,7 +1744,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: chkNull(dataChild[metaChild[i].name]), style: ['tableDetail'], },);
+									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
