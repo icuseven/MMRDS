@@ -4125,7 +4125,7 @@ async function autorecalculate
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day":
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year":
                     
-                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records.basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 if (ga.length > 1) 
                 {
                     g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
@@ -5192,6 +5192,12 @@ function autorecalculate_get_event_date
         case "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening":
             event_date = autorecalculate_get_event_date_combined(g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
         break;
+        case "/medical_transport/date_of_transport":
+        case "/medical_transport/date_of_transport/year":
+        case "/medical_transport/date_of_transport/month":
+        case "/medical_transport/date_of_transport/day":
+            event_date = autorecalculate_get_event_date_separate(g_data.medical_transport[p_form_index].date_of_transport);
+        break;
         default:
             console.log("autorecalculate_get_event_date: switch missing" + p_mmria_path)
             break;
@@ -5837,17 +5843,17 @@ path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_informa
 event=onfocus
 */
 
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_ehd_days_dhdc_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_ehd_days_dhdc_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_ehd_days_dhdc_postpartum);
 
 
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/month", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/day", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year", arc_ehd_days_dhdc_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/month", arc_ehd_days_dhdc_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/day", arc_ehd_days_dhdc_postpartum);
 
 
-function arc_ehd_days_postpartum(p_form_index) 
+function arc_ehd_days_dhdc_postpartum(p_form_index) 
 {
     if(p_form_index == null) return;
 
@@ -5899,9 +5905,14 @@ function arc_ehd_days_postpartum(p_form_index)
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
-        other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum = days;
-        $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum", days);
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum = days;    
     }
+    else
+    {
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum = "";
+    }
+
+    $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum", g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum, p_form_index);
 }
 //CALCULATE DAYS POST-PARTUM IN MEDICAL TRANSPORT FORM 
 /*
@@ -5936,9 +5947,66 @@ function arc_mt_days_postpartum(p_form_index)
     {
         days = $global.calc_days(start_date, end_date);
         g_data.medical_transport[p_form_index].date_of_transport.days_postpartum = days;
-        //p_control.value = this.days_postpartum;
-        $mmria.set_control_value("medical_transport/date_of_transport/days_postpartum", days);
     }
+    else
+    {
+        g_data.medical_transport[p_form_index].date_of_transport.days_postpartum = "";
+    }
+
+    $mmria.set_control_value("medical_transport/date_of_transport/days_postpartum", g_data.medical_transport[p_form_index].date_of_transport.days_postpartum);
+ 
+
+
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+
+    let is_edd = false;
+    let is_lmp = false;
+
+    if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(edd_year, edd_month, edd_day) == true
+    )
+    {
+        is_edd = true;
+
+    }
+    else if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    )
+    {
+        is_lmp = true;
+    }
+    else
+    {
+        return;
+    }
+
+    const ga = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
+    if (ga.length > 1) 
+    {
+        
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = ga[0];
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = ga[1];
+    }
+    else
+    {
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = "";
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = "";
+    }
+    
+    $mmria.set_control_value("medical_transport/date_of_transport/gestational_age_weeks", g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks, p_form_index);
+    $mmria.set_control_value("medical_transport/date_of_transport/gestational_age_days", g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days, p_form_index);
+
 }
 //CALCULATE DAYS POST-PARTUM IN MENTAL HEALTH FORM IN MENTAL HEALTH CONDITIONS GRID
 /*
@@ -6416,4 +6484,4 @@ function arc_prenatal_care_dlnm_gestation()
     }
 }
 
-///birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother
+
