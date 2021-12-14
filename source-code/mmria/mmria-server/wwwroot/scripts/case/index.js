@@ -5091,7 +5091,7 @@ function autorecalculate_get_event_date
     */
     
 
-
+//birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses
 
     switch(p_mmria_path)
     {
@@ -6281,8 +6281,14 @@ function arc_birth_2_death()
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
         g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
-        $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
+
     }
+    else
+    {
+        g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = "";
+    }
+
+    $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother);
 }
 
 
@@ -6350,3 +6356,64 @@ function arc_birth_ga()
         }
     }
 }
+
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/month", arc_prenatal_care_dlnm_gestation);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/day", arc_prenatal_care_dlnm_gestation);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/year", arc_prenatal_care_dlnm_gestation);
+
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_prenatal_care_dlnm_gestation);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_prenatal_care_dlnm_gestation);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_prenatal_care_dlnm_gestation);
+
+
+function arc_prenatal_care_dlnm_gestation() 
+{
+
+    ///birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation
+    ///birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days
+    var ga_lmp = [];
+    var weeks = null;
+    var days = null;
+    var event_year = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.year);
+    var event_month = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.month);
+    var event_day = parseInt(g_data.birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.day);
+    var lmp_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var lmp_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var lmp_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+
+    if 
+    (
+        $global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    ) 
+    {
+        ga_lmp = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga_lmp.length > 1) 
+        {
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = ga_lmp[0];
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days = ga_lmp[1];
+        }
+        else
+        {
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = "";
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days = "";
+        }
+
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation', g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation);
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days', g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days);
+        
+    }
+    else
+    {
+        g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = "";
+        g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days = "";
+
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation', g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation);
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days', g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days);
+    }
+}
+
+///birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother
