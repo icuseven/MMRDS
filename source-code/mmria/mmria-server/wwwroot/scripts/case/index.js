@@ -3817,7 +3817,7 @@ async function autorecalculate
         }
         else
         {
-            return;
+            //return;
         }
 
 
@@ -4639,7 +4639,7 @@ async function autorecalculate_all_gestation
     }
     else
     {
-        return;
+        //return;
     }
 /*
 
@@ -5946,7 +5946,7 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     }
     else
     {
-        return;
+        //return;
     }
 
     
