@@ -2326,7 +2326,7 @@ function pdf_case_onclick(event)
   let section_name = dropdown.value;
   //await print_pdf( section_name );
 
-//   tab_number+= 1;
+  tab_number+= 1;
 
   if (section_name) 
   {
