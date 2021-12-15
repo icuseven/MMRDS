@@ -5879,17 +5879,17 @@ path=other_medical_office_visits/visit/date_of_medical_office_visit/days_postpar
 event=onfocus
 */
 
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_omov_days_calc_gestataion_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_omov_days_calc_gestataion_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_omov_days_calc_gestataion_postpartum);
 
-autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/year", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/month", arc_ehd_days_postpartum);
-autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/day", arc_ehd_days_postpartum);
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/year", arc_omov_days_calc_gestataion_postpartum);
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/month", arc_omov_days_calc_gestataion_postpartum);
+autocalc_map.safe_set("/other_medical_office_visits/visit/date_of_medical_office_visit/day", arc_omov_days_calc_gestataion_postpartum);
 
 
 
-function arc_ehd_days_postpartum(p_form_index) 
+function arc_omov_days_calc_gestataion_postpartum(p_form_index) 
 {
     if(p_form_index == null) return;
 
@@ -5913,6 +5913,60 @@ function arc_ehd_days_postpartum(p_form_index)
     }
 
     $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/days_postpartum", g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum, p_form_index);
+
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+
+
+    let is_edd = false;
+    let is_lmp = false;
+
+    if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(edd_year, edd_month, edd_day) == true
+    )
+    {
+        is_edd = true;
+
+    }
+    else if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    )
+    {
+        is_lmp = true;
+    }
+    else
+    {
+        return;
+    }
+
+    
+    const ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
+    if (ga.length > 1) 
+    {
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+    }
+    else
+    {
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = "";
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = "";
+    }
+
+    $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks", g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks, p_form_index);
+    $mmria.set_control_value("other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days", g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days, p_form_index);
+
+
+
 }
 //CALCULATE DAYS POST-PARTUM IN MEDICAL TRANSPORT FORM 
 /*
