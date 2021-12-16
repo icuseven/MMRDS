@@ -65,8 +65,9 @@ namespace mmria.server
                 return null;
             }
 
+            var couchdb_max_take_value = 268_435_456;
             int skip = 0;
-            int take = int.MaxValue;
+            int take = couchdb_max_take_value;
             string sort = "by_last_name";
             bool descending = false;
   
