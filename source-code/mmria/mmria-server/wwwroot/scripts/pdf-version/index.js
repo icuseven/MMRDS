@@ -974,7 +974,6 @@ function GetTableDetailRow(p_result, p_node) {
 
 function ConvertHTMLDOMWalker(p_result, p_node) {
 	//let crlf_regex = /\n/g;
-
 	switch (p_node.nodeName.toUpperCase()) {
 		case "TABLE":
 
