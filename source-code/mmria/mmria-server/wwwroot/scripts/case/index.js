@@ -2326,7 +2326,7 @@ function pdf_case_onclick(event)
   let section_name = dropdown.value;
   //await print_pdf( section_name );
 
-  tab_number+= 1;
+  //tab_number+= 1;
 
   if (section_name) 
   {
@@ -5614,7 +5614,9 @@ function arc_birth_interval()
     }
 }
 
+/*
 
+This should NOT be calculated
 
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year", arc_prenatal_1st_ultra_ga);
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month", arc_prenatal_1st_ultra_ga);
@@ -5628,11 +5630,6 @@ autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/month"
 autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/day", arc_prenatal_1st_ultra_ga);
 autocalc_map.safe_set("/prenatal/current_pregnancy/date_of_1st_ultrasound/year", arc_prenatal_1st_ultra_ga);
 
-//CALCULATE GESTATIONAL AGE AT 1ST PRENATAL VISIT (LMP OR EDD) ON PC
-/*
-path=prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks
-event=onfocus
-*/
 function arc_prenatal_1st_ultra_ga(p_control) 
 {
     var ga = [];
@@ -5682,6 +5679,7 @@ function arc_prenatal_1st_ultra_ga(p_control)
     }
 }
 
+*/
 
 //CALCULATE INTER-PREGNANCY INTERVAL IN MONTHS ON BC
 /*
@@ -6512,7 +6510,7 @@ function arc_prenatal_care_dlnm_gestation()
         $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
     ) 
     {
-        ga_lmp = $global.calc_ga_lmp(lmp_date, event_date);
+        ga_lmp = $global.calc_ga_lmp(event_date, lmp_date);
         if (ga_lmp.length > 1) 
         {
             g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = ga_lmp[0];
