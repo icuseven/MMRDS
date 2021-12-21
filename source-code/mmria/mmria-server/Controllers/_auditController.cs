@@ -78,6 +78,7 @@ namespace mmria.server.Controllers
             selector_struc.limit = 1_000_000;
             selector_struc.selector.Add("case_id", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
             selector_struc.selector["case_id"].Add("$eq", p_id);
+            selector_struc.use_index = "case-id-date-last-updated-index";
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -124,14 +125,24 @@ namespace mmria.server.Controllers
                     item.items[i].temp_index = i;
                 }
 
+                for(var subitem_index = 0; subitem_index < item.items.Count; subitem_index++)
+                {
+                    var subitem = item.items[subitem_index];
+
+
+
+                }
+
                 item.items.Sort(new Change_Stack_Item_DescendingDate());
+                
                 if(showAll)
                 {
-                    result.Add(item);
+                    result.Add(DebounceDateTimeField(item));
                 }
                 else if(item.items.Count > 0 && item.case_id == p_id)
                 {
-                    result.Add(item);
+                    
+                    result.Add(DebounceDateTimeField(item));
                 }
             }
 
@@ -172,15 +183,16 @@ namespace mmria.server.Controllers
                 case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
 
 
-            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            //var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/_all_docs?include_docs=true";
+            var request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{change_id}";
             var audit_view_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.Change_Stack>>(responseFromServer);
+            
+            var cs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.Change_Stack>(responseFromServer);
 
-            var cs = view_response.rows.Where(i=> i.id == change_id).First().doc;
 
             for(var i = 0; i < cs.items.Count; i++)
             {
@@ -467,6 +479,82 @@ namespace mmria.server.Controllers
 			}
 			return result;
 		}	
+
+
+        mmria.common.model.couchdb.Change_Stack DebounceDateTimeField(mmria.common.model.couchdb.Change_Stack value)
+        {
+            var result = new mmria.common.model.couchdb.Change_Stack()
+            {
+             _id = value._id,
+             _rev = value._rev,
+             case_id = value.case_id,
+             case_rev = value.case_rev,
+             user_name = value.user_name,
+             note = value.note,
+             metadata_version = value.metadata_version,
+             date_created = value.date_created
+            };
+
+            string found_path = "";
+            int found_index = -1;
+            int last_index = -1;
+            int target_index = -1;
+            for(var subitem_index = 0; subitem_index < value.items.Count; subitem_index++)
+            {
+                var subitem = value.items[subitem_index];
+
+
+                if(subitem.metadata_type.ToUpper() == "DATETIME")
+                {
+                    if(subitem.dictionary_path == found_path)
+                    {
+                        last_index = subitem_index;
+                        continue;
+                    }
+                    else
+                    {
+                        found_path = subitem.dictionary_path;
+                        found_index = subitem_index;
+                        target_index = result.items.Count;
+                        result.items.Add(subitem);
+                    }
+                }
+                else
+                {
+                    if(!string.IsNullOrWhiteSpace(found_path))
+                    {
+                        if(last_index > -1)
+                            result.items[target_index].old_value = value.items[last_index].old_value;
+                        result.items[target_index].new_value = value.items[found_index].new_value;
+
+                        found_path = "";
+                        found_index = -1;
+                        last_index = -1;
+                        target_index = -1;
+                    }
+                    result.items.Add(subitem);
+                }
+
+            }
+
+            if
+            (
+                !string.IsNullOrWhiteSpace(found_path) &&
+                last_index > -1
+            )
+            {
+                result.items[target_index].old_value = value.items[last_index].old_value;
+                result.items[target_index].new_value = value.items[found_index].new_value;
+
+
+                found_path = "";
+                found_index = -1;
+                last_index = -1;
+                target_index = -1;
+            }
+
+            return result;
+        }
 
 
     }

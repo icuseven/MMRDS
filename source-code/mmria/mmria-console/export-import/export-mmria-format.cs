@@ -148,7 +148,9 @@ namespace mmria.console
       result.push("sort=" + this.sort);
 */
 
-			string document_url = this.mmria_url + $"/api/case_view?take={int.MaxValue}";
+            var couchdb_max_take_value = 268_435_456;
+
+			string document_url = this.mmria_url + $"/api/case_view?take={couchdb_max_take_value}";
 			var document_curl = new cURL("GET", null, document_url, null, null, null);
 			document_curl.AddCookie("AuthSession", auth_session);
 			string document_json = null;

@@ -287,6 +287,28 @@ Updated By
             {
                 
             }
+            else if(change.metadata_type == "datetime")
+            {
+                if(DateTime.TryParse (change.old_value, out DateTime date))
+                {
+                    @date.ToString()
+                }
+                else
+                {
+                    @change.old_value
+                }
+            }
+            else if(change.metadata_type == "date")
+            {
+                if(DateTime.TryParse (change.old_value, out DateTime date))
+                {
+                    @date.ToShortDateString()
+                }
+                else
+                {
+                    @change.old_value
+                }
+            }
             else if(change.old_value.Length> 30)
             {
                 @change.old_value.Substring(0, 30);
@@ -302,6 +324,28 @@ Updated By
             @if(string.IsNullOrWhiteSpace(change.new_value))
             {
 
+            }
+            else if(change.metadata_type == "datetime")
+            {
+                if(DateTime.TryParse (change.new_value, out DateTime date))
+                {
+                    @date.ToString()
+                }
+                else
+                {
+                    @change.new_value
+                }
+            }
+            else if(change.metadata_type == "date")
+            {
+                if(DateTime.TryParse (change.new_value, out DateTime date))
+                {
+                    @date.ToShortDateString()
+                }
+                else
+                {
+                    @change.new_value
+                }
             }
             else if(!string.IsNullOrWhiteSpace(change.new_value) && change.new_value?.Length> 30)
             {
@@ -322,5 +366,7 @@ Updated By
 
 }
 </table>
+<br/>
+<p><strong>Note:</strong> All times are displayed in the Coordinated Universal Time (UTC) standard. UTC is 5 hours ahead of EST.</p>
 
 

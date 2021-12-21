@@ -306,7 +306,7 @@ namespace mmria.server.model
                     }
                 }
             }
-            catch (System.Net.WebException ex)
+            catch (System.Net.WebException)
             {
                 return result;
             }

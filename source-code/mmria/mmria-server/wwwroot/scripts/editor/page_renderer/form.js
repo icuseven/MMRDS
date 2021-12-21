@@ -27,11 +27,15 @@ function form_render(
 
 	let case_is_locked = is_case_locked(g_data);
 
-	if (case_is_locked) {
+	if (case_is_locked) 
+    {
 		// do nothing for now
-	} else if (g_is_data_analyst_mode == null) {
+	} 
+    else if (g_is_data_analyst_mode == null) 
+    {
 		//if case is checked out by ANYONE
-		if (g_data_is_checked_out) {
+		if (g_data_is_checked_out) 
+        {
 			// console.log('anyone has locked it out')
 			enable_edit_disable_attribute = " disabled='disabled' "; //disabled enable edit btn
 			undo_disable_attribute = ""; //enable undo btn
@@ -43,10 +47,12 @@ function form_render(
 		}
 
 		//if case is checked out by YOU
-		if (
+		if 
+        (
 			!is_checked_out_expired(g_data) &&
 			g_data.last_checked_out_by === g_user_name
-		) {
+		) 
+        {
 			// console.log('you')
 			enable_edit_disable_attribute = " disabled "; //disable enable edit btn
 			currently_locked_by_html = ""; //hide user locked info
@@ -54,10 +60,12 @@ function form_render(
 		}
 
 		//if case is checked out by SOMEONE ELSE
-		if (
+		if 
+        (
 			!is_checked_out_expired(g_data) &&
 			g_data.last_checked_out_by !== g_user_name
-		) {
+		) 
+        {
 			enable_edit_disable_attribute = " disabled "; //disable enable edit btn
 			currently_locked_by_html =
 				"<i>(Currently Locked By: <b>" +
@@ -67,11 +75,13 @@ function form_render(
 	}
 	//~~~~~ END SETUP Concurrent Edit
 
-	if (p_metadata.cardinality == "+" || p_metadata.cardinality == "*") {
+	if (p_metadata.cardinality == "+" || p_metadata.cardinality == "*") 
+    {
 		p_result.push("<section id='");
 		p_result.push(p_metadata.name);
 		p_result.push("_id' class='construct'>");
-		p_result.push(
+		p_result.push
+        (
 			"<header data-header='multi-form' class='construct__header content-intro' tabindex='-1'>"
         );
         
@@ -92,13 +102,15 @@ function form_render(
             );
             */
 
-			p_result.push(
+			p_result.push
+            (
 				"<div class='construct__header-main position-relative row no-gutters align-items-start'>"
 			);
 			p_result.push("<div class='col-4 position-static'>");
 			if (g_data) 
             {
-				p_result.push(
+				p_result.push
+                (
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
 				p_result.push(g_data.home_record.last_name);
@@ -147,24 +159,29 @@ function form_render(
             
             p_result.push(`</p>`);
 
-			if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {
+			if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) 
+            {
 				p_result.push(
 					`<p class='construct__info mb-0'>Reporting state: <span>${g_data.host_state}</span></p>`
 				);
 			}
 
-			if (
+			if 
+            (
 				g_data.home_record.case_status &&
 				!isNullOrUndefined(g_data.home_record.case_status.overall_case_status)
-			) {
+			) 
+            {
 				let current_value = g_data.home_record.case_status.overall_case_status;
-				let look_up = get_metadata_value_node_by_mmria_path(
+				let look_up = get_metadata_value_node_by_mmria_path
+                (
 					g_metadata,
 					"/home_record/case_status/overall_case_status",
 					""
 				);
 				let label = current_value;
-				for (let i = 0; i < look_up.values.length; i++) {
+				for (let i = 0; i < look_up.values.length; i++) 
+                {
 					let item = look_up.values[i];
 					if (item.value == current_value) {
 						label = item.display;
@@ -172,12 +189,14 @@ function form_render(
 					}
 				}
 
-				p_result.push(
+				p_result.push
+                (
 					`<p class='construct__info mb-0'>Case Status: <span>${label}</span></p>`
 				);
 			}
 
-			if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) {
+			if (g_data.date_created && !isNullOrUndefined(g_data.date_created)) 
+            {
 				let date_part_display_value = convert_datetime_to_local_display_value(
 					g_data.date_created
 				);
@@ -189,10 +208,12 @@ function form_render(
 				);
 			}
 
-			if (
+			if 
+            (
 				g_data.date_last_updated &&
 				!isNullOrUndefined(g_data.date_last_updated)
-			) {
+			) 
+            {
 				let date_part_display_value = convert_datetime_to_local_display_value(
 					g_data.date_last_updated
 				);
@@ -205,11 +226,13 @@ function form_render(
 			}
 
 			let add_button_disable_attribute = ' disabled="disabled" ';
-			if (g_data_is_checked_out) {
+			if (g_data_is_checked_out) 
+            {
 				add_button_disable_attribute = "";
 			}
 			p_result.push('<div class="row no-gutters align-items-center mt-3">');
-			if (!(g_is_data_analyst_mode || case_is_locked)) {
+			if (!(g_is_data_analyst_mode || case_is_locked)) 
+            {
 				p_result.push(
 					'<input path="" type="button" class="btn btn-primary" value="Add A New Record"'
 				);
@@ -225,22 +248,27 @@ function form_render(
 
 				);
 			}
-			p_result.push(
+			p_result.push
+            (
 				'<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>'
 			);
 			p_result.push("</div>");
 
 			p_result.push("</div>");
-			p_result.push(
+			p_result.push
+            (
 				"<div class='construct__controller col-8 row no-gutters justify-content-end'>"
 			);
-			p_result.push(
+			p_result.push
+            (
 				"<div class='row no-gutters align-items-center justify-content-end'>"
 			);
-			p_result.push(
+			p_result.push
+            (
 				"<span class='spinner-container spinner-inline mr-2'><span class='spinner-body text-primary'><span class='spinner'></span></span></span>"
 			);
-			if (!(g_is_data_analyst_mode || case_is_locked)) {
+			if (!(g_is_data_analyst_mode || case_is_locked)) 
+            {
 				p_result.push(
                     `${currently_locked_by_html}
                     <input type="button" class="btn btn-primary ml-3" value="Enable Edit" onclick="init_inline_loader(function() { enable_edit_click() })" ${enable_edit_disable_attribute} />
@@ -277,6 +305,8 @@ function form_render(
             </thead>`
         );
 
+
+
 		//~~ birth_certificate_infant_fetal_section
 		if (p_metadata.name === "birth_certificate_infant_fetal_section") {
 			p_result.push(
@@ -291,7 +321,8 @@ function form_render(
                 </thead>
                 <tbody class="tbody">`
             );
-			for (let i = 0; i < p_data.length; i++) {
+			for (let i = 0; i < p_data.length; i++) 
+            {
 				let item = p_data[i];
 				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join(
 					"/"
@@ -319,7 +350,8 @@ function form_render(
 		}
 
 		//~~ er_visit_and_hospital_medical_records
-		else if (p_metadata.name === "er_visit_and_hospital_medical_records") {
+		else if (p_metadata.name === "er_visit_and_hospital_medical_records") 
+        {
 			p_result.push(
                 `<thead class="thead">
                     <tr class="tr">
@@ -331,7 +363,8 @@ function form_render(
                 </thead>
                 <tbody class="tbody">`
             );
-			for (let i = 0; i < p_data.length; i++) {
+			for (let i = 0; i < p_data.length; i++) 
+            {
 				let item = p_data[i];
 				let url = `${window.location.pathname}#${p_ui.url_state.path_array.join(
 					"/"
@@ -748,16 +781,22 @@ function form_render(
 			p_result.push(
 				`<div class='construct-output' style='height:${height_attribute}'>`
 			);
-			for (var i = 0; form_item && i < p_metadata.children.length; i++) {
+			for (var i = 0; form_item && i < p_metadata.children.length; i++) 
+            {
 				var child = p_metadata.children[i];
 				//var item = p_data[data_index][child.name];
 
-				if (form_item[child.name]) {
-				} else {
+				if (form_item[child.name]) 
+                {
+
+				} 
+                else 
+                {
 					form_item[child.name] = create_default_object(child, {})[child.name];
 				}
 
-				if (child.type == "group") {
+				if (child.type == "group") 
+                {
 					Array.prototype.push.apply(
 						p_result,
 						page_render(
@@ -773,7 +812,9 @@ function form_render(
 							{ form_index: data_index }
 						)
 					);
-				} else {
+				} 
+                else 
+                {
 					Array.prototype.push.apply(
 						p_result,
 						page_render(
@@ -808,7 +849,14 @@ function form_render(
 			p_result.push("</div>");
 			p_result.push("</section>");
 		}
-	} else {
+	} 
+    else 
+    {
+        if(p_metadata.name == "home_record")
+        {
+            p_post_html_render.push("$global.case_document_begin_edit();")
+        }
+
 		p_result.push("<section id='");
 		p_result.push(p_metadata.name);
 		p_result.push("_id' class='construct' ");

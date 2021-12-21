@@ -379,7 +379,7 @@ function zip_key_changed(p_value) {
 }
 
 function setAnswerSummary(event) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => { 
     const target = event.target;
     const val = target.value;
     // @TODO remove all datasets from html

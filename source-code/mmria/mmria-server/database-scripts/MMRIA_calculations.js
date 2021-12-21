@@ -269,6 +269,10 @@ function $isValidDate(p_year, p_month, p_day)
     // the only month with 28 days (29 if year isLeap)
     var isLeap = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
     var valid = months31.indexOf(month) !== -1 && day <= 31 || months30.indexOf(month) !== -1 && day <= 30 || months28.indexOf(month) !== -1 && day <= 28 || months28.indexOf(month) !== -1 && day <= 29 && isLeap;
+    
+    if(year < 1900 || year > 2100)
+        valid = false;
+        
     return valid;
 }
 //CALCLATE GESTATIONAL AGE WITH LMP 
@@ -324,10 +328,12 @@ function $case_document_begin_edit ()
         || value === 1
         || value === 4
         || value === 88
-    ) {
+    ) 
+    {
         $('label[for=' + controlId + '], #' + controlId).hide();
     }
-    else {
+    else 
+    {
         $('label[for=' + controlId + '], #' + controlId).show();
     }
 }
@@ -495,11 +501,11 @@ function $case_status_confirm()
     g_is_confirm_for_case_lock = false;
 
     g_data.home_record.case_status.case_locked_date = new Date().toISOString().split("T")[0];
-    g_data.date_last_checked_out = null;
-    g_data.last_checked_out_by = null;
-    g_data_is_checked_out = false;
-
-    $mmria.save_current_record();
+    //g_data.date_last_checked_out = null;
+    //g_data.last_checked_out_by = null;
+    //g_data_is_checked_out = false;
+    save_and_finish_click();
+    //$mmria.save_current_record();
 
     g_render();
   

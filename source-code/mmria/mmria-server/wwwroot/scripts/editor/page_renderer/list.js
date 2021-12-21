@@ -578,22 +578,30 @@ function editable_list_set_visibility(p_data, p_object_path)
 {
     let query_path = convert_object_path_to_jquery_id(p_object_path);
 
-    if
-    (
-        p_data == null || 
-        p_data == ""  
-    )
+    const el = document.querySelector('div [id="' + query_path + '"]');
+
+    if(el != null)
     {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
+        if
+        (
+            
+            (
+            p_data == null || 
+            p_data == ""  
+            )
+        )
+        {
+            el.style.visibility = "hidden";
+        }
+        else if(p_data.indexOf("Other") == 0)
+        {
+            el.style.visibility = "";
+        }  
+        else
+        {
+            el.style.visibility = "hidden";
+        }  
     }
-    else if(p_data.indexOf("Other") == 0)
-    {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "";
-    }  
-    else
-    {
-        document.querySelector('div [id="' + query_path + '"]').style.visibility = "hidden";
-    }  
 }
 
 function editable_list_onchange(p_select_list, p_object_path)

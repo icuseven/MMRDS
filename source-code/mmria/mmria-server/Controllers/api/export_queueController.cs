@@ -94,7 +94,7 @@ namespace mmria.server
 						}
 						
 					}
-					catch(Exception ex)
+					catch(Exception)
 					{
 						// do nothing for now
 					}
@@ -114,7 +114,7 @@ namespace mmria.server
 
 
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//Console.WriteLine (ex);
 
@@ -163,7 +163,7 @@ namespace mmria.server
 				}
 
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				//Console.WriteLine (ex);
 			}
@@ -227,7 +227,7 @@ namespace mmria.server
 				}
 
 			}
-			catch(Exception ex) 
+			catch(Exception) 
 			{
 				//Console.Write("auth_session_token: {0}", auth_session_token);
 				//Console.WriteLine (ex);

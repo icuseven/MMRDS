@@ -180,7 +180,7 @@ namespace mmria.server.utils.email
 				return true;
 
 			}
-			catch (System.Exception ex)
+			catch (System.Exception)
 			{
 				return false;
 			}

@@ -44,9 +44,8 @@ async function create_print_version
 		p_section,
 		p_number,
 		p_metadata_summary,
-        p_show_hidden
-	) 
-    {
+		p_show_hidden
+	) {
 
 	g_md = null;
 	g_metadata = null;
@@ -64,10 +63,9 @@ async function create_print_version
 	g_metadata_summary = p_metadata_summary;
 	g_record_number = p_number;
 
-    if(p_show_hidden != null && p_show_hidden)
-    {
-        g_show_hidden = true;
-    }
+	if (p_show_hidden != null && p_show_hidden) {
+		g_show_hidden = true;
+	}
 
 	let p_ctx = {
 		metadata: p_metadata,
@@ -158,7 +156,10 @@ async function print_pdf(ctx) {
 				let startPage = 0;
 				let endPage = 0;
 				let header = '***';
+				// console.log('doc.content.length: ', doc.content.length);
+				// console.log('*** content: ', doc.content);
 				for (let i = 0; i < doc.content.length; i++) {
+					// console.log('*** pageNumber: ', i, ' - ', doc.content[i].positions[0].pageNumber);
 					startPage = doc.content[i].positions[0].pageNumber;
 					endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
 					header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText !== undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
@@ -309,6 +310,7 @@ async function print_pdf(ctx) {
 	};
 	// pdfMake.createPdf( doc ).download( pdfName );
 
+	// console.log('*** doc: ', doc);
 
 	window.setTimeout
 		(
@@ -392,13 +394,14 @@ function fmtYear(val) {
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
 function reformatDate(dt) {
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let date = new Date(dt);
 	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
 }
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === null || dt.year === '9999') {
+	if (dt.year === null || dt.year === '9999' || dt.year === '') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)}/${fmt2Digits(dt.day)}/ {fmtYear(dt.year)}`;
@@ -406,21 +409,21 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = (dt.month === null || dt.month === '9999') ? '  ' : fmt2Digits(dt.month);
-	let dd = (dt.day === null || dt.day === '9999') ? '  ' : fmt2Digits(dt.day);
-	let yy = (dt.year === null || dt.year === '9999') ? '    ' : dt.year;
+	let mm = (dt.month === null || dt.month === '9999' || dt.month === '') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day === null || dt.day === '9999' || dt.day === '') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year === null || dt.year === '9999' || dt.year === '') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0) return '  ';
+	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
 	strTime = (strTime === '00:00') ? '' : strTime;
-	return `${fmt2Digits(fDate.getMonth())}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
+	return `${fmt2Digits(fDate.getMonth() + 1)}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
@@ -748,20 +751,25 @@ async function formatContent(p_ctx, arrMap) {
 					if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
 						// Setup the correct ctx information to run the correct report
 						let new_content = [];
-						let new_context = { 
-							...p_ctx, 
-							metadata: 
-							child, 
+						let new_context = {
+							...p_ctx,
+							metadata:
+								child,
 							content: new_content,
-							data: p_ctx.data[child.name] };
+							data: p_ctx.data[child.name]
+						};
 						body = await print_pdf_render_content(new_context);
 
 						// If not the Home Record and is all records, then do a page break
 						if (p_ctx.section_name === 'all' && child.name !== 'home_record') {
-							body.unshift([ { text: '', pageBreak: 'before', colSpan: '2', }, {}, ]);
+							body.unshift([{ text: '', pageBreak: 'before', colSpan: '2', }, {},]);
 						}
 						// Get the page header
-						body.unshift([ { text: '', pageHeaderText: child.prompt, colSpan: '2', }, {}, ]);
+						body.unshift([{ text: '', pageHeaderText: child.prompt, colSpan: '2', }, {},]);
+						
+						// console.log('**** child name: ',  child.name);
+						// console.log('**** body: ', body);
+						
 						// Push the form to the stack
 						retContent.push([
 							{
@@ -849,6 +857,7 @@ function convert_attribute_to_pdf(p_node, p_result) {
 	if (p_result != null) {
 		result = p_result;
 	}
+
 	/*
 	font: string: name of the font
 	fontSize: number: size of the font in pt
@@ -873,7 +882,6 @@ function convert_attribute_to_pdf(p_node, p_result) {
 
 
 	if (p_node.attributes != null) {
-
 
 		for (let i = 0; i < p_node.attributes.length; i++) {
 			let attr = p_node.attributes[i];
@@ -908,7 +916,6 @@ function convert_attribute_to_pdf(p_node, p_result) {
 			}
 		}
 	}
-
 
 	return result;
 
@@ -965,10 +972,12 @@ function GetTableDetailRow(p_result, p_node) {
 	}
 }
 
-function ConvertHTMLDOMWalker(p_result, p_node) {
+function ConvertHTMLDOMWalker(p_result, p_node) 
+{
 	//let crlf_regex = /\n/g;
 
-	switch (p_node.nodeName.toUpperCase()) {
+	switch (p_node.nodeName.toUpperCase()) 
+    {
 		case "TABLE":
 
 
@@ -977,7 +986,8 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 			let number_of_header_rows = 2;
 
 
-			for (let i = 0; i < 1; i++) {
+			for (let i = 0; i < 1; i++) 
+            {
 				let child = p_node.childNodes[i];
 
 				GetTableHeader(header, child);
@@ -989,45 +999,57 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 
 			let tbody = null;
 			//let tbody_index = 0;
-			for (let i = 0; i < p_node.childNodes.length; i++) {
-				if (p_node.childNodes[i].nodeName.toUpperCase() == "TBODY") {
+			for (let i = 0; i < p_node.childNodes.length; i++) 
+            {
+				if (p_node.childNodes[i].nodeName.toUpperCase() == "TBODY") 
+                {
 					tbody = p_node.childNodes[i];
 					//tbody_index = i;
 					break;
 				}
 			}
 
-			if (tbody != null) {
-				for (let i = 0; i < tbody.childNodes.length; i++) {
+			if (tbody != null) 
+            {
+				for (let i = 0; i < tbody.childNodes.length; i++) 
+                {
 					let child = tbody.childNodes[i];
 					let detail_row = [];
 					GetTableDetailRow(detail_row, child);
 
-					if (detail_row.length > 0) {
-						if (widths.length == 0) {
-							if (header.length > 0) {
+					if (detail_row.length > 0) 
+                    {
+						if (widths.length == 0) 
+                        {
+							if (header.length > 0) 
+                            {
 
 								header = detail_row;
 
 								number_of_header_rows = 1;
 
-								for (let col_count = 0; col_count < detail_row.length; col_count++) {
+								for (let col_count = 0; col_count < detail_row.length; col_count++) 
+                                {
 									widths.push("auto");
 								}
 							}
-							else {
-								for (let col_count = 0; col_count < detail_row.length; col_count++) {
+							else 
+                            {
+								for (let col_count = 0; col_count < detail_row.length; col_count++) 
+                                {
 									widths.push("auto");
 								}
 
-								while (header.length < widths.length) {
+								while (header.length < widths.length) 
+                                {
 									header.push("");
 								}
 
 								body.push(detail_row);
 							}
 						}
-						else {
+						else 
+                        {
 							body.push(detail_row);
 						}
 
@@ -1035,8 +1057,9 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 				}
 			}
 
-			if (header.length != widths.length && header.length != max_detail) {
-				console.log("here");
+			if (header.length != widths.length && header.length != max_detail) 
+            {
+				//console.log("here");
 			}
 
 			let table = {
@@ -1058,18 +1081,18 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 			break;
 		case "P":
 		case "DIV":
+        case "SPAN":
 			let text_array = [];
 			for (let i = 0; i < p_node.childNodes.length; i++) {
 				let child = p_node.childNodes[i];
-
 				ConvertHTMLDOMWalker(text_array, child);
 			}
 			text_array.push({ text: "\n" });
 			p_result.push({ text: text_array });
 			return;
 			break;
-		case "SPAN":
-			p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {}) });
+		//case "SPAN":
+			//p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {}) });
 			return;
 			break;
 		case "STRONG":
@@ -1108,8 +1131,28 @@ function ConvertHTMLDOMWalker(p_result, p_node) {
 			return;
 			break;
 		case "LI":
-			let li_node = { text: p_node.textContent.trim() }
-			p_result.push(convert_attribute_to_pdf(p_node, li_node));
+			if (p_node.childNodes.length > 1) {
+				// Do this if there are multiple p tags in a single bullet
+				let li_array = [];
+				for (let i = 0; i < p_node.childNodes.length; i++) {
+					let child = p_node.childNodes[i];
+
+					ConvertHTMLDOMWalker(li_array, child);
+
+				}
+				// Create a single text string
+				let strLi = '';
+				li_array.forEach((a) => {
+					a.text.forEach((b) => {
+						strLi += b.text;
+					});
+				});
+				p_result.push({ text: strLi });
+			} else {
+				// Do this if there is a single record
+				let li_node = { text: p_node.textContent.trim() }
+				p_result.push(convert_attribute_to_pdf(p_node, li_node));
+			}
 			return;
 			break;
 
@@ -1563,6 +1606,13 @@ function print_pdf_render_content(ctx) {
 					});
 				}
 			}
+			// Check to see if any records were add, if not, then push a no records line
+			if (ctx.content.length === 0) {
+				ctx.content.push([
+					{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
+					{},
+				]);
+			}
 			break;
 		case "group":
 			// console.log('*************** type: ', ctx.metadata.type);
@@ -1657,7 +1707,7 @@ function print_pdf_render_content(ctx) {
 			let colspan = 0;
 
 			// Check to see if Committee Decisions / Recommendations of the Committee is blank
-			if ( ctx.section_name === 'committee_review' && ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0 ) {
+			if (ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0) {
 				break;
 			}
 
@@ -1711,7 +1761,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: chkNull(dataChild[metaChild[i].name]), style: ['tableDetail'], },);
+									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -1726,9 +1776,9 @@ function print_pdf_render_content(ctx) {
 						gridBody.push(row)
 					});
 				}
-			} else if ( ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comments' ||
-						ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comment' ||
-						ctx.metadata.children[ctx.metadata.children.length - 1].name === 'pregrid_comments') {
+			} else if (ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comments' ||
+				ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comment' ||
+				ctx.metadata.children[ctx.metadata.children.length - 1].name === 'pregrid_comments') {
 				// Save the comment field name
 				let commentFieldName = ctx.metadata.children[ctx.metadata.children.length - 1].name;
 
@@ -1743,13 +1793,13 @@ function print_pdf_render_content(ctx) {
 
 				// Do the header row
 				row = new Array();
-				row.push({ text: ctx.metadata.prompt, style: ['gridHeader', 'blueFill'], colSpan: `${colWidths.length}`, }, );
+				row.push({ text: ctx.metadata.prompt, style: ['gridHeader', 'blueFill'], colSpan: `${colWidths.length}`, },);
 				// Add the extra {} for the columns so it doesn't break;
 				for (let j = 1; j < colWidths.length; j++) {
 					row.push({},);
 				}
 				gridBody.push(row);
-				
+
 				// Do header columns
 				row = new Array();
 				row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
@@ -1762,7 +1812,7 @@ function print_pdf_render_content(ctx) {
 				// Check to see if there are records, if not then tell them so
 				if (ctx.data.length === 0) {
 					row = new Array();
-					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, }, );
+					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, },);
 					for (let i = 1; i < colWidths.length; i++) {
 						row.push({},);
 					}
@@ -1772,31 +1822,31 @@ function print_pdf_render_content(ctx) {
 						// Add the record number
 						row = new Array();
 						row.push(
-							{ 
-								text: `${dataIndex + 1}`, 
-								style: ['tableDetail', 'isItalics', 'isBold'], 
-								alignment: 'center', 
+							{
+								text: `${dataIndex + 1}`,
+								style: ['tableDetail', 'isItalics', 'isBold'],
+								alignment: 'center',
 								border: [true, true, true, false],
-							},);
+							});
 						for (let i = 0; i < adjColspan; i++) {
 							let metaChild = ctx.metadata.children[i];
 							switch (metaChild.type.toLowerCase()) {
 								case 'list':
-									row.push( { text: getLookupField(ctx.lookup, dataChild[metaChild.name], metaChild ), style: ['tableDetail'], }, );
+									row.push({ text: getLookupField(ctx.lookup, dataChild[metaChild.name], metaChild), style: ['tableDetail'], },);
 									break;
 								case 'string':
 								case 'number':
 								case 'time':
-									row.push( { text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push( { text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'date':
-									row.push( { text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'datetime':
-									row.push( { text: fmtDateTime(dataChild[metaChild.name]), style: ['tableDetail'], }, );
+									row.push({ text: fmtDateTime(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'hidden':
 								default:
@@ -1807,7 +1857,7 @@ function print_pdf_render_content(ctx) {
 						row = new Array();
 						// Allow for first column that has been row spanned (*** Tried to use the row span but it doesn't work, so I am faking it)
 						row.push({ text: '', border: [true, false, true, false], },);
-						row.push({ text: ctx.metadata.children[adjColspan].prompt, style: ['tableLabel', 'lightBlueFill'], colSpan: `${adjColspan}` }, );
+						row.push({ text: ctx.metadata.children[adjColspan].prompt, style: ['tableLabel', 'lightBlueFill'], colSpan: `${adjColspan}` },);
 						for (let i = 1; i < adjColspan; i++) {
 							row.push({},);
 						}
@@ -1997,26 +2047,75 @@ function print_pdf_render_content(ctx) {
 		case "textarea":
 			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name === 'case_opening_overview') {
-				let narrative = convert_html_to_pdf(ctx.data);
-				ctx.content.push([
-					{ text: narrative, colSpan: '2' },
-					{},
-				]);
+				let narrative = convert_html_to_pdf((typeof ctx.data === 'string') ? ctx.data : ctx.data.toString());
+				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
+				for (let i = 0; i < narrative.length; i++) {
+					if (narrative[i].hasOwnProperty('ul') === true) {
+						// Found a record with the ul: key
+						narrative[i].ul.forEach((u) => {
+							let ulRet = '' + u.text;
+							// bullet list removed -  removed style: ['narrativeDetail'], 
+							ctx.content.push([
+								{ ul: [ulRet,], colSpan: '2', },
+								{},
+							]);
+						});
+					} else if (narrative[i].hasOwnProperty('ol') === true) {
+						// Found a record with the ol: key
+						narrative[i].ol.forEach((o) => {
+							let olRet = '' + o.text;
+							// ordered list -  removed style: ['narrativeDetail'], 
+							ctx.content.push([
+								{ ol: [olRet,], colSpan: '2', },
+								{},
+							]);
+						});
+					} else if (narrative[i].hasOwnProperty('table') === true) {
+						// Found a table record
+						let myHeaderRows = narrative[i].table.headerRows;
+						let myBody = [];
+						narrative[i].table.body.forEach((b) => {
+							myBody.push(b);
+						});
+						let myWidths = narrative[i].table.widths;
+
+						// table removed -  - removed style: ['narrativeDetail'], 
+						ctx.content.push([
+							{
+								layout: 'lightHorizontalLines',
+								table: {
+									headerRows: myHeaderRows,
+									widths: myWidths,
+									body: myBody,
+								}, colSpan: '2',
+							}, {},
+						]);
+					} else {
+						// Regular default - removed style: ['narrativeDetail'], 
+						ctx.content.push([
+							{ text: narrative[i], colSpan: '2' },
+							{},
+						]);
+					}
+				}
 			} else {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['subHeader'], colSpan: '2', },
 					{},
 				],
-				[
-					{ text: chkNull(ctx.data), style: ['tableDetail'], colSpan: '2', }, 
-					{},
-				]);
+					[
+						{ 
+							text: `${(typeof ctx.data === 'string') ? ctx.data : ctx.data.toString()}`, 
+							style: ['tableDetail'], 
+							colSpan: '2', 
+						},
+						{},
+					]);
 			}
 			break;
 		case "chart":
 			// console.log('*************** type: ', ctx.metadata.type);
 			let chartBody = [];
-
 			// Check to see if there are multiple fields for x and/or y axis
 			let x_axis_path = ctx.metadata.x_axis.split(',');
 			let y_axis_path = ctx.metadata.y_axis.split(',');
@@ -2038,7 +2137,11 @@ function print_pdf_render_content(ctx) {
 			if (typeof ctx.multiFormIndex === 'undefined') {
 				// console.log('CHART single record');
 				// Check to see if there are any records using the path parts
-				if (ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]].length === 0) {
+
+				// See if there is any info
+				if (ctx.p_data.hasOwnProperty([x_axis_parts[0][0]]) === false ||
+					ctx.p_data[x_axis_parts[0][0]].hasOwnProperty([x_axis_parts[0][1]]) === false
+				) {
 					chartBody.push([
 						{
 							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
@@ -2057,10 +2160,11 @@ function print_pdf_render_content(ctx) {
 			if (thereBeRecords) {
 				// Labels will be from the x_axis
 				let xLabels = [];
-				let xRec = ( typeof ctx.multiFormIndex === 'undefined' )
+				let xRec = (typeof ctx.multiFormIndex === 'undefined')
 					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
 					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
 				// console.log('  xRec: ', xRec);
+				// console.log('  xRec len: ', xRec.length);
 				// Loop thru to get the dates
 				xRec.forEach((x) => {
 					xLabels.unshift(reformatDate(x[x_axis_parts[0][2]]));
@@ -2068,7 +2172,7 @@ function print_pdf_render_content(ctx) {
 				// console.log('   *** xLabels: ', xLabels);
 
 				// Data will be from the y_axis
-				let yRec = ( typeof ctx.multiFormIndex === 'undefined' )
+				let yRec = (typeof ctx.multiFormIndex === 'undefined')
 					? ctx.p_data[y_axis_parts[0][0]][y_axis_parts[0][1]]
 					: ctx.p_data[y_axis_parts[0][0]][ctx.multiFormIndex][y_axis_parts[0][1]];
 				let yDataOne = [];
@@ -2078,6 +2182,7 @@ function print_pdf_render_content(ctx) {
 				let optData;
 
 				// console.log('  yRec: ', yRec);
+				// console.log('  y_axis_field_cnt: ', y_axis_field_cnt);
 				if (y_axis_field_cnt === 1) {
 					// Create option info
 					yRec.forEach((y) => {
@@ -2125,20 +2230,17 @@ function print_pdf_render_content(ctx) {
 				}
 				// Create the graph
 				let retImg = '';
-				let imgName = ( typeof ctx.multiFormIndex === 'undefined' )
+				let imgName = (typeof ctx.multiFormIndex === 'undefined')
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
-				retImg = doChart2( imgName, optData, ctx.metadata.prompt );
-
+				retImg = doChart2(imgName, optData, ctx.metadata.prompt);
 				// Add image to chartBody
 				chartBody.push([
 					{ image: retImg, width: 550, alignment: 'center', }
 				]);
 			}
-
+			
 			// Now push it to the context
-			// console.log('chartBody: ', chartBody);
-			// console.log('***** ctx in CHART: ', ctx);
 			ctx.content.push([
 				{
 					layout: {
@@ -2161,12 +2263,11 @@ function print_pdf_render_content(ctx) {
 			]);
 			break;
 		case "button":
-            break;
+			break;
 		case "hidden":
 			// console.log('*************** type: ', ctx.metadata.type);
 			// console.log('g_show_hidden: ', g_show_hidden);
-			if(g_show_hidden)
-			{
+			if (g_show_hidden) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: chkNull(ctx.data), style: ['tableDetail', 'fgRed'], },

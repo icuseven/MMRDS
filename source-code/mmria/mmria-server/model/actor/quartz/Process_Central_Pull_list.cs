@@ -18,7 +18,7 @@ namespace mmria.server.model.actor.quartz
         {
              
 
-             Console.WriteLine($"Process_Central_Pull_list OnRecieve {System.DateTime.Now}");
+            //Console.WriteLine($"Process_Central_Pull_list OnRecieve {System.DateTime.Now}");
 
             
             switch (message)
@@ -99,7 +99,7 @@ namespace mmria.server.model.actor.quartz
                             var delete_de_id_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
                             delete_de_id_curl.execute();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                         
                         }
@@ -110,7 +110,7 @@ namespace mmria.server.model.actor.quartz
                             var delete_report_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
                             delete_report_curl.execute();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                         
                         }
@@ -121,7 +121,7 @@ namespace mmria.server.model.actor.quartz
                             var create_de_id_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
                             create_de_id_curl.execute();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                         
                         }
@@ -144,7 +144,7 @@ namespace mmria.server.model.actor.quartz
 
             
                         } 
-                        catch (Exception ex) 
+                        catch (Exception) 
                         {
 
                         }
@@ -156,7 +156,7 @@ namespace mmria.server.model.actor.quartz
                             var create_report_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
                             create_report_curl.execute();	
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                         
                         }
@@ -169,7 +169,7 @@ namespace mmria.server.model.actor.quartz
                             var create_report_index_curl = new cURL ("POST", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_index", index_json, Program.config_timer_user_name, Program.config_timer_value);
                             create_report_index_curl.execute();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                         
                         }
@@ -300,7 +300,7 @@ namespace mmria.server.model.actor.quartz
                 Server: CouchDB (Erlang/OTP)*/
                 result = true;
             } 
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 // do nothing for now
             }

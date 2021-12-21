@@ -103,6 +103,14 @@ namespace mmria.services.vitalsimport
                 var case_curl = new mmria.getset.cURL("GET", null, request_string, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
                 string responseFromServer = case_curl.execute();
 			    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+                if
+                (
+                    result!= null &&
+                    result.name_value.ContainsKey("metadata_version")
+                )
+                {
+                    Console.WriteLine($"metadata version: {result.name_value["metadata_version"]}");
+                }
 
             }
             catch(Exception ex)

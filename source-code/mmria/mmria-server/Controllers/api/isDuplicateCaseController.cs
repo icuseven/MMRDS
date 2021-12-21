@@ -173,7 +173,7 @@ namespace mmria.server
         (
             string search_key,
             int skip = 0,
-            int take = int.MaxValue,
+            int take = 268_435_456, // max couchdb take value
             string sort = "by_last_name",
             bool descending = false,
             string case_status = "all"

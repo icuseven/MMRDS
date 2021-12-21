@@ -208,7 +208,14 @@ var $mmria = function()
                 jq.push('[grid_index="' + p_grid_index +  '"]');
             }
             var control = document.querySelector(jq.join(""));
-            control.value = p_value;
+            if(control != null)
+            {
+                control.value = p_value;
+            }
+            else
+            {
+                //console.log("control not found: " + p_dictionary_path);
+            }
         },
         set_control_visibility: function(p_element_id, p_value)
         {
@@ -224,39 +231,77 @@ var $mmria = function()
                 break;
             }
         },
-        save_current_record: function(p_call_back)
+        save_current_record: function(p_call_back, p_note)
         {
+            if (g_is_data_analyst_mode != null) 
+            {
+                return;
+            }
+
+            let save_case_request = { 
+                Change_Stack:{
+                    _id: $mmria.get_new_guid(),
+                    case_id: g_data._id,
+                    case_rev: g_data._rev,
+                    date_created: new Date().toISOString(),
+                    user_name: g_user_name, 
+                    items: g_change_stack,
+                    metadata_version: g_release_version,
+                    note: (p_note != null)? p_note : ""
+    
+                },
+                Case_Data:g_data
+            };
+    
+        if(g_case_narrative_is_updated)
+        {
+            save_case_request.Change_Stack.items.push({
+                _id: g_data._id,
+                _rev: g_data._rev,
+              object_path: "g_data.case_narrative.case_opening_overview",
+              metadata_path: "/case_narrative/case_opening_overview",
+              old_value: g_case_narrative_original_value,
+              new_value: g_data.case_narrative.case_opening_overview,
+              dictionary_path: "/case_narrative/case_opening_overview",
+              metadata_type: "textarea",
+              prompt: 'Case Narrative',
+              date_created: g_case_narrative_is_updated_date.toISOString(),
+              user_name: g_user_name
+            });
+        }
+
 
             $.ajax({
                 url: location.protocol + '//' + location.host + '/api/case',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: JSON.stringify(g_data),
+                data: JSON.stringify(save_case_request),
                 type: "POST"
-            }).done(function(case_response) {
-        
+            })
+            .done(function(case_response) 
+            {
                 console.log("$mmria.save_current_record: success");
         
                 g_change_stack = [];
+                g_case_narrative_is_updated = false;
+                g_case_narrative_is_updated_date = null;
         
                 if(g_data && g_data._id == case_response.id)
                 {
-                g_data._rev = case_response.rev;
-                set_local_case(g_data);
-                //console.log('set_value save finished');
+                    g_data._rev = case_response.rev;
+                    set_local_case(g_data);
+                    //console.log('set_value save finished');
                 }
         
                 
                 if(case_response.auth_session)
                 {
-                    //profile.auth_session = case_response.auth_session;
-                    //$mmria.addCookie("AuthSession", case_response.auth_session);
                     set_session_warning_interval();
                 }
         
                 if(p_call_back)
                 {
-                p_call_back();
+                    p_call_back();
                 }
         
         

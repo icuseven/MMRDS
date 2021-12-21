@@ -112,7 +112,7 @@ namespace mmria.server.model
                 Server: CouchDB (Erlang/OTP)*/
                 result = true;
             } 
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 // do nothing for now
             }

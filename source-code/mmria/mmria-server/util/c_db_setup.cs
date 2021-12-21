@@ -33,7 +33,7 @@ namespace mmria.server.utils
                     is_able_to_connect = true;
                 }
             } 
-            catch (Exception ex) 
+            catch (Exception) 
             {
 
             }
@@ -236,7 +236,7 @@ namespace mmria.server.utils
 
 
                 } 
-                catch (Exception ex) 
+                catch (Exception) 
                 {
                     // do nothing for now
                 }
@@ -532,7 +532,7 @@ namespace mmria.server.utils
                 }
                 return  false;
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
                 Log.Information ($"failed end_point exists check: {p_target_server}");

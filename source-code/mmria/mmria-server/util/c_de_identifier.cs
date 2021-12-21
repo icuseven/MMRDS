@@ -182,7 +182,8 @@ namespace mmria.server.utils
 								}
 								else if (val is System.DateTime)
 								{
-									dictionary_object [path_list [0]] = DateTime.MinValue;
+									//dictionary_object [path_list [0]] = DateTime.MinValue;
+                                    dictionary_object [path_list [0]] = null;
 									result = true;
 								}
 								else

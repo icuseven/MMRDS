@@ -167,8 +167,9 @@ function tbw_change_paste(p_object_path, p_metadata_path, p_dictionary_path)
 
     if(data!= null)
     {
-        data = data.replace(crlf_regex, "<br>");
+        data = data.replace(crlf_regex, " ");
     }
+ 
 
     let new_text = textarea_control_strip_html_attributes(data);
 
@@ -236,7 +237,7 @@ function textarea_control_strip_html_attributes(p_value)
     let crlf_regex = /\n/g;
 
     let node = document.createElement("body");
-    node.innerHTML = p_value.replace(CommentRegex,"").replace(crlf_regex,"").replace(Strip5PlusBr,"<br><br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"").trim();
+    node.innerHTML = p_value.replace(CommentRegex,"").replace(crlf_regex," ").replace(Strip5PlusBr,"<br><br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"").trim();
 
     DOMWalker(node);
 

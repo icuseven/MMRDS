@@ -203,8 +203,9 @@ function renderCheckedOutCases(p_cases)
 	return result;
 }
 
-function handleCaseRelease(p_id) {
-	$.ajax({
+function handleCaseRelease(p_id) 
+{
+    $.ajax({
 		url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id //call the API and get current case
   }).done((response) => {
 		g_data = response; //set to local var
@@ -217,12 +218,28 @@ function handleCaseRelease(p_id) {
 	});
 }
 
-function saveCaseAndRelease(p_data, p_call_back) {
+function saveCaseAndRelease(p_data, p_call_back) 
+{
+    let save_case_request = { 
+        Change_Stack:{
+            _id: $mmria.get_new_guid(),
+            case_id: g_data._id,
+            case_rev: g_data._rev,
+            date_created: new Date().toISOString(),
+            user_name: g_user_name, 
+            items: [],
+            metadata_version: "",
+            note: "Manage Case Release"
+
+        },
+        Case_Data:p_data
+    };
+
 	$.ajax({
     url: location.protocol + '//' + location.host + '/api/case',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
-    data: JSON.stringify(p_data),
+    data: JSON.stringify(save_case_request),
     type: "POST"
   }).done(function(response) {
 		console.log("save_case: success");

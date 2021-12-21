@@ -129,14 +129,14 @@ namespace migrate.set
 				{
 					"ny",
 					"pa",
-
+					"fl_dev"
 				};
 
 
 				if(prefix_list.Contains(state_prefix))
 				{
-					await update_case_folder_tree(state_prefix);
-					await update_jurisdiction_roles(state_prefix);
+					//await update_case_folder_tree(state_prefix);
+					//await update_jurisdiction_roles(state_prefix);
 
 				}
 
@@ -162,9 +162,6 @@ namespace migrate.set
 						{
 							continue;
 						}
-
-
-
 
 						try
 						{
@@ -226,6 +223,44 @@ namespace migrate.set
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 								}
+								else
+								{
+
+									value_result = gs.get_value(doc, "home_record/record_id");
+									test_addquarter_object = value_result.result;
+									if
+									(
+										test_addquarter_object != null ||
+										!string.IsNullOrWhiteSpace(test_addquarter_object.ToString())
+									)
+									{
+										var arr = test_addquarter_object.ToString().Split("-");
+										int test_year = 0;
+										if
+										(
+											arr.Length > 1 &&
+											!string.IsNullOrWhiteSpace(arr[1]) &&
+											int.TryParse(arr[1], out test_year) &&
+											test_year >= 1900 &&
+											test_year <=2100
+
+										)
+										{
+											new_value = $"Q1-{test_year}";											
+											
+											if(case_change_count == 0)
+											{
+												case_change_count += 1;
+												case_has_changed = true;
+											}
+											
+											case_has_changed = case_has_changed && gs.set_value(addquarter_path, new_value, doc);
+											var output_text = $"item _id: {mmria_id} updated {addquarter_path}: {test_addquarter_object} => {new_value}";
+											this.output_builder.AppendLine(output_text);
+											Console.WriteLine(output_text);
+										}
+									}
+								}
 								
 							}
 
@@ -272,8 +307,7 @@ namespace migrate.set
 							Console.WriteLine(ex);
 						}
 
-
-
+/*
 						if(prefix_list.Contains(state_prefix))
 						{
 							// update jurisdiction_id on case 
@@ -314,7 +348,439 @@ namespace migrate.set
 								Console.WriteLine(ex);
 							}
 							
-						}
+						}*/
+
+
+
+    string primary_occupation = null;
+    string business_industry = null;
+
+//OCCUP
+//mor_field_set["OCCUP"]
+    var item_result = gs.get_value(doc, "death_certificate/demographics/primary_occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        primary_occupation = item_result.result.ToString();
+    }
+
+    //INDUST
+    item_result = gs.get_value(doc, "death_certificate/demographics/occupation_business_industry");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        business_industry = item_result.result.ToString();
+    }
+    var niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if
+    (
+        !niosh_result.is_error && 
+        (
+            niosh_result.Industry.Count > 0 ||
+            niosh_result.Occupation.Count > 0 
+        )
+    )
+    {   
+                   
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
+		}
+		
+		case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+		
+        if(niosh_result.Industry.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		}
+
+        if(niosh_result.Industry.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 0)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("death_certificate/demographics/dc_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		}
+    }
+
+
+
+    primary_occupation = null;
+    business_industry = null;
+
+//DAD_OC_T
+    item_result = gs.get_value(doc, "birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        primary_occupation = item_result.result.ToString();
+    }
+
+    //DAD_IN_T
+    item_result = gs.get_value(doc, "birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        business_industry = item_result.result.ToString();
+    }
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if
+    (
+        !niosh_result.is_error && 
+        (
+            niosh_result.Industry.Count > 0 ||
+            niosh_result.Occupation.Count > 0 
+        )
+    )
+    {   
+                
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
+		}
+		
+		case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
+
+        if(niosh_result.Industry.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		}
+
+        if(niosh_result.Industry.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 0)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		}
+
+    }
+
+ 
+    primary_occupation = null;
+    business_industry = null;
+//MOM_OC_T
+    item_result = gs.get_value(doc, "birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        primary_occupation = item_result.result.ToString();
+    }
+    
+    //MOM_IN_T
+    item_result = gs.get_value(doc, "birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        business_industry = item_result.result.ToString();
+    }
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if
+    (
+        !niosh_result.is_error && 
+        (
+            niosh_result.Industry.Count > 0 ||
+            niosh_result.Occupation.Count > 0 
+        )
+    )
+    {   
+                  
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
+		}
+		
+		case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
+
+        if(niosh_result.Industry.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		}
+
+        if(niosh_result.Industry.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 0)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		}
+    }
+
+
+
+    primary_occupation = null;
+    business_industry = null;
+
+    item_result = gs.get_value(doc, "social_and_environmental_profile/socio_economic_characteristics/occupation");
+    if
+    (
+        !item_result.is_error && 
+        item_result.result != null &&
+        !string.IsNullOrWhiteSpace(item_result.result.ToString())
+    )
+    {
+        primary_occupation = item_result.result.ToString();
+    }
+
+    niosh_result = get_niosh_codes
+    (
+        primary_occupation,
+       business_industry
+    );
+
+    if
+    (
+        !niosh_result.is_error && 
+        (
+            niosh_result.Industry.Count > 0 ||
+            niosh_result.Occupation.Count > 0 
+        )
+    )
+    {   
+                              
+		if(case_change_count == 0)
+		{
+			case_change_count += 1;
+			case_has_changed = true;
+		}
+		
+		case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code, doc);
+	
+
+        if(niosh_result.Industry.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
+		}
+
+        if(niosh_result.Industry.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 0)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
+		}
+
+        if(niosh_result.Occupation.Count > 1)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
+		}
+
+
+        if(niosh_result.Occupation.Count > 2)
+		{                      
+        	if(case_change_count == 0)
+			{
+				case_change_count += 1;
+				case_has_changed = true;
+			}
+			
+			case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+		}
+    }
+
+ 
+
+
+
+
+
+
 					}
 
 					if(!is_report_only_mode && case_has_changed)
@@ -635,6 +1101,7 @@ namespace migrate.set
 
 					break;
 					case "/nyc":
+					//case "/nyc":
 
 					new_role_list.docs.Add
 						(
@@ -749,7 +1216,7 @@ namespace migrate.set
 
 
 				
-			else if( prefix == "ny" || prefix == "localhost")
+			else if( prefix == "ny" || prefix == "localhost" || prefix == "fl_dev")
 			{
 
 				var ny_node = jurisiction_tree.children.Where(c => c.id == "jurisdiction_tree//ny").FirstOrDefault();
@@ -931,6 +1398,53 @@ namespace migrate.set
 			}
 			return result;
 		}
+
+
+		mmria.common.niosh.NioshResult get_niosh_codes(string p_occupation, string p_industry)
+        {
+            var result = new mmria.common.niosh.NioshResult();
+            var builder = new System.Text.StringBuilder();
+            builder.Append("https://wwwn.cdc.gov/nioccs/IOCode.ashx?n=3");
+            var has_occupation = false;
+            var has_industry = false;
+
+            if(!string.IsNullOrWhiteSpace(p_occupation))
+            {
+                has_occupation = true;
+                builder.Append($"&o={p_occupation}");
+            }
+
+            if(!string.IsNullOrWhiteSpace(p_industry))
+            {
+                has_industry = true;
+                builder.Append($"&i={p_industry}");
+            }
+
+            
+
+
+            if(has_occupation || has_industry)
+            {
+                var niosh_url = builder.ToString();
+
+                var niosh_curl = new cURL("GET", null, niosh_url, null);
+
+                try
+                {
+                    string responseFromServer = niosh_curl.execute();
+
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.niosh.NioshResult>(responseFromServer);
+                }
+                catch
+                {
+                    result.is_error = true;
+                }
+                
+            }
+            //{"Industry": [{"Code": "611110","Title": "Elementary and Secondary Schools","Probability": "9.999934E-001"},{"Code": "611310","Title": "Colleges, Universities, and Professional Schools","Probability": "2.598214E-006"},{"Code": "009990","Title": "Insufficient information","Probability": "2.312557E-006"}],"Occupation": [{"Code": "00-9900","Title": "Insufficient Information","Probability": "9.999897E-001"},{"Code": "11-9032","Title": "Education Administrators, Elementary and Secondary School","Probability": "6.550550E-006"},{"Code": "53-3022","Title": "Bus Drivers, School or Special Client","Probability": "4.932875E-007"}],"Scheme": "NAICS 2012 and SOC 2010"}
+            return result;
+
+        }
 
 
     }
