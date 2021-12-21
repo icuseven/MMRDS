@@ -10,7 +10,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_de_identification_list();
+	load_report_set();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -34,11 +34,11 @@ $(function ()
 
 
 
-function load_de_identification_list()
+function load_report_set()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/de_identified_list?id=export',
+		url: location.protocol + '//' + location.host + '/api/export_list_manager',
 	}).done(function(response) 
 	{
 		g_de_identified_list = response;
@@ -166,7 +166,7 @@ function server_save()
 {
 
 	$.ajax({
-				url: location.protocol + '//' + location.host + '/api/de_identified_list/export',
+				url: location.protocol + '//' + location.host + '/api/export_list_manager',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
 				data: JSON.stringify(g_de_identified_list),
@@ -191,40 +191,6 @@ function server_save()
 }
 
 
-
-function server_delete(p_migration_plan)
-{
-	$.ajax({
-				url: location.protocol + '//' + location.host + '/api/migration_plan?migration_plan_id=' + p_migration_plan._id + '&rev=' + p_migration_plan._rev,
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				//data: JSON.stringify(p_migration_plan),
-				type: "DELETE"/*,
-				beforeSend: function (request)
-				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
-					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-				},*/
-		}).done(function(response) 
-		{
-
-			var response_obj = eval(response);
-			if(response_obj.ok)
-			{
-				for(var i = 0; i < g_migration_plan_list.length; i++)
-				{
-					if(g_migration_plan_list[i]._id == response_obj.id)
-					{
-						g_migration_plan_list.splice(i, 1);; 
-						break;
-					}
-				}			
-
-				document.getElementById('output').innerHTML = render_migration_plan().join("");
-			}
-		});
-
-}
 
 
 

@@ -20,19 +20,7 @@ namespace mmria.server
 		{ 
 			try
 			{
-
-				string list_id = null;
-
-				if(!string.IsNullOrWhiteSpace(id) && id.ToLower() == "export")
-				{
-					list_id = "de-identified-export-list";
-				}
-				else
-				{
-					list_id = "de-identified-list";
-				}
-
-                string request_string = Program.config_couchdb_url + $"/metadata/{list_id}";
+                string request_string = Program.config_couchdb_url + $"/metadata/export-standard-list";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -85,19 +73,6 @@ namespace mmria.server
 		{ 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-			//if(!string.IsNullOrWhiteSpace(json))
-
-			string list_id = null;
-
-			if(!string.IsNullOrWhiteSpace(id) && id.ToLower() == "export")
-			{
-				list_id = "de-identified-export-list";
-			}
-			else
-			{
-				list_id = "de-identified-list";
-			}
-
 			try
 			{
 
@@ -108,7 +83,7 @@ namespace mmria.server
 				// Read the content.
 				string document_json = await reader0.ReadToEndAsync ();
 
-				string metadata_url = Program.config_couchdb_url + $"/metadata/{list_id}";
+				string metadata_url = Program.config_couchdb_url + $"/metadata/export-standard-list";
 
 				var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, Program.config_timer_user_name, Program.config_timer_value,"text/*");
 
