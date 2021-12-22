@@ -9,6 +9,7 @@ var g_delete_node_clip_board = null;
 var g_current_version = null;
 var g_all_de_identified_paths = [];
 var g_toggle_can_select_all = true;
+var g_standard_export_report_set  = {};
 
 var g_ui = { is_collapsed: [] };
 var g_filter = {
@@ -70,7 +71,7 @@ function load_data() {
         g_data.push(response[i]);
       }
     }
-
+    load_standard_export_report_set();
     get_metadata();
 
     //document.getElementById('generate_report_button').disabled = false;
@@ -415,7 +416,23 @@ function setAnswerSummary(event) {
   });
 }
 
-function getDeIdentifiedPaths(children, path = '') {
+
+function load_standard_export_report_set()
+{
+
+	$.ajax({
+		url: location.protocol + '//' + location.host + '/api/export_list_manager',
+	}).done(function(response) 
+	{
+		g_standard_export_report_set = response;
+		
+		
+	});
+
+}
+
+function getDeIdentifiedPaths(children, path = '') 
+{
   return children
     .map((child) => {
       if (['app', 'group', 'grid', 'form'].includes(child.type)) {
@@ -427,13 +444,21 @@ function getDeIdentifiedPaths(children, path = '') {
     .flat();
 }
 
-function get_metadata() {
-  $.ajax({
+function get_metadata() 
+{
+  $.ajax
+  (
+    {
     url: location.protocol + '//' + location.host + '/api/metadata',
-  }).done(function (response) {
+  }
+  )
+  .done
+  (function (response) 
+  {
     g_metadata = response;
     g_all_de_identified_paths = getDeIdentifiedPaths(response.children);
-    for (var i in g_metadata.lookup) {
+    for (var i in g_metadata.lookup) 
+    {
       var child = g_metadata.lookup[i];
 
       g_look_up['lookup/' + child.name] = child.values;

@@ -20,6 +20,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
     filter_decending = 'checked=true';
   }
 
+  let export_report_type = render_export_report_type(p_answer_summary['all_or_core']);
+
+
   result.push(`
 		<div class="row">
 			<div class="col">
@@ -35,22 +38,15 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>				
 					<li class="mb-4">
 						<p class="mb-3">Do you want to export <u>all data</u> or only <u>core data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
-						<input name="export-type"
+                        <label for="all-data" class="mb-0 font-weight-normal mr-2">Select Export Type</label>
+						<select name="export-type"
 											 id="all-data"
 											 type="radio"
 											 value="all"
 											 data-prop="all_or_core"
-											 ${p_answer_summary['all_or_core'] == 'all' ? 'checked=true' : ''}
-											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
-						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
-						<input name="export-type"
-											 id="core-data"
-											 type="radio"
-											 value="core"
-											 data-prop="all_or_core"
-											 ${p_answer_summary['all_or_core'] == 'core' ? 'checked=true' : ''}
-											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
-						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
+											 onchange="setAnswerSummary(event).then(renderSummarySection(this))">
+                                            ${export_report_type}
+                        </select>
 					</li>
 
 					<li class="mb-4">
@@ -1720,4 +1716,48 @@ function records_per_page_change(p_value)
         g_case_view_request.page = 1;
         g_case_view_request.skip = 0;
     }
+}
+
+function render_export_report_type(p_value)
+{
+    const result = [];
+
+    if(p_value == "all")
+    {
+        result.push(`<option value='all' selected>All</option>`)
+    }
+    else
+    {
+        result.push(`<option value='all'>All</option>`)
+    }
+    
+
+    if(p_value == "core")
+    {
+        result.push(`<option value='core' selected>Core</option>`)
+    }
+    else
+    {
+        result.push(`<option value='core'>Core</option>`)
+    }
+
+    Object.keys(g_standard_export_report_set.name_path_list).map
+    (
+        (value, index) =>
+        {
+            if(value == p_value)
+            {
+                result.push(`<option value='${value}' selected>${value}</option>`)
+            }
+            else
+            {
+                result.push(`<option value='${value}'>${value}</option>`)
+            }
+        }
+    )
+    
+    //result.push(`<option value=''></option>`)
+
+
+    return result.join("");
 }
