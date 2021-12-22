@@ -248,6 +248,38 @@ namespace mmria.server.model.actor.quartz
 
 
 				}
+                else 
+				{
+
+
+					item_to_process.status = "Creating Export...";
+					item_to_process.last_updated_by = "mmria-server";
+					item_to_process.date_last_updated = DateTime.Now;
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+
+					responseFromServer = set_curl.execute ();
+					args.Add ("is_cdc_de_identified:true");
+
+					try
+					{
+						mmria.server.utils.exporter mmrds_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
+						//mmrds_exporter.Execute (item_to_process);
+						if(!mmrds_exporter.Execute(item_to_process))
+						{
+							System.Console.WriteLine ("exporter failed to finish");
+						}
+					}
+					catch(Exception ex)
+					{
+						System.Console.WriteLine (ex);
+					}
+
+
+				}
 
 			}
 

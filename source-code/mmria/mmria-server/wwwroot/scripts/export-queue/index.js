@@ -126,8 +126,18 @@ function create_queue_item(
     case_set: p_case_set,
   };
 
-  if (result.all_or_core == 'core') {
+
+  if (result.all_or_core == 'all') 
+  {
+    result.export_type = 'ALL CSV';
+  }
+  else if (result.all_or_core == 'core') 
+  {
     result.export_type = 'Core CSV';
+  }
+  else
+  {
+    result.export_type = result.all_or_core + ' CSV';
   }
 
   if (
