@@ -8,8 +8,27 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.utils
 {
-  public class exporter
+  public partial class exporter
   {
+
+
+    class StandardReportList
+    {
+        public StandardReportList() 
+        {
+            name_path_list = new(StringComparer.OrdinalIgnoreCase);
+        }
+        public string _id { get; set; }
+        public string _rev { get; set; }
+        public string data_type { get; set; }
+        public Dictionary<string,List<string>> name_path_list { get; set; }
+    }
+
+
+    StandardReportList standard_export_report_set;
+
+    List<string> export_report;
+
     private string auth_token = null;
     private string user_name = null;
 
@@ -128,6 +147,13 @@ namespace mmria.server.utils
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
         this.current_metadata = metadata;
 
+        string standardreportlist_url = $"{this.database_url}/api/export_list_manager";
+        cURL standardreportlist_curl = new cURL("GET", null, standardreportlist_url, null, this.user_name, this.value_string);
+        standard_export_report_set = Newtonsoft.Json.JsonConvert.DeserializeObject<StandardReportList>(standardreportlist_curl.execute());
+
+        var report_name = queue_item.export_type.Split(' ')[0];
+
+        export_report = standard_export_report_set.name_path_list[report_name];
 
         /*
 				foreach (KeyValuePair<string, object> kvp in all_cases)
