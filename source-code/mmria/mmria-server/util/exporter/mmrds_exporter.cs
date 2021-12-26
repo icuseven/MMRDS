@@ -15,7 +15,7 @@ namespace mmria.server.utils
 
     private string juris_user_name = null;
     private string value_string = null;
-    private string database_path = null;
+
     private string database_url = null;
     private string item_file_name = null;
     private string item_directory_name = null;
@@ -50,7 +50,7 @@ namespace mmria.server.utils
 
       try
       {
-        this.database_path = this.Configuration.couch_db_url;
+        this.database_url = this.Configuration.couch_db_url;
         this.juris_user_name = this.Configuration.jurisdiction_user_name;
         this.user_name = this.Configuration.user_name;
         this.value_string = this.Configuration.user_value;
@@ -345,14 +345,16 @@ namespace mmria.server.utils
 
           foreach (string path in path_to_flat_map)
           {
-            if (
-              path_to_node_map[path].type.ToLower() == "app" ||
-              path_to_node_map[path].type.ToLower() == "form" ||
-              path_to_node_map[path].type.ToLower() == "group" ||
-              path_to_node_map[path].type.ToLower() == "button" ||
-              path_to_node_map[path].type.ToLower() == "chart" ||
-              path_to_node_map[path].type.ToLower() == "label" ||
-              path_to_node_map[path].mirror_reference != null
+            if 
+            (
+                !path_to_node_map.ContainsKey(path) ||
+                path_to_node_map[path].type.ToLower() == "app" ||
+                path_to_node_map[path].type.ToLower() == "form" ||
+                path_to_node_map[path].type.ToLower() == "group" ||
+                path_to_node_map[path].type.ToLower() == "button" ||
+                path_to_node_map[path].type.ToLower() == "chart" ||
+                path_to_node_map[path].type.ToLower() == "label" ||
+                path_to_node_map[path].mirror_reference != null
 
             )
             {

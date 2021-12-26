@@ -34,7 +34,6 @@ namespace mmria.server.utils
 
     private string juris_user_name = null;
     private string value_string = null;
-    private string database_path = null;
     private string database_url = null;
     private string item_file_name = null;
     private string item_directory_name = null;
@@ -69,7 +68,7 @@ namespace mmria.server.utils
 
       try
       {
-        this.database_path = this.Configuration.couch_db_url;
+        this.database_url = this.Configuration.couch_db_url;
         this.juris_user_name = this.Configuration.jurisdiction_user_name;
         this.user_name = this.Configuration.user_name;
         this.value_string = this.Configuration.user_value;
@@ -147,11 +146,12 @@ namespace mmria.server.utils
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
         this.current_metadata = metadata;
 
-        string standardreportlist_url = $"{this.database_url}/api/export_list_manager";
+        string standardreportlist_url = $"{this.database_url}/metadata/export-standard-list";
         cURL standardreportlist_curl = new cURL("GET", null, standardreportlist_url, null, this.user_name, this.value_string);
-        standard_export_report_set = Newtonsoft.Json.JsonConvert.DeserializeObject<StandardReportList>(standardreportlist_curl.execute());
+        var standardreportlist_curl_result = standardreportlist_curl.execute();
+        standard_export_report_set = Newtonsoft.Json.JsonConvert.DeserializeObject<StandardReportList>(standardreportlist_curl_result);
 
-        var report_name = queue_item.export_type.Split(' ')[0];
+        var report_name = queue_item.export_type.Substring(0,queue_item.export_type.LastIndexOf(' '));
 
         export_report = standard_export_report_set.name_path_list[report_name];
 
@@ -369,16 +369,18 @@ namespace mmria.server.utils
           string mmria_case_id = case_doc["_id"].ToString();
           row["_id"] = mmria_case_id;
 
-          foreach (string path in path_to_flat_map)
+          foreach (string path in export_report)
           {
-            if (
-              path_to_node_map[path].type.ToLower() == "app" ||
-              path_to_node_map[path].type.ToLower() == "form" ||
-              path_to_node_map[path].type.ToLower() == "group" ||
-              path_to_node_map[path].type.ToLower() == "button" ||
-              path_to_node_map[path].type.ToLower() == "chart" ||
-              path_to_node_map[path].type.ToLower() == "label" ||
-              path_to_node_map[path].mirror_reference != null
+            if 
+            (
+                !path_to_node_map.ContainsKey(path) ||
+                path_to_node_map[path].type.ToLower() == "app" ||
+                path_to_node_map[path].type.ToLower() == "form" ||
+                path_to_node_map[path].type.ToLower() == "group" ||
+                path_to_node_map[path].type.ToLower() == "button" ||
+                path_to_node_map[path].type.ToLower() == "chart" ||
+                path_to_node_map[path].type.ToLower() == "label" ||
+                path_to_node_map[path].mirror_reference != null
 
             )
             {
@@ -401,7 +403,7 @@ namespace mmria.server.utils
 
             if(path == "case_narrative/case_opening_overview")
             {
-                System.Console.WriteLine("break");
+                //System.Console.WriteLine("break");
             }
 
             dynamic val = get_value(case_doc as IDictionary<string, object>, path);
