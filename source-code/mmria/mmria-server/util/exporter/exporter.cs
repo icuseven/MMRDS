@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-
 
 namespace mmria.server.utils
 {
   public partial class exporter
   {
-
-
     class StandardReportList
     {
         public StandardReportList() 
@@ -23,7 +17,6 @@ namespace mmria.server.utils
         public string data_type { get; set; }
         public Dictionary<string,List<string>> name_path_list { get; set; }
     }
-
 
     StandardReportList standard_export_report_set;
 
@@ -219,7 +212,7 @@ namespace mmria.server.utils
         create_header_row
         (
           path_to_int_map,
-          export_report.ToHashSet(), //path_to_flat_map,
+          export_report.ToHashSet(),
           path_to_node_map,
           path_to_csv_writer["mmria_case_export.csv"].Table,
           true,
@@ -360,9 +353,6 @@ namespace mmria.server.utils
             {
               continue;
             }
-
-
-
 
             //System.Console.WriteLine("path {0}", path);
 
@@ -991,327 +981,6 @@ namespace mmria.server.utils
           break;
       }
     }
-
-
-    private void process_multiform_grid
-    (
-      IDictionary<string, object> case_doc,
-      string mmria_case_id,
-      int parent_record_index,
-      Dictionary<string, int> path_to_int_map,
-      Dictionary<string, mmria.common.metadata.node> path_to_node_map,
-      Dictionary<string, string> path_to_grid_map,
-      Dictionary<string, WriteCSV> path_to_csv_writer,
-      HashSet<string> flat_grid_set
-    )
-    {
-
-      foreach (KeyValuePair<string, string> ptn in path_to_grid_map)
-      {
-        string path = ptn.Key;
-        if (flat_grid_set.Contains(path))
-        {
-            string grid_name = path_to_grid_map[path];
-
-            HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
-            {
-                grid_field_set.Add(ptgm.Key);
-            }
-
-            create_header_row
-            (
-                path_to_int_map,
-                grid_field_set,
-                path_to_node_map,
-                path_to_csv_writer[grid_name].Table,
-                true,
-                true,
-                true
-            );
-
-
-            dynamic raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
-            List<object> raw_data_list = raw_data as List<object>;
-            if(raw_data_list== null) return;
-            if(parent_record_index > raw_data_list.Count) return;
-
-            List<object> grid_raw_data = raw_data[parent_record_index] as List<object>;
-
-            if (grid_raw_data == null) return;
-
-            for (int i = 0; i < grid_raw_data.Count; i++)
-            {
-              IDictionary<string, object> grid_item_row = grid_raw_data[i] as IDictionary<string, object>;
-
-              if (grid_item_row == null)
-              {
-                continue;
-              }
-
-              System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-              grid_row["_id"] = mmria_case_id;
-              grid_row["_record_index"] = i;
-              grid_row["_parent_record_index"] = parent_record_index;
-              foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
-              {
-                foreach (string field_node in grid_field_set)
-                {
-                  try
-                  {
-
-                    var key_name = field_node.Substring(field_node.LastIndexOf("/") + 1, field_node.Length - field_node.LastIndexOf("/") - 1);
-                    object grid_item_value = grid_item_row[key_name];
-
-                    if (de_identified_set.Contains(field_node))
-                    {
-                      grid_item_value = null;
-                    }
-
-                    string file_field_name = path_to_field_name_map[field_node];
-                    if (grid_item_value != null)
-                    {
-
-
-                      if (path_to_node_map[field_node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(grid_item_value.ToString()))
-                      {
-                        grid_row[file_field_name] = grid_item_value;
-                      }
-                      else if (path_to_node_map[field_node].type.ToLower() == "list")
-                      {
-                        if
-                        (
-                          (
-                            path_to_node_map[field_node].is_multiselect != null &&
-                            path_to_node_map[field_node].is_multiselect == true
-                          ) ||
-                          grid_item_value is List<object>
-                        )
-                        {
-                          List<object> temp = grid_item_value as List<object>;
-                          if (temp != null && temp.Count > i)
-                          {
-                            var temp_grid_row = temp[i];
-                            var item_dictionary_key = path_to_field_name_map[field_node];
-                            IDictionary<string, object> item_dictionary = temp[i] as IDictionary<string, object>;
-                            if (item_dictionary != null && item_dictionary.ContainsKey(item_dictionary_key))
-                            {
-                              var temp2 = item_dictionary[item_dictionary_key] as List<object>;
-                              grid_row[file_field_name] = string.Join("|", temp2);
-                            }
-                          }
-                          if
-                            (
-                              path_to_node_map[field_node].data_type != null &&
-                              path_to_node_map[field_node].data_type.ToLower() == "string" &&
-                              (
-                                grid_item_value == "9999" ||
-                                grid_item_value == "8888" ||
-                                grid_item_value == "7777"
-                              )
-                            )
-                          {
-
-                            if (grid_item_value == "9999")
-                            {
-                              grid_row[file_field_name] = "";
-                            }
-
-                            if (grid_item_value == "8888")
-                            {
-                              grid_row[file_field_name] = "Not specified";
-                            }
-
-                            if (grid_item_value == "7777")
-                            {
-                              grid_row[file_field_name] = "Unknown";
-                            }
-
-                          }
-                          else
-                          {
-                            if (grid_item_value == "")
-                            {
-
-                              if
-                              (
-                                path_to_node_map[field_node].data_type != null &&
-                                path_to_node_map[field_node].data_type.ToLower() == "string"
-                              )
-                              {
-                                grid_row[file_field_name] = "";
-                              }
-                              else
-                              {
-                                grid_row[file_field_name] = "9999";
-                              }
-                              grid_row[file_field_name] = "9999";
-                            }
-                            else
-                            {
-                              grid_row[file_field_name] = grid_item_value;
-                            }
-
-                          }
-                        }
-                        else
-                        {
-
-                          if (grid_item_value != null)
-                          {
-                            if (grid_item_value is List<object>)
-                            {
-                              List<object> temp = grid_item_value as List<object>;
-                              if (temp != null && temp.Count > 0)
-                              {
-                                List<string> temp2 = new List<string>();
-                                foreach (var item in temp)
-                                {
-                                  var key = "/" + field_node;
-                                  var item_key = item.ToString();
-                                  if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
-                                  {
-                                    temp2.Add(List_Look_Up["/" + field_node][item.ToString()]);
-                                  }
-                                  else
-                                  {
-                                    temp2.Add(item.ToString());
-                                  }
-                                }
-
-
-                                grid_row[file_field_name] = string.Join("|", temp2);
-
-                              }
-                              else
-                              {
-                                  grid_row[file_field_name] = "(blank)";
-                              }
-                            }
-                            else
-                            {
-                              if (grid_item_value == "")
-                              {
-
-                                if
-                                (
-                                  path_to_node_map[field_node].data_type != null &&
-                                  path_to_node_map[field_node].data_type.ToLower() == "string"
-                                )
-                                {
-                                  grid_row[file_field_name] = "";
-                                }
-                                else
-                                {
-                                  grid_row[file_field_name] = "9999";
-                                }
-                                grid_row[file_field_name] = "9999";
-                              }
-                              else
-                              {
-                                grid_row[file_field_name] = grid_item_value;
-                              }
-
-                            }
-                          }
-                          else
-                          {
-                            if
-                            (
-                              path_to_node_map[field_node].data_type != null &&
-                              path_to_node_map[field_node].data_type.ToLower() == "string"
-
-                            )
-                            {
-                              grid_row[file_field_name] = "";
-                            }
-                            else
-                            {
-                              grid_row[file_field_name] = "9999";
-                            }
-                          }
-                        }
-
-                      }
-                      else
-                      {
-                        if
-                        (
-                          (
-                            path_to_node_map[field_node].type.ToLower() == "textarea" ||
-                            path_to_node_map[field_node].type.ToLower() == "string"
-                          ) &&
-                          grid_item_value.ToString().Length > max_qualitative_length
-                        )
-                        {
-                          WriteQualitativeData
-                          (
-                            mmria_case_id,
-                            field_node,
-                            grid_item_value?.ToString(),
-                            i,
-                            parent_record_index
-                          );
-                          grid_item_value = over_limit_message;
-                        }
-
-
-                        switch (grid_item_value)
-                        {
-
-                          case System.DateTime val:
-                            grid_row[file_field_name] = val.ToString("o");
-                            break;
-                          case System.String val:
-                            if (!string.IsNullOrWhiteSpace(val))
-                            {
-                              grid_row[file_field_name] = val;
-                            }
-                            break;
-                          case System.Double val:
-                          default:
-                            if (!string.IsNullOrWhiteSpace(grid_item_value?.ToString()))
-                            {
-                              grid_row[file_field_name] = grid_item_value;
-                            }
-                            break;
-                        }
-                      }
-                    }
-                    else
-                    {
-                      if (path_to_node_map[field_node].type.ToLower() == "list")
-                      {
-                        if
-                        (
-                          path_to_node_map[field_node].data_type != null &&
-                          path_to_node_map[field_node].data_type.ToLower() == "string"
-
-                        )
-                        {
-                          grid_row[file_field_name] = "";
-                        }
-                        else
-                        {
-                          grid_row[file_field_name] = "9999";
-                        }
-                      }
-                    }
-                  }
-                  catch (Exception)
-                  {
-
-                  }
-                }
-              }
-              path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
-            }
-        }
-      }
-
-    }
-
 
     private void create_header_row
     (
