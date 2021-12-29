@@ -1,6 +1,7 @@
 
 var g_de_identified_list = null;
-var g_selected_list = "global";
+var g_selected_list = null;
+var g_selected_index = -1;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -42,6 +43,8 @@ function load_report_set()
 	}).done(function(response) 
 	{
 		g_de_identified_list = response;
+
+        g_selected_list = Object.keys( g_de_identified_list.name_path_list)[0];
 		
 		document.getElementById('output').innerHTML = render_de_identified_list().join("");
 	});
@@ -79,10 +82,10 @@ function render_de_identified_list()
     }
 
     result.push("</select>")
-    if(g_selected_list != "global")
-    {
-        result.push(`<input type='button' value='remove ${g_selected_list} list ...' onclick='remove_name_path_list_click()'/>`);
-    }
+    
+    result.push(` <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>`);
+    //result.push(`<input type='button' value='clone [${g_selected_list}] list ...' onclick='clone_list_click()'/>`);
+    
 
     result.push(`
     <br/><br/>
@@ -92,10 +95,9 @@ function render_de_identified_list()
     `);
 
     let selected_list = g_de_identified_list.name_path_list[g_selected_list];
-    selected_list.sort();
 
 	result.push("<table>");
-	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] de identified list (" + selected_list.length + ")</th></tr>");
+	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] Export Field List (" + selected_list.length + ")</th></tr>");
 	result.push("<tr>");
 	result.push("<th scope='col'>path</th>");
 	result.push("<th scope='col'>&nbsp;</th>");
@@ -119,7 +121,7 @@ function render_de_identified_list()
 		}
         let row_number = new Number(i);
         row_number++;
-        result.push(`<td>${row_number}</td>`)
+        result.push(`<td>${row_number} <input type=button value=k onclick=cut_selected(${row_number})>  <input type=button value=p  onclick=paste_selected(${row_number})></td>`)
 		result.push("<td><label title='");
 		result.push(item);
 		result.push("'><input size='120' type='text' value='");
@@ -196,24 +198,35 @@ function server_save()
 
 function remove_name_path_list_click(p_id)
 {
+    var answer = prompt ("Are you sure you want to remove the " + g_selected_list + " list?", "Enter yes to confirm");
+    if(answer == "yes")
+    {
+        g_de_identified_list.name_path_list[g_selected_list] = [];
+        delete g_de_identified_list.name_path_list[g_selected_list];
 
+        if( Object.keys( g_de_identified_list.name_path_list).length > 0)
+        {
+            g_selected_list =  Object.keys( g_de_identified_list.name_path_list)[0];
+        }
 
-	if(g_selected_list != 'global')
-	{
+        document.getElementById('output').innerHTML = render_de_identified_list().join("");
+    }
+}
 
-		var answer = prompt ("Are you sure you want to remove the " + g_selected_list + " list?", "Enter yes to confirm");
-		if(answer == "yes")
-		{
-            g_de_identified_list.name_path_list[g_selected_list] = [];
-			delete g_de_identified_list.name_path_list[g_selected_list];
+function clone_list_click(p_id)
+{
+    var answer = prompt ("Are you sure you want to clone the " + g_selected_list + " list?", "Enter yes to confirm");
+    if(answer == "yes")
+    {
+        /*
+        g_de_identified_list.name_path_list[g_selected_list] = [];
+        delete g_de_identified_list.name_path_list[g_selected_list];
 
-            g_selected_list = 'global';
+        g_selected_list = 'global';
 
-            document.getElementById('output').innerHTML = render_de_identified_list().join("");
-		}
-		
-
-	}
+        document.getElementById('output').innerHTML = render_de_identified_list().join("");
+        */
+    }
 }
 
 function add_name_path_list_click(p_id)
@@ -630,4 +643,40 @@ function update_plan_item_new_value_onblur(p_id, p_item_index, p_value)
 
 		plan_item.new_value = p_value;
 	}
+}
+
+
+function cut_selected(p_value)
+{
+    g_selected_index = p_value;
+    //console.log(`cut selected ${p_value}`);
+}
+
+function paste_selected(p_value)
+{
+
+    let x = p_value -1;
+    let y = g_selected_index -1;
+    const list  = g_de_identified_list.name_path_list[g_selected_list];
+
+    if
+    (
+        g_de_identified_list != null &&
+        g_selected_list != null &&
+        list != null && 
+        g_selected_index > -1 &&
+        x < list.length &&
+        y < list.length
+    )
+    {
+        //console.log(`paste selected ${p_value}`);
+
+
+        var b = list[y];
+        list[y] = list[x];
+        list[x] = b;
+
+        document.getElementById('output').innerHTML = render_de_identified_list().join("");
+    }
+    
 }
