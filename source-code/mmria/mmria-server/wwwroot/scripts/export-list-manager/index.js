@@ -2,6 +2,7 @@
 var g_de_identified_list = null;
 var g_selected_list = null;
 var g_selected_index = -1;
+var g_selected_clone_source = null;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -52,6 +53,15 @@ function load_report_set()
 }
 
 
+
+function on_clone_source_change(p_value)
+{
+    g_selected_clone_source = p_value;
+
+    //document.getElementById('output').innerHTML = render_de_identified_list().join("");
+}
+
+
 function on_export_list_type_change(p_value)
 {
     g_selected_list = p_value;
@@ -66,8 +76,6 @@ function render_de_identified_list()
 	result.push("<br/>");
 
     result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
-
-
     for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
     {
         if(key == g_selected_list)
@@ -80,11 +88,35 @@ function render_de_identified_list()
         }
         
     }
-
     result.push("</select>")
     
     result.push(` <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>`);
-    //result.push(`<input type='button' value='clone [${g_selected_list}] list ...' onclick='clone_list_click()'/>`);
+    
+    
+    
+    result.push("<br/>");
+
+    result.push("<select id='clone-source'  onchange='on_clone_source_change(this.value)'>");
+    
+    result.push(`<option value='9999' disabled=''>lists</option>`);
+    for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
+    {
+        if(key == g_selected_clone_source)
+        {
+            result.push(`<option value='${key}' selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value='${key}'>${key}</option>`);
+        }
+        
+    }
+    result.push(`<option value='9999' disabled=''>form</option>`);
+    result.push(`<option value='home_record'>Home Record</option>`);
+    result.push(`<option value='death_certificate'>Death Certifiate</option>`);
+
+    result.push("</select>")
+    result.push(`<input type='button' value='clone list ...' onclick='clone_list_click()'/>`);
     
 
     result.push(`
