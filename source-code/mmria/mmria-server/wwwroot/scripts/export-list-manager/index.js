@@ -3,6 +3,9 @@ var g_de_identified_list = null;
 var g_selected_list = null;
 var g_selected_index = -1;
 var g_selected_clone_source = null;
+var g_release_version = null;
+var g_metadata = null;
+var g_form_map = new Map();
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -36,19 +39,38 @@ $(function ()
 
 
 
-function load_report_set()
+async function load_report_set()
 {
 
-	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/export_list_manager',
-	}).done(function(response) 
-	{
-		g_de_identified_list = response;
+    const release_version = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/release-version`,
+    });
+    
+    
+    g_release_version = release_version;
 
-        g_selected_list = Object.keys( g_de_identified_list.name_path_list)[0];
-		
-		document.getElementById('output').innerHTML = render_de_identified_list().join("");
+    const metadata_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/metadata`,
+    });
+
+    g_metadata = metadata_response;
+
+
+    create_metadata_map(g_form_map, g_metadata, "");
+
+	const g_de_identified_list_response = await $.ajax
+    ({
+		url: location.protocol + '//' + location.host + '/api/export_list_manager',
 	});
+
+    g_de_identified_list = g_de_identified_list_response;
+
+    g_selected_list = Object.keys( g_de_identified_list.name_path_list)[0];
+    
+    document.getElementById('output').innerHTML = render_de_identified_list().join("");
+
 
 }
 
@@ -112,11 +134,24 @@ function render_de_identified_list()
         
     }
     result.push(`<option value='9999' disabled=''>form</option>`);
+
+    g_form_map.forEach((value, key)=>
+    {
+        if(key == g_selected_clone_source)
+        {
+            result.push(`<option value='${key}' selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value='${key}'>${key}</option>`);
+        }
+        
+    });
     result.push(`<option value='home_record'>Home Record</option>`);
     result.push(`<option value='death_certificate'>Death Certifiate</option>`);
 
     result.push("</select>")
-    result.push(`<input type='button' value='clone list ...' onclick='clone_list_click()'/>`);
+    result.push(`<input type='button' value='clone ...' onclick='clone_list_click()'/>`);
     
 
     result.push(`
@@ -711,4 +746,42 @@ function paste_selected(p_value)
         document.getElementById('output').innerHTML = render_de_identified_list().join("");
     }
     
+}
+
+
+function create_metadata_map(p_result, p_metadata, p_path)
+{	
+	if(p_metadata.children && p_metadata.children.length > 0)
+	{	
+        
+        
+        if(p_metadata.type == "form")
+        {
+            p_result.set(p_metadata.name, new Map());
+            //p_result[p_path] = metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level);
+        }
+
+
+
+		var total_core_summary = 0;
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			if(child.type.toLowerCase() == "group")
+			{
+				create_metadata_map(p_result, child, p_path + "/");
+			}
+			else
+			{
+				create_metadata_map(p_result, child, p_path + "/");
+			}
+
+			//metadata_summary_add_tuples(p_result[p_path], p_result[p_path + "/"])
+		}
+	}
+
+
+
+
+	//return result;
 }
