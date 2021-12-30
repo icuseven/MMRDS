@@ -147,9 +147,6 @@ function render_de_identified_list()
         }
         
     });
-    result.push(`<option value='home_record'>Home Record</option>`);
-    result.push(`<option value='death_certificate'>Death Certifiate</option>`);
-
     result.push("</select>")
     result.push(`<input type='button' value='clone fields ...' onclick='clone_list_click()'/>`);
     
@@ -749,19 +746,27 @@ function paste_selected(p_value)
 }
 
 
-function create_metadata_map(p_result, p_metadata, p_path)
+function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
 {	
+    let next_path = p_path + "/" + p_metadata.name;
+    if(p_metadata.type == "app")
+    {
+        next_path = "/";
+
+    }
+    else if(next_path.startsWith("//"))
+    {
+        next_path = next_path.substring(1);
+    }
+
 	if(p_metadata.children && p_metadata.children.length > 0)
 	{	
         
-        
         if(p_metadata.type == "form")
         {
-            p_result.set(p_metadata.name, new Map());
-            //p_result[p_path] = metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level);
+            p_result.set(p_metadata.name, []);
+            p_current_key = p_metadata.name;
         }
-
-
 
 		var total_core_summary = 0;
 		for(var i = 0; i < p_metadata.children.length; i++)
@@ -769,19 +774,16 @@ function create_metadata_map(p_result, p_metadata, p_path)
 			var child = p_metadata.children[i];
 			if(child.type.toLowerCase() == "group")
 			{
-				create_metadata_map(p_result, child, p_path + "/");
+				create_metadata_map(p_result, child, next_path, p_current_key);
 			}
 			else
 			{
-				create_metadata_map(p_result, child, p_path + "/");
+				create_metadata_map(p_result, child, next_path, p_current_key);
 			}
-
-			//metadata_summary_add_tuples(p_result[p_path], p_result[p_path + "/"])
 		}
 	}
-
-
-
-
-	//return result;
+    else if(p_current_key!=null)
+    {
+        p_result.get(p_current_key).push(next_path);
+    }
 }
