@@ -151,7 +151,7 @@ function render_de_identified_list()
     result.push(`<option value='death_certificate'>Death Certifiate</option>`);
 
     result.push("</select>")
-    result.push(`<input type='button' value='clone ...' onclick='clone_list_click()'/>`);
+    result.push(`<input type='button' value='clone fields ...' onclick='clone_list_click()'/>`);
     
 
     result.push(`
