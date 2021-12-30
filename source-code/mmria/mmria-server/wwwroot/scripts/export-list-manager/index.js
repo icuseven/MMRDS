@@ -277,19 +277,41 @@ function remove_name_path_list_click(p_id)
     }
 }
 
-function clone_list_click(p_id)
+function clone_list_click()
 {
-    var answer = prompt ("Are you sure you want to clone the " + g_selected_list + " list?", "Enter yes to confirm");
+    const clone_target = document.getElementById("clone-source").value;
+    var answer = prompt ("Are you sure you want to clone [" + clone_target + "] ?", "Enter yes to confirm");
     if(answer == "yes")
     {
-        /*
-        g_de_identified_list.name_path_list[g_selected_list] = [];
-        delete g_de_identified_list.name_path_list[g_selected_list];
 
-        g_selected_list = 'global';
+        let list = g_de_identified_list.name_path_list[clone_target]; 
+        if(list == null)
+        {
+            list = g_form_map.get(clone_target);
+        }
+
+        if
+        (
+            list != null &&
+            g_de_identified_list.name_path_list[g_selected_list] != null
+
+        )
+        {
+            const target_list = g_de_identified_list.name_path_list[g_selected_list];
+
+            for (let i = 0; i < list.length; i++) 
+            {
+                const new_path = list[i];
+                if(target_list.indexOf(new_path) < 0)
+                {
+                    target_list.push(new_path);
+                }
+            }
+        }
 
         document.getElementById('output').innerHTML = render_de_identified_list().join("");
-        */
+
+  
     }
 }
 
@@ -305,16 +327,11 @@ function add_name_path_list_click(p_id)
     )
 	{
 
-		var answer = prompt ("Are you sure you want to add the " + new_name + " list?\n\nUse CDC host site prefix.\n\nhttp://demo-mmria.cdc.gov = demo\nhttp://fl-mmria.cdc.gov = fl\nhttps://test-mmria.apps.ecpaas-dev.cdc.gov = test", "Enter yes to confirm");
+		var answer = prompt ("Are you sure you want to add the " + new_name + " list?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
 			g_de_identified_list.name_path_list[new_name] = [];
 
-
-            g_de_identified_list.name_path_list['global'].forEach
-            (path => {
-                g_de_identified_list.name_path_list[new_name].push(path)
-            });
             g_selected_list = new_name;
 
             document.getElementById('output').innerHTML = render_de_identified_list().join("");
