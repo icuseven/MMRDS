@@ -773,7 +773,7 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
     }
     else if(next_path.startsWith("//"))
     {
-        next_path = next_path.substring(1);
+        next_path = next_path.substring(2);
     }
 
 	if(p_metadata.children && p_metadata.children.length > 0)
@@ -789,14 +789,15 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
-			if(child.type.toLowerCase() == "group")
+			if(child.type.toLowerCase() != "grid")
 			{
 				create_metadata_map(p_result, child, next_path, p_current_key);
 			}
+            /*
 			else
 			{
 				create_metadata_map(p_result, child, next_path, p_current_key);
-			}
+			}*/
 		}
 	}
     else if(p_current_key!=null)
