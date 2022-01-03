@@ -69,43 +69,37 @@ $(function ()
 	get_release_version();
 });
 
-function get_release_version()
+async function get_release_version()
 {
-  $.ajax
-  ({
+    const get_release_version_response = await $.ajax
+    ({
 
-      url: location.protocol + '//' + location.host + '/api/version/release-version',
-  })
-  .done(function(response) 
-  {
-      g_release_version = response;
-      //document.getElementById("current_release").innerHTML = g_release_version;
+        url: location.protocol + '//' + location.host + '/api/version/release-version',
+    });
       
-      get_metadata();
-	});
-}
+    g_release_version = get_release_version_response;
 
-
-function get_metadata()
-{
-    $.ajax
+    const g_metadata_response = await $.ajax
     (
         {
             url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`
         }
-    )
-    .done
-    (
-        function(response) 
-        {
-            g_metadata = response;
-
-
-            set_list_lookup(g_list_lookup, g_metadata, "");
-
-            load_data();
-        }
     );
+
+    g_metadata = g_metadata_response;
+
+
+    set_list_lookup(g_list_lookup, g_metadata, "");
+
+
+	const g_data_response = await $.ajax
+    ({
+			url: location.protocol + '//' + location.host + '/api/aggregate_report'
+	});
+			
+	g_data = g_data_response;
+
+    document.getElementById('output').innerHTML = render();
 }
 
 
@@ -179,24 +173,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-function load_data()
-{
-	var url =  location.protocol + '//' + location.host + '/api/aggregate_report'
 
-	$.ajax({
-			url: url
-	}).done(function(response) {
-			
-			g_data = response;
-
-			//document.getElementById('generate_report_button').disabled = false;
-			//process_rows();
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
-
-			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
-
-	});
-}
 
 function generate_report_click()
 {
