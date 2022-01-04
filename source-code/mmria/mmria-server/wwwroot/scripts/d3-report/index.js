@@ -91,13 +91,14 @@ async function get_release_version()
 
     set_list_lookup(g_list_lookup, g_metadata, "");
 
-
+/*
 	const g_data_response = await $.ajax
     ({
 			url: location.protocol + '//' + location.host + '/api/aggregate_report'
 	});
 			
 	g_data = g_data_response;
+    */
 
     document.getElementById('output').innerHTML = render();
 }

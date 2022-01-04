@@ -1,13 +1,54 @@
 function render()
 {
     return `
-    <div>
+    <div 
+    style="width:315px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+    >
     <p><strong>Reporting State: </strong> Georgia</p>
     <p><strong>Pregnancy-Relatedness:</strong> All</p>
     <p><strong>Review Dates:</strong> 8/19/2000 - 11/26/2021</p>
     <p><strong>Dates of Death:</strong> 2/1/2019 - 6/29/2021</p>
-</div>
+    </div>
+<button class="btn btn-secondary">Print All / Save as PDF</button>
+<div>
+    <p><strong>Reporting State: </strong> Georgia</p>
+    <p>
+    <strong>Pregnancy-Relatedness:</strong> All
+    <ul>
+        <li><input type="checkbox" /> All</li>
+        <li><input type="checkbox" /> Pregnancy related</li>
+        <li><input type="checkbox" /> Pregnancy-Associated, but NOT-Related</li>
+        <li><input type="checkbox" /> Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness</li>
+        <li><input type="checkbox" /> Not Pregnancy-Related or -Associated (i.e. Fals Positive</li>
+    </ul>    
+    </p>
+    <p>
+        <strong>Review Dates:</strong> 
+        <table>
+            <tr><th>Begin</th><th>End</th></tr>
+            <tr><td><input id="review_begin_date" type="date" value="8/19/2000"/></td><td><input  id="review_end_date" type="date" value="11/26/2021"/></td></tr>
+        </table>
+    </p>
+    <p><strong>Dates of Death:</strong> 
+        <table>
+            <tr><th>Begin</th><th>End</th></tr>
+            <tr><td><input id="death_begin_date" type="date" value="8/19/2000"/></td><td><input  id="death_end_date" type="date" value="11/26/2021"/></td></tr>
+        </table>
+    </p>
 
+    <p>
+    <button class="btn btn-secondary">Save</button>
+    <button class="btn ">Cancel</button>
+    </p>
+
+<div>
+
+<h3>Overview</h3>
+
+<p>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
+
+
+</div>
 
 <div class="content-intro">
   <div class="row no-gutters align-items-center mb-2">
