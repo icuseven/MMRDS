@@ -652,22 +652,15 @@ function window_on_hash_change(e)
 function get_specific_case(p_id)
 {
 
-
   var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
 
   $.ajax({
     url: case_url,
   }).done(function(case_response) {
   
-  
-    
-  
-      g_data = case_response;
-      g_render();
+    g_data = case_response;
+    g_render();
   });
-
-
-
 
 }
 
@@ -958,7 +951,7 @@ function open_print_version(p_section)
 {
 
 	var print_window = window.open('./print-version','_print_version',null,false);
-
+	console.log('open_print_version de-identified:', g_data);
 	window.setTimeout(function()
 	{
 		print_window.create_print_version(g_metadata, g_data, p_section)
@@ -1150,11 +1143,11 @@ function pdf_case_onclick(event)
     } 
     else 
     {
-      // data-record of selected option
-      const selectedOption = dropdown.options[dropdown.options.selectedIndex];
+      // data-record of selected option, set default in case it comes from the summary case list
+	  // If selected from detail list
+	  const selectedOption = dropdown.options[dropdown.options.selectedIndex];
       const record_number = selectedOption.dataset.record;
       const tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
-
 
       window.setTimeout(function()
       {
@@ -1163,6 +1156,31 @@ function pdf_case_onclick(event)
       
     }
   }
+
+}
+
+function pdf_case_onclick_summary(event, id) 
+{
+	// get the g_data for the selected case
+	let case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + id;
+
+	$.ajax({
+		url: case_url,
+	}).done(function(case_response) {
+		g_data = case_response;
+	});
+
+	const btn = event.target;
+	const	section_name = 'all';
+
+	tab_number+= 1;
+	const record_number = null;
+	const tabName = '_all';
+
+	window.setTimeout(function()
+	{
+		openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name, record_number);
+	}, 1000);
 
 }
 
@@ -1224,7 +1242,7 @@ function openTab(pageRoute, tabName, p_section, p_number)
   } 
   else 
   {
-    // if the WindowProxy Object already exists then just call the function on it
+	// if the WindowProxy Object already exists then just call the function on it
     window[tabName].create_print_version(
       g_metadata,
       g_data,

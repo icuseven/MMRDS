@@ -125,7 +125,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
       <table class="table mb-0">
           <thead class='thead'>
               <tr class='tr bg-tertiary'>
-                  <th class='th h4' colspan='7' scope='colgroup'>Case Listing</th>
+                  <th class='th h4' colspan='8' scope='colgroup'>Case Listing</th>
               </tr>
           </thead>
           <thead class='thead'>
@@ -135,6 +135,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
                   <th class='th' scope='col'>Created</th>
                   <th class='th' scope='col'>Last Updated</th>
+				  <th class='th' scope='col'>Actions</th>
               </tr>
           </thead>
           <tbody class="tbody">
@@ -176,7 +177,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
                 const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
                 const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
-                
+
                 let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
                 let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
                 if (projectedReviewDate.length < 1 && actualReviewDate.length > 0) projectedReviewDate = '(blank)';
@@ -191,6 +192,15 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                       <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
+					  <td class="td">
+						<button 
+							type="button" 
+							id="id_for_record_${i}" 
+							class="btn btn-primary" 
+							style="line-height: 1.15" 
+							onclick="pdf_case_onclick_summary(event, '${caseID}')">View PDF
+						</button>
+					  </td>
                     </tr>`
                   );
               }).join('')}
