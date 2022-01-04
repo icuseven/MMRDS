@@ -82,7 +82,7 @@ async function create_print_version
 	};
 
 	// console.log(' let p_ctx = ', p_ctx);
-
+	
 	try {
 		// initialize_print_pdf(ctx);
 		document.title = getHeaderName();
