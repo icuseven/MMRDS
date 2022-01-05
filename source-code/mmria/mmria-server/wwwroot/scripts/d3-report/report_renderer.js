@@ -43,9 +43,13 @@ function render()
 
 <div>
 <p>Select a page in the table below</p>
-<table>
-<tr bgcolor=silver><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
+<table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
 
+<thead class="thead-dark">
+    <tr bgcolor=silver><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
+</thead>
+
+<tbody>
 <tr>
 <td><strong>Overview</strong></td>
 <td>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</td>
@@ -132,7 +136,7 @@ function render()
 <td><strong>12. Living Arrangements</strong></td>
 <td>Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.</td>
 </tr>
-
+</tbody>
 </table>
 
 
