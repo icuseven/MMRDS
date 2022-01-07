@@ -135,6 +135,25 @@ namespace mmria.server.utils
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
         this.current_metadata = metadata;
 
+
+        this.lookup = get_look_up(metadata);
+
+
+        all_list_set = get_metadata_node_by_type(metadata, "list");
+
+        single_form_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == false && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+        single_form_multi_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == false && o.Node.is_multiselect != null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+
+        single_form_grid_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == true && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+        single_form_grid_multi_value_list_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == true && o.Node.is_multiselect != null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+
+        multiform_value_set = all_list_set.Where(o=> o.is_multiform == true && o.is_grid == false && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+        multiform_multi_value_set = all_list_set.Where(o=> o.is_multiform == true && o.is_grid == false && o.Node.is_multiselect != null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+
+        multiform_grid_value_set = all_list_set.Where(o=> o.is_multiform == true && o.is_grid == true && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+        multiform_grid_multi_value_set = all_list_set.Where(o=> o.is_multiform == true && o.is_grid == true && o.Node.is_multiselect != null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
+
+
         string standardreportlist_url = $"{this.database_url}/metadata/export-standard-list";
         cURL standardreportlist_curl = new cURL("GET", null, standardreportlist_url, null, this.user_name, this.value_string);
         var standardreportlist_curl_result = standardreportlist_curl.execute();
@@ -206,7 +225,15 @@ namespace mmria.server.utils
         path_to_csv_writer.Add("mmria_custom_export.csv", new WriteCSV("mmria_custom_export.csv", this.item_directory_name, Configuration.export_directory));
 
         stream_file_count++;
+// analyze the export_report
+// find which ones are flat and make working datatable create_header_row
+// find which ones are grid and make working datatable create_header_row 
+// find which ones are multiform and working datatable create_header_row
 
+
+
+
+// create a final datatable for the combined
 
 
         create_header_row
@@ -1572,6 +1599,9 @@ namespace mmria.server.utils
       }
       this.qualitativeStreamCount[index] += 1;
     }
+
+
+
 
   }
 }
