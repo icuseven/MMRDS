@@ -8,18 +8,42 @@ namespace mmria.server.utils
   {
         private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
 
-        List<Metadata_Node> all_list_set;
+        Dictionary<string, Metadata_Node> MetaDataNode_Dictionary;
 
-		List<Metadata_Node> single_form_value_set;
-		List<Metadata_Node> single_form_multi_value_set;
-		List<Metadata_Node> single_form_grid_value_set;
-		List<Metadata_Node> single_form_grid_multi_value_list_set;
-		List<Metadata_Node> multiform_value_set;
-		List<Metadata_Node> multiform_multi_value_set;
-		List<Metadata_Node> multiform_grid_value_set;
+      public enum TableTypeEnum
+      {
+          none,
+          flat,
+          grid,
 
-		List<Metadata_Node> multiform_grid_multi_value_set;
+          multiform
+      }
 
+      TableTypeEnum GetTableType(string p_mmria_path)
+      {
+        var result = TableTypeEnum.none;
+
+        if(MetaDataNode_Dictionary.ContainsKey(p_mmria_path))
+        {
+            var check = MetaDataNode_Dictionary[p_mmria_path];
+
+            if(check.is_multiform)
+            {
+                result = TableTypeEnum.multiform;
+            }
+            else if(check.is_grid)
+            {
+                result = TableTypeEnum.grid;
+            }
+            else
+            {
+                result = TableTypeEnum.flat;
+            }
+        }
+          
+
+          return result;
+      }
 
         public class Metadata_Node
 		{
@@ -48,24 +72,26 @@ namespace mmria.server.utils
 			return result;
 		}	
 
-		private List<Metadata_Node> get_metadata_node_by_type(mmria.common.metadata.app p_metadata, string p_type)
+		private Dictionary<string, Metadata_Node> get_metadata_node(mmria.common.metadata.app p_metadata)
 		{
-			var result = new List<Metadata_Node>();
+			var result = new Dictionary<string, Metadata_Node>(StringComparer.OrdinalIgnoreCase);
 			foreach(var node in p_metadata.children)
 			{
-				var current_type = node.type.ToLowerInvariant();
-				if(current_type == p_type)
-				{
-					result.Add(new Metadata_Node()
-					{
-						is_multiform = false,
-						is_grid = false,
-						path = node.name,
-						Node = node,
-						sass_export_name = node.sass_export_name
-					});
-				}
-				else if(current_type == "form")
+                result.Add
+                (
+                    node.name,
+                    new Metadata_Node()
+                    {
+                        is_multiform = false,
+                        is_grid = false,
+                        path = node.name,
+                        Node = node,
+                        sass_export_name = node.sass_export_name
+                    }
+                );
+				
+
+				if(node.type.ToLowerInvariant() == "form")
 				{
 					if
 					(
@@ -73,82 +99,86 @@ namespace mmria.server.utils
 						node.cardinality == "*"
 					)
 					{
-						get_metadata_node_by_type(ref result, node, p_type, true, false, node.name);
+						get_metadata_node(ref result, node, true, false, node.name);
 					}
 					else
 					{
-						get_metadata_node_by_type(ref result, node, p_type, false, false, node.name);
+						get_metadata_node(ref result, node, false, false, node.name);
 					}
 				}
 			}
 			return result;
 		}
 
-		private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
+		private void get_metadata_node(ref Dictionary<string, Metadata_Node> p_result, mmria.common.metadata.node p_node, bool p_is_multiform, bool p_is_grid, string p_path)
 		{
 			var current_type = p_node.type.ToLowerInvariant();
-			if(current_type == p_type)
-			{
-				var value_to_display = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-				var display_to_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-				if
-				(
-					current_type == "list"
-				)
-				{
+            var value_to_display = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var display_to_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-					if(!string.IsNullOrWhiteSpace(p_node.path_reference))
-					{
-						//var key = "lookup/" + p_node.name;
-						var key = p_node.path_reference;
-						if(this.lookup.ContainsKey(key))
-						{
-							var values = this.lookup[key];
+            if
+            (
+                current_type == "list"
+            )
+            {
 
-							p_node.values = values;
-						}
-					}
+                if(!string.IsNullOrWhiteSpace(p_node.path_reference))
+                {
+                    //var key = "lookup/" + p_node.name;
+                    var key = p_node.path_reference;
+                    if(this.lookup.ContainsKey(key))
+                    {
+                        var values = this.lookup[key];
 
-					foreach(var value_item in p_node.values)
-					{
-						var value = value_item.value;
-						var display = value_item.display;
+                        p_node.values = values;
+                    }
+                }
 
-						if(!value_to_display.ContainsKey(value))
-						{
-							value_to_display.Add(value, display);
-						}
+                foreach(var value_item in p_node.values)
+                {
+                    var value = value_item.value;
+                    var display = value_item.display;
 
-						if(!display_to_value.ContainsKey(display))
-						{
-							display_to_value.Add(display, value);
-						}
-					}
-				}
+                    if(!value_to_display.ContainsKey(value))
+                    {
+                        value_to_display.Add(value, display);
+                    }
 
-				p_result.Add(new Metadata_Node()
-				{
-					is_multiform = p_is_multiform,
-					is_grid = p_is_grid,
-					path = p_path,
-					Node = p_node,
-					value_to_display = value_to_display,
-					display_to_value = display_to_value,
-					sass_export_name = p_node.sass_export_name
-				});
-			}
-			else if(p_node.children != null)
+                    if(!display_to_value.ContainsKey(display))
+                    {
+                        display_to_value.Add(display, value);
+                    }
+                }
+            }
+
+            p_result.Add
+            (
+                p_path,
+                new Metadata_Node()
+                {
+                    is_multiform = p_is_multiform,
+                    is_grid = p_is_grid,
+                    path = p_path,
+                    Node = p_node,
+                    value_to_display = value_to_display,
+                    display_to_value = display_to_value,
+                    sass_export_name = p_node.sass_export_name
+                }
+            );
+			
+			
+            if(p_node.children != null)
 			{
 				foreach(var node in p_node.children)
 				{
 					if(current_type == "grid")
 					{
-						get_metadata_node_by_type(ref p_result, node, p_type, p_is_multiform, true, p_path + "/" + node.name);
+						get_metadata_node(ref p_result, node, p_is_multiform, true, p_path + "/" + node.name);
 					}
 					else
 					{
-						get_metadata_node_by_type(ref p_result, node, p_type, p_is_multiform, p_is_grid, p_path + "/" + node.name);
+						get_metadata_node(ref p_result, node, p_is_multiform, p_is_grid, p_path + "/" + node.name);
 					}
 				}
 			}
