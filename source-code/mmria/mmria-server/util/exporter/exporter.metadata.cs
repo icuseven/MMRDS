@@ -152,20 +152,23 @@ namespace mmria.server.utils
                 }
             }
 
-            p_result.Add
-            (
-                p_path,
-                new Metadata_Node()
-                {
-                    is_multiform = p_is_multiform,
-                    is_grid = p_is_grid,
-                    path = p_path,
-                    Node = p_node,
-                    value_to_display = value_to_display,
-                    display_to_value = display_to_value,
-                    sass_export_name = p_node.sass_export_name
-                }
-            );
+            if(!p_result.ContainsKey(p_path))
+            {
+                p_result.Add
+                (
+                    p_path,
+                    new Metadata_Node()
+                    {
+                        is_multiform = p_is_multiform,
+                        is_grid = p_is_grid,
+                        path = p_path,
+                        Node = p_node,
+                        value_to_display = value_to_display,
+                        display_to_value = display_to_value,
+                        sass_export_name = p_node.sass_export_name
+                    }
+                );
+            }
 			
 			
             if(p_node.children != null)
