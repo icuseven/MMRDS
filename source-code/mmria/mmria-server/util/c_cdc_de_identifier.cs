@@ -7,11 +7,14 @@ namespace mmria.server.utils
 	public class c_cdc_de_identifier
 	{
 		string case_item_json;
+
+        string prefix = null;
 		HashSet<string> de_identified_set = new HashSet<string>();
 		
-		public c_cdc_de_identifier (string p_case_item_json)
+		public c_cdc_de_identifier (string p_case_item_json, string p_prefix)
 		{
 			this.case_item_json = p_case_item_json;
+            this.prefix = p_prefix.ToLower();
 		}
 		public async Task<string> executeAsync()
 		{
@@ -19,12 +22,26 @@ namespace mmria.server.utils
 
 			cURL de_identified_list_curl = new cURL("GET", null, Program.config_couchdb_url + "/metadata/de-identified-export-list", null, Program.config_timer_user_name, Program.config_timer_value);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
-			de_identified_set = new HashSet<string>();
-			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
-			{
-				de_identified_set.Add(path);
-			}
+            IDictionary<string, object> idictionary = de_identified_ExpandoObject as IDictionary<string, object>;
+            if(idictionary != null)
+            {
+                de_identified_set = new HashSet<string>();
+                IDictionary<string, object> name_path_list = idictionary["name_path_list"] as IDictionary<string, object>;
+                if(name_path_list != null)
+                {
+                    var path_name = "global";
 
+                    if(name_path_list.ContainsKey(this.prefix))
+                    {
+                        path_name = this.prefix;
+                    }
+                    
+                    foreach(string path in (IList<object>)name_path_list[path_name])
+                    {
+                        de_identified_set.Add(path);
+                    }
+                }
+            }
 
 			if(this.case_item_json == null || de_identified_set.Count == 0)
 			{
