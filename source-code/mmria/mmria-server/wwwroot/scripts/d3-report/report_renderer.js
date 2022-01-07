@@ -4,7 +4,7 @@ function render()
     <div 
     style="width:315px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
     >
-    <p><strong>Reporting State: </strong> Georgia</p>
+    <p><strong>Reporting State: </strong> Georgia <span style="float:right"><button class="btn btn-secondary">Filter</button></span></p>
     <p><strong>Pregnancy-Relatedness:</strong> All</p>
     <p><strong>Review Dates:</strong> 8/19/2000 - 11/26/2021</p>
     <p><strong>Dates of Death:</strong> 2/1/2019 - 6/29/2021</p>
@@ -26,13 +26,13 @@ function render()
         <strong>Review Dates:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="review_begin_date" type="date" value="8/19/2000"/></td><td><input  id="review_end_date" type="date" value="11/26/2021"/></td></tr>
+            <tr><td><input id="review_begin_date" type="date" value="2000-08-19"/></td><td><input  id="review_end_date" type="date" value="2021-11-26"/></td></tr>
         </table>
     </p>
     <p><strong>Dates of Death:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="death_begin_date" type="date" value="8/19/2000"/></td><td><input  id="death_end_date" type="date" value="11/26/2021"/></td></tr>
+            <tr><td><input id="death_begin_date" type="date" value="2000-08-19"/></td><td><input  id="death_end_date" type="date" value="2021-11-26"/></td></tr>
         </table>
     </p>
 
@@ -45,94 +45,96 @@ function render()
 <p>Select a page in the table below</p>
 <table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
 
+
+<h3><strong>Overview</strong></h3>
+<p>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
+
+
+
 <thead class="thead-dark">
     <tr bgcolor=silver><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
 </thead>
 
 <tbody>
-<tr>
-<td><strong>Overview</strong></td>
-<td>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</td>
-</tr>
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>1. Primary Underlying Cause of Death</strong></td>
 <td>Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>2. Pregnancy Relatedness</strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>3. Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>4. Timing of Death</strong></td>
 <td>The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>5. OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>6. Race</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>7. Race/Ethnicity</strong></td>
 <td>To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>8. Age</strong></td>
 <td>Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>9. Education</strong></td>
 <td>Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>10. Committee Determinations</strong></td>
 <td>This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC>
+<tr>
 <td><strong>11. Emotional Stress</strong></td>
 <td>History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.</td>
 </tr>
 
 
 
-<tr>
+<tr bgcolor=CCCCCC>
 <td><strong>12. Living Arrangements</strong></td>
 <td>Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.</td>
 </tr>
