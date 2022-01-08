@@ -144,7 +144,7 @@ function render()
 
 
 
-<div class="content-intro">
+<!--div class="content-intro">
   <div class="row no-gutters align-items-center mb-2">
     <label for="year_of_death" class="font-weight-bold mr-2 mb-0">Year of Death:</label>
     <select id="year_of_death" class="form-control w-auto">
@@ -225,7 +225,7 @@ function render()
     <button class="btn btn-secondary" onclick="init_inline_loader(generate_report_click)">Generate Report</button>
     <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
   </div>
-</div>`;
+</div-->`;
 }
 
 
