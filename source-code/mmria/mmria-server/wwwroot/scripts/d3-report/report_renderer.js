@@ -36,20 +36,21 @@ function render()
         </table>
     </p>
 
-    <p>
+    <div align="center">
     <button class="btn btn-secondary">Save</button>
     <button class="btn ">Cancel</button>
-    </p>
+    </div>
 
 </dialog>
-<p>Select a page in the table below</p>
+<br/><br/>
+
 <table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
 
 
 <h3><strong>Overview</strong></h3>
 <p>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
 
-
+<p>Select a page in the table below</p>
 
 <thead class="thead-dark">
     <tr bgcolor=silver><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
@@ -237,7 +238,7 @@ function show_filter()
         <span id="ui-id-1" class="ui-dialog-title">Filter</span>
         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div>
+    <div style="margin:15px;width:500px;">
         <p><strong>Reporting State: </strong> Georgia</p>
         <p>
         <strong>Pregnancy-Relatedness:</strong> All
@@ -263,7 +264,7 @@ function show_filter()
             </table>
         </p>
     
-        <p>
+        <p align="center">
         <button class="btn btn-secondary" onclick="close_filter()">Save</button>
         <button class="btn " onclick="close_filter()">Cancel</button>
         </p>
