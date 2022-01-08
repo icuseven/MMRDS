@@ -1,16 +1,16 @@
 function render()
 {
     return `
-    <div 
+    <div id="filter-summary"
     style="width:315px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
     >
-    <p><strong>Reporting State: </strong> Georgia <span style="float:right"><button class="btn btn-secondary" onclick="show_filter()">Filter</button></span></p>
+    <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
     <p><strong>Pregnancy-Relatedness:</strong> All</p>
-    <p><strong>Review Dates:</strong> 8/19/2000 - 11/26/2021</p>
-    <p><strong>Dates of Death:</strong> 2/1/2019 - 6/29/2021</p>
+    <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
+    <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
     </div>
 <button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button>
-<dialog  id="filter-id" style="top:50%" class="p-0 set-radius">
+<dialog  id="filter-dialog" style="top:50%" class="p-0 set-radius">
     <p><strong>Reporting State: </strong> Georgia</p>
     <p>
     <strong>Pregnancy-Relatedness:</strong> All
@@ -228,10 +228,31 @@ function render()
 </div-->`;
 }
 
-
-function show_filter()
+function formatDate(p_value)
 {
-    let el  = document.getElementById("filter-id");
+    const result= (p_value.getMonth() + 1) + '/' + p_value.getDate() + '/' +  p_value.getFullYear();
+
+    return result;
+}
+
+function render_filter_summary()
+{
+
+
+
+    let el  = document.getElementById("filter-summary");
+    
+    el.innerHTML = `
+    <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
+    <p><strong>Pregnancy-Relatedness:</strong> All</p>
+    <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
+    <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
+    `;
+}
+
+function show_filter_dialog()
+{
+    let el  = document.getElementById("filter-dialog");
     
     el.innerHTML = `
  <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
@@ -277,8 +298,10 @@ function show_filter()
 
 function close_filter()
 {
-    let el = document.getElementById("filter-id");
+    let el = document.getElementById("filter-dialog");
     el.close();
+    
+    render_filter_summary();
 }
 
 

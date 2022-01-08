@@ -5,6 +5,13 @@ var g_metadata = null;
 
 var g_list_lookup = {};
 
+const g_filter = {
+    reporting_state: sanitize_encodeHTML(window.location.host.split("-")[0]),
+    pregnancy_readines: [],
+    date_of_review: { begin: new Date(), end: new Date() },
+    date_of_death: { begin: new Date(), end: new Date() }
+}
+
 
 var g_ui = { 
 	user_summary_list:[],
@@ -61,6 +68,12 @@ var month_options = [
 11,
 12
 ];
+
+function sanitize_encodeHTML(s) 
+{
+	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    return result;
+}
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
