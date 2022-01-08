@@ -2,7 +2,7 @@ function render()
 {
     return `
     <div id="filter-summary"
-    style="width:315px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+    style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
     >
     <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
     <p><strong>Pregnancy-Relatedness:</strong> All</p>
@@ -37,8 +37,8 @@ function render()
     </p>
 
     <div align="center">
-    <button class="btn btn-secondary">Save</button>
-    <button class="btn ">Cancel</button>
+    <button class="btn btn-secondary">Close</button>
+    <!--button class="btn ">Cancel</button-->
     </div>
 
 </dialog>
@@ -228,9 +228,23 @@ function render()
 </div-->`;
 }
 
+
+function pad_number(n) 
+{
+    n = n + '';
+    return n.length >= 2 ? n : new Array(2 - n.length + 1).join("0") + n;
+}
+
 function formatDate(p_value)
 {
-    const result= (p_value.getMonth() + 1) + '/' + p_value.getDate() + '/' +  p_value.getFullYear();
+    const result= pad_number(p_value.getMonth() + 1) + '/' + pad_number(p_value.getDate()) + '/' +  p_value.getFullYear();
+
+    return result;
+}
+
+function ControlFormatDate(p_value)
+{
+    const result= p_value.getFullYear() + '-' + pad_number(p_value.getMonth() + 1) + '-' + pad_number(p_value.getDate());
 
     return result;
 }
@@ -260,7 +274,7 @@ function show_filter_dialog()
         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
     <div style="margin:15px;width:500px;">
-        <p><strong>Reporting State: </strong> Georgia</p>
+        <p><strong>Reporting State: </strong> ${g_filter.reporting_state}</p>
         <p>
         <strong>Pregnancy-Relatedness:</strong> All
         <ul>
@@ -275,19 +289,19 @@ function show_filter_dialog()
             <strong>Review Dates:</strong> 
             <table>
                 <tr><th>Begin</th><th>End</th></tr>
-                <tr><td><input id="review_begin_date" type="date" value="2000-08-19"/></td><td><input  id="review_end_date" type="date" value="2021-11-26"/></td></tr>
+                <tr><td><input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}"/></td><td><input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"/></td></tr>
             </table>
         </p>
         <p><strong>Dates of Death:</strong> 
             <table>
                 <tr><th>Begin</th><th>End</th></tr>
-                <tr><td><input id="death_begin_date" type="date" value="2000-08-19"/></td><td><input  id="death_end_date" type="date" value="2021-11-26"/></td></tr>
+                <tr><td><input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}"/></td><td><input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"/></td></tr>
             </table>
         </p>
     
         <p align="center">
-        <button class="btn btn-secondary" onclick="close_filter()">Save</button>
-        <button class="btn " onclick="close_filter()">Cancel</button>
+        <button class="btn btn-secondary" onclick="close_filter()">Close</button>
+        <!--button class="btn " onclick="close_filter()">Cancel</button-->
         </p>
     </div>
 `;
