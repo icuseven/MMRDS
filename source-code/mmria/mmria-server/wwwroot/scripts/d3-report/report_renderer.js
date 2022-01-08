@@ -4,13 +4,13 @@ function render()
     <div 
     style="width:315px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
     >
-    <p><strong>Reporting State: </strong> Georgia <span style="float:right"><button class="btn btn-secondary">Filter</button></span></p>
+    <p><strong>Reporting State: </strong> Georgia <span style="float:right"><button class="btn btn-secondary" onclick="show_filter()">Filter</button></span></p>
     <p><strong>Pregnancy-Relatedness:</strong> All</p>
     <p><strong>Review Dates:</strong> 8/19/2000 - 11/26/2021</p>
     <p><strong>Dates of Death:</strong> 2/1/2019 - 6/29/2021</p>
     </div>
-<button class="btn btn-secondary">Print All / Save as PDF</button>
-<div>
+<button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button>
+<dialog  id="filter-id" style="top:50%" class="p-0 set-radius">
     <p><strong>Reporting State: </strong> Georgia</p>
     <p>
     <strong>Pregnancy-Relatedness:</strong> All
@@ -41,7 +41,7 @@ function render()
     <button class="btn ">Cancel</button>
     </p>
 
-<div>
+</dialog>
 <p>Select a page in the table below</p>
 <table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
 
@@ -228,7 +228,57 @@ function render()
 }
 
 
+function show_filter()
+{
+    let el  = document.getElementById("filter-id");
+    
+    el.innerHTML = `
+ <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+        <span id="ui-id-1" class="ui-dialog-title">Filter</span>
+        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+    </div>
+    <div>
+        <p><strong>Reporting State: </strong> Georgia</p>
+        <p>
+        <strong>Pregnancy-Relatedness:</strong> All
+        <ul>
+            <li><input type="checkbox" /> All</li>
+            <li><input type="checkbox" /> Pregnancy related</li>
+            <li><input type="checkbox" /> Pregnancy-Associated, but NOT-Related</li>
+            <li><input type="checkbox" /> Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness</li>
+            <li><input type="checkbox" /> Not Pregnancy-Related or -Associated (i.e. Fals Positive</li>
+        </ul>    
+        </p>
+        <p>
+            <strong>Review Dates:</strong> 
+            <table>
+                <tr><th>Begin</th><th>End</th></tr>
+                <tr><td><input id="review_begin_date" type="date" value="2000-08-19"/></td><td><input  id="review_end_date" type="date" value="2021-11-26"/></td></tr>
+            </table>
+        </p>
+        <p><strong>Dates of Death:</strong> 
+            <table>
+                <tr><th>Begin</th><th>End</th></tr>
+                <tr><td><input id="death_begin_date" type="date" value="2000-08-19"/></td><td><input  id="death_end_date" type="date" value="2021-11-26"/></td></tr>
+            </table>
+        </p>
+    
+        <p>
+        <button class="btn btn-secondary" onclick="close_filter()">Save</button>
+        <button class="btn " onclick="close_filter()">Cancel</button>
+        </p>
+    </div>
+`;
 
+    el.showModal();
+
+}
+
+function close_filter()
+{
+    let el = document.getElementById("filter-id");
+    el.close();
+}
 
 
 
