@@ -80,7 +80,47 @@ $(function ()
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
 	get_release_version();
+
+    if (window.onhashchange) 
+    {
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    } 
+    else 
+    {
+      window.onhashchange = window_on_hash_change;
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    }
 });
+
+
+function window_on_hash_change(e) 
+{
+    if (e.isTrusted) 
+    {
+        const url = e.newURL || window.location.href;
+
+        let index = -1;
+
+        const url_array = url.split('#');
+
+        if(url_array.length > 1)
+        {
+            index = parseInt(url_array[1]);
+        }
+
+        switch(index)
+        {
+            case 1:
+                document.getElementById('output').innerHTML = render1();
+                break;
+            case -1:
+            default:
+                document.getElementById('output').innerHTML = render();
+        }
+        console.log("here");
+    }
+
+}
 
 async function get_release_version()
 {
@@ -114,6 +154,10 @@ async function get_release_version()
     */
 
     document.getElementById('output').innerHTML = render();
+/*
+    document.getElementsByClassName('click-row.bs.table').map(function (e, row, $element) {
+        window.location = $element.data('href');
+    });*/
 }
 
 
