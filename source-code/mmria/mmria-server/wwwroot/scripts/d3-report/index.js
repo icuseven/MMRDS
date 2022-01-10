@@ -27,6 +27,21 @@ var g_ui = {
 };
 
 
+var g_nav_map = new Map();
+g_nav_map.set(0,"Overview");
+g_nav_map.set(1,"Primary Underlying Cause of Death");
+g_nav_map.set(2,"Pregnancy Relatedness");
+g_nav_map.set(3,"Preventability");
+g_nav_map.set(4,"Timing of Death");
+g_nav_map.set(5,"OMB race recode");
+g_nav_map.set(6,"Race");
+g_nav_map.set(7,"Race/Ethniciy");
+g_nav_map.set(8,"Age");
+g_nav_map.set(9,"Education");
+g_nav_map.set(10,"Committee Determinations");
+g_nav_map.set(11,"Emotional Stress");
+g_nav_map.set(12,"Living Arrangements");
+
 var year_options = [
 'All',
 2020,
@@ -115,7 +130,7 @@ function window_on_hash_change(e)
                 break;
             case -1:
             default:
-                document.getElementById('output').innerHTML = render();
+                document.getElementById('output').innerHTML = render0();
         }
         console.log("here");
     }
@@ -144,20 +159,7 @@ async function get_release_version()
 
     set_list_lookup(g_list_lookup, g_metadata, "");
 
-/*
-	const g_data_response = await $.ajax
-    ({
-			url: location.protocol + '//' + location.host + '/api/aggregate_report'
-	});
-			
-	g_data = g_data_response;
-    */
-
-    document.getElementById('output').innerHTML = render();
-/*
-    document.getElementsByClassName('click-row.bs.table').map(function (e, row, $element) {
-        window.location = $element.data('href');
-    });*/
+    render();
 }
 
 

@@ -1,5 +1,30 @@
 function render()
 {
+
+        const url = window.location.href;
+
+        let index = -1;
+
+        const url_array = url.split('#');
+
+        if(url_array.length > 1)
+        {
+            index = parseInt(url_array[1]);
+        }
+
+        switch(index)
+        {
+            case 1:
+                document.getElementById('output').innerHTML = render1();
+                break;
+            case -1:
+            default:
+                document.getElementById('output').innerHTML = render0();
+        }
+        console.log("here");
+    
+    return;
+
     return `
     <div id="filter-summary"
     style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
