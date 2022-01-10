@@ -161,6 +161,29 @@ async function get_release_version()
 }
 
 
+function review_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+
+    g_filter.date_of_review.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function review_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    
+    g_filter.date_of_review.end = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function death_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    g_filter.date_of_death.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function death_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+
 function set_list_lookup(p_list_lookup, p_metadata, p_path)
 {
 

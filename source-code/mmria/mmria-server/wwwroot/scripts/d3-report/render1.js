@@ -26,13 +26,13 @@ function render1()
         <strong>Review Dates:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="review_begin_date" type="date" value="2000-08-19"/></td><td><input  id="review_end_date" type="date" value="2021-11-26"/></td></tr>
+            <tr><td><input id="review_begin_date" type="date" value="2000-08-19" onchange="review_begin_date_change(this.value)" /></td><td><input  id="review_end_date" type="date" value="2021-11-26" onchange="review_end_date_change(this.value)"/></td></tr>
         </table>
     </p>
     <p><strong>Dates of Death:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="death_begin_date" type="date" value="2000-08-19"/></td><td><input  id="death_end_date" type="date" value="2021-11-26"/></td></tr>
+            <tr><td><input id="death_begin_date" type="date" value="2000-08-19" onchange="death_begin_date_change(this.value)"/></td><td><input  id="death_end_date" type="date" value="2021-11-26" onchange="death_end_date_change(this.value)"/></td></tr>
         </table>
     </p>
 

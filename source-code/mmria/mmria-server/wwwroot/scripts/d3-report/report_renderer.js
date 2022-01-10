@@ -26,13 +26,13 @@ function render()
         <strong>Review Dates:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="review_begin_date" type="date" value="2000-08-19"/></td><td><input  id="review_end_date" type="date" value="2021-11-26"/></td></tr>
+            <tr><td><input id="review_begin_date" type="date" value="2000-08-19" onchange="review_begin_date_change(this.value)" /></td><td><input  id="review_end_date" type="date" value="2021-11-26" onchange="review_end_date_change(this.value)"/></td></tr>
         </table>
     </p>
     <p><strong>Dates of Death:</strong> 
         <table>
             <tr><th>Begin</th><th>End</th></tr>
-            <tr><td><input id="death_begin_date" type="date" value="2000-08-19"/></td><td><input  id="death_end_date" type="date" value="2021-11-26"/></td></tr>
+            <tr><td><input id="death_begin_date" type="date" value="2000-08-19" onchange="death_begin_date_change(this.value)"/></td><td><input  id="death_end_date" type="date" value="2021-11-26" onchange="death_end_date_change(this.value)"/></td></tr>
         </table>
     </p>
 
@@ -289,13 +289,13 @@ function show_filter_dialog()
             <strong>Review Dates:</strong> 
             <table>
                 <tr><th>Begin</th><th>End</th></tr>
-                <tr><td><input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}"/></td><td><input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"/></td></tr>
+                <tr><td><input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" onchange="review_begin_date_change(this.value)" /></td><td><input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}" onchange="review_end_date_change(this.value)" /></td></tr>
             </table>
         </p>
         <p><strong>Dates of Death:</strong> 
             <table>
                 <tr><th>Begin</th><th>End</th></tr>
-                <tr><td><input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}"/></td><td><input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"/></td></tr>
+                <tr><td><input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" onchange="death_begin_date_change(this.value)" /></td><td><input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}" onchange="death_end_date_change(this.value)" /></td></tr>
             </table>
         </p>
     
