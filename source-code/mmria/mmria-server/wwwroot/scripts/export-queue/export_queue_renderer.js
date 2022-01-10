@@ -37,7 +37,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 							 readonly="true" />
 					</li>				
 					<li class="mb-4">
-						<p class="mb-3">Do you want to export <u>all data</u> or only <u>core data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
+						<p class="mb-3">Do you want to export <u>all data</u>, only <u>core data</u>, or <u>custom data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
                         <label for="all-data" class="mb-0 font-weight-normal mr-2">Select Export Type</label>
 						<select name="export-type"
 											 id="all-data"

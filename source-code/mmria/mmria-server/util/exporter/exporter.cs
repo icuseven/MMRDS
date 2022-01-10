@@ -121,6 +121,8 @@ namespace mmria.server.utils
           System.IO.Directory.CreateDirectory(export_directory);
         }
 
+        
+
         this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
         this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
         this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
@@ -154,6 +156,8 @@ namespace mmria.server.utils
         export_report = standard_export_report_set.name_path_list[report_name];
 
 
+        var mmria_custom_export_file_name = $"{export_report}.csv";
+
         System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
         System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
 
@@ -167,7 +171,7 @@ namespace mmria.server.utils
         System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
         generate_path_map
-        (metadata, "", "mmria_custom_export.csv", "",
+        (metadata, "", mmria_custom_export_file_name, "",
           path_to_int_map,
           path_to_file_name_map,
           path_to_node_map,
@@ -212,7 +216,7 @@ namespace mmria.server.utils
 
         int stream_file_count = 0;
 
-        path_to_csv_writer.Add("mmria_custom_export.csv", new WriteCSV("mmria_custom_export.csv", this.item_directory_name, Configuration.export_directory));
+        path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory));
 
         stream_file_count++;
 // analyze the export_report
@@ -236,7 +240,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
           path_to_int_map,
           export_report.ToHashSet(),
           path_to_node_map,
-          path_to_csv_writer["mmria_custom_export.csv"].Table,
+          path_to_csv_writer[mmria_custom_export_file_name].Table,
           true,
           false,
           false
@@ -245,7 +249,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
         var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
 
         grantee_column.DefaultValue = queue_item.grantee_name;
-        path_to_csv_writer["mmria_custom_export.csv"].Table.Columns.Add(grantee_column);
+        path_to_csv_writer[mmria_custom_export_file_name].Table.Columns.Add(grantee_column);
 
        de_identified_set = new HashSet<string>();
 
@@ -354,7 +358,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
           }
 
 
-          System.Data.DataRow row = path_to_csv_writer["mmria_custom_export.csv"].Table.NewRow();
+          System.Data.DataRow row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
           string mmria_case_id = case_doc["_id"].ToString();
           row["_id"] = mmria_case_id;
 
@@ -622,7 +626,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
             }
 
           }
-          path_to_csv_writer["mmria_custom_export.csv"].Table.Rows.Add(row);
+          path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(row);
 
 
         }
