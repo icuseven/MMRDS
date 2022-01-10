@@ -219,11 +219,90 @@ namespace mmria.server.utils
         path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory));
 
         stream_file_count++;
+
+
+    var flat_field_list = new List<string>();
+    var grid_field_list = new List<string>();
+    var multiform_field_list = new List<string>();
+
+    var is_using_grid = false;
+    var is_using_multiform = false;
+
+    var flat_table = new System.Data.DataTable();
+    var grid_table = new System.Data.DataTable();
+    var multiform_table = new System.Data.DataTable();
+
+    foreach(var mmria_path in export_report)
+    {
+        switch(GetTableType(mmria_path))
+        {
+            case TableTypeEnum.flat:
+                flat_field_list.Add(mmria_path);
+                break;
+            case TableTypeEnum.grid:
+                grid_field_list.Add(mmria_path);
+                break;
+            case TableTypeEnum.multiform:
+                multiform_field_list.Add(mmria_path);
+                break;
+            case TableTypeEnum.none:
+            default:
+            break;
+        }
+    }
+
+
+    if(flat_field_list.Count > 0)
+        create_header_row
+        (
+            path_to_int_map,
+            flat_field_list.ToHashSet(),
+            path_to_node_map,
+            path_to_csv_writer[mmria_custom_export_file_name].Table,
+            false,
+            false
+        );
+
+
+    if(grid_field_list.Count > 0)
+    {
+        create_header_row
+        (
+          path_to_int_map,
+          grid_field_list.ToHashSet(),
+          path_to_node_map,
+          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          true,
+          false
+        );
+
+        is_using_grid = true;
+
+    }
+
+    if(multiform_field_list.Count > 0)
+    {
+        create_header_row
+        (
+          path_to_int_map,
+          multiform_field_list.ToHashSet(),
+          path_to_node_map,
+          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          false,
+          true
+        );
+
+        is_using_multiform = true;
+    }
+
+
 // analyze the export_report
 // find which ones are flat and make working datatable create_header_row
 // find which ones are grid and make working datatable create_header_row 
 // find which ones are multiform and working datatable create_header_row
 /*
+
+
 
 TableTypeEnum GetTableType(string p_mmria_path)
 
@@ -241,9 +320,8 @@ TableTypeEnum GetTableType(string p_mmria_path)
           export_report.ToHashSet(),
           path_to_node_map,
           path_to_csv_writer[mmria_custom_export_file_name].Table,
-          true,
-          false,
-          false
+          is_using_grid,
+          is_using_multiform
         );
 
         var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
@@ -269,7 +347,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
           Custom_Case_Id_List.Add(id);
         }
 
-        List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
+        List<System.Dynamic.ExpandoObject> cases_to_process = new List<System.Dynamic.ExpandoObject>();
 
 
         var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
@@ -293,7 +371,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
                 Custom_Case_Id_List.Contains(temp["_id"].ToString())
               )
               {
-                all_cases_rows.Add(check_item);
+                cases_to_process.Add(check_item);
               }
 
             }
@@ -305,13 +383,13 @@ TableTypeEnum GetTableType(string p_mmria_path)
         {
           foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
           {
-            all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
+            cases_to_process.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
           }
         }
 
 
 
-        foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+        foreach (System.Dynamic.ExpandoObject case_row in cases_to_process)
         {
           IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 
@@ -362,7 +440,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
           string mmria_case_id = case_doc["_id"].ToString();
           row["_id"] = mmria_case_id;
 
-          foreach (string path in export_report)
+          foreach (string path in flat_field_list)
           {
             if 
             (
@@ -1014,35 +1092,32 @@ TableTypeEnum GetTableType(string p_mmria_path)
       System.Collections.Generic.HashSet<string> p_path_to_csv_set,
       System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
       System.Data.DataTable p_Table,
-      bool p_add_id,
       bool p_add_record_index,
       bool p_add_parent_record_index
     )
     {
-      if (p_Table.Columns.Count > 0)
-      {
-        return;
-      }
+        if (p_Table.Columns.Count > 0)
+        {
+            return;
+        }
 
-      System.Data.DataColumn column = null;
+        System.Data.DataColumn column = null;
 
-      if (p_add_id)
-      {
         column = new System.Data.DataColumn("_id", typeof(string));
         p_Table.Columns.Add(column);
-      }
 
-      if (p_add_record_index)
-      {
-        column = new System.Data.DataColumn("_record_index", typeof(long));
-        p_Table.Columns.Add(column);
-      }
 
-      if (p_add_parent_record_index)
-      {
-        column = new System.Data.DataColumn("_parent_record_index", typeof(long));
-        p_Table.Columns.Add(column);
-      }
+        if (p_add_record_index)
+        {
+            column = new System.Data.DataColumn("_record_index", typeof(long));
+            p_Table.Columns.Add(column);
+        }
+
+        if (p_add_parent_record_index)
+        {
+            column = new System.Data.DataColumn("_parent_record_index", typeof(long));
+            p_Table.Columns.Add(column);
+        }
 
 
       foreach (string path in p_path_to_csv_set)
