@@ -703,7 +703,73 @@ TableTypeEnum GetTableType(string p_mmria_path)
               System.Console.Write("bad export value: {0} - {1} - {2}", mmria_case_id, val, path);
             }
 
-          }
+          } // end of flat_table
+
+        /*
+        _id  _record_index field1 field2 field3
+        abc     0           
+
+
+        */
+            var gs = new migrate.C_Get_Set_Value(new ());
+            migrate.C_Get_Set_Value.get_grid_value_result grid_value_result = null;
+            var grid_row_list = new List<System.Data.DataRow>();
+
+            foreach (string path in grid_field_list)
+            {
+                grid_value_result = gs.get_grid_value(case_row, path);
+                if( !grid_value_result.is_error)
+                {
+                    if
+                    (
+                        grid_value_result.result != null &&
+                        grid_value_result.result.Count > 0
+                    )
+                    {
+                        if(grid_row_list.Count == 0)
+                        {
+                            for(var i = 0; i < grid_value_result.result.Count; i++)
+                            {
+                                grid_row_list.Add(grid_table.NewRow());
+                                grid_row_list[i]["_id"] = mmria_case_id;
+                            }
+                        }
+
+            
+                        string file_field_name = path_to_field_name_map[path];
+                        foreach(var (index, value) in grid_value_result.result)
+                        {
+                            grid_row_list[index][file_field_name] = value;
+                            grid_row_list[index]["_record_index"] = index;
+                        }
+                    }
+                }
+
+            }//end of grid
+
+            migrate.C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
+            var multiform_row  = multiform_table.NewRow();
+            multiform_row["_id"] = mmria_case_id;
+            foreach (string path in multiform_field_list)
+            {
+                multiform_value_result = gs.get_multiform_value(case_row, path);
+                if( !grid_value_result.is_error)
+                {
+                    if
+                    (
+                        multiform_value_result.result != null &&
+                        multiform_value_result.result.Count > 0
+                    )
+                    {
+                        string file_field_name = path_to_field_name_map[path];
+                        foreach(var (index, value) in multiform_value_result.result)
+                        {
+                            multiform_row[file_field_name] = value;
+                            multiform_row["_parent_record_index"] = index;
+                        }
+                    }
+                }
+            }// end of multiform
           path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(row);
 
 
