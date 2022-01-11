@@ -47,18 +47,27 @@ function render_navigation_strip(p_current_index)
     );
 
     return `
-    <div  style="background:#CCCCCC;">
-<table width=100%>
-    <tr>
-        <td valign=center><span style="font-size:18pt;">&lt; <a href="#${previous_index}">${previous_tab_name}</a></span></td>
-        <td align=center>
-            <select>
-                ${list_options.join()}
-            </select>
-        </td>
-        <td align=right><span style="font-size:18pt;"><a href="#${next_index}">${next_tab_name}</a> &gt;</span></td>
-    </tr>
-</table>
-</div>`;
+    <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
+		<ul class="d-flex justify-content-between">
+			<li class="tp-mp-prev tp-mp-arrow">
+                <a href="#${previous_index}" title="Previous Page"><span class="d-lg-none">Prev</span><span class="d-none d-lg-inline">${previous_tab_name}</span></a>
+            </li>
+            <li style="margin-top:15px;">
+                <select onchange="nav_dropdown_change(this.value)">
+                    ${list_options.join()}
+                </select>
+            </li>
+			<li class="tp-mp-next tp-mp-arrow">
+                <a href="#${next_index}" title="Next Page"><span class="d-lg-none">Next</span><span class="d-none d-lg-inline">${next_tab_name}</span></a>
+            </li>
+		</ul>
+	</nav>
 
+`;
+
+}
+
+function nav_dropdown_change(p_value)
+{
+    window.location = "#" + p_value;
 }
