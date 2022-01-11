@@ -156,7 +156,7 @@ namespace mmria.server.utils
         export_report = standard_export_report_set.name_path_list[report_name];
 
 
-        var mmria_custom_export_file_name = $"{export_report}.csv";
+        var mmria_custom_export_file_name = $"{report_name}.csv";
 
         System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
         System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
@@ -217,9 +217,7 @@ namespace mmria.server.utils
         int stream_file_count = 0;
 
         path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory));
-
         stream_file_count++;
-
 
     var flat_field_list = new List<string>();
     var grid_field_list = new List<string>();
@@ -258,7 +256,7 @@ namespace mmria.server.utils
             path_to_int_map,
             flat_field_list.ToHashSet(),
             path_to_node_map,
-            path_to_csv_writer[mmria_custom_export_file_name].Table,
+            flat_table,
             false,
             false
         );
@@ -271,7 +269,7 @@ namespace mmria.server.utils
           path_to_int_map,
           grid_field_list.ToHashSet(),
           path_to_node_map,
-          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          grid_table,
           true,
           false
         );
@@ -287,7 +285,7 @@ namespace mmria.server.utils
           path_to_int_map,
           multiform_field_list.ToHashSet(),
           path_to_node_map,
-          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          multiform_table,
           false,
           true
         );
@@ -436,7 +434,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
           }
 
 
-          System.Data.DataRow row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+          System.Data.DataRow row = flat_table.NewRow();
           string mmria_case_id = case_doc["_id"].ToString();
           row["_id"] = mmria_case_id;
 
@@ -726,6 +724,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         grid_value_result.result.Count > 0
                     )
                     {
+						// grid_table = path_to_csv_writer[mmria_custom_export_grid_file_name].Table;
                         if(grid_row_list.Count == 0)
                         {
                             for(var i = 0; i < grid_value_result.result.Count; i++)
@@ -736,7 +735,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         }
 
             
-                        string file_field_name = path_to_field_name_map[path];
+                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         foreach(var (index, value) in grid_value_result.result)
                         {
                             grid_row_list[index][file_field_name] = value;
@@ -753,7 +752,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
             foreach (string path in multiform_field_list)
             {
                 multiform_value_result = gs.get_multiform_value(case_row, path);
-                if( !grid_value_result.is_error)
+                if( !multiform_value_result.is_error)
                 {
                     if
                     (
@@ -761,7 +760,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         multiform_value_result.result.Count > 0
                     )
                     {
-                        string file_field_name = path_to_field_name_map[path];
+                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         foreach(var (index, value) in multiform_value_result.result)
                         {
                             multiform_row[file_field_name] = value;
@@ -771,8 +770,6 @@ TableTypeEnum GetTableType(string p_mmria_path)
                 }
             }// end of multiform
           path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(row);
-
-
         }
 
 
@@ -1188,7 +1185,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
 
       foreach (string path in p_path_to_csv_set)
       {
-        string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
+		var file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
 
         switch (p_path_to_node_map[path].type.ToLower())
         {
