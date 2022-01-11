@@ -156,7 +156,7 @@ namespace mmria.server.utils
         export_report = standard_export_report_set.name_path_list[report_name];
 
 
-        var mmria_custom_export_file_name = $"{export_report}.csv";
+        var mmria_custom_export_file_name = $"{report_name}.csv";
 
         System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
         System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
@@ -258,7 +258,7 @@ namespace mmria.server.utils
             path_to_int_map,
             flat_field_list.ToHashSet(),
             path_to_node_map,
-            path_to_csv_writer[mmria_custom_export_file_name].Table,
+            flat_table,
             false,
             false
         );
@@ -271,7 +271,7 @@ namespace mmria.server.utils
           path_to_int_map,
           grid_field_list.ToHashSet(),
           path_to_node_map,
-          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          grid_table,
           true,
           false
         );
@@ -287,7 +287,7 @@ namespace mmria.server.utils
           path_to_int_map,
           multiform_field_list.ToHashSet(),
           path_to_node_map,
-          path_to_csv_writer[mmria_custom_export_file_name].Table,
+          multiform_table,
           false,
           true
         );
@@ -749,7 +749,8 @@ TableTypeEnum GetTableType(string p_mmria_path)
 
             migrate.C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
             var multiform_row  = multiform_table.NewRow();
-            multiform_row["_id"] = mmria_case_id;
+            var multiform_row_list = new List<System.Data.DataRow>();
+            
             foreach (string path in multiform_field_list)
             {
                 multiform_value_result = gs.get_multiform_value(case_row, path);
@@ -761,11 +762,22 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         multiform_value_result.result.Count > 0
                     )
                     {
+
+                        if(multiform_row_list.Count == 0)
+                        {
+                            for(var i = 0; i < multiform_value_result.result.Count; i++)
+                            {
+                                multiform_row_list.Add(grid_table.NewRow());
+                                multiform_row_list[i]["_id"] = mmria_case_id;
+                            }
+                        }
+
+
                         string file_field_name = path_to_field_name_map[path];
                         foreach(var (index, value) in multiform_value_result.result)
                         {
-                            multiform_row[file_field_name] = value;
-                            multiform_row["_parent_record_index"] = index;
+                            multiform_row_list[index][file_field_name] = value;
+                            multiform_row_list[index]["_parent_record_index"] = index;
                         }
                     }
                 }
@@ -1188,7 +1200,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
 
       foreach (string path in p_path_to_csv_set)
       {
-        string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
+        var file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
 
         switch (p_path_to_node_map[path].type.ToLower())
         {
