@@ -217,9 +217,7 @@ namespace mmria.server.utils
         int stream_file_count = 0;
 
         path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory));
-
         stream_file_count++;
-
 
     var flat_field_list = new List<string>();
     var grid_field_list = new List<string>();
@@ -747,6 +745,8 @@ TableTypeEnum GetTableType(string p_mmria_path)
                             multiform_grid_value_result.result != null &&
                             multiform_grid_value_result.result.Count > 0
                         )
+						
+                        if(grid_row_list.Count == 0)
                         {
                             if(grid_row_list.Count == 0)
                             {
@@ -868,7 +868,6 @@ TableTypeEnum GetTableType(string p_mmria_path)
                     }
                 }
             }// end of multiform
-
         }
 
 
