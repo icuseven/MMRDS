@@ -27,6 +27,21 @@ var g_ui = {
 };
 
 
+var g_nav_map = new Map();
+g_nav_map.set(0,"Overview");
+g_nav_map.set(1,"Primary Underlying Cause of Death");
+g_nav_map.set(2,"Pregnancy Relatedness");
+g_nav_map.set(3,"Preventability");
+g_nav_map.set(4,"Timing of Death");
+g_nav_map.set(5,"OMB race recode");
+g_nav_map.set(6,"Race");
+g_nav_map.set(7,"Race/Ethniciy");
+g_nav_map.set(8,"Age");
+g_nav_map.set(9,"Education");
+g_nav_map.set(10,"Committee Determinations");
+g_nav_map.set(11,"Emotional Stress");
+g_nav_map.set(12,"Living Arrangements");
+
 var year_options = [
 'All',
 2020,
@@ -80,7 +95,47 @@ $(function ()
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
 	get_release_version();
+
+    if (window.onhashchange) 
+    {
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    } 
+    else 
+    {
+      window.onhashchange = window_on_hash_change;
+      window.onhashchange({ isTrusted: true, newURL: window.location.href });
+    }
 });
+
+
+function window_on_hash_change(e) 
+{
+    if (e.isTrusted) 
+    {
+        const url = e.newURL || window.location.href;
+
+        let index = -1;
+
+        const url_array = url.split('#');
+
+        if(url_array.length > 1)
+        {
+            index = parseInt(url_array[1]);
+        }
+
+        switch(index)
+        {
+            case 1:
+                document.getElementById('output').innerHTML = render1();
+                break;
+            case -1:
+            default:
+                document.getElementById('output').innerHTML = render0();
+        }
+        console.log("here");
+    }
+
+}
 
 async function get_release_version()
 {
@@ -104,18 +159,32 @@ async function get_release_version()
 
     set_list_lookup(g_list_lookup, g_metadata, "");
 
-/*
-	const g_data_response = await $.ajax
-    ({
-			url: location.protocol + '//' + location.host + '/api/aggregate_report'
-	});
-			
-	g_data = g_data_response;
-    */
-
-    document.getElementById('output').innerHTML = render();
+    render();
 }
 
+
+function review_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+
+    g_filter.date_of_review.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function review_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    
+    g_filter.date_of_review.end = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function death_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    g_filter.date_of_death.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+function death_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
+}
 
 function set_list_lookup(p_list_lookup, p_metadata, p_path)
 {
