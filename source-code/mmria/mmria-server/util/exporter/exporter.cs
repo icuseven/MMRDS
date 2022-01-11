@@ -436,10 +436,10 @@ TableTypeEnum GetTableType(string p_mmria_path)
           }
 
 
-          System.Data.DataRow row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+          System.Data.DataRow row = flat_table.NewRow();
           string mmria_case_id = case_doc["_id"].ToString();
           row["_id"] = mmria_case_id;
-
+          flat_table.Rows.Add(row);
           foreach (string path in flat_field_list)
           {
             if 
@@ -698,7 +698,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
 
               }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
               System.Console.Write("bad export value: {0} - {1} - {2}", mmria_case_id, val, path);
             }
@@ -731,15 +731,23 @@ TableTypeEnum GetTableType(string p_mmria_path)
                             for(var i = 0; i < grid_value_result.result.Count; i++)
                             {
                                 grid_row_list.Add(grid_table.NewRow());
+                                grid_table.Rows.Add(grid_row_list[i]);
                                 grid_row_list[i]["_id"] = mmria_case_id;
                             }
                         }
 
             
-                        string file_field_name = path_to_field_name_map[path];
+                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         foreach(var (index, value) in grid_value_result.result)
                         {
-                            grid_row_list[index][file_field_name] = value;
+                            if(value == null  || string.IsNullOrWhiteSpace(value.ToString()))
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                grid_row_list[index][file_field_name] = value;
+                            }
                             grid_row_list[index]["_record_index"] = index;
                         }
                     }
@@ -754,7 +762,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
             foreach (string path in multiform_field_list)
             {
                 multiform_value_result = gs.get_multiform_value(case_row, path);
-                if( !grid_value_result.is_error)
+                if( !multiform_value_result.is_error)
                 {
                     if
                     (
@@ -767,25 +775,85 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         {
                             for(var i = 0; i < multiform_value_result.result.Count; i++)
                             {
-                                multiform_row_list.Add(grid_table.NewRow());
+                                multiform_row_list.Add(multiform_table.NewRow());
+                                multiform_table.Rows.Add(multiform_row_list[i]);
                                 multiform_row_list[i]["_id"] = mmria_case_id;
                             }
                         }
 
 
-                        string file_field_name = path_to_field_name_map[path];
+                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         foreach(var (index, value) in multiform_value_result.result)
                         {
-                            multiform_row_list[index][file_field_name] = value;
+                            if(value == null  || string.IsNullOrWhiteSpace(value.ToString()))
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                multiform_row_list[index][file_field_name] = value;
+                            }
+
                             multiform_row_list[index]["_parent_record_index"] = index;
                         }
                     }
                 }
             }// end of multiform
-          path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(row);
-
 
         }
+
+
+          if(is_using_grid)
+          {
+            foreach(System.Data.DataRow gr in grid_table.Rows)
+            {
+                System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+
+                var fr = flat_table.Select($"_id='{gr["_id"]}'");
+                foreach(System.Data.DataColumn c in flat_table.Columns)
+                {
+                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                }
+
+                foreach(System.Data.DataColumn c in multiform_table.Columns)
+                {
+                    output_row[c.ColumnName] = gr[c.ColumnName];
+                }
+            }
+          }
+          else if(is_using_multiform)
+          {
+            foreach(System.Data.DataRow mr in multiform_table.Rows)
+            {
+                System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+
+                var fr = flat_table.Select($"_id='{mr["_id"]}'");
+                foreach(System.Data.DataColumn c in flat_table.Columns)
+                {
+                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                }
+
+                foreach(System.Data.DataColumn c in multiform_table.Columns)
+                {
+                    output_row[c.ColumnName] = mr[c.ColumnName];
+                }
+            }
+          }
+          else
+          {
+            foreach(System.Data.DataRow fr in flat_table.Rows)
+            {
+                var output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+                foreach(System.Data.DataColumn c in flat_table.Columns)
+                {
+                    output_row[c.ColumnName] = fr[c.ColumnName];
+                }
+            }
+          }
+          
+
+
 
 
         Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
