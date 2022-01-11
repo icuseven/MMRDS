@@ -16,7 +16,8 @@ namespace mmria.server.utils
           flat,
           grid,
 
-          multiform
+          multiform,
+          multiform_grid
       }
 
       TableTypeEnum GetTableType(string p_mmria_path)
@@ -27,7 +28,11 @@ namespace mmria.server.utils
         {
             var check = MetaDataNode_Dictionary[p_mmria_path];
 
-            if(check.is_multiform)
+            if(check.is_multiform && check.is_grid)
+            {
+                result = TableTypeEnum.multiform_grid;
+            }
+            else if(check.is_multiform)
             {
                 result = TableTypeEnum.multiform;
             }

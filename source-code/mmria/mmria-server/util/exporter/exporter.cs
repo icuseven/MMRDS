@@ -245,6 +245,11 @@ namespace mmria.server.utils
                 multiform_field_list.Add(mmria_path);
                 is_using_multiform = true;
                 break;
+            case TableTypeEnum.multiform_grid:
+                grid_field_list.Add(mmria_path);
+                is_using_grid = true;
+                is_using_multiform = true;
+                break;
             case TableTypeEnum.none:
             default:
             break;
@@ -705,7 +710,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
                       val = over_limit_message;
                     }
 
-                    string file_field_name = path_to_field_name_map[path];
+                    string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                     row[file_field_name] = val;
 
                   }
@@ -713,7 +718,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
 
               }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
               System.Console.Write("bad export value: {0} - {1} - {2}", mmria_case_id, val, path);
             }
@@ -876,6 +881,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
@@ -900,6 +906,7 @@ TableTypeEnum GetTableType(string p_mmria_path)
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
@@ -937,6 +944,8 @@ TableTypeEnum GetTableType(string p_mmria_path)
             foreach(System.Data.DataRow fr in flat_table.Rows)
             {
                 var output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
                     output_row[c.ColumnName] = fr[c.ColumnName];
