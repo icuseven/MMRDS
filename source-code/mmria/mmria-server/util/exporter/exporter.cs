@@ -315,25 +315,6 @@ namespace mmria.server.utils
 
     }
 
-
-// analyze the export_report
-// find which ones are flat and make working datatable create_header_row
-// find which ones are grid and make working datatable create_header_row 
-// find which ones are multiform and working datatable create_header_row
-/*
-
-
-
-TableTypeEnum GetTableType(string p_mmria_path)
-
-
-*/
-
-
-
-// create a final datatable for the combined
-
-
         create_header_row
         (
           path_to_int_map,
@@ -767,14 +748,19 @@ TableTypeEnum GetTableType(string p_mmria_path)
                             string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                             foreach(var (form_index, grid_index, value) in multiform_grid_value_result.result)
                             {
-                                if(value == null  || string.IsNullOrWhiteSpace(value.ToString()))
-                                {
-                                    // do nothing
-                                }
-                                else
-                                {
-                                    grid_row_list[grid_index][file_field_name] = value;
-                                }
+                                GetDataRowValue
+                                (
+                                    grid_row_list[grid_index],
+                                    grid_table.Columns[file_field_name], 
+                                    file_field_name,
+                                    MetaDataNode_Dictionary[path],
+                                    mmria_case_id,
+                                    value,
+                                    form_index,
+                                    grid_index
+
+                                );    
+                                
                                 grid_row_list[grid_index]["_record_index"] = grid_index;
                                 grid_row_list[grid_index]["_parent_record_index"] = form_index;
                             }
@@ -813,14 +799,18 @@ TableTypeEnum GetTableType(string p_mmria_path)
                             string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                             foreach(var (index, value) in grid_value_result.result)
                             {
-                                if(value == null  || string.IsNullOrWhiteSpace(value.ToString()))
-                                {
-                                    // do nothing
-                                }
-                                else
-                                {
-                                    grid_row_list[index][file_field_name] = value;
-                                }
+                                GetDataRowValue
+                                (
+                                    grid_row_list[index],
+                                    grid_table.Columns[file_field_name], 
+                                    file_field_name,
+                                    MetaDataNode_Dictionary[path],
+                                    mmria_case_id,
+                                    value,
+                                    -1,
+                                    index
+                                );  
+                                
                                 grid_row_list[index]["_record_index"] = index;
                             }
                         }
@@ -859,14 +849,17 @@ TableTypeEnum GetTableType(string p_mmria_path)
                         string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         foreach(var (index, value) in multiform_value_result.result)
                         {
-                            if(value == null  || string.IsNullOrWhiteSpace(value.ToString()))
-                            {
-                                // do nothing
-                            }
-                            else
-                            {
-                                multiform_row_list[index][file_field_name] = value;
-                            }
+
+                            GetDataRowValue
+                            (
+                                multiform_row_list[index],
+                                multiform_table.Columns[file_field_name], 
+                                file_field_name,
+                                MetaDataNode_Dictionary[path],
+                                mmria_case_id,
+                                value,
+                                index
+                            ); 
 
                             multiform_row_list[index]["_parent_record_index"] = index;
                         }
@@ -1242,6 +1235,157 @@ TableTypeEnum GetTableType(string p_mmria_path)
       }
     }
 
+
+        private void GetDataRowValue
+        (
+            System.Data.DataRow p_row, 
+            System.Data.DataColumn column, 
+            string p_column_name,
+            Metadata_Node p_node,
+            string p_mmria_case_id,
+            dynamic p_value,
+            int p_form_index = -1,
+            int p_grid_index = -1
+            
+            
+        )
+        {
+            if(p_value == null  || string.IsNullOrWhiteSpace(p_value.ToString()))
+            {
+                if(p_node.Node.type.ToLower() == "list")
+                {
+                    if
+                    (
+                        p_node.Node.is_multiselect != null &&
+                        p_node.Node.is_multiselect == true
+                    )
+                    {
+                        p_row[p_column_name] = "(blank)";
+                    }
+                    else
+                    {
+                        p_row[p_column_name] = "9999";
+                    }
+                }
+            }
+            else
+            {
+
+                switch(column.DataType)
+                {
+                    default:
+                        if
+                        (
+                            (
+                                p_node.Node.type.ToLower() == "list" &&
+                                p_node.Node.is_multiselect != null &&
+                                p_node.Node.is_multiselect == true
+                            ) 
+                                ||
+                            (
+                                p_value != null &&
+                                p_value is List<object>
+                            )
+
+                        )
+                        {
+
+                            var path = p_node.path;
+                            List<object> temp = p_value as List<object>;
+                            if (temp != null && temp.Count > 0)
+                            {
+                                List<string> temp2 = new List<string>();
+                                foreach (var item in temp)
+                                {
+                                var key = "/" + path;
+                                var item_key = item.ToString();
+                                if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+                                {
+                                    temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+                                }
+                                else
+                                {
+                                    temp2.Add(item.ToString());
+                                }
+                                }
+
+                                //Check if list can be sorted and list lookup has key
+                                if (temp2?.Count > 1 && List_Look_Up.ContainsKey("/" + path))
+                                {
+                                    //Get list lookup
+                                    var look_up_list = List_Look_Up["/" + path];
+
+                                    //Set sorted list back to the value to contiune regular flow
+                                    temp2 = SortListAgainstDictionary(temp2, look_up_list);
+                                }
+
+                                p_row[p_column_name] = string.Join("|", temp2);
+                            }
+                            else
+                            {
+                                p_row[p_column_name] = "(blank)";
+                            }
+                        }
+                        else if
+                        (
+                            p_node.Node.type.ToLower() == "textarea" ||
+                            p_node.Node.type.ToLower() == "string"
+                        )
+                        {
+                            if (p_value != null)
+                            {
+                                string clearText = "";
+                                
+                                if(p_node.path == "case_narrative/case_opening_overview")
+                                {
+                                    clearText = mmria.common.util.CaseNarrative.StripHTML(p_value.ToString());
+                                }
+
+                                if
+                                (
+                                    p_value.ToString().Length > max_qualitative_length
+                                )
+                                {
+                                    WriteQualitativeData
+                                    (
+                                        p_mmria_case_id,
+                                        p_node.path,
+                                        p_value,
+                                        p_grid_index,
+                                        p_form_index
+                                    );
+
+                                    if (clearText.Length > 0) 
+                                    {
+                                        
+                                        WriteQualitativeData
+                                        (
+                                            p_mmria_case_id,
+                                            p_node.path,
+                                            clearText,
+                                            p_grid_index,
+                                            p_form_index,
+                                            true
+                                        );
+                                    }
+                                    p_value = over_limit_message;
+                                }
+
+                                string file_field_name = MetaDataNode_Dictionary[p_node.path].sass_export_name;
+                                p_row[p_column_name] = p_value;
+
+                            }
+                        }
+                        else
+                        {
+                          p_row[p_column_name] = p_value;
+                        }
+                        break;
+                }
+                                
+            }
+
+        }
         private List<string> SortListAgainstDictionary(List<string> temp2, Dictionary<string, string> look_up_list)
         {
             var result = new List<string>();
