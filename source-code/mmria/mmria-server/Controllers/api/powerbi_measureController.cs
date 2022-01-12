@@ -9,12 +9,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server
 {
-	[Route("api/powerbi-measures/{jurisdiction?}")]
+	[Route("api/powerbi-measures/{indicator_id?}")]
 	public class powerbi_measureController: ControllerBase
 	{ 
+
         public struct Result_Struct
         {
-            public System.Dynamic.ExpandoObject[] docs;
+            public mmria.server.model.c_opioid_report_object[] docs;
         }
 
         struct Selector_Struc
@@ -37,10 +38,10 @@ namespace mmria.server
 		//public IEnumerable<master_record> Get() 
 		[AllowAnonymous] 
 		[HttpGet]
-		public async Task<Result_Struct> Get(string jurisdiction)
+		public async Task<Result_Struct> Get(string indicator_id)
 		{
 			Result_Struct result = new Result_Struct();
-            result.docs = new List<System.Dynamic.ExpandoObject>().ToArray();
+            result.docs = new List<mmria.server.model.c_opioid_report_object>().ToArray();
             
             
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
@@ -73,36 +74,30 @@ namespace mmria.server
 				var case_curl = new cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
-                if(!string.IsNullOrWhiteSpace(jurisdiction))
+                if(!string.IsNullOrWhiteSpace(indicator_id))
                 {
 
-                    List<System.Dynamic.ExpandoObject> new_list = new();
+                    List<mmria.server.model.c_opioid_report_object> new_list = new();
                     var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
 
-                    var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction);
+                    var regex = new System.Text.RegularExpressions.Regex("^" + indicator_id);
                     foreach(var doc in response_result.docs)
                     {
-                        dynamic byName = (IDictionary<string,object>)doc;
-                        if(byName.home_record == null)
+                        var new_data = new System.Collections.Generic.List<mmria.server.model.opioid_report_value_struct>();
+                        foreach(var item in doc.data)
                         {
-                            byName.home_record = new Dictionary<string,object>();
+                            if(item.indicator_id == indicator_id)
+                            {
+                                new_data.Add(item);
+                            }
                         }
 
-                        if(byName.home_record.jurisdiction_id == null)
-                        {
-                            byName.home_record.jurisdiction_id = "/";
-                        }
-
-                        if(regex.IsMatch(byName.home_record.jurisdiction_id))
-                        {
-                            
-                            new_list.Add(doc);
-                            
-                        }
-
+                        doc.data = new_data;
+                        
                     }
 
-                    result.docs = new_list.ToArray();
+                    //result.docs = new_list.ToArray();
+                    result.docs = response_result.docs;
                 }
                 else
                 {
