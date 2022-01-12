@@ -192,18 +192,18 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                       <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-					  <td class="td" style="text-align: center">
+					  <td class="td" style="white-space: nowrap">
 						<button 
 							type="button" 
 							id="id_for_record_${i}" 
-							class="btn btn-primary" 
+							class="btn btn-primary btn-xs" 
 							style="line-height: 1.15; margin: 3px" 
 							onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
 						</button>
 						<button 
 							type="button" 
 							id="id_for_record_${i}" 
-							class="btn btn-primary" 
+							class="btn btn-primary btn-xs" 
 							style="line-height: 1.15; margin: 3px" 
 							onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
 						</button>
