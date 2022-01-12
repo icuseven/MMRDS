@@ -2316,7 +2316,7 @@ function enable_print_button(event)
 }
 
 
-let tab_number = 0;
+let unique_tab_name = '';
 function pdf_case_onclick(event) 
 {
   const btn = event.target;
@@ -2326,7 +2326,7 @@ function pdf_case_onclick(event)
   let section_name = dropdown.value;
   //await print_pdf( section_name );
 
-  //tab_number+= 1;
+  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2335,7 +2335,7 @@ function pdf_case_onclick(event)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name);
+            openTab('./pdf-version', unique_tab_name, section_name);
         }, 1000);	
 
       
@@ -2345,7 +2345,7 @@ function pdf_case_onclick(event)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-        let tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
+		unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2354,14 +2354,14 @@ function pdf_case_onclick(event)
 
             window.setTimeout(function()
             {
-                openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number, true);
+                openTab('./pdf-version',  unique_tab_name, section_name, record_number, true);
             }, 1000);	
         }
         else
         {
             window.setTimeout(function()
             {
-                openTab('./pdf-version',  `_pdf_print_version${tab_number}`, section_name, record_number);
+                openTab('./pdf-version',  unique_tab_name, section_name, record_number);
             }, 1000);	
         }
       
@@ -2377,6 +2377,7 @@ function print_case_onclick(event)
 	// const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
 	let section_name = dropdown.value;
+	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
   
 	if (section_name) 
 	{
@@ -2385,7 +2386,7 @@ function print_case_onclick(event)
   
 		  window.setTimeout(function()
 		  {
-			  openTab('./core-elements', '_core_summary', 'all');
+			  openTab('./core-elements', unique_tab_name, 'all');
 		  }, 1000);	
   
 		
@@ -2395,7 +2396,6 @@ function print_case_onclick(event)
 		// data-record of selected option
 		const selectedOption = dropdown.options[dropdown.options.selectedIndex];
 		const record_number = selectedOption.dataset.record;
-		let tabName = section_name === 'all' ? '_all' : '_print_version';
   
         if(section_name == "all_hidden")
         {
@@ -2404,7 +2404,7 @@ function print_case_onclick(event)
 
             window.setTimeout(function()
             {
-                openTab('./print-version',  tabName, section_name, record_number, true);
+                openTab('./print-version', unique_tab_name, section_name, record_number, true);
             }, 1000);	
         }
         else
@@ -2412,7 +2412,7 @@ function print_case_onclick(event)
   
             window.setTimeout(function()
             {
-                openTab('./print-version', tabName, section_name, record_number);
+                openTab('./print-version', unique_tab_name, section_name, record_number);
             }, 1000);	
         }
 		
@@ -2425,9 +2425,9 @@ function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden)
 {
 	// console.log('in openTab');
 	// console.log('pageRoute: ', pageRoute);
-	// console.log('tabName: ', tabName);
-	console.log('g_metadata: ', g_metadata);
-	console.log('g_data: ', g_data);
+	// console.log('tabName case: ', tabName);
+	// console.log('g_metadata: ', g_metadata);
+	// console.log('g_data: ', g_data);
 	// console.log('p_section: ', p_section);
 	// console.log('p_number: ', p_number);
 

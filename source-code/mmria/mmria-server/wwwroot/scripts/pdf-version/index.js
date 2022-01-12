@@ -1,10 +1,10 @@
 let g_md = null;
-let g_metadata;
+// let g_metadata;
 let g_d = null;
 let g_section_name;
 let g_current;
 let g_writeText;
-let g_metadata_summary = {};
+// let g_metadata_summary = {};
 let g_record_number;
 let g_show_hidden = false;
 

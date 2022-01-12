@@ -1117,7 +1117,7 @@ function enable_print_button(event)
   pdfButton.disabled = !value;
 }
 
-let tab_number = 0;
+let unique_tab_name = '';
 function pdf_case_onclick(event) 
 {
   const btn = event.target;
@@ -1127,7 +1127,7 @@ function pdf_case_onclick(event)
   const section_name = dropdown.value;
   //await print_pdf( section_name );
 
-  tab_number+= 1;
+  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -1136,7 +1136,7 @@ function pdf_case_onclick(event)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name);
+            openTab('./pdf-version', unique_tab_name, section_name);
         }, 1000);	
 
       
@@ -1147,11 +1147,10 @@ function pdf_case_onclick(event)
 	  // If selected from detail list
 	  const selectedOption = dropdown.options[dropdown.options.selectedIndex];
       const record_number = selectedOption.dataset.record;
-      const tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
   
       window.setTimeout(function()
       {
-          openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name, record_number);
+          openTab('./pdf-version', unique_tab_name, section_name, record_number);
       }, 1000);	
       
     }
@@ -1173,13 +1172,13 @@ function pdf_case_onclick_summary(event, id, section)
 	const btn = event.target;
 	const	section_name = section;
 
-	tab_number+= 1;
+	unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 	const record_number = undefined;
 	const tabName = ( section == 'all' ) ? '_all' : '_pdf_print_version';
 
 	window.setTimeout(function()
 	{
-		openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name, record_number);
+		openTab('./pdf-version', unique_tab_name, section_name, record_number);
 	}, 1000);
 
 }
@@ -1193,7 +1192,8 @@ function print_case_onclick(event)
 	// const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
 	const section_name = dropdown.value;
-  
+	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
+ 
 	if (section_name) 
 	{
 	  if (section_name == 'core-summary') 
@@ -1201,7 +1201,7 @@ function print_case_onclick(event)
   
 		  window.setTimeout(function()
 		  {
-			  openTab('./core-elements', '_core_summary', 'all');
+			  openTab('./core-elements', unique_tab_name, 'all');
 		  }, 1000);	
   
 		
@@ -1211,12 +1211,11 @@ function print_case_onclick(event)
 		// data-record of selected option
 		const selectedOption = dropdown.options[dropdown.options.selectedIndex];
 		const record_number = selectedOption.dataset.record;
-		const tabName = section_name === 'all' ? '_all' : '_print_version';
   
   
 		window.setTimeout(function()
 		{
-			openTab('./print-version', tabName, section_name, record_number);
+			openTab('./print-version', unique_tab_name, section_name, record_number);
 		}, 1000);	
 		
 	  }
@@ -1227,6 +1226,7 @@ function print_case_onclick(event)
 function openTab(pageRoute, tabName, p_section, p_number) 
 {
   // check if a WindowProxy object has already been created.
+
   if (!window[tabName] || window[tabName].closed) 
   {
     window[tabName] = window.open(pageRoute, tabName, null, false);
