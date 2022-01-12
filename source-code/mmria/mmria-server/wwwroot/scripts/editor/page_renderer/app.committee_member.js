@@ -135,7 +135,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
                   <th class='th' scope='col'>Created</th>
                   <th class='th' scope='col'>Last Updated</th>
-				  <th class='th' scope='col'>Actions</th>
+				  <th class='th' scope='col'>View Case PDF</th>
               </tr>
           </thead>
           <tbody class="tbody">
@@ -192,13 +192,20 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                       <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-					  <td class="td">
+					  <td class="td" style="text-align: center">
 						<button 
 							type="button" 
 							id="id_for_record_${i}" 
 							class="btn btn-primary" 
-							style="line-height: 1.15" 
-							onclick="pdf_case_onclick_summary(event, '${caseID}')">View PDF
+							style="line-height: 1.15; margin: 3px" 
+							onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
+						</button>
+						<button 
+							type="button" 
+							id="id_for_record_${i}" 
+							class="btn btn-primary" 
+							style="line-height: 1.15; margin: 3px" 
+							onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
 						</button>
 					  </td>
                     </tr>`

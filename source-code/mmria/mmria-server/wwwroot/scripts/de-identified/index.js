@@ -49,9 +49,9 @@ var g_ui = {
 
   set_value: function(p_path, p_value)
   {
-    console.log("g_ui.set_value: ", p_path, p_value);
-    console.log("value: ", p_value.value);
-    console.log("get_eval_string(p_path): ", g_ui.get_eval_string(p_path));
+    // console.log("g_ui.set_value: ", p_path, p_value);
+    // console.log("value: ", p_value.value);
+    // console.log("get_eval_string(p_path): ", g_ui.get_eval_string(p_path));
 
     eval(g_ui.get_eval_string(p_path + ' = "' + p_value.value.replace('"', '\\"')  + '"'));
 
@@ -951,7 +951,7 @@ function open_print_version(p_section)
 {
 
 	var print_window = window.open('./print-version','_print_version',null,false);
-	console.log('open_print_version de-identified:', g_data);
+	// console.log('open_print_version de-identified:', g_data);
 	window.setTimeout(function()
 	{
 		print_window.create_print_version(g_metadata, g_data, p_section)
@@ -986,7 +986,7 @@ function open_blank_version(p_section)
 
 function add_new_form_click(p_metadata_path, p_object_path)
 {
-  console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
+//   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
   var metadata = eval(p_metadata_path);
   var form_array = eval(p_object_path);
 
@@ -1148,7 +1148,7 @@ function pdf_case_onclick(event)
 	  const selectedOption = dropdown.options[dropdown.options.selectedIndex];
       const record_number = selectedOption.dataset.record;
       const tabName = section_name === 'all' ? '_all' : '_pdf_print_version';
-
+  
       window.setTimeout(function()
       {
           openTab('./pdf-version', `_pdf_print_version${tab_number}`, section_name, record_number);
@@ -1159,7 +1159,7 @@ function pdf_case_onclick(event)
 
 }
 
-function pdf_case_onclick_summary(event, id) 
+function pdf_case_onclick_summary(event, id, section) 
 {
 	// get the g_data for the selected case
 	let case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + id;
@@ -1171,11 +1171,11 @@ function pdf_case_onclick_summary(event, id)
 	});
 
 	const btn = event.target;
-	const	section_name = 'all';
+	const	section_name = section;
 
 	tab_number+= 1;
-	const record_number = null;
-	const tabName = '_all';
+	const record_number = undefined;
+	const tabName = ( section == 'all' ) ? '_all' : '_pdf_print_version';
 
 	window.setTimeout(function()
 	{
