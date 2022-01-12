@@ -754,7 +754,11 @@ namespace mmria.server.utils
                                     grid_table.Columns[file_field_name], 
                                     file_field_name,
                                     MetaDataNode_Dictionary[path],
-                                    value
+                                    mmria_case_id,
+                                    value,
+                                    form_index,
+                                    grid_index
+
                                 );    
                                 
                                 grid_row_list[grid_index]["_record_index"] = grid_index;
@@ -801,7 +805,10 @@ namespace mmria.server.utils
                                     grid_table.Columns[file_field_name], 
                                     file_field_name,
                                     MetaDataNode_Dictionary[path],
-                                    value
+                                    mmria_case_id,
+                                    value,
+                                    -1,
+                                    index
                                 );  
                                 
                                 grid_row_list[index]["_record_index"] = index;
@@ -849,7 +856,9 @@ namespace mmria.server.utils
                                 multiform_table.Columns[file_field_name], 
                                 file_field_name,
                                 MetaDataNode_Dictionary[path],
-                                value
+                                mmria_case_id,
+                                value,
+                                index
                             ); 
 
                             multiform_row_list[index]["_parent_record_index"] = index;
@@ -1233,7 +1242,10 @@ namespace mmria.server.utils
             System.Data.DataColumn column, 
             string p_column_name,
             Metadata_Node p_node,
-            dynamic p_value
+            string p_mmria_case_id,
+            dynamic p_value,
+            int p_form_index = -1,
+            int p_grid_index = -1
             
             
         )
@@ -1312,6 +1324,56 @@ namespace mmria.server.utils
                             else
                             {
                                 p_row[p_column_name] = "(blank)";
+                            }
+                        }
+                        else if
+                        (
+                            p_node.Node.type.ToLower() == "textarea" ||
+                            p_node.Node.type.ToLower() == "string"
+                        )
+                        {
+                            if (p_value != null)
+                            {
+                                string clearText = "";
+                                
+                                if(p_node.path == "case_narrative/case_opening_overview")
+                                {
+                                    clearText = mmria.common.util.CaseNarrative.StripHTML(p_value.ToString());
+                                }
+
+                                if
+                                (
+                                    p_value.ToString().Length > max_qualitative_length
+                                )
+                                {
+                                    WriteQualitativeData
+                                    (
+                                        p_mmria_case_id,
+                                        p_node.path,
+                                        p_value,
+                                        p_grid_index,
+                                        p_form_index
+                                    );
+
+                                    if (clearText.Length > 0) 
+                                    {
+                                        
+                                        WriteQualitativeData
+                                        (
+                                            p_mmria_case_id,
+                                            p_node.path,
+                                            clearText,
+                                            p_grid_index,
+                                            p_form_index,
+                                            true
+                                        );
+                                    }
+                                    p_value = over_limit_message;
+                                }
+
+                                string file_field_name = MetaDataNode_Dictionary[p_node.path].sass_export_name;
+                                p_row[p_column_name] = p_value;
+
                             }
                         }
                         else
