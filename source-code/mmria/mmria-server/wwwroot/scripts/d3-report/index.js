@@ -126,7 +126,9 @@ function window_on_hash_change(e)
         switch(index)
         {
             case 1:
-                document.getElementById('output').innerHTML = render1();
+                const post_html = [];
+                document.getElementById('output').innerHTML = render1(post_html);
+                eval(post_html.join(""));
                 break;
             case -1:
             default:

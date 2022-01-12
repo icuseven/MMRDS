@@ -1,16 +1,17 @@
-function render1()
+function render1(p_post_html)
 {
     return `
     ${render_header()}
 
 ${render_navigation_strip(1)}
 <div">
-<div align=center>chart goes here</div>
-<div align=center>table goes here</div>
+<div align=center>${render1_chart(p_post_html)}</div>
+<div align=center>${render1_table()}</div>
 </div>
 
 ${render_navigation_strip(1)}
 `;
+
 
 }
 
@@ -70,4 +71,69 @@ function render_navigation_strip(p_current_index)
 function nav_dropdown_change(p_value)
 {
     window.location = "#" + p_value;
+}
+
+function render1_chart(p_post_html)
+{
+
+    p_post_html.push
+    (
+        
+    `var chart = c3.generate({
+        data: {
+            columns: [
+                ['data1', 246, 220, 175, 85, 147, 7, 181, 23, 22, 
+                8, 466, 116, 303, 47, 38, 7, 73,32, 25,566, 98
+                 ],
+            ],
+            types: {
+                data1: 'bar',
+        
+            },
+            labels: true 
+        },
+        padding: {
+              left: 375
+        },
+        axis: {
+            rotated: true,        
+            x: {
+                tick: {
+                    multiline: false,
+                },
+                type: 'category',
+                categories: [
+                'Hemorrhage (Excludes Aneurysms or CVA)',
+                'Infection',
+                'Embolism - Thrombotic (Non-Cerebral)',
+                'Amniotic Fluid Embolism',
+                'Hyperensive Disorders of Pregnancy',
+                'Aneshesia Complications',
+                'Cardiomyopathy',
+                'Hemtologic',
+                'Collagen Vascular/Autoimmune Diseases',
+                'Conditions Unique to Pregnacy' ,
+                'Injury',
+                'Cancer',
+                'Cardiovascular Conditions',
+                'Pulmonary Conditions (Excludes ARDS)',
+                'Neourologic/Neurvascular Conditions (Excluding CVA)',
+                'Renal Diseases',
+                'Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy',
+                'Metabolic/Endocrine',
+                'Gastrointestinal Disorders',
+                'Mental Health Conditions',
+                'Unknown Cause of Death'
+                ],
+            },
+        }
+        }); ` 
+    );
+
+    return `<div id="chart"></div>`
+}
+
+function render1_table()
+{
+    return `tablet goes here`
 }
