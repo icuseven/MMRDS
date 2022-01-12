@@ -86,7 +86,11 @@ namespace mmria.server
                         var new_data = new System.Collections.Generic.List<mmria.server.model.opioid_report_value_struct>();
                         foreach(var item in doc.data)
                         {
-                            if(item.indicator_id == indicator_id)
+                            if
+                            (
+                                item.indicator_id == indicator_id &&
+                                item.value > 0
+                            )
                             {
                                 new_data.Add(item);
                             }
