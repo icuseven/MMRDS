@@ -6,7 +6,7 @@ async function render1(p_post_html)
 ${render_navigation_strip(1)}
 <div">
 <div align=center>${await render1_chart(p_post_html)}</div>
-<div align=center>${render1_table()}</div>
+<div align=center>${await render1_table()}</div>
 </div>
 
 ${render_navigation_strip(1)}
@@ -99,14 +99,12 @@ async function render1_chart(p_post_html)
     }
 
     const data = [];
-    for(var i = 0; i < metadata.field_id_list.length; i++)
+
+    totals.forEach((value, key) =>
     {
-        const item = g_data.data[i];
-        if(totals.has(item.field_id))
-        {
-            data.push(totals.get(item.field_id));
-        }
-    }
+        data.push(value);
+    });
+    
 
     p_post_html.push
     (
@@ -142,10 +140,47 @@ async function render1_chart(p_post_html)
     return `<div id="chart"></div>`
 }
 
-function render1_table()
+async function render1_table()
 {
+
+    const metadata = indicator_map.get(1);
+    const values = await get_indicator_values(metadata.indicator_id);
+    const totals = new Map();
+
+    const categories = [];
+    for(var i = 0; i < metadata.field_id_list.length; i++)
+    {
+        const item = metadata.field_id_list[i];
+        categories.push(`"${item.title}"`);
+        totals.set(item.name, 0);
+    }
+
+    for(var i = 0; i <g_data.data.length; i++)
+    {
+        const item = g_data.data[i];
+        if(totals.has(item.field_id))
+        {
+            let val = totals.get(item.field_id);
+            totals.set(item.field_id, val + 1);
+        }
+    }
+
+    const data = [];
+
+    totals.forEach((value, key) =>
+    {
+        data.push(`<tr><td>${key}</td><td>${value}</td></tr>`);
+
+    });
+    
+
+
     return `<table>
-    
-    
+    <thead>
+    <tr><th>${metadata.title}</th><th>Number of deaths</th></tr>
+    </thead>
+    <tbody>
+    ${data.join("")}
+    </tbody>
     </table>`
 }

@@ -18,7 +18,7 @@ indicator_map.set(1,{
 { name: "MCauseD14", title: "MCauseD14" },
 { name: "MCauseD15", title: "MCauseD15" },
     ],
-    title:"Committee Determinations"
+    title:"Underlying cause of death"
 });
 indicator_map.set("mDeathsbyRaceEth",{
     title:"Race/Ethnicity"
