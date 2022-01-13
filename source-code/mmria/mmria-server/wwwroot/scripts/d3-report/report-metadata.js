@@ -1,6 +1,7 @@
 var indicator_map = new Map();
 indicator_map.set(1,{
     indicator_id : "mDeathCause",
+    blank_field_id: "MCauseD15",
     field_id_list : [
 { name: "MCauseD1", title: "MCauseD1" },
 { name: "MCauseD2", title: "MCauseD2" },

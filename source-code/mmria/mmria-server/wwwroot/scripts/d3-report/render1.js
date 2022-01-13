@@ -166,21 +166,36 @@ async function render1_table()
     }
 
     const data = [];
+    let total = 0;
 
     totals.forEach((value, key) =>
     {
-        data.push(`<tr><td>${key}</td><td>${value}</td></tr>`);
+        if(key != metadata.blank_field_id)
+        {
+            data.push(`<tr><td>${key}</td><td align=right>${value}</td></tr>`);
+            total+=value;
+        }
 
     });
     
 
 
-    return `<table>
-    <thead>
-    <tr><th>${metadata.title}</th><th>Number of deaths</th></tr>
+    return `<table class="table rounded-0 mb-0" style="width:50%">
+    <thead class="thead">
+    <tr>
+        <th>${metadata.title}</th>
+        <th align=right style="width:25%">Number of deaths</th>
+    </tr>
     </thead>
     <tbody>
-    ${data.join("")}
+        ${data.join("")}
     </tbody>
-    </table>`
+    <tfoot>
+        <tr><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(metadata.blank_field_id)} </p>
+    
+    `
 }
