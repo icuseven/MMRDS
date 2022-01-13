@@ -146,6 +146,7 @@ async function render1_table()
     const metadata = indicator_map.get(1);
     const values = await get_indicator_values(metadata.indicator_id);
     const totals = new Map();
+    const name_to_title = new Map();
 
     const categories = [];
     for(var i = 0; i < metadata.field_id_list.length; i++)
@@ -153,6 +154,7 @@ async function render1_table()
         const item = metadata.field_id_list[i];
         categories.push(`"${item.title}"`);
         totals.set(item.name, 0);
+        name_to_title.set(item.name, item.title);
     }
 
     for(var i = 0; i <g_data.data.length; i++)
@@ -172,7 +174,7 @@ async function render1_table()
     {
         if(key != metadata.blank_field_id)
         {
-            data.push(`<tr><td>${key}</td><td align=right>${value}</td></tr>`);
+            data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
             total+=value;
         }
 
