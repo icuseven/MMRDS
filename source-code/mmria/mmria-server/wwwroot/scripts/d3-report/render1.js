@@ -1,11 +1,11 @@
-function render1(p_post_html)
+async function render1(p_post_html)
 {
     return `
     ${render_header()}
 
 ${render_navigation_strip(1)}
 <div">
-<div align=center>${render1_chart(p_post_html)}</div>
+<div align=center>${await render1_chart(p_post_html)}</div>
 <div align=center>${render1_table()}</div>
 </div>
 
@@ -73,10 +73,40 @@ function nav_dropdown_change(p_value)
     window.location = "#" + p_value;
 }
 
-function render1_chart(p_post_html)
+async function render1_chart(p_post_html)
 {
 
-    const values = get_indicator_values(indicator_map.get(1).indicator_id);
+    const metadata = indicator_map.get(1);
+    const values = await get_indicator_values(metadata.indicator_id);
+    const totals = new Map();
+
+    const categories = [];
+    for(var i = 0; i < metadata.field_id_list.length; i++)
+    {
+        const item = metadata.field_id_list[i];
+        categories.push(`"${item.title}"`);
+        totals.set(item.name, 0);
+    }
+
+    for(var i = 0; i <g_data.data.length; i++)
+    {
+        const item = g_data.data[i];
+        if(totals.has(item.field_id))
+        {
+            let val = totals.get(item.field_id);
+            totals.set(item.field_id, val + 1);
+        }
+    }
+
+    const data = [];
+    for(var i = 0; i < metadata.field_id_list.length; i++)
+    {
+        const item = g_data.data[i];
+        if(totals.has(item.field_id))
+        {
+            data.push(totals.get(item.field_id));
+        }
+    }
 
     p_post_html.push
     (
@@ -84,12 +114,11 @@ function render1_chart(p_post_html)
     `var chart = c3.generate({
         data: {
             columns: [
-                ['data1', 246, 220, 175, 85, 147, 7, 181, 23, 22, 
-                8, 466, 116, 303, 47, 38, 7, 73,32, 25,566, 98
+                ["${metadata.indicator_id}", ${data.join(",")}
                  ],
             ],
             types: {
-                data1: 'bar',
+                ${metadata.indicator_id}: 'bar',
         
             },
             labels: true 
@@ -104,29 +133,7 @@ function render1_chart(p_post_html)
                     multiline: false,
                 },
                 type: 'category',
-                categories: [
-                'Hemorrhage (Excludes Aneurysms or CVA)',
-                'Infection',
-                'Embolism - Thrombotic (Non-Cerebral)',
-                'Amniotic Fluid Embolism',
-                'Hyperensive Disorders of Pregnancy',
-                'Aneshesia Complications',
-                'Cardiomyopathy',
-                'Hemtologic',
-                'Collagen Vascular/Autoimmune Diseases',
-                'Conditions Unique to Pregnacy' ,
-                'Injury',
-                'Cancer',
-                'Cardiovascular Conditions',
-                'Pulmonary Conditions (Excludes ARDS)',
-                'Neourologic/Neurvascular Conditions (Excluding CVA)',
-                'Renal Diseases',
-                'Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy',
-                'Metabolic/Endocrine',
-                'Gastrointestinal Disorders',
-                'Mental Health Conditions',
-                'Unknown Cause of Death'
-                ],
+                categories: [${categories}],
             },
         }
         }); ` 
