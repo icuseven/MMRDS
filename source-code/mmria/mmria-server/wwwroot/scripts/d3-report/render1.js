@@ -76,6 +76,8 @@ function nav_dropdown_change(p_value)
 function render1_chart(p_post_html)
 {
 
+    const values = get_indicator_values(indicator_map.get(1).indicator_id);
+
     p_post_html.push
     (
         
@@ -135,5 +137,8 @@ function render1_chart(p_post_html)
 
 function render1_table()
 {
-    return `tablet goes here`
+    return `<table>
+    
+    
+    </table>`
 }
