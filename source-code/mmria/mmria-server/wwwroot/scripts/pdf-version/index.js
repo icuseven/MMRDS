@@ -1781,7 +1781,6 @@ function print_pdf_render_content(ctx) {
 				ctx.metadata.children[ctx.metadata.children.length - 1].name === 'pregrid_comments') {
 				// Save the comment field name
 				let commentFieldName = ctx.metadata.children[ctx.metadata.children.length - 1].name;
-
 				// Get the number of fields
 				colWidths = new Array();
 				// The 30 is for the record number and the auto is to make it use the whole width
@@ -1820,13 +1819,16 @@ function print_pdf_render_content(ctx) {
 				} else {
 					ctx.data.forEach((dataChild, dataIndex) => {
 						// Add the record number
+						let gridBorder = ( chkNull(dataChild[commentFieldName]).length > 0 ) 
+							? [true, true, true, false] 
+							: [true, true, true, true];
 						row = new Array();
 						row.push(
 							{
 								text: `${dataIndex + 1}`,
 								style: ['tableDetail', 'isItalics', 'isBold'],
 								alignment: 'center',
-								border: [true, true, true, false],
+								border: gridBorder,
 							});
 						for (let i = 0; i < adjColspan; i++) {
 							let metaChild = ctx.metadata.children[i];
@@ -1854,21 +1856,24 @@ function print_pdf_render_content(ctx) {
 							}
 						}
 						gridBody.push(row);
-						row = new Array();
-						// Allow for first column that has been row spanned (*** Tried to use the row span but it doesn't work, so I am faking it)
-						row.push({ text: '', border: [true, false, true, false], },);
-						row.push({ text: ctx.metadata.children[adjColspan].prompt, style: ['tableLabel', 'lightBlueFill'], colSpan: `${adjColspan}` },);
-						for (let i = 1; i < adjColspan; i++) {
-							row.push({},);
+						// See if we need to add the comment header and value
+						if ( chkNull(dataChild[commentFieldName]).length > 0 ) {
+							row = new Array();
+							// Allow for first column that has been row spanned (*** Tried to use the row span but it doesn't work, so I am faking it)
+							row.push({ text: '', border: [true, false, true, false], },);
+							row.push({ text: ctx.metadata.children[adjColspan].prompt, style: ['tableLabel', 'lightBlueFill'], colSpan: `${adjColspan}` },);
+							for (let i = 1; i < adjColspan; i++) {
+								row.push({},);
+							}
+							gridBody.push(row);
+							row = new Array();
+							row.push({ text: '', border: [true, false, true, true], },);
+							row.push({ text: chkNull(dataChild[commentFieldName]), style: ['tableDetail'], colSpan: `${adjColspan}` });
+							for (let i = 1; i < adjColspan; i++) {
+								row.push({},);
+							}
+							gridBody.push(row);
 						}
-						gridBody.push(row);
-						row = new Array();
-						row.push({ text: '', border: [true, false, true, true], },);
-						row.push({ text: chkNull(dataChild[commentFieldName]), style: ['tableDetail'], colSpan: `${adjColspan}` });
-						for (let i = 1; i < adjColspan; i++) {
-							row.push({},);
-						}
-						gridBody.push(row);
 					});
 				}
 			} else {
