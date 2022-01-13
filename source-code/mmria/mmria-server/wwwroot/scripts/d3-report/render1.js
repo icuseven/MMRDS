@@ -122,11 +122,16 @@ async function render1_chart(p_post_html)
             labels: true 
         },
         padding: {
-              left: 375
+              left: 675
         },
         axis: {
-            rotated: true,        
+            rotated: true, 
+            
             x: {
+                label: {
+                text: '${metadata.title}',
+                position: 'outer-middle'  
+                },
                 tick: {
                     multiline: false,
                 },

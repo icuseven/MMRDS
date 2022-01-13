@@ -1,33 +1,37 @@
 var indicator_map = new Map();
-indicator_map.set(1,{
-    indicator_id : "mUndCofDeath",
-    blank_field_id: "MUndCofDeath21",
-    field_id_list : [
-
-{ name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
-{ name: "MUndCofDeath2", title: "Infection" },
-{ name: "MUndCofDeath3", title: "Embolism - Thrombotic (Non-Cerebral)" },
-{ name: "MUndCofDeath4", title: "Amniotic Fluid Embolism" },
-{ name: "MUndCofDeath5", title: "Hypertensive Disorders of Pregnancy" },
-{ name: "MUndCofDeath6", title: "Anesthesia Complications" },
-{ name: "MUndCofDeath7", title: "Cardiomyopathy" },
-{ name: "MUndCofDeath8", title: "Hematologic" },
-{ name: "MUndCofDeath9", title: "Collagen Vascular/Autoimmune Diseases" },
-{ name: "MUndCofDeath10", title: "Conditions Unique to Pregnancy" },
-{ name: "MUndCofDeath11", title: "Injury" },
-{ name: "MUndCofDeath12", title: "Cancer" },
-{ name: "MUndCofDeath13", title: "Cardiovascular Conditions" },
-{ name: "MUndCofDeath14", title: "Pulmonary Conditions (Excludes ARDS)" },
-{ name: "MUndCofDeath15", title: "Neurologic/Neurovascular Conditions (Excluding CVA)" },
-{ name: "MUndCofDeath16", title: "Renal Diseases" },
-{ name: "MUndCofDeath17", title: "Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy" },
-{ name: "MUndCofDeath18", title: "Metabolic/Endocrine" },
-{ name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
-{ name: "MUndCofDeath20", title: "Mental Health Conditions" },
-{ name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-    ],
-    title:"Underlying cause of death"
-});
+indicator_map.set
+(
+    1,
+    {
+        indicator_id : "mUndCofDeath",
+        title:"Underlying cause of death",
+        blank_field_id: "MUndCofDeath21",
+        field_id_list : [
+        { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
+        { name: "MUndCofDeath2", title: "Infection" },
+        { name: "MUndCofDeath3", title: "Embolism - Thrombotic (Non-Cerebral)" },
+        { name: "MUndCofDeath4", title: "Amniotic Fluid Embolism" },
+        { name: "MUndCofDeath5", title: "Hypertensive Disorders of Pregnancy" },
+        { name: "MUndCofDeath6", title: "Anesthesia Complications" },
+        { name: "MUndCofDeath7", title: "Cardiomyopathy" },
+        { name: "MUndCofDeath8", title: "Hematologic" },
+        { name: "MUndCofDeath9", title: "Collagen Vascular/Autoimmune Diseases" },
+        { name: "MUndCofDeath10", title: "Conditions Unique to Pregnancy" },
+        { name: "MUndCofDeath11", title: "Injury" },
+        { name: "MUndCofDeath12", title: "Cancer" },
+        { name: "MUndCofDeath13", title: "Cardiovascular Conditions" },
+        { name: "MUndCofDeath14", title: "Pulmonary Conditions (Excludes ARDS)" },
+        { name: "MUndCofDeath15", title: "Neurologic/Neurovascular Conditions (Excluding CVA)" },
+        { name: "MUndCofDeath16", title: "Renal Diseases" },
+        { name: "MUndCofDeath17", title: "Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy" },
+        { name: "MUndCofDeath18", title: "Metabolic/Endocrine" },
+        { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
+        { name: "MUndCofDeath20", title: "Mental Health Conditions" },
+        { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
+        ],
+        
+    }
+);
 indicator_map.set("mDeathsbyRaceEth",{
     title:"Race/Ethnicity"
 });
