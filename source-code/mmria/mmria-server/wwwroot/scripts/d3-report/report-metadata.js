@@ -147,6 +147,31 @@ indicator_map.set
 );
 indicator_map.set
 (
+    10,
+    {
+    indicator_id : "mDeathCause",
+    blank_field_id: "MCauseD15",
+    field_id_list : [
+        { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
+        { name: "MCauseD2", title: "Mental Health Conditions - No" },
+        { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
+        { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
+        { name: "MCauseD7", title: "Substance Use Disorder - No" },
+        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD10", title: "Substance Use Disorder" },
+        { name: "MCauseD11", title: "Suicide - Yes" },
+        { name: "MCauseD12", title: "Suicide - No" },
+        { name: "MCauseD13", title: "Suicide - Probably" },
+        { name: "MCauseD14", title: "Suicide - Unknown" },
+        { name: "MCauseD15", title: "Suicide - Blank" },
+    ],
+    title:"Committee Determinations"
+});
+indicator_map.set
+(
     11,
     {
         indicator_id : "mHxofEmoStress",
@@ -258,9 +283,6 @@ indicator_map.set
         ],
     }
 );
-indicator_map.set("mDeathPrevent",{
-    title:"Preventability"
-});
 indicator_map.set("mSubstAutop",{
     title:""
 });
@@ -269,31 +291,6 @@ indicator_map.set("mTimingofDeath",{
 });
 indicator_map.set("mUndCofDeath",{
     title:"Primary Underlying Cause of Death"
-});
-indicator_map.set
-(
-    10,
-    {
-    indicator_id : "mDeathCause",
-    blank_field_id: "MCauseD15",
-    field_id_list : [
-        { name: "MCauseD1", title: "MCauseD1" },
-        { name: "MCauseD2", title: "MCauseD2" },
-        { name: "MCauseD3", title: "MCauseD3" },
-        { name: "MCauseD4", title: "MCauseD4" },
-        { name: "MCauseD5", title: "MCauseD5" },
-        { name: "MCauseD6", title: "MCauseD6" },
-        { name: "MCauseD7", title: "MCauseD7" },
-        { name: "MCauseD8", title: "MCauseD8" },
-        { name: "MCauseD9", title: "MCauseD9" },
-        { name: "MCauseD10", title: "MCauseD10" },
-        { name: "MCauseD11", title: "MCauseD11" },
-        { name: "MCauseD12", title: "MCauseD12" },
-        { name: "MCauseD13", title: "MCauseD13" },
-        { name: "MCauseD14", title: "MCauseD14" },
-        { name: "MCauseD15", title: "MCauseD15" },
-    ],
-    title:"Committee Determinations"
 });
 indicator_map.set("mDeathbyRace",{
     title:"Race"
