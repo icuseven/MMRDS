@@ -32,27 +32,149 @@ indicator_map.set
         
     }
 );
-indicator_map.set("mDeathsbyRaceEth",{
-    title:"Race/Ethnicity"
-});
-indicator_map.set("mDeathSubAbuseEvi",{
-    title:""
-});
-indicator_map.set("mEducation",{
-    title:"Education"
-});
-indicator_map.set("mHomeless",{
-    title:"Living Arrangements"
-});
-indicator_map.set("mHxofEmoStress",{
-    title:"Emotional Stress"
-});
-indicator_map.set("mHxofSubAbu",{
-    title:""
-});
-indicator_map.set("mIncarHx",{
-    title:""
-});
+indicator_map.set
+(
+    2,
+    {
+        indicator_id : "mDeathsbyRaceEth",
+        title:"Race/Ethnicity",
+        blank_field_id: "MRaceEth20",
+        field_id_list : [
+            // { name: "MRaceEth1", title: "" },
+            // { name: "MRaceEth2", title: "" },
+            { name: "MRaceEth3", title: "Hispanic" },
+            { name: "MRaceEth4", title: "Non-Hispanic Black" },
+            { name: "MRaceEth5", title: "Non-Hispanic White" },
+            { name: "MRaceEth6", title: "American Indian / Alaska Native" },
+            { name: "MRaceEth7", title: "Native Hawaiian" },
+            { name: "MRaceEth8", title: "Guamanian or Chamorro" },
+            { name: "MRaceEth9", title: "Samoan" },
+            { name: "MRaceEth10", title: "Other Pacific Islander" },
+            { name: "MRaceEth11", title: "Asian Indian" },
+            { name: "MRaceEth12", title: "Filipino" },
+            { name: "MRaceEth13", title: "Korean" },
+            { name: "MRaceEth14", title: "Other Asian" },
+            { name: "MRaceEth15", title: "Chinese" },
+            { name: "MRaceEth16", title: "Japanese" },
+            { name: "MRaceEth17", title: "Vietnamese" },
+            { name: "MRaceEth18", title: "Other Race" },
+            { name: "MRaceEth19", title: "Race Not Specified" },
+            { name: "MRaceEth20", title: "(Blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    3,
+    {
+        indicator_id : "mDeathSubAbuseEvi",
+        title:"",
+        blank_field_id: "MEviSub3",
+        field_id_list : [
+        { name: "MEviSub1", title: "Yes" },
+        { name: "MEviSub2", title: "No" },
+        { name: "MEviSub3", title: "(Blank)" },
+        { name: "MEviSub4", title: "Unknown" },
+        ],
+    }
+);
+indicator_map.set
+(
+    4,
+    {
+        indicator_id : "mEducation",
+        title:"Education",
+        blank_field_id: "MEduc5",
+        field_id_list : [
+        { name: "MEduc1", title: "High school diploma equivalent or less" },
+        { name: "MEduc2", title: "Completed some college" },
+        { name: "MEduc3", title: "Associate or bachelor degree" },
+        { name: "MEduc4", title: "Completed advanced degree" },
+        { name: "MEduc5", title: "(blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    5,
+    {
+        indicator_id : "mHomeless",
+        title:"Living Arrangements",
+        blank_field_id: "MHomeless5",
+        field_id_list : [
+        { name: "MHomeless1", title: "Never experienced homelessness" },
+        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
+        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
+        { name: "MHomeless4", title: "Unknown" },
+        { name: "MHomeless5", title: "(blank)" },
+        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
+        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
+        { name: "MHomeless8", title: "During pregnancy" },
+        { name: "MHomeless9", title: "After pregnancy" },
+        ],
+    }
+);
+indicator_map.set
+(
+    6,
+    {
+        indicator_id : "mHxofEmoStress",
+        title:"Emotional Stress",
+        blank_field_id: "MEmoStress12",
+        field_id_list : [
+        { name: "MEmoStress1", title: "History of domestic violence" },
+        { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
+        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        { name: "MEmoStress4", title: "History of substance use" },
+        { name: "MEmoStress5", title: "Unemployment" },
+        { name: "MEmoStress6", title: "History of substance use treatment" },
+        { name: "MEmoStress7", title: "Pregnancy unwanted" },
+        { name: "MEmoStress8", title: "Recent trauma" },
+        { name: "MEmoStress9", title: "History of childhood trauma" },
+        { name: "MEmoStress10", title: "Prior suicide attempts" },
+        { name: "MEmoStress11", title: "Other" },
+        { name: "MEmoStress12", title: "Other" },
+        { name: "MEmoStress13", title: "Unknown" },
+        { name: "MEmoStress14", title: "None" },
+        ],
+    }
+);
+indicator_map.set
+(
+    7,
+    {
+        indicator_id : "mHxofSubAbu",
+        title:"",
+        blank_field_id: "MHxSub3",
+        field_id_list : [
+        { name: "MHxSub1", title: "Yes" },
+        { name: "MHxSub2", title: "No" },
+        { name: "MHxSub3", title: "(Blank)" },
+        { name: "MHxSub4", title: "Unknown" },
+        ],
+    }
+);
+indicator_map.set
+(
+    8,
+    {
+        indicator_id : "mIncarHx",
+        title:"",
+        blank_field_id: "MHxIncar7",
+        field_id_list : [
+        { name: "MHxIncar1", title: "Never incarcerated" },
+        // { name: "MHxIncar2", title: "" },
+        { name: "MHxIncar3", title: "Before current pregnancy" },
+        { name: "MHxIncar4", title: "During current pregnancy" },
+        { name: "MHxIncar5", title: "After current pregnancy" },
+        // { name: "MHxIncar6", title: "" },
+        { name: "MHxIncar7", title: "(blank)" },
+        { name: "MHxIncar8", title: "More than 1 year prior to pregnancy" },
+        { name: "MHxIncar9", title: "Within 1 year prior to pregnancy" },
+        { name: "MHxIncar10", title: "Unknown" },
+        ],
+    }
+);
 indicator_map.set("mLivingArrange",{
     title:"Living Arrangements"
 });
