@@ -34,7 +34,7 @@ indicator_map.set
 );
 indicator_map.set
 (
-    2,
+    7,
     {
         indicator_id : "mDeathsbyRaceEth",
         title:"Race/Ethnicity",
@@ -65,22 +65,7 @@ indicator_map.set
 );
 indicator_map.set
 (
-    3,
-    {
-        indicator_id : "mDeathSubAbuseEvi",
-        title:"",
-        blank_field_id: "MEviSub3",
-        field_id_list : [
-        { name: "MEviSub1", title: "Yes" },
-        { name: "MEviSub2", title: "No" },
-        { name: "MEviSub3", title: "(Blank)" },
-        { name: "MEviSub4", title: "Unknown" },
-        ],
-    }
-);
-indicator_map.set
-(
-    4,
+    9,
     {
         indicator_id : "mEducation",
         title:"Education",
@@ -96,27 +81,7 @@ indicator_map.set
 );
 indicator_map.set
 (
-    5,
-    {
-        indicator_id : "mHomeless",
-        title:"Living Arrangements",
-        blank_field_id: "MHomeless5",
-        field_id_list : [
-        { name: "MHomeless1", title: "Never experienced homelessness" },
-        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
-        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
-        { name: "MHomeless4", title: "Unknown" },
-        { name: "MHomeless5", title: "(blank)" },
-        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
-        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
-        { name: "MHomeless8", title: "During pregnancy" },
-        { name: "MHomeless9", title: "After pregnancy" },
-        ],
-    }
-);
-indicator_map.set
-(
-    6,
+    11,
     {
         indicator_id : "mHxofEmoStress",
         title:"Emotional Stress",
@@ -141,7 +106,27 @@ indicator_map.set
 );
 indicator_map.set
 (
-    7,
+    12,
+    {
+        indicator_id : "mHomeless",
+        title:"Living Arrangements",
+        blank_field_id: "MHomeless5",
+        field_id_list : [
+        { name: "MHomeless1", title: "Never experienced homelessness" },
+        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
+        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
+        { name: "MHomeless4", title: "Unknown" },
+        { name: "MHomeless5", title: "(blank)" },
+        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
+        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
+        { name: "MHomeless8", title: "During pregnancy" },
+        { name: "MHomeless9", title: "After pregnancy" },
+        ],
+    }
+);
+indicator_map.set
+(
+    13,
     {
         indicator_id : "mHxofSubAbu",
         title:"",
@@ -156,18 +141,18 @@ indicator_map.set
 );
 indicator_map.set
 (
-    8,
+    14,
     {
         indicator_id : "mIncarHx",
         title:"",
         blank_field_id: "MHxIncar7",
         field_id_list : [
         { name: "MHxIncar1", title: "Never incarcerated" },
-        // { name: "MHxIncar2", title: "" },
+                // { name: "MHxIncar2", title: "" },
         { name: "MHxIncar3", title: "Before current pregnancy" },
         { name: "MHxIncar4", title: "During current pregnancy" },
         { name: "MHxIncar5", title: "After current pregnancy" },
-        // { name: "MHxIncar6", title: "" },
+                // { name: "MHxIncar6", title: "" },
         { name: "MHxIncar7", title: "(blank)" },
         { name: "MHxIncar8", title: "More than 1 year prior to pregnancy" },
         { name: "MHxIncar9", title: "Within 1 year prior to pregnancy" },
@@ -178,12 +163,55 @@ indicator_map.set
 indicator_map.set("mLivingArrange",{
     title:"Living Arrangements"
 });
-indicator_map.set("mMHTxTiming",{
-    title:""
-});
+indicator_map.set
+(
+    15,
+    {
+        indicator_id : "mMHTxTiming",
+        title:"Mental health treatment among women who died by overdose",
+        blank_field_id: "MMHTx4",
+        field_id_list : [
+        { name: "MMHTx1", title: "Before most recent pregnancy" },
+        { name: "MMHTx2", title: "During most recent pregnancy" },
+        { name: "MMHTx3", title: "After most recent pregnancy" },
+        { name: "MMHTx4", title: "(Blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    16,
+    {
+        indicator_id : "mDeathSubAbuseEvi",
+        title:"",
+        blank_field_id: "MEviSub3",
+        field_id_list : [
+        { name: "MEviSub1", title: "Yes" },
+        { name: "MEviSub2", title: "No" },
+        { name: "MEviSub3", title: "(Blank)" },
+        { name: "MEviSub4", title: "Unknown" },
+        ],
+    }
+);
 indicator_map.set("mPregRelated",{
     title:"Pregnancy Relatedness"
 });
+indicator_map.set
+(
+    17,
+    {
+        indicator_id : "mPregRelated",
+        title:"Pregnancy Relatedness",
+        blank_field_id: "MPregRel5",
+        field_id_list : [
+        { name: "MPregRel1", title: "Pregnancy related" },
+        { name: "MPregRel2", title: "Pregnancy associated but not related" },
+        { name: "MPregRel3", title: "Pregnancy associated but unable to determine pregnancy relatedness" },
+        { name: "MPregRel4", title: "Not pregnancy associated or related (false positive)" },
+        { name: "MPregRel5", title: "(blank)" },
+            ],
+    }
+);
 indicator_map.set("mSubstAutop",{
     title:""
 });
