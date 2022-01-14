@@ -28,8 +28,7 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],
-        
+        ],       
     }
 );
 indicator_map.set
@@ -169,7 +168,8 @@ indicator_map.set
         { name: "MCauseD15", title: "Suicide - Blank" },
     ],
     title:"Committee Determinations"
-});
+    }
+);
 indicator_map.set
 (
     11,
