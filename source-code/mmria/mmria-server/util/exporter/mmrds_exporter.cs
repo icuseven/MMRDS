@@ -31,8 +31,8 @@ namespace mmria.server.utils
 
     mmria.common.metadata.app current_metadata;
 
-    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[4];
-    private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0 };
+    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[5];
+    private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0, 0 };
     private const int max_qualitative_length = 31000;
 
     private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit folder for details.";
@@ -112,6 +112,7 @@ namespace mmria.server.utils
         this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
         this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
         this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
+        this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
 
 
         string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
@@ -545,7 +546,7 @@ namespace mmria.server.utils
                         -1,
                         -1
                       );
-/*
+
 					  if (clearText.Length > 0) 
                       {
 						  
@@ -559,7 +560,6 @@ namespace mmria.server.utils
 							true
 						  );
 					  }
-                      */
                       val = over_limit_message;
                     }
 
@@ -1825,7 +1825,7 @@ namespace mmria.server.utils
                             i,
                             parent_record_index
                           );
-                          grid_item_value = over_limit_message;
+                         grid_item_value = over_limit_message;
                         }
 
 
@@ -2483,7 +2483,7 @@ namespace mmria.server.utils
           index = (isClearText) ? 3 : 1;
           break;
         case "informant_interviews/interview_narrative":
-          index = 2;
+          index = (isClearText) ? 4 : 2;
           break;
         default:
           index = 0;

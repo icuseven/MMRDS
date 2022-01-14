@@ -867,7 +867,7 @@ namespace mmria.server.utils
                     }
                 }
             }// end of multiform
-        }
+        } // end of foreach
 
 
         if(is_using_grid && is_using_multiform)
@@ -921,6 +921,8 @@ namespace mmria.server.utils
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                 path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
 
+				string clearText = "";
+
                 var fr = flat_table.Select($"_id='{mr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
@@ -929,7 +931,51 @@ namespace mmria.server.utils
 
                 foreach(System.Data.DataColumn c in multiform_table.Columns)
                 {
-                    output_row[c.ColumnName] = mr[c.ColumnName];
+					if(c.ColumnName == "ii_i_narra")
+					{
+						// Informant Interview Narrative - Strip Extra HTML, if necessary
+						clearText = mmria.common.util.CaseNarrative.StripHTML(mr[c.ColumnName].ToString());
+
+						// Write the to the clear text file, if length > 0
+						if (clearText.Length > 0) 
+						{
+							WriteQualitativeData
+							(
+								output_row[0].ToString(),
+								"informant_interviews/interview_narrative",
+								clearText,
+								-1,
+								Int32.Parse(output_row[1].ToString()),
+								true
+							);
+						}
+
+						// Check the over the limit size
+						if(mr[c.ColumnName].ToString().Length > max_qualitative_length) 
+						{
+							// Replace field with over the limit notification
+							output_row[c.ColumnName] = "Over the qualitative limit. Check the over-the-limit folder for details.";
+
+							// Write to over the limit folder
+							WriteQualitativeData
+							(
+								output_row[0].ToString(),
+								"informant_interviews/interview_narrative",
+								mr[c.ColumnName].ToString(),
+								-1,
+								Int32.Parse(output_row[1].ToString())
+							);
+						}
+						else
+						{
+							output_row[c.ColumnName] = mr[c.ColumnName];
+						}
+					}
+					else
+					{
+						// If regular row, then copy field
+						output_row[c.ColumnName] = mr[c.ColumnName];
+					}
                 }
             }
         }
@@ -2047,7 +2093,7 @@ namespace mmria.server.utils
           index = (isClearText) ? 3 : 1;
           break;
         case "informant_interviews/interview_narrative":
-          index = 2;
+          index = (isClearText) ? 4 : 2;
           break;
         default:
           index = 0;
