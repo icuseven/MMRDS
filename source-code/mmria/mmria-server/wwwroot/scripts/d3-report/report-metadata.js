@@ -34,6 +34,72 @@ indicator_map.set
 );
 indicator_map.set
 (
+    2,
+    {
+        indicator_id : "mPregRelated",
+        title:"Pregnancy Relatedness",
+        blank_field_id: "MPregRel5",
+        field_id_list : [
+        { name: "MPregRel1", title: "Pregnancy related" },
+        { name: "MPregRel2", title: "Pregnancy associated but not related" },
+        { name: "MPregRel3", title: "Pregnancy associated but unable to determine pregnancy relatedness" },
+        { name: "MPregRel4", title: "Not pregnancy associated or related (false positive)" },
+        { name: "MPregRel5", title: "(blank)" },
+            ],
+    }
+);
+indicator_map.set
+(
+    3,
+    {
+        indicator_id : "mDeathPrevent",
+        title:"Preventability",
+        blank_field_id: "MDeathPrevent3",
+        field_id_list : [
+        { name: "MDeathPrevent1", title: "Preventable" },
+        { name: "MDeathPrevent2", title: "Not Preventable" },
+        { name: "MDeathPrevent3", title: "Unable to Determine" },
+        ],
+    }
+);
+indicator_map.set
+(
+    4,
+    {
+        indicator_id : "mMHTxTiming",
+        title:"Timing of Death",
+        blank_field_id: "MMHTx4",
+        field_id_list : [
+        { name: "MMHTx1", title: "Before most recent pregnancy" },
+        { name: "MMHTx2", title: "During most recent pregnancy" },
+        { name: "MMHTx3", title: "After most recent pregnancy" },
+        { name: "MMHTx4", title: "(Blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    5,
+    {
+        indicator_id : "mOMBRaceRcd",
+        title:"OMB Race Recode",
+        blank_field_id: "MOMBRaceRcd10",
+        field_id_list : [
+        { name: "MOMBRaceRcd1", title: "White" },
+        { name: "MOMBRaceRcd2", title: "Black" },
+        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
+        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
+        { name: "MOMBRaceRcd5", title: "Asian" },
+        { name: "MOMBRaceRcd6", title: "Bi-Racial" },
+        { name: "MOMBRaceRcd7", title: "Multi-Racial" },
+        { name: "MOMBRaceRcd8", title: "Other Race" },
+        { name: "MOMBRaceRcd9", title: "Race Not Specified" },
+        { name: "MOMBRaceRcd10", title: "(blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
     7,
     {
         indicator_id : "mDeathsbyRaceEth",
@@ -104,9 +170,26 @@ indicator_map.set
         ],
     }
 );
+indicator_map.set(
+    12,
+    {
+        indicator_id : "mLivingArrange",
+        title:"Living Arrangements",
+        blank_field_id: "MLivD7",
+        field_id_list : [
+        { name: "MLivD1", title: "Own" },
+        { name: "MLivD2", title: "Rent" },
+        { name: "MLivD3", title: "Public housing" },
+        { name: "MLivD4", title: "Live with relative" },
+        { name: "MLivD5", title: "Homeless" },
+        { name: "MLivD6", title: "Other or Unknown" },
+        { name: "MLivD7", title: "(blank)" },
+        ],
+    }
+);
 indicator_map.set
 (
-    12,
+    13,
     {
         indicator_id : "mHomeless",
         title:"Living Arrangements",
@@ -121,21 +204,6 @@ indicator_map.set
         { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
         { name: "MHomeless8", title: "During pregnancy" },
         { name: "MHomeless9", title: "After pregnancy" },
-        ],
-    }
-);
-indicator_map.set
-(
-    13,
-    {
-        indicator_id : "mHxofSubAbu",
-        title:"",
-        blank_field_id: "MHxSub3",
-        field_id_list : [
-        { name: "MHxSub1", title: "Yes" },
-        { name: "MHxSub2", title: "No" },
-        { name: "MHxSub3", title: "(Blank)" },
-        { name: "MHxSub4", title: "Unknown" },
         ],
     }
 );
@@ -160,24 +228,6 @@ indicator_map.set
         ],
     }
 );
-indicator_map.set("mLivingArrange",{
-    title:"Living Arrangements"
-});
-indicator_map.set
-(
-    15,
-    {
-        indicator_id : "mMHTxTiming",
-        title:"Mental health treatment among women who died by overdose",
-        blank_field_id: "MMHTx4",
-        field_id_list : [
-        { name: "MMHTx1", title: "Before most recent pregnancy" },
-        { name: "MMHTx2", title: "During most recent pregnancy" },
-        { name: "MMHTx3", title: "After most recent pregnancy" },
-        { name: "MMHTx4", title: "(Blank)" },
-        ],
-    }
-);
 indicator_map.set
 (
     16,
@@ -193,25 +243,24 @@ indicator_map.set
         ],
     }
 );
-indicator_map.set("mPregRelated",{
-    title:"Pregnancy Relatedness"
-});
 indicator_map.set
 (
     17,
     {
-        indicator_id : "mPregRelated",
-        title:"Pregnancy Relatedness",
-        blank_field_id: "MPregRel5",
+        indicator_id : "mHxofSubAbu",
+        title:"",
+        blank_field_id: "MHxSub3",
         field_id_list : [
-        { name: "MPregRel1", title: "Pregnancy related" },
-        { name: "MPregRel2", title: "Pregnancy associated but not related" },
-        { name: "MPregRel3", title: "Pregnancy associated but unable to determine pregnancy relatedness" },
-        { name: "MPregRel4", title: "Not pregnancy associated or related (false positive)" },
-        { name: "MPregRel5", title: "(blank)" },
-            ],
+        { name: "MHxSub1", title: "Yes" },
+        { name: "MHxSub2", title: "No" },
+        { name: "MHxSub3", title: "(Blank)" },
+        { name: "MHxSub4", title: "Unknown" },
+        ],
     }
 );
+indicator_map.set("mDeathPrevent",{
+    title:"Preventability"
+});
 indicator_map.set("mSubstAutop",{
     title:""
 });
@@ -245,12 +294,6 @@ indicator_map.set
         { name: "MCauseD15", title: "MCauseD15" },
     ],
     title:"Committee Determinations"
-});
-indicator_map.set("mDeathPrevent",{
-    title:"Preventability"
-});
-indicator_map.set("mOMBRaceRcd",{
-    title:"OMB Race Recode"
 });
 indicator_map.set("mDeathbyRace",{
     title:"Race"
