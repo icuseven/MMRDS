@@ -1170,8 +1170,50 @@ namespace mmria.server.utils
                           val = over_limit_message;
                         }
 
-                        form_row[file_field_name] = val;
+						if (file_field_name == "ii_i_narra")
+						{
+							// Informant Interview Narrative - Clean up, if necessary
+							string clearText = mmria.common.util.TextAreaField.CleanUp(val);
+							if (clearText.Length > 0)
+							{
+								WriteQualitativeData
+								(
+									mmria_case_id,
+									path,
+									clearText,
+									i,
+									-1,
+									true
+								);
+							}
+							
+							// Check the over the limit size
+							if(val.Length > max_qualitative_length)
+							{
+								// Replace the field with over the limit notification
+								form_row[file_field_name] = "Over the qualitative limit. Check the over-the-limit folder for details.";
 
+								// Write to the over the limit file
+								WriteQualitativeData
+								(
+									mmria_case_id,
+									path,
+									val,
+									i,
+									-1,
+									false
+								);
+							}
+							else
+							{
+								form_row[file_field_name] = val;
+							}							
+						}
+						else
+						{
+							// If regular row, then copy field
+                        	form_row[file_field_name] = val;
+						}
                       }
                       break;
 

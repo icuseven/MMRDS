@@ -980,8 +980,8 @@ namespace mmria.server.utils
                 {
 					if(c.ColumnName == "ii_i_narra")
 					{
-						// Informant Interview Narrative - Strip Extra HTML, if necessary
-						clearText = mmria.common.util.CaseNarrative.StripHTML(mr[c.ColumnName].ToString());
+						// Informant Interview Narrative - Clean up, if necessary
+						clearText = mmria.common.util.TextAreaField.CleanUp(mr[c.ColumnName].ToString());
 
 						// Write the to the clear text file, if length > 0
 						if (clearText.Length > 0) 
