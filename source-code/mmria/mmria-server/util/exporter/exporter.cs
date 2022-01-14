@@ -129,12 +129,12 @@ namespace mmria.server.utils
         this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
         this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
 
-
+/*
         string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
         string urlParameters = "?include_docs=true";
         cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
         dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
-
+*/
         string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -357,6 +357,7 @@ namespace mmria.server.utils
 
         if (queue_item.case_filter_type == "custom")
         {
+            /*
           foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
           {
             var check_item = ((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject;
@@ -373,26 +374,55 @@ namespace mmria.server.utils
                 Custom_Case_Id_List.Contains(temp["_id"].ToString())
               )
               {
-                cases_to_process.Add(check_item);
+                all_cases_rows.Add(check_item);
               }
 
             }
 
-          }
+          }*/
         }
 
         else
         {
+
+            try
+            {
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string case_view_responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
+
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    Custom_Case_Id_List.Add(cvi.id);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+/*
           foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
           {
-            cases_to_process.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
+            all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
           }
+          */
         }
 
 
 
-        foreach (System.Dynamic.ExpandoObject case_row in cases_to_process)
+        //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+        foreach(string case_id in Custom_Case_Id_List)
         {
+                    string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+        string urlParameters = "?include_docs=true";
+        cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
+        System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+
           IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 
           if
@@ -707,13 +737,6 @@ namespace mmria.server.utils
 
           } // end of flat_table
 
-        /*
-        _id  _record_index field1 field2 field3
-        abc     0           
-
-
-        */
-
             var gs = new migrate.C_Get_Set_Value(new ());
 
             if(is_using_grid && is_using_multiform)
@@ -875,24 +898,46 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
-                foreach(System.Data.DataColumn c in flat_table.Columns)
+                if(fr.Length > 0)
                 {
-                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    foreach(System.Data.DataColumn c in flat_table.Columns)
+                    {
+                        
+                        output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    }
+                }
+                else
+                {
+
+                }
+
+                if(gr["_parent_record_index"] == System.DBNull.Value)
+                {
+                    continue;
                 }
 
                 var mr = multiform_table.Select($"_id='{gr["_id"]}' and _parent_record_index = {gr["_parent_record_index"]}");
-                foreach(System.Data.DataColumn c in multiform_table.Columns)
+                if(fr.Length > 0)
                 {
-                    output_row[c.ColumnName] = mr[0][c.ColumnName];
+                    foreach(System.Data.DataColumn c in multiform_table.Columns)
+                    {
+                        output_row[c.ColumnName] = mr[0][c.ColumnName];
+                    }
+                }
+                else
+                {
+
                 }
 
                 foreach(System.Data.DataColumn c in grid_table.Columns)
                 {
                     output_row[c.ColumnName] = gr[c.ColumnName];
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else if(is_using_grid)
@@ -900,7 +945,7 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+               
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
@@ -912,6 +957,8 @@ namespace mmria.server.utils
                 {
                     output_row[c.ColumnName] = gr[c.ColumnName];
                 }
+
+                 path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else if(is_using_multiform)
@@ -919,7 +966,7 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow mr in multiform_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
 				string clearText = "";
 
@@ -977,6 +1024,8 @@ namespace mmria.server.utils
 						output_row[c.ColumnName] = mr[c.ColumnName];
 					}
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else
@@ -984,12 +1033,14 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow fr in flat_table.Rows)
             {
                 var output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
                     output_row[c.ColumnName] = fr[c.ColumnName];
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
           

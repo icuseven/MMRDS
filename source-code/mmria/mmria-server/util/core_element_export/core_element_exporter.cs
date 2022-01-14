@@ -111,12 +111,12 @@ namespace mmria.server.utils
       this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
       this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
       this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
-
+/*
       string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
       string urlParameters = "?include_docs=true";
       cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
       dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
-
+*/
       string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
       cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
       mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -252,43 +252,75 @@ namespace mmria.server.utils
       var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
-      if (queue_item.case_filter_type == "custom")
-      {
-        foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+
+        if (queue_item.case_filter_type == "custom")
         {
-          var check_item = ((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject;
-          if (check_item != null)
+            /*
+          foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
           {
-            var temp = check_item as IDictionary<string, object>;
-
-            if
-            (
-              temp != null &&
-              temp.ContainsKey("_id") &&
-
-              temp["_id"] != null &&
-              Custom_Case_Id_List.Contains(temp["_id"].ToString())
-            )
+            var check_item = ((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject;
+            if (check_item != null)
             {
-              all_cases_rows.Add(check_item);
+              var temp = check_item as IDictionary<string, object>;
+
+              if
+              (
+                temp != null &&
+                temp.ContainsKey("_id") &&
+
+                temp["_id"] != null &&
+                Custom_Case_Id_List.Contains(temp["_id"].ToString())
+              )
+              {
+                all_cases_rows.Add(check_item);
+              }
+
             }
 
-          }
-
+          }*/
         }
-      }
 
-      else
-      {
-        foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+        else
         {
-          all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
+
+            try
+            {
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string case_view_responseFromServer = case_view_curl.execute();
+
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
+
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                {
+                    Custom_Case_Id_List.Add(cvi.id);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+/*
+          foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+          {
+            all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
+          }
+          */
         }
-      }
 
 
-      foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
-      {
+
+        //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+        foreach(string case_id in Custom_Case_Id_List)
+        {
+
+        string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+        cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
+        System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+
         IDictionary<string, object> case_doc;
         //if (this.is_offline_mode)
         //{

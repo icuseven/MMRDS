@@ -111,7 +111,7 @@ $(function ()
 });
 
 
-function window_on_hash_change(e) 
+async function window_on_hash_change(e) 
 {
     if (e.isTrusted) 
     {
@@ -130,7 +130,7 @@ function window_on_hash_change(e)
         {
             case 1:
                 const post_html = [];
-                document.getElementById('output').innerHTML = render1(post_html);
+                document.getElementById('output').innerHTML = await render1(post_html);
                 eval(post_html.join(""));
                 break;
             case -1:

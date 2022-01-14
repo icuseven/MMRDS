@@ -1,12 +1,12 @@
-function render1(p_post_html)
+async function render1(p_post_html)
 {
     return `
     ${render_header()}
 
 ${render_navigation_strip(1)}
 <div">
-<div align=center>${render1_chart(p_post_html)}</div>
-<div align=center>${render1_table()}</div>
+<div align=center>${await render1_chart(p_post_html)}</div>
+<div align=center>${await render1_table()}</div>
 </div>
 
 ${render_navigation_strip(1)}
@@ -73,10 +73,38 @@ function nav_dropdown_change(p_value)
     window.location = "#" + p_value;
 }
 
-function render1_chart(p_post_html)
+async function render1_chart(p_post_html)
 {
 
-    const values = get_indicator_values(indicator_map.get(1).indicator_id);
+    const metadata = indicator_map.get(1);
+    const values = await get_indicator_values(metadata.indicator_id);
+    const totals = new Map();
+
+    const categories = [];
+    for(var i = 0; i < metadata.field_id_list.length; i++)
+    {
+        const item = metadata.field_id_list[i];
+        categories.push(`"${item.title}"`);
+        totals.set(item.name, 0);
+    }
+
+    for(var i = 0; i <g_data.data.length; i++)
+    {
+        const item = g_data.data[i];
+        if(totals.has(item.field_id))
+        {
+            let val = totals.get(item.field_id);
+            totals.set(item.field_id, val + 1);
+        }
+    }
+
+    const data = [];
+
+    totals.forEach((value, key) =>
+    {
+        data.push(value);
+    });
+    
 
     p_post_html.push
     (
@@ -84,49 +112,31 @@ function render1_chart(p_post_html)
     `var chart = c3.generate({
         data: {
             columns: [
-                ['data1', 246, 220, 175, 85, 147, 7, 181, 23, 22, 
-                8, 466, 116, 303, 47, 38, 7, 73,32, 25,566, 98
+                ["${metadata.indicator_id}", ${data.join(",")}
                  ],
             ],
             types: {
-                data1: 'bar',
+                ${metadata.indicator_id}: 'bar',
         
             },
             labels: true 
         },
         padding: {
-              left: 375
+              left: 675
         },
         axis: {
-            rotated: true,        
+            rotated: true, 
+            
             x: {
+                label: {
+                text: '${metadata.title}',
+                position: 'outer-middle'  
+                },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
-                categories: [
-                'Hemorrhage (Excludes Aneurysms or CVA)',
-                'Infection',
-                'Embolism - Thrombotic (Non-Cerebral)',
-                'Amniotic Fluid Embolism',
-                'Hyperensive Disorders of Pregnancy',
-                'Aneshesia Complications',
-                'Cardiomyopathy',
-                'Hemtologic',
-                'Collagen Vascular/Autoimmune Diseases',
-                'Conditions Unique to Pregnacy' ,
-                'Injury',
-                'Cancer',
-                'Cardiovascular Conditions',
-                'Pulmonary Conditions (Excludes ARDS)',
-                'Neourologic/Neurvascular Conditions (Excluding CVA)',
-                'Renal Diseases',
-                'Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy',
-                'Metabolic/Endocrine',
-                'Gastrointestinal Disorders',
-                'Mental Health Conditions',
-                'Unknown Cause of Death'
-                ],
+                categories: [${categories}],
             },
         }
         }); ` 
@@ -135,10 +145,64 @@ function render1_chart(p_post_html)
     return `<div id="chart"></div>`
 }
 
-function render1_table()
+async function render1_table()
 {
-    return `<table>
+
+    const metadata = indicator_map.get(1);
+    const values = await get_indicator_values(metadata.indicator_id);
+    const totals = new Map();
+    const name_to_title = new Map();
+
+    const categories = [];
+    for(var i = 0; i < metadata.field_id_list.length; i++)
+    {
+        const item = metadata.field_id_list[i];
+        categories.push(`"${item.title}"`);
+        totals.set(item.name, 0);
+        name_to_title.set(item.name, item.title);
+    }
+
+    for(var i = 0; i <g_data.data.length; i++)
+    {
+        const item = g_data.data[i];
+        if(totals.has(item.field_id))
+        {
+            let val = totals.get(item.field_id);
+            totals.set(item.field_id, val + 1);
+        }
+    }
+
+    const data = [];
+    let total = 0;
+
+    totals.forEach((value, key) =>
+    {
+        if(key != metadata.blank_field_id)
+        {
+            data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
+            total+=value;
+        }
+
+    });
     
+
+
+    return `<table class="table rounded-0 mb-0" style="width:50%">
+    <thead class="thead">
+    <tr>
+        <th>${metadata.title}</th>
+        <th align=right style="width:25%">Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <tfoot>
+        <tr><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(metadata.blank_field_id)} </p>
     
-    </table>`
+    `
 }
