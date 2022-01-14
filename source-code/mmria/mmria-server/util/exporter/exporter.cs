@@ -737,13 +737,6 @@ namespace mmria.server.utils
 
           } // end of flat_table
 
-        /*
-        _id  _record_index field1 field2 field3
-        abc     0           
-
-
-        */
-
             var gs = new migrate.C_Get_Set_Value(new ());
 
             if(is_using_grid && is_using_multiform)
@@ -905,24 +898,46 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
-                foreach(System.Data.DataColumn c in flat_table.Columns)
+                if(fr.Length > 0)
                 {
-                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    foreach(System.Data.DataColumn c in flat_table.Columns)
+                    {
+                        
+                        output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    }
+                }
+                else
+                {
+
+                }
+
+                if(gr["_parent_record_index"] == System.DBNull.Value)
+                {
+                    continue;
                 }
 
                 var mr = multiform_table.Select($"_id='{gr["_id"]}' and _parent_record_index = {gr["_parent_record_index"]}");
-                foreach(System.Data.DataColumn c in multiform_table.Columns)
+                if(fr.Length > 0)
                 {
-                    output_row[c.ColumnName] = mr[0][c.ColumnName];
+                    foreach(System.Data.DataColumn c in multiform_table.Columns)
+                    {
+                        output_row[c.ColumnName] = mr[0][c.ColumnName];
+                    }
+                }
+                else
+                {
+
                 }
 
                 foreach(System.Data.DataColumn c in grid_table.Columns)
                 {
                     output_row[c.ColumnName] = gr[c.ColumnName];
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else if(is_using_grid)
@@ -930,7 +945,7 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow gr in grid_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+               
 
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
@@ -942,6 +957,8 @@ namespace mmria.server.utils
                 {
                     output_row[c.ColumnName] = gr[c.ColumnName];
                 }
+
+                 path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else if(is_using_multiform)
@@ -949,7 +966,7 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow mr in multiform_table.Rows)
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
                 var fr = flat_table.Select($"_id='{mr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
@@ -961,6 +978,8 @@ namespace mmria.server.utils
                 {
                     output_row[c.ColumnName] = mr[c.ColumnName];
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
         else
@@ -968,12 +987,14 @@ namespace mmria.server.utils
             foreach(System.Data.DataRow fr in flat_table.Rows)
             {
                 var output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
-                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
+                
 
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
                     output_row[c.ColumnName] = fr[c.ColumnName];
                 }
+
+                path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
             }
         }
           
