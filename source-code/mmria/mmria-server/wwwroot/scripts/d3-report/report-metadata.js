@@ -28,40 +28,261 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],
-        
+        ],       
     }
 );
-indicator_map.set("mDeathsbyRaceEth",{
-    title:"Race/Ethnicity"
-});
-indicator_map.set("mDeathSubAbuseEvi",{
-    title:""
-});
-indicator_map.set("mEducation",{
-    title:"Education"
-});
-indicator_map.set("mHomeless",{
-    title:"Living Arrangements"
-});
-indicator_map.set("mHxofEmoStress",{
-    title:"Emotional Stress"
-});
-indicator_map.set("mHxofSubAbu",{
-    title:""
-});
-indicator_map.set("mIncarHx",{
-    title:""
-});
-indicator_map.set("mLivingArrange",{
-    title:"Living Arrangements"
-});
-indicator_map.set("mMHTxTiming",{
-    title:""
-});
-indicator_map.set("mPregRelated",{
-    title:"Pregnancy Relatedness"
-});
+indicator_map.set
+(
+    2,
+    {
+        indicator_id : "mPregRelated",
+        title:"Pregnancy Relatedness",
+        blank_field_id: "MPregRel5",
+        field_id_list : [
+        { name: "MPregRel1", title: "Pregnancy related" },
+        { name: "MPregRel2", title: "Pregnancy associated but not related" },
+        { name: "MPregRel3", title: "Pregnancy associated but unable to determine pregnancy relatedness" },
+        { name: "MPregRel4", title: "Not pregnancy associated or related (false positive)" },
+        { name: "MPregRel5", title: "(blank)" },
+            ],
+    }
+);
+indicator_map.set
+(
+    3,
+    {
+        indicator_id : "mDeathPrevent",
+        title:"Preventability",
+        blank_field_id: "MDeathPrevent3",
+        field_id_list : [
+        { name: "MDeathPrevent1", title: "Preventable" },
+        { name: "MDeathPrevent2", title: "Not Preventable" },
+        { name: "MDeathPrevent3", title: "Unable to Determine" },
+        ],
+    }
+);
+indicator_map.set
+(
+    4,
+    {
+        indicator_id : "mMHTxTiming",
+        title:"Timing of Death",
+        blank_field_id: "MMHTx4",
+        field_id_list : [
+        { name: "MMHTx1", title: "Before most recent pregnancy" },
+        { name: "MMHTx2", title: "During most recent pregnancy" },
+        { name: "MMHTx3", title: "After most recent pregnancy" },
+        { name: "MMHTx4", title: "(Blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    5,
+    {
+        indicator_id : "mOMBRaceRcd",
+        title:"OMB Race Recode",
+        blank_field_id: "MOMBRaceRcd10",
+        field_id_list : [
+        { name: "MOMBRaceRcd1", title: "White" },
+        { name: "MOMBRaceRcd2", title: "Black" },
+        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
+        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
+        { name: "MOMBRaceRcd5", title: "Asian" },
+        { name: "MOMBRaceRcd6", title: "Bi-Racial" },
+        { name: "MOMBRaceRcd7", title: "Multi-Racial" },
+        { name: "MOMBRaceRcd8", title: "Other Race" },
+        { name: "MOMBRaceRcd9", title: "Race Not Specified" },
+        { name: "MOMBRaceRcd10", title: "(blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    7,
+    {
+        indicator_id : "mDeathsbyRaceEth",
+        title:"Race/Ethnicity",
+        blank_field_id: "MRaceEth20",
+        field_id_list : [
+            // { name: "MRaceEth1", title: "" },
+            // { name: "MRaceEth2", title: "" },
+            { name: "MRaceEth3", title: "Hispanic" },
+            { name: "MRaceEth4", title: "Non-Hispanic Black" },
+            { name: "MRaceEth5", title: "Non-Hispanic White" },
+            { name: "MRaceEth6", title: "American Indian / Alaska Native" },
+            { name: "MRaceEth7", title: "Native Hawaiian" },
+            { name: "MRaceEth8", title: "Guamanian or Chamorro" },
+            { name: "MRaceEth9", title: "Samoan" },
+            { name: "MRaceEth10", title: "Other Pacific Islander" },
+            { name: "MRaceEth11", title: "Asian Indian" },
+            { name: "MRaceEth12", title: "Filipino" },
+            { name: "MRaceEth13", title: "Korean" },
+            { name: "MRaceEth14", title: "Other Asian" },
+            { name: "MRaceEth15", title: "Chinese" },
+            { name: "MRaceEth16", title: "Japanese" },
+            { name: "MRaceEth17", title: "Vietnamese" },
+            { name: "MRaceEth18", title: "Other Race" },
+            { name: "MRaceEth19", title: "Race Not Specified" },
+            { name: "MRaceEth20", title: "(Blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    9,
+    {
+        indicator_id : "mEducation",
+        title:"Education",
+        blank_field_id: "MEduc5",
+        field_id_list : [
+        { name: "MEduc1", title: "High school diploma equivalent or less" },
+        { name: "MEduc2", title: "Completed some college" },
+        { name: "MEduc3", title: "Associate or bachelor degree" },
+        { name: "MEduc4", title: "Completed advanced degree" },
+        { name: "MEduc5", title: "(blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    10,
+    {
+    indicator_id : "mDeathCause",
+    blank_field_id: "MCauseD15",
+    field_id_list : [
+        { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
+        { name: "MCauseD2", title: "Mental Health Conditions - No" },
+        { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
+        { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
+        { name: "MCauseD7", title: "Substance Use Disorder - No" },
+        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD10", title: "Substance Use Disorder" },
+        { name: "MCauseD11", title: "Suicide - Yes" },
+        { name: "MCauseD12", title: "Suicide - No" },
+        { name: "MCauseD13", title: "Suicide - Probably" },
+        { name: "MCauseD14", title: "Suicide - Unknown" },
+        { name: "MCauseD15", title: "Suicide - Blank" },
+    ],
+    title:"Committee Determinations"
+    }
+);
+indicator_map.set
+(
+    11,
+    {
+        indicator_id : "mHxofEmoStress",
+        title:"Emotional Stress",
+        blank_field_id: "MEmoStress12",
+        field_id_list : [
+        { name: "MEmoStress1", title: "History of domestic violence" },
+        { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
+        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        { name: "MEmoStress4", title: "History of substance use" },
+        { name: "MEmoStress5", title: "Unemployment" },
+        { name: "MEmoStress6", title: "History of substance use treatment" },
+        { name: "MEmoStress7", title: "Pregnancy unwanted" },
+        { name: "MEmoStress8", title: "Recent trauma" },
+        { name: "MEmoStress9", title: "History of childhood trauma" },
+        { name: "MEmoStress10", title: "Prior suicide attempts" },
+        { name: "MEmoStress11", title: "Other" },
+        { name: "MEmoStress12", title: "Other" },
+        { name: "MEmoStress13", title: "Unknown" },
+        { name: "MEmoStress14", title: "None" },
+        ],
+    }
+);
+indicator_map.set(
+    12,
+    {
+        indicator_id : "mLivingArrange",
+        title:"Living Arrangements",
+        blank_field_id: "MLivD7",
+        field_id_list : [
+        { name: "MLivD1", title: "Own" },
+        { name: "MLivD2", title: "Rent" },
+        { name: "MLivD3", title: "Public housing" },
+        { name: "MLivD4", title: "Live with relative" },
+        { name: "MLivD5", title: "Homeless" },
+        { name: "MLivD6", title: "Other or Unknown" },
+        { name: "MLivD7", title: "(blank)" },
+        ],
+    }
+);
+indicator_map.set
+(
+    13,
+    {
+        indicator_id : "mHomeless",
+        title:"Living Arrangements",
+        blank_field_id: "MHomeless5",
+        field_id_list : [
+        { name: "MHomeless1", title: "Never experienced homelessness" },
+        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
+        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
+        { name: "MHomeless4", title: "Unknown" },
+        { name: "MHomeless5", title: "(blank)" },
+        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
+        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
+        { name: "MHomeless8", title: "During pregnancy" },
+        { name: "MHomeless9", title: "After pregnancy" },
+        ],
+    }
+);
+indicator_map.set
+(
+    14,
+    {
+        indicator_id : "mIncarHx",
+        title:"",
+        blank_field_id: "MHxIncar7",
+        field_id_list : [
+        { name: "MHxIncar1", title: "Never incarcerated" },
+                // { name: "MHxIncar2", title: "" },
+        { name: "MHxIncar3", title: "Before current pregnancy" },
+        { name: "MHxIncar4", title: "During current pregnancy" },
+        { name: "MHxIncar5", title: "After current pregnancy" },
+                // { name: "MHxIncar6", title: "" },
+        { name: "MHxIncar7", title: "(blank)" },
+        { name: "MHxIncar8", title: "More than 1 year prior to pregnancy" },
+        { name: "MHxIncar9", title: "Within 1 year prior to pregnancy" },
+        { name: "MHxIncar10", title: "Unknown" },
+        ],
+    }
+);
+indicator_map.set
+(
+    16,
+    {
+        indicator_id : "mDeathSubAbuseEvi",
+        title:"",
+        blank_field_id: "MEviSub3",
+        field_id_list : [
+        { name: "MEviSub1", title: "Yes" },
+        { name: "MEviSub2", title: "No" },
+        { name: "MEviSub3", title: "(Blank)" },
+        { name: "MEviSub4", title: "Unknown" },
+        ],
+    }
+);
+indicator_map.set
+(
+    17,
+    {
+        indicator_id : "mHxofSubAbu",
+        title:"",
+        blank_field_id: "MHxSub3",
+        field_id_list : [
+        { name: "MHxSub1", title: "Yes" },
+        { name: "MHxSub2", title: "No" },
+        { name: "MHxSub3", title: "(Blank)" },
+        { name: "MHxSub4", title: "Unknown" },
+        ],
+    }
+);
 indicator_map.set("mSubstAutop",{
     title:""
 });
@@ -70,37 +291,6 @@ indicator_map.set("mTimingofDeath",{
 });
 indicator_map.set("mUndCofDeath",{
     title:"Primary Underlying Cause of Death"
-});
-indicator_map.set
-(
-    10,
-    {
-    indicator_id : "mDeathCause",
-    blank_field_id: "MCauseD15",
-    field_id_list : [
-        { name: "MCauseD1", title: "MCauseD1" },
-        { name: "MCauseD2", title: "MCauseD2" },
-        { name: "MCauseD3", title: "MCauseD3" },
-        { name: "MCauseD4", title: "MCauseD4" },
-        { name: "MCauseD5", title: "MCauseD5" },
-        { name: "MCauseD6", title: "MCauseD6" },
-        { name: "MCauseD7", title: "MCauseD7" },
-        { name: "MCauseD8", title: "MCauseD8" },
-        { name: "MCauseD9", title: "MCauseD9" },
-        { name: "MCauseD10", title: "MCauseD10" },
-        { name: "MCauseD11", title: "MCauseD11" },
-        { name: "MCauseD12", title: "MCauseD12" },
-        { name: "MCauseD13", title: "MCauseD13" },
-        { name: "MCauseD14", title: "MCauseD14" },
-        { name: "MCauseD15", title: "MCauseD15" },
-    ],
-    title:"Committee Determinations"
-});
-indicator_map.set("mDeathPrevent",{
-    title:"Preventability"
-});
-indicator_map.set("mOMBRaceRcd",{
-    title:"OMB Race Recode"
 });
 indicator_map.set("mDeathbyRace",{
     title:"Race"
