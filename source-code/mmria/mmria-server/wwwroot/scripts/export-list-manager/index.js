@@ -223,7 +223,7 @@ function delete_item(p_index)
 function add_new_item_click()
 {
 	
-	g_de_identified_list.name_path_list[g_selected_list].push("");
+	g_de_identified_list.name_path_list[g_selected_list].splice(0,0,"");
 
 	document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
@@ -752,10 +752,10 @@ function paste_selected(p_value)
     {
         //console.log(`paste selected ${p_value}`);
 
-
-        var b = list[y];
-        list[y] = list[x];
-        list[x] = b;
+        let y_value = list[y];
+        list.splice(y, 1);
+        
+        list.splice(x, 0, y_value);
 
         document.getElementById('output').innerHTML = render_de_identified_list().join("");
     }
