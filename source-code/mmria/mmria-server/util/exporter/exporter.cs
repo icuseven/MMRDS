@@ -172,16 +172,20 @@ namespace mmria.server.utils
         System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
         generate_path_map
-        (metadata, "", mmria_custom_export_file_name, "",
-          path_to_int_map,
-          path_to_file_name_map,
-          path_to_node_map,
-          path_to_grid_map,
-          path_to_multi_form_map,
-          false,
-          grid_to_multi_form_map,
-          false,
-          path_to_flat_map
+        (
+            metadata, 
+            "", 
+            mmria_custom_export_file_name, 
+            "",
+            path_to_int_map,
+            path_to_file_name_map,
+            path_to_node_map,
+            path_to_grid_map,
+            path_to_multi_form_map,
+            false,
+            grid_to_multi_form_map,
+            false,
+            path_to_flat_map
         );
 
 
@@ -224,6 +228,8 @@ namespace mmria.server.utils
     var grid_field_list = new List<string>();
     var multiform_field_list = new List<string>();
 
+    var is_using_record_index = false;
+    var is_using_parent_record_index = false;
     var is_using_grid = false;
     var is_using_multiform = false;
 
@@ -240,14 +246,18 @@ namespace mmria.server.utils
                 break;
             case TableTypeEnum.grid:
                 grid_field_list.Add(mmria_path);
+                is_using_record_index = true;
                 is_using_grid = true;
                 break;
             case TableTypeEnum.multiform:
                 multiform_field_list.Add(mmria_path);
+                is_using_record_index = true;
                 is_using_multiform = true;
                 break;
             case TableTypeEnum.multiform_grid:
                 grid_field_list.Add(mmria_path);
+                is_using_record_index = true;
+                is_using_parent_record_index = true;
                 is_using_grid = true;
                 is_using_multiform = true;
                 break;
@@ -272,7 +282,7 @@ namespace mmria.server.utils
 
     if(grid_field_list.Count > 0)
     {
-        if(is_using_grid && is_using_multiform)
+        if(is_using_record_index && is_using_parent_record_index)
         {
             create_header_row
             (
@@ -309,8 +319,9 @@ namespace mmria.server.utils
           multiform_field_list.ToHashSet(),
           path_to_node_map,
           multiform_table,
-          false,
-          true
+          true,
+          false
+          
         );
 
 
@@ -322,8 +333,8 @@ namespace mmria.server.utils
           export_report.ToHashSet(),
           path_to_node_map,
           path_to_csv_writer[mmria_custom_export_file_name].Table,
-          is_using_grid,
-          is_using_multiform
+          is_using_record_index,
+          is_using_parent_record_index
         );
 
         var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
@@ -470,8 +481,7 @@ namespace mmria.server.utils
 
           System.Data.DataRow row = flat_table.NewRow();
           string mmria_case_id = case_doc["_id"].ToString();
-          row["_id"] = mmria_case_id;
-          flat_table.Rows.Add(row);
+
           foreach (string path in flat_field_list)
           {
             if 
@@ -490,6 +500,9 @@ namespace mmria.server.utils
               continue;
             }
 
+
+            row["_id"] = mmria_case_id;
+            flat_table.Rows.Add(row);
             //System.Console.WriteLine("path {0}", path);
 
             if 
@@ -869,23 +882,37 @@ namespace mmria.server.utils
                             }
                         }
 
-
-                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
-                        foreach(var (index, value) in multiform_value_result.result)
+                        if(MetaDataNode_Dictionary.ContainsKey(path))
                         {
 
-                            GetDataRowValue
-                            (
-                                multiform_row_list[index],
-                                multiform_table.Columns[file_field_name], 
-                                file_field_name,
-                                MetaDataNode_Dictionary[path],
-                                mmria_case_id,
-                                value,
-                                index
-                            ); 
+                            string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
+                            foreach(var (index, value) in multiform_value_result.result)
+                            {
 
-                            multiform_row_list[index]["_record_index"] = index;
+                                try
+                                {
+                                    GetDataRowValue
+                                    (
+                                        multiform_row_list[index],
+                                        multiform_table.Columns[file_field_name], 
+                                        file_field_name,
+                                        MetaDataNode_Dictionary[path],
+                                        mmria_case_id,
+                                        value,
+                                        index
+                                    ); 
+
+                                    multiform_row_list[index]["_record_index"] = index;
+                                }
+                                catch(Exception ex)
+                                {
+
+                                }
+                            }
+                        }
+                        else
+                        {
+
                         }
                     }
                 }
@@ -946,9 +973,12 @@ namespace mmria.server.utils
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
-                foreach(System.Data.DataColumn c in flat_table.Columns)
+                if(flat_table.Columns.Count > 0)
                 {
-                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    foreach(System.Data.DataColumn c in flat_table.Columns)
+                    {
+                        output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    }
                 }
 
                 foreach(System.Data.DataColumn c in grid_table.Columns)
@@ -965,10 +995,13 @@ namespace mmria.server.utils
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                 
-                var fr = flat_table.Select($"_id='{mr["_id"]}'");
-                foreach(System.Data.DataColumn c in flat_table.Columns)
+                if(flat_table.Columns.Count > 0)
                 {
-                    output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    var fr = flat_table.Select($"_id='{mr["_id"]}'");
+                    foreach(System.Data.DataColumn c in flat_table.Columns)
+                    {
+                        output_row[c.ColumnName] = fr[0][c.ColumnName];
+                    }
                 }
 
                 foreach(System.Data.DataColumn c in multiform_table.Columns)

@@ -793,7 +793,9 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
             (
                 child.type.toLowerCase() != "grid" &&
                 child.type.toLowerCase() != "label" &&
-                child.type.toLowerCase() != "button"
+                child.type.toLowerCase() != "button" &&
+                child.type.toLowerCase() != "chart"
+
 
             )
 			{
