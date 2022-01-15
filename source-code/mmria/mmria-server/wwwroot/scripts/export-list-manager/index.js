@@ -789,7 +789,13 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
-			if(child.type.toLowerCase() != "grid")
+			if
+            (
+                child.type.toLowerCase() != "grid" &&
+                child.type.toLowerCase() != "label" &&
+                child.type.toLowerCase() != "button"
+
+            )
 			{
 				create_metadata_map(p_result, child, next_path, p_current_key);
 			}
@@ -800,7 +806,10 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
 			}*/
 		}
 	}
-    else if(p_current_key!=null)
+    else if
+    (
+        p_current_key!=null
+    )
     {
         p_result.get(p_current_key).push(next_path);
     }
