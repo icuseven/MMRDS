@@ -113,7 +113,7 @@ function create_queue_item(
     created_by: '',
     date_last_updated: new_date,
     last_updated_by: '',
-    file_name: `${get_host_state_name()}_${new_date.replace(/:/g, '-')}.zip`,
+    file_name: `${get_host_state_name()}_${p_all_or_core}_${new_date.replace(/:/g, '-')}.zip`,
     export_type: p_export_type,
     status: 'Confirmation Required',
     all_or_core: p_all_or_core,
@@ -140,11 +140,14 @@ function create_queue_item(
     result.export_type = result.all_or_core + ' CSV';
   }
 
-  if (
+  if 
+  (
     p_de_identify_standard_fields ||
     result.de_identified_selection_type == 'standard'
-  ) {
-    for (let i in g_standard_de_identified_list.paths) {
+  ) 
+  {
+    for (let i in g_standard_de_identified_list.paths) 
+    {
       let item = g_standard_de_identified_list.paths[i];
 
       result.de_identified_field_set.push(item);
