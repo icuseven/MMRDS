@@ -885,7 +885,7 @@ namespace mmria.server.utils
                                 index
                             ); 
 
-                            multiform_row_list[index]["_parent_record_index"] = index;
+                            multiform_row_list[index]["_record_index"] = index;
                         }
                     }
                 }
@@ -899,7 +899,6 @@ namespace mmria.server.utils
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                 
-
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 if(fr.Length > 0)
                 {
@@ -946,7 +945,6 @@ namespace mmria.server.utils
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                
-
                 var fr = flat_table.Select($"_id='{gr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
@@ -967,9 +965,6 @@ namespace mmria.server.utils
             {
                 System.Data.DataRow output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                 
-
-				string clearText = "";
-
                 var fr = flat_table.Select($"_id='{mr["_id"]}'");
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
@@ -978,51 +973,7 @@ namespace mmria.server.utils
 
                 foreach(System.Data.DataColumn c in multiform_table.Columns)
                 {
-					if(c.ColumnName == "ii_i_narra")
-					{
-						// Informant Interview Narrative - Clean up, if necessary
-						clearText = mmria.common.util.TextAreaField.CleanUp(mr[c.ColumnName].ToString());
-
-						// Write the to the clear text file, if length > 0
-						if (clearText.Length > 0) 
-						{
-							WriteQualitativeData
-							(
-								output_row[0].ToString(),
-								"informant_interviews/interview_narrative",
-								clearText,
-								-1,
-								Int32.Parse(output_row[1].ToString()),
-								true
-							);
-						}
-
-						// Check the over the limit size
-						if(mr[c.ColumnName].ToString().Length > max_qualitative_length) 
-						{
-							// Replace field with over the limit notification
-							output_row[c.ColumnName] = "Over the qualitative limit. Check the over-the-limit folder for details.";
-
-							// Write to over the limit folder
-							WriteQualitativeData
-							(
-								output_row[0].ToString(),
-								"informant_interviews/interview_narrative",
-								mr[c.ColumnName].ToString(),
-								-1,
-								Int32.Parse(output_row[1].ToString())
-							);
-						}
-						else
-						{
-							output_row[c.ColumnName] = mr[c.ColumnName];
-						}
-					}
-					else
-					{
-						// If regular row, then copy field
-						output_row[c.ColumnName] = mr[c.ColumnName];
-					}
+					output_row[c.ColumnName] = mr[c.ColumnName];
                 }
 
                 path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
@@ -1034,7 +985,6 @@ namespace mmria.server.utils
             {
                 var output_row = path_to_csv_writer[mmria_custom_export_file_name].Table.NewRow();
                 
-
                 foreach(System.Data.DataColumn c in flat_table.Columns)
                 {
                     output_row[c.ColumnName] = fr[c.ColumnName];
