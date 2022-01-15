@@ -1,20 +1,79 @@
-async function render()
+async function render(p_index)
 {
-    const url = window.location.href;
-
     let index = -1;
-
-    const url_array = url.split('#');
-
-    if(url_array.length > 1)
+    if(p_index == null)
     {
-        index = parseInt(url_array[1]);
+        const url = window.location.href;
+
+        
+
+        const url_array = url.split('#');
+
+        if(url_array.length > 1)
+        {
+            index = parseInt(url_array[1]);
+        }
+    }
+    else
+    {
+        index = p_index;
     }
 
+    const post_html = [];
     switch(index)
     {
         case 1:
-            const post_html = [];
+            document.getElementById('output').innerHTML = await render1(post_html);
+            eval(post_html.join(""));
+            break;
+        case 2:
+            document.getElementById('output').innerHTML = await render2(post_html);
+            eval(post_html.join(""));
+            break;
+        case 3:
+            document.getElementById('output').innerHTML = await render3(post_html);
+            eval(post_html.join(""));
+            break;
+        case 4:
+            document.getElementById('output').innerHTML = await render4(post_html);
+            eval(post_html.join(""));
+            break;
+        case 5:
+            document.getElementById('output').innerHTML = await render5(post_html);
+            eval(post_html.join(""));
+            break;
+        case 6:
+            document.getElementById('output').innerHTML = await render6(post_html);
+            eval(post_html.join(""));
+            break;
+        case 7:
+            document.getElementById('output').innerHTML = await render7(post_html);
+            eval(post_html.join(""));
+            break;
+        case 8:
+            document.getElementById('output').innerHTML = await render8(post_html);
+            eval(post_html.join(""));
+            break;
+        case 9:
+            document.getElementById('output').innerHTML = await render9(post_html);
+            eval(post_html.join(""));
+            break;
+    
+        case 10:
+            document.getElementById('output').innerHTML = await render10(post_html);
+            eval(post_html.join(""));
+            break;
+                    
+        case 11:
+            document.getElementById('output').innerHTML = await render11(post_html);
+            eval(post_html.join(""));
+            break;
+
+        case 12:
+            document.getElementById('output').innerHTML = await render12(post_html);
+            eval(post_html.join(""));
+            break;
+        case 1:
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
             break;
@@ -22,8 +81,7 @@ async function render()
         default:
             document.getElementById('output').innerHTML = render0();
     }
-    console.log("here");
-    
+
     return;
 }
 

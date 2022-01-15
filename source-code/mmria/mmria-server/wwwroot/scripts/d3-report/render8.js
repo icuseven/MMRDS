@@ -1,24 +1,24 @@
-async function render1(p_post_html)
+async function render8(p_post_html)
 {
     return `
     ${render_header()}
 
-${render_navigation_strip(1)}
+${render_navigation_strip(8)}
 <div">
-<div align=center>${await render1_chart(p_post_html)}</div>
-<div align=center>${await render1_table()}</div>
+<div align=center>${await render8_chart(p_post_html)}</div>
+<div align=center>${await render8_table()}</div>
 </div>
 
-${render_navigation_strip(1)}
+${render_navigation_strip(8)}
 `;
 
 
 }
 
-async function render1_chart(p_post_html)
+async function render8_chart(p_post_html)
 {
 
-    const metadata = indicator_map.get(1);
+    const metadata = indicator_map.get(8);
     const values = await get_indicator_values(metadata.indicator_id);
     const totals = new Map();
 
@@ -87,10 +87,10 @@ async function render1_chart(p_post_html)
     return `<div id="chart"></div>`
 }
 
-async function render1_table()
+async function render8_table()
 {
 
-    const metadata = indicator_map.get(1);
+    const metadata = indicator_map.get(8);
     const values = await get_indicator_values(metadata.indicator_id);
     const totals = new Map();
     const name_to_title = new Map();

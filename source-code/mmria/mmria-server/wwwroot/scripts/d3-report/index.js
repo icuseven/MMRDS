@@ -126,6 +126,8 @@ async function window_on_hash_change(e)
             index = parseInt(url_array[1]);
         }
 
+        await render();
+        /*
         switch(index)
         {
             case 1:
@@ -136,8 +138,8 @@ async function window_on_hash_change(e)
             case -1:
             default:
                 document.getElementById('output').innerHTML = render0();
-        }
-        console.log("here");
+        }*/
+        
     }
 
 }
