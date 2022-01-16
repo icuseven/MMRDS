@@ -945,7 +945,7 @@ namespace mmria.server.utils
                     continue;
                 }
 
-                var mr = multiform_table.Select($"_id='{gr["_id"]}' and _parent_record_index = {gr["_parent_record_index"]}");
+                var mr = multiform_table.Select($"_id='{gr["_id"]}' and _record_index = {gr["_parent_record_index"]}");
                 if(fr.Length > 0)
                 {
                     foreach(System.Data.DataColumn c in multiform_table.Columns)
