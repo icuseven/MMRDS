@@ -1,10 +1,13 @@
 async function render5(p_post_html)
 {
+    const metadata = indicator_map.get(5);
     return `
     ${render_header()}
 
 ${render_navigation_strip(5)}
-<div">
+<div>
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render5_chart(p_post_html)}</div>
 <div align=center>${await render5_table()}</div>
 </div>

@@ -5,6 +5,7 @@ indicator_map.set
     {
         indicator_id : "mUndCofDeath",
         title:"Underlying cause of death",
+        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
         blank_field_id: "MUndCofDeath21",
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
@@ -37,6 +38,7 @@ indicator_map.set
     {
         indicator_id : "mPregRelated",
         title:"Pregnancy Relatedness",
+        description:"Determined by Pregnancy-Relatedness entered on Committee Decisions form.",
         blank_field_id: "MPregRel5",
         field_id_list : [
         { name: "MPregRel1", title: "Pregnancy related" },
@@ -53,6 +55,7 @@ indicator_map.set
     {
         indicator_id : "mDeathPrevent",
         title:"Preventability",
+        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
         blank_field_id: "MDeathPrevent3",
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
@@ -67,7 +70,9 @@ indicator_map.set
     {
         indicator_id : "mMHTxTiming",
         title:"Timing of Death",
+        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
         blank_field_id: "MMHTx4",
+
         field_id_list : [
         { name: "MMHTx1", title: "Before most recent pregnancy" },
         { name: "MMHTx2", title: "During most recent pregnancy" },
@@ -82,6 +87,7 @@ indicator_map.set
     {
         indicator_id : "mOMBRaceRcd",
         title:"OMB Race Recode",
+        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
         blank_field_id: "MOMBRaceRcd10",
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
@@ -97,16 +103,54 @@ indicator_map.set
         ],
     }
 );
+
+
+
+
+
+indicator_map.set
+(
+    6,
+    {
+        indicator_id : "mDeathbyRace",
+        title:"Race",
+        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.",
+        blank_field_id: "MDeathbyRace17",
+        field_id_list : [
+        { name: "MDeathbyRace1", title:"White" },
+        { name: "MDeathbyRace2", title:"Black or African American" },
+        { name: "MDeathbyRace3", title:"American Indian or Alaska Native" },
+        { name: "MDeathbyRace4", title:"Native Hawaiian" },
+        { name: "MDeathbyRace5", title:"Guamanian or Chamorro" },
+        { name: "MDeathbyRace6", title:"Samoan" },
+        { name: "MDeathbyRace7", title:"Other Pacific Islander" },
+        { name: "MDeathbyRace8", title:"Asian Indian" },
+        { name: "MDeathbyRace9", title:"Chinese" },
+        { name: "MDeathbyRace10", title:"Filipino" },
+        { name: "MDeathbyRace11", title:"Japanese" },
+        { name: "MDeathbyRace12", title:"Korean" },
+        { name: "MDeathbyRace13", title:"Vietnamese" },
+        { name: "MDeathbyRace14", title:"Other Asian" },
+        { name: "MDeathbyRace15", title:"Other Race" },
+        { name: "MDeathbyRace16", title:"Race Not Specified" },
+        { name: "MDeathbyRace17", title:"(blank)" },
+                ]     
+
+    }
+);
+
+
+
 indicator_map.set
 (
     7,
     {
         indicator_id : "mDeathsbyRaceEth",
         title:"Race/Ethnicity",
+        description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
         blank_field_id: "MRaceEth20",
         field_id_list : [
-            // { name: "MRaceEth1", title: "" },
-            // { name: "MRaceEth2", title: "" },
+
             { name: "MRaceEth3", title: "Hispanic" },
             { name: "MRaceEth4", title: "Non-Hispanic Black" },
             { name: "MRaceEth5", title: "Non-Hispanic White" },
@@ -128,12 +172,39 @@ indicator_map.set
         ],
     }
 );
+
+
+
+indicator_map.set
+(
+    8,
+    {
+        indicator_id : "mAgeatDeath",
+        title:"Age",
+        description:"Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.",
+        blank_field_id: "MAgeD8",
+        field_id_list : [
+        { name: "MAgeD1", title: "< 20" },
+        { name: "MAgeD2", title: "20 to 24" },
+        { name: "MAgeD3", title: "25 to 29" },
+        { name: "MAgeD4", title: "30 to 34" },
+        { name: "MAgeD5", title: "35 to 39" },
+        { name: "MAgeD6", title: "40 to 44" },
+        { name: "MAgeD7", title: "45+" },
+        { name: "MAgeD8", title: "(blank)" },
+        
+        ],
+    }
+);
+
+
 indicator_map.set
 (
     9,
     {
         indicator_id : "mEducation",
         title:"Education",
+        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
         blank_field_id: "MEduc5",
         field_id_list : [
         { name: "MEduc1", title: "High school diploma equivalent or less" },
@@ -149,6 +220,7 @@ indicator_map.set
     10,
     {
     indicator_id : "mDeathCause",
+    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
     blank_field_id: "MCauseD15",
     field_id_list : [
         { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
@@ -175,6 +247,7 @@ indicator_map.set
     11,
     {
         indicator_id : "mHxofEmoStress",
+        description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
         title:"Emotional Stress",
         blank_field_id: "MEmoStress12",
         field_id_list : [
@@ -200,6 +273,7 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
+        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
         blank_field_id: "MLivD7",
         field_id_list : [
         { name: "MLivD1", title: "Own" },

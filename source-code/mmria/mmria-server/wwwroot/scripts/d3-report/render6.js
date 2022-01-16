@@ -1,10 +1,13 @@
 async function render6(p_post_html)
 {
+    const metadata = indicator_map.get(6);
     return `
     ${render_header()}
 
 ${render_navigation_strip(6)}
-<div">
+<div>
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render6_chart(p_post_html)}</div>
 <div align=center>${await render6_table()}</div>
 </div>

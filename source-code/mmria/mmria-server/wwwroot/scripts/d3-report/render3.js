@@ -1,10 +1,13 @@
 async function render3(p_post_html)
 {
+    const metadata = indicator_map.get(3);
     return `
     ${render_header()}
 
 ${render_navigation_strip(3)}
-<div">
+<div>
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render3_chart(p_post_html)}</div>
 <div align=center>${await render3_table()}</div>
 </div>

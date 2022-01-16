@@ -1,10 +1,13 @@
 async function render8(p_post_html)
 {
+    const metadata = indicator_map.get(8);
     return `
     ${render_header()}
 
 ${render_navigation_strip(8)}
-<div">
+<div>
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render8_chart(p_post_html)}</div>
 <div align=center>${await render8_table()}</div>
 </div>

@@ -1,10 +1,13 @@
 async function render9(p_post_html)
 {
+    const metadata = indicator_map.get(9);
     return `
     ${render_header()}
 
 ${render_navigation_strip(9)}
-<div">
+<div>
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render9_chart(p_post_html)}</div>
 <div align=center>${await render9_table()}</div>
 </div>

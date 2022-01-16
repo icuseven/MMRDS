@@ -1,10 +1,13 @@
 async function render4(p_post_html)
 {
+    const metadata = indicator_map.get(4);
     return `
     ${render_header()}
 
 ${render_navigation_strip(4)}
 <div">
+<h3>${metadata.title}</h3>
+<p>${metadata.description}</p>
 <div align=center>${await render4_chart(p_post_html)}</div>
 <div align=center>${await render4_table()}</div>
 </div>
