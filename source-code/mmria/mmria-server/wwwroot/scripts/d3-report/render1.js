@@ -80,7 +80,8 @@ async function render1_chart(p_post_html)
                 type: 'category',
                 categories: [${categories}],
             },
-        }
+        },
+
         }); ` 
     );
 

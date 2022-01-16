@@ -64,10 +64,10 @@ async function render10_chart(p_post_html)
             labels: true 
         },
         padding: {
-              left: 675
+              left: 375
         },
         axis: {
-            rotated: true, 
+            rotated: false, 
             
             x: {
                 label: {
@@ -80,7 +80,20 @@ async function render10_chart(p_post_html)
                 type: 'category',
                 categories: [${categories}],
             },
-        }
+        },
+        //size: {
+        //    height: 600, 
+        //    width: 600
+        //  },
+          transition: {
+            duration: null
+          },
+          bindto: '#chart',
+          onrendered: function()
+          {
+            d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+              .attr('transform', 'rotate(325)translate(-25,0)');
+          }
         }); ` 
     );
 
