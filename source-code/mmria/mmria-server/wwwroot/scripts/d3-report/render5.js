@@ -9,6 +9,7 @@ ${render_navigation_strip(5)}
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
 <div align=center>${await render5_chart(p_post_html)}</div>
+<br/>
 <div align=center>${await render5_table()}</div>
 </div>
 
@@ -67,7 +68,7 @@ async function render5_chart(p_post_html)
             labels: true 
         },
         padding: {
-              left: 375
+              //left: 375
         },
         axis: {
             rotated: false, 
