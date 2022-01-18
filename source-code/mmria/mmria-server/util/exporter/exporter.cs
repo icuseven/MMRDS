@@ -44,8 +44,11 @@ namespace mmria.server.utils
 
     mmria.common.metadata.app current_metadata;
 
-    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[5];
-    private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0, 0 };
+    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
+    private int[] qualitativeStreamCount = new int[] { 0, 0, 0 };
+
+    private System.IO.StreamWriter[] clearTextStreamWriter = new System.IO.StreamWriter[2];
+    private int[] clearTextStreamCount = new int[] { 0, 0 };
     private const int max_qualitative_length = 31000;
 
     private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit folder for details.";
@@ -126,8 +129,7 @@ namespace mmria.server.utils
         this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
         this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
         this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
-        this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
-        this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
+
 
 /*
         string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
@@ -352,6 +354,16 @@ namespace mmria.server.utils
           }
         }
 
+        if(flat_field_list.Contains("case_narrative/case_opening_overview"))
+        {
+            this.clearTextStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
+        }
+
+        if(multiform_field_list.Contains("informant_interviews/interview_narrative"))
+        {
+            this.clearTextStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
+        }
+
 
         HashSet<string> Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -366,36 +378,8 @@ namespace mmria.server.utils
         var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
-        if (queue_item.case_filter_type == "custom")
+        if (queue_item.case_filter_type != "custom")
         {
-            /*
-          foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-          {
-            var check_item = ((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject;
-            if (check_item != null)
-            {
-              var temp = check_item as IDictionary<string, object>;
-
-              if
-              (
-                temp != null &&
-                temp.ContainsKey("_id") &&
-
-                temp["_id"] != null &&
-                Custom_Case_Id_List.Contains(temp["_id"].ToString())
-              )
-              {
-                all_cases_rows.Add(check_item);
-              }
-
-            }
-
-          }*/
-        }
-
-        else
-        {
-
             try
             {
                 string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
@@ -416,36 +400,28 @@ namespace mmria.server.utils
                 Console.WriteLine(ex);
             }
 
-/*
-          foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-          {
-            all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
-          }
-          */
         }
 
 
-
-        //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
         foreach(string case_id in Custom_Case_Id_List)
         {
-                    string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
-        string urlParameters = "?include_docs=true";
-        cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
-        System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+            string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
 
-          IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+            cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
+            System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
-          if
-          (
-            case_doc == null ||
-            !case_doc.ContainsKey("_id") ||
-            case_doc["_id"] == null ||
-            case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
-          )
-          {
-            continue;
-          }
+            IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+
+            if
+            (
+                case_doc == null ||
+                !case_doc.ContainsKey("_id") ||
+                case_doc["_id"] == null ||
+                case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
+            )
+            {
+                continue;
+            }
 
 
           var is_jurisdiction_ok = false;
@@ -479,7 +455,7 @@ namespace mmria.server.utils
           }
 
 
-          System.Data.DataRow row = flat_table.NewRow();
+          
           string mmria_case_id = case_doc["_id"].ToString();
 
           foreach (string path in flat_field_list)
@@ -501,8 +477,11 @@ namespace mmria.server.utils
             }
 
 
-            row["_id"] = mmria_case_id;
+            System.Data.DataRow row = flat_table.NewRow();
             flat_table.Rows.Add(row);
+
+            row["_id"] = mmria_case_id;
+            
             //System.Console.WriteLine("path {0}", path);
 
             if 
@@ -531,7 +510,7 @@ namespace mmria.server.utils
 
                   if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && double.TryParse(val.ToString(), out try_double))
                   {
-                    string file_field_name = path_to_field_name_map[path];
+                    string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                     row[file_field_name] = val;
                   }
                   break;
@@ -571,19 +550,19 @@ namespace mmria.server.utils
                         temp2 = SortListAgainstDictionary(temp2, look_up_list);
                       }
 
-                      string file_field_name = path_to_field_name_map[path];
+                      string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                       row[file_field_name] = string.Join("|", temp2);
 
                     }
                     else
                     {
-                        string file_field_name = path_to_field_name_map[path];
+                        string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                         row[file_field_name] = "(blank)";
                     }
                   }
                   else
                   {
-                    string file_field_name = path_to_field_name_map[path];
+                    string file_field_name = MetaDataNode_Dictionary[path].sass_export_name;
                     if (val != null)
                     {
                       if (val is List<object>)
@@ -696,9 +675,25 @@ namespace mmria.server.utils
                   if (val != null)
                   {
 					string clearText = "";
-                    if(path == "case_narrative/case_opening_overview")
+                    if
+                    (
+                        path == "case_narrative/case_opening_overview" ||
+                        path == "informant_interviews/interview_narrative" 
+                    )
                     {
                         clearText = mmria.common.util.CaseNarrative.StripHTML(val);
+                        if (clearText.Length > 0) 
+                        {
+                            
+                            WriteClearTextData
+                            (
+                                mmria_case_id,
+                                path,
+                                clearText,
+                                -1,
+                                -1
+                            );
+                        }
                     }
 
                     if
@@ -719,19 +714,7 @@ namespace mmria.server.utils
                         -1
                       );
 
-					  if (clearText.Length > 0) 
-                      {
-						  
-						  WriteQualitativeData
-						  (
-							mmria_case_id,
-							path,
-							clearText,
-							-1,
-							-1,
-							true
-						  );
-					  }
+					  
                       val = over_limit_message;
                     }
 
@@ -743,7 +726,7 @@ namespace mmria.server.utils
 
               }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
               System.Console.Write("bad export value: {0} - {1} - {2}", mmria_case_id, val, path);
             }
@@ -1417,9 +1400,25 @@ namespace mmria.server.utils
                             {
                                 string clearText = "";
                                 
-                                if(p_node.path == "case_narrative/case_opening_overview")
+                                if
+                                (
+                                    p_node.path == "case_narrative/case_opening_overview" ||
+                                    p_node.path == "informant_interviews/interview_narrative"
+                                )
                                 {
                                     clearText = mmria.common.util.CaseNarrative.StripHTML(p_value.ToString());
+                                    if (clearText.Length > 0) 
+                                    {
+                                        
+                                        WriteClearTextData
+                                        (
+                                            p_mmria_case_id,
+                                            p_node.path,
+                                            clearText,
+                                            p_grid_index,
+                                            p_form_index
+                                        );
+                                    }
                                 }
 
                                 if
@@ -1436,19 +1435,7 @@ namespace mmria.server.utils
                                         p_form_index
                                     );
 
-                                    if (clearText.Length > 0) 
-                                    {
-                                        
-                                        WriteQualitativeData
-                                        (
-                                            p_mmria_case_id,
-                                            p_node.path,
-                                            clearText,
-                                            p_grid_index,
-                                            p_form_index,
-                                            true
-                                        );
-                                    }
+                                   
                                     p_value = over_limit_message;
                                 }
 
@@ -2108,44 +2095,85 @@ namespace mmria.server.utils
     }
 
 
-    private void WriteQualitativeData(
+    private void WriteQualitativeData
+    (
 		string p_record_id, 
 		string p_mmria_path, 
 		string p_data, 
 		int p_index, 
-		int p_parent_index,
-		bool isClearText=false)
+		int p_parent_index
+		
+    )
     {
-      const string record_split = "************************************************************";
-      const string header_split = "\n\n";
+        const string record_split = "************************************************************";
+        const string header_split = "\n\n";
 
-      int index = 0;
+        int index = 0;
 
-      switch (p_mmria_path.Trim().ToLower())
-      {
-        case "case_narrative/case_opening_overview":
-          index = (isClearText) ? 3 : 1;
-          break;
-        case "informant_interviews/interview_narrative":
-          index = (isClearText) ? 4 : 2;
-          break;
-        default:
-          index = 0;
-          break;
-      }
+        switch (p_mmria_path.Trim().ToLower())
+        {
+            case "case_narrative/case_opening_overview":
+                index = 1;
+                break;
+            case "informant_interviews/interview_narrative":
+                index = 2;
+                break;
+            default:
+                index = 0;
+                break;
+        }
 
 
-      if (this.qualitativeStreamCount[index] == 0)
-      {
-        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
-      }
-      else
-      {
-        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
-      }
-      this.qualitativeStreamCount[index] += 1;
+        if (this.qualitativeStreamCount[index] == 0)
+        {
+            this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        }
+        else
+        {
+            this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        }
+        this.qualitativeStreamCount[index] += 1;
     }
 
+
+    private void WriteClearTextData
+    (
+		string p_record_id, 
+		string p_mmria_path, 
+		string p_data, 
+		int p_index, 
+		int p_parent_index
+		
+    )
+    {
+        const string record_split = "************************************************************";
+        const string header_split = "\n\n";
+
+        int index = 0;
+
+        switch (p_mmria_path.Trim().ToLower())
+        {
+            case "case_narrative/case_opening_overview":
+                index = 0;
+                break;
+            case "informant_interviews/interview_narrative":
+                index = 1;
+                break;
+            default:
+                return;
+        }
+
+
+        if (this.clearTextStreamCount[index] == 0)
+        {
+            this.clearTextStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        }
+        else
+        {
+            this.clearTextStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        }
+        this.clearTextStreamCount[index] += 1;
+    }
 
 
 
