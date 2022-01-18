@@ -1121,6 +1121,16 @@ namespace mmria.server.utils
           this.qualitativeStreamWriter[i_index] = null;
         }
 
+        for (int i_index = 0; i_index < this.clearTextStreamWriter.Length; i_index++)
+        {
+            if(this.clearTextStreamWriter[i_index]!= null)
+            {
+                this.clearTextStreamWriter[i_index].Flush();
+                this.clearTextStreamWriter[i_index].Close();
+                this.clearTextStreamWriter[i_index] = null;
+            }
+        }
+
         System.Console.WriteLine("write-csv 1338");
         WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
         column = null;
