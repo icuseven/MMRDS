@@ -457,6 +457,9 @@ namespace mmria.server.utils
 
           
           string mmria_case_id = case_doc["_id"].ToString();
+        
+        System.Data.DataRow row = flat_table.NewRow();
+        flat_table.Rows.Add(row);
 
           foreach (string path in flat_field_list)
           {
@@ -477,8 +480,6 @@ namespace mmria.server.utils
             }
 
 
-            System.Data.DataRow row = flat_table.NewRow();
-            flat_table.Rows.Add(row);
 
             row["_id"] = mmria_case_id;
             
