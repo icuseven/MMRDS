@@ -220,24 +220,48 @@ function render_navigation_strip(p_current_index)
         }
     );
 
-    return `
-    <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
-		<ul class="d-flex justify-content-between">
-			<li class="tp-mp-prev tp-mp-arrow">
-                <a href="#${previous_index}" title="Previous Page"><span class="d-lg-none">Prev</span><span class="d-none d-lg-inline">${previous_tab_name}</span></a>
-            </li>
-            <li style="margin-top:15px;">
-                <select onchange="nav_dropdown_change(this.value)">
-                    ${list_options.join()}
-                </select>
-            </li>
-			<li class="tp-mp-next tp-mp-arrow">
-                <a href="#${next_index}" title="Next Page"><span class="d-lg-none">Next</span><span class="d-none d-lg-inline">${next_tab_name}</span></a>
-            </li>
-		</ul>
-	</nav>
+    if(next_index < 13)
+    {
+        return `
+        <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
+            <ul class="d-flex justify-content-between">
+                <li class="tp-mp-prev tp-mp-arrow">
+                    <a href="#${previous_index}" title="Previous Page"><span class="d-lg-none">Prev</span><span class="d-none d-lg-inline">${previous_tab_name}</span></a>
+                </li>
+                <li style="margin-top:15px;">
+                    <select onchange="nav_dropdown_change(this.value)">
+                        ${list_options.join()}
+                    </select>
+                </li>
+                <li class="tp-mp-next tp-mp-arrow">
+                    <a href="#${next_index}" title="Next Page"><span class="d-lg-none">Next</span><span class="d-none d-lg-inline">${next_tab_name}</span></a>
+                </li>
+            </ul>
+        </nav>
 
-`;
+    `;
+    }
+    else
+    {
+        return `
+        <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
+            <ul class="d-flex justify-content-between">
+                <li class="tp-mp-prev tp-mp-arrow">
+                    <a href="#${previous_index}" title="Previous Page"><span class="d-lg-none">Prev</span><span class="d-none d-lg-inline">${previous_tab_name}</span></a>
+                </li>
+                <li style="margin-top:15px;">
+                    <select onchange="nav_dropdown_change(this.value)">
+                        ${list_options.join()}
+                    </select>
+                </li>
+                <li>
+                    &nbsp;
+                </li>
+            </ul>
+        </nav>
+
+    `;
+    }
 
 }
 

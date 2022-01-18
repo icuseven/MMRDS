@@ -101,7 +101,17 @@ async function render12_chart(p_post_html)
         }); ` 
     );
 
-    return `<div id="chart"></div>`
+    return `
+    <div class="card">
+        <div class="card-header bg-secondary">
+        <h4 class="h5">${metadata.title}</h4>
+        </div>
+        <div class="card-body">
+            <div id="chart"></div>
+        </div>
+    </div>
+    
+    `
 }
 
 async function render12_table()
@@ -148,7 +158,7 @@ async function render12_table()
 
     return `<table class="table rounded-0 mb-0" style="width:50%">
     <thead class="thead">
-    <tr>
+    <tr style="background-color:#e3d3e4">
         <th>${metadata.title}</th>
         <th align=right style="width:25%">Number of deaths</th>
     </tr>
@@ -157,7 +167,7 @@ async function render12_table()
         ${data.join("")}
     </tbody>
     <tfoot>
-        <tr><td><strong>Total</strong></td>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
         <td align=right><strong>${total}</strong></td></tr>
     </tfoot>
     </table>
