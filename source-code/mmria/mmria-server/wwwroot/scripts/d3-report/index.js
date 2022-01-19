@@ -13,7 +13,7 @@ const g_filter = {
 }
 
 
-var g_ui = { 
+const g_ui = { 
 	user_summary_list:[],
 	user_list:[],
 	data:null,
@@ -27,7 +27,7 @@ var g_ui = {
 };
 
 
-var g_nav_map = new Map();
+const g_nav_map = new Map();
 g_nav_map.set(0,"Overview");
 g_nav_map.set(1,"Primary Underlying Cause of Death");
 g_nav_map.set(2,"Pregnancy Relatedness");
@@ -42,7 +42,12 @@ g_nav_map.set(10,"Committee Determinations");
 g_nav_map.set(11,"Emotional Stress");
 g_nav_map.set(12,"Living Arrangements");
 
-
+const relatedness_map = new Map();
+relatedness_map.set(9999, "(blank)");
+relatedness_map.set(1, "Pregnancy-Related");
+relatedness_map.set(0, "Pregnancy-Associated, but NOT -Related");
+relatedness_map.set(2, "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness");
+relatedness_map.set(99, "Not Pregnancy-Related or -Associated (i.e. False Positive)");
 
 
 var year_options = [
