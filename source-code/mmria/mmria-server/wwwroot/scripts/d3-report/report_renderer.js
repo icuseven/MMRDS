@@ -117,7 +117,7 @@ style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz
 <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
 </div>
-<button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button>
+<!--button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button-->
 <dialog  id="filter-dialog" style="top:50%" class="p-0 set-radius">
 <p><strong>Reporting State: </strong> Georgia</p>
 <p>
