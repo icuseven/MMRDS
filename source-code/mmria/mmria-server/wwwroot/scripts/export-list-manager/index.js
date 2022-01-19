@@ -116,7 +116,7 @@ function render_de_identified_list()
     
     
     
-    result.push("<br/>");
+    result.push("<br/><br/>");
 
     result.push("<select id='clone-source'  onchange='on_clone_source_change(this.value)'>");
     
