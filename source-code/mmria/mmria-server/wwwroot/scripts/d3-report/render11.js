@@ -157,22 +157,5 @@ async function render11_table()
     
 
 
-    return `<table class="table rounded-0 mb-0" style="width:50%">
-    <thead class="thead">
-    <tr style="background-color:#e3d3e4">
-        <th>${metadata.title}</th>
-        <th align=right style="width:25%">Number of deaths</th>
-    </tr>
-    </thead>
-    <tbody>
-        ${data.join("")}
-    </tbody>
-    <tfoot>
-        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
-        <td align=right><strong>${total}</strong></td></tr>
-    </tfoot>
-    </table>
-    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(metadata.blank_field_id)} </p>
-    
-    `
+    return render_table(metadata, data, totals, total);
 }
