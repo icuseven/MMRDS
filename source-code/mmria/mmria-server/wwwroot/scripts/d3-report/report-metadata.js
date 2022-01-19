@@ -273,6 +273,8 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Mother&apos;s living arranements as time of death.",
+        chart_title:"",
+        table_title:"",
         description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
         blank_field_id: "MLivD7",
         field_id_list : [
