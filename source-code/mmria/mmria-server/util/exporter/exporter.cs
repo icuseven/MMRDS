@@ -682,7 +682,9 @@ namespace mmria.server.utils
                         path == "informant_interviews/interview_narrative" 
                     )
                     {
-                        clearText = mmria.common.util.CaseNarrative.StripHTML(val);
+                        clearText = (path == "case_narrative/case_opening_overview")
+							? mmria.common.util.CaseNarrative.StripHTML(val)
+							: mmria.common.util.TextAreaField.CleanUp(val);
                         if (clearText.Length > 0) 
                         {
                             
@@ -1417,7 +1419,9 @@ namespace mmria.server.utils
                                     p_node.path == "informant_interviews/interview_narrative"
                                 )
                                 {
-                                    clearText = mmria.common.util.CaseNarrative.StripHTML(p_value.ToString());
+									clearText = (p_node.path == "case_narrative/case_opening_overview")
+										? mmria.common.util.CaseNarrative.StripHTML(p_value.ToString())
+										: mmria.common.util.TextAreaField.CleanUp(p_value.ToString());
                                     if (clearText.Length > 0) 
                                     {
                                         
