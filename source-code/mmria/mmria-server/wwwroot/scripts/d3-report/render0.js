@@ -31,10 +31,10 @@ function render0()
 
 
 
-<tr onclick="window.location='#3'">
+<!--tr onclick="window.location='#3'">
 <td><strong>3. Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
-</tr>
+</tr-->
 
 
 
@@ -45,7 +45,7 @@ function render0()
 
 
 
-<tr onclick="window.location='#5'">
+<!--tr onclick="window.location='#5'">
 <td><strong>5. OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
 </tr>
@@ -90,7 +90,7 @@ function render0()
 <tr onclick="window.location='#11'">
 <td><strong>11. Emotional Stress</strong></td>
 <td>History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.</td>
-</tr>
+</tr-->
 
 
 
@@ -100,91 +100,7 @@ function render0()
 </tr>
 </tbody>
 </table>
-
-
-
-<!--div class="content-intro">
-<div class="row no-gutters align-items-center mb-2">
-<label for="year_of_death" class="font-weight-bold mr-2 mb-0">Year of Death:</label>
-<select id="year_of_death" class="form-control w-auto">
-  <option>All</option>
-  <option>2020</option>
-  <option>2019</option>
-  <option>2018</option>
-  <option>2017</option>
-  <option>2016</option>
-  <option>2015</option>
-  <option>2014</option>
-  <option>2013</option>
-  <option>2012</option>
-  <option>2011</option>
-  <option>2010</option>
-  <option>2009</option>
-  <option>2008</option>
-  <option>2007</option>
-  <option>2006</option>
-  <option>2005</option>
-  <option>2004</option>
-  <option>2003</option>
-  <option>2002</option>
-  <option>2001</option>
-  <option>2000</option>
-  <option>1999</option>
-</select>
-</div>
-
-<div class="mb-3">
-<p class="font-weight-bold mb-2">Date of case review: </p>
-<div class="row no-gutters align-items-center">
-  <label for="month_of_case_review" class="mr-1 mb-0">Month</label>
-  <select id="month_of_case_review" class="form-control mr-3 w-auto">
-    <option>All</option>
-    <option>01</option>
-    <option>02</option>
-    <option>03</option>
-    <option>04</option>
-    <option>05</option>
-    <option>06</option>
-    <option>07</option>
-    <option>08</option>
-    <option>09</option>
-    <option>10</option>
-    <option>11</option>
-    <option>12</option>
-  </select>
-  <label for="year_of_case_review" class="mr-1 mb-0">Year</label>
-  <select id="year_of_case_review" class="form-control w-auto">
-    <option>All</option>
-    <option>2020</option>
-    <option>2019</option>
-    <option>2018</option>
-    <option>2017</option>
-    <option>2016</option>
-    <option>2015</option>
-    <option>2014</option>
-    <option>2013</option>
-    <option>2012</option>
-    <option>2011</option>
-    <option>2010</option>
-    <option>2009</option>
-    <option>2008</option>
-    <option>2007</option>
-    <option>2006</option>
-    <option>2005</option>
-    <option>2004</option>
-    <option>2003</option>
-    <option>2002</option>
-    <option>2001</option>
-    <option>2000</option>
-    <option>1999</option>
-  </select>
-</div>
-</div>
-<div class="row no-gutters align-items-center justify-content-start">
-<button class="btn btn-secondary" onclick="init_inline_loader(generate_report_click)">Generate Report</button>
-<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-</div>
-</div-->`;
+`;
 
 }
 
@@ -196,8 +112,37 @@ function render_navigation_strip(p_current_index)
         return "";
     }
 
+    // Phase 1 Nav Start
+    let previous_index = p_current_index - 1;
+    let next_index = p_current_index + 1;
+
+    if(previous_index == 3)
+    {
+        previous_index = 2;
+    }
+
+    if(previous_index > 4)
+    {
+        previous_index = 4;
+    }
+
+    if(next_index == 3)
+    {
+        next_index = 4;
+    }
+
+    if(next_index > 4 && next_index < 12)
+    {
+        next_index = 12;
+    }
+    // Phase 1 Nav end
+
+    /*
+
+    Phase 2
     const previous_index = p_current_index - 1;
     const next_index = p_current_index + 1;
+    */
 
     const previous_tab_name = g_nav_map.get(previous_index);
     const next_tab_name = g_nav_map.get(next_index);
@@ -208,14 +153,24 @@ function render_navigation_strip(p_current_index)
     (
         (value, index) =>
         {
+            if
+            (
+                index != 3 &&
+                ! (
+                    index >= 5 &&
+                    index <= 11
+                )
+            )
+            {
 
-            if(index == p_current_index)
-            {
-                list_options.push(`<option selected value=${index}>${value}</option>`)
-            }
-            else
-            {
-                list_options.push(`<option value=${index}>${value}</option>`)
+                if(index == p_current_index)
+                {
+                    list_options.push(`<option selected value=${index}>${value}</option>`)
+                }
+                else
+                {
+                    list_options.push(`<option value=${index}>${value}</option>`)
+                }
             }
         }
     );
