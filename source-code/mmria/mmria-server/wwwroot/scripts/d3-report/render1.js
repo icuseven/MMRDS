@@ -1,6 +1,9 @@
 async function render1(p_post_html)
 {
     const metadata = indicator_map.get(1);
+    const data_list = await get_indicator_values(metadata.indicator_id);
+
+
     return `
     ${render_header()}
 
@@ -8,9 +11,9 @@ ${render_navigation_strip(1)}
 <div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
-<div align=center>${await render1_chart(p_post_html)}</div>
+<div align=center>${await render1_chart(p_post_html, metadata, data_list)}</div>
 <br/>
-<div align=center>${await render1_table()}</div>
+<div align=center>${await render1_table(metadata, data_list)}</div>
 </div>
 
 ${render_navigation_strip(1)}
@@ -19,24 +22,21 @@ ${render_navigation_strip(1)}
 
 }
 
-async function render1_chart(p_post_html)
+async function render1_chart(p_post_html, p_metadata, p_data_list)
 {
-
-    const metadata = indicator_map.get(1);
-    const values = await get_indicator_values(metadata.indicator_id);
     const totals = new Map();
 
     const categories = [];
-    for(var i = 0; i < metadata.field_id_list.length; i++)
+    for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
-        const item = metadata.field_id_list[i];
+        const item = p_metadata.field_id_list[i];
         categories.push(`"${item.title}"`);
         totals.set(item.name, 0);
     }
 
-    for(var i = 0; i <g_data.data.length; i++)
+    for(var i = 0; i <p_data_list.data.length; i++)
     {
-        const item = g_data.data[i];
+        const item = p_data_list.data[i];
         if(totals.has(item.field_id))
         {
             let val = totals.get(item.field_id);
@@ -58,14 +58,12 @@ async function render1_chart(p_post_html)
     `var chart = c3.generate({
         data: {
             columns: [
-                ["${metadata.indicator_id}", ${data.join(",")}
+                ["${p_metadata.indicator_id}", ${data.join(",")}
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',      
-            },
-            names: {
-                ${metadata.indicator_id} : '${metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: 'bar',
+        
             },
             labels: true 
         },
@@ -77,7 +75,7 @@ async function render1_chart(p_post_html)
             
             x: {
                 label: {
-                text: '${metadata.axis_v_title}',
+                text: '${p_metadata.chart_title}',
                 position: 'outer-middle'  
                 },
                 tick: {
@@ -98,9 +96,9 @@ async function render1_chart(p_post_html)
     );
 
     return `
-    <div class="card">
+    <div class="card" style="width:50%;">
         <div class="card-header bg-secondary">
-        <h4 class="h5">${metadata.chart_title}</h4>
+        <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
         <div class="card-body">
             <div id="chart"></div>
@@ -110,26 +108,23 @@ async function render1_chart(p_post_html)
     `
 }
 
-async function render1_table()
+async function render1_table(p_metadata, p_data_list)
 {
-
-    const metadata = indicator_map.get(1);
-    const values = await get_indicator_values(metadata.indicator_id);
     const totals = new Map();
     const name_to_title = new Map();
 
     const categories = [];
-    for(var i = 0; i < metadata.field_id_list.length; i++)
+    for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
-        const item = metadata.field_id_list[i];
+        const item = p_metadata.field_id_list[i];
         categories.push(`"${item.title}"`);
         totals.set(item.name, 0);
         name_to_title.set(item.name, item.title);
     }
 
-    for(var i = 0; i <g_data.data.length; i++)
+    for(var i = 0; i <p_data_list.data.length; i++)
     {
-        const item = g_data.data[i];
+        const item = p_data_list.data[i];
         if(totals.has(item.field_id))
         {
             let val = totals.get(item.field_id);
@@ -142,7 +137,7 @@ async function render1_table()
 
     totals.forEach((value, key) =>
     {
-        if(key != metadata.blank_field_id)
+        if(key != p_metadata.blank_field_id)
         {
             data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
             total+=value;
@@ -151,7 +146,7 @@ async function render1_table()
     });
     
 
-    return render_table(metadata, data, totals, total);
+    return render_table(p_metadata, data, totals, total);
 }
 
 

@@ -5,6 +5,8 @@ indicator_map.set
     {
         indicator_id : "mUndCofDeath",
         title:"Underlying cause of death",
+        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
+        
         chart_title:"Underlying cause of death",
         table_title:"Underlying cause of death",
         axis_h_title:"Number of Deaths",
@@ -34,7 +36,8 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],       
+        ],
+        enabled: true,       
     }
 );
 indicator_map.set
@@ -473,4 +476,6 @@ async function get_indicator_values(p_indicator_id)
         g_data.data.push(get_data_response[i]);
         g_data.total +=1;
     }
+
+    return g_data;
 }
