@@ -62,7 +62,9 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             ],
             types: {
                 ${p_metadata.indicator_id}: 'bar',
-        
+            },
+            names: {
+                ${p_metadata.indicator_id}: ${p_metadata.axis_h_title},
             },
             labels: true 
         },
