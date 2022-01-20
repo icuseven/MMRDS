@@ -105,7 +105,7 @@ async function render7_chart(p_post_html)
     return `
     <div class="card">
         <div class="card-header bg-secondary">
-        <h4 class="h5">${metadata.title}</h4>
+        <h4 class="h5">${metadata.chart_title}</h4>
         </div>
         <div class="card-body">
             <div id="chart"></div>
