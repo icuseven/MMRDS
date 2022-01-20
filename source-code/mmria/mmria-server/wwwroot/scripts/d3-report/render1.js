@@ -75,7 +75,7 @@ async function render1_chart(p_post_html)
             
             x: {
                 label: {
-                text: '${metadata.title}',
+                text: '${metadata.chart_title}',
                 position: 'outer-middle'  
                 },
                 tick: {
@@ -92,7 +92,7 @@ async function render1_chart(p_post_html)
     return `
     <div class="card">
         <div class="card-header bg-secondary">
-        <h4 class="h5">${metadata.title}</h4>
+        <h4 class="h5">${metadata.chart_title}</h4>
         </div>
         <div class="card-body">
             <div id="chart"></div>

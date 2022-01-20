@@ -5,8 +5,8 @@ indicator_map.set
     {
         indicator_id : "mUndCofDeath",
         title:"Underlying cause of death",
-        chart_title:"Underlying cause of death",
-        table_title:"Underlying cause of death",
+        chart_title:"Underlying cause of Death",
+        table_title:"Underlying cause of Death",
         axis_h_title:"title not specified",
         axis_v_title:"title not specified",
         enabled: true,
