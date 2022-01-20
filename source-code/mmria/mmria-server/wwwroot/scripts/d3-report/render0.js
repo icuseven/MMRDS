@@ -110,7 +110,7 @@ function render_table(p_metadata, p_data, p_totals, p_total)
     return `<table class="table rounded-0 mb-0" style="width:50%">
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
-        <th>${p_metadata.title}</th>
+        <th>${p_metadata.table_title}</th>
         <th align=right style="width:25%">Number of deaths</th>
     </tr>
     </thead>
