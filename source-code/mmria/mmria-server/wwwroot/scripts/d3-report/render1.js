@@ -62,8 +62,10 @@ async function render1_chart(p_post_html)
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',
-        
+                ${metadata.indicator_id}: 'bar',      
+            },
+            names: {
+                ${metadata.indicator_id} : '${metadata.axis_h_title}',
             },
             labels: true 
         },
@@ -75,7 +77,7 @@ async function render1_chart(p_post_html)
             
             x: {
                 label: {
-                text: '${metadata.chart_title}',
+                text: '${metadata.axis_v_title}',
                 position: 'outer-middle'  
                 },
                 tick: {
@@ -84,6 +86,12 @@ async function render1_chart(p_post_html)
                 type: 'category',
                 categories: [${categories}],
             },
+            // y: {
+            //     label: {
+            //         text: '${metadata.axis_h_title}',
+            //         position: 'outer-center' 
+            //     }
+            // }
         },
 
         }); ` 

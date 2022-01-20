@@ -77,8 +77,10 @@ async function render121_chart(p_post_html)
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',
-        
+                ${metadata.indicator_id}: 'bar',        
+            },
+            names: {
+                ${metadata.indicator_id}: '${metadata.axis_h_title}',
             },
             labels: true 
         },
@@ -89,16 +91,22 @@ async function render121_chart(p_post_html)
             rotated: false, 
             
             x: {
-                label: {
-                text: '${metadata.title}',
-                position: 'outer-middle'  
-                },
+                // label: {
+                // text: '${metadata.title}',
+                // position: 'outer-middle'  
+                // },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
                 categories: [${categories}],
             },
+            y: {
+                label: {
+                    text: '${metadata.axis_v_title}',
+                    position: 'outer-middle' 
+                }
+            }
         },
         //size: {
         //    height: 600, 
@@ -172,8 +180,10 @@ async function render122_chart(p_post_html)
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',
-        
+                ${metadata.indicator_id}: 'bar',        
+            },
+            names: {
+                ${metadata.indicator_id}: '${metadata.axis_h_title}',
             },
             labels: true 
         },
@@ -184,16 +194,22 @@ async function render122_chart(p_post_html)
             rotated: false, 
             
             x: {
-                label: {
-                text: '${metadata.title}',
-                position: 'outer-middle'  
-                },
+                // label: {
+                // text: '${metadata.title}',
+                // position: 'outer-middle'  
+                // },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
                 categories: [${categories}],
             },
+            y: {
+                label: {
+                    text: '${metadata.axis_v_title}',
+                    position: 'outer-middle' 
+                }
+            }
         },
         //size: {
         //    height: 600, 
