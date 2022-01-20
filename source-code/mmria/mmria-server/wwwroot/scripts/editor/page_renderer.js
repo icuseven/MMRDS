@@ -352,8 +352,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	// Buttons will have an outer div container with styles assigned to it
 	// and not on the actual input control like everything else
-	if (p_metadata.type === 'button') {
-		p_result.push(`
+	if (p_metadata.type === 'button') 
+    {
+		p_result.push
+        (`
 			<div data-render-type="${p_metadata.type.toLowerCase()}" class="row no-gutters align-items-center" style="${get_style_string(style_object.control.style)}">
 		`);
 	}
@@ -471,78 +473,98 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 				p_result.push("' maxlength='10' type='text' placeholder='mm/dd/yyyy' name='");
 			// 	p_result.push("' type='date' min='1900-01-01' max='2100-12-31' name='");
 			}
+            else if (p_metadata.type.toLowerCase() == "string")
+            {
+                p_result.push("' ");
+                if
+                (
+                    p_metadata.max_length != null &&
+                    p_metadata.max_length != "" &&
+                    !isNaN(p_metadata.max_length) && 
+                    parseInt(Number(p_metadata.max_length)) == p_metadata.max_length && 
+                    !isNaN(parseInt(p_metadata.max_length, 10))
+                )
+                {
+                    p_result.push("max_length=");
+                    p_result.push(p_metadata.max_length);
+                }
+                p_result.push(" type='text' name='")
+            }
 			else
 			{
 				p_result.push("' type='text' name='");
-      }
+            }
 			
-			p_result.push(p_metadata.name);
-      p_result.push("' ");
+            p_result.push(p_metadata.name);
+            p_result.push("' ");
 
-      p_result.push(`data-value="${p_data}"`);
+            p_result.push(`data-value="${p_data}"`);
       
 			p_result.push(" value='");
-        if(p_data || p_data == 0)
-        { 
-          if (typeof p_data === 'string' || p_data instanceof String)
-          {
-            if (p_metadata.type.toLowerCase() == "date")
+            if(p_data || p_data == 0)
+            { 
+            if (typeof p_data === 'string' || p_data instanceof String)
             {
-              p_result.push(
-                `${p_data.split('T')[0]}`
-              );
+                if (p_metadata.type.toLowerCase() == "date")
+                {
+                    p_result.push
+                    (
+                        `${p_data.split('T')[0]}`
+                    );
+                }
+                else
+                {
+                    p_result.push(p_data.replace(/'/g, "&apos;"));
+                }
             }
             else
             {
-              p_result.push(p_data.replace(/'/g, "&apos;"));
+                if (p_metadata.type.toLowerCase() == "date")
+                {
+                    p_result.push
+                    (
+                        `${p_data.split('T')[0]}`
+                    );
+                }
+                else
+                {
+                    p_result.push(p_data);
+                }
             }
-          }
-          else
-          {
-            if (p_metadata.type.toLowerCase() == "date")
-            {
-              p_result.push(
-                `${p_data.split('T')[0]}`
-              );
-            }
-            else
-            {
-              p_result.push(p_data);
-            }
-          }
         }
-      p_result.push("' ");
 
-			if
-			(
-				!(
-					p_metadata.mirror_reference &&
-					p_metadata.mirror_reference.length > 0
-				)
-			)
-			{
-				let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+        p_result.push("' ");
 
-				if(path_to_onfocus_map[p_metadata_path])
-				{
-					page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-				}
+        if
+        (
+            !(
+                p_metadata.mirror_reference &&
+                p_metadata.mirror_reference.length > 0
+            )
+        )
+        {
+            let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 
-				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-				if(path_to_onchange_map[p_metadata_path])
-				{
-					page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-				}
+            if(path_to_onfocus_map[p_metadata_path])
+            {
+                page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+            }
+
+            f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+            if(path_to_onchange_map[p_metadata_path])
+            {
+                page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+            }
+            
+            f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+            if(path_to_onclick_map[p_metadata_path])
+            {
+                page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+            }
 				
-				f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-				if(path_to_onclick_map[p_metadata_path])
-				{
-					page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-				}
-				
-        page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
-			}
+            page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 		}
+	}
 
     if 
     (

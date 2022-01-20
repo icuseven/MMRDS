@@ -7,7 +7,12 @@ var g_list_lookup = {};
 
 const g_filter = {
     reporting_state: sanitize_encodeHTML(window.location.host.split("-")[0]),
-    pregnancy_readines: [],
+    pregnancy_relatedness: [
+        1,
+        0,
+        2,
+        99
+    ],
     date_of_review: { begin: new Date(), end: new Date() },
     date_of_death: { begin: new Date(), end: new Date() }
 }
@@ -196,6 +201,151 @@ function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
+}
+
+
+function  pregnancy_relatedness_all_change(p_control)
+{
+    const element_id_list = [
+        "Pregnancy-Relatedness-1",
+        "Pregnancy-Relatedness-0",
+        "Pregnancy-Relatedness-2",
+        "Pregnancy-Relatedness-99"
+    ];
+
+    if(p_control.checked)
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(1) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(1);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(0) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(0);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(2) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(2);
+        }
+
+
+        if(g_filter.pregnancy_relatedness.indexOf(99) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(99);
+        }
+
+        for(let i = 0; i < element_id_list.length; i++)
+        {
+            const elem = document.getElementById(element_id_list[i]);
+            elem.checked = true;
+        }
+    }
+    else
+    {
+        /*
+        if(g_filter.pregnancy_relatedness.indexOf(1) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(1), 1);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(0) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(0), 1);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(2) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(2), 1);
+        }
+
+
+        if(g_filter.pregnancy_relatedness.indexOf(99) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(99), 1);
+        }
+    */
+
+
+    }
+
+}
+
+function  pregnancy_relatedness_1_change(p_control)
+{
+    if(p_control.checked)
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(1) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(1);
+        }
+
+    }
+    else
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(1) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(1), 1);
+        }
+    }
+}
+
+function  pregnancy_relatedness_0_change(p_control)
+{
+    if(p_control.checked)
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(0) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(0);
+        }
+
+    }
+    else
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(0) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(0), 1);
+        }
+    }
+}
+
+function  pregnancy_relatedness_2_change(p_control)
+{
+    if(p_control.checked)
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(2) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(2);
+        }
+
+    }
+    else
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(2) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(2), 1);
+        }
+    }
+}
+
+function  pregnancy_relatedness_99_change(p_control)
+{
+    if(p_control.checked)
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(99) < 0)
+        {
+            g_filter.pregnancy_relatedness.push(99);
+        }
+
+    }
+    else
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(99) > -1)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(99), 1);
+        }
+    }
 }
 
 function set_list_lookup(p_list_lookup, p_metadata, p_path)

@@ -186,7 +186,7 @@ namespace mmria.server
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
 				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
-
+/*
 				if(response.Headers["Set-Cookie"] != null)
 				{
 					this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
@@ -201,7 +201,7 @@ namespace mmria.server
 					{
 						json_result.auth_session = "";
 					}
-				}
+				}*/
 
 				session_response[] result =  new session_response[] 
 				{ 

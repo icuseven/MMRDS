@@ -75,14 +75,21 @@ async function g_set_data_object_from_path
     if (g_validator_map[p_metadata_path](value)) 
     {
       var metadata = eval(p_metadata_path);
-
-
-        if(metadata.name == "case_narrative")
-        {
-            //value = textarea_control_strip_html_attributes(value);
-        }
-        
-      
+/*
+      if
+      (
+            metadata.type.toLowerCase() == "string" &&
+            metadata.max_length != null &&
+            metadata.max_length != "" &&
+            !isNaN(metadata.max_length) && 
+            parseInt(Number(metadata.max_length)) == metadata.max_length && 
+            !isNaN(parseInt(metadata.max_length, 10))
+      )
+      {
+          p_result.push("max_length=");
+          p_result.push(p_metadata.max_length);
+      }
+*/
 
       if (metadata.type.toLowerCase() == 'boolean') 
       {
