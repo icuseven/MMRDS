@@ -17,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
     [Authorize(Roles  = "abstractor, data_analyst")]
-    [Route("api/measure-indicator/{indicator_id?}")]
+    [Route("api/measure-indicator/{indicator_id}")]
 	public class interactive_report_viewController: ControllerBase 
 	{  
 
@@ -45,7 +45,7 @@ namespace mmria.server
 			try
 			{
 
-                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/interactive_aggregate_report/_view/indicator_id?skip=0&limit={30000}";
+                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/interactive_aggregate_report/_view/indicator_id?skip=0&limit={30000}&key=\"{indicator_id}\"";
 				var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
