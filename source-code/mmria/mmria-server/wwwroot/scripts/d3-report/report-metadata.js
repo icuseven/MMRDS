@@ -461,18 +461,16 @@ async function get_indicator_values(p_indicator_id)
 {
     const get_data_response = await $.ajax
     ({
-
-        url: `${location.protocol}//${location.host}/api/powerbi-measures/${p_indicator_id}`,
+        
+        //url: `${location.protocol}//${location.host}/api/powerbi-measures/${p_indicator_id}`,
+        url: `${location.protocol}//${location.host}/api/measure-indicator/${p_indicator_id}`,
     });
 
     g_data = { total: 0, data: []};
 
-    for(let i = 0; i < get_data_response.docs.length; i++)
+    for(let i = 0; i < get_data_response.length; i++)
     {
-        for(let j = 0; j < get_data_response.docs[i].data.length; j++)
-        {
-            g_data.data.push(get_data_response.docs[i].data[j]);
-            g_data.total +=1;
-        }
+        g_data.data.push(get_data_response[i]);
+        g_data.total +=1;
     }
 }
