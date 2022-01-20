@@ -64,7 +64,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',
             },
             names: {
-                ${p_metadata.indicator_id}: ${p_metadata.axis_h_title},
+                ${p_metadata.indicator_id}: "${p_metadata.axis_h_title}",
             },
             labels: true 
         },
@@ -87,7 +87,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${metadata.axis_v_title}',
+                    text: '${p_metadata.axis_v_title}',
                     position: 'outer-middle' 
                 }
             }

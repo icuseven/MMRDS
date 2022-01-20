@@ -77,10 +77,10 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',        
+                ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${metadata.indicator_id}: '${metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
             },
             labels: true 
         },
@@ -92,7 +92,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             
             x: {
                 // label: {
-                // text: '${metadata.title}',
+                // text: '${p_metadata.title}',
                 // position: 'outer-middle'  
                 // },
                 tick: {
@@ -103,7 +103,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${metadata.axis_v_title}',
+                    text: '${p_metadata.axis_v_title}',
                     position: 'outer-middle' 
                 }
             }
@@ -178,10 +178,10 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
                  ],
             ],
             types: {
-                ${metadata.indicator_id}: 'bar',        
+                ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${metadata.indicator_id}: '${metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
             },
             labels: true 
         },
@@ -193,7 +193,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             
             x: {
                 // label: {
-                // text: '${metadata.title}',
+                // text: '${p_metadata.title}',
                 // position: 'outer-middle'  
                 // },
                 tick: {
@@ -204,7 +204,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${metadata.axis_v_title}',
+                    text: '${p_metadata.axis_v_title}',
                     position: 'outer-middle' 
                 }
             }

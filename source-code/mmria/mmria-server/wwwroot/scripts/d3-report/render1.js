@@ -54,49 +54,63 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
 
     p_post_html.push
     (
-        
-    `var chart = c3.generate({
-        data: {
-            columns: [
-                ["${p_metadata.indicator_id}", ${data.join(",")}
-                 ],
-            ],
-            types: {
-                ${p_metadata.indicator_id}: 'bar',
-        
-            },
-            labels: true 
-        },
-        padding: {
-              //left: 675
-        },
-        axis: {
-            rotated: true, 
-            
-            x: {
-                label: {
-                text: '${p_metadata.chart_title}',
-                position: 'outer-middle'  
+        `var chart = c3.generate({
+            data: {
+                columns: [
+                    ["${p_metadata.indicator_id}", ${data.join(",")}
+                     ],
+                ],
+                types: {
+                    ${p_metadata.indicator_id}: 'bar',
                 },
-                tick: {
-                    multiline: false,
+                names: {
+                    ${p_metadata.indicator_id}: "${p_metadata.axis_h_title}",
                 },
-                type: 'category',
-                categories: [${categories}],
+                labels: true 
             },
-            // y: {
-            //     label: {
-            //         text: '${metadata.axis_h_title}',
-            //         position: 'outer-center' 
-            //     }
-            // }
-        },
-
-        }); ` 
+            padding: {
+                  //left: 375
+            },
+            axis: {
+                rotated: true, 
+                
+                x: {
+                    label: {
+                    text: '${p_metadata.title}',
+                    position: 'outer-middle'  
+                    },
+                    tick: {
+                        multiline: false,
+                    },
+                    type: 'category',
+                    categories: [${categories}],
+                },
+                y: {
+                    /*label: {
+                        text: '${p_metadata.axis_v_title}',
+                        position: 'outer-middle' 
+                    }*/
+                }
+            },
+            //size: {
+            //    height: 600, 
+            //    width: 600
+            //  },
+              transition: {
+                duration: null
+              },
+              bindto: '#chart',
+              /*
+              onrendered: function()
+              {
+                d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+                  .attr('transform', 'rotate(325)translate(-25,0)');
+              }*/
+            }); ` 
     );
 
     return `
-    <div class="card" style="width:50%;">
+    <div class="card" style="width:90%;">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
