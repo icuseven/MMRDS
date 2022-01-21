@@ -30,8 +30,11 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
         const item = p_metadata.field_id_list[i];
-        categories.push(`"${item.title}"`);
-        totals.set(item.name, 0);
+        if(item.name != p_metadata.blank_field_id)
+        {
+            categories.push(`"${item.title}"`);
+            totals.set(item.name, 0);
+        }
     }
 
     for(var i = 0; i <p_data_list.data.length; i++)
