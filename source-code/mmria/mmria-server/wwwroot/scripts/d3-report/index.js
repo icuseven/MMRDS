@@ -173,9 +173,6 @@ async function get_release_version()
 
     g_metadata = g_metadata_response;
 
-
-    set_list_lookup(g_list_lookup, g_metadata, "");
-
     render();
 }
 
@@ -319,74 +316,4 @@ function  pregnancy_relatedness_99_change(p_control)
             g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(99), 1);
         }
     }
-}
-
-function set_list_lookup(p_list_lookup, p_metadata, p_path)
-{
-
-    switch(p_metadata.type.toLowerCase())
-    {
-        case "app":
-        case "form":
-        case "group":
-        case "grid":
-            for(let i = 0; i < p_metadata.children.length; i++)
-            {
-                let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, child, p_path + "/" + child.name);
-
-            }
-
-            break;
-        default:
-            if(p_metadata.type.toLowerCase() == "list")
-            {
-                let data_value_list = p_metadata.values;
-
-                if(p_metadata.path_reference && p_metadata.path_reference != "")
-                {
-                    data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-            
-                    if(data_value_list == null)	
-                    {
-                        data_value_list = p_metadata.values;
-                    }
-                }
-    
-                p_list_lookup[p_path] = {};
-                for(let i = 0; i < data_value_list.length; i++)
-                {
-                    let item = data_value_list[i];
-                    p_list_lookup[p_path][item.value] = item.display;
-                }
-            }
-            break;
-
-    }
-}
-
-function convert_dictionary_path_to_lookup_object(p_path)
-{
-
-	//g_data.prenatal.routine_monitoring.systolic_bp
-	var result = null;
-	var temp_result = []
-	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
-	var index = temp.lastIndexOf('.');
-	temp_result.push(temp.substr(0, index));
-	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
-
-	var lookup_list = eval(temp_result[0]);
-
-	for(var i = 0; i < lookup_list.length; i++)
-	{
-		if(lookup_list[i].name == temp_result[1])
-		{
-			result = lookup_list[i].values;
-			break;
-		}
-	}
-
-
-	return result;
 }
