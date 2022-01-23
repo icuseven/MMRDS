@@ -4,10 +4,11 @@ namespace mmria.server.model
 
     public struct report_measure_value_struct
 	{
+        /*
         public string _id;
         public string _rev;
 
-        public string type;
+        public string type;*/
 
         public string case_id;
 		public string host_state;
@@ -75,6 +76,7 @@ namespace mmria.server.model
 
         public System.Collections.Generic.List<opioid_report_value_struct> data;
 
+/*
         public System.Collections.Generic.List<report_measure_value_struct> ToReportMeasureValueList()
         {
             var result = new System.Collections.Generic.List<report_measure_value_struct>();
@@ -115,5 +117,6 @@ namespace mmria.server.model
             return result;
 
         }
+        */
 	}
 }

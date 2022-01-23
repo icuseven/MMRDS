@@ -111,12 +111,36 @@ function ControlFormatDate(p_value)
 
 function render_header()
 {
+    let pregnancy_relatedness_html = "All";
+    if(g_filter.pregnancy_relatedness.length == 4)
+    {
+
+    }
+    else
+    {
+        const html = [];
+        html.push("<ul>");
+        g_filter.pregnancy_relatedness.forEach
+        (
+            (value) =>
+            {
+                const item = relatedness_map.get(value);
+                html.push("<li>");
+                html.push(item);
+                html.push("</li>");
+            }
+        );
+        
+        html.push("</ul>");
+        pregnancy_relatedness_html = html.join("");
+    }
+
     return `
     <div id="filter-summary"
 style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
 >
 <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
-<p><strong>Pregnancy-Relatedness:</strong> All</p>
+<p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
 <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
 </div>
@@ -130,11 +154,36 @@ style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz
 
 function render_filter_summary()
 {
+    let pregnancy_relatedness_html = "All";
+    if(g_filter.pregnancy_relatedness.length == 4)
+    {
+
+    }
+    else
+    {
+        const html = [];
+        html.push("<ul>");
+        g_filter.pregnancy_relatedness.forEach
+        (
+            (value) =>
+            {
+                const item = relatedness_map.get(value);
+                html.push("<li>");
+                html.push(item);
+                html.push("</li>");
+            }
+        );
+        
+        html.push("</ul>");
+        pregnancy_relatedness_html = html.join("");
+    }
+
+
     let el  = document.getElementById("filter-summary");
     
     el.innerHTML = `
     <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
-    <p><strong>Pregnancy-Relatedness:</strong> All</p>
+    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
     <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
     <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
     `;

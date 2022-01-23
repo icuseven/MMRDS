@@ -13,8 +13,8 @@ const g_filter = {
         2,
         99
     ],
-    date_of_review: { begin: new Date(), end: new Date() },
-    date_of_death: { begin: new Date(), end: new Date() }
+    date_of_review: { begin: new Date(1900,01,01), end: new Date() },
+    date_of_death: { begin: new Date(1900,01,01), end: new Date() }
 }
 
 

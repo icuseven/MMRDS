@@ -473,9 +473,249 @@ async function get_indicator_values(p_indicator_id)
 
     for(let i = 0; i < get_data_response.length; i++)
     {
-        g_data.data.push(get_data_response[i]);
-        g_data.total +=1;
+        const item = get_data_response[i];
+        if(Can_Pass_Filter(item))
+        {
+            g_data.data.push(item);
+            g_data.total +=1;
+        }
+        else
+        {
+            console.log("here");
+        }
     }
+    
+    //if(g_filter.pregnancy_relatedness.indexOf(99) < 0)
 
     return g_data;
+}
+
+function Can_Pass_Filter(p_value)
+{
+
+    let pregnancy_relatedness = true;
+    let date_of_review_begin = true;
+    let date_of_review_end = true;
+    let date_of_death_begin = true;
+    let date_of_death_end = true;
+    /*
+    {
+        "case_id": "0190e93e-a359-441e-b27d-43f83d946de4",
+        "host_state": "test",
+        "means_of_fatal_injury": 3,
+        "year_of_death": 2009,
+        "month_of_death": 9,
+        "day_of_death": 22,
+        "case_review_year": 2011,
+        "case_review_month": 9,
+        "case_review_day": 30,
+        "pregnancy_related": 2,
+        "indicator_id": "mPregRelated",
+        "field_id": "MPregRel3",
+        "value": 1,
+        "jurisdiction_id": "/"
+    }*/
+
+
+    date_of_review_begin = is_greater_than_date
+    (
+        p_value.case_review_year,
+        p_value.case_review_month,
+        p_value.case_review_day,
+        g_filter.date_of_review.begin
+    )
+
+    date_of_review_end = is_less_than_date
+    (
+        p_value.case_review_year,
+        p_value.case_review_month,
+        p_value.case_review_day,
+        g_filter.date_of_review.end
+    )
+
+    date_of_death_begin = is_greater_than_date
+    (
+        p_value.year_of_death,
+        p_value.month_of_death,
+        p_value.day_of_death,
+        g_filter.date_of_death.begin
+    )
+
+    date_of_death_end = is_less_than_date
+    (
+        p_value.year_of_death,
+        p_value.month_of_death,
+        p_value.day_of_death,
+        g_filter.date_of_death.end
+    )
+/*
+    g_filter.pregnancy_relatedness
+    g_filter.date_of_review.begin
+    g_filter.date_of_review.end
+    g_filter.date_of_death.begin
+    g_filter.date_of_death.end
+    */
+    if(g_filter.pregnancy_relatedness.length == 4)
+    {
+        pregnancy_relatedness = true;
+    }
+    else
+    {
+        pregnancy_relatedness = g_filter.pregnancy_relatedness.indexOf(p_value.pregnancy_relatedness) > -1;
+    }
+
+    return pregnancy_relatedness && 
+        date_of_review_begin && 
+        date_of_review_end && 
+        date_of_death_begin && 
+        date_of_death_end;
+
+}
+
+function is_greater_than_date
+(
+    p_year,
+    p_month,
+    p_day,
+    p_date
+)
+{
+    let is_year = true;
+    let is_month = true;
+    let is_day = true;
+
+    let year = 9999;
+    let month = 9999;
+    let day = 9999;
+
+    if
+    (
+        p_year != null 
+    )
+    {
+        year = p_year;
+    }
+
+    if
+    (
+        p_month != null
+    )
+    {
+        month = p_month;
+    }
+
+    if
+    (
+        p_day != null
+    )
+    {
+        day = p_day;
+    }
+
+    const filter_year = p_date.getFullYear();
+    const filter_month = p_date.getMonth() + 1;
+    const filter_day = p_date.getDate();
+
+    if(year == 9999) return true;
+
+    if(year != 9999)
+    {
+        if(year > filter_year)
+        {
+            return true;
+        }
+        is_year = year == filter_year;
+    }
+
+    if(is_year && month != 9999)
+    {
+        if(month > filter_month)
+        {
+            return true;
+        }
+        
+        is_month = month == filter_month;
+    }
+
+    if(is_year && is_month && day != 9999)
+    {
+        is_day = day >= filter_day;
+    }
+
+    return is_year && is_month && is_day;
+}
+
+function is_less_than_date
+(
+    p_year,
+    p_month,
+    p_day,
+    p_date
+)
+{
+    let is_year = true;
+    let is_month = true;
+    let is_day = true;
+
+    let year = 9999;
+    let month = 9999;
+    let day = 9999;
+
+    if
+    (
+        p_year != null 
+    )
+    {
+        year = p_year;
+    }
+
+    if
+    (
+        p_month != null
+    )
+    {
+        month = p_month;
+    }
+
+    if
+    (
+        p_day != null
+    )
+    {
+        day = p_day;
+    }
+
+    const filter_year = p_date.getFullYear();
+    const filter_month = p_date.getMonth() + 1;
+    const filter_day = p_date.getDate();
+
+
+    if(year == 9999) return true;
+
+    if(year != 9999)
+    {
+        if(year < filter_year)
+        {
+            return true;
+        }
+
+        is_year = year == filter_year;
+    }
+
+    if(is_year && month != 9999)
+    {
+        if(month < filter_month)
+        {
+            return true;
+        }
+
+        is_month = month < filter_month;
+    }
+
+    if(is_year && is_month && day != 9999)
+    {
+        is_day = day <= filter_day;
+    }
+
+    return is_year && is_month && is_day;
 }
