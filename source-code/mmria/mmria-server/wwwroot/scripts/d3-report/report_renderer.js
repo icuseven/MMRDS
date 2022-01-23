@@ -308,7 +308,8 @@ function close_filter()
     let el = document.getElementById("filter-dialog");
     el.close();
     
-    render_filter_summary();
+    //render_filter_summary();
+    render();
 }
 
 

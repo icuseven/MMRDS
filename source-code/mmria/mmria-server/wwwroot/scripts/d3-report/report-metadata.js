@@ -561,7 +561,7 @@ function Can_Pass_Filter(p_value)
     }
     else
     {
-        pregnancy_relatedness = g_filter.pregnancy_relatedness.indexOf(p_value.pregnancy_relatedness) > -1;
+        pregnancy_relatedness = g_filter.pregnancy_relatedness.indexOf(p_value.pregnancy_related) > -1;
     }
 
     return pregnancy_relatedness && 
