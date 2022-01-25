@@ -1073,22 +1073,26 @@ namespace mmria.server.utils
             System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
             mapping_row["file_name"] = kvp.Key;
 
-            if (int_to_path_map.ContainsKey(table_column.ColumnName))
+            var metadata_node_kvp = MetaDataNode_Dictionary.Where(x => x.Value.sass_export_name == table_column.ColumnName).FirstOrDefault();
+
+            if (! metadata_node_kvp.Equals(default(KeyValuePair<string, Metadata_Node>)))
             {
-              string deidentified = "no";
-              string path = int_to_path_map[table_column.ColumnName];
-              string selection = queue_item.de_identified_selection_type;
-              if (selection == "custom" || selection == "standard")
-              {
-                if (de_identified_set.Contains(path))
+                var metadata_node = metadata_node_kvp.Value;
+
+                string deidentified = "no";
+                string path = metadata_node.path;
+                string selection = queue_item.de_identified_selection_type;
+                if (selection == "custom" || selection == "standard")
                 {
-                  deidentified = "yes";
+                    if (de_identified_set.Contains(path))
+                    {
+                    deidentified = "yes";
+                    }
                 }
-              }
-              mapping_row["deidentified"] = deidentified;
-              mapping_row["mmria_path"] = path;
-              mapping_row["mmria_prompt"] = path_to_node_map[path].prompt;
-              mapping_row["field_description"] = path_to_node_map[path].description;
+                mapping_row["deidentified"] = deidentified;
+                mapping_row["mmria_path"] = path;
+                mapping_row["mmria_prompt"] = metadata_node.Node.prompt;
+                mapping_row["field_description"] = metadata_node.Node.description;
             }
             else
             {
@@ -1133,7 +1137,7 @@ namespace mmria.server.utils
             }
         }
 
-        System.Console.WriteLine("write-csv 1338");
+
         WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
         column = null;
 
@@ -1198,9 +1202,9 @@ namespace mmria.server.utils
                       row["file_name"] = path_to_file_name_map[kvp.Key];
                     }
 
-                    if (path_to_field_name_map.ContainsKey(kvp.Key))
+                    if (MetaDataNode_Dictionary.ContainsKey(kvp.Key))
                     {
-                      row["column_name"] = path_to_field_name_map[kvp.Key];
+                      row["column_name"] = MetaDataNode_Dictionary[kvp.Key].sass_export_name;
                     }
 
                     row["mmria_path"] = kvp.Key;
@@ -1225,9 +1229,9 @@ namespace mmria.server.utils
                     row["file_name"] = path_to_file_name_map[kvp.Key];
                   }
 
-                  if (path_to_field_name_map.ContainsKey(kvp.Key))
+                  if (MetaDataNode_Dictionary.ContainsKey(kvp.Key))
                   {
-                    row["column_name"] = path_to_field_name_map[kvp.Key];
+                    row["column_name"] = MetaDataNode_Dictionary[kvp.Key].sass_export_name;
                   }
                   row["mmria_path"] = kvp.Key;
                   row["mmria_prompt"] = node.prompt;
