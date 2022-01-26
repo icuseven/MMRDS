@@ -3,6 +3,9 @@ async function render12(p_post_html)
     const metadata = indicator_map.get(12);
     const data_list = await get_indicator_values(metadata.indicator_id);
 
+    const metadata2 = indicator_map.get(13);
+    const data_list2 = await get_indicator_values(metadata2.indicator_id);
+
 
     return `
     ${render_header()}
@@ -21,9 +24,9 @@ ${render_navigation_strip(12)}
     </li>
 
     <li style="display: inline-block;float:right;width:48%">
-        <div align=center>${await render122_chart(p_post_html, metadata, data_list)}</div>
+        <div align=center>${await render122_chart(p_post_html, metadata2, data_list2)}</div>
         <br/>
-        <div align=center>${await render122_table(metadata, data_list)}</div>
+        <div align=center>${await render122_table(metadata2, data_list2)}</div>
         </div>
 
     </li>
@@ -83,7 +86,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.x_axis_title}',
             },
             labels: true 
         },
@@ -106,7 +109,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${p_metadata.axis_v_title}',
+                    text: '${p_metadata.y_axis_title}',
                     position: 'outer-middle' 
                 }
             }
@@ -188,7 +191,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.x_axis_title}',
             },
             labels: true 
         },
@@ -211,7 +214,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${p_metadata.axis_v_title}',
+                    text: '${p_metadata.y_axis_title}',
                     position: 'outer-middle' 
                 }
             }
@@ -327,5 +330,21 @@ async function render122_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    return `<table class="table rounded-0 mb-0" style="width:50%">
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4">
+        <th>${p_metadata.table_title}</th>
+        <th align=right style="width:25%">Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table>
+    <br/>
+    `
 }

@@ -3,99 +3,111 @@ function render0()
     return `
     ${render_header()}
 
-<table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
-
 
 <h3><strong>Overview</strong></h3>
 <p>The Interactive Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
 
 <p>Select a page in the table below</p>
 
+<table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
+
 <thead class="thead-dark">
-<tr bgcolor=silver><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
+<tr bgcolor=silver><th>&nbsp;</th><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
 </thead>
 
 <tbody>
 
 <tr onclick="window.location='#1'" style="cursor: pointer;">
-<td><strong>1. Primary Underlying Cause of Death</strong></td>
+<td><strong>1</strong></td>
+<td><strong>Primary Underlying Cause of Death</strong></td>
 <td>Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.</td>
 </tr>
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#2'" style="cursor: pointer;">
-<td><strong>2. Pregnancy Relatedness</strong></td>
+<td><strong>2</strong></td>
+<td><strong>Pregnancy Relatedness</strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 
 
 
 <!--tr onclick="window.location='#3'" style="cursor: pointer;">
-<td><strong>3. Preventability</strong></td>
+<td><strong>3</strong></td>
+<td><strong>Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
 </tr-->
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#4'" style="cursor: pointer;">
-<td><strong>4. Timing of Death</strong></td>
+<td><strong>4</strong></td>
+<td><strong>Timing of Death</strong></td>
 <td>The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy</td>
 </tr>
 
 
 
 <!--tr onclick="window.location='#5'" style="cursor: pointer;">
-<td><strong>5. OMB race recode</strong></td>
+<td><strong>5</strong></td>
+<td><strong>OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
 </tr>
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
-<td><strong>6. Race</strong></td>
+<td><strong>6</strong></td>
+<td><strong>Race</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.</td>
 </tr>
 
 
 
 <tr onclick="window.location='#7'" style="cursor: pointer;">
-<td><strong>7. Race/Ethnicity</strong></td>
+<td><strong>7</strong></td>
+<td><strong>Race/Ethnicity</strong></td>
 <td>To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.</td>
 </tr>
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#8'" style="cursor: pointer;">
-<td><strong>8. Age</strong></td>
+<td><strong>8</strong></td>
+<td><strong>Age</strong></td>
 <td>Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.</td>
 </tr>
 
 
 
 <tr onclick="window.location='#9'" style="cursor: pointer;">
-<td><strong>9. Education</strong></td>
+<td><strong>9</strong></td>
+<td><strong>Education</strong></td>
 <td>Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.</td>
 </tr>
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#10'" style="cursor: pointer;">
-<td><strong>10. Committee Determinations</strong></td>
+<td><strong>10</strong></td>
+<td><strong>Committee Determinations</strong></td>
 <td>This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.</td>
 </tr>
 
 
 
 <tr onclick="window.location='#11'" style="cursor: pointer;">
-<td><strong>11. Emotional Stress</strong></td>
+<td><strong>11</strong></td>
+<td><strong>Emotional Stress</strong></td>
 <td>History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.</td>
 </tr-->
 
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#12'" style="cursor: pointer;">
-<td><strong>12. Living Arrangements</strong></td>
+<td><strong>12</strong></td>
+<td><strong>Living Arrangements</strong></td>
 <td>Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.</td>
 </tr>
 </tbody>

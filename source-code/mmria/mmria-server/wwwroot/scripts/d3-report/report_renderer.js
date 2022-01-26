@@ -136,17 +136,17 @@ function render_header()
     }
 
     return `
-    <div id="filter-summary"
-style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+<div 
+    id="filter-summary"
+    style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
 >
-<p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
-<p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
-<p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
-<p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
+    <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
+    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
+    <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
+    <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
 </div>
-<!--button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button-->
-<dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 
+<dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 <br/><br/>
     `;
