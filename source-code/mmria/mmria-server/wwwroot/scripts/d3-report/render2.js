@@ -58,6 +58,9 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -78,15 +81,15 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             rotated: false, 
             
             x: {
-                /*label: {
+                label: {
                 text: '${p_metadata.title}',
-                //position: 'outer-middle'  
-                },*/
+                position: 'outer-center'  
+                },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
-                categories: [${categories}],
+                categories: [${categories}],/**/
             },
             y: {
                 label: {

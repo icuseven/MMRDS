@@ -4,7 +4,7 @@ indicator_map.set
     1,
     {
         indicator_id : "mUndCofDeath",
-        title:"Primary Underlying cause of death",
+        title:"Primary Underlying Cause of Death",
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
         
         chart_title:"Underlying Causes of Death",
@@ -13,7 +13,7 @@ indicator_map.set
         y_axis_title:"Underlying cause of Death",
         enabled: true,
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-        //blank_field_id: "MUndCofDeath21",
+   
         blank_field_id: "",
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
@@ -332,9 +332,9 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
-        chart_title:"Mother&apos;s living arranements at time of death.",
-        table_title:"Mother&apos;s living arranements at time of death.",
-        x_axis_title:"Mother&apos;s living arranements at time of death.",
+        chart_title:"Mother&apos;s living arrangements at time of death",
+        table_title:"Mother&apos;s living arrangements at time of death",
+        x_axis_title:"Mother&apos;s living arrangements at time of death",
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
