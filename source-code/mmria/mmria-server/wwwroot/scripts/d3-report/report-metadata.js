@@ -41,6 +41,7 @@ indicator_map.set
         enabled: true,       
     }
 );
+
 indicator_map.set
 (
     2,
@@ -63,6 +64,7 @@ indicator_map.set
             ],
     }
 );
+
 indicator_map.set
 (
     3,
@@ -83,6 +85,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     4,
@@ -105,6 +108,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     5,
@@ -132,10 +136,6 @@ indicator_map.set
         ],
     }
 );
-
-
-
-
 
 indicator_map.set
 (
@@ -172,8 +172,6 @@ indicator_map.set
 
     }
 );
-
-
 
 indicator_map.set
 (
@@ -212,8 +210,6 @@ indicator_map.set
     }
 );
 
-
-
 indicator_map.set
 (
     8,
@@ -241,7 +237,6 @@ indicator_map.set
     }
 );
 
-
 indicator_map.set
 (
     9,
@@ -264,6 +259,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     10,
@@ -297,6 +293,7 @@ indicator_map.set
     title:"Committee Determinations"
     }
 );
+
 indicator_map.set
 (
     11,
@@ -329,6 +326,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set(
     12,
     {
@@ -352,6 +350,7 @@ indicator_map.set(
         ],
     }
 );
+
 indicator_map.set
 (
     13,
@@ -379,6 +378,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     14,
@@ -406,6 +406,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     16,
@@ -427,6 +428,7 @@ indicator_map.set
         ],
     }
 );
+
 indicator_map.set
 (
     17,
@@ -448,19 +450,6 @@ indicator_map.set
         ],
     }
 );
-indicator_map.set("mSubstAutop",{
-    title:""
-});
-indicator_map.set("mTimingofDeath",{
-    title:"Timing of Death"
-});
-indicator_map.set("mUndCofDeath",{
-    title:"Primary Underlying Cause of Death"
-});
-indicator_map.set("mDeathbyRace",{
-    title:"Race"
-});
-
 
 async function get_indicator_values(p_indicator_id)
 {
@@ -487,8 +476,6 @@ async function get_indicator_values(p_indicator_id)
         }
     }
     
-    //if(g_filter.pregnancy_relatedness.indexOf(99) < 0)
-
     return g_data;
 }
 
