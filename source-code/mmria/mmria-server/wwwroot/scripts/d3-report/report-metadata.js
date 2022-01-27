@@ -90,7 +90,7 @@ indicator_map.set
 (
     4,
     {
-        indicator_id : "mMHTxTiming",
+        indicator_id : "mTimingofDeath",
         title:"Timing of Death",
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
         table_title:"Number of deaths by timing of death in relation to pregnancy",
@@ -98,13 +98,13 @@ indicator_map.set
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
-        blank_field_id: "MMHTx4",
+        blank_field_id: "MTimeD4",
 
         field_id_list : [
-        { name: "MMHTx1", title: "During pregnancy" },
-        { name: "MMHTx2", title: "Within 42 days of pregnancy" },
-        { name: "MMHTx3", title: "Within 43 days to 1 year of pregnancy" },
-        { name: "MMHTx4", title: "(Blank)" },
+        { name: "MTimeD1", title: "During pregnancy" },
+        { name: "MTimeD2", title: "Within 42 days of pregnancy" },
+        { name: "MTimeD3", title: "Within 43 days to 1 year of pregnancy" },
+        { name: "MTimeD4", title: "(Blank)" },
         ],
     }
 );

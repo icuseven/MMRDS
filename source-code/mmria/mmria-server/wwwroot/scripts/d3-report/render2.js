@@ -78,10 +78,10 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             rotated: false, 
             
             x: {
-                label: {
+                /*label: {
                 text: '${p_metadata.title}',
-                position: 'outer-middle'  
-                },
+                //position: 'outer-middle'  
+                },*/
                 tick: {
                     multiline: false,
                 },
