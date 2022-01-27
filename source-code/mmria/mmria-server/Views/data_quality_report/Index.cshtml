@@ -1,0 +1,35 @@
+@model List<mmria.server.utils.Quarters>
+@{
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
+	var quarters = mmria.server.utils.Quarters.GetQuarters();
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+<script src="../scripts/data-quality-report/index.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h2 class="h2 mb-4" tabindex="-1">MMRIA Data Quality Report 2</h2>
+
+<p>Select Quarter to Display</p>
+<p>
+	<select id="quarters_select" >
+	@foreach ( var q in quarters)
+	{
+		<option key=@q value=@q>@q</option>
+	}
+	</select>
+</p> 
+<p>
+	<a onclick="AlertName('Raphael')" href="#">Click me</a>
+</p>
+ 
+</body>
+</html>
+
+
