@@ -77,6 +77,9 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart1 = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -97,10 +100,10 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             rotated: false, 
             
             x: {
-                // label: {
-                // text: '${p_metadata.title}',
-                // position: 'outer-middle'  
-                // },
+                 label: {
+                 text: '${p_metadata.title}',
+                 position: 'outer-center'  
+                 },
                 tick: {
                     multiline: false,
                 },
@@ -182,6 +185,9 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart2 = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -199,13 +205,13 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             //  left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
-                // label: {
-                // text: '${p_metadata.title}',
-                // position: 'outer-middle'  
-                // },
+                 label: {
+                 text: '${p_metadata.title}',
+                 position: 'outer-center'  
+                 },
                 tick: {
                     multiline: false,
                 },
@@ -215,7 +221,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             y: {
                 label: {
                     text: '${p_metadata.y_axis_title}',
-                    position: 'outer-middle' 
+                    position: 'outer-center' 
                 }
             }
         },

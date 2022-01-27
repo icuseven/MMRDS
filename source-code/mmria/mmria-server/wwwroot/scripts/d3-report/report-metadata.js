@@ -4,7 +4,7 @@ indicator_map.set
     1,
     {
         indicator_id : "mUndCofDeath",
-        title:"Primary Underlying cause of death",
+        title:"Primary Underlying Cause of Death",
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
         
         chart_title:"Underlying Causes of Death",
@@ -13,7 +13,7 @@ indicator_map.set
         y_axis_title:"Underlying cause of Death",
         enabled: true,
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-        //blank_field_id: "MUndCofDeath21",
+   
         blank_field_id: "",
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
@@ -90,7 +90,7 @@ indicator_map.set
 (
     4,
     {
-        indicator_id : "mMHTxTiming",
+        indicator_id : "mTimingofDeath",
         title:"Timing of Death",
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
         table_title:"Number of deaths by timing of death in relation to pregnancy",
@@ -98,13 +98,13 @@ indicator_map.set
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
-        blank_field_id: "MMHTx4",
+        blank_field_id: "MTimeD4",
 
         field_id_list : [
-        { name: "MMHTx1", title: "During pregnancy" },
-        { name: "MMHTx2", title: "Within 42 days of pregnancy" },
-        { name: "MMHTx3", title: "Within 43 days to 1 year of pregnancy" },
-        { name: "MMHTx4", title: "(Blank)" },
+        { name: "MTimeD1", title: "During pregnancy" },
+        { name: "MTimeD2", title: "Within 42 days of pregnancy" },
+        { name: "MTimeD3", title: "Within 43 days to 1 year of pregnancy" },
+        { name: "MTimeD4", title: "(Blank)" },
         ],
     }
 );
@@ -332,9 +332,9 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
-        chart_title:"Mother&apos;s living arranements at time of death.",
-        table_title:"Mother&apos;s living arranements at time of death.",
-        x_axis_title:"Mother&apos;s living arranements at time of death.",
+        chart_title:"Mother&apos;s living arrangements at time of death",
+        table_title:"Mother&apos;s living arrangements at time of death",
+        x_axis_title:"Mother&apos;s living arrangements at time of death",
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",

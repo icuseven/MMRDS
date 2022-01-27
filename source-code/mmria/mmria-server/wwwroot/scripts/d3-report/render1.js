@@ -58,6 +58,9 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
     p_post_html.push
     (
         `var chart = c3.generate({
+            legend: {
+                show: false
+            },
             data: {
                 columns: [
                     ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -89,10 +92,10 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                     categories: [${categories}],
                 },
                 y: {
-                    /*label: {
+                    label: {
                         text: '${p_metadata.y_axis_title}',
-                        position: 'outer-middle' 
-                    }*/
+                        position: 'outer-center' 
+                    }
                 }
             },
             //size: {
