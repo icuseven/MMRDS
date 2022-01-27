@@ -161,7 +161,7 @@ namespace mmria.server.Controllers
             }
 
             byte[] fileBytes = GetFile(Output_xlsx);
-            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");;
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlJurisdictionCounts.xlsx");;
         }
         byte[] GetFile(string s)
 		{
