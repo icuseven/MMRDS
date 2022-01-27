@@ -120,14 +120,18 @@ function render_header()
     {
         const html = [];
         html.push("<ul>");
-        g_filter.pregnancy_relatedness.forEach
+
+        relatedness_map.forEach
         (
-            (value) =>
+            (value, key) =>
             {
-                const item = relatedness_map.get(value);
-                html.push("<li>");
-                html.push(item);
-                html.push("</li>");
+
+                if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
+                {
+                    html.push("<li>");
+                    html.push(value);
+                    html.push("</li>");
+                }
             }
         );
         
@@ -243,19 +247,19 @@ function show_filter_dialog()
             </li>
             <li>
                 
-                <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">Pregnancy related</label>
+                <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">${relatedness_map.get(1)}</label>
             </li>
             <li>
                 
-                <input type="checkbox"  id="Pregnancy-Relatedness-0" onchange="pregnancy_relatedness_0_change(this)" ${is_checked_0_html} /> <label for="Pregnancy-Relatedness-0">Pregnancy-Associated, but NOT-Related</label>
+                <input type="checkbox"  id="Pregnancy-Relatedness-0" onchange="pregnancy_relatedness_0_change(this)" ${is_checked_0_html} /> <label for="Pregnancy-Relatedness-0">${relatedness_map.get(0)}</label>
             </li>
             <li>
                 
-                <input type="checkbox" id="Pregnancy-Relatedness-2" onchange="pregnancy_relatedness_2_change(this)" ${is_checked_2_html} /> <label for="Pregnancy-Relatedness-2">Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness</label>
+                <input type="checkbox" id="Pregnancy-Relatedness-2" onchange="pregnancy_relatedness_2_change(this)" ${is_checked_2_html} /> <label for="Pregnancy-Relatedness-2">${relatedness_map.get(2)}</label>
             </li>
             <li>
                 
-                <input type="checkbox" id="Pregnancy-Relatedness-99" onchange="pregnancy_relatedness_99_change(this)" ${is_checked_99_html} /> <label for="Pregnancy-Relatedness-99">Not Pregnancy-Related or -Associated (i.e. Fals Positive</label>
+                <input type="checkbox" id="Pregnancy-Relatedness-99" onchange="pregnancy_relatedness_99_change(this)" ${is_checked_99_html} /> <label for="Pregnancy-Relatedness-99">${relatedness_map.get(99)}</label>
             </li>
         </ul>    
         </p>

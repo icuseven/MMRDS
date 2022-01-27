@@ -239,6 +239,35 @@ function  pregnancy_relatedness_all_change(p_control)
             elem.checked = true;
         }
     }
+    else
+    {
+        if(g_filter.pregnancy_relatedness.indexOf(1) < 0)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(1), 1);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(0) < 0)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(0), 1);
+        }
+
+        if(g_filter.pregnancy_relatedness.indexOf(2) < 0)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(2), 1);
+        }
+
+
+        if(g_filter.pregnancy_relatedness.indexOf(99) < 0)
+        {
+            g_filter.pregnancy_relatedness.splice(g_filter.pregnancy_relatedness.indexOf(99), 1);
+        }
+
+        for(let i = 0; i < element_id_list.length; i++)
+        {
+            const elem = document.getElementById(element_id_list[i]);
+            elem.checked = false;
+        }
+    }
 
 }
 
