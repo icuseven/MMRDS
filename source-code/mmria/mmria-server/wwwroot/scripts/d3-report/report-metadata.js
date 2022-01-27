@@ -103,7 +103,7 @@ indicator_map.set
         field_id_list : [
         { name: "MTimeD1", title: "During pregnancy" },
         { name: "MTimeD2", title: "Within 42 days of pregnancy" },
-        { name: "MTimeD3", title: "Within 43 days to 1 year of pregnancy" },
+        { name: "MTimeD3", title: "Within 43 to 365 days of pregnancy" },
         { name: "MTimeD4", title: "(Blank)" },
         ],
     }
