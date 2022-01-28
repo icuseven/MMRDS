@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -552,7 +552,20 @@ namespace mmria.server.utils
 					string clearText = "";
                     if(path == "case_narrative/case_opening_overview")
                     {
-                        clearText = mmria.common.util.CaseNarrative.StripHTML(val);
+                      clearText = mmria.common.util.CaseNarrative.StripHTML(val);
+					  if (clearText.Length > 0) 
+                      {
+						  
+						  WriteQualitativeData
+						  (
+							mmria_case_id,
+							path,
+							clearText,
+							-1,
+							-1,
+							true
+						  );
+					  }
                     }
 
                     if
@@ -573,19 +586,6 @@ namespace mmria.server.utils
                         -1
                       );
 
-					  if (clearText.Length > 0) 
-                      {
-						  
-						  WriteQualitativeData
-						  (
-							mmria_case_id,
-							path,
-							clearText,
-							-1,
-							-1,
-							true
-						  );
-					  }
                       val = over_limit_message;
                     }
 
@@ -1170,7 +1170,7 @@ namespace mmria.server.utils
                           val = over_limit_message;
                         }
 
-						if (file_field_name == "ii_i_narra")
+						if (path == "informant_interviews/interview_narrative")
 						{
 							// Informant Interview Narrative - Clean up, if necessary
 							string clearText = mmria.common.util.TextAreaField.CleanUp(val);
