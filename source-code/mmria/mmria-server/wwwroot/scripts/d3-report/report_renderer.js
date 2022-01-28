@@ -140,6 +140,7 @@ function render_header()
     }
 
     return `
+    <p><strong>Reporting State: </strong> ${g_filter.reporting_state}</p>
 <div 
     id="filter-summary"
     style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
@@ -237,7 +238,6 @@ function show_filter_dialog()
         <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
     <div style="margin:15px;width:600px;">
-        <p><strong>Reporting State: </strong> ${g_filter.reporting_state}</p>
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
