@@ -241,10 +241,10 @@ function show_filter_dialog()
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
-            <li>
+            <!--li>
                 
                 <input type="checkbox" id="Pregnancy-Relatedness-All" onchange="pregnancy_relatedness_all_change(this)" ${all_is_checked_html}/> <label for="Pregnancy-Relatedness-All">All</label>
-            </li>
+            </li-->
             <li>
                 
                 <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">${relatedness_map.get(1)}</label>
