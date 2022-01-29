@@ -1,9 +1,8 @@
-@model List<mmria.server.utils.JurisdictionSummaryItem>
+@model List<mmria.server.utils.SessionSummaryItem>
 @{
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
-    var total = new mmria.server.utils.JurisdictionSummaryItem();
-    var _index = 0;
+    var total = new mmria.server.utils.SessionSummaryItem();
 }
 <!DOCTYPE html>
 <html>
@@ -24,20 +23,17 @@
 </tr>
 <tr>
     <th>#</th>
-    <th>Jurisdiction Abbreviation</th>
-    <th>Report Date</th>
-    <th># of Records</th>
-    <th># of Unique MMRIA Users</th>
-    <th>Jurisdiction Admin</th>
-    <th>Abstractor</th>
-    <th>Analyst</th>
-    <th>Committee Member</th>
+    @foreach (var item in Model)
+    {
+        <th>@item.host_name</th>
+    }
+    <th>total</th>
 </tr>
 
-@foreach (var item in Model)
+@for(var _index = 0; _index < 30 && _index < Model[0].rpt_date.Count; _index++)
 {
-    _index+=1;
-    
+    var line_total = 0; 
+    /*
     if(total.num_recs > -1)
     total.num_recs += item.num_recs;
 
@@ -55,20 +51,19 @@
     
     if(total.num_user_cm > -1)
     total.num_user_cm += item.num_user_cm;
+    */
+    <tr>
+        <td>@_index</td>
 
-<tr>
-    <td>@_index</td>
-    <td>@item.host_name</td>
-    <td>@item.rpt_date</td>
-    <td>@item.num_recs</td>
-    <td>@item.num_users_unq</td>
-    <td>@item.num_users_ja</td>
-    <td>@item.num_users_abs</td>
-    <td>@item.num_user_anl</td>
-    <td>@item.num_user_cm</td>
-</tr>
-}
-<tr>
+        @foreach (var item in Model)
+        {   
+            line_total += item.rpt_date[_index];
+            <td>@item.rpt_date[_index]</td>
+        }
+        <td>@line_total</td>
+    </tr>
+    }
+@*<tr>
     <td>&nbsp;</td>
     <td><b>Total</b></td>
     <td></td>
@@ -78,7 +73,7 @@
     <td>@total.num_users_abs</td>
     <td>@total.num_user_anl</td>
     <td>@total.num_user_cm</td>
-</tr>
+</tr>*@
 
 
 </table>
