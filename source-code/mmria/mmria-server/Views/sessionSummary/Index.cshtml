@@ -8,7 +8,7 @@
 
     int minus_download_columns = 0;
 
-    Dictionary<string,int> totals = new ();
+    Dictionary<string,float> totals = new ();
 
     foreach (var item in Model)
     {
@@ -19,7 +19,7 @@
 
     minus_download_columns = column_count + 2;
 
-    int bottom_line_total = 0;
+    float bottom_line_total = 0;
 
 }
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
 {
     var line_total = 0; 
     <tr>
-        <td>@_index</td>
+        <td align=right>@(_index == 0 ? "00" : $"{-_index : 0#}")</td>
 
         @foreach (var item in Model)
         {   
@@ -83,8 +83,24 @@
     }
     <td align=right>@bottom_line_total</td>
 </tr>
+<tr>
+    <td><b>%</b></td>
 
+    @foreach (var item in Model)
+    {   
+        <td align=right>@($"{totals[item.host_name] / bottom_line_total * 100 : ##.00}")</td>
+    }
+    <td align=right>@(bottom_line_total / bottom_line_total * 100)</td>
+</tr>
+<tr>
+    <td><b>Avg</b></td>
 
+    @foreach (var item in Model)
+    {   
+        <td align=right>@($"{totals[item.host_name] / 30F : ##.00}")</td>
+    }
+    <td align=right>@($"{bottom_line_total /30F : ##.00}")</td>
+</tr>
 </table>
 
 </body>
