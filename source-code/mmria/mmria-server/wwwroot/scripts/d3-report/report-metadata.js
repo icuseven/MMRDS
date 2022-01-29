@@ -472,7 +472,7 @@ async function get_indicator_values(p_indicator_id)
         }
         else
         {
-            console.log("here");
+            //console.log("here");
         }
     }
     
