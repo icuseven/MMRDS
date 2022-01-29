@@ -78,23 +78,22 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
               //left: 375
         },
         axis: {
-            rotated: false, 
-            
+            rotated: true, 
             x: {
                 label: {
-                text: '${p_metadata.title}',
-                position: 'outer-center'  
+                    text: '${p_metadata.title}',
+                    position: 'outer-middle'  
                 },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
-                categories: [${categories}],/**/
+                categories: [${categories}]
             },
             y: {
                 label: {
                     text: '${p_metadata.y_axis_title}',
-                    position: 'outer-middle' 
+                    position: 'outer-center' 
                 }
             }
         },
