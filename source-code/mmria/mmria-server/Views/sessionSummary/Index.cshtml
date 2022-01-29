@@ -3,6 +3,24 @@
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
     var total = new mmria.server.utils.SessionSummaryItem();
+
+    int column_count = 0;
+
+    int minus_download_columns = 0;
+
+    Dictionary<string,int> totals = new ();
+
+    foreach (var item in Model)
+    {
+        totals.Add(item.host_name, 0);
+        column_count++;
+    }
+
+
+    minus_download_columns = column_count + 2;
+
+    int bottom_line_total = 0;
+
 }
 <!DOCTYPE html>
 <html>
@@ -14,13 +32,13 @@
 <body>
 
 
-<h1>MMRIA Jurisdiction Summary Report</h1>
+<h1>MMRIA Session Activity Report For Last 30 days</h1>
 
 <table border=1>
-<tr>
-    <td colspan=5><b>Download </b><a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
-    <td colspan="4" align=center><b>MMRIA User Role Assignment</b></td>
-</tr>
+@*<tr>
+    <td colspan=@minus_download_columns><b>Download </b><a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
+</tr>*@
+<thead>
 <tr>
     <th>#</th>
     @foreach (var item in Model)
@@ -29,56 +47,45 @@
     }
     <th>total</th>
 </tr>
+</thead>
 
 @for(var _index = 0; _index < 30 && _index < Model[0].rpt_date.Count; _index++)
 {
     var line_total = 0; 
-    /*
-    if(total.num_recs > -1)
-    total.num_recs += item.num_recs;
-
-    if(total.num_users_unq > -1)
-    total.num_users_unq += item.num_users_unq;
-    
-    if(total.num_users_ja > -1)
-    total.num_users_ja += item.num_users_ja;
-    
-    if(total.num_users_abs > -1)
-    total.num_users_abs += item.num_users_abs;
-    
-    if(total.num_user_anl > -1)
-    total.num_user_anl += item.num_user_anl;
-    
-    if(total.num_user_cm > -1)
-    total.num_user_cm += item.num_user_cm;
-    */
     <tr>
         <td>@_index</td>
 
         @foreach (var item in Model)
         {   
             line_total += item.rpt_date[_index];
-            <td>@item.rpt_date[_index]</td>
+            totals[item.host_name]+= item.rpt_date[_index];
+            <td align=right>@item.rpt_date[_index]</td>
         }
-        <td>@line_total</td>
+        <td align=right>@line_total</td>
     </tr>
+}
+
+<tr>
+    <th>&nbsp;</th>
+    @foreach (var item in Model)
+    {
+        <th>@item.host_name</th>
     }
-@*<tr>
-    <td>&nbsp;</td>
+    <th>&nbsp;</th>
+</tr>
+<tr>
     <td><b>Total</b></td>
-    <td></td>
-    <td>@total.num_recs</td>
-    <td>@total.num_users_unq</td>
-    <td>@total.num_users_ja</td>
-    <td>@total.num_users_abs</td>
-    <td>@total.num_user_anl</td>
-    <td>@total.num_user_cm</td>
-</tr>*@
+
+    @foreach (var item in Model)
+    {   
+        bottom_line_total += totals[item.host_name];
+        <td align=right>@totals[item.host_name]</td>
+    }
+    <td align=right>@bottom_line_total</td>
+</tr>
 
 
 </table>
 
-<p><b style="color:#FF0000;">NOTE:</b> <b>-1</b> values indicate a failure to get data and -1 values are <b>NOT included</b> in the totals.</p>
- 
 </body>
 </html>

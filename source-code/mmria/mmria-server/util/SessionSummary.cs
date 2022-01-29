@@ -48,13 +48,24 @@ namespace mmria.server.utils
 
 /*
 {
-  "_id": "fb1f966d-6698-48d5-8b5f-c60a32c356db",
-  "_rev": "1-06dc81301472612eae9e95912c7e1053",
-  "data_type": "session-event",
-  "date_created": "2021-02-24T08:24:55.6396941-05:00",
+{
+  "_id": "0002c370-c442-4d2c-b1a3-9cf13bcded67",
+  "_rev": "2-c6e6e07da856a43e305cb362dfb7e174",
+  "data_type": "session",
+  "date_created": "2022-01-24T23:32:31.2479542+00:00",
+  "date_last_updated": "2022-01-24T23:32:31.2479542+00:00",
+  "date_expired": "2022-01-24T23:32:34.6457199+00:00",
+  "is_active": true,
   "user_id": "user1",
-  "ip": "::1",
-  "action_result": 1
+  "ip": "10.10.10.115",
+  "session_event_id": "fb4c4e9a-abfb-4056-828c-3f3d187acd13",
+  "role_list": [
+    "cdc_admin",
+    "abstractor",
+    "committee_member"
+  ],
+  "data": {}
+}
 }
 */
         public class SessionItem
@@ -63,9 +74,20 @@ namespace mmria.server.utils
             public string _rev {get;set;}
             public string data_type {get;set;}
             public DateTime date_created {get;set;}
+
+            public DateTime date_last_updated {get;set;}
+
+            public DateTime date_expired {get;set;}
             public string user_id {get;set;}
             public string ip {get;set;}
             public int? action_result {get;set;}
+
+            public string session_event_id {get;set;}
+
+            string[] role_list {get;set;}
+
+            Dictionary<string,object> data  {get;set;}
+
         }
 
         IConfiguration configuration;
@@ -131,7 +153,7 @@ namespace mmria.server.utils
 		{ 
 			try
 			{
-				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}session/_all_docs?include_docs=true";
+				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}session/_design/session_sortable/_view/by_date_created?descending=true";
 
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -140,13 +162,31 @@ namespace mmria.server.utils
 
                 cancellationToken.ThrowIfCancellationRequested();
 
-				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.view_response<SessionItem>>>(responseFromServer);
+				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.view_response<SessionItem>>(responseFromServer);
 	
                 var current_day = System.DateTime.Now.Day;
+
+                var cut_off_date = System.DateTime.Now.AddDays(-30);
+
+                for(var i = 0; i < 30; i++)
+                {
+                    p_result.rpt_date.Add(0);
+                }
                 
                 foreach(var row in case_view_response.rows)
                 {
+                    if(row.value.date_created >= cut_off_date)
+                    {
+                        var row_day = row.value.date_created.Day;
+                        var row_index = current_day - row_day;
 
+                        p_result.rpt_date[row_index]++;
+
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
 
             }
