@@ -9,6 +9,16 @@
     int minus_download_columns = 0;
 
     Dictionary<string,float> totals = new ();
+    Dictionary<int,string> DayOfWeek = new ();
+
+    var Current = DateTime.Now;
+
+    DayOfWeek.Add(0, Convert(Current.DayOfWeek));
+    for(var i = 1; i < 30; i++)
+    {
+        Current = Current.AddDays(-1);
+        DayOfWeek.Add(i, Convert(Current.DayOfWeek));
+    }
 
     foreach (var item in Model)
     {
@@ -20,6 +30,23 @@
     minus_download_columns = column_count + 2;
 
     float bottom_line_total = 0;
+
+    string Convert(System.DayOfWeek p_value)
+    {
+        var result = p_value switch
+        {
+            System.DayOfWeek.Sunday => "sun",
+            System.DayOfWeek.Monday => "mon",
+            System.DayOfWeek.Tuesday => "tue",
+            
+            System.DayOfWeek.Wednesday => "wed",
+            System.DayOfWeek.Thursday => "thu",
+            System.DayOfWeek.Friday => "fri",
+            System.DayOfWeek.Saturday => "sat",
+        };
+
+        return result;
+    }
 
 }
 <!DOCTYPE html>
@@ -41,6 +68,7 @@
 <thead>
 <tr>
     <th>#</th>
+    <th>&nbsp;</th>
     @foreach (var item in Model)
     {
         <th>@item.host_name</th>
@@ -54,7 +82,7 @@
     var line_total = 0; 
     <tr>
         <td align=right>@(_index == 0 ? "00" : $"{-_index : 0#}")</td>
-
+        <td align=right>@DayOfWeek[_index]</td>
         @foreach (var item in Model)
         {   
             line_total += item.rpt_date[_index];
@@ -67,6 +95,7 @@
 
 <tr>
     <th>&nbsp;</th>
+    <th>&nbsp;</th>
     @foreach (var item in Model)
     {
         <th>@item.host_name</th>
@@ -75,7 +104,7 @@
 </tr>
 <tr>
     <td><b>Total</b></td>
-
+    <td>&nbsp;</td>
     @foreach (var item in Model)
     {   
         bottom_line_total += totals[item.host_name];
@@ -85,7 +114,7 @@
 </tr>
 <tr>
     <td><b>%</b></td>
-
+    <td>&nbsp;</td>
     @foreach (var item in Model)
     {   
         <td align=right>@($"{totals[item.host_name] / bottom_line_total * 100 : ##.00}")</td>
@@ -93,8 +122,8 @@
     <td align=right>@(bottom_line_total / bottom_line_total * 100)</td>
 </tr>
 <tr>
-    <td><b>Avg</b></td>
-
+    <td><b>Avg<br/>per<br/>day</b></td>
+    <td>&nbsp;</td>
     @foreach (var item in Model)
     {   
         <td align=right>@($"{totals[item.host_name] / 30F : ##.00}")</td>
