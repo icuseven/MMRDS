@@ -359,7 +359,7 @@ indicator_map.set
         title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
         chart_title:"Number of deaths by mother&apos;s experiences of homelessless in relation to pregnancy",
         table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
-        x_axis_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        x_axis_title:"Homelessless in relation to pregnancy",
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"description not specified",

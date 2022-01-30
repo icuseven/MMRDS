@@ -78,7 +78,7 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
             
             x: {
                 label: {
-                text: '${p_metadata.title}',
+                text: '${p_metadata.x_axis_title}',
                 position: 'outer-center'  
                 },
                 tick: {

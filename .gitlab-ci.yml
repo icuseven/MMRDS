@@ -17,7 +17,7 @@
 #https://git.cdc.gov/help/ci/quick_start/README
 
 
-image: ubuntu:18.04
+#image: ubuntu:18.04
 
 
 #stages:
