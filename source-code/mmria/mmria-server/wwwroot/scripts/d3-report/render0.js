@@ -121,9 +121,9 @@ function render_table(p_metadata, p_data, p_totals, p_total)
 {
     return `<table class="table rounded-0 mb-0" style="width:50%">
     <thead class="thead">
-    <tr style="background-color:#e3d3e4">
+    <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
-        <th align=right style="width:25%">Number of deaths</th>
+        <th style="width:25%" align=right>Number of deaths</th>
     </tr>
     </thead>
     <tbody>
@@ -133,7 +133,7 @@ function render_table(p_metadata, p_data, p_totals, p_total)
         <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
         <td align=right><strong>${p_total}</strong></td></tr>
     </tfoot>
-    </table>
+    </table><br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
     `
 }

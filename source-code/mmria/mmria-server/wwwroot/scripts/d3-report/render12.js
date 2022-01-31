@@ -104,8 +104,10 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
                  text: '${p_metadata.x_axis_title}',
                  position: 'outer-middle'  
                  },
-                tick: {
+                 tick: {
                     multiline: false,
+                    culling: true,
+                    outer: false
                 },
                 type: 'category',
                 categories: [${categories}],
@@ -114,7 +116,12 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
                 label: {
                     text: '${p_metadata.y_axis_title}',
                     position: 'outer-center' 
-                }
+                },
+                tick: {
+                    multiline: false,
+                    culling: true,
+                    outer: false
+                },
             }
         },
         //size: {
@@ -294,7 +301,27 @@ async function render121_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    //return render_table(p_metadata, data, totals, total);
+
+    return `<table class="table rounded-0 mb-0"  style="width:80%">
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4">
+        <th valign=top>${p_metadata.table_title}</th>
+        <th align=right style="width:25%;align:right;">Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table>
+    <br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
+    <br/>
+    `
 }
 
 async function render122_table(p_metadata, p_data_list)
@@ -336,7 +363,7 @@ async function render122_table(p_metadata, p_data_list)
     
 
 
-    return `<table class="table rounded-0 mb-0" style="width:50%">
+    return `<table class="table rounded-0 mb-0" style="width:80%">
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
         <th>${p_metadata.table_title}</th>
@@ -346,11 +373,13 @@ async function render122_table(p_metadata, p_data_list)
     <tbody>
         ${data.join("")}
     </tbody>
-    <tfoot>
+    <!--tfoot>
         <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
         <td align=right><strong>${total}</strong></td></tr>
-    </tfoot>
+    </tfoot-->
     </table>
+    <br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
     <br/>
     `
 }

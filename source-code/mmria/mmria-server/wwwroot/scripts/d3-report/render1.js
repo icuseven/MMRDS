@@ -87,6 +87,8 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                     },
                     tick: {
                         multiline: false,
+                        culling: true,
+                        outer: false
                     },
                     type: 'category',
                     categories: [${categories}],
@@ -95,6 +97,11 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                     label: {
                         text: '${p_metadata.y_axis_title}',
                         position: 'outer-center' 
+                    },
+                    tick: {
+                        multiline: false,
+                        culling: true,
+                        outer: false
                     }
                 }
             },
@@ -166,23 +173,7 @@ async function render1_table(p_metadata, p_data_list)
     });
     
 
-    return `<table class="table rounded-0 mb-0" style="width:50%">
-    <thead class="thead">
-    <tr style="background-color:#e3d3e4">
-        <th>${p_metadata.table_title}</th>
-        <th align=right style="width:25%">Number of deaths</th>
-    </tr>
-    </thead>
-    <tbody>
-        ${data.join("")}
-    </tbody>
-    <tfoot>
-        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
-        <td align=right><strong>${total}</strong></td></tr>
-    </tfoot>
-    </table>
-    <br/><br/>
-    `;
+    return render_table(p_metadata, data, totals, total);
 }
 
 

@@ -9,12 +9,9 @@ indicator_map.set
         
         chart_title:"Underlying Causes of Death",
         table_title:"Underlying Causes of Death",
-        x_axis_title:"Number of Deaths",
-        y_axis_title:"Underlying cause of Death",
-        enabled: true,
-        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-   
-        blank_field_id: "",
+        x_axis_title:"Number of deaths",
+        y_axis_title:"Underlying Cause of Death",
+        blank_field_id: "MUndCofDeath22",
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
         { name: "MUndCofDeath2", title: "Infection" },
@@ -51,7 +48,7 @@ indicator_map.set
         chart_title:"Number of deaths by pregnancy relatedness",
         table_title:"Number of deaths by pregnancy relatedness",
         x_axis_title:"Pregnancy Relatedness",
-        y_axis_title:"Number of Deaths",
+        y_axis_title:"Number of deaths",
         enabled: true,
         description:"Determined by Pregnancy-Relatedness entered on Committee Decisions form.",
         blank_field_id: "MPregRel5",
@@ -93,7 +90,7 @@ indicator_map.set
         indicator_id : "mTimingofDeath",
         title:"Timing of Death",
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
-        table_title:"Number of deaths by timing of death in relation to pregnancy",
+        table_title:"Timing of death in relation to pregnancy",
         x_axis_title:"Timing of death in relation to pregnancy",
         y_axis_title:"Number of deaths",
         enabled: true,
@@ -103,7 +100,7 @@ indicator_map.set
         field_id_list : [
         { name: "MTimeD1", title: "During pregnancy" },
         { name: "MTimeD2", title: "Within 42 days of pregnancy" },
-        { name: "MTimeD3", title: "Within 43 to 365 days of pregnancy" },
+        { name: "MTimeD3", title: "Within 43 days to 1 year of pregnancy" },
         { name: "MTimeD4", title: "(Blank)" },
         ],
     }

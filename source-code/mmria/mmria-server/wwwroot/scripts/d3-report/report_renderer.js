@@ -232,31 +232,26 @@ function show_filter_dialog()
     el.innerHTML = `
  <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
         <span id="ui-id-1" class="ui-dialog-title">Filter</span>
-        <label for="top_corner_close">Close</label>
+        <!--label for="top_corner_close">Close</label-->
         <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div style="margin:15px;width:600px;">
+    <div style="margin:15px;width:610px;">
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
             <!--li>
-                
                 <input type="checkbox" id="Pregnancy-Relatedness-All" onchange="pregnancy_relatedness_all_change(this)" ${all_is_checked_html}/> <label for="Pregnancy-Relatedness-All">All</label>
             </li-->
             <li>
-                
                 <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">${relatedness_map.get(1)}</label>
             </li>
             <li>
-                
                 <input type="checkbox"  id="Pregnancy-Relatedness-0" onchange="pregnancy_relatedness_0_change(this)" ${is_checked_0_html} /> <label for="Pregnancy-Relatedness-0">${relatedness_map.get(0)}</label>
             </li>
             <li>
-                
                 <input type="checkbox" id="Pregnancy-Relatedness-2" onchange="pregnancy_relatedness_2_change(this)" ${is_checked_2_html} /> <label for="Pregnancy-Relatedness-2">${relatedness_map.get(2)}</label>
             </li>
             <li>
-                
                 <input type="checkbox" id="Pregnancy-Relatedness-99" onchange="pregnancy_relatedness_99_change(this)" ${is_checked_99_html} /> <label for="Pregnancy-Relatedness-99">${relatedness_map.get(99)}</label>
             </li>
         </ul>    

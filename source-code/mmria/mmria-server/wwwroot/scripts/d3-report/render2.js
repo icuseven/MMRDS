@@ -86,6 +86,8 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 },
                 tick: {
                     multiline: false,
+                    culling: true,
+                    outer: false
                 },
                 type: 'category',
                 categories: [${categories}]
@@ -94,7 +96,12 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 label: {
                     text: '${p_metadata.y_axis_title}',
                     position: 'outer-center' 
-                }
+                },
+                tick: {
+                    multiline: false,
+                    culling: true,
+                    outer: false
+                },
             }
         },
         //size: {
