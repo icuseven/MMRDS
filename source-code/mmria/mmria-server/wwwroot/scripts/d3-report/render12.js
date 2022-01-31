@@ -97,12 +97,12 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             //  left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
                  label: {
                  text: '${p_metadata.x_axis_title}',
-                 position: 'outer-center'  
+                 position: 'outer-middle'  
                  },
                 tick: {
                     multiline: false,
@@ -113,7 +113,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             y: {
                 label: {
                     text: '${p_metadata.y_axis_title}',
-                    position: 'outer-middle' 
+                    position: 'outer-center' 
                 }
             }
         },
