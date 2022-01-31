@@ -173,7 +173,24 @@ async function render1_table(p_metadata, p_data_list)
     });
     
 
-    return render_table(p_metadata, data, totals, total);
+    //return render_table(p_metadata, data, totals, total);
+
+    return `<table class="table rounded-0 mb-0" style="width:50%">
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4;">
+        <th>${p_metadata.table_title}</th>
+        <th style="width:25%" align=right>Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table><br/>
+    `
 }
 
 

@@ -5,8 +5,6 @@ async function render(p_index)
     {
         const url = window.location.href;
 
-        
-
         const url_array = url.split('#');
 
         if(url_array.length > 1)
@@ -111,6 +109,8 @@ function ControlFormatDate(p_value)
 
 function render_header()
 {
+    const reporting_state_element = document.getElementById("reporting_state")
+    reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
     let pregnancy_relatedness_html = "All";
     if(g_filter.pregnancy_relatedness.length == 4)
     {
@@ -140,7 +140,6 @@ function render_header()
     }
 
     return `
-    <p><strong>Reporting State: </strong> ${g_filter.reporting_state}</p>
 <div 
     id="filter-summary"
     style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
