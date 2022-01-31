@@ -55,59 +55,18 @@ relatedness_map.set(2, "Pregnancy-Associated but Unable to Determine Pregnancy-R
 relatedness_map.set(99, "Not Pregnancy-Related or -Associated (i.e. False Positive)");
 
 
-var year_options = [
-'All',
-2020,
-2019,
-2018,
-2017,
-2016,
-2015,
-2014,
-2013,
-2012,
-2011,
-2010,
-2009,
-2008,
-2007,
-2006,
-2005,
-2004,
-2003,
-2002,
-2001,
-2000,
-1999
-];
-
-var month_options = [
-'All',
-01,
-02,
-03,
-04,
-05,
-06,
-07,
-08,
-09,
-10,
-11,
-12
-];
-
 function sanitize_encodeHTML(s) 
 {
 	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
     return result;
 }
 
-$(function ()
-{//http://www.w3schools.com/html/html_layout.asp
+
+$(async function ()
+{
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
-	get_release_version();
+	await get_release_version();
 
     if (window.onhashchange) 
     {
@@ -137,18 +96,7 @@ async function window_on_hash_change(e)
         }
 
         await render();
-        /*
-        switch(index)
-        {
-            case 1:
-                const post_html = [];
-                document.getElementById('output').innerHTML = await render1(post_html);
-                eval(post_html.join(""));
-                break;
-            case -1:
-            default:
-                document.getElementById('output').innerHTML = render0();
-        }*/
+
         
     }
 
