@@ -6,12 +6,13 @@ indicator_map.set
         indicator_id : "mUndCofDeath",
         title:"Primary Underlying Cause of Death",
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-        
+        blank_field_id: "MUndCofDeath22",
+
         chart_title:"Underlying Causes of Death",
         table_title:"Underlying Causes of Death",
         x_axis_title:"Underlying Cause of Death",
         y_axis_title:"Number of deaths",
-        blank_field_id: "MUndCofDeath22",
+        
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
         { name: "MUndCofDeath2", title: "Infection" },
@@ -34,8 +35,7 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],
-        enabled: true,       
+        ],    
     }
 );
 
@@ -45,13 +45,15 @@ indicator_map.set
     {
         indicator_id : "mPregRelated",
         title:"Pregnancy-Relatedness",
+        description:"Determined by Pregnancy-Relatedness entered on Committee Decisions form.",
+        blank_field_id: "MPregRel5",
+
         chart_title:"Number of deaths by pregnancy-relatedness",
         table_title:"Number of deaths by pregnancy-relatedness",
         x_axis_title:"Pregnancy-Relatedness",
         y_axis_title:"Number of deaths",
-        enabled: true,
-        description:"Determined by Pregnancy-Relatedness entered on Committee Decisions form.",
-        blank_field_id: "MPregRel5",
+        
+
         field_id_list : [
         { name: "MPregRel1", title: "Pregnancy-related" },
         { name: "MPregRel2", title: "Pregnancy-associated but not -related" },
@@ -68,13 +70,15 @@ indicator_map.set
     {
         indicator_id : "mDeathPrevent",
         title:"Preventability",
+        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
+        blank_field_id: "MDeathPrevent3",
+
         chart_title:"Preventability",
         table_title:"Preventability",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
-        blank_field_id: "MDeathPrevent3",
+        
+
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
         { name: "MDeathPrevent2", title: "Not Preventable" },
@@ -89,13 +93,15 @@ indicator_map.set
     {
         indicator_id : "mTimingofDeath",
         title:"Timing of Death",
+        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
+        blank_field_id: "MTimeD4",
+
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
         table_title:"Timing of death in relation to pregnancy",
         x_axis_title:"Timing of death in relation to pregnancy",
         y_axis_title:"Number of deaths",
-        enabled: true,
-        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
-        blank_field_id: "MTimeD4",
+        
+
 
         field_id_list : [
         { name: "MTimeD1", title: "During pregnancy" },
@@ -112,13 +118,16 @@ indicator_map.set
     {
         indicator_id : "mOMBRaceRcd",
         title:"OMB Race Recode",
+        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
+        blank_field_id: "MOMBRaceRcd10",
+
+
         chart_title:"OMB Race Recode",
         table_title:"OMB Race Recode",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
-        blank_field_id: "MOMBRaceRcd10",
+        
+
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
         { name: "MOMBRaceRcd2", title: "Black" },
@@ -140,13 +149,16 @@ indicator_map.set
     {
         indicator_id : "mDeathbyRace",
         title:"Race",
+        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.",
+        blank_field_id: "MDeathbyRace17",
+
+
         chart_title:"Race",
         table_title:"Race",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.",
-        blank_field_id: "MDeathbyRace17",
+        
+
         field_id_list : [
         { name: "MDeathbyRace1", title:"White" },
         { name: "MDeathbyRace2", title:"Black or African American" },
@@ -176,13 +188,15 @@ indicator_map.set
     {
         indicator_id : "mDeathsbyRaceEth",
         title:"Race/Ethnicity",
+        description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
+        blank_field_id: "MRaceEth20",
+
         chart_title:"Race/Ethnicity",
         table_title:"Race/Ethnicity",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
-        blank_field_id: "MRaceEth20",
+        
+
         field_id_list : [
 
             { name: "MRaceEth3", title: "Hispanic" },
@@ -213,13 +227,16 @@ indicator_map.set
     {
         indicator_id : "mAgeatDeath",
         title:"Age",
+        description:"Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.",
+        blank_field_id: "MAgeD8",
+
+
         chart_title:"Age",
         table_title:"Age",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.",
-        blank_field_id: "MAgeD8",
+        
+
         field_id_list : [
         { name: "MAgeD1", title: "< 20" },
         { name: "MAgeD2", title: "20 to 24" },
@@ -240,13 +257,16 @@ indicator_map.set
     {
         indicator_id : "mEducation",
         title:"Education",
+        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
+        blank_field_id: "MEduc5",
+
+
         chart_title:"Education",
         table_title:"Education",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
-        blank_field_id: "MEduc5",
+        
+
         field_id_list : [
         { name: "MEduc1", title: "High school diploma equivalent or less" },
         { name: "MEduc2", title: "Completed some college" },
@@ -263,13 +283,16 @@ indicator_map.set
     {
     indicator_id : "mDeathCause",
     title:"Cause of Death",
+    //title:"Committee Determinations",
+    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
+    blank_field_id: "MCauseD15",
+
     chart_title:"Cause of Death",
     table_title:"Cause of Death",
     x_axis_title:"title not specified",
     y_axis_title:"title not specified",
-    enabled: true,
-    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
-    blank_field_id: "MCauseD15",
+    
+
     field_id_list : [
         { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
         { name: "MCauseD2", title: "Mental Health Conditions - No" },
@@ -287,7 +310,7 @@ indicator_map.set
         { name: "MCauseD14", title: "Suicide - Unknown" },
         { name: "MCauseD15", title: "Suicide - Blank" },
     ],
-    title:"Committee Determinations"
+
     }
 );
 
@@ -297,14 +320,17 @@ indicator_map.set
     {
         indicator_id : "mHxofEmoStress",
         title: "Emotional Stress",
+        description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
+        title:"Emotional Stress",
+        blank_field_id: "MEmoStress12",
+
         chart_title:"Emotional Stress",
         table_title:"Emotional Stress",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
-        title:"Emotional Stress",
-        blank_field_id: "MEmoStress12",
+        
+
+        
         field_id_list : [
         { name: "MEmoStress1", title: "History of domestic violence" },
         { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
@@ -329,13 +355,15 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
+        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
+        blank_field_id: "MLivD7",
+
         chart_title:"Mother&apos;s living arrangements at time of death",
         table_title:"Mother&apos;s living arrangements at time of death",
         x_axis_title:"Living arrangements at time of death",
         y_axis_title:"Number of deaths",
-        enabled: true,
-        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
-        blank_field_id: "MLivD7",
+        
+
         field_id_list : [
         { name: "MLivD1", title: "Own" },
         { name: "MLivD2", title: "Rent" },
@@ -354,13 +382,16 @@ indicator_map.set
     {
         indicator_id : "mHomeless",
         title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        description:"description not specified",
+        blank_field_id: "MHomeless5",
+
+
         chart_title:"Number of deaths by mother&apos;s experiences of homelessless in relation to pregnancy",
         table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
         x_axis_title:"Homelessless in relation to pregnancy",
         y_axis_title:"Number of deaths",
-        enabled: true,
-        description:"description not specified",
-        blank_field_id: "MHomeless5",
+        
+
         field_id_list : [
         { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
         { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
@@ -382,13 +413,16 @@ indicator_map.set
     {
         indicator_id : "mIncarHx",
         title:"Incarceration",
+        description:"description not specified",
+        blank_field_id: "MHxIncar7",
+
+
         chart_title:"Incarceration",
         table_title:"Incarceration",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"description not specified",
-        blank_field_id: "MHxIncar7",
+        
+
         field_id_list : [
         { name: "MHxIncar1", title: "Never incarcerated" },
                 // { name: "MHxIncar2", title: "" },
@@ -410,13 +444,15 @@ indicator_map.set
     {
         indicator_id : "mDeathSubAbuseEvi",
         title:"Substance Abuse Evidence",
+        description:"description not specified",
+        blank_field_id: "MEviSub3",
+
         chart_title:"Substance Abuse Evidence",
         table_title:"Substance Abuse Evidence",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"description not specified",
-        blank_field_id: "MEviSub3",
+        
+
         field_id_list : [
         { name: "MEviSub1", title: "Yes" },
         { name: "MEviSub2", title: "No" },
@@ -432,13 +468,15 @@ indicator_map.set
     {
         indicator_id : "mHxofSubAbu",
         title:"title not specified",
+        description:"description not specified",
+        blank_field_id: "MHxSub3",
+
         chart_title:"title not specified",
         table_title:"title not specified",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        enabled: true,
-        description:"description not specified",
-        blank_field_id: "MHxSub3",
+        
+
         field_id_list : [
         { name: "MHxSub1", title: "Yes" },
         { name: "MHxSub2", title: "No" },

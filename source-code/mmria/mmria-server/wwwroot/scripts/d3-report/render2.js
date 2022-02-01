@@ -86,7 +86,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 },
                 tick: {
                     multiline: false,
-                    culling: true,
+                    culling: false,
                     outer: false
                 },
                 type: 'category',
@@ -99,7 +99,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 },
                 tick: {
                     multiline: false,
-                    culling: true,
+                    culling: false,
                     outer: false
                 },
             }
