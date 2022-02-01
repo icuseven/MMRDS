@@ -115,7 +115,7 @@ function render_header()
     const current_datetime = new Date();
 
     const report_datetime_element = document.getElementById("report_datetime")
-    report_datetime_element.innerHTML = `${current_datetime.toDateString()} ${current_datetime.toLocaleTimeString()}`;
+    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
     let pregnancy_relatedness_html = "All";
     if(g_filter.pregnancy_relatedness.length == 4)
