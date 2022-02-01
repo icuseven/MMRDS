@@ -35,7 +35,7 @@ const g_ui = {
 const g_nav_map = new Map();
 g_nav_map.set(0,"Overview");
 g_nav_map.set(1,"Primary Underlying Cause of Death");
-g_nav_map.set(2,"Pregnancy Relatedness");
+g_nav_map.set(2,"Pregnancy-Relatedness");
 g_nav_map.set(3,"Preventability");
 g_nav_map.set(4,"Timing of Death");
 g_nav_map.set(5,"OMB race recode");

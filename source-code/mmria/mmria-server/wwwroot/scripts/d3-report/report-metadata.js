@@ -9,8 +9,8 @@ indicator_map.set
         
         chart_title:"Underlying Causes of Death",
         table_title:"Underlying Causes of Death",
-        x_axis_title:"Number of deaths",
-        y_axis_title:"Underlying Cause of Death",
+        x_axis_title:"Underlying Cause of Death",
+        y_axis_title:"Number of deaths",
         blank_field_id: "MUndCofDeath22",
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
@@ -44,19 +44,19 @@ indicator_map.set
     2,
     {
         indicator_id : "mPregRelated",
-        title:"Pregnancy Relatedness",
+        title:"Pregnancy-Relatedness",
         chart_title:"Number of deaths by pregnancy-relatedness",
         table_title:"Number of deaths by pregnancy-relatedness",
-        x_axis_title:"Pregnancy Relatedness",
+        x_axis_title:"Pregnancy-Relatedness",
         y_axis_title:"Number of deaths",
         enabled: true,
         description:"Determined by Pregnancy-Relatedness entered on Committee Decisions form.",
         blank_field_id: "MPregRel5",
         field_id_list : [
         { name: "MPregRel1", title: "Pregnancy-related" },
-        { name: "MPregRel2", title: "Pregnancy-associated but not related" },
-        { name: "MPregRel3", title: "Pregnancy-associated but unable to determine pregnancy relatedness" },
-        { name: "MPregRel4", title: "Not pregnancy-associated or related (false positive)" },
+        { name: "MPregRel2", title: "Pregnancy-associated but not -related" },
+        { name: "MPregRel3", title: "Pregnancy-associated but unable to determine pregnancy-relatedness" },
+        { name: "MPregRel4", title: "Not pregnancy-associated or -related (false positive)" },
         { name: "MPregRel5", title: "(blank)" },
             ],
     }

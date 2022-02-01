@@ -87,7 +87,7 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                     },
                     tick: {
                         multiline: false,
-                        culling: true,
+                        culling: false,
                         outer: false
                     },
                     type: 'category',
@@ -98,11 +98,6 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                         text: '${p_metadata.y_axis_title}',
                         position: 'outer-center' 
                     },
-                    tick: {
-                        multiline: false,
-                        culling: true,
-                        outer: false
-                    }
                 }
             },
             //size: {
@@ -189,6 +184,8 @@ async function render1_table(p_metadata, p_data_list)
         <td align=right><strong>${total}</strong></td></tr>
     </tfoot>
     </table><br/>
+    <!--p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p-->
+    <p><strong>Number of deaths with missing (blank) values:</strong> N/A </p>
     `
 }
 
