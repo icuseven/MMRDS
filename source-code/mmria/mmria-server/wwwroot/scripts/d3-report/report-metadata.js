@@ -9,10 +9,13 @@ indicator_map.set
         blank_field_id: "MUndCofDeath22",
 
         chart_title:"Underlying Causes of Death",
-        table_title:"Underlying Causes of Death",
         x_axis_title:"Underlying Cause of Death",
         y_axis_title:"Number of deaths",
+        chart_title_508: "Bar chart showing number of deaths by underlying cause of death.",
         
+        table_title:"Underlying Causes of Death",
+        table_title_508:"Table showing number of deaths by underlying cause of death.",
+
         field_id_list : [
         { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
         { name: "MUndCofDeath2", title: "Infection" },
@@ -49,9 +52,12 @@ indicator_map.set
         blank_field_id: "MPregRel5",
 
         chart_title:"Number of deaths by pregnancy-relatedness",
-        table_title:"Number of deaths by pregnancy-relatedness",
+        chart_title_508:"Bar chart showing number of deaths by pregnancy relatedness.",
         x_axis_title:"Pregnancy-Relatedness",
         y_axis_title:"Number of deaths",
+
+        table_title:"Number of deaths by pregnancy-relatedness",
+        table_title_508:"Table showing number of deaths by pregnancy relatedness.",
         
 
         field_id_list : [
@@ -97,11 +103,13 @@ indicator_map.set
         blank_field_id: "MTimeD4",
 
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
-        table_title:"Timing of death in relation to pregnancy",
+        chart_title_508:"Bar chart showing number of deaths by timing of death in relation to pregnancy.",
+
         x_axis_title:"Timing of death in relation to pregnancy",
         y_axis_title:"Number of deaths",
         
-
+        table_title:"Timing of death in relation to pregnancy",
+        table_title_508:"Table showing number of deaths by timing of death in relation to pregnancy.",
 
         field_id_list : [
         { name: "MTimeD1", title: "During pregnancy" },
@@ -359,10 +367,17 @@ indicator_map.set(
         blank_field_id: "MLivD7",
 
         chart_title:"Mother&apos;s living arrangements at time of death",
-        table_title:"Mother&apos;s living arrangements at time of death",
+        chart_title_508:"Bar chart showing mother's living arrangements at time of death.",
+        
         x_axis_title:"Living arrangements at time of death",
         y_axis_title:"Number of deaths",
         
+
+        
+        
+        
+        table_title:"Mother&apos;s living arrangements at time of death",
+        table_title_508:"Table showing mother's living arrangements at time of death.",
 
         field_id_list : [
         { name: "MLivD1", title: "Own" },
@@ -385,12 +400,15 @@ indicator_map.set
         description:"description not specified",
         blank_field_id: "MHomeless5",
 
-
         chart_title:"Number of deaths by mother&apos;s experiences of homelessless in relation to pregnancy",
-        table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        chart_title_508:"Bar chart showing number of deaths by mother's experiences of homelessness in relation to pregnancy.",
+
         x_axis_title:"Homelessless in relation to pregnancy",
         y_axis_title:"Number of deaths",
-        
+
+
+        table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        table_title_508:"Table showing number of deaths by mother's experiences of homelessness in relation to pregnancy.",
 
         field_id_list : [
         { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
