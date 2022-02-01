@@ -1149,6 +1149,22 @@ namespace mmria.server.utils
                       {
                         string file_field_name = path_to_field_name_map[path];
 
+						if (path == "informant_interviews/interview_narrative")
+						{
+							// Informant Interview Narrative - Clean up, if necessary
+							string clearText = mmria.common.util.TextAreaField.CleanUp(val);
+							if (clearText.Length > 0)
+							{
+								WriteQualitativeData
+								(
+									mmria_case_id,
+									path,
+									clearText,
+									i,
+									-1,
+									true
+								);
+							}
                         if
                         (
                           (
@@ -1170,22 +1186,6 @@ namespace mmria.server.utils
                           val = over_limit_message;
                         }
 
-						if (path == "informant_interviews/interview_narrative")
-						{
-							// Informant Interview Narrative - Clean up, if necessary
-							string clearText = mmria.common.util.TextAreaField.CleanUp(val);
-							if (clearText.Length > 0)
-							{
-								WriteQualitativeData
-								(
-									mmria_case_id,
-									path,
-									clearText,
-									i,
-									-1,
-									true
-								);
-							}
 							
 							// Check the over the limit size
 							if(val.Length > max_qualitative_length)
