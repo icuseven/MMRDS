@@ -140,19 +140,20 @@ function render_table(p_metadata, p_data, p_totals, p_total)
 
 function render_chart_508_description(p_metadata, p_data, p_totals)
 {
-    let total = 0;
+    let i = 0;
+    const html = [];
 
     p_totals.forEach((value, key) =>
     {
         if(key != p_metadata.blank_field_id)
         {
-            //data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
-            total+=value;
-        }
+            html.push(` shows  ${value} for ${p_metadata.field_id_list[i].title}`);
+            i++;
+         }
     });
+    
 
-
-    return `508 description goes here`;
+    return `Bar chart ${html.join(",")} See the table view for additional details.`;
 
     /*
     return `<table class="table rounded-0 mb-0" style="width:50%">
