@@ -367,7 +367,7 @@ indicator_map.set(
         blank_field_id: "MLivD7",
 
         chart_title:"Mother&apos;s living arrangements at time of death",
-        chart_title_508:"Bar chart showing mother's living arrangements at time of death.",
+        chart_title_508:"Bar chart showing mothers living arrangements at time of death.",
         
         x_axis_title:"Living arrangements at time of death",
         y_axis_title:"Number of deaths",
@@ -377,7 +377,7 @@ indicator_map.set(
         
         
         table_title:"Mother&apos;s living arrangements at time of death",
-        table_title_508:"Table showing mother's living arrangements at time of death.",
+        table_title_508:"Table showing mothers living arrangements at time of death.",
 
         field_id_list : [
         { name: "MLivD1", title: "Own" },
@@ -401,14 +401,14 @@ indicator_map.set
         blank_field_id: "MHomeless5",
 
         chart_title:"Number of deaths by mother&apos;s experiences of homelessless in relation to pregnancy",
-        chart_title_508:"Bar chart showing number of deaths by mother's experiences of homelessness in relation to pregnancy.",
+        chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         x_axis_title:"Homelessless in relation to pregnancy",
         y_axis_title:"Number of deaths",
 
 
         table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
-        table_title_508:"Table showing number of deaths by mother's experiences of homelessness in relation to pregnancy.",
+        table_title_508:"Table showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         field_id_list : [
         { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },

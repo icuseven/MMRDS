@@ -108,12 +108,24 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
                 duration: null
               },
               bindto: '#chart',
-              /*
+              
               onrendered: function()
               {
-                d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-                  .attr('transform', 'rotate(325)translate(-25,0)');
-              }*/
+                const title_element = document.createElement("title");
+                title_element.innerText = '${p_metadata.chart_title_508}';
+
+                const description_element = document.createElement("desc");
+                description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
+
+                const svg_char = document.querySelector('#chart svg');
+
+                if(svg_char != null)
+                {
+                    svg_char.appendChild(title_element);
+                    svg_char.appendChild(description_element);
+                }
+                
+              }
             }); ` 
     );
 
@@ -170,6 +182,7 @@ async function render1_table(p_metadata, p_data_list)
     //return render_table(p_metadata, data, totals, total);
 
     return `<table class="table rounded-0 mb-0" style="width:50%">
+    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>

@@ -118,6 +118,7 @@ function render0()
 function render_table(p_metadata, p_data, p_totals, p_total)
 {
     return `<table class="table rounded-0 mb-0" style="width:50%">
+    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
@@ -134,4 +135,41 @@ function render_table(p_metadata, p_data, p_totals, p_total)
     </table><br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
     `
+}
+
+
+function render_chart_508_description(p_metadata, p_data, p_totals)
+{
+    let total = 0;
+
+    p_totals.forEach((value, key) =>
+    {
+        if(key != p_metadata.blank_field_id)
+        {
+            //data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
+            total+=value;
+        }
+    });
+
+
+    return `508 description goes here`;
+
+    /*
+    return `<table class="table rounded-0 mb-0" style="width:50%">
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4;">
+        <th>${p_metadata.table_title}</th>
+        <th style="width:25%" align=right>Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${p_data.join("")}
+    </tbody>
+    <tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${p_total}</strong></td></tr>
+    </tfoot>
+    </table><br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
+    `*/
 }
