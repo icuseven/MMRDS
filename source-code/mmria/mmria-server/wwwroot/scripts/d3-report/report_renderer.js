@@ -111,6 +111,12 @@ function render_header()
 {
     const reporting_state_element = document.getElementById("reporting_state")
     reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
+
+    const current_datetime = new Date();
+
+    const report_datetime_element = document.getElementById("report_datetime")
+    report_datetime_element.innerHTML = `${current_datetime.toDateString()} ${current_datetime.toLocaleTimeString()}`;
+
     let pregnancy_relatedness_html = "All";
     if(g_filter.pregnancy_relatedness.length == 4)
     {
