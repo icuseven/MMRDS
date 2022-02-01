@@ -147,13 +147,13 @@ function render_chart_508_description(p_metadata, p_data, p_totals)
     {
         if(key != p_metadata.blank_field_id)
         {
-            html.push(` shows  ${value} for ${p_metadata.field_id_list[i].title}`);
+            html.push(`${value} for ${p_metadata.field_id_list[i].title}`);
             i++;
          }
     });
     
 
-    return `Bar chart ${html.join(",")} See the table view for additional details.`;
+    return `Bar chart  shows ${html.join(",")} See the table view for additional details.`;
 
     /*
     return `<table class="table rounded-0 mb-0" style="width:50%">
