@@ -169,7 +169,6 @@ async function render1_table(p_metadata, p_data_list)
             data.push(`<tr><td>${name_to_title.get(key)}</td><td align=right>${value}</td></tr>`);
             total+=value;
         }
-
     });
     
 
