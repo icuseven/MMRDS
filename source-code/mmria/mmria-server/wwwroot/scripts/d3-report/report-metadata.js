@@ -396,18 +396,18 @@ indicator_map.set
     13,
     {
         indicator_id : "mHomeless",
-        title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
         description:"description not specified",
         blank_field_id: "MHomeless5",
 
-        chart_title:"Number of deaths by mother&apos;s experiences of homelessless in relation to pregnancy",
+        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
         chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
-        x_axis_title:"Homelessless in relation to pregnancy",
+        x_axis_title:"Homelessness in relation to pregnancy",
         y_axis_title:"Number of deaths",
 
 
-        table_title:"Mother&apos;s experiences of homelessless in relation to pregnancy",
+        table_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
         table_title_508:"Table showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         field_id_list : [
