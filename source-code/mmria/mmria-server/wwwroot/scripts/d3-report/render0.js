@@ -25,7 +25,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#2'" style="cursor: pointer;">
 <td><strong>2</strong></td>
-<td><strong>Pregnancy Relatedness</strong></td>
+<td><strong>Pregnancy-Relatedness</strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 
@@ -38,7 +38,6 @@ function render0()
 </tr-->
 
 
-
 <tr bgcolor=CCCCCC onclick="window.location='#4'" style="cursor: pointer;">
 <td><strong>4</strong></td>
 <td><strong>Timing of Death</strong></td>
@@ -46,13 +45,11 @@ function render0()
 </tr>
 
 
-
 <!--tr onclick="window.location='#5'" style="cursor: pointer;">
 <td><strong>5</strong></td>
 <td><strong>OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
 </tr>
-
 
 
 <tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
@@ -118,7 +115,7 @@ function render0()
 function render_table(p_metadata, p_data, p_totals, p_total)
 {
     return `<table class="table rounded-0 mb-0" style="width:50%"
-    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"</CAPTION>
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     
     <thead class="thead">
