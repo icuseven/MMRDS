@@ -135,7 +135,10 @@ function render_table(p_metadata, p_data, p_totals, p_total)
         <td align=right><strong>${p_total}</strong></td></tr>
     </tfoot>
     </table><br/>
-    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)}</p>
+    <br/>
+    <p>This data has been taken directly from the MMRIA database and is not a final report</p>
+    <br/>
     `
 }
 
