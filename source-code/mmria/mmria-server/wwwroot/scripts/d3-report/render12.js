@@ -28,14 +28,12 @@ ${render_navigation_strip(12)}
         <br/>
         <div align=center>${await render122_table(metadata2, data_list2)}</div>
         </div>
-
+        
     </li>
+   
 </ul>
+<p style="clear:both;" align=center>This data has been taken directly from the MMRIA database and is not a final report</p>
 <br style="clear:both;"/>
-<div align=center>
-<p>This data has been taken directly from the MMRIA database and is not a final report</p>
-<br/>
-</div>
 ${render_navigation_strip(12)}
 `;
 
@@ -327,7 +325,7 @@ async function render121_table(p_metadata, p_data_list)
     //return render_table(p_metadata, data, totals, total);
 
     return `<table class="table rounded-0 mb-0"  style="width:80%"
-    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"</CAPTION>
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
@@ -389,7 +387,7 @@ async function render122_table(p_metadata, p_data_list)
 
 
     return `<table class="table rounded-0 mb-0" style="width:80%"
-    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"</CAPTION>
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
@@ -407,6 +405,7 @@ async function render122_table(p_metadata, p_data_list)
     </table>
     <br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
+    
     <br/>
     `
 }
