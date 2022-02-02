@@ -36,8 +36,6 @@ ${render_navigation_strip(12)}
 <br style="clear:both;"/>
 ${render_navigation_strip(12)}
 `;
-
-
 }
 
 
