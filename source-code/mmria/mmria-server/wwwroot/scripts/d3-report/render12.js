@@ -31,8 +31,11 @@ ${render_navigation_strip(12)}
 
     </li>
 </ul>
-
 <br style="clear:both;"/>
+<div align=center>
+<p>This data has been taken directly from the MMRIA database and is not a final report</p>
+<br/>
+</div>
 ${render_navigation_strip(12)}
 `;
 
@@ -343,8 +346,6 @@ async function render121_table(p_metadata, p_data_list)
     <br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
     <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report</p>
-    <br/>
     `
 }
 
@@ -406,8 +407,6 @@ async function render122_table(p_metadata, p_data_list)
     </table>
     <br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
-    <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report</p>
     <br/>
     `
 }
