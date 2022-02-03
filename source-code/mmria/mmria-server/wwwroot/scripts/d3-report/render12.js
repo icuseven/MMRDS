@@ -143,8 +143,8 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
 
             if(svg_char != null)
             {
-                const test_title = document.querySelector('#chart svg title');
-                const test_desc = document.querySelector('#chart svg desc');
+                const test_title = document.querySelector('#chart1 svg title');
+                const test_desc = document.querySelector('#chart1 svg desc');
 
                 if(test_title == null)
                 {
@@ -271,8 +271,8 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
 
             if(svg_char != null)
             {
-                const test_title = document.querySelector('#chart svg title');
-                const test_desc = document.querySelector('#chart svg desc');
+                const test_title = document.querySelector('#chart2 svg title');
+                const test_desc = document.querySelector('#chart2 svg desc');
 
                 if(test_title == null)
                 {
