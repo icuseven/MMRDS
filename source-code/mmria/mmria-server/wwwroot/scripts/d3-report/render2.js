@@ -119,7 +119,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             title_element.innerText = '${p_metadata.chart_title_508}';
 
             const description_element = document.createElement("desc");
-            description_element.innerText = '${p_metadata.chart_title_508}';
+            description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
 
             const svg_char = document.querySelector('#chart svg');
 
