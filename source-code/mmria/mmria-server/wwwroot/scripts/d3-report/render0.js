@@ -118,7 +118,7 @@ function render0()
 function render_table(p_metadata, p_data, p_totals, p_total)
 {
     return `<table class="table rounded-0 mb-0" style="width:50%"
-    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"</CAPTION>
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     
     <thead class="thead">
