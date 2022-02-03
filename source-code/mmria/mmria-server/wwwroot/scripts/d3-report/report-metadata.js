@@ -384,7 +384,7 @@ indicator_map.set(
         { name: "MLivD2", title: "Rent" },
         { name: "MLivD3", title: "Public housing" },
         { name: "MLivD4", title: "Live with relative" },
-        { name: "MLivD5", title: "Homeless" },
+        { name: "MLivD5", title: "Homelessness" },
         { name: "MLivD6", title: "Other or Unknown" },
         { name: "MLivD7", title: "(blank)" },
         ],

@@ -25,7 +25,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#2'" style="cursor: pointer;">
 <td><strong>2</strong></td>
-<td><strong>Pregnancy Relatedness</strong></td>
+<td><strong>Pregnancy-Relatedness</strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 

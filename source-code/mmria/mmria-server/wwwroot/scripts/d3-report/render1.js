@@ -121,8 +121,18 @@ async function render1_chart(p_post_html, p_metadata, p_data_list)
 
                 if(svg_char != null)
                 {
-                    svg_char.appendChild(title_element);
-                    svg_char.appendChild(description_element);
+                    const test_title = document.querySelector('#chart svg title');
+                    const test_desc = document.querySelector('#chart svg desc');
+
+                    if(test_title == null)
+                    {
+                        svg_char.appendChild(title_element);
+                    }
+
+                    if(test_desc == null)
+                    {
+                        svg_char.appendChild(description_element);
+                    }
                 }
                 
               }
