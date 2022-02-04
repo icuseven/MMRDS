@@ -372,10 +372,6 @@ indicator_map.set(
         x_axis_title:"Living arrangements at time of death",
         y_axis_title:"Number of deaths",
         
-
-        
-        
-        
         table_title:"Mother&apos;s living arrangements at time of death",
         table_title_508:"Table showing mothers living arrangements at time of death.",
 
@@ -384,7 +380,7 @@ indicator_map.set(
         { name: "MLivD2", title: "Rent" },
         { name: "MLivD3", title: "Public housing" },
         { name: "MLivD4", title: "Live with relative" },
-        { name: "MLivD5", title: "Homelessness" },
+        { name: "MLivD5", title: "Homeless" },
         { name: "MLivD6", title: "Other or Unknown" },
         { name: "MLivD7", title: "(blank)" },
         ],
