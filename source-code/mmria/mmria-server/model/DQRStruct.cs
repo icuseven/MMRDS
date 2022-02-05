@@ -36,6 +36,10 @@ public class DQRSummary
     {
 
     }
+
+    public string quarter_name { get; set; }
+
+    public double quarter_number { get; set; }
     
     public int? n01 { get; set; }
 	public int? n02  { get; set; }
