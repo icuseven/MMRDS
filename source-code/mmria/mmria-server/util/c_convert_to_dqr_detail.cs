@@ -70,6 +70,89 @@ namespace mmria.server.utils
                 var arr = dqr_detail.quarter_name.Split("-");
                 dqr_detail.quarter_number = double.Parse($"{arr[1]}.{((int.Parse(arr[0].Replace("Q","")) - 1) * .25D).ToString().Replace("0.","")}");
             }
+
+            dqr_detail.n01 = 1;
+
+            int test_int = -1;
+
+            value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null &&
+                value_result.result is IList<object>
+      
+            )
+            {
+                var list = value_result.result as IList<object>;
+                foreach(var item in list)
+                {
+                    int.TryParse(item.ToString(), out test_int);
+                    if
+                    (
+                        test_int == 9999 ||
+                        test_int == 7777
+                    )
+                    {
+                        dqr_detail.n02 = 1;
+                        break;
+                    }
+                    
+                }
+
+            }
+            else
+            {
+                dqr_detail.n02 = 0;
+            }
+
+
+            value_result = gs.get_value(source_object, "home_record/case_status/overall_case_status");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null                
+            )
+            {
+
+                int.TryParse(value_result.result.ToString(), out test_int);
+                switch(test_int)
+                {
+                    case 1:
+                    dqr_detail.n03[0] = 1;
+                    break;
+                    case 2:
+                    dqr_detail.n03[1] = 1;
+                    break;
+                    case 3:
+                    dqr_detail.n03[2] = 1;
+                    break;
+                    case 4:
+                    dqr_detail.n03[3] = 1;
+                    break;
+                    case 5:
+                    dqr_detail.n03[4] = 1;
+                    break;
+                    case 6:
+                    dqr_detail.n03[5] = 1;
+                    break;
+                    case 0:
+                    dqr_detail.n03[6] = 1;
+                    break;
+                    case 9999:
+                    dqr_detail.n03[7] = 1;
+                    break;
+                
+                }
+                
+            }
+            else
+            {
+                dqr_detail.n03[7] = 1;
+            }
+
+
+
         
 /*
             if(data_type == "overdose")
