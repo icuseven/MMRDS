@@ -53,6 +53,24 @@ namespace mmria.server.utils
             value_result = gs.get_value(source_object, "_id");
         
             dqr_detail._id  = ((object)value_result.result).ToString();
+
+            value_result = gs.get_value(source_object, "cmpquarter");
+
+            var obj = (object)value_result.result;
+
+            if(obj == null)
+            {
+                return null;
+            }
+            
+            dqr_detail.quarter_name  = ((object)value_result.result).ToString();
+
+            if(! string.IsNullOrWhiteSpace(dqr_detail.quarter_name))
+            {
+                var arr = dqr_detail.quarter_name.Split("-");
+                dqr_detail.quarter_number = double.Parse($"{arr[1]}.{((int.Parse(arr[0].Replace("Q","")) - 1) * .25D).ToString().Replace("0.","")}");
+            }
+        
 /*
             if(data_type == "overdose")
             {

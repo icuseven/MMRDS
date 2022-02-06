@@ -7,7 +7,7 @@ public class DQRDetail
 {
     public DQRDetail()
     {
-
+        List<int> n03 = new();
     }
     public string _id { get; set; }
     public string _rev { get; set; }
@@ -16,7 +16,7 @@ public class DQRDetail
 
     public string quarter_name { get; set; }
 
-    public double quarter_number { get; set; }
+    public double? quarter_number { get; set; }
     public int? n01 { get; set; }
 	public int? n02  { get; set; }
 	public List<int> n03 { get; set; }
