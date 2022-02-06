@@ -27,9 +27,9 @@ namespace mmria.server
         {
             configuration = p_configuration;
         }
-		public async Task<mmria.server.model.dqr.DQRSummary> Get(string indicator_id)
+		public async Task<mmria.server.model.dqr.DQRDetail> Get(string indicator_id)
 		{
-			var result = new mmria.server.model.dqr.DQRSummary();
+			var result = new mmria.server.model.dqr.DQRDetail();
             
             
             var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
@@ -51,7 +51,7 @@ namespace mmria.server
 				
 /*
 
-                    List<mmria.server.model.dqr.DQRSummary> new_list = new();
+                    List<mmria.server.model.dqr.DQRDetail> new_list = new();
                     var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.report_measure_value_struct>>(responseFromServer);
 
                     if(!string.IsNullOrWhiteSpace(indicator_id))

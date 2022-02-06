@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace mmria.server.model.dqr;
 
-public class DQRSDetail
+public class DQRDetail
 {
-    public DQRSDetail()
+    public DQRDetail()
     {
 
     }
     public string _id { get; set; }
     public string _rev { get; set; }
 
-    public string data_type { get; set; } = "dqrs-detail";
+    public string data_type { get; set; } = "dqr-detail";
 
     public string quarter_name { get; set; }
 

@@ -270,9 +270,9 @@ namespace mmria.server.model.actor.quartz
 
 					try
 					{
-						mmria.server.utils.exporter mmrds_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
+						mmria.server.utils.exporter custom_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
 						//mmrds_exporter.Execute (item_to_process);
-						if(!mmrds_exporter.Execute(item_to_process))
+						if(!custom_exporter.Execute(item_to_process))
 						{
 							System.Console.WriteLine ("exporter failed to finish");
 						}
@@ -281,8 +281,6 @@ namespace mmria.server.model.actor.quartz
 					{
 						System.Console.WriteLine (ex);
 					}
-
-
 				}
 
 			}
