@@ -85,6 +85,7 @@ namespace mmria.server.model.actor.quartz
 					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
 					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+                    item.data_type = doc_item.ContainsKey("data_type") && doc_item ["data_type"] != null ? doc_item ["data_type"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
@@ -324,6 +325,7 @@ namespace mmria.server.model.actor.quartz
 					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
 					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+                    item.data_type = doc_item.ContainsKey("data_type") && doc_item ["data_type"] != null ? doc_item ["data_type"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;

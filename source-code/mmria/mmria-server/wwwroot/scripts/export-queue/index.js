@@ -113,6 +113,7 @@ function create_queue_item(
     created_by: '',
     date_last_updated: new_date,
     last_updated_by: '',
+    data_type: 'export',
     file_name: `${get_host_state_name()}_${p_all_or_core}_${new_date.replace(/:/g, '-')}.zip`,
     export_type: p_export_type,
     status: 'Confirmation Required',
