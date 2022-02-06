@@ -17,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
     [Authorize(Roles  = "abstractor, data_analyst")]
-    [Route("api/measure-indicator/{indicator_id}")]
+    [Route("api/dqr-detail/{quarter_string}")]
 	public class dqrReportController: ControllerBase 
 	{  
 
@@ -27,7 +27,7 @@ namespace mmria.server
         {
             configuration = p_configuration;
         }
-		public async Task<mmria.server.model.dqr.DQRDetail> Get(string indicator_id)
+		public async Task<mmria.server.model.dqr.DQRDetail> Get(string quarter_string)
 		{
 			var result = new mmria.server.model.dqr.DQRDetail();
             
@@ -45,7 +45,7 @@ namespace mmria.server
 			try
 			{
 
-                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/interactive_aggregate_report/_view/indicator_id?skip=0&limit={30000}&key=\"{indicator_id}\"";
+                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/interactive_aggregate_report/_view/indicator_id?skip=0&limit={30000}&key=\"{quarter_string}\"";
 				var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
