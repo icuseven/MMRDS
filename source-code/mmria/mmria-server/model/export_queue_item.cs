@@ -20,6 +20,8 @@ namespace mmria.server
 
         
 		public string _rev {get; set;}
+
+        public string data_type { get; set; } = "export";
 		public bool? _deleted { get; set;}
 		public DateTime? date_created { get; set;}
 		public string created_by { get; set;}
