@@ -70,11 +70,14 @@ namespace mmria.server.model.actor.quartz
 			{
 				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
 		
-				if (
+				if 
+                (
 
 					doc_item != null &&
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
+                    doc_item["data_type"].ToString() == "export" &&
+					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase)
+                )
 				{
 					export_queue_item item = new export_queue_item ();
 	
