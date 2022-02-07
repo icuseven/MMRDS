@@ -10,7 +10,7 @@ function render0()
 <table class="table table-header-light table-striped table-hover table-hover-light nein-scroll">
 
 <thead class="thead-dark">
-<tr bgcolor=silver><th>&nbsp;</th><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
+<tr bgcolor=silver><th>Report Number</th><th><strong>Report Page</strong></th><th><strong>Description</strong></th></tr>
 </thead>
 
 <tbody>
