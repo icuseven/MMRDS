@@ -1,3 +1,64 @@
+// DQR questions for page 1 & 2 - **** SPECIAL NOTE - n06 will need to have the quarter variable appended ***
+var dqr_questions = {
+	n01: '01) Deaths entered into MMRIA',
+	n02: '02) Deaths Missing Case Identification Method',
+	n03: '03) Case Status',
+	n031: '            Abstracting (incomplete)',
+	n032: '            Abstraction Complete',
+	n033: '            Ready for Review',
+	n034: '            Review Complete and Decisions Entered',
+	n035: '            Out of Scope and Death Certificate Entered',
+	n036: '            False Positive and Death Certificate Entered',
+	n037: '            Vitals Import',
+	n037: '            Missing',
+	n04: '04) Reviewed Deaths',
+	n05: '05) Reviewed Deaths Determined to be Pregnancy-Related',
+	n06: '06) Pregnancy-Related Deaths Reviewed in ',
+	n07: '07) Had a Linked BC/FDC (per Home Record Form Status)(subset of deaths in #06)',
+	n08: '08) Pregnancy-Related Deaths Reviewed in previous 4 Quarters',
+	n09: '09) Had a Linked BC/FDC (per Home Record Form Status)(subset of deaths in #08)',
+	n10: '10) Timing of Death: Abstractor\'s Overall Assessment of Timing (from Home Record)',
+	n11: '11) Timing of Death: Date of Death (from DC)',
+	n12: '12) Timing of Death: Date of Death (from DC)',
+	n13: '13) Timing of Death: Pregnancy Checkbox (from DC)',
+	n14: '14) Race/Ethnicity (from BC/FDC)*',
+	n15: '15) Race/Ethnicity (from DC)',
+	n16: '16) Age at Death (from DC)',
+	n17: '17) Education (from BC/FDC)*',
+	n18: '18) Education (from DC)',
+	n19: '19) Emotional Stressors (from SEP)',
+	n20: '20) Living Arrangements (from SEP)',
+	n21: '21) Distance Between Residence and Place of Death (from DC)',
+	n22: '22) Distance Between Residence and Place of Delivery (from BC/FDC)*',
+	n23: '23) Urbanicity of Place of Death (from DC)',
+	n24: '24) Urbanicity of Place of Last Residence (from DC)',
+	n25: '25) Urbanicity of Place of Delivery (from BC/FDC)*',
+	n26: '26) Urbanicity of Place of Residence (from BC/FDC)*',
+	n27: '27) Was Autopsy Performed? (from DC)',
+	n28: '28) What Type of Autopsy or Examination was Performed? (from Autopsy Report)',
+	n29: '29) Principal Source of Payment for Prenatal Care (from PCR)',
+	n30: '30) Principal Source of Payment for this Delivery (from BC/FDC)*',
+	n31: '31) Any Prenatal Care (from SEP)',
+	n32: '32) Documented Barriers to Healthcare Access (from SEP)',
+	n33: '33) Was There Documented Substance Use (from SEP)',
+	n34: '34) Were There Documented Preexisting Mental Health Conditions (from MHP)',
+	n35: '35) Committee Determination of Primary Underlying Cause of Death (PMSS-MM)',
+	n36: '36) Was this Death Preventable?',
+	n37: '37) Chance to Alter Outcome',
+	n38: '38) Did Obesity Contribute to the Death?',
+	n39: '39) Did Discrimination Contribute to the Death?',
+	n40: '40) Did Mental Health Cond. Other than Substance Use Disorder Contribute to Death?',
+	n41: '41) Did Substance Use Disorder Contribute to the Death?',
+	n42: '42) Was this Death a Suicide?',
+	n43: '43) Was this Death a Homicide?',
+	n44: '44) Analyst Able to Assign Yes/No Preventability',
+	n45: '45) Preventability Aligns with Chance to Alter Outcome',
+	n46: '46) If Discrimination checkbox marked \'Yes\' or \'Probably\', did the Committee also select at least 1 of the \'Discrimination\', \'Interpersonal Racism\', or \'Structural Racism\' CFs?',
+	n47: '47) If Mental Health Conditions checkbox marked \'Yes\' or \'Probably\', did the Committee also select \'Mental Health Conditions\' as a CF?',
+	n48: '48) If Substance Use Disorder checkbox marked \'Yes\' or \'Probably\', did the Committee also select \'Substance Use Disorder - alcohol, illicit/prescription drugs\' as a CF?',
+	n49: '49) Contributing Factor, Description of Issue, and Recommendation all completed (denominator is the # of CF-recommended action rows across all reviewed preventable pregnancy-related deaths)',
+};
+
 // DQR static notes to be displayed on pages 2-5
 var dqr_notes_list =
 [
@@ -247,86 +308,4 @@ var dqr_notes_list =
 		desc: 'Indicator populated using the Contributing Factor Class [crcfw_class], Description of Issue [crcfw_descr], and Recommendation of Committee [crcfw_c_recom] fields on the Committee Decisions Form. Limited to deaths determined to be preventable (cr_wtd_preve = 1 or cr_cta_outco = 0 or cr_cta_outco = 1).',
 	},
 ];
-
-
-
-function data_quality_report_render(p_quarters) {
-	var result = [];
-	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
-	let selectedQuarter = p_quarters[0];
-
-	result.push(`
-		<div class="row">
-			<div class="col">
-				<div class="font-weight-bold pl-3">
-					<div class="mb-4">
-						<p id="quarter_msg" class="mb-3">${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.</p>
-						<label for="quarters-list" class="mb-0 font-weight-normal mr-2">Select Export Quarter</label>
-						<select 
-							name="quarters-list"
-							id="quarters-list"
-							onchange="updateQuarter(event)"
-						>	
-							${data_quality_report_quarters_list}
-						</select>
-					</div>
-					<div class="mb-4">
-						<input type="checkbox" id="quarter-details" name="quarter-details">
-						<label for="quarter-details" class="mb-0 font-weight-normal mr-2">Check for Detail Report</label>
-					</div>
-				</div>
-				<div class="card-footer bg-gray-13">
-					<button 
-						id="quarter_btn" 
-						class="btn btn-primary btn-lg w-100" 
-						onclick="download_data_quality_report_pdf( '${selectedQuarter}'  )"
-					>
-						Export ${selectedQuarter}
-					</button>
-				</div>
-			</div>
-		</div>
-	`);
-
-	return result;
-}
-
-function updateQuarter(e) {
-	console.log('updateQuarter: ', e.target.value);
-	selectedQuarter = e.target.value;
-	renderQuarterInfo();
-}
-
-function renderQuarterInfo() {
-	// Update the message to show the currently selected quarter
-	document.getElementById('quarter_msg').innerHTML =
-		`${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.`;
-
-	// Update the button to show the currently selected quarter
-	document.getElementById('quarter_btn').innerHTML =
-		`Download ${selectedQuarter} as PDF`;
-}
-
-function render_data_quality_report_quarters() {
-	const result = [];
-
-	// Build the dropdown list
-	g_quarters.map((value, index) => {
-		result.push(`<option value='${value}' ${(index == 0) ? ' selected' : ''}>${value}</option>`)
-	});
-
-	return result.join("");
-}
-
-// This function will call the pdf function
-function download_data_quality_report_pdf(selQuar) {
-	// Find out if need details for the quarter report is needed
-	let needDetails = document.getElementById('quarter-details');
-	console.log('needDetails: ', needDetails.checked);
-
-	// TODO: Figure out where to get the jurisdiction 
-	let jurisdiction = 'All Jurisdictions';
-	console.log('Download the PDF: ');
-	create_data_quality_report_download('Data Goes Here', selQuar, jurisdiction, dqr_notes_list);
-}
 

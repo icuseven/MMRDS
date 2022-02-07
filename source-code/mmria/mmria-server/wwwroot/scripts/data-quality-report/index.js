@@ -57,15 +57,10 @@ function load_quarters()
 		quarters.push( `Q1-${ curYear }`);
 		curYear--;
 	}
-	console.log('quarters: ', quarters);
 
 	return quarters;
 }
 
-function AlertName(name)
-{
-	alert(name + ' clicked');
-}
 
 function render() {
 	document.getElementById('form_content_id').innerHTML = data_quality_report_render(
