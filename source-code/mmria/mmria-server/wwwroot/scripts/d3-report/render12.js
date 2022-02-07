@@ -3,6 +3,9 @@ async function render12(p_post_html)
     const metadata = indicator_map.get(12);
     const data_list = await get_indicator_values(metadata.indicator_id);
 
+    const metadata2 = indicator_map.get(13);
+    const data_list2 = await get_indicator_values(metadata2.indicator_id);
+
 
     return `
     ${render_header()}
@@ -21,9 +24,9 @@ ${render_navigation_strip(12)}
     </li>
 
     <li style="display: inline-block;float:right;width:48%">
-        <div align=center>${await render122_chart(p_post_html, metadata, data_list)}</div>
+        <div align=center>${await render122_chart(p_post_html, metadata2, data_list2)}</div>
         <br/>
-        <div align=center>${await render122_table(metadata, data_list)}</div>
+        <div align=center>${await render122_table(metadata2, data_list2)}</div>
         </div>
 
     </li>
@@ -74,6 +77,9 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart1 = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -83,7 +89,7 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.x_axis_title}',
             },
             labels: true 
         },
@@ -91,24 +97,31 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             //  left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
-                // label: {
-                // text: '${p_metadata.title}',
-                // position: 'outer-middle'  
-                // },
-                tick: {
+                 label: {
+                 text: '${p_metadata.x_axis_title}',
+                 position: 'outer-middle'  
+                 },
+                 tick: {
                     multiline: false,
+                    culling: false,
+                    outer: false
                 },
                 type: 'category',
                 categories: [${categories}],
             },
             y: {
                 label: {
-                    text: '${p_metadata.axis_v_title}',
-                    position: 'outer-middle' 
-                }
+                    text: '${p_metadata.y_axis_title}',
+                    position: 'outer-center' 
+                },
+                tick: {
+                    multiline: false,
+                    culling: false,
+                    outer: false
+                },
             }
         },
         //size: {
@@ -119,12 +132,22 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
             duration: null
           },
           bindto: '#chart1',
-          /*
           onrendered: function()
           {
-            d3.select('#chart1 svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-              .attr('transform', 'rotate(325)translate(-25,0)');
-          }*/
+            const title_element = document.createElement('title');
+            title_element.innerText = '${p_metadata.chart_title_508}';
+
+            const description_element = document.createElement('desc');
+            description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
+
+            const svg_char = document.querySelector('#chart1 svg');
+
+            if(svg_char != null)
+            {
+                svg_char.appendChild(title_element);
+                svg_char.appendChild(description_element);
+            }
+          }
         }); ` 
     );
 
@@ -179,6 +202,9 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart2 = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -188,7 +214,7 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',        
             },
             names: {
-                ${p_metadata.indicator_id}: '${p_metadata.axis_h_title}',
+                ${p_metadata.indicator_id}: '${p_metadata.x_axis_title}',
             },
             labels: true 
         },
@@ -196,13 +222,13 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             //  left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
-                // label: {
-                // text: '${p_metadata.title}',
-                // position: 'outer-middle'  
-                // },
+                 label: {
+                 text: '${p_metadata.x_axis_title}',
+                 position: 'outer-middle'  
+                 },
                 tick: {
                     multiline: false,
                 },
@@ -211,8 +237,8 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             },
             y: {
                 label: {
-                    text: '${p_metadata.axis_v_title}',
-                    position: 'outer-middle' 
+                    text: '${p_metadata.y_axis_title}',
+                    position: 'outer-center' 
                 }
             }
         },
@@ -224,12 +250,22 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
             duration: null
           },
           bindto: '#chart2',
-          /*
           onrendered: function()
           {
-            d3.select('#chart2 svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-              .attr('transform', 'rotate(325)translate(-25,0)');
-          }*/
+            const title_element = document.createElement('title');
+            title_element.innerText = '${p_metadata.chart_title_508}';
+
+            const description_element = document.createElement('desc');
+            description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}}';
+
+            const svg_char = document.querySelector('#chart2 svg');
+
+            if(svg_char != null)
+            {
+                svg_char.appendChild(title_element);
+                svg_char.appendChild(description_element);
+            }
+          }
         }); ` 
     );
 
@@ -285,7 +321,28 @@ async function render121_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    //return render_table(p_metadata, data, totals, total);
+
+    return `<table class="table rounded-0 mb-0"  style="width:80%">
+    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4">
+        <th valign=top>${p_metadata.table_title}</th>
+        <th align=right style="width:25%;align:right;">Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot>
+    </table>
+    <br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
+    <br/>
+    `
 }
 
 async function render122_table(p_metadata, p_data_list)
@@ -327,5 +384,24 @@ async function render122_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    return `<table class="table rounded-0 mb-0" style="width:80%">
+    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4">
+        <th>${p_metadata.table_title}</th>
+        <th align=right style="width:25%">Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    <!--tfoot>
+        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
+        <td align=right><strong>${total}</strong></td></tr>
+    </tfoot-->
+    </table>
+    <br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
+    <br/>
+    `
 }

@@ -17,19 +17,7 @@ namespace mmria.common.util
 
             var result = oRegEx.Replace
             (
-				value.Replace("\n", " ")
-					.Replace("\t", " ")
-					.Replace("\\s+", " ")
-					.Replace("&nbsp;", " ")
-					.Replace("&amp;", "&")
-					.Replace("&quot;", "\"")
-					.Replace("&pos;", "'")
-					.Replace("&lt;", "<")
-					.Replace("&gt;", ">")
-					.Replace("&reg;", "Â®")
-					.Replace("&copy;", "Â©")
-					.Replace("&bull;", "•")
-					.Replace("â€¢", "•")
+				value.Replace("â€¢", "•")
 					.Replace("&trade;", "â„¢")
 					.Replace("â€™", "’")
 					.Replace("â€“", "–")
@@ -120,13 +108,27 @@ namespace mmria.common.util
 					.Replace("Ãœ", "Ü")
 					.Replace("â€˜", "’")
 					.Replace("Â", "")
-					.Replace("&#39;", "\'")
-					.Replace("<br>", "\n<br>")
-					.Replace("<br", "\n<br")
-					.Replace("<p", "\n<p")
 					.TrimEnd('\r', '\n'),
 					""
             );
+
+			// *** Removed the following from the  list
+			// 	.Replace("\n", " ")
+			// 	.Replace("\t", " ")
+			//	.Replace("\\s+", " ")
+			// 	.Replace("&nbsp;", " ")
+			// 	.Replace("&amp;", "&")
+			// 	.Replace("&quot;", "\"")
+			// 	.Replace("&pos;", "'")
+			// 	.Replace("&lt;", "<")
+			// 	.Replace("&gt;", ">")
+			// 	.Replace("&reg;", "Â®")
+			// 	.Replace("&copy;", "Â©")
+			// 	.Replace("&bull;", "•")
+			// 	.Replace("&#39;", "\'")
+			//	.Replace("<br>", "\n<br>")
+			//	.Replace("<br", "\n<br")
+			//	.Replace("<p", "\n<p")
 
 
 			return result;

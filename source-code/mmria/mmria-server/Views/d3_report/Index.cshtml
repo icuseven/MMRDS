@@ -39,9 +39,9 @@
 }
 
 <h1 class="h2" tabindex="-1">Interactive Aggregate Report</h1>
-<p class="mb-4"><strong>Report generated:</strong> @DateTime.Now.ToString("MMM d, yyyy hh:mm:ss tt") by @userName</p>
-
-
+<p class="mb-4"><strong>Report Generated:</strong> <span id="report_datetime">@DateTime.Now.ToString("MMM d, yyyy hh:mm:ss tt")</span> by @userName<br/>
+<span id="reporting_state" class="mb-4"></span>
+</p>
 <div id="output"> </div>
 
 <div id="report_output_id"></div>

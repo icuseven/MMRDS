@@ -58,6 +58,9 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -67,7 +70,7 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
                 ${p_metadata.indicator_id}: 'bar',
             },
             names: {
-                ${p_metadata.indicator_id}: "${p_metadata.axis_h_title}",
+                ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
             },
             labels: true 
         },
@@ -75,24 +78,30 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
               //left: 375
         },
         axis: {
-            rotated: false, 
-            
+            rotated: true, 
             x: {
                 label: {
-                text: '${p_metadata.title}',
-                position: 'outer-middle'  
+                    text: '${p_metadata.x_axis_title}',
+                    position: 'outer-middle'  
                 },
                 tick: {
                     multiline: false,
+                    culling: false,
+                    outer: false
                 },
                 type: 'category',
-                categories: [${categories}],
+                categories: [${categories}]
             },
             y: {
                 label: {
-                    text: '${p_metadata.axis_v_title}',
-                    position: 'outer-middle' 
-                }
+                    text: '${p_metadata.y_axis_title}',
+                    position: 'outer-center' 
+                },
+                tick: {
+                    multiline: false,
+                    culling: false,
+                    outer: false
+                },
             }
         },
         //size: {
@@ -103,12 +112,23 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             duration: null
           },
           bindto: '#chart',
-          /*
+          
           onrendered: function()
           {
-            d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-              .attr('transform', 'rotate(325)translate(-25,0)');
-          }*/
+            const title_element = document.createElement("title");
+            title_element.innerText = '${p_metadata.chart_title_508}';
+
+            const description_element = document.createElement("desc");
+            description_element.innerText = '${p_metadata.chart_title_508}';
+
+            const svg_char = document.querySelector('#chart svg');
+
+            if(svg_char != null)
+            {
+                svg_char.appendChild(title_element);
+                svg_char.appendChild(description_element);
+            }
+          }
         }); ` 
     );
 

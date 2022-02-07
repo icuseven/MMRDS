@@ -5,8 +5,6 @@ async function render(p_index)
     {
         const url = window.location.href;
 
-        
-
         const url_array = url.split('#');
 
         if(url_array.length > 1)
@@ -111,6 +109,14 @@ function ControlFormatDate(p_value)
 
 function render_header()
 {
+    const reporting_state_element = document.getElementById("reporting_state")
+    reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
+
+    const current_datetime = new Date();
+
+    const report_datetime_element = document.getElementById("report_datetime")
+    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
+
     let pregnancy_relatedness_html = "All";
     if(g_filter.pregnancy_relatedness.length == 4)
     {
@@ -120,14 +126,18 @@ function render_header()
     {
         const html = [];
         html.push("<ul>");
-        g_filter.pregnancy_relatedness.forEach
+
+        relatedness_map.forEach
         (
-            (value) =>
+            (value, key) =>
             {
-                const item = relatedness_map.get(value);
-                html.push("<li>");
-                html.push(item);
-                html.push("</li>");
+
+                if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
+                {
+                    html.push("<li>");
+                    html.push(value);
+                    html.push("</li>");
+                }
             }
         );
         
@@ -136,17 +146,16 @@ function render_header()
     }
 
     return `
-    <div id="filter-summary"
-style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+<div 
+    id="filter-summary"
+    style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
 >
-<p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
-<p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
-<p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
-<p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
+    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
+    <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
+    <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
 </div>
-<!--button class="btn btn-secondary" style="float:right;">Print All / Save as PDF</button-->
-<dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 
+<dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 <br/><br/>
     `;
@@ -182,8 +191,7 @@ function render_filter_summary()
     let el  = document.getElementById("filter-summary");
     
     el.innerHTML = `
-    <p><strong>Reporting State:</strong> ${g_filter.reporting_state} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
-    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}</p>
+    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html} <span style="float:right"><button class="btn btn-secondary" onclick="show_filter_dialog()">Filter</button></span></p>
     <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
     <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.begin)}</p>
     `;
@@ -229,33 +237,27 @@ function show_filter_dialog()
     el.innerHTML = `
  <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
         <span id="ui-id-1" class="ui-dialog-title">Filter</span>
-        <label for="top_corner_close">Close</label>
+        <!--label for="top_corner_close">Close</label-->
         <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div style="margin:15px;width:600px;">
-        <p><strong>Reporting State: </strong> ${g_filter.reporting_state}</p>
+    <div style="margin:15px;width:610px;">
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
-            <li>
-                
+            <!--li>
                 <input type="checkbox" id="Pregnancy-Relatedness-All" onchange="pregnancy_relatedness_all_change(this)" ${all_is_checked_html}/> <label for="Pregnancy-Relatedness-All">All</label>
+            </li-->
+            <li>
+                <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">${relatedness_map.get(1)}</label>
             </li>
             <li>
-                
-                <input type="checkbox"  id="Pregnancy-Relatedness-1" onchange="pregnancy_relatedness_1_change(this)" ${is_checked_1_html}/> <label for="Pregnancy-Relatedness-1">Pregnancy related</label>
+                <input type="checkbox"  id="Pregnancy-Relatedness-0" onchange="pregnancy_relatedness_0_change(this)" ${is_checked_0_html} /> <label for="Pregnancy-Relatedness-0">${relatedness_map.get(0)}</label>
             </li>
             <li>
-                
-                <input type="checkbox"  id="Pregnancy-Relatedness-0" onchange="pregnancy_relatedness_0_change(this)" ${is_checked_0_html} /> <label for="Pregnancy-Relatedness-0">Pregnancy-Associated, but NOT-Related</label>
+                <input type="checkbox" id="Pregnancy-Relatedness-2" onchange="pregnancy_relatedness_2_change(this)" ${is_checked_2_html} /> <label for="Pregnancy-Relatedness-2">${relatedness_map.get(2)}</label>
             </li>
             <li>
-                
-                <input type="checkbox" id="Pregnancy-Relatedness-2" onchange="pregnancy_relatedness_2_change(this)" ${is_checked_2_html} /> <label for="Pregnancy-Relatedness-2">Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness</label>
-            </li>
-            <li>
-                
-                <input type="checkbox" id="Pregnancy-Relatedness-99" onchange="pregnancy_relatedness_99_change(this)" ${is_checked_99_html} /> <label for="Pregnancy-Relatedness-99">Not Pregnancy-Related or -Associated (i.e. Fals Positive</label>
+                <input type="checkbox" id="Pregnancy-Relatedness-99" onchange="pregnancy_relatedness_99_change(this)" ${is_checked_99_html} /> <label for="Pregnancy-Relatedness-99">${relatedness_map.get(99)}</label>
             </li>
         </ul>    
         </p>

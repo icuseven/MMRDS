@@ -58,6 +58,9 @@ async function render9_chart(p_post_html, p_metadata, p_data_list)
     (
         
     `var chart = c3.generate({
+        legend: {
+            show: false
+        },
         data: {
             columns: [
                 ["${p_metadata.indicator_id}", ${data.join(",")}
@@ -77,8 +80,8 @@ async function render9_chart(p_post_html, p_metadata, p_data_list)
             
             x: {
                 label: {
-                text: '${p_metadata.title}',
-                position: 'outer-middle'  
+                text: '${p_metadata.x_axis_title}',
+                position: 'outer-center'  
                 },
                 tick: {
                     multiline: false,

@@ -9,14 +9,14 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.Controllers
 {
 
-    [Authorize(Roles = "installation_admin,cdc_admin")]
-    public class jurisdictionSummaryController : Controller
+    [Authorize(Roles = "form_designer,cdc_admin")]
+    public class sessionSummaryController : Controller
     {
         IConfiguration configuration;
 
         mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-        public jurisdictionSummaryController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+        public sessionSummaryController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
         {
             configuration = p_configuration;
             ConfigDB = p_config_db;
@@ -25,7 +25,7 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
         {
 
-            var result = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+            var result = new mmria.server.utils.SessionSummary(configuration, ConfigDB);
 
             return View(await result.execute(cancellationToken));
         }
@@ -34,11 +34,11 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
         {
 
-            var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+            var summary_list = new mmria.server.utils.SessionSummary(configuration, ConfigDB);
 
             var summary_row_list = await summary_list.execute(cancellationToken);
 
-            FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem item)
+            FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.SessionSummaryItem item)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
@@ -47,13 +47,14 @@ namespace mmria.server.Controllers
                 cells.Add(new FastExcel.Cell(1, p_row_number));
                 cells.Add(new FastExcel.Cell(2, item.host_name));
                 cells.Add(new FastExcel.Cell(3, item.rpt_date));
+                /*
                 cells.Add(new FastExcel.Cell(4, item.num_recs));
                 cells.Add(new FastExcel.Cell(5, item.num_users_unq));
                 cells.Add(new FastExcel.Cell(6, item.num_users_ja));
                 cells.Add(new FastExcel.Cell(7, item.num_users_abs));
                 cells.Add(new FastExcel.Cell(8, item.num_user_anl));
                 cells.Add(new FastExcel.Cell(9, item.num_user_cm));
-
+                */
 
                 return new FastExcel.Row(p_row_number, cells);
 
@@ -83,7 +84,7 @@ namespace mmria.server.Controllers
                 var rows = new System.Collections.Generic.List<FastExcel.Row>();
 
                 var row_number = 1;
-                var total = new mmria.server.utils.JurisdictionSummaryItem();
+                var total = new mmria.server.utils.SessionSummaryItem();
 
 /*
                 var header1 = new List<FastExcel.Cell>();
@@ -120,6 +121,7 @@ namespace mmria.server.Controllers
 
                     row_number+=1;
                     
+                    /*
                     if(total.num_recs > -1)
                     total.num_recs += item.num_recs;
 
@@ -137,7 +139,7 @@ namespace mmria.server.Controllers
                     
                     if(total.num_user_cm > -1)
                     total.num_user_cm += item.num_user_cm;
-
+                    */
                     rows.Add(ConvertToDetail(row_number, item));
 
                 }
@@ -147,12 +149,14 @@ namespace mmria.server.Controllers
                 footer.Add(new FastExcel.Cell(1, ""));
                 footer.Add(new FastExcel.Cell(2, "Total"));
                 footer.Add(new FastExcel.Cell(3, ""));
+                /*
                 footer.Add(new FastExcel.Cell(4, total.num_recs));
                 footer.Add(new FastExcel.Cell(5, total.num_users_unq));
                 footer.Add(new FastExcel.Cell(6, total.num_users_ja));
                 footer.Add(new FastExcel.Cell(7, total.num_users_abs));
                 footer.Add(new FastExcel.Cell(8, total.num_user_anl));
                 footer.Add(new FastExcel.Cell(9, total.num_user_cm));
+                */
                 rows.Add(new FastExcel.Row(row_number, footer));
 
                 worksheet.Rows = rows;
