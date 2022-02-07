@@ -457,6 +457,7 @@ function dqr_summary(ctx) {
 
 function format_summary_pages(ctx) {
 	let retPage = [];
+	let q = g_dqr_questions;
 
 	// First table - 01) thru 05)
 	retPage.push([
@@ -488,7 +489,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '01) Deaths entered into MMRIA',
+							text: q.n01,
 							style: ['tableDetail'],
 						},
 						{
@@ -499,7 +500,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '02) Deaths Missing Case Identification Method',
+							text: q.n02,
 							style: ['tableDetail'],
 						},
 						{
@@ -510,7 +511,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '03) Case Status',
+							text: q.n03,
 							style: ['tableDetail'],
 							border: [true, true, true, false],
 						},
@@ -523,7 +524,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Abstracting (incomplete)',
+							text: q.n030,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -537,7 +538,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Abstraction Complete',
+							text: q.n031,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -551,7 +552,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Ready for Review',
+							text: q.n032,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -565,7 +566,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Review Complete and Decisions Entered',
+							text: q.n033,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -579,7 +580,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Out of Scope and Death Certificate Entered',
+							text: q.n034,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -593,7 +594,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            False Positive and Death Certificate Entered',
+							text: q.n035,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -607,7 +608,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Vitals Import',
+							text: q.n036,
 							style: ['tableDetail'],
 							border: [true, false, true, false],
 							preserveLeadingSpaces: true,
@@ -621,7 +622,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '            Missing',
+							text: q.n037,
 							style: ['tableDetail'],
 							border: [true, false, true, true],
 							preserveLeadingSpaces: true,
@@ -635,7 +636,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '04) Reviewed Deaths',
+							text: q.n04,
 							style: ['tableDetail'],
 						},
 						{
@@ -646,7 +647,7 @@ function format_summary_pages(ctx) {
 					],
 					[
 						{
-							text: '05) Reviewed Deaths Determined to be Pregnancy-Related',
+							text: q.n05,
 							style: ['tableDetail'],
 						},
 						{
@@ -2125,8 +2126,8 @@ function dqr_notes(ctx) {
 	// Add a page break
 	body.push(add_page_break());
 
-	// Add the notes
-	dqr_notes_list.map((note, index) => {
+	// Add the notes from data_quality_report_constants.js file
+	g_dqr_notes_list.map((note, index) => {
 		row = new Array();
 		row.push([
 			{

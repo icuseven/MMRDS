@@ -1,5 +1,5 @@
 // DQR questions for page 1 & 2 - **** SPECIAL NOTE - n06 will need to have the quarter variable appended ***
-const dqr_questions = {
+const g_dqr_questions = {
 	n01: '01) Deaths entered into MMRIA',
 	n02: '02) Deaths Missing Case Identification Method',
 	n03: '03) Case Status',
@@ -60,7 +60,7 @@ const dqr_questions = {
 };
 
 // DQR static notes to be displayed on pages 2-5
-var dqr_notes_list =
+var g_dqr_notes_list =
 [
 	{
 		num: '01)',

@@ -66,8 +66,6 @@ function render_data_quality_report_quarters()
 
 	console.log('in render_data_quality_report_quarters');
 
-	console.log('dqr_notes_list: ', dqr_notes_list);
-
 	// Build the dropdown list
 	g_quarters.map((value, index) => {
 		result.push(`<option value='${value}' ${(index == 0) ? ' selected' : ''}>${value}</option>`)
@@ -110,32 +108,36 @@ async function download_data_quality_report_button_click()
     {
         const item = dqr_detail_data.docs[i];
 
-        summary_data.n01 += item.n01;
-        summary_data.n02 += item.n02;
+				// console.log('*** quarter: ', item.quarter_name);
+				if ( item.quarter_name === selected_quarter ) 
+				{
+					console.log('****** FOUND ONE: ', item.quarter_name);
+					// Table One
+					summary_data.n01 += item.n01;
+					summary_data.n02 += item.n02;
 
-        summary_data.n03[0] += item.n03[0];
-        summary_data.n03[1] += item.n03[1];
-        summary_data.n03[2] += item.n03[2];
-        summary_data.n03[3] += item.n03[3];
-        summary_data.n03[4] += item.n03[4];
-        summary_data.n03[5] += item.n03[5];
-        summary_data.n03[6] += item.n03[6];
-        summary_data.n03[7] += item.n03[7];
+					summary_data.n03[0] += item.n03[0];
+					summary_data.n03[1] += item.n03[1];
+					summary_data.n03[2] += item.n03[2];
+					summary_data.n03[3] += item.n03[3];
+					summary_data.n03[4] += item.n03[4];
+					summary_data.n03[5] += item.n03[5];
+					summary_data.n03[6] += item.n03[6];
+					summary_data.n03[7] += item.n03[7];
 
-
-        summary_data.n04 += item.n04;
-        summary_data.n05 += item.n05;
-
+					summary_data.n04 += item.n04;
+					summary_data.n05 += item.n05;
+				}
     }
 
-   // console.log('dqr_detail_data: ', dqr_detail_data);
+		console.log('dqr_detail_data: ', dqr_detail_data);
+		console.log('summary_data: ', summary_data);
 
     create_data_quality_report_download
     (
         summary_data, 
         selected_quarter, 
-        'All Jurisdictions', 
-        dqr_notes_list
+        'All Jurisdictions'
     );
 
 }
@@ -153,8 +155,7 @@ function download_data_quality_report_pdf(selQuar)
     (
         {  n01:  7930 }, 
         selQuar, 
-        jurisdiction, 
-        dqr_notes_list
+        jurisdiction
     );
 }
 
