@@ -1,20 +1,20 @@
 var g_release_version = null;
 var g_quarters = new Array();
 
-$(function ()
+$(async function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('form_content_id').innerHTML = '';
-	get_release_version();
+	await main();
 
 	// Display the page
 	display_page();
 });
 
-function get_release_version()
+async function main()
 {
 
-    const release_version = $.ajax
+    const release_version = await $.ajax
     ({
         url: `${location.protocol}//${location.host}/api/version/release-version`,
     });
@@ -23,7 +23,8 @@ function get_release_version()
 }
 
 // Display the page
-function display_page() {
+function display_page() 
+{
 	// Load the select list array
 	g_quarters = load_quarters();
 
@@ -62,7 +63,8 @@ function load_quarters()
 }
 
 
-function render() {
+function render()
+{
 	document.getElementById('form_content_id').innerHTML = data_quality_report_render(
 		g_quarters
 	).join('');

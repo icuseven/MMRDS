@@ -153,7 +153,68 @@ namespace mmria.server.utils
 
 
 
+        //DS2. All Quarters. Limit to Selected quarter or before
+    //Valid Review Date: IsDate([cr_do_revie]) = True
+    
+
+
+            value_result = gs.get_value(source_object, "committee_review/date_of_review");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null
+      
+            )
+            {
+                DateTime test_time = DateTime.MinValue;
+                if
+                (
+                    DateTime.TryParse(value_result.result.ToString(), out test_time)
+                )
+                {
+                    dqr_detail.n04 = 1;
+                    
+                }
+            }
+            else
+            {
+                dqr_detail.n04 = 0;
+            }
+
+            if(dqr_detail.n04 == 1)
+            {
+                value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
+                if
+                (
+                    !value_result.is_error &&
+                    value_result.result != null
         
+                )
+                {
+                    if
+                    (
+                        int.TryParse(value_result.result.ToString(), out test_int) &&
+                        test_int == 1
+                    )
+                    {
+                        dqr_detail.n05 = 1;
+                        
+                    }
+                    else
+                    {
+                        dqr_detail.n05 = 0;
+                    }
+                }
+                else
+                {
+                    dqr_detail.n05 = 0;
+                }
+            }
+            else
+            {
+                dqr_detail.n05 = 0;
+            }
+
 /*
             if(data_type == "overdose")
             {

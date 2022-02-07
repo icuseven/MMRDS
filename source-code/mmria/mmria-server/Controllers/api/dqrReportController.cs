@@ -21,15 +21,31 @@ namespace mmria.server
 	public class dqrReportController: ControllerBase 
 	{  
 
+        public struct Result_Struct
+        {
+            public mmria.server.model.dqr.DQRDetail[] docs;
+        }
+
+        struct Selector_Struc
+        {
+            //public System.Dynamic.ExpandoObject selector;
+            public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
+            public string[] fields;
+
+            public string use_index;
+
+            public int limit;
+        }
+
         IConfiguration configuration;
 
         public dqrReportController(IConfiguration p_configuration)
         {
             configuration = p_configuration;
         }
-		public async Task<mmria.server.model.dqr.DQRDetail> Get(string quarter_string)
+		public async Task<Result_Struct> Get(string quarter_string)
 		{
-			var result = new mmria.server.model.dqr.DQRDetail();
+			var result = new Result_Struct();
             
             
             var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
@@ -45,36 +61,33 @@ namespace mmria.server
 			try
 			{
 
-                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/interactive_aggregate_report/_view/indicator_id?skip=0&limit={30000}&key=\"{quarter_string}\"";
-				var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
-				string responseFromServer = await case_curl.executeAsync();
+
+                var selector_struc = new Selector_Struc();
+				selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
+				selector_struc.limit = 10000;
+				selector_struc.selector.Add("data_type", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
+				selector_struc.selector["data_type"].Add("$eq", "dqr-detail");
 				
-/*
-
-                    List<mmria.server.model.dqr.DQRDetail> new_list = new();
-                    var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.report_measure_value_struct>>(responseFromServer);
-
-                    if(!string.IsNullOrWhiteSpace(indicator_id))
-                    {
-                        foreach(var doc in response_result.rows)
-                        {
-                            if(doc.key.ToLower() == indicator_id.ToLower())
-                            {
-                                result.Add(doc.value);
-                            }
-                            
-                        }
-                    }
-                    else
-                    {
-                        foreach(var doc in response_result.rows)
-                        {
-                            result.Add(doc.value);
-                        }
-                    }*/
+                /*
+                selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
+				selector_struc.limit = 10000;
+				selector_struc.selector.Add("committee_review.pregnancy_relatedness", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
+				selector_struc.selector["committee_review.pregnancy_relatedness"].Add("$eq", p_find_value);
+                */
 
 
-				//System.Console.WriteLine($"case_response.docs.length {result.Count}");
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
+
+
+
+                string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_find";
+				var case_curl = new cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
+				string responseFromServer = await case_curl.executeAsync();
+
+                result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
+				
 			}
 			catch(Exception ex) 
 			{

@@ -34,7 +34,7 @@ public class DQRSummary
 {
     public DQRSummary()
     {
-
+        n03 = new int[8];
     }
 
     public string quarter_name { get; set; }
@@ -43,7 +43,7 @@ public class DQRSummary
     
     public int? n01 { get; set; }
 	public int? n02  { get; set; }
-	public List<int> n03 { get; set; }
+	public int[] n03 { get; set; }
 	public int? n04  { get; set; }
 	public int? n05  { get; set; }
 	public int? n06  { get; set; }

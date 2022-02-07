@@ -32,8 +32,6 @@ public class DQRDetail
 
     public int? n12 { get; set; }
 
-    public int? n { get; set; }
-
     public int? n13 { get; set; }
 
     public int? n14 { get; set; }
