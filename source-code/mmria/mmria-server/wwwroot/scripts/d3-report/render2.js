@@ -119,14 +119,24 @@ async function render2_chart(p_post_html, p_metadata, p_data_list)
             title_element.innerText = '${p_metadata.chart_title_508}';
 
             const description_element = document.createElement("desc");
-            description_element.innerText = '${p_metadata.chart_title_508}';
+            description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
 
             const svg_char = document.querySelector('#chart svg');
 
             if(svg_char != null)
             {
-                svg_char.appendChild(title_element);
-                svg_char.appendChild(description_element);
+                const test_title = document.querySelector('#chart svg title');
+                const test_desc = document.querySelector('#chart svg desc');
+
+                if(test_title == null)
+                {
+                    svg_char.appendChild(title_element);
+                }
+
+                if(test_desc == null)
+                {
+                    svg_char.appendChild(description_element);
+                }
             }
           }
         }); ` 

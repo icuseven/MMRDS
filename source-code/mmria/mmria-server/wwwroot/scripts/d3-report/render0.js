@@ -25,7 +25,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#2'" style="cursor: pointer;">
 <td><strong>2</strong></td>
-<td><strong>Pregnancy Relatedness</strong></td>
+<td><strong>Pregnancy-Relatedness</strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 
@@ -117,8 +117,10 @@ function render0()
 
 function render_table(p_metadata, p_data, p_totals, p_total)
 {
-    return `<table class="table rounded-0 mb-0" style="width:50%">
-    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
+    return `<table class="table rounded-0 mb-0" style="width:50%"
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
+    >
+    
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
@@ -133,7 +135,10 @@ function render_table(p_metadata, p_data, p_totals, p_total)
         <td align=right><strong>${p_total}</strong></td></tr>
     </tfoot>
     </table><br/>
-    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)}</p>
+    <br/>
+    <p>This data has been taken directly from the MMRIA database and is not a final report</p>
+    <br/>
     `
 }
 

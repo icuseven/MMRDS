@@ -70,11 +70,14 @@ namespace mmria.server.model.actor.quartz
 			{
 				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
 		
-				if (
+				if 
+                (
 
 					doc_item != null &&
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
+                    doc_item["data_type"].ToString() == "export" &&
+					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase)
+                )
 				{
 					export_queue_item item = new export_queue_item ();
 	
@@ -85,6 +88,7 @@ namespace mmria.server.model.actor.quartz
 					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
 					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+                    item.data_type = doc_item.ContainsKey("data_type") && doc_item ["data_type"] != null ? doc_item ["data_type"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
@@ -266,9 +270,9 @@ namespace mmria.server.model.actor.quartz
 
 					try
 					{
-						mmria.server.utils.exporter mmrds_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
+						mmria.server.utils.exporter custom_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
 						//mmrds_exporter.Execute (item_to_process);
-						if(!mmrds_exporter.Execute(item_to_process))
+						if(!custom_exporter.Execute(item_to_process))
 						{
 							System.Console.WriteLine ("exporter failed to finish");
 						}
@@ -277,8 +281,6 @@ namespace mmria.server.model.actor.quartz
 					{
 						System.Console.WriteLine (ex);
 					}
-
-
 				}
 
 			}
@@ -324,6 +326,7 @@ namespace mmria.server.model.actor.quartz
 					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
 					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+                    item.data_type = doc_item.ContainsKey("data_type") && doc_item ["data_type"] != null ? doc_item ["data_type"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;

@@ -28,15 +28,14 @@ ${render_navigation_strip(12)}
         <br/>
         <div align=center>${await render122_table(metadata2, data_list2)}</div>
         </div>
-
+        
     </li>
+   
 </ul>
-
+<p style="clear:both;" align=center>This data has been taken directly from the MMRIA database and is not a final report</p>
 <br style="clear:both;"/>
 ${render_navigation_strip(12)}
 `;
-
-
 }
 
 
@@ -144,8 +143,18 @@ async function render121_chart(p_post_html, p_metadata, p_data_list)
 
             if(svg_char != null)
             {
-                svg_char.appendChild(title_element);
-                svg_char.appendChild(description_element);
+                const test_title = document.querySelector('#chart1 svg title');
+                const test_desc = document.querySelector('#chart1 svg desc');
+
+                if(test_title == null)
+                {
+                    svg_char.appendChild(title_element);
+                }
+
+                if(test_desc == null)
+                {
+                    svg_char.appendChild(description_element);
+                }
             }
           }
         }); ` 
@@ -262,8 +271,18 @@ async function render122_chart(p_post_html, p_metadata, p_data_list)
 
             if(svg_char != null)
             {
-                svg_char.appendChild(title_element);
-                svg_char.appendChild(description_element);
+                const test_title = document.querySelector('#chart2 svg title');
+                const test_desc = document.querySelector('#chart2 svg desc');
+
+                if(test_title == null)
+                {
+                    svg_char.appendChild(title_element);
+                }
+
+                if(test_desc == null)
+                {
+                    svg_char.appendChild(description_element);
+                }
             }
           }
         }); ` 
@@ -323,8 +342,9 @@ async function render121_table(p_metadata, p_data_list)
 
     //return render_table(p_metadata, data, totals, total);
 
-    return `<table class="table rounded-0 mb-0"  style="width:80%">
-    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
+    return `<table class="table rounded-0 mb-0"  style="width:80%"
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
+    >
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
         <th valign=top>${p_metadata.table_title}</th>
@@ -384,8 +404,9 @@ async function render122_table(p_metadata, p_data_list)
     
 
 
-    return `<table class="table rounded-0 mb-0" style="width:80%">
-    <CAPTION>${p_metadata.table_title_508 != null ? p_metadata.table_title_508: ""}</CAPTION>
+    return `<table class="table rounded-0 mb-0" style="width:80%"
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
+    >
     <thead class="thead">
     <tr style="background-color:#e3d3e4">
         <th>${p_metadata.table_title}</th>
@@ -402,6 +423,7 @@ async function render122_table(p_metadata, p_data_list)
     </table>
     <br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
+    
     <br/>
     `
 }
