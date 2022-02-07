@@ -90,7 +90,53 @@ async function download_data_quality_report_button_click()
     });
       
 
-    console.log('dqr_detail_data: ', dqr_detail_data);
+    const summary_data = {
+        n01:  0,
+        n02 : 0,
+        n03 : [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+        n04 : 0,
+        n05 : 0,
+    }
+
+    const previous_quarter_data = {
+        n01:  0,
+        n02 : 0,
+        n03 : [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+        n04 : 0,
+        n05 : 0,
+    }
+
+    for(var i = 0; i < dqr_detail_data.docs.length; i++)
+    {
+        const item = dqr_detail_data.docs[i];
+
+        summary_data.n01 += item.n01;
+        summary_data.n02 += item.n02;
+
+        summary_data.n03[0] += item.n03[0];
+        summary_data.n03[1] += item.n03[1];
+        summary_data.n03[2] += item.n03[2];
+        summary_data.n03[3] += item.n03[3];
+        summary_data.n03[4] += item.n03[4];
+        summary_data.n03[5] += item.n03[5];
+        summary_data.n03[6] += item.n03[6];
+        summary_data.n03[7] += item.n03[7];
+
+
+        summary_data.n04 += item.n04;
+        summary_data.n05 += item.n05;
+
+    }
+
+   // console.log('dqr_detail_data: ', dqr_detail_data);
+
+    create_data_quality_report_download
+    (
+        summary_data, 
+        selected_quarter, 
+        'All Jurisdictions', 
+        dqr_notes_list
+    );
 
 }
 // This function will call the pdf function
@@ -103,6 +149,12 @@ function download_data_quality_report_pdf(selQuar)
 	// TODO: Figure out where to get the jurisdiction 
 	let jurisdiction = 'All Jurisdictions';
 	console.log('Download the PDF: ');
-	create_data_quality_report_download('Data Goes Here', selQuar, jurisdiction, dqr_notes_list);
+	create_data_quality_report_download
+    (
+        {  n01:  7930 }, 
+        selQuar, 
+        jurisdiction, 
+        dqr_notes_list
+    );
 }
 

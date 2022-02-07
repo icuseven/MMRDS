@@ -76,7 +76,8 @@ async function print_pdf(ctx) {
 			let header = '***';
 			// console.log('doc.content.length: ', doc.content.length);
 			// console.log('*** content: ', doc.content);
-			for (let i = 0; i < doc.content.length; i++) {
+			for (let i = 0; i < doc.content.length; i++) 
+            {
 				// console.log('*** pageNumber: ', i, ' - ', doc.content[i].positions[0].pageNumber);
 				startPage = doc.content[i].positions[0].pageNumber;
 				endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
@@ -491,7 +492,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '7930',
+							text: ctx.data.n01,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -502,7 +503,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '1648',
+							text: ctx.data.n02,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -528,7 +529,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '1316',
+							text: ctx.data.n03[0],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -542,7 +543,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '737',
+							text: ctx.data.n03[1],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -556,7 +557,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '583',
+							text: ctx.data.n03[2],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -570,7 +571,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '566',
+							text: ctx.data.n03[3],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -584,7 +585,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '88',
+							text: ctx.data.n03[4],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -598,7 +599,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '231',
+							text: ctx.data.n03[5],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -612,7 +613,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '146',
+							text: ctx.data.n03[6],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, false],
@@ -626,7 +627,7 @@ function format_summary_pages(ctx) {
 							preserveLeadingSpaces: true,
 						},
 						{
-							text: '4263',
+							text: ctx.data.n03[7],
 							style: ['tableDetail'],
 							alignment: 'center',
 							border: [true, false, true, true],
@@ -638,7 +639,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '4694',
+							text: ctx.data.n04,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -649,7 +650,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '1571',
+							text: ctx.data.n05,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},

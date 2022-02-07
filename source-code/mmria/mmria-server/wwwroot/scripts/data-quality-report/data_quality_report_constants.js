@@ -1,5 +1,5 @@
 // DQR questions for page 1 & 2 - **** SPECIAL NOTE - n06 will need to have the quarter variable appended ***
-var dqr_questions = {
+const dqr_questions = {
 	n01: '01) Deaths entered into MMRIA',
 	n02: '02) Deaths Missing Case Identification Method',
 	n03: '03) Case Status',
