@@ -307,12 +307,14 @@ function renderQuarterInfo()
 
 	// Update the button to show the currently selected quarter
 	document.getElementById('quarter_btn').innerHTML =
-		`Download ${selectedQuarter} as PDF`;
+		`Export ${selectedQuarter}`;
 }
 
 function render_data_quality_report_quarters() 
 {
 	const result = [];
+
+	console.log('in render_data_quality_report_quarters');
 
 	// Build the dropdown list
 	g_quarters.map((value, index) => {
@@ -326,6 +328,7 @@ function render_data_quality_report_quarters()
 async function download_data_quality_report_button_click()
 {
 
+	console.log('in download_data_quality_report_button_click');
 
     const selected_quarter = document.getElementById('quarters-list').value;
 
@@ -335,7 +338,7 @@ async function download_data_quality_report_button_click()
     });
       
 
-    console.log('dqr_detail_data ${dqr_detail_data}');
+    console.log('dqr_detail_data: ', dqr_detail_data);
 
 }
 // This function will call the pdf function
