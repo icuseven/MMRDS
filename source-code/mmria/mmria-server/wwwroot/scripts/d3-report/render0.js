@@ -17,7 +17,7 @@ function render0()
 
 <tr onclick="window.location='#1'" style="cursor: pointer;">
 <td><strong>1</strong></td>
-<td><strong>Primary Underlying Cause of Death</strong></td>
+<td><strong><a href="#1">Primary Underlying Cause of Death</a></strong></td>
 <td>Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.</td>
 </tr>
 
@@ -25,7 +25,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#2'" style="cursor: pointer;">
 <td><strong>2</strong></td>
-<td><strong>Pregnancy-Relatedness</strong></td>
+<td><strong><a href="#2">Pregnancy-Relatedness</a></strong></td>
 <td>Determined by Pregnancy-Relatedness entered on Committee Decisions form.</td>
 </tr>
 
@@ -41,7 +41,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#4'" style="cursor: pointer;">
 <td><strong>4</strong></td>
-<td><strong>Timing of Death</strong></td>
+<td><strong><a href="#4">Timing of Death</a></strong></td>
 <td>The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy</td>
 </tr>
 
@@ -105,7 +105,7 @@ function render0()
 
 <tr bgcolor=CCCCCC onclick="window.location='#12'" style="cursor: pointer;">
 <td><strong>12</strong></td>
-<td><strong>Living Arrangements</strong></td>
+<td><strong><a href="#12">Living Arrangements</a></strong></td>
 <td>Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.</td>
 </tr>
 </tbody>
