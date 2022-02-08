@@ -4,7 +4,7 @@ indicator_map.set
     1,
     {
         indicator_id : "mUndCofDeath",
-        title:"Primary Underlying Cause of Death",
+        title:"Primary Underlying Causes of Death",
         description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
         blank_field_id: "MUndCofDeath22",
 
