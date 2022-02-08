@@ -80,7 +80,11 @@ async function download_data_quality_report_button_click()
 
 	console.log('in download_data_quality_report_button_click');
 
-    const selected_quarter = document.getElementById('quarters-list').value;
+    //const selected_quarter = document.getElementById('quarters-list').value;
+    const selected_quarter = "Q3-2021";
+
+    const arr = selected_quarter.split("-");
+    const quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
 
     const dqr_detail_data = await $.ajax
     ({
@@ -109,9 +113,9 @@ async function download_data_quality_report_button_click()
         const item = dqr_detail_data.docs[i];
 
 				// console.log('*** quarter: ', item.quarter_name);
-				if ( item.quarter_name === selected_quarter ) 
+				if ( item.add_quarter_number <= quarter_number ) 
 				{
-					console.log('****** FOUND ONE: ', item.quarter_name);
+					//console.log('****** FOUND ONE: ', item.quarter_name);
 					// Table One
 					summary_data.n01 += item.n01;
 					summary_data.n02 += item.n02;

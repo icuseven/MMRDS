@@ -54,27 +54,40 @@ namespace mmria.server.utils
         
             dqr_detail._id  = ((object)value_result.result).ToString();
 
-            value_result = gs.get_value(source_object, "cmpquarter");
-
+            value_result = gs.get_value(source_object, "addquarter");
             var obj = (object)value_result.result;
 
-            if(obj == null)
+            if(obj != null)
             {
-                return null;
-            }
-            
-            dqr_detail.quarter_name  = ((object)value_result.result).ToString();
+                dqr_detail.add_quarter_name  = ((object)value_result.result).ToString();
 
-            if(! string.IsNullOrWhiteSpace(dqr_detail.quarter_name))
+                if(! string.IsNullOrWhiteSpace(dqr_detail.add_quarter_name))
+                {
+                    var arr = dqr_detail.add_quarter_name.Split("-");
+                    dqr_detail.add_quarter_number = double.Parse($"{arr[1]}.{((int.Parse(arr[0].Replace("Q","")) - 1) * .25D).ToString().Replace("0.","")}");
+                }
+            }
+
+
+
+            value_result = gs.get_value(source_object, "cmpquarter");
+            obj = (object)value_result.result;
+            if(obj != null)
             {
-                var arr = dqr_detail.quarter_name.Split("-");
-                dqr_detail.quarter_number = double.Parse($"{arr[1]}.{((int.Parse(arr[0].Replace("Q","")) - 1) * .25D).ToString().Replace("0.","")}");
+                dqr_detail.cmp_quarter_name  = ((object)value_result.result).ToString();
+
+                if(! string.IsNullOrWhiteSpace(dqr_detail.cmp_quarter_name))
+                {
+                    var arr = dqr_detail.cmp_quarter_name.Split("-");
+                    dqr_detail.cmp_quarter_number = double.Parse($"{arr[1]}.{((int.Parse(arr[0].Replace("Q","")) - 1) * .25D).ToString().Replace("0.","")}");
+                }
             }
 
             dqr_detail.n01 = 1;
 
             int test_int = -1;
 
+            dqr_detail.n02 = 0;
             value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
             if
             (
@@ -103,9 +116,18 @@ namespace mmria.server.utils
             }
             else
             {
-                dqr_detail.n02 = 0;
+                dqr_detail.n02 = 1;
             }
 
+
+            dqr_detail.n03[0] = 0;
+            dqr_detail.n03[1] = 0;
+            dqr_detail.n03[2] = 0;
+            dqr_detail.n03[3] = 0;
+            dqr_detail.n03[4] = 0;
+            dqr_detail.n03[5] = 0;
+            dqr_detail.n03[6] = 0;
+            dqr_detail.n03[7] = 0;
 
             value_result = gs.get_value(source_object, "home_record/case_status/overall_case_status");
             if
