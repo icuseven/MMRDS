@@ -98,19 +98,26 @@ namespace mmria.server.utils
             )
             {
                 var list = value_result.result as IList<object>;
-                foreach(var item in list)
+                if(list.Count == 0)
                 {
-                    int.TryParse(item.ToString(), out test_int);
-                    if
-                    (
-                        test_int == 9999 ||
-                        test_int == 7777
-                    )
+                    dqr_detail.n02 = 1;
+                }
+                else
+                {
+                    foreach(var item in list)
                     {
-                        dqr_detail.n02 = 1;
-                        break;
+                        int.TryParse(item.ToString(), out test_int);
+                        if
+                        (
+                            test_int == 9999 ||
+                            test_int == 7777
+                        )
+                        {
+                            dqr_detail.n02 = 1;
+                            break;
+                        }
+                        
                     }
-                    
                 }
 
             }
