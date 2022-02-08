@@ -695,7 +695,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '132',
+							text: ctx.data.n06,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -706,7 +706,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '92',
+							text: ctx.data.n07,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -717,7 +717,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '520',
+							text: ctx.data.n08,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
@@ -728,7 +728,7 @@ function format_summary_pages(ctx) {
 							style: ['tableDetail'],
 						},
 						{
-							text: '352',
+							text: ctx.data.n09,
 							style: ['tableDetail'],
 							alignment: 'center',
 						},
