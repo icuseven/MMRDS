@@ -47,6 +47,12 @@ namespace mmria.server.utils
             migrate.C_Get_Set_Value.get_value_result value_result = null;
 			var dqr_detail = new mmria.server.model.dqr.DQRDetail();
 
+
+
+            bool cr_do_revie_is_date = false;
+            bool cr_p_relat_is_1 = false;
+            bool hrcpr_bcp_secti_is_2 = false;
+
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
             int means_of_fatal_injury = 9999;
 
@@ -89,9 +95,13 @@ namespace mmria.server.utils
 
             dqr_detail.n02 = 0;
             value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
-            if
+            if(value_result.is_error)
+            {
+
+            }
+            else if
             (
-                !value_result.is_error &&
+                
                 value_result.result != null &&
                 value_result.result is IList<object>
       
@@ -121,10 +131,11 @@ namespace mmria.server.utils
                 }
 
             }
+            /*
             else
             {
                 dqr_detail.n02 = 1;
-            }
+            }*/
 
 
             dqr_detail.n03[0] = 0;
@@ -197,6 +208,7 @@ namespace mmria.server.utils
             {
                 DateTime test_time = DateTime.MinValue;
                 var data_string = value_result.result.ToString();
+                /*
                 if
                 (
                     !string.IsNullOrWhiteSpace(data_string) &&
@@ -204,13 +216,14 @@ namespace mmria.server.utils
                 )
                 {
                     System.Console.Write("here");
-                }
+                }*/
                 if
                 (
                     DateTime.TryParse(data_string, out test_time)
                 )
                 {
                     dqr_detail.n04 = 1;
+                    cr_do_revie_is_date = true;
                     
                 }
             }
@@ -222,31 +235,26 @@ namespace mmria.server.utils
 
             dqr_detail.n05 = 0;
             dqr_detail.n06 = 0;
-            if(dqr_detail.n04 == 1)
+
+            value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null
+    
+            )
             {
-                value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
                 if
                 (
-                    !value_result.is_error &&
-                    value_result.result != null
-        
+                    cr_do_revie_is_date == true &&
+                    int.TryParse(value_result.result.ToString(), out test_int) &&
+                    test_int == 1
                 )
                 {
-                    if
-                    (
-                        int.TryParse(value_result.result.ToString(), out test_int) &&
-                        test_int == 1
-                    )
-                    {
-                        dqr_detail.n05 = 1;
-                        dqr_detail.n06 = 1;
-                        
-                    }
-                    else
-                    {
-                        dqr_detail.n05 = 0;
-                        dqr_detail.n06 = 0;
-                    }
+                    dqr_detail.n05 = 1;
+                    dqr_detail.n06 = 1;
+                    cr_p_relat_is_1 = true;
+                    
                 }
                 else
                 {
@@ -254,12 +262,12 @@ namespace mmria.server.utils
                     dqr_detail.n06 = 0;
                 }
             }
-            
             else
             {
                 dqr_detail.n05 = 0;
                 dqr_detail.n06 = 0;
             }
+
 
             value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
             if
@@ -271,11 +279,13 @@ namespace mmria.server.utils
             {
                 if
                 (
+                    cr_p_relat_is_1 == true &&
                     int.TryParse(value_result.result.ToString(), out test_int) &&
                     test_int == 2
                 )
                 {
                     dqr_detail.n07 = 1;
+                    hrcpr_bcp_secti_is_2 = true;
                 }
                 else
                 {
@@ -286,6 +296,32 @@ namespace mmria.server.utils
             {
                 dqr_detail.n07 = 0;
             }
+
+            if(cr_do_revie_is_date && cr_p_relat_is_1)
+            {
+                dqr_detail.n08 = 1;
+            }
+            else
+            {
+                dqr_detail.n08 = 0;
+            }
+
+
+            if
+            (
+                cr_do_revie_is_date && 
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                dqr_detail.n09 = 1;
+            }
+            else
+            {
+                dqr_detail.n08 = 0;
+            }
+
+            
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
