@@ -189,9 +189,18 @@ namespace mmria.server.utils
             )
             {
                 DateTime test_time = DateTime.MinValue;
+                var data_string = value_result.result.ToString();
                 if
                 (
-                    DateTime.TryParse(value_result.result.ToString(), out test_time)
+                    !string.IsNullOrWhiteSpace(data_string) &&
+                    data_string.IndexOf("-") < 0
+                )
+                {
+                    System.Console.Write("here");
+                }
+                if
+                (
+                    DateTime.TryParse(data_string, out test_time)
                 )
                 {
                     dqr_detail.n04 = 1;
@@ -203,6 +212,9 @@ namespace mmria.server.utils
                 dqr_detail.n04 = 0;
             }
 
+
+            dqr_detail.n05 = 0;
+            dqr_detail.n06 = 0;
             if(dqr_detail.n04 == 1)
             {
                 value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
@@ -220,90 +232,54 @@ namespace mmria.server.utils
                     )
                     {
                         dqr_detail.n05 = 1;
+                        dqr_detail.n06 = 1;
                         
                     }
                     else
                     {
                         dqr_detail.n05 = 0;
+                        dqr_detail.n06 = 0;
                     }
                 }
                 else
                 {
                     dqr_detail.n05 = 0;
+                    dqr_detail.n06 = 0;
                 }
             }
+            
             else
             {
                 dqr_detail.n05 = 0;
+                dqr_detail.n06 = 0;
             }
 
-/*
-            if(data_type == "overdose")
+            value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null
+    
+            )
             {
-                try
+                if
+                (
+                    int.TryParse(value_result.result.ToString(), out test_int) &&
+                    test_int == 2
+                )
                 {
-                    var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
-                    int int_check = 0;
-                    if
-                    (
-                        filter_check_string == null ||
-                        string.IsNullOrWhiteSpace(filter_check_string.ToString())
-                    )
-                    {
-                        return result;
-                    }
-                    
-                    int Overdose_Poisioning = 3;
-                    if(int.TryParse(filter_check_string.ToString(), out int_check))
-                    {
-                        if(int_check != Overdose_Poisioning)
-                        {
-                            return result;
-                        }
-                    }
-                    else
-                    {
-                        return result;
-                    }
-
+                    dqr_detail.n07 = 1;
                 }
-                catch(Exception)
+                else
                 {
-                    //System.Console.WriteLine (ex);
+                    dqr_detail.n07 = 0;
                 }
             }
             else
             {
-                try
-                {
-                    var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
-                    int int_check = 0;
-                    if
-                    (
-                        filter_check_string == null ||
-                        string.IsNullOrWhiteSpace(filter_check_string.ToString())
-                    )
-                    {
-                        means_of_fatal_injury = 9999;
-                    }
-                    else if(int.TryParse(filter_check_string.ToString(), out int_check))
-                    {
-                        means_of_fatal_injury = int_check;
-                    }
-                    else
-                    {
-                        means_of_fatal_injury = 9999;
-                    }
-
-                }
-                catch(Exception)
-                {
-                    //System.Console.WriteLine (ex);
-                }
+                dqr_detail.n07 = 0;
             }
-            */
 
-			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
