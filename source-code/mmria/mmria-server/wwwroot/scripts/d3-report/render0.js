@@ -17,7 +17,7 @@ function render0()
 
 <tr onclick="window.location='#1'" style="cursor: pointer;">
 <td><strong>1</strong></td>
-<td><strong><a href="#1">Primary Underlying Cause of Death</a></strong></td>
+<td><strong><a href="#1">Primary Underlying Causes of Death</a></strong></td>
 <td>Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.</td>
 </tr>
 
