@@ -348,6 +348,21 @@ function getHeaderName() {
 	return headerStr;
 }
 
+// Format number
+function fmtNumber( val ) {
+	if ( val === null || val === '' ) {
+		return '';
+	}
+	return val;
+}
+
+// Format percentage
+function fmtPercent( val ) {
+	if ( val === null || val === '' ) {
+		return '';
+	}
+	return val.toFixed(1) + '%';
+}
 
 // ************************************************************************
 // ************************************************************************
@@ -457,9 +472,110 @@ function dqr_summary(ctx) {
 
 function format_summary_pages(ctx) {
 	let retPage = [];
+	// ***
+	// *** q - the question array
+	// *** d - the data array
+	// ***
 	let q = g_dqr_questions;
+	let d = ctx.data;
+	let rows = new Array();
+	let fld = '';
+	let fldSub = '';
+	let startLoop;
+	let endLoop;
 
 	// First table - 01) thru 05)
+	// Header
+	rows.push([
+		{
+			text: `Summary of ALL Deaths Entered into MMRIA as of ${ctx.quarter}`,
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, true],
+		},
+		{
+			text: `N (as of ${ctx.quarter})`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [false, true, true, true],
+		},
+	],);
+
+	// Add the lines for 01) & 02)
+	startLoop = 1;
+	endLoop = 2;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		// Create the field name
+		fld = 'n0' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				text: d[fld],
+				style: ['tableDetail'],
+				alignment: 'center',
+			},
+		],);
+	}
+
+	// Add line 03) header
+	fld = 'n03';
+	rows.push([
+		{
+			text: q[fld],
+			style: ['tableDetail'],
+			border: [true, true, true, false],
+		},
+		{
+			text: '',
+			style: ['tableDetail'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Add 03) detail lines
+	startLoop = 0;
+	endLoop = 7;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fldSub = fld + i;
+		rows.push([
+			{
+				text: q[fldSub],
+				style: ['tableDetail'],
+				border: [true, false, true, false],
+				preserveLeadingSpaces: true,
+			},
+			{
+				text: d[fld][i],
+				style: ['tableDetail'],
+				alignment: 'center',
+				border: [true, false, true, false],
+			},
+		],);
+	}
+
+	// Add lines 04) & 05)
+	startLoop = 4;
+	endLoop = 5;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n0' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				text: d[fld],
+				style: ['tableDetail'],
+				alignment: 'center',
+			},
+		],);
+	}
+	
 	retPage.push([
 		{
 			layout: {
@@ -473,195 +589,49 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 0,
 				widths: [350, '*'],
-				body: [
-					[
-						{
-							text: `Summary of ALL Deaths Entered into MMRIA as of ${ctx.quarter}`,
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, true],
-						},
-						{
-							text: `N (as of ${ctx.quarter})`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [false, true, true, true],
-						},
-					],
-					[
-						{
-							text: q.n01,
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n01,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: q.n02,
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n02,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: q.n03,
-							style: ['tableDetail'],
-							border: [true, true, true, false],
-						},
-						{
-							text: '',
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: q.n030,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[0],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n031,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[1],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n032,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[2],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n033,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[3],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n034,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[4],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n035,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[5],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n036,
-							style: ['tableDetail'],
-							border: [true, false, true, false],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[6],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: q.n037,
-							style: ['tableDetail'],
-							border: [true, false, true, true],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: ctx.data.n03[7],
-							style: ['tableDetail'],
-							alignment: 'center',
-							border: [true, false, true, true],
-						},
-					],
-					[
-						{
-							text: q.n04,
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n04,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: q.n05,
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n05,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);
+
+	// Re-initialize
+	rows = new Array();
 
 	// Second table - 06) thru 09)
+	// Header
+	rows.push([
+		{
+			text: `Summary of Deaths included in this ${ctx.quarter} Report`,
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, true],
+		},
+		{
+			text: `N (as of ${ctx.quarter})`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [false, true, true, true],
+		},
+	],);
+
+	// Add lines 06) thru 09)
+	startLoop = 6;
+	endLoop = 9;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n0' + i;
+		rows.push([
+			{
+				text: q[fld] + ` ${ ( i == 6 ) ? ctx.quarter : ''}`,
+				style: ['tableDetail'],
+			},
+			{
+				text: d[fld],
+				style: ['tableDetail'],
+				alignment: 'center',
+			},
+		],);
+	}
+
 	retPage.push([
 		{
 			layout: {
@@ -675,70 +645,152 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 0,
 				widths: [350, '*'],
-				body: [
-					[
-						{
-							text: `Summary of Deaths included in this ${ctx.quarter} Report`,
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, true],
-						},
-						{
-							text: `N (as of ${ctx.quarter})`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [false, true, true, true],
-						},
-					],
-					[
-						{
-							text: `06) Pregnancy-Related Deaths Reviewed in ${ctx.quarter}`,
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n06,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: '07) Had a Linked BC/FDC (per Home Record Form Status)(subset of deaths in #06)',
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n07,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: '08) Pregnancy-Related Deaths Reviewed in previous 4 Quarters',
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n08,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-					[
-						{
-							text: '09) Had a Linked BC/FDC (per Home Record Form Status)(subset of deaths in #08)',
-							style: ['tableDetail'],
-						},
-						{
-							text: ctx.data.n09,
-							style: ['tableDetail'],
-							alignment: 'center',
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);
+
+	// Re-initialize
+	rows = new Array();
 
 	// Third table - 10) thru 34)
+	// Header lines
+	// ***
+	// Header line 1
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Header line 2
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: `${ctx.quarter}, N = 132`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Previous 4 Qtrs, N = 520',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 3
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabelSmall', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: 'How your data looks',
+			style: ['tableLabelSmall', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'How your data looked',
+			style: ['tableLabelSmall', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 4
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Missing          Unknown',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Missing          Unknown',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 5
+	rows.push([
+		{
+			text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, true],
+		},
+		{
+			text: 'N       %            N          %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+		},
+		{
+			text: 'N       %            N          %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+		},
+	],);
+
+	// Add line 10) thru 34)
+	startLoop = 10;
+	endLoop = 34;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				columns:
+					[
+						{ width: 20, text: fmtNumber( d[fld].s.mn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.mp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 20, text: fmtNumber( d[fld].s.un ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.up ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 4, text: '', style: ['tableDetail'], },
+					],
+			},
+			{
+				columns:
+					[
+						{ width: 20, text: fmtNumber( d[fld].p.mn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.mp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 20, text: fmtNumber( d[fld].p.un ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.up ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 4, text: '', style: ['tableDetail'], },
+					],
+			},
+		],);
+	}
+
 	retPage.push([
 		{
 			layout: {
@@ -752,710 +804,130 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 5,
 				widths: [350, '*', '*'],
-				body: [
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: `${ctx.quarter}, N = 132`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Previous 4 Qtrs, N = 520',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabelSmall', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: 'How your data looks',
-							style: ['tableLabelSmall', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'How your data looked',
-							style: ['tableLabelSmall', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Missing          Unknown',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Missing          Unknown',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, true],
-						},
-						{
-							text: 'N       %            N          %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-						},
-						{
-							text: 'N       %            N          %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-						},
-					],
-					[
-						{
-							text: `10) Timing of Death: Abstractor's Overall Assessment of Timing (from Home Record)`,
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '23', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '17.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 4, text: '', style: ['tableDetail'], },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '260', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '50.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 4, text: '', style: ['tableDetail'], },
-								],
-						},
-					],
-					[
-						{
-							text: '11) Timing of Death: Date of Death (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '12) Timing of Death: Date of Death (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '11', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '13) Timing of Death: Pregnancy Checkbox (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '11', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '14', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '10.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '26', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '5.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '44', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '14) Race/Ethnicity (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '8', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '39', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '11.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '15) Race/Ethnicity (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '8', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '6.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '20', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '16) Age at Death (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '17) Education (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '7', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '7.6%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '3', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '29', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '16', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '18) Education (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '3', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '4', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '15', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.9%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '19) Emotional Stressors (from SEP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '35', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '26.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '13', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '9.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '109', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '21.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '34', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '6.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '20) Living Arrangements (from SEP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '57', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '43.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '26', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '19.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '195', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '37.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '144', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '27.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '21) Distance Between Residence and Place of Death (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '37', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '28.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '92', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '17.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '22) Distance Between Residence and Place of Delivery (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '25', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '27.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '89', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '25.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '23) Urbanicity of Place of Death (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '29', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '22.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '89', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '17.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '9', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '24) Urbanicity of Place of Last Residence (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '19', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '14.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '64', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '12.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '25) Urbanicity of Place of Delivery (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '19', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '20.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '10', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '10.9%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '75', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '21.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '29', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '26) Urbanicity of Place of Residence (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '15', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '16.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '56', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '15.9%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '15', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '27) Was Autopsy Performed? (from DC)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '5', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '14', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '9', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '28) What Type of Autopsy or Examination was Performed? (from Autopsy Report)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '44', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '33.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '3', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '163', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '31.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '29) Principal Source of Payment for Prenatal Care (from PCR)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '36', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '27.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '6', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '158', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '30.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '21', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '30) Principal Source of Payment for this Delivery (from BC/FDC)*',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '4', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '29', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '4', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.1%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '31) Any Prenatal Care (from SEP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '43', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '32.6%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '4', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '185', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '35.6', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '11', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.1%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '32) Documented Barriers to Healthcare Access (from SEP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '38', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '28.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '25', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '18.9%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '125', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '24.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '118', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '22.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '33) Was There Documented Substance Use (from SEP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '38', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '28.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '3', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '118', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '22.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '6', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '34) Were There Documented Preexisting Mental Health Conditions (from MHP)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '41', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '31.1%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '129', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '24.8%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '16', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.1%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);
+
+	// Re-initialize
+	rows = new Array();
 
 	// Fourth table - 35) thru 43)
+	// Header
+	// ***
+	// Header line 1
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Header line 2
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: `${ctx.quarter}, N = 132`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Previous 4 Qtrs, N = 520',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 3
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Missing          Unknown',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Missing          Unknown',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 4
+	rows.push([
+		{
+			text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, true],
+		},
+		{
+			text: 'N       %            N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+		},
+		{
+			text: 'N       %            N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+		},
+	],);
+
+	// Add line 35) thru 43)
+	startLoop = 35;
+	endLoop = 43;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				columns:
+					[
+						{ width: 20, text: fmtNumber( d[fld].s.mn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.mp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 20, text: fmtNumber( d[fld].s.un ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.up ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+			{
+				columns:
+					[
+						{ width: 20, text: fmtNumber( d[fld].p.mn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.mp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 20, text: fmtNumber( d[fld].p.un ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.up ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+		],);
+	}
+
 	retPage.push([
 		{
 			layout: {
@@ -1469,305 +941,130 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 4,
 				widths: [350, '*', '*'],
-				body: [
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: `${ctx.quarter}, N = 132`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Previous 4 Qtrs, N = 520',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Missing          Unknown',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Missing          Unknown',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, true],
-						},
-						{
-							text: 'N       %            N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-						},
-						{
-							text: 'N       %            N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-						},
-					],
-					[
-						{
-							text: '35) Committee Determination of Primary Underlying Cause of Death (PMSS-MM)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '7', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '16', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.1%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '36) Was this Death Preventable?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '6', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '19', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '37) Chance to Alter Outcome',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '7', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '5.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '5', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '14', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.7%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '32', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '6.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '38) Did Obesity Contribute to the Death?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '4', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '5', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '3.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '0', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '21', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '39) Did Discrimination Contribute to the Death?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '7', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '5.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '22', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '16.7%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '44', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '8.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '116', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '22.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '40) Did Mental Health Cond. Other than Substance Use Disorder Contribute to Death?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '14', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '10.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '49', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '9.4%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '41) Did Substance Use Disorder Contribute to the Death?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '14', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '10.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.4%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '49', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '9.4%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '42) Was this Death a Suicide?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '2', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.5%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '10', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '7.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.2%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '24', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '4.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '43) Was this Death a Homicide?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '3', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '2.3%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '1', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '0.8%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 20, text: '5', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '1.0%', style: ['tableDetail'], alignment: 'right', },
-									{ width: 20, text: '6', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '31.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);
+
+	// Re-initialize
+	rows = new Array();
 
 	// Fifth table - 44) thru 45)
+	// Header
+	// ***
+	// Header line 1
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+		{
+			text: 'Deaths Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Header line 2
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: `${ctx.quarter}, N = 132`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Previous 4 Qtrs, N = 520',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 3
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Total    Passed Logic Chk',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Total    Passed Logic Chk',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 4
+	rows.push([
+		{
+			text: 'Logic Checks for Reviewed Pregnancy-Related Deaths',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, true],
+		},
+		{
+			text: '  N              N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+			preserveLeadingSpaces: true,
+		},
+		{
+			text: '  N              N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+			preserveLeadingSpaces: true,
+		},
+	],);
+
+	// Add line 44) & 45)
+	startLoop = 44;
+	endLoop = 45;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				columns:
+					[
+						{ width: 30, text: fmtNumber( d[fld].s.tn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+			{
+				columns:
+					[
+						{ width: 30, text: fmtNumber( d[fld].p.tn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+		],);
+	}
+
 	retPage.push([
 		{
 			layout: {
@@ -1781,135 +1078,150 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 4,
 				widths: [350, '*', '*'],
-				body: [
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-						{
-							text: 'Deaths Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: `${ctx.quarter}, N = 132`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Previous 4 Qtrs, N = 520',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Total    Passed Logic Chk',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Total    Passed Logic Chk',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: 'Logic Checks for Reviewed Pregnancy-Related Deaths',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, true],
-						},
-						{
-							text: '  N              N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: '  N              N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-							preserveLeadingSpaces: true,
-						},
-					],
-					[
-						{
-							text: '44) Analyst Able to Assign Yes/No Preventability',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '132', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '126', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '95.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '520', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '502', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '96.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '45) Preventability Aligns with Chance to Alter Outcome',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '132', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '130', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '98.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '520', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '518', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '99.6%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);
 
+	// Re-initialize
+	rows = new Array();
+
 	// Sixth table - 46) thru 49)
+	// Header
+	// ***
+	// Header line 1
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
+		},
+		{
+			text: 'Preventable Deaths',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+		{
+			text: 'Preventable Deaths',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Header line 2
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
+		},
+		{
+			text: 'Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+		{
+			text: 'Reviewed in',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, true, true, false],
+		},
+	],);
+	// Header line 3
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: `${ctx.quarter}, N = 132`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Previous 4 Qtrs, N = 520',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 4
+	rows.push([
+		{
+			text: '',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Total    Passed Logic Chk',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+		{
+			text: 'Total    Passed Logic Chk',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, false],
+		},
+	],);
+	// Header line 5
+	rows.push([
+		{
+			text: 'Logic Checks for Reviewed Preventable Pregnancy-Related Deaths',
+			style: ['tableLabel', 'lightFill'],
+			border: [true, false, true, true],
+		},
+		{
+			text: '  N              N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+			preserveLeadingSpaces: true,
+		},
+		{
+			text: '  N              N        %',
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [true, false, true, true],
+			preserveLeadingSpaces: true,
+		},
+	],);
+
+	// Add lines 46) thru 49)
+	startLoop = 46;
+	endLoop = 49;
+	for ( let i = startLoop; i <= endLoop; i++ )
+	{
+		fld = 'n' + i;
+		rows.push([
+			{
+				text: q[fld],
+				style: ['tableDetail'],
+			},
+			{
+				columns:
+					[
+						{ width: 30, text: fmtNumber( d[fld].s.tn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+			{
+				columns:
+					[
+						{ width: 30, text: fmtNumber( d[fld].p.tn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
+					],
+			},
+		],);
+	}
+
 	retPage.push([
 		{
 			layout: {
@@ -1923,193 +1235,7 @@ function format_summary_pages(ctx) {
 			table: {
 				headerRows: 5,
 				widths: [350, '*', '*'],
-				body: [
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, false],
-						},
-						{
-							text: 'Preventable Deaths',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-						{
-							text: 'Preventable Deaths',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, true, false, false],
-						},
-						{
-							text: 'Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-						{
-							text: 'Reviewed in',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, true, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: `${ctx.quarter}, N = 132`,
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Previous 4 Qtrs, N = 520',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: '',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Total    Passed Logic Chk',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-						{
-							text: 'Total    Passed Logic Chk',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, false],
-						},
-					],
-					[
-						{
-							text: 'Logic Checks for Reviewed Preventable Pregnancy-Related Deaths',
-							style: ['tableLabel', 'lightFill'],
-							border: [true, false, true, true],
-						},
-						{
-							text: '  N              N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-							preserveLeadingSpaces: true,
-						},
-						{
-							text: '  N              N        %',
-							style: ['tableLabel', 'lightFill'],
-							alignment: 'center',
-							border: [true, false, true, true],
-							preserveLeadingSpaces: true,
-						},
-					],
-					[
-						{
-							text: '46) If Discrimination checkbox marked \'Yes\' or \'Probably\', did the Committee also select at least 1 of the \'Discrimination\', \'Interpersonal Racism\', or \'Structural Racism\' CFs?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '43', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '18', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '44.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '140', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '91', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '65.0%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '47) If Mental Health Conditions checkbox marked \'Yes\' or \'Probably\', did the Committee also select \'Mental Health Conditions\' as a CF?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '48', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '23', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '47.9%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '162', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '75', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '46.3%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '48) If Substance Use Disorder checkbox marked \'Yes\' or \'Probably\', did the Committee also select \'Substance Use Disorder - alcohol, illicit/prescription drugs\' as a CF?',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '38', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '23', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '60.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '123', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '47', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '38.2%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-					[
-						{
-							text: '49) Contributing Factor, Description of Issue, and Recommendation all completed (denominator is the # of CF-recommended action rows across all reviewed preventable pregnancy-related deaths)',
-							style: ['tableDetail'],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '852', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '770', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '90.4%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-						{
-							columns:
-								[
-									{ width: 30, text: '2961', style: ['tableDetail'], alignment: 'right', },
-									{ width: 40, text: '2621', style: ['tableDetail'], alignment: 'right', },
-									{ width: 30, text: '88.5%', style: ['tableDetail'], alignment: 'right', },
-								],
-						},
-					],
-				],
+				body: rows,
 			},
 		},
 	]);

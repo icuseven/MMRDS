@@ -212,15 +212,15 @@ async function download_data_quality_report_button_click()
 					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 				},
-				n36: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
 				n37: {
 					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 				},
 				n38: {
+					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
+					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
+				},
+				n39: {
 					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
 				},
