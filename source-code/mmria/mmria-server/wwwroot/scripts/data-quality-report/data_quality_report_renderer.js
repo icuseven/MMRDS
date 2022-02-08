@@ -83,6 +83,8 @@ async function download_data_quality_report_button_click()
     //const selected_quarter = document.getElementById('quarters-list').value;
     const selected_quarter = "Q3-2021";
 
+    // 2021.5
+
     const arr = selected_quarter.split("-");
     const quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
 
@@ -265,30 +267,54 @@ async function download_data_quality_report_button_click()
     }
 
 
-    for(var i = 0; i < dqr_detail_data.docs.length; i++)
+    for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
         const item = dqr_detail_data.docs[i];
 
-				// console.log('*** quarter: ', item.quarter_name);
-				if ( item.add_quarter_number <= quarter_number ) 
-				{
-					//console.log('****** FOUND ONE: ', item.quarter_name);
-					// Table One
-					summary_data.n01 += item.n01;
-					summary_data.n02 += item.n02;
+        // console.log('*** quarter: ', item.quarter_name);
+        if ( item.add_quarter_number <= quarter_number ) 
+        {
+            //console.log('****** FOUND ONE: ', item.quarter_name);
+            // Table One
+            summary_data.n01 += item.n01;
 
-					summary_data.n03[0] += item.n03[0];
-					summary_data.n03[1] += item.n03[1];
-					summary_data.n03[2] += item.n03[2];
-					summary_data.n03[3] += item.n03[3];
-					summary_data.n03[4] += item.n03[4];
-					summary_data.n03[5] += item.n03[5];
-					summary_data.n03[6] += item.n03[6];
-					summary_data.n03[7] += item.n03[7];
+            summary_data.n02 += item.n02;
 
-					summary_data.n04 += item.n04;
-					summary_data.n05 += item.n05;
-				}
+            summary_data.n03[0] += item.n03[0];
+            summary_data.n03[1] += item.n03[1];
+            summary_data.n03[2] += item.n03[2];
+            summary_data.n03[3] += item.n03[3];
+            summary_data.n03[4] += item.n03[4];
+            summary_data.n03[5] += item.n03[5];
+            summary_data.n03[6] += item.n03[6];
+            summary_data.n03[7] += item.n03[7];
+
+            
+            summary_data.n04 += item.n04;
+            summary_data.n05 += item.n05;
+
+            
+
+        }
+        
+        if 
+        ( 
+            item.add_quarter_number == quarter_number && 
+            item.n05 == 1
+        ) 
+        {
+            summary_data.n06 += item.n06;
+            summary_data.n07 += item.n07;
+        }
+        else if 
+        ( 
+            item.add_quarter_number < quarter_number &&
+            item.add_quarter_number >= quarter_number - 1
+        ) 
+        {
+            summary_data.n08 += item.n06;
+            summary_data.n09 += item.n07;
+        }
     }
 
 		console.log('dqr_detail_data: ', dqr_detail_data);
