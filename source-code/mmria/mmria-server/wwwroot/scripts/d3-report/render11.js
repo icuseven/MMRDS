@@ -21,7 +21,6 @@ ${render_navigation_strip(11)}
 
 }
 
-
 async function render11_chart(p_post_html, p_metadata, p_data_list)
 {
     const totals = new Map();
@@ -77,18 +76,27 @@ async function render11_chart(p_post_html, p_metadata, p_data_list)
             //  left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
                 label: {
                 text: '${p_metadata.x_axis_title}',
-                position: 'outer-center'  
+                position: 'outer-middle'  
                 },
                 tick: {
                     multiline: false,
                 },
                 type: 'category',
                 categories: [${categories}],
+            },
+            y: {
+                label: {
+                text: '${p_metadata.y_axis_title}',
+                position: 'outer-center'  
+                },
+                tick: {
+                    multiline: false,
+                }
             },
         },
         //size: {
@@ -99,11 +107,12 @@ async function render11_chart(p_post_html, p_metadata, p_data_list)
             duration: null
           },
           bindto: '#chart',
-          onrendered: function()
+         /* onrendered: function()
           {
             d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
               .attr('transform', 'rotate(325)translate(-25,0)');
-          }
+              
+          }*/
         }); ` 
     );
 
