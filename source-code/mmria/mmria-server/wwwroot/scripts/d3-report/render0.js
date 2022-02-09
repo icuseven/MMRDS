@@ -31,11 +31,11 @@ function render0()
 
 
 
-<tr onclick="window.location='#3'" style="cursor: pointer;">
+<!--tr onclick="window.location='#3'" style="cursor: pointer;">
 <td><strong>3</strong></td>
 <td><strong><a href="#3">Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
-</tr>
+</tr-->
 
 
 
@@ -47,7 +47,7 @@ function render0()
 
 
 
-<tr onclick="window.location='#5'" style="cursor: pointer;">
+<!--tr onclick="window.location='#5'" style="cursor: pointer;">
 <td><strong>5</strong></td>
 <td><strong><a href="#5">OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
@@ -99,7 +99,7 @@ function render0()
 <td><strong>11</strong></td>
 <td><strong><a href="#11">Emotional Stress</strong></td>
 <td>History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.</td>
-</tr>
+</tr-->
 
 
 
