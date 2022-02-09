@@ -16,9 +16,9 @@ function render_navigation_strip(p_current_index)
     //     previous_index = 2;
     // }
 
-    if(previous_index > 4)
+    if(previous_index > 5)
     {
-        previous_index = 4;
+        previous_index = 5;
     }
 
     // if(next_index == 3)
@@ -26,7 +26,7 @@ function render_navigation_strip(p_current_index)
     //     next_index = 4;
     // }
 
-    if(next_index > 4 && next_index < 12)
+    if(next_index > 5 && next_index < 12)
     {
         next_index = 12;
     }
@@ -52,7 +52,7 @@ function render_navigation_strip(p_current_index)
             (
                // index != 3 &&
                 ! (
-                    index >= 5 &&
+                    index >= 6 &&
                     index <= 11
                 )
             )
