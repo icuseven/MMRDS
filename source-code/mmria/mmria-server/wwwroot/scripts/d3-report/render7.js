@@ -7,7 +7,7 @@ async function render7(p_post_html)
     ${render_header()}
 
 ${render_navigation_strip(7)}
-<div>
+<div">
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
 <div align=center>${await render7_chart(p_post_html, metadata, data_list)}</div>
@@ -20,7 +20,6 @@ ${render_navigation_strip(7)}
 
 
 }
-
 
 async function render7_chart(p_post_html, p_metadata, p_data_list)
 {
@@ -68,28 +67,43 @@ async function render7_chart(p_post_html, p_metadata, p_data_list)
                  ],
             ],
             types: {
-                ${p_metadata.indicator_id}: 'bar',
-        
+                ${p_metadata.indicator_id}: 'bar',       
             },
-            labels: false 
+            names: {
+                ${p_metadata.indicator_id}: '${p_metadata.x_axis_title}',
+            },
+            labels: true 
         },
         padding: {
-             // left: 375
+              //left: 375
         },
         axis: {
-            rotated: false, 
+            rotated: true, 
             
             x: {
-                label: {
-                text: '${p_metadata.x_axis_title}',
-                position: 'outer-center'  
-                },
-                tick: {
+                 label: {
+                 text: '${p_metadata.x_axis_title}',
+                 position: 'outer-middle'  
+                 },
+                 tick: {
                     multiline: false,
+                    culling: false,
+                    outer: false
                 },
                 type: 'category',
                 categories: [${categories}],
             },
+            y: {
+                label: {
+                    text: '${p_metadata.y_axis_title}',
+                    position: 'outer-center' 
+                },
+                tick: {
+                    multiline: false,
+                    culling: false,
+                    outer: false
+                }
+            }
         },
         //size: {
         //    height: 600, 
@@ -101,8 +115,29 @@ async function render7_chart(p_post_html, p_metadata, p_data_list)
           bindto: '#chart',
           onrendered: function()
           {
-            d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-              .attr('transform', 'rotate(325)translate(-25,0)');
+            const title_element = document.createElement("title");
+            title_element.innerText = '${p_metadata.chart_title_508}';
+
+            const description_element = document.createElement("desc");
+            description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
+
+            const svg_char = document.querySelector('#chart svg');
+
+            if(svg_char != null)
+            {
+                const test_title = document.querySelector('#chart svg title');
+                const test_desc = document.querySelector('#chart svg desc');
+
+                if(test_title == null)
+                {
+                    svg_char.appendChild(title_element);
+                }
+
+                if(test_desc == null)
+                {
+                    svg_char.appendChild(description_element);
+                }
+            }
           }
         }); ` 
     );

@@ -81,9 +81,11 @@ indicator_map.set
 
         chart_title:"Preventability",
         table_title:"Preventability",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Preventability",
+        y_axis_title:"Number of deaths",
         
+        table_title:"Number of deaths by preventability",
+        table_title_508:"Table showing number of deaths by preventability.",
 
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
@@ -132,9 +134,11 @@ indicator_map.set
 
         chart_title:"OMB Race Recode",
         table_title:"OMB Race Recode",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
-        
+        x_axis_title:"Number of deaths by OMB Race Recode",
+        y_axis_title:"Number of deaths",
+
+        table_title:"Number of deaths by OMB Race Recode",
+        table_title_508:"Table showing number of deaths by OMB Race Recode.",    
 
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
@@ -163,9 +167,11 @@ indicator_map.set
 
         chart_title:"Race",
         table_title:"Race",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Race",
+        y_axis_title:"Number of deaths",
         
+        table_title:"Number of deaths by Race",
+        table_title_508:"Table showing number of deaths by Race.",
 
         field_id_list : [
         { name: "MDeathbyRace1", title:"White" },
@@ -201,8 +207,11 @@ indicator_map.set
 
         chart_title:"Race/Ethnicity",
         table_title:"Race/Ethnicity",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Race/Ethnicity",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Race/Ethnicity",
+        table_title_508:"Table showing number of deaths by Race/Ethnicity.",
         
 
         field_id_list : [
@@ -241,8 +250,11 @@ indicator_map.set
 
         chart_title:"Age",
         table_title:"Age",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Age",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Age",
+        table_title_508:"Table showing number of deaths by Age.",
         
 
         field_id_list : [
@@ -271,8 +283,11 @@ indicator_map.set
 
         chart_title:"Education",
         table_title:"Education",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Education",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Education",
+        table_title_508:"Table showing number of deaths by Education.",
         
 
         field_id_list : [
@@ -297,8 +312,11 @@ indicator_map.set
 
     chart_title:"Cause of Death",
     table_title:"Cause of Death",
-    x_axis_title:"title not specified",
-    y_axis_title:"title not specified",
+    x_axis_title:"Number of deaths by Cause of Death",
+    y_axis_title:"Number of deaths",
+    
+    table_title:"Number of deaths by Cause of Death",
+    table_title_508:"Table showing number of deaths by Cause of Death.",
     
 
     field_id_list : [
@@ -334,8 +352,11 @@ indicator_map.set
 
         chart_title:"Emotional Stress",
         table_title:"Emotional Stress",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Emotional Stress",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Emotional Stress",
+        table_title_508:"Table showing number of deaths by Emotional Stress.",
         
 
         

@@ -50,11 +50,12 @@ function render_navigation_strip(p_current_index)
         {
             if
             (
-                index != 3 &&
+               index != 3 &&
                 ! (
                     index >= 5 &&
                     index <= 11
-                )
+                ) &&
+                0 < index && index <= 12
             )
             {
 
