@@ -47,15 +47,15 @@ function render0()
 
 
 
-<!--tr onclick="window.location='#5'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#5'" style="cursor: pointer;">
 <td><strong>5</strong></td>
-<td><strong>OMB race recode</strong></td>
+<td><strong><a href="#5">OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
+<!--tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
 <td><strong>6</strong></td>
 <td><strong>Race</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.</td>

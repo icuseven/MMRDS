@@ -84,6 +84,8 @@ indicator_map.set
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
+        table_title:"Number of deaths by preventability",
+        table_title_508:"Table showing number of deaths by preventability.",
 
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
@@ -134,7 +136,9 @@ indicator_map.set
         table_title:"OMB Race Recode",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
-        
+
+        table_title:"Number of deaths by OMB Race Recode",
+        table_title_508:"Table showing number of deaths by OMB Race Recode.",    
 
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
