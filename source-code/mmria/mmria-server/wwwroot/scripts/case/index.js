@@ -2405,7 +2405,6 @@ function print_case_onclick(event)
   
         if(section_name == "all_hidden")
         {
-            tabName = '_all';
             section_name = 'all';
 
             window.setTimeout(function()
