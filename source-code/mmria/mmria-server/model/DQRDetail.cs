@@ -12,6 +12,8 @@ public class DQRDetail
     public string _id { get; set; }
     public string _rev { get; set; }
 
+    public string record_id { get; set; }
+
     public string data_type { get; set; } = "dqr-detail";
 
     public string add_quarter_name { get; set; }
