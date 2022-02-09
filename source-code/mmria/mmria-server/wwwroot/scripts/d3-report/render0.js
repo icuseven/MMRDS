@@ -55,15 +55,15 @@ function render0()
 
 
 
-<!--tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
 <td><strong>6</strong></td>
-<td><strong>Race</strong></td>
+<td><strong><a href="#6">Race</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.</td>
 </tr>
 
 
 
-<tr onclick="window.location='#7'" style="cursor: pointer;">
+<!--tr onclick="window.location='#7'" style="cursor: pointer;">
 <td><strong>7</strong></td>
 <td><strong>Race/Ethnicity</strong></td>
 <td>To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.</td>

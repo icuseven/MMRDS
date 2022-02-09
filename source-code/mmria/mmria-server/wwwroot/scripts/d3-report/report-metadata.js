@@ -81,8 +81,8 @@ indicator_map.set
 
         chart_title:"Preventability",
         table_title:"Preventability",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Preventability",
+        y_axis_title:"Number of deaths",
         
         table_title:"Number of deaths by preventability",
         table_title_508:"Table showing number of deaths by preventability.",
@@ -134,8 +134,8 @@ indicator_map.set
 
         chart_title:"OMB Race Recode",
         table_title:"OMB Race Recode",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by OMB Race Recode",
+        y_axis_title:"Number of deaths",
 
         table_title:"Number of deaths by OMB Race Recode",
         table_title_508:"Table showing number of deaths by OMB Race Recode.",    
@@ -167,9 +167,11 @@ indicator_map.set
 
         chart_title:"Race",
         table_title:"Race",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        x_axis_title:"Number of deaths by Race",
+        y_axis_title:"Number of deaths",
         
+        table_title:"Number of deaths by Race",
+        table_title_508:"Table showing number of deaths by Race.",
 
         field_id_list : [
         { name: "MDeathbyRace1", title:"White" },
