@@ -30,8 +30,11 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
         const item = p_metadata.field_id_list[i];
-        categories.push(`"${item.title}"`);
-        totals.set(item.name, 0);
+        if(item.name != p_metadata.blank_field_id)
+        {
+            categories.push(`"${item.title}"`);
+            totals.set(item.name, 0);
+        }
     }
 
     for(var i = 0; i <p_data_list.data.length; i++)
@@ -49,8 +52,7 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
     totals.forEach((value, key) =>
     {
         data.push(value);
-    });
-    
+    });    
 
     p_post_html.push
     (
@@ -66,7 +68,9 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
             ],
             types: {
                 ${p_metadata.indicator_id}: 'bar',
-        
+            },
+            names: {
+                ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
             },
             labels: true 
         },
@@ -74,18 +78,30 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
               //left: 375
         },
         axis: {
-            rotated: false, 
-            
+            rotated: true, 
             x: {
                 label: {
-                text: '${p_metadata.x_axis_title}',
-                position: 'outer-center'  
+                    text: '${p_metadata.x_axis_title}',
+                    position: 'outer-middle'  
                 },
                 tick: {
                     multiline: false,
+                    culling: false,
+                    outer: false
                 },
                 type: 'category',
-                categories: [${categories}],
+                categories: [${categories}]
+            },
+            y: {
+                label: {
+                    text: '${p_metadata.y_axis_title}',
+                    position: 'outer-center' 
+                },
+                tick: {
+                    multiline: false,
+                    culling: false,
+                    outer: false
+                },
             },
         },
         //size: {
@@ -96,16 +112,16 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
             duration: null
           },
           bindto: '#chart',
-          onrendered: function()
-          {
-            d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-              .attr('transform', 'rotate(325)translate(-25,0)');
-          }
+        //   onrendered: function()
+        //   {
+        //     d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
+        //       .attr('transform', 'rotate(325)translate(-25,0)');
+        //   }
         }); ` 
     );
 
     return `
-    <div class="card">
+    <div class="card" style="width:90%;">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
@@ -126,11 +142,8 @@ async function render3_table(p_metadata, p_data_list)
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
         const item = p_metadata.field_id_list[i];
-        if(item.name != p_metadata.blank_field_id)
-        {
-            categories.push(`"${item.title}"`);
-            totals.set(item.name, 0);
-        }
+        categories.push(`"${item.title}"`);
+        totals.set(item.name, 0);
         name_to_title.set(item.name, item.title);
     }
 
