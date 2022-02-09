@@ -31,11 +31,11 @@ function render0()
 
 
 
-<!--tr onclick="window.location='#3'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#3'" style="cursor: pointer;">
 <td><strong>3</strong></td>
-<td><strong>Preventability</strong></td>
+<td><strong><a href="#3">Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
-</tr-->
+</tr>
 
 
 
