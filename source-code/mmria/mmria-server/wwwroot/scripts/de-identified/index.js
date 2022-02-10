@@ -1108,24 +1108,22 @@ function undo_click()
 function enable_print_button(event) 
 {
   const { value } = event.target;
-  //duplicate print buttons being rendered
-  //targetting next sibling instead
+  //targeting next sibling buttons
   const printButton = event.target.nextSibling; 
-  // const printButton = document.getElementById('print-case-form');
   printButton.disabled = !value; // if there is a value it will be enabled.
-  const pdfButton = printButton.nextSibling;
-  pdfButton.disabled = !value;
+  const pdfViewButton = printButton.nextSibling;
+  pdfViewButton.disabled = !value;
+  const pdfSaveButton = pdfViewButton.nextSibling;
+  pdfSaveButton.disabled = !value;
 }
 
 let unique_tab_name = '';
-function pdf_case_onclick(event) 
+function pdf_case_onclick(event, typeOutput) 
 {
   const btn = event.target;
-  // const dropdown = document.getElementById('print_case_id');
-  const dropdown = btn.previousSibling.previousSibling;		// Need to go back 2 fields to get the dropdown value
+  const dropdown = document.getElementById('print_case_id');
   // get value of selected option
   const section_name = dropdown.value;
-  //await print_pdf( section_name );
 
   unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
@@ -1158,7 +1156,7 @@ function pdf_case_onclick(event)
 
 }
 
-function pdf_case_onclick_summary(event, id, section) 
+function pdf_case_onclick_summary(event, id, section, p_type_output) 
 {
 	// get the g_data for the selected case
 	let case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + id;
@@ -1178,7 +1176,7 @@ function pdf_case_onclick_summary(event, id, section)
 
 	window.setTimeout(function()
 	{
-		openTab('./pdf-version', unique_tab_name, section_name, record_number);
+		openTab('./pdf-version', unique_tab_name, section_name, p_type_output, record_number);
 	}, 1000);
 
 }
@@ -1223,7 +1221,7 @@ function print_case_onclick(event)
   
 }
 
-function openTab(pageRoute, tabName, p_section, p_number) 
+function openTab(pageRoute, tabName, p_section, p_type_output, p_number) 
 {
   // check if a WindowProxy object has already been created.
 
@@ -1235,6 +1233,7 @@ function openTab(pageRoute, tabName, p_section, p_number)
         g_metadata,
         g_data,
         p_section,
+				p_type_output,
         p_number,
         g_metadata_summary
       );
@@ -1247,6 +1246,7 @@ function openTab(pageRoute, tabName, p_section, p_number)
       g_metadata,
       g_data,
       p_section,
+			p_type_output,
       p_number,
       g_metadata_summary
     );
