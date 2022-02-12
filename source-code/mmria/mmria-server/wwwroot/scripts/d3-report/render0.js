@@ -31,11 +31,11 @@ function render0()
 
 
 
-<!--tr onclick="window.location='#3'" style="cursor: pointer;">
+<tr onclick="window.location='#3'" style="cursor: pointer;">
 <td><strong>3</strong></td>
 <td><strong><a href="#3">Preventability</strong></td>
 <td>Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.</td>
-</tr-->
+</tr>
 
 
 
@@ -47,7 +47,7 @@ function render0()
 
 
 
-<!--tr onclick="window.location='#5'" style="cursor: pointer;">
+<tr onclick="window.location='#5'" style="cursor: pointer;">
 <td><strong>5</strong></td>
 <td><strong><a href="#5">OMB race recode</strong></td>
 <td>Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.</td>
@@ -99,7 +99,7 @@ function render0()
 <td><strong>11</strong></td>
 <td><strong><a href="#11">Emotional Stress</strong></td>
 <td>History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.</td>
-</tr-->
+</tr>
 
 
 
@@ -178,4 +178,91 @@ function render_chart_508_description(p_metadata, p_data, p_totals)
     </table><br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)} </p>
     `*/
+}
+
+function render_chart_post_html(p_post_html, p_metadata, p_data, p_categories, p_totals, p_chart_name = "chart")
+{
+    p_post_html.push
+    (
+        `var ${p_chart_name} = c3.generate({
+            legend: {
+                show: false
+            },
+            data: {
+                columns: [
+                    ["${p_metadata.indicator_id}", ${p_data.join(",")}
+                     ],
+                ],
+                types: {
+                    ${p_metadata.indicator_id}: 'bar',
+                },
+                names: {
+                    ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
+                },
+                labels: true 
+            },
+            padding: {
+                  //left: 375
+            },
+            axis: {
+                rotated: true, 
+                
+                x: {
+                    label: {
+                    text: '${p_metadata.x_axis_title}',
+                    position: 'outer-middle'  
+                    },
+                    tick: {
+                        multiline: false,
+                        culling: false,
+                        outer: false
+                    },
+                    type: 'category',
+                    categories: [${p_categories}],
+                },
+                y: {
+                    label: {
+                        text: '${p_metadata.y_axis_title}',
+                        position: 'outer-center' 
+                    },
+                }
+            },
+            //size: {
+            //    height: 600, 
+            //    width: 600
+            //  },
+              transition: {
+                duration: null
+              },
+              bindto: '#${p_chart_name}',
+              
+              onrendered: function()
+              {
+                const title_element = document.createElement("title");
+                title_element.innerText = '${p_metadata.chart_title_508}';
+
+                const description_element = document.createElement("desc");
+                description_element.innerText = '${render_chart_508_description(p_metadata, p_data, p_totals)}';
+
+                const svg_char = document.querySelector('#${p_chart_name} svg');
+
+                if(svg_char != null)
+                {
+                    const test_title = document.querySelector('#${p_chart_name} svg title');
+                    const test_desc = document.querySelector('#${p_chart_name} svg desc');
+
+                    if(test_title == null)
+                    {
+                        svg_char.appendChild(title_element);
+                    }
+
+                    if(test_desc == null)
+                    {
+                        svg_char.appendChild(description_element);
+                    }
+                }
+                
+              }
+            }); ` 
+    );
 }

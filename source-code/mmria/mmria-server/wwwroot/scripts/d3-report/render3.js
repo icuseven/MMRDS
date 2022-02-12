@@ -54,72 +54,8 @@ async function render3_chart(p_post_html, p_metadata, p_data_list)
         data.push(value);
     });    
 
-    p_post_html.push
-    (
-        
-    `var chart = c3.generate({
-        legend: {
-            show: false
-        },
-        data: {
-            columns: [
-                ["${p_metadata.indicator_id}", ${data.join(",")}
-                 ],
-            ],
-            types: {
-                ${p_metadata.indicator_id}: 'bar',
-            },
-            names: {
-                ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
-            },
-            labels: true 
-        },
-        padding: {
-              //left: 375
-        },
-        axis: {
-            rotated: true, 
-            x: {
-                label: {
-                    text: '${p_metadata.x_axis_title}',
-                    position: 'outer-middle'  
-                },
-                tick: {
-                    multiline: false,
-                    culling: false,
-                    outer: false
-                },
-                type: 'category',
-                categories: [${categories}]
-            },
-            y: {
-                label: {
-                    text: '${p_metadata.y_axis_title}',
-                    position: 'outer-center' 
-                },
-                tick: {
-                    multiline: false,
-                    culling: false,
-                    outer: false
-                },
-            },
-        },
-        //size: {
-        //    height: 600, 
-        //    width: 600
-        //  },
-          transition: {
-            duration: null
-          },
-          bindto: '#chart',
-        //   onrendered: function()
-        //   {
-        //     d3.select('#chart svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-        //       .attr('transform', 'rotate(325)translate(-25,0)');
-        //   }
-        }); ` 
-    );
-
+    render_chart_post_html(p_post_html, p_metadata, data, categories, totals);
+    
     return `
     <div class="card" style="width:90%;">
         <div class="card-header bg-secondary">
