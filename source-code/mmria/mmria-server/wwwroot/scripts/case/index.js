@@ -2310,25 +2310,27 @@ var save_queue = [];
 function enable_print_button(event) 
 {
   const { value } = event.target;
-  //duplicate print buttons being rendered
-  //targetting next sibling instead
+  //targeting next sibling buttons
   const printButton = event.target.nextSibling; 
-  // const printButton = document.getElementById('print-case-form');
   printButton.disabled = !value; // if there is a value it will be enabled.
-  const pdfButton = printButton.nextSibling;
-  pdfButton.disabled = !value;
-//   console.log('pdfButton: ', pdfButton);
-//   console.log('enable_print_button: ', printButton );
-//   console.log('event: ', event);
+  const pdfViewButton = printButton.nextSibling;
+  pdfViewButton.disabled = !value;
+  const pdfSaveButton = pdfViewButton.nextSibling;
+  pdfSaveButton.disabled = !value;
 }
 
 
 let unique_tab_name = '';
-function pdf_case_onclick(event) 
+function pdf_case_onclick(event, type_output) 
 {
+	console.log('type_output: ', type_output);
   const btn = event.target;
-  // const dropdown = document.getElementById('print_case_id');
-  const dropdown = btn.previousSibling.previousSibling;		// Need to go back 2 fields to get the dropdown value
+  const dropdown = document.getElementById('print_case_id');
+	// console.log('dropdown2.value: ', dropdown2.value);
+	// const dropdown = ( type_output == 'view' )
+	// 	? btn.previousSibling.previousSibling											// Need to go back 2 fields to get the dropdown value
+	// 	: btn.previousSibling.previousSibling.previousSibling;		// Need to go back 3 fields to get the dropdown value
+	
   // get value of selected option
   let section_name = dropdown.value;
   //await print_pdf( section_name );
@@ -2342,17 +2344,15 @@ function pdf_case_onclick(event)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', unique_tab_name, section_name);
+            openTab('./pdf-version', unique_tab_name, section_name, type_output);
         }, 1000);	
-
-      
     } 
     else 
     {
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-		unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2360,14 +2360,14 @@ function pdf_case_onclick(event)
 
             window.setTimeout(function()
             {
-                openTab('./pdf-version',  unique_tab_name, section_name, record_number, true);
+                openTab('./pdf-version',  unique_tab_name, section_name, type_output, record_number, true);
             }, 1000);	
         }
         else
         {
             window.setTimeout(function()
             {
-                openTab('./pdf-version',  unique_tab_name, section_name, record_number);
+                openTab('./pdf-version',  unique_tab_name, section_name, type_output, record_number);
             }, 1000);	
         }
       
@@ -2379,8 +2379,8 @@ function pdf_case_onclick(event)
 function print_case_onclick(event) 
 {
 	const btn = event.target;
-	const dropdown = btn.previousSibling;
-	// const dropdown = document.getElementById('print_case_id');
+	// const dropdown = btn.previousSibling;
+	const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
 	let section_name = dropdown.value;
 	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
@@ -2392,7 +2392,7 @@ function print_case_onclick(event)
   
 		  window.setTimeout(function()
 		  {
-			  openTab('./core-elements', unique_tab_name, 'all');
+			  openTab('./core-elements', unique_tab_name, 'all', 'print');
 		  }, 1000);	
   
 		
@@ -2409,7 +2409,7 @@ function print_case_onclick(event)
 
             window.setTimeout(function()
             {
-                openTab('./print-version', unique_tab_name, section_name, record_number, true);
+                openTab('./print-version', unique_tab_name, section_name, 'print', record_number, true);
             }, 1000);	
         }
         else
@@ -2417,7 +2417,7 @@ function print_case_onclick(event)
   
             window.setTimeout(function()
             {
-                openTab('./print-version', unique_tab_name, section_name, record_number);
+                openTab('./print-version', unique_tab_name, section_name, 'print', record_number);
             }, 1000);	
         }
 		
@@ -2426,7 +2426,7 @@ function print_case_onclick(event)
   
 }
 
-function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden) 
+function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_hidden) 
 {
 	// console.log('in openTab');
 	// console.log('pageRoute: ', pageRoute);
@@ -2435,6 +2435,7 @@ function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden)
 	//console.log('g_data: ', g_data);
 	// console.log('p_section: ', p_section);
 	// console.log('p_number: ', p_number);
+	// console.log('p_type_output: ', p_type_output);
 
   // check if a WindowProxy object has already been created.
   if (!window[tabName] || window[tabName].closed) 
@@ -2445,6 +2446,7 @@ function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden)
         g_metadata,
         g_data,
         p_section,
+				p_type_output,
         p_number,
         g_metadata_summary,
         p_show_hidden
@@ -2458,6 +2460,7 @@ function openTab(pageRoute, tabName, p_section, p_number, p_show_hidden)
       g_metadata,
       g_data,
       p_section,
+			p_type_output,
       p_number,
       g_metadata_summary,
       p_show_hidden
