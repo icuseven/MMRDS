@@ -106,8 +106,8 @@ async function download_data_quality_report_button_click()
 
 	console.log('in download_data_quality_report_button_click');
 
-    //const selected_quarter = document.getElementById('quarters-list').value;
-    const selected_quarter = "Q3-2021";
+    const selected_quarter = document.getElementById('quarters-list').value;
+    // const selected_quarter = "Q3-2021";
 
     // 2021.5
 
