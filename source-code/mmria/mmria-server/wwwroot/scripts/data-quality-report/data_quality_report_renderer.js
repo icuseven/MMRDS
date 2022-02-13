@@ -1,18 +1,25 @@
 // Data Quality Report
+var selectedQuarter;
+var reportType;
 
 function data_quality_report_render(p_quarters) 
 {
 	var result = [];
 	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
-	let selectedQuarter = p_quarters[0];
+	selectedQuarter = p_quarters[0];
+	reportType = 'Summary';
 
 	result.push(`
 		<div class="row">
 			<div class="col">
 				<div class="font-weight-bold pl-3">
 					<div class="mb-4">
-						<p id="quarter_msg" class="mb-3">${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.</p>
-						<label for="quarters-list" class="mb-0 font-weight-normal mr-2">Select Export Quarter</label>
+						<div id="quarter_msg" class="mb-3">
+							${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.
+						</div>
+					</div>
+					<div class="mb-4">
+						<label for="quarters-list" class="mb-0 font-weight-bold mr-2">Select Export Quarter:</label>
 						<select 
 							name="quarters-list"
 							id="quarters-list"
@@ -20,10 +27,22 @@ function data_quality_report_render(p_quarters)
 						>	
 							${data_quality_report_quarters_list}
 						</select>
+					</>
 					</div>
 					<div class="mb-4">
-						<input type="checkbox" id="quarter-details" name="quarter-details">
-						<label for="quarter-details" class="mb-0 font-weight-normal mr-2">Check for Detail Report</label>
+						<div>Select Report Type:</div>
+						<div>
+							<input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
+							<label for="summary-report" class="mb-0 font-weight-normal mr-2">Summary Report</label>
+						</div>
+						<div>
+							<input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
+							<label for="detail-report" class="mb-0 font-weight-normal mr-2">Detail Report</label>
+						</div>
+						<div>
+							<input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
+							<label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
+						</div>
 					</div>
 				</div>
 				<div class="card-footer bg-gray-13">
@@ -32,7 +51,7 @@ function data_quality_report_render(p_quarters)
 						class="btn btn-primary btn-lg w-100" 
 						onclick="download_data_quality_report_button_click()"
 					>
-						Export ${selectedQuarter}
+						Generate ${reportType} Report for ${selectedQuarter}
 					</button>
 				</div>
 			</div>
@@ -49,6 +68,13 @@ function updateQuarter(e)
 	renderQuarterInfo();
 }
 
+function updateReportType(e)
+{
+	console.log('updateReportType: ', e.target.value);
+	reportType = e.target.value;
+	renderQuarterInfo();
+}
+
 function renderQuarterInfo() 
 {
 	// Update the message to show the currently selected quarter
@@ -57,7 +83,7 @@ function renderQuarterInfo()
 
 	// Update the button to show the currently selected quarter
 	document.getElementById('quarter_btn').innerHTML =
-		`Export ${selectedQuarter}`;
+		`Generate ${reportType} Report for ${selectedQuarter}`;
 }
 
 function render_data_quality_report_quarters() 
