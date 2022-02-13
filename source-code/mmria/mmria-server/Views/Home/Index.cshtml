@@ -167,13 +167,12 @@ else
             <li><a href="/Case">View case data</a></li>
             <li><a href="/export-queue">Export data</a></li>
             @*<li><a href="/recover-case">Recover-case</a></li>*@
-            @if(ViewBag.is_power_bi_user)
-            {
+
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
               <li><a href="/interactive-aggregate-report" >View Interactive Aggregate Report</a></li>
-            }
+            
             <li><a href="/vital-import-history">View Vitals Import History</a></li>
-            <li><a href="/d3-report">View Interactive Aggregate Report (POC)</a></li>
+            @*<li><a href="/d3-report">View Interactive Aggregate Report (POC)</a></li>*@
             <li><a href="/data-quality-report">View MMRIA Data Quality Report (DQR)</a></li>
           </ul>
         </div>
@@ -188,14 +187,13 @@ else
           <ul>
             <li><a href="/analyst-case">View case data</a></li>
             <li><a href="/export-queue">Export data</a></li>
-            @if(ViewBag.is_power_bi_user)
-            {
+
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
               <li><a href="/interactive-aggregate-report" >View Interactive Aggregate Report</a></li>
 
               
-            }
-            <li><a href="/d3-report">View Interactive Aggregate Report (POC)</a></li>
+            
+            @*<li><a href="/d3-report">View Interactive Aggregate Report (POC)</a></li>*@
             <li><a href="/data-quality-report">View MMRIA Data Quality Report (DQR)</a></li>
           </ul>
         </div>

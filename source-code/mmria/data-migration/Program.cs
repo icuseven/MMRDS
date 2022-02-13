@@ -40,7 +40,10 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			"test",
+			"uat",
+			"fl_dev",
+
+			////"test",
 			//"localhost",
 			/*"az",
 					"ma",
@@ -211,12 +214,12 @@ namespace migrate
 
 
 
-			bool is_test_list = true;
+			bool is_test_list = false;
 			
-			bool is_report_only_mode = false;
+			bool is_report_only_mode = true;
 
 
-			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
+			RunTypeEnum MigrationType = RunTypeEnum.OneTime;
 
 			
 
@@ -381,7 +384,8 @@ namespace migrate
 					else if(MigrationType == RunTypeEnum.OneTime)
 					{
 
-						
+						var v2_6_2 = new migrate.set.v2_6_2_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_6_2.execute();
 
 						//var sep_data_fix = new migrate.set.vSEP_DataFix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, prefix);
 						//await sep_data_fix.execute();
