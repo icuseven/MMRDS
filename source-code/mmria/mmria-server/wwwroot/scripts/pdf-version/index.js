@@ -7,6 +7,7 @@ let g_writeText;
 // let g_metadata_summary = {};
 let g_record_number;
 let g_show_hidden = false;
+let g_type_output;
 
 $(function () {//http://www.w3schools.com/html/html_layout.asp
 	'use strict';
@@ -42,6 +43,7 @@ async function create_print_version
 		p_metadata,
 		p_data,
 		p_section,
+		p_type_output,
 		p_number,
 		p_metadata_summary,
 		p_show_hidden
@@ -55,6 +57,7 @@ async function create_print_version
 	g_writeText = null;
 	g_metadata_summary = {};
 	g_record_number = null;
+  g_type_output = p_type_output;
 
 	g_md = p_metadata;
 	g_metadata = p_metadata;
@@ -112,7 +115,7 @@ async function print_pdf(ctx) {
 	g_writeText = '';
 
 	// Get unique PDF name
-	// let pdfName = createNamePDF();
+	let pdfName = createNamePDF();
 
 	// Get the PDF Header Title
 	let pdfTitle = getHeaderName();
@@ -308,18 +311,29 @@ async function print_pdf(ctx) {
 		},
 		content: retContent,
 	};
-	// pdfMake.createPdf( doc ).download( pdfName );
 
-	// console.log('*** doc: ', doc);
+	// Check to see if it is View or Save
+	if ( g_type_output == 'save')
+	{
+		// Create the download
+		pdfMake.createPdf( doc ).download( pdfName );
 
-	window.setTimeout
+		// Set at timer to close the window once the download is done
+		window.setTimeout
+		(
+			function () { window.close(); }, 
+			5000
+		);
+	}
+	else
+	{
+		window.setTimeout
 		(
 			async function () { await pdfMake.createPdf(doc).open(window); },
 			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
-
-
+	}
 
 }
 

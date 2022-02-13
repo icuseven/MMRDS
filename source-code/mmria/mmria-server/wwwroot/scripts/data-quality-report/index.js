@@ -38,7 +38,7 @@ function load_quarters()
 	let curYear = today.getFullYear();
 	let curQuarter = Math.floor((today.getMonth() + 3) / 3);
 	let quarters = new Array();
-	let cutoffYear = 2018;	// The last quarter will be Q1 of this year
+	let cutoffYear = 2019;	// The last quarter will be Q1 of this year
 
 	// Create the Quarters list for the dropdown
 	// Add all quarters from now, decending

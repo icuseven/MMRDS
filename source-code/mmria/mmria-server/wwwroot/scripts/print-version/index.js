@@ -21,7 +21,7 @@ $(function ()
 });
 
 
-function create_print_version(p_metadata, p_data, p_section, p_number, p_metadata_summary, p_show_hidden)
+function create_print_version(p_metadata, p_data, p_section, p_type_output, p_number, p_metadata_summary, p_show_hidden)
 {
 	g_data = p_data;
 	g_metadata = p_metadata;
