@@ -557,6 +557,9 @@ function Can_Pass_Filter(p_value)
     let date_of_review_end = true;
     let date_of_death_begin = true;
     let date_of_death_end = true;
+
+    const Overdose_Poisioning = 3;
+    const is_overdose = p_value.means_of_fatal_injury == Overdose_Poisioning;
     /*
     {
         "case_id": "0190e93e-a359-441e-b27d-43f83d946de4",
@@ -627,7 +630,8 @@ function Can_Pass_Filter(p_value)
         date_of_review_begin && 
         date_of_review_end && 
         date_of_death_begin && 
-        date_of_death_end;
+        date_of_death_end &&
+        is_overdose;
 
 }
 
