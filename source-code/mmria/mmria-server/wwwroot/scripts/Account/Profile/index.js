@@ -57,7 +57,7 @@ function load_user_role_jurisdiction()
       g_jurisdiction_list = []
 
       var role_list_html = [];
-	  role_list_html.push("<p>[ ] ");
+	  //role_list_html.push("<p>[ ] ");
       if(g_sams_is_enabled.toLowerCase() != "true" && g_config_days_before_expires > 0)
       {
         if(g_days_til_expires >= 0)
@@ -79,7 +79,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<th scope='col'>Start Date</th>");
       role_list_html.push("<th scope='col'>End Date</th>");
       role_list_html.push("<th scope='col'>Days Till<br/>Role Expires</th>");
-      role_list_html.push("<th scope='col'>Jurisdiction<br/>Admin</th>");
+      role_list_html.push("<th scope='col'>Role&nbsp;Added&nbsp;By</th>");
       role_list_html.push("</tr>");
       for(var i in response.rows)
       {
