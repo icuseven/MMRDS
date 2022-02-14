@@ -49,29 +49,54 @@ namespace mmria.server
 				var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 				
+                var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
 
 
-                    List<mmria.server.model.c_opioid_report_object> new_list = new();
-                    var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.report_measure_value_struct>>(responseFromServer);
+                List<mmria.server.model.c_opioid_report_object> new_list = new();
+                var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.report_measure_value_struct>>(responseFromServer);
 
-                    if(!string.IsNullOrWhiteSpace(indicator_id))
+                if(!string.IsNullOrWhiteSpace(indicator_id))
+                {
+                    foreach(var doc in response_result.rows)
                     {
-                        foreach(var doc in response_result.rows)
+                        if(doc.key.ToLower() == indicator_id.ToLower())
                         {
-                            if(doc.key.ToLower() == indicator_id.ToLower())
+                            foreach(var jurisdiction_item in  jurisdiction_hashset)
+                            {
+                                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                                if
+                                (
+                                    regex.IsMatch(doc.value.jurisdiction_id) && 
+                                    utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
+                                )
+                                {
+                                    result.Add(doc.value);
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    foreach(var doc in response_result.rows)
+                    {
+                        foreach(var jurisdiction_item in  jurisdiction_hashset)
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                            if
+                            (
+                                regex.IsMatch(doc.value.jurisdiction_id) && 
+                                utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
+                            )
                             {
                                 result.Add(doc.value);
+                                break;
                             }
-                            
                         }
                     }
-                    else
-                    {
-                        foreach(var doc in response_result.rows)
-                        {
-                            result.Add(doc.value);
-                        }
-                    }
+                }
 
 
 				System.Console.WriteLine($"case_response.docs.length {result.Count}");
