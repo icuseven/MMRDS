@@ -154,7 +154,7 @@ async function print_pdf(ctx) {
 			// console.log('pageCount: ', pageCount);
 			// console.log( 'doc: ', doc );
 			// console.log('ctx: ', ctx);
-			if (ctx.section_name === 'all') {
+			if (ctx.section_name == 'all') {
 				let recLenArr = [];
 				let startPage = 0;
 				let endPage = 0;
@@ -165,7 +165,7 @@ async function print_pdf(ctx) {
 					// console.log('*** pageNumber: ', i, ' - ', doc.content[i].positions[0].pageNumber);
 					startPage = doc.content[i].positions[0].pageNumber;
 					endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
-					header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText !== undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
+					header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText != undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
 					recLenArr.push({ s: startPage, e: endPage, p: header });
 				}
 
@@ -173,7 +173,7 @@ async function print_pdf(ctx) {
 				let index = recLenArr.findIndex(item => ((currentPage >= item.s) && (currentPage <= item.e)));
 				g_writeText = recLenArr[index].p;
 			}
-			else if (g_section_name === 'core-summary') {
+			else if (g_section_name == 'core-summary') {
 				g_writeText = 'CORE SUMMARY';
 			} else {
 				g_writeText = getSectionTitle(ctx.section_name);
@@ -397,25 +397,25 @@ function getTodayFormatted() {
 
 // Format the month or day to always have 2 digits
 function fmt2Digits(val) {
-	if (val === null || val === '9999') return '  ';
+	if (val == null || val == '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
 }
 
 // Format the year to always have 4 digits, check for 9999
 function fmtYear(val) {
-	return (val === null || val === '9999') ? '    ' : val;
+	return (val == null || val == '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
 function reformatDate(dt) {
-	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
+	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
 	let date = new Date(dt);
 	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
 }
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === null || dt.year === '9999' || dt.year === '') {
+	if (dt.year == null || dt.year == '9999' || dt.year == '') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)}/${fmt2Digits(dt.day)}/ {fmtYear(dt.year)}`;
@@ -423,26 +423,26 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = (dt.month === null || dt.month === '9999' || dt.month === '') ? '  ' : fmt2Digits(dt.month);
-	let dd = (dt.day === null || dt.day === '9999' || dt.day === '') ? '  ' : fmt2Digits(dt.day);
-	let yy = (dt.year === null || dt.year === '9999' || dt.year === '') ? '    ' : dt.year;
+	let mm = (dt.month == null || dt.month == '9999' || dt.month == '') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day == null || dt.day == '9999' || dt.day == '') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year == null || dt.year == '9999' || dt.year == '') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
+	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
-	strTime = (strTime === '00:00') ? '' : strTime;
+	strTime = (strTime == '00:00') ? '' : strTime;
 	return `${fmt2Digits(fDate.getMonth() + 1)}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
 function fmtStrDate(dt) {
-	if (dt === null || dt.length === 0) {
+	if (dt == null || dt.length == 0) {
 		return ' / / ';
 	}
 	let dtParts = dt.split('-');
@@ -526,65 +526,65 @@ function getArrayMap() {
 // Generic Find from global lookup array
 function lookupGlobalArr(lookup, val, pathReference) {
 	// See if val is null
-	if (val === undefined || val === null) return '';
+	if (val == undefined || val == null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 	// See if val is blank
-	if (valStr === '') return valStr;
+	if (valStr == '') return valStr;
 
 	// Get the path_reference name
 	let luIdx = pathReference.indexOf('/') + 1;
 	let lookupName = pathReference.substr(luIdx);
 
 	// Find the correct lookup table index
-	let lookupIndex = lookup.findIndex((s) => s.name === lookupName);
+	let lookupIndex = lookup.findIndex((s) => s.name == lookupName);
 
 	// Return the display value from the lookup array
 	let arr = lookup[lookupIndex].values;
-	let idx = arr.findIndex((s) => s.value === valStr);
-	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
-	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
+	let idx = arr.findIndex((s) => s.value == valStr);
+	idx = (idx == -1) ? 0 : idx;   // This fixes bad data coming in
+	return (arr[idx].display == '(blank)') ? ' ' : arr[idx].display;
 }
 
 // Generic Look up display by value
 function lookupFieldArr(val, arr) {
 	// See if val is null
-	if (val === undefined || val === null) return '';
+	if (val == undefined || val == null) return '';
 	// Make sure val is a string
 	let valStr = `${val}`;
 
 	// See if val is blank or array is empty
-	if (valStr === '' || arr.length === 0) return valStr;
+	if (valStr == '' || arr.length == 0) return valStr;
 
-	let idx = arr.findIndex((s) => s.value === valStr);
-	idx = (idx === -1) ? 0 : idx;   // This fixes bad data coming in
-	return (arr[idx].display === '(blank)') ? ' ' : arr[idx].display;
+	let idx = arr.findIndex((s) => s.value == valStr);
+	idx = (idx == -1) ? 0 : idx;   // This fixes bad data coming in
+	return (arr[idx].display == '(blank)') ? ' ' : arr[idx].display;
 }
 
 // Return all global choices
 function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 	// See if val is null
-	if (val === undefined || val === null) return '';
+	if (val == undefined || val == null) return '';
 
 	// Get the path_reference name
 	let luIdx = pathReference.indexOf('/') + 1;
 	let lookupName = pathReference.substr(luIdx);
 
 	// Find the correct lookup table index
-	let lookupIndex = lookup.findIndex((s) => s.name === lookupName);
+	let lookupIndex = lookup.findIndex((s) => s.name == lookupName);
 
 	// Return field with all choices
 	let strChoice = '';
 	let arr = lookup[lookupIndex].values;
 	let idx;
 	for (let i = 0; i < val.length; i++) {
-		idx = arr.findIndex((s) => s.value === val[i]);
+		idx = arr.findIndex((s) => s.value == val[i]);
 		if (idx != -1 && arr[idx].display != null) {
 			strChoice += arr[idx].display + ', ';
 		}
 	}
 	idx = strChoice.lastIndexOf(', ');
-	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
+	strChoice = (idx == -1) ? strChoice : strChoice.substring(0, idx);
 
 	return strChoice;
 }
@@ -592,13 +592,13 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 // Return all field choices
 function lookupFieldMultiChoiceArr(val, arr) {
 	// See if val is null
-	if (val === undefined || val === null) return '';
+	if (val == undefined || val == null) return '';
 
 	// Return field with all choices
 	let strChoice = '';
 	let idx;
 	for (let i = 0; i < val.length; i++) {
-		idx = arr.findIndex((s) => s.value === val[i]);
+		idx = arr.findIndex((s) => s.value == val[i]);
 		if (idx != -1 && arr[idx].display != null) {
 			strChoice += arr[idx].display + ', ';
 		}
@@ -606,7 +606,7 @@ function lookupFieldMultiChoiceArr(val, arr) {
 
 	}
 	idx = strChoice.lastIndexOf(', ');
-	strChoice = (idx === -1) ? strChoice : strChoice.substring(0, idx);
+	strChoice = (idx == -1) ? strChoice : strChoice.substring(0, idx);
 
 	return strChoice;
 }
@@ -635,7 +635,7 @@ function getLookupField(lookup, data, metadata) {
 	// return string
 	let retStr = '';
 
-	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect === true) {
+	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect == true) {
 		if (metadata.hasOwnProperty('path_reference') && metadata.path_reference.length > 0) {
 			retStr = lookupGlobalMultiChoiceArr(lookup, data, metadata.path_reference);
 		} else if (metadata.values.length > 0) {
@@ -656,11 +656,11 @@ function getLookupField(lookup, data, metadata) {
 
 // Find section prompt name
 function getSectionTitle(name) {
-	if (name === 'all') {
+	if (name == 'all') {
 	}
 
-	let idx = g_md.children.findIndex((s) => s.name === name);
-	idx = (idx === -1) ? 0 : idx;		// fixes bad data coming in
+	let idx = g_md.children.findIndex((s) => s.name == name);
+	idx = (idx == -1) ? 0 : idx;		// fixes bad data coming in
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
@@ -762,7 +762,7 @@ async function formatContent(p_ctx, arrMap) {
 			if (p_ctx.metadata.children) {
 				for (let i = 0; i < p_ctx.metadata.children.length; i++) {
 					let child = p_ctx.metadata.children[i];
-					if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
+					if (child.type.toLowerCase() == 'form' && p_ctx.data[child.name] != null) {
 						// Setup the correct ctx information to run the correct report
 						let new_content = [];
 						let new_context = {
@@ -775,7 +775,7 @@ async function formatContent(p_ctx, arrMap) {
 						body = await print_pdf_render_content(new_context);
 
 						// If not the Home Record and is all records, then do a page break
-						if (p_ctx.section_name === 'all' && child.name !== 'home_record') {
+						if (p_ctx.section_name == 'all' && child.name != 'home_record') {
 							body.unshift([{ text: '', pageBreak: 'before', colSpan: '2', }, {},]);
 						}
 						// Get the page header
@@ -816,9 +816,9 @@ async function formatContent(p_ctx, arrMap) {
 		// Show selected report
 		default:
 			if (p_ctx.metadata.children) {
-				arrIndex = arrMap.findIndex((s) => s.name === sectionName);
+				arrIndex = arrMap.findIndex((s) => s.name == sectionName);
 				let child = p_ctx.metadata.children[arrIndex];
-				if (child.type.toLowerCase() === 'form' && p_ctx.data[child.name] !== null) {
+				if (child.type.toLowerCase() == 'form' && p_ctx.data[child.name] != null) {
 					// Setup the ctx information to run the correct report
 					ctx = { ...p_ctx, metadata: child, data: p_ctx.data[child.name] };
 					body = await print_pdf_render_content(ctx);
@@ -1190,7 +1190,7 @@ async function core_summary() {
 	// Record Core Fields
 	let retPage = [];
 
-	// let arrIndex = arrMap.findIndex((s) => s.name === 'home_record');
+	// let arrIndex = arrMap.findIndex((s) => s.name == 'home_record');
 	body = core_pdf_summary(g_md, g_d, '/', false, '');
 
 	// Show the table
@@ -1329,9 +1329,9 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 						for (let j = 0; j < p_metadata.children.length; j++) {
 							let child = p_metadata.children[j];
 							if (p_data[i][child.name] != null) {
-								if (child.type === 'list') {
+								if (child.type == 'list') {
 									let textStr;
-									if (child.values.length === 0) {
+									if (child.values.length == 0) {
 										textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 									}
 									else {
@@ -1392,9 +1392,9 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 							let child = p_metadata.children[j];
 							if (child.is_core_summary && child.is_core_summary == true) {
 								if (p_data[i][child.name] != null) {
-									if (child.type === 'list') {
+									if (child.type == 'list') {
 										let textStr;
-										if (child.values.length === 0) {
+										if (child.values.length == 0) {
 											textStr = lookupGlobalArr(g_md.lookup, p_data[i][child.name], child.path_reference.substring(child.path_reference.indexOf('/') + 1));
 										}
 										else {
@@ -1556,17 +1556,17 @@ function print_pdf_render_content(ctx) {
 		case "form":
 			// console.log('*************** type: ', ctx.metadata.type);
 			// multiform 
-			if (ctx.metadata.cardinality === '*' || ctx.metadata.cardinality === '+') {
+			if (ctx.metadata.cardinality == '*' || ctx.metadata.cardinality == '+') {
 				if (ctx.metadata.children && ctx.data.length > 0) {
 					// See if we do all records or just one
 					let startArr = 0;
 					let endArr = ctx.data.length;
-					if (typeof ctx.record_number !== 'undefined') {
+					if (typeof ctx.record_number != 'undefined') {
 						startArr = ctx.record_number - 1;
 						endArr = startArr + 1;
 					}
 					for (startArr; startArr < endArr; startArr++) {
-						if (typeof ctx.record_number === 'undefined' && startArr > 0) {
+						if (typeof ctx.record_number == 'undefined' && startArr > 0) {
 							ctx.content.push([
 								{ text: '', pageBreak: 'before', colSpan: '2', },
 								{},
@@ -1621,7 +1621,7 @@ function print_pdf_render_content(ctx) {
 				}
 			}
 			// Check to see if any records were add, if not, then push a no records line
-			if (ctx.content.length === 0) {
+			if (ctx.content.length == 0) {
 				ctx.content.push([
 					{ text: 'No records entered', style: ['tableDetail'], colSpan: '2' },
 					{},
@@ -1641,19 +1641,19 @@ function print_pdf_render_content(ctx) {
 			// *** The last else statement will just process thru the children
 			// *** 
 			// ****************************************************************
-			if (ctx.metadata.children.length === 3
-				&& ctx.metadata.children[0].name === 'month'
-				&& ctx.metadata.children[1].name === 'day'
-				&& ctx.metadata.children[2].name === 'year'
+			if (ctx.metadata.children.length == 3
+				&& ctx.metadata.children[0].name == 'month'
+				&& ctx.metadata.children[1].name == 'day'
+				&& ctx.metadata.children[2].name == 'year'
 			) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: fmtDateByFields(ctx.data), style: ['tableDetail'], },
 				]);
 			} else if (ctx.metadata.children.length > 3
-				&& ctx.metadata.children[0].name === 'month'
-				&& ctx.metadata.children[1].name === 'day'
-				&& ctx.metadata.children[2].name === 'year'
+				&& ctx.metadata.children[0].name == 'month'
+				&& ctx.metadata.children[1].name == 'day'
+				&& ctx.metadata.children[2].name == 'year'
 			) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -1682,12 +1682,12 @@ function print_pdf_render_content(ctx) {
 				// 	If the automated_vitals_group child is NOT the automated user
 				//	Then skip it
 				let showIt = true;
-				if (ctx.metadata.name === 'automated_vitals_group' ||
-					ctx.metadata.name === 'vitals_import_group') {
-					showIt = ctx.createdBy === 'vitals-import' ? true : false;
+				if (ctx.metadata.name == 'automated_vitals_group' ||
+					ctx.metadata.name == 'vitals_import_group') {
+					showIt = ctx.createdBy == 'vitals-import' ? true : false;
 				}
 				if (showIt) {
-					if (ctx.groupLevel === 0) {
+					if (ctx.groupLevel == 0) {
 						ctx.content.push([
 							{ text: ctx.metadata.prompt, style: ['subHeader'], colSpan: '2', },
 							{},
@@ -1721,7 +1721,7 @@ function print_pdf_render_content(ctx) {
 			let colspan = 0;
 
 			// Check to see if Committee Decisions / Recommendations of the Committee is blank
-			if (ctx.metadata.name === 'recommendations_of_committee' && ctx.data.length === 0) {
+			if (ctx.metadata.name == 'recommendations_of_committee' && ctx.data.length == 0) {
 				break;
 			}
 
@@ -1729,10 +1729,10 @@ function print_pdf_render_content(ctx) {
 			colspan = ctx.metadata.children.length;
 
 			// If grid is over a certain size, then do something different
-			if (ctx.metadata.name === 'transport_vital_signs' ||
-				ctx.metadata.name === 'vital_signs' ||
-				ctx.metadata.name === 'laboratory_tests' ||
-				ctx.metadata.name === 'routine_monitoring'
+			if (ctx.metadata.name == 'transport_vital_signs' ||
+				ctx.metadata.name == 'vital_signs' ||
+				ctx.metadata.name == 'laboratory_tests' ||
+				ctx.metadata.name == 'routine_monitoring'
 			) {
 				colWidths = new Array();
 				colWidths = [30, 100, 200, '*'];
@@ -1749,7 +1749,7 @@ function print_pdf_render_content(ctx) {
 				gridBody.push(row);
 
 				// Are there any records?
-				if (ctx.data.length === 0) {
+				if (ctx.data.length == 0) {
 					row = new Array();
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', },
 						{}, {}, {});
@@ -1790,9 +1790,9 @@ function print_pdf_render_content(ctx) {
 						gridBody.push(row)
 					});
 				}
-			} else if (ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comments' ||
-				ctx.metadata.children[ctx.metadata.children.length - 1].name === 'comment' ||
-				ctx.metadata.children[ctx.metadata.children.length - 1].name === 'pregrid_comments') {
+			} else if (ctx.metadata.children[ctx.metadata.children.length - 1].name == 'comments' ||
+				ctx.metadata.children[ctx.metadata.children.length - 1].name == 'comment' ||
+				ctx.metadata.children[ctx.metadata.children.length - 1].name == 'pregrid_comments') {
 				// Save the comment field name
 				let commentFieldName = ctx.metadata.children[ctx.metadata.children.length - 1].name;
 				// Get the number of fields
@@ -1823,7 +1823,7 @@ function print_pdf_render_content(ctx) {
 
 				// Do the detail lines
 				// Check to see if there are records, if not then tell them so
-				if (ctx.data.length === 0) {
+				if (ctx.data.length == 0) {
 					row = new Array();
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, },);
 					for (let i = 1; i < colWidths.length; i++) {
@@ -1896,10 +1896,10 @@ function print_pdf_render_content(ctx) {
 				// The 30 is for the record number and the auto is to make it use the whole width
 				colWidths.push(30, 'auto',);
 				// Do this to make sure auto is the 1st column width and we bypass it in the count
-				let jStart = ctx.metadata.children[0].type === 'label' ? 2 : 1;
+				let jStart = ctx.metadata.children[0].type == 'label' ? 2 : 1;
 				for (let j = jStart; j < colspan; j++) {
 					// Only add a column if it is NOT a label
-					if (ctx.metadata.children[j].type !== 'label') {
+					if (ctx.metadata.children[j].type != 'label') {
 						colWidths.push('auto',);
 					};
 				}
@@ -1917,7 +1917,7 @@ function print_pdf_render_content(ctx) {
 				row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
 				ctx.metadata.children.forEach((child, index) => {
 					// Only add a column if it is NOT a label
-					if (child.type !== 'label') {
+					if (child.type != 'label') {
 						row.push({ text: child.prompt, style: ['tableLabel', 'blueFill'], },);
 					}
 				});
@@ -1926,7 +1926,7 @@ function print_pdf_render_content(ctx) {
 				// Do the detail lines
 				row = new Array();
 				// Check to see if there are records, if not then tell them so
-				if (ctx.data.length === 0) {
+				if (ctx.data.length == 0) {
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: `${colWidths.length}`, },);
 					for (let i = 1; i < colWidths.length; i++) {
 						row.push({},);
@@ -2029,7 +2029,7 @@ function print_pdf_render_content(ctx) {
 			// *** Else just return the data value - just in case there is a problem
 			// **************************************************************************
 
-			if (ctx.metadata.hasOwnProperty('is_multiselect') && ctx.metadata.is_multiselect === true) {
+			if (ctx.metadata.hasOwnProperty('is_multiselect') && ctx.metadata.is_multiselect == true) {
 				if (ctx.metadata.hasOwnProperty('path_reference') && ctx.metadata.path_reference.length > 0) {
 					ctx.content.push([
 						{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
@@ -2065,11 +2065,11 @@ function print_pdf_render_content(ctx) {
 			break;
 		case "textarea":
 			// console.log('*************** type: ', ctx.metadata.type);
-			if (ctx.metadata.name === 'case_opening_overview') {
-				let narrative = convert_html_to_pdf((typeof ctx.data === 'string') ? ctx.data : ctx.data.toString());
+			if (ctx.metadata.name == 'case_opening_overview') {
+				let narrative = convert_html_to_pdf((typeof ctx.data == 'string') ? ctx.data : ctx.data.toString());
 				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
 				for (let i = 0; i < narrative.length; i++) {
-					if (narrative[i].hasOwnProperty('ul') === true) {
+					if (narrative[i].hasOwnProperty('ul') == true) {
 						// Found a record with the ul: key
 						narrative[i].ul.forEach((u) => {
 							let ulRet = '' + u.text;
@@ -2079,7 +2079,7 @@ function print_pdf_render_content(ctx) {
 								{},
 							]);
 						});
-					} else if (narrative[i].hasOwnProperty('ol') === true) {
+					} else if (narrative[i].hasOwnProperty('ol') == true) {
 						// Found a record with the ol: key
 						narrative[i].ol.forEach((o) => {
 							let olRet = '' + o.text;
@@ -2089,7 +2089,7 @@ function print_pdf_render_content(ctx) {
 								{},
 							]);
 						});
-					} else if (narrative[i].hasOwnProperty('table') === true) {
+					} else if (narrative[i].hasOwnProperty('table') == true) {
 						// Found a table record
 						let myHeaderRows = narrative[i].table.headerRows;
 						let myBody = [];
@@ -2124,7 +2124,7 @@ function print_pdf_render_content(ctx) {
 				],
 					[
 						{ 
-							text: `${(typeof ctx.data === 'string') ? ctx.data : ctx.data.toString()}`, 
+							text: `${(typeof ctx.data == 'string') ? ctx.data : ctx.data.toString()}`, 
 							style: ['tableDetail'], 
 							colSpan: '2', 
 						},
@@ -2153,13 +2153,13 @@ function print_pdf_render_content(ctx) {
 			let thereBeRecords = true;
 
 			// See if single record
-			if (typeof ctx.multiFormIndex === 'undefined') {
+			if (typeof ctx.multiFormIndex == 'undefined') {
 				// console.log('CHART single record');
 				// Check to see if there are any records using the path parts
 
 				// See if there is any info
-				if (ctx.p_data.hasOwnProperty([x_axis_parts[0][0]]) === false ||
-					ctx.p_data[x_axis_parts[0][0]].hasOwnProperty([x_axis_parts[0][1]]) === false
+				if (ctx.p_data.hasOwnProperty([x_axis_parts[0][0]]) == false ||
+					ctx.p_data[x_axis_parts[0][0]].hasOwnProperty([x_axis_parts[0][1]]) == false
 				) {
 					chartBody.push([
 						{
@@ -2167,7 +2167,7 @@ function print_pdf_render_content(ctx) {
 						},
 					]);
 					thereBeRecords = false;
-				} else if (ctx.p_data[x_axis_parts[0][0]].length === 0) {
+				} else if (ctx.p_data[x_axis_parts[0][0]].length == 0) {
 					chartBody.push([
 						{
 							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
@@ -2179,7 +2179,7 @@ function print_pdf_render_content(ctx) {
 			if (thereBeRecords) {
 				// Labels will be from the x_axis
 				let xLabels = [];
-				let xRec = (typeof ctx.multiFormIndex === 'undefined')
+				let xRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
 					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
 				// console.log('  xRec: ', xRec);
@@ -2191,7 +2191,7 @@ function print_pdf_render_content(ctx) {
 				// console.log('   *** xLabels: ', xLabels);
 
 				// Data will be from the y_axis
-				let yRec = (typeof ctx.multiFormIndex === 'undefined')
+				let yRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[y_axis_parts[0][0]][y_axis_parts[0][1]]
 					: ctx.p_data[y_axis_parts[0][0]][ctx.multiFormIndex][y_axis_parts[0][1]];
 				let yDataOne = [];
@@ -2202,7 +2202,7 @@ function print_pdf_render_content(ctx) {
 
 				// console.log('  yRec: ', yRec);
 				// console.log('  y_axis_field_cnt: ', y_axis_field_cnt);
-				if (y_axis_field_cnt === 1) {
+				if (y_axis_field_cnt == 1) {
 					// Create option info
 					yRec.forEach((y) => {
 						yDataOne.unshift(y[y_axis_parts[0][2]]);
@@ -2249,7 +2249,7 @@ function print_pdf_render_content(ctx) {
 				}
 				// Create the graph
 				let retImg = '';
-				let imgName = (typeof ctx.multiFormIndex === 'undefined')
+				let imgName = (typeof ctx.multiFormIndex == 'undefined')
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
 				retImg = doChart2(imgName, optData, ctx.metadata.prompt);

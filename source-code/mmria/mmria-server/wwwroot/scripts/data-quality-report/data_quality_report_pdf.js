@@ -81,7 +81,7 @@ async function print_pdf(ctx) {
 				// console.log('*** pageNumber: ', i, ' - ', doc.content[i].positions[0].pageNumber);
 				startPage = doc.content[i].positions[0].pageNumber;
 				endPage = doc.content[i].positions[doc.content[i].positions.length - 1].pageNumber;
-				header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText !== undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
+				header = (doc.content[i].stack[0].table.body[0][0].pageHeaderText != undefined) ? doc.content[i].stack[0].table.body[0][0].pageHeaderText : header;
 				recLenArr.push({ s: startPage, e: endPage, p: header });
 			}
 
@@ -290,25 +290,25 @@ function getTodayFormatted() {
 
 // Format the month or day to always have 2 digits
 function fmt2Digits(val) {
-	if (val === null || val === '9999') return '  ';
+	if (val == null || val == '9999') return '  ';
 	return ((val < 10) ? '0' : '') + val;
 }
 
 // Format the year to always have 4 digits, check for 9999
 function fmtYear(val) {
-	return (val === null || val === '9999') ? '    ' : val;
+	return (val == null || val == '9999') ? '    ' : val;
 }
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
 function reformatDate(dt) {
-	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
+	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
 	let date = new Date(dt);
 	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
 }
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
 function fmtDataDate(dt) {
-	if (dt.year === null || dt.year === '9999' || dt.year === '') {
+	if (dt.year == null || dt.year == '9999' || dt.year == '') {
 		return '  /  /  ';
 	}
 	return `${fmt2Digits(dt.month)}/${fmt2Digits(dt.day)}/ {fmtYear(dt.year)}`;
@@ -316,26 +316,26 @@ function fmtDataDate(dt) {
 
 // Format date by field (day, month, year)
 function fmtDateByFields(dt) {
-	let mm = (dt.month === null || dt.month === '9999' || dt.month === '') ? '  ' : fmt2Digits(dt.month);
-	let dd = (dt.day === null || dt.day === '9999' || dt.day === '') ? '  ' : fmt2Digits(dt.day);
-	let yy = (dt.year === null || dt.year === '9999' || dt.year === '') ? '    ' : dt.year;
+	let mm = (dt.month == null || dt.month == '9999' || dt.month == '') ? '  ' : fmt2Digits(dt.month);
+	let dd = (dt.day == null || dt.day == '9999' || dt.day == '') ? '  ' : fmt2Digits(dt.day);
+	let yy = (dt.year == null || dt.year == '9999' || dt.year == '') ? '    ' : dt.year;
 	return `${mm}/${dd}/${yy}`;
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
 function fmtDateTime(dt) {
-	if (dt === null || dt.length === 0 || dt === '0001-01-01T00:00:00') return '  /  /    ';
+	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
 	let fDate = new Date(dt);
 	let hh = fDate.getHours();
 	let mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
-	strTime = (strTime === '00:00') ? '' : strTime;
+	strTime = (strTime == '00:00') ? '' : strTime;
 	return `${fmt2Digits(fDate.getMonth() + 1)}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
 function fmtStrDate(dt) {
-	if (dt === null || dt.length === 0) {
+	if (dt == null || dt.length == 0) {
 		return ' / / ';
 	}
 	let dtParts = dt.split('-');
@@ -350,7 +350,7 @@ function getHeaderName() {
 
 // Format number
 function fmtNumber( val ) {
-	if ( val === null || val === '' ) {
+	if ( val == null || val == '' ) {
 		return '';
 	}
 	return val;
@@ -358,7 +358,7 @@ function fmtNumber( val ) {
 
 // Format percentage
 function fmtPercent( val ) {
-	if ( val === null || val === '' ) {
+	if ( val == null || val == '' ) {
 		return '';
 	}
 	return val.toFixed(1) + '%';

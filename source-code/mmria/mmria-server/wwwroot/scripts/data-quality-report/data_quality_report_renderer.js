@@ -341,7 +341,21 @@ async function download_data_quality_report_button_click()
             summary_data.n08 += item.n06;
             summary_data.n09 += item.n07;
         }
+
     }
+
+				// This is just some test data to see if it works, and yep it works
+
+				summary_data.n10.s.mn += 39;
+				summary_data.n10.s.mp += 4.1;
+				summary_data.n10.s.un += 21;
+				summary_data.n10.s.up += 6.1;
+				
+				summary_data.n10.p.mn += 109;
+				summary_data.n10.p.mp += 32.1;
+				summary_data.n10.p.un += 88;
+				summary_data.n10.p.up += 45.9;
+				
 
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
