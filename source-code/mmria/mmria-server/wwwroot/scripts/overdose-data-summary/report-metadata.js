@@ -1,50 +1,8 @@
 var indicator_map = new Map();
+
 indicator_map.set
 (
     1,
-    {
-        indicator_id : "mUndCofDeath",
-        title:"Primary Underlying Cause of Death",
-        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-        blank_field_id: "MUndCofDeath22",
-
-        chart_title:"Primary Underlying Causes of Death",
-        x_axis_title:"Primary Underlying Cause of Death",
-        y_axis_title:"Number of deaths",
-        chart_title_508: "Bar chart showing number of deaths by underlying cause of death.",
-        
-        table_title:"Primary Underlying Causes of Death",
-        table_title_508:"Table showing number of deaths by underlying cause of death.",
-
-        field_id_list : [
-        { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
-        { name: "MUndCofDeath2", title: "Infection" },
-        { name: "MUndCofDeath3", title: "Embolism - Thrombotic (Non-Cerebral)" },
-        { name: "MUndCofDeath4", title: "Amniotic Fluid Embolism" },
-        { name: "MUndCofDeath5", title: "Hypertensive Disorders of Pregnancy" },
-        { name: "MUndCofDeath6", title: "Anesthesia Complications" },
-        { name: "MUndCofDeath7", title: "Cardiomyopathy" },
-        { name: "MUndCofDeath8", title: "Hematologic" },
-        { name: "MUndCofDeath9", title: "Collagen Vascular/Autoimmune Diseases" },
-        { name: "MUndCofDeath10", title: "Conditions Unique to Pregnancy" },
-        { name: "MUndCofDeath11", title: "Injury" },
-        { name: "MUndCofDeath12", title: "Cancer" },
-        { name: "MUndCofDeath13", title: "Cardiovascular Conditions" },
-        { name: "MUndCofDeath14", title: "Pulmonary Conditions (Excludes ARDS)" },
-        { name: "MUndCofDeath15", title: "Neurologic/Neurovascular Conditions (Excluding CVA)" },
-        { name: "MUndCofDeath16", title: "Renal Diseases" },
-        { name: "MUndCofDeath17", title: "Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy" },
-        { name: "MUndCofDeath18", title: "Metabolic/Endocrine" },
-        { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
-        { name: "MUndCofDeath20", title: "Mental Health Conditions" },
-        { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],    
-    }
-);
-
-indicator_map.set
-(
-    2,
     {
         indicator_id : "mPregRelated",
         title:"Pregnancy-Relatedness",
@@ -70,34 +28,11 @@ indicator_map.set
     }
 );
 
-indicator_map.set
-(
-    3,
-    {
-        indicator_id : "mDeathPrevent",
-        title:"Preventability",
-        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
-        blank_field_id: "MDeathPrevent3",
 
-        chart_title:"Preventability",
-        table_title:"Preventability",
-        x_axis_title:"Preventability",
-        y_axis_title:"Number of deaths",
-        
-        table_title:"Number of deaths by preventability",
-        table_title_508:"Table showing number of deaths by preventability.",
-
-        field_id_list : [
-        { name: "MDeathPrevent1", title: "Preventable" },
-        { name: "MDeathPrevent2", title: "Not Preventable" },
-        { name: "MDeathPrevent3", title: "Unable to Determine" },
-        ],
-    }
-);
 
 indicator_map.set
 (
-    4,
+    2,
     {
         indicator_id : "mTimingofDeath",
         title:"Timing of Death",
@@ -122,35 +57,109 @@ indicator_map.set
     }
 );
 
+
+
+indicator_map.set
+(
+    3,
+    {
+        indicator_id : "mDeathsbyRaceEth",
+        title:"Race/Ethnicity",
+        description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
+        blank_field_id: "MRaceEth20",
+
+        chart_title:"Race/Ethnicity",
+        table_title:"Race/Ethnicity",
+        x_axis_title:"Number of deaths by Race/Ethnicity",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Race/Ethnicity",
+        table_title_508:"Table showing number of deaths by Race/Ethnicity.",
+        
+
+        field_id_list : [
+
+            { name: "MRaceEth3", title: "Hispanic" },
+            { name: "MRaceEth4", title: "Non-Hispanic Black" },
+            { name: "MRaceEth5", title: "Non-Hispanic White" },
+            { name: "MRaceEth6", title: "American Indian / Alaska Native" },
+            { name: "MRaceEth7", title: "Native Hawaiian" },
+            { name: "MRaceEth8", title: "Guamanian or Chamorro" },
+            { name: "MRaceEth9", title: "Samoan" },
+            { name: "MRaceEth10", title: "Other Pacific Islander" },
+            { name: "MRaceEth11", title: "Asian Indian" },
+            { name: "MRaceEth12", title: "Filipino" },
+            { name: "MRaceEth13", title: "Korean" },
+            { name: "MRaceEth14", title: "Other Asian" },
+            { name: "MRaceEth15", title: "Chinese" },
+            { name: "MRaceEth16", title: "Japanese" },
+            { name: "MRaceEth17", title: "Vietnamese" },
+            { name: "MRaceEth18", title: "Other Race" },
+            { name: "MRaceEth19", title: "Race Not Specified" },
+            { name: "MRaceEth20", title: "(Blank)" },
+        ],
+    }
+);
+
+
+indicator_map.set
+(
+    4,
+    {
+        indicator_id : "mAgeatDeath",
+        title:"Age",
+        description:"Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.",
+        blank_field_id: "MAgeD8",
+
+
+        chart_title:"Age",
+        table_title:"Age",
+        x_axis_title:"Number of deaths by Age",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by Age",
+        table_title_508:"Table showing number of deaths by Age.",
+        
+
+        field_id_list : [
+        { name: "MAgeD1", title: "< 20" },
+        { name: "MAgeD2", title: "20 to 24" },
+        { name: "MAgeD3", title: "25 to 29" },
+        { name: "MAgeD4", title: "30 to 34" },
+        { name: "MAgeD5", title: "35 to 39" },
+        { name: "MAgeD6", title: "40 to 44" },
+        { name: "MAgeD7", title: "45+" },
+        { name: "MAgeD8", title: "(blank)" },
+        
+        ],
+    }
+);
+
 indicator_map.set
 (
     5,
     {
-        indicator_id : "mOMBRaceRcd",
-        title:"OMB Race Recode",
-        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
-        blank_field_id: "MOMBRaceRcd10",
+        indicator_id : "mEducation",
+        title:"Education",
+        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
+        blank_field_id: "MEduc5",
 
 
-        chart_title:"OMB Race Recode",
-        table_title:"OMB Race Recode",
-        x_axis_title:"Number of deaths by OMB Race Recode",
+        chart_title:"Education",
+        table_title:"Education",
+        x_axis_title:"Number of deaths by Education",
         y_axis_title:"Number of deaths",
-
-        table_title:"Number of deaths by OMB Race Recode",
-        table_title_508:"Table showing number of deaths by OMB Race Recode.",    
+        
+        table_title:"Number of deaths by Education",
+        table_title_508:"Table showing number of deaths by Education.",
+        
 
         field_id_list : [
-        { name: "MOMBRaceRcd1", title: "White" },
-        { name: "MOMBRaceRcd2", title: "Black" },
-        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
-        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
-        { name: "MOMBRaceRcd5", title: "Asian" },
-        { name: "MOMBRaceRcd6", title: "Bi-Racial" },
-        { name: "MOMBRaceRcd7", title: "Multi-Racial" },
-        { name: "MOMBRaceRcd8", title: "Other Race" },
-        { name: "MOMBRaceRcd9", title: "Race Not Specified" },
-        { name: "MOMBRaceRcd10", title: "(blank)" },
+        { name: "MEduc1", title: "High school diploma equivalent or less" },
+        { name: "MEduc2", title: "Completed some college" },
+        { name: "MEduc3", title: "Associate or bachelor degree" },
+        { name: "MEduc4", title: "Completed advanced degree" },
+        { name: "MEduc5", title: "(blank)" },
         ],
     }
 );
@@ -196,113 +205,137 @@ indicator_map.set
     }
 );
 
-indicator_map.set
-(
-    7,
-    {
-        indicator_id : "mDeathsbyRaceEth",
-        title:"Race/Ethnicity",
-        description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
-        blank_field_id: "MRaceEth20",
-
-        chart_title:"Race/Ethnicity",
-        table_title:"Race/Ethnicity",
-        x_axis_title:"Number of deaths by Race/Ethnicity",
-        y_axis_title:"Number of deaths",
-        
-        table_title:"Number of deaths by Race/Ethnicity",
-        table_title_508:"Table showing number of deaths by Race/Ethnicity.",
-        
-
-        field_id_list : [
-
-            { name: "MRaceEth3", title: "Hispanic" },
-            { name: "MRaceEth4", title: "Non-Hispanic Black" },
-            { name: "MRaceEth5", title: "Non-Hispanic White" },
-            { name: "MRaceEth6", title: "American Indian / Alaska Native" },
-            { name: "MRaceEth7", title: "Native Hawaiian" },
-            { name: "MRaceEth8", title: "Guamanian or Chamorro" },
-            { name: "MRaceEth9", title: "Samoan" },
-            { name: "MRaceEth10", title: "Other Pacific Islander" },
-            { name: "MRaceEth11", title: "Asian Indian" },
-            { name: "MRaceEth12", title: "Filipino" },
-            { name: "MRaceEth13", title: "Korean" },
-            { name: "MRaceEth14", title: "Other Asian" },
-            { name: "MRaceEth15", title: "Chinese" },
-            { name: "MRaceEth16", title: "Japanese" },
-            { name: "MRaceEth17", title: "Vietnamese" },
-            { name: "MRaceEth18", title: "Other Race" },
-            { name: "MRaceEth19", title: "Race Not Specified" },
-            { name: "MRaceEth20", title: "(Blank)" },
-        ],
-    }
-);
-
-indicator_map.set
-(
-    8,
-    {
-        indicator_id : "mAgeatDeath",
-        title:"Age",
-        description:"Age is calculated using the date of death on the Home Record and the date of birth on the Death Certificate form. If this data is not available, age is calculated using the date of death on the Home Record and the date of mother’s birth from the Birth/Fetal Death Certificate- Parent Section form.",
-        blank_field_id: "MAgeD8",
 
 
-        chart_title:"Age",
-        table_title:"Age",
-        x_axis_title:"Number of deaths by Age",
-        y_axis_title:"Number of deaths",
-        
-        table_title:"Number of deaths by Age",
-        table_title_508:"Table showing number of deaths by Age.",
-        
 
-        field_id_list : [
-        { name: "MAgeD1", title: "< 20" },
-        { name: "MAgeD2", title: "20 to 24" },
-        { name: "MAgeD3", title: "25 to 29" },
-        { name: "MAgeD4", title: "30 to 34" },
-        { name: "MAgeD5", title: "35 to 39" },
-        { name: "MAgeD6", title: "40 to 44" },
-        { name: "MAgeD7", title: "45+" },
-        { name: "MAgeD8", title: "(blank)" },
-        
-        ],
-    }
-);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 indicator_map.set
 (
     9,
     {
-        indicator_id : "mEducation",
-        title:"Education",
-        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
-        blank_field_id: "MEduc5",
+        indicator_id : "mUndCofDeath",
+        title:"Primary Underlying Cause of Death",
+        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
+        blank_field_id: "MUndCofDeath22",
 
-
-        chart_title:"Education",
-        table_title:"Education",
-        x_axis_title:"Number of deaths by Education",
+        chart_title:"Primary Underlying Causes of Death",
+        x_axis_title:"Primary Underlying Cause of Death",
         y_axis_title:"Number of deaths",
+        chart_title_508: "Bar chart showing number of deaths by underlying cause of death.",
         
-        table_title:"Number of deaths by Education",
-        table_title_508:"Table showing number of deaths by Education.",
-        
+        table_title:"Primary Underlying Causes of Death",
+        table_title_508:"Table showing number of deaths by underlying cause of death.",
 
         field_id_list : [
-        { name: "MEduc1", title: "High school diploma equivalent or less" },
-        { name: "MEduc2", title: "Completed some college" },
-        { name: "MEduc3", title: "Associate or bachelor degree" },
-        { name: "MEduc4", title: "Completed advanced degree" },
-        { name: "MEduc5", title: "(blank)" },
+        { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
+        { name: "MUndCofDeath2", title: "Infection" },
+        { name: "MUndCofDeath3", title: "Embolism - Thrombotic (Non-Cerebral)" },
+        { name: "MUndCofDeath4", title: "Amniotic Fluid Embolism" },
+        { name: "MUndCofDeath5", title: "Hypertensive Disorders of Pregnancy" },
+        { name: "MUndCofDeath6", title: "Anesthesia Complications" },
+        { name: "MUndCofDeath7", title: "Cardiomyopathy" },
+        { name: "MUndCofDeath8", title: "Hematologic" },
+        { name: "MUndCofDeath9", title: "Collagen Vascular/Autoimmune Diseases" },
+        { name: "MUndCofDeath10", title: "Conditions Unique to Pregnancy" },
+        { name: "MUndCofDeath11", title: "Injury" },
+        { name: "MUndCofDeath12", title: "Cancer" },
+        { name: "MUndCofDeath13", title: "Cardiovascular Conditions" },
+        { name: "MUndCofDeath14", title: "Pulmonary Conditions (Excludes ARDS)" },
+        { name: "MUndCofDeath15", title: "Neurologic/Neurovascular Conditions (Excluding CVA)" },
+        { name: "MUndCofDeath16", title: "Renal Diseases" },
+        { name: "MUndCofDeath17", title: "Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy" },
+        { name: "MUndCofDeath18", title: "Metabolic/Endocrine" },
+        { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
+        { name: "MUndCofDeath20", title: "Mental Health Conditions" },
+        { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
+        ],    
+    }
+);
+
+
+
+indicator_map.set
+(
+    31,
+    {
+        indicator_id : "mDeathPrevent",
+        title:"Preventability",
+        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
+        blank_field_id: "MDeathPrevent3",
+
+        chart_title:"Preventability",
+        table_title:"Preventability",
+        x_axis_title:"Preventability",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Number of deaths by preventability",
+        table_title_508:"Table showing number of deaths by preventability.",
+
+        field_id_list : [
+        { name: "MDeathPrevent1", title: "Preventable" },
+        { name: "MDeathPrevent2", title: "Not Preventable" },
+        { name: "MDeathPrevent3", title: "Unable to Determine" },
         ],
     }
 );
 
+
 indicator_map.set
 (
-    10,
+    51,
+    {
+        indicator_id : "mOMBRaceRcd",
+        title:"OMB Race Recode",
+        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
+        blank_field_id: "MOMBRaceRcd10",
+
+
+        chart_title:"OMB Race Recode",
+        table_title:"OMB Race Recode",
+        x_axis_title:"Number of deaths by OMB Race Recode",
+        y_axis_title:"Number of deaths",
+
+        table_title:"Number of deaths by OMB Race Recode",
+        table_title_508:"Table showing number of deaths by OMB Race Recode.",    
+
+        field_id_list : [
+        { name: "MOMBRaceRcd1", title: "White" },
+        { name: "MOMBRaceRcd2", title: "Black" },
+        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
+        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
+        { name: "MOMBRaceRcd5", title: "Asian" },
+        { name: "MOMBRaceRcd6", title: "Bi-Racial" },
+        { name: "MOMBRaceRcd7", title: "Multi-Racial" },
+        { name: "MOMBRaceRcd8", title: "Other Race" },
+        { name: "MOMBRaceRcd9", title: "Race Not Specified" },
+        { name: "MOMBRaceRcd10", title: "(blank)" },
+        ],
+    }
+);
+
+
+
+
+
+
+
+indicator_map.set
+(
+    101,
     {
     indicator_id : "mDeathCause",
     title:"Cause of Death",
