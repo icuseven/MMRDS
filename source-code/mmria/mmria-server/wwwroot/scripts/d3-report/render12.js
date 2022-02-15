@@ -32,7 +32,7 @@ ${render_navigation_strip(12)}
     </li>
    
 </ul>
-<p style="clear:both;" align=center>This data has been taken directly from the MMRIA database and is not a final report</p>
+<p style="clear:both;" align=center>This data has been taken directly from the MMRIA database and is not a final report.</p>
 <br style="clear:both;"/>
 ${render_navigation_strip(12)}
 `;
