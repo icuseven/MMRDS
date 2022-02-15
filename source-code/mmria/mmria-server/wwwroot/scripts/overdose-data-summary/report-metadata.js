@@ -206,22 +206,77 @@ indicator_map.set
 );
 
 
+indicator_map.set
+(
+    7,
+    {
+        indicator_id : "mDeathSubAbuseEvi",
+        title:"Substance Use",
+        description:"description not specified",
+        blank_field_id: "MEviSub3",
 
+        chart_title:"Number of deaths with evidence of substance use in prenatal records",
+        table_title:"Number of deaths with evidence of substance use in prenatal records",
+        x_axis_title:"Number of deaths with evidence of substance use in prenatal records",
+        y_axis_title:"Number of deaths",
+        
 
+        field_id_list : [
+        { name: "MEviSub1", title: "Yes" },
+        { name: "MEviSub2", title: "No" },
+        { name: "MEviSub3", title: "(Blank)" },
+        { name: "MEviSub4", title: "Unknown" },
+        ],
+    }
+);
 
+indicator_map.set
+(
+    72,
+    {
+        indicator_id : "mHxofSubAbu",
+        title:"Toxicology",
+        description:"description not specified",
+        blank_field_id: "MHxSub3",
 
+        chart_title:"Frequency of autopsy toxicology findings",
+        table_title:"Frequency of autopsy toxicology findings",
+        x_axis_title:"title not specified",
+        y_axis_title:"Number of deaths",
+        
 
+        field_id_list : [
+        { name: "MHxSub1", title: "Yes" },
+        { name: "MHxSub2", title: "No" },
+        { name: "MHxSub3", title: "(Blank)" },
+        { name: "MHxSub4", title: "Unknown" },
+        ],
+    }
+);
 
+indicator_map.set
+(
+    8,
+    {
+        indicator_id : "mHxofSubAbu",
+        title:"Toxicology",
+        description:"description not specified",
+        blank_field_id: "MHxSub3",
 
+        chart_title:"Frequency of autopsy toxicology findings",
+        table_title:"Frequency of autopsy toxicology findings",
+        x_axis_title:"title not specified",
+        y_axis_title:"Number of deaths",
+        
 
-
-
-
-
-
-
-
-
+        field_id_list : [
+        { name: "MHxSub1", title: "Yes" },
+        { name: "MHxSub2", title: "No" },
+        { name: "MHxSub3", title: "(Blank)" },
+        { name: "MHxSub4", title: "Unknown" },
+        ],
+    }
+);
 
 indicator_map.set
 (
@@ -530,29 +585,7 @@ indicator_map.set
     }
 );
 
-indicator_map.set
-(
-    17,
-    {
-        indicator_id : "mHxofSubAbu",
-        title:"title not specified",
-        description:"description not specified",
-        blank_field_id: "MHxSub3",
 
-        chart_title:"title not specified",
-        table_title:"title not specified",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
-        
-
-        field_id_list : [
-        { name: "MHxSub1", title: "Yes" },
-        { name: "MHxSub2", title: "No" },
-        { name: "MHxSub3", title: "(Blank)" },
-        { name: "MHxSub4", title: "Unknown" },
-        ],
-    }
-);
 
 async function get_indicator_values(p_indicator_id)
 {

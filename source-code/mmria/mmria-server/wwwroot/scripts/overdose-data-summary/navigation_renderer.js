@@ -22,7 +22,7 @@ function render_navigation_strip(p_current_index)
         {
             if
             (
-                0 < index && index <= 12
+                0 < index && index <= 13
             )
             {
                 if(index == p_current_index)
@@ -37,7 +37,7 @@ function render_navigation_strip(p_current_index)
         }
     );
 
-    if(next_index < 13)
+    if(next_index < 14)
     {
         return `
         <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">

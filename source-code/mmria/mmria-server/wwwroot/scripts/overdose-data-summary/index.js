@@ -34,18 +34,20 @@ const g_ui = {
 
 const g_nav_map = new Map();
 g_nav_map.set(0,"Overview");
-g_nav_map.set(1,"Primary Underlying Causes of Death");
-g_nav_map.set(2,"Pregnancy-Relatedness");
-g_nav_map.set(3,"Preventability");
-g_nav_map.set(4,"Timing of Death");
-g_nav_map.set(5,"OMB race recode");
-g_nav_map.set(6,"Race");
-g_nav_map.set(7,"Race/Ethniciy");
-g_nav_map.set(8,"Age");
-g_nav_map.set(9,"Education");
-g_nav_map.set(10,"Committee Determinations");
+g_nav_map.set(1,"Pregnancy-Relatedness");
+g_nav_map.set(2,"Timing of Death");
+g_nav_map.set(3,"Race/Ethniciy");
+g_nav_map.set(4,"Age");
+g_nav_map.set(5,"Education");
+g_nav_map.set(6,"Substance Use");
+g_nav_map.set(7,"Substance Use");
+g_nav_map.set(8,"Toxicology");
+g_nav_map.set(9,"Committee Determinations");
+g_nav_map.set(10,"Treatment History");
 g_nav_map.set(11,"Emotional Stress");
 g_nav_map.set(12,"Living Arrangements");
+
+g_nav_map.set(13,"Incareration History");
 
 const relatedness_map = new Map();
 relatedness_map.set(9999, "(blank)");
