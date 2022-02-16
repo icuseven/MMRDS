@@ -22,7 +22,7 @@ function render_navigation_strip(p_current_index)
         {
             if
             (
-                0 < index && index <= 13
+                -1 < index && index <= 13
             )
             {
                 if(index == p_current_index)

@@ -57,65 +57,56 @@ function render0()
 </tr>
 
 
-
-<tr bgcolor=CCCCCC onclick="window.location='#6'" style="cursor: pointer;">
+<tr onclick="window.location='#6'" style="cursor: pointer;">
 <td><strong>6</strong></td>
-<td><strong><a href="#6">Race</strong></td>
+<td><strong><a href="#6">Substance Use</strong></td>
 <td>${indicator_map.get(6).description}</td>
 </tr>
 
 
 
-<tr onclick="window.location='#7'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#7'" style="cursor: pointer;">
 <td><strong>7</strong></td>
-<td><strong><a href="#7">Substance Use</strong></td>
+<td><strong><a href="#7">Toxicology</strong></td>
 <td>${indicator_map.get(7).description}</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC onclick="window.location='#8'" style="cursor: pointer;">
+<tr onclick="window.location='#8'" style="cursor: pointer;">
 <td><strong>8</strong></td>
-<td><strong><a href="#8">Toxicology</strong></td>
+<td><strong><a href="#8">Committee Determinations</strong></td>
 <td>${indicator_map.get(8).description}</td>
 </tr>
 
 
 
-<tr onclick="window.location='#9'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#9'" style="cursor: pointer;">
 <td><strong>9</strong></td>
-<td><strong><a href="#9">Committee Determinations</strong></td>
+<td><strong><a href="#9">Treatment History</strong></td>
 <td>${indicator_map.get(9).description}</td>
 </tr>
 
 
 
-<tr bgcolor=CCCCCC onclick="window.location='#10'" style="cursor: pointer;">
+<tr onclick="window.location='#10'" style="cursor: pointer;">
 <td><strong>10</strong></td>
-<td><strong><a href="#10">Treatment History</strong></td>
+<td><strong><a href="#10">Emotional Stress</strong></td>
 <td>${indicator_map.get(10).description}</td>
 </tr>
 
 
 
-<tr onclick="window.location='#11'" style="cursor: pointer;">
+<tr bgcolor=CCCCCC onclick="window.location='#11'" style="cursor: pointer;">
 <td><strong>11</strong></td>
-<td><strong><a href="#11">Emotional Stress</strong></td>
+<td><strong><a href="#11">Living Arrangements</a></strong></td>
 <td>${indicator_map.get(11).description}</td>
 </tr>
 
-
-
 <tr bgcolor=CCCCCC onclick="window.location='#12'" style="cursor: pointer;">
 <td><strong>12</strong></td>
-<td><strong><a href="#12">Living Arrangements</a></strong></td>
+<td><strong><a href="#12">Incarceration History</a></strong></td>
 <td>${indicator_map.get(12).description}</td>
-</tr>
-
-<tr bgcolor=CCCCCC onclick="window.location='#13'" style="cursor: pointer;">
-<td><strong>13</strong></td>
-<td><strong><a href="#13">Incarceration History</a></strong></td>
-<td>${indicator_map.get(13).description}</td>
 </tr>
 </tbody>
 </table>

@@ -54,7 +54,7 @@ async function render9_chart(p_post_html, p_metadata, p_data_list)
     });
     
     render_chart_post_html(p_post_html, p_metadata, data, categories, totals);
-    
+
     return `
     <div class="card">
         <div class="card-header bg-secondary">

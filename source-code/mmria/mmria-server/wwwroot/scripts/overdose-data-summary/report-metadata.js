@@ -164,51 +164,10 @@ indicator_map.set
     }
 );
 
+
 indicator_map.set
 (
     6,
-    {
-        indicator_id : "mDeathbyRace",
-        title:"Race",
-        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate. Decedents may have more than one race specified. Race categories do not sum to total number of deaths.",
-        blank_field_id: "MDeathbyRace17",
-
-
-        chart_title:"Race",
-        table_title:"Race",
-        x_axis_title:"Number of deaths by Race",
-        y_axis_title:"Number of deaths",
-        
-        table_title:"Number of deaths by Race",
-        table_title_508:"Table showing number of deaths by Race.",
-
-        field_id_list : [
-        { name: "MDeathbyRace1", title:"White" },
-        { name: "MDeathbyRace2", title:"Black or African American" },
-        { name: "MDeathbyRace3", title:"American Indian or Alaska Native" },
-        { name: "MDeathbyRace4", title:"Native Hawaiian" },
-        { name: "MDeathbyRace5", title:"Guamanian or Chamorro" },
-        { name: "MDeathbyRace6", title:"Samoan" },
-        { name: "MDeathbyRace7", title:"Other Pacific Islander" },
-        { name: "MDeathbyRace8", title:"Asian Indian" },
-        { name: "MDeathbyRace9", title:"Chinese" },
-        { name: "MDeathbyRace10", title:"Filipino" },
-        { name: "MDeathbyRace11", title:"Japanese" },
-        { name: "MDeathbyRace12", title:"Korean" },
-        { name: "MDeathbyRace13", title:"Vietnamese" },
-        { name: "MDeathbyRace14", title:"Other Asian" },
-        { name: "MDeathbyRace15", title:"Other Race" },
-        { name: "MDeathbyRace16", title:"Race Not Specified" },
-        { name: "MDeathbyRace17", title:"(blank)" },
-                ]     
-
-    }
-);
-
-
-indicator_map.set
-(
-    7,
     {
         indicator_id : "mDeathSubAbuseEvi",
         title:"Substance Use",
@@ -232,7 +191,7 @@ indicator_map.set
 
 indicator_map.set
 (
-    7.2,
+    6.2,
     {
         indicator_id : "mHxofSubAbu",
         title:"History of documented substance use",
@@ -256,7 +215,7 @@ indicator_map.set
 
 indicator_map.set
 (
-    8,
+    7,
     {
         indicator_id : "mHxofSubAbu",
         title:"Toxicology",
@@ -280,7 +239,7 @@ indicator_map.set
 
 indicator_map.set
 (
-    9,
+    8,
     {
         indicator_id : "mUndCofDeath",
         title:"Primary Underlying Cause of Death",
@@ -323,7 +282,7 @@ indicator_map.set
 
 indicator_map.set
 (
-    10,
+    9,
     {
         indicator_id : "mMHTxTiming",
         title:"Treatment history",
@@ -347,7 +306,7 @@ indicator_map.set
 
 indicator_map.set
 (
-    11,
+    10,
     {
         indicator_id : "mHxofEmoStress",
         title: "Emotional Stress",
@@ -385,7 +344,7 @@ indicator_map.set
 );
 
 indicator_map.set(
-    12,
+    11,
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
@@ -415,7 +374,41 @@ indicator_map.set(
 
 indicator_map.set
 (
-    13,
+    11.2,
+    {
+        indicator_id : "mHomeless",
+        title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
+        description:"description not specified",
+        blank_field_id: "MHomeless5",
+
+        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
+        chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
+
+        x_axis_title:"Homelessness in relation to pregnancy",
+        y_axis_title:"Number of deaths",
+
+
+        table_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
+        table_title_508:"Table showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
+
+        field_id_list : [
+        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
+        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
+        { name: "MHomeless8", title: "During pregnancy" },
+        { name: "MHomeless9", title: "After pregnancy" },
+        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
+        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
+        { name: "MHomeless1", title: "Never experienced homelessness" },
+        { name: "MHomeless4", title: "Unknown" },
+        { name: "MHomeless5", title: "(blank)" },
+
+        ],
+    }
+);
+
+indicator_map.set
+(
+    12,
     {
         indicator_id : "mIncarHx",
         title:"Mother&apos;s Incarceration History",
