@@ -212,7 +212,7 @@ indicator_map.set
     {
         indicator_id : "mDeathSubAbuseEvi",
         title:"Substance Use",
-        description:"description not specified",
+        description:"Evidence of substance use in prenatal records is determined by the question ‘Was There Evidence of Substance Use?’ on the Prenatal Records form; History of documented substance use is determined by the question ‘Was There Documented Substance Use?’ on the Social and Environmental Profile, and includes any documented substance use beyond just the prenatal period.",
         blank_field_id: "MEviSub3",
 
         chart_title:"Number of deaths with evidence of substance use in prenatal records",
@@ -232,15 +232,15 @@ indicator_map.set
 
 indicator_map.set
 (
-    72,
+    7.2,
     {
         indicator_id : "mHxofSubAbu",
-        title:"Toxicology",
+        title:"History of documented substance use",
         description:"description not specified",
         blank_field_id: "MHxSub3",
 
-        chart_title:"Frequency of autopsy toxicology findings",
-        table_title:"Frequency of autopsy toxicology findings",
+        chart_title:"History of documented substance use",
+        table_title:"History of documented substance use",
         x_axis_title:"title not specified",
         y_axis_title:"Number of deaths",
         
@@ -321,110 +321,27 @@ indicator_map.set
     }
 );
 
-
-
 indicator_map.set
 (
-    31,
+    10,
     {
-        indicator_id : "mDeathPrevent",
-        title:"Preventability",
-        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
-        blank_field_id: "MDeathPrevent3",
+        indicator_id : "mMHTxTiming",
+        title:"Treatment history",
+        description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period",
+        blank_field_id: "MMHTx4",
 
-        chart_title:"Preventability",
-        table_title:"Preventability",
-        x_axis_title:"Preventability",
-        y_axis_title:"Number of deaths",
+        chart_title:"Substance Abuse Evidence",
+        table_title:"Substance Abuse Evidence",
+        x_axis_title:"title not specified",
+        y_axis_title:"title not specified",
         
-        table_title:"Number of deaths by preventability",
-        table_title_508:"Table showing number of deaths by preventability.",
 
         field_id_list : [
-        { name: "MDeathPrevent1", title: "Preventable" },
-        { name: "MDeathPrevent2", title: "Not Preventable" },
-        { name: "MDeathPrevent3", title: "Unable to Determine" },
+        { name: "MMHTx1", title: "Before most recent pregnancy" },
+        { name: "MMHTx2", title: "During most recent pregnancy" },
+        { name: "MMHTx3", title: "After most recent pregnancy" },
+        { name: "MMHTx4", title: "(blank)" },
         ],
-    }
-);
-
-
-indicator_map.set
-(
-    51,
-    {
-        indicator_id : "mOMBRaceRcd",
-        title:"OMB Race Recode",
-        description:"Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race is ascertained from the Death Certificate.",
-        blank_field_id: "MOMBRaceRcd10",
-
-
-        chart_title:"OMB Race Recode",
-        table_title:"OMB Race Recode",
-        x_axis_title:"Number of deaths by OMB Race Recode",
-        y_axis_title:"Number of deaths",
-
-        table_title:"Number of deaths by OMB Race Recode",
-        table_title_508:"Table showing number of deaths by OMB Race Recode.",    
-
-        field_id_list : [
-        { name: "MOMBRaceRcd1", title: "White" },
-        { name: "MOMBRaceRcd2", title: "Black" },
-        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
-        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
-        { name: "MOMBRaceRcd5", title: "Asian" },
-        { name: "MOMBRaceRcd6", title: "Bi-Racial" },
-        { name: "MOMBRaceRcd7", title: "Multi-Racial" },
-        { name: "MOMBRaceRcd8", title: "Other Race" },
-        { name: "MOMBRaceRcd9", title: "Race Not Specified" },
-        { name: "MOMBRaceRcd10", title: "(blank)" },
-        ],
-    }
-);
-
-
-
-
-
-
-
-indicator_map.set
-(
-    101,
-    {
-    indicator_id : "mDeathCause",
-    title:"Cause of Death",
-    //title:"Committee Determinations",
-    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
-    blank_field_id: "MCauseD15",
-
-    chart_title:"Cause of Death",
-    table_title:"Cause of Death",
-    x_axis_title:"Number of deaths by Cause of Death",
-    y_axis_title:"Number of deaths",
-    
-    table_title:"Number of deaths by Cause of Death",
-    table_title_508:"Table showing number of deaths by Cause of Death.",
-    
-
-    field_id_list : [
-        { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
-        { name: "MCauseD2", title: "Mental Health Conditions - No" },
-        { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
-        { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
-        { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
-        { name: "MCauseD7", title: "Substance Use Disorder - No" },
-        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
-        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD10", title: "Substance Use Disorder" },
-        { name: "MCauseD11", title: "Suicide - Yes" },
-        { name: "MCauseD12", title: "Suicide - No" },
-        { name: "MCauseD13", title: "Suicide - Probably" },
-        { name: "MCauseD14", title: "Suicide - Unknown" },
-        { name: "MCauseD15", title: "Suicide - Blank" },
-    ],
-
     }
 );
 
@@ -500,87 +417,28 @@ indicator_map.set
 (
     13,
     {
-        indicator_id : "mHomeless",
-        title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
-        description:"description not specified",
-        blank_field_id: "MHomeless5",
-
-        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
-        chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
-
-        x_axis_title:"Homelessness in relation to pregnancy",
-        y_axis_title:"Number of deaths",
-
-
-        table_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
-        table_title_508:"Table showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
-
-        field_id_list : [
-        { name: "MHomeless6", title: "More than 1 year prior to pregnancy" },
-        { name: "MHomeless7", title: "Within 1 year prior to pregnancy" },
-        { name: "MHomeless8", title: "During pregnancy" },
-        { name: "MHomeless9", title: "After pregnancy" },
-        { name: "MHomeless2", title: "In last 12 months (obsolete)" },
-        { name: "MHomeless3", title: "More than 12 months ago (obsolete)" },
-        { name: "MHomeless1", title: "Never experienced homelessness" },
-        { name: "MHomeless4", title: "Unknown" },
-        { name: "MHomeless5", title: "(blank)" },
-
-        ],
-    }
-);
-
-indicator_map.set
-(
-    14,
-    {
         indicator_id : "mIncarHx",
-        title:"Incarceration",
-        description:"description not specified",
-        blank_field_id: "MHxIncar7",
+        title:"Mother&apos;s Incarceration History",
+        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
+        blank_field_id: "MHxIncar8",
 
-
-        chart_title:"Incarceration",
-        table_title:"Incarceration",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        chart_title:"Incarceration History",
+        table_title:"Incarceration History",
+        x_axis_title:"Incarceration History",
+        y_axis_title:"Number of deaths",
         
+        table_title:"Number of deaths by Incarceration History",
+        table_title_508:"Table showing number of deaths by Incarceration History.",
 
         field_id_list : [
         { name: "MHxIncar1", title: "Never incarcerated" },
-                // { name: "MHxIncar2", title: "" },
-        { name: "MHxIncar3", title: "Before current pregnancy" },
+        { name: "MHxIncar2", title: "More than 1 year prior to pregnancy" },
+        { name: "MHxIncar3", title: "Within 1 year prior to pregnancy" },
         { name: "MHxIncar4", title: "During current pregnancy" },
         { name: "MHxIncar5", title: "After current pregnancy" },
-                // { name: "MHxIncar6", title: "" },
-        { name: "MHxIncar7", title: "(blank)" },
-        { name: "MHxIncar8", title: "More than 1 year prior to pregnancy" },
-        { name: "MHxIncar9", title: "Within 1 year prior to pregnancy" },
-        { name: "MHxIncar10", title: "Unknown" },
-        ],
-    }
-);
-
-indicator_map.set
-(
-    16,
-    {
-        indicator_id : "mDeathSubAbuseEvi",
-        title:"Substance Abuse Evidence",
-        description:"description not specified",
-        blank_field_id: "MEviSub3",
-
-        chart_title:"Substance Abuse Evidence",
-        table_title:"Substance Abuse Evidence",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
-        
-
-        field_id_list : [
-        { name: "MEviSub1", title: "Yes" },
-        { name: "MEviSub2", title: "No" },
-        { name: "MEviSub3", title: "(Blank)" },
-        { name: "MEviSub4", title: "Unknown" },
+        { name: "MHxIncar6", title: "Before current pregnancy (obsolete)" },
+        { name: "MHxIncar7", title: "Unknown" },
+        { name: "MHxIncar8", title: "(blank)" },
         ],
     }
 );

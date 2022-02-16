@@ -71,6 +71,11 @@ async function render(p_index)
             document.getElementById('output').innerHTML = await render12(post_html);
             eval(post_html.join(""));
             break;
+        case 13:
+            document.getElementById('output').innerHTML = await render13(post_html);
+            eval(post_html.join(""));
+            break;
+
         case 1:
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
