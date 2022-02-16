@@ -241,7 +241,7 @@ indicator_map.set
 
         chart_title:"History of documented substance use",
         table_title:"History of documented substance use",
-        x_axis_title:"title not specified",
+        x_axis_title:"Documented substance use",
         y_axis_title:"Number of deaths",
         
 
