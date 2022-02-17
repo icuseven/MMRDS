@@ -81,7 +81,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<th class='th' scope='col'>Start Date</th>");
       role_list_html.push("<th class='th' scope='col'>End Date</th>");
       role_list_html.push("<th class='th' scope='col'>Days Till<br/>Role Expires</th>");
-      role_list_html.push("<th class='th' scope='col'>Jurisdiction<br/>Admin</th>");
+      role_list_html.push("<th class='th' scope='col'>Role Added By</th>");
       role_list_html.push("</tr>");
       role_list_html.push("</thead>");
       

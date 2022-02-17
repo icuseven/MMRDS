@@ -101,7 +101,7 @@ indicator_map.set
     {
         indicator_id : "mTimingofDeath",
         title:"Timing of Death",
-        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
+        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy.",
         blank_field_id: "MTimeD4",
 
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
@@ -277,7 +277,7 @@ indicator_map.set
     {
         indicator_id : "mEducation",
         title:"Education",
-        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
+        description:"To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
         blank_field_id: "MEduc5",
 
 
@@ -306,7 +306,6 @@ indicator_map.set
     {
     indicator_id : "mDeathCause",
     title:"Cause of Death",
-    //title:"Committee Determinations",
     description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
     blank_field_id: "MCauseD15",
 
@@ -335,6 +334,9 @@ indicator_map.set
         { name: "MCauseD13", title: "Suicide - Probably" },
         { name: "MCauseD14", title: "Suicide - Unknown" },
         { name: "MCauseD15", title: "Suicide - Blank" },
+        // obesity
+        // discrimination
+        // 
     ],
 
     }
@@ -347,7 +349,6 @@ indicator_map.set
         indicator_id : "mHxofEmoStress",
         title: "Emotional Stress",
         description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
-        title:"Emotional Stress",
         blank_field_id: "MEmoStress12",
 
         chart_title:"Emotional Stress",
@@ -361,16 +362,20 @@ indicator_map.set
 
         
         field_id_list : [
+        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        { name: "MEmoStress9", title: "History of childhood trauma" },
+
         { name: "MEmoStress1", title: "History of domestic violence" },
         { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
-        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        
         { name: "MEmoStress4", title: "History of substance use" },
-        { name: "MEmoStress5", title: "Unemployment" },
+        
         { name: "MEmoStress6", title: "History of substance use treatment" },
         { name: "MEmoStress7", title: "Pregnancy unwanted" },
-        { name: "MEmoStress8", title: "Recent trauma" },
-        { name: "MEmoStress9", title: "History of childhood trauma" },
         { name: "MEmoStress10", title: "Prior suicide attempts" },
+        { name: "MEmoStress8", title: "Recent trauma" },
+        
+        { name: "MEmoStress5", title: "Unemployment" },
         { name: "MEmoStress11", title: "Other" },
         { name: "MEmoStress12", title: "Other" },
         { name: "MEmoStress13", title: "Unknown" },
@@ -417,7 +422,7 @@ indicator_map.set
         description:"description not specified",
         blank_field_id: "MHomeless5",
 
-        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
+        chart_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
         chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         x_axis_title:"Homelessness in relation to pregnancy",

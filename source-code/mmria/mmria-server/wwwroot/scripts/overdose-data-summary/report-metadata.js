@@ -311,7 +311,6 @@ indicator_map.set
         indicator_id : "mHxofEmoStress",
         title: "Emotional Stress",
         description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
-        title:"Emotional Stress",
         blank_field_id: "MEmoStress12",
 
         chart_title:"Emotional Stress",
@@ -321,8 +320,6 @@ indicator_map.set
         
         table_title:"Number of deaths by Emotional Stress",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
-        
-
         
         field_id_list : [
         { name: "MEmoStress1", title: "History of domestic violence" },
