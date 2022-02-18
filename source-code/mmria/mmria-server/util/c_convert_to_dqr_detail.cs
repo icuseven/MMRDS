@@ -47,7 +47,97 @@ namespace mmria.server.utils
             migrate.C_Get_Set_Value.get_value_result value_result = null;
 			var dqr_detail = new mmria.server.model.dqr.DQRDetail();
 
+            dqr_detail.n01 = 0;
+            dqr_detail.n02 = 0;
+            dqr_detail.n03[0] = 0;
+            dqr_detail.n03[1] = 0;
+            dqr_detail.n03[2] = 0;
+            dqr_detail.n03[3] = 0;
+            dqr_detail.n03[4] = 0;
+            dqr_detail.n03[5] = 0;
+            dqr_detail.n03[6] = 0;
+            dqr_detail.n03[7] = 0;
 
+            dqr_detail.n04 = 0;
+            dqr_detail.n05 = 0;
+            dqr_detail.n06 = 0;
+            dqr_detail.n07 = 0;
+            dqr_detail.n08 = 0;
+            dqr_detail.n09 = 0;
+
+            dqr_detail.n10.m = 0;
+            dqr_detail.n10.u = 0;
+
+            dqr_detail.n11.m = 0;
+            dqr_detail.n11.u = 0;
+
+            dqr_detail.n12.m = 0;
+            dqr_detail.n12.u = 0;
+            dqr_detail.n13.m = 0;
+            dqr_detail.n13.u = 0;
+            dqr_detail.n14.m = 0;
+            dqr_detail.n14.u = 0;
+            dqr_detail.n15.m = 0;
+            dqr_detail.n15.u = 0;
+            dqr_detail.n16.m = 0;
+            dqr_detail.n16.u = 0;
+            dqr_detail.n17.m = 0;
+            dqr_detail.n17.u = 0;
+            dqr_detail.n18.m = 0;
+            dqr_detail.n18.u = 0;
+            dqr_detail.n19.m = 0;
+            dqr_detail.n19.u = 0;
+            
+            dqr_detail.n20.m = 0;
+            dqr_detail.n20.u = 0;
+            dqr_detail.n21.m = 0;
+            dqr_detail.n21.u = 0;
+            dqr_detail.n22.m = 0;
+            dqr_detail.n22.u = 0;
+            dqr_detail.n23.m = 0;
+            dqr_detail.n23.u = 0;
+            dqr_detail.n24.m = 0;
+            dqr_detail.n24.u = 0;
+            dqr_detail.n25.m = 0;
+            dqr_detail.n25.u = 0;
+            dqr_detail.n26.m = 0;
+            dqr_detail.n26.u = 0;
+            dqr_detail.n27.m = 0;
+            dqr_detail.n27.u = 0;
+            dqr_detail.n28.m = 0;
+            dqr_detail.n28.u = 0;
+            dqr_detail.n29.m = 0;
+            dqr_detail.n29.u = 0;
+            
+            dqr_detail.n30.m = 0;
+            dqr_detail.n30.u = 0;
+            dqr_detail.n31.m = 0;
+            dqr_detail.n31.u = 0;
+            dqr_detail.n32.m = 0;
+            dqr_detail.n32.u = 0;
+            dqr_detail.n33.m = 0;
+            dqr_detail.n33.u = 0;
+            dqr_detail.n34.m = 0;
+            dqr_detail.n34.u = 0;
+            dqr_detail.n35.m = 0;
+            dqr_detail.n35.u = 0;
+            dqr_detail.n36.m = 0;
+            dqr_detail.n36.u = 0;
+            dqr_detail.n37.m = 0;
+            dqr_detail.n37.u = 0;
+            dqr_detail.n38.m = 0;
+            dqr_detail.n38.u = 0;
+            dqr_detail.n39.m = 0;
+            dqr_detail.n39.u = 0;
+            
+            dqr_detail.n40.m = 0;
+            dqr_detail.n40.u = 0;
+            dqr_detail.n41.m = 0;
+            dqr_detail.n41.u = 0;
+            dqr_detail.n42.m = 0;
+            dqr_detail.n42.u = 0;
+            dqr_detail.n43.m = 0;
+            dqr_detail.n43.u = 0;
 
             bool cr_do_revie_is_date = false;
             bool cr_p_relat_is_1 = false;
@@ -138,14 +228,7 @@ namespace mmria.server.utils
             }*/
 
 
-            dqr_detail.n03[0] = 0;
-            dqr_detail.n03[1] = 0;
-            dqr_detail.n03[2] = 0;
-            dqr_detail.n03[3] = 0;
-            dqr_detail.n03[4] = 0;
-            dqr_detail.n03[5] = 0;
-            dqr_detail.n03[6] = 0;
-            dqr_detail.n03[7] = 0;
+
 
             value_result = gs.get_value(source_object, "home_record/case_status/overall_case_status");
             if
@@ -348,6 +431,9 @@ namespace mmria.server.utils
                     }
                 }
             }
+
+
+            
 /*
             //n11
             dqr_detail.n11.m = 0;
@@ -518,6 +604,14 @@ namespace mmria.server.utils
                 }
                 cr_ddctt_death = test_int;
             }
+
+            dqr_detail.n47.t = 0;
+            dqr_detail.n47.p = 0;
+            dqr_detail.n48.t = 0;
+            dqr_detail.n48.p = 0;
+            dqr_detail.n49.t = 0;
+            dqr_detail.n49.p = 0;
+
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

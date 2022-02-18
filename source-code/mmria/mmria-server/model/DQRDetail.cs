@@ -112,4 +112,3 @@ public class DQRDetail
     public DQRDetail_3 n49 { get; set; } = new();
 
 }
-
