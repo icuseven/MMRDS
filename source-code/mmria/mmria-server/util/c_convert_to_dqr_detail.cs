@@ -285,16 +285,19 @@ namespace mmria.server.utils
                 )
                 {
                     dqr_detail.n07 = 1;
+                    dqr_detail.n09 = 1;
                     hrcpr_bcp_secti_is_2 = true;
                 }
                 else
                 {
                     dqr_detail.n07 = 0;
+                    dqr_detail.n09 = 0;
                 }
             }
             else
             {
                 dqr_detail.n07 = 0;
+                dqr_detail.n09 = 0;
             }
 
             if(cr_do_revie_is_date && cr_p_relat_is_1)
@@ -321,7 +324,55 @@ namespace mmria.server.utils
                 dqr_detail.n08 = 0;
             }
 
-            
+            //n10
+            dqr_detail.n10.m = 0;
+            dqr_detail.n10.u = 0;
+            //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
+            value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
+            if
+            (
+                cr_p_relat_is_1 &&
+                !value_result.is_error &&
+                value_result.result != null
+            )
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    if(test_int == 9999)
+                    {
+                        dqr_detail.n10.m = 1;
+                    }
+                    else if(test_int == 88)
+                    {
+                        dqr_detail.n10.u = 1;
+                    }
+                }
+            }
+/*
+            //n11
+            dqr_detail.n11.m = 0;
+            dqr_detail.n11.u = 0;
+            //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
+            value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
+            if
+            (
+                cr_p_relat_is_1 &&
+                !value_result.is_error &&
+                value_result.result != null
+            )
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    if(test_int == 9999)
+                    {
+                        dqr_detail.n11.m = 1;
+                    }
+                    else if(test_int == 88)
+                    {
+                        dqr_detail.n11.u = 1;
+                    }
+                }
+            }*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

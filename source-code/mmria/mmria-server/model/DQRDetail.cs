@@ -3,6 +3,18 @@ using System.Collections.Generic;
 
 namespace mmria.server.model.dqr;
 
+
+public class DQRDetail_2
+{
+    public DQRDetail_2()
+    {
+        
+    }
+    public int? m { get; set; }
+    public int? u { get; set; }
+
+
+}
 public class DQRDetail
 {
     public DQRDetail()
@@ -32,60 +44,60 @@ public class DQRDetail
 	public int? n07  { get; set; }
 	public int? n08  { get; set; }
 	public int? n09 { get; set; }
-	public int? n10 { get; set; }
+	public DQRDetail_2 n10 { get; set; } = new();
 
-    public int? n11 { get; set; }
+    public DQRDetail_2 n11 { get; set; } = new();
 
-    public int? n12 { get; set; }
+    public DQRDetail_2 n12 { get; set; } = new();
 
-    public int? n13 { get; set; }
+    public DQRDetail_2 n13 { get; set; } = new();
 
-    public int? n14 { get; set; }
+    public DQRDetail_2 n14 { get; set; } = new();
 
-    public int? n15 { get; set; }
+    public DQRDetail_2 n15 { get; set; } = new();
 
-    public int? n16 { get; set; }
+    public DQRDetail_2 n16 { get; set; } = new();
 
-    public int? n17 { get; set; }
+    public DQRDetail_2 n17 { get; set; } = new();
 
-    public int? n18 { get; set; }
+    public DQRDetail_2 n18 { get; set; } = new();
 
-    public int? n19 { get; set; }
+    public DQRDetail_2 n19 { get; set; } = new();
 
-    public int? n20 { get; set; }
+    public DQRDetail_2 n20 { get; set; } = new();
 
-    public int? n21 { get; set; }
+    public DQRDetail_2 n21 { get; set; } = new();
 
-    public int? n22 { get; set; }
+    public DQRDetail_2 n22 { get; set; } = new();
 
-    public int? n23 { get; set; }
+    public DQRDetail_2 n23 { get; set; } = new();
 
-    public int? n24 { get; set; }
-    public int? n25 { get; set; }
-    public int? n26 { get; set; }
-    public int? n27 { get; set; }
-    public int? n28 { get; set; }
-    public int? n29 { get; set; }
-    public int? n30 { get; set; }
-    public int? n31 { get; set; }
-    public int? n32 { get; set; }
-    public int? n33 { get; set; }
-    public int? n34 { get; set; }
-    public int? n35 { get; set; }
-    public int? n36 { get; set; }
-    public int? n37 { get; set; }
-    public int? n38 { get; set; }
-    public int? n39 { get; set; }
-    public int? n40 { get; set; }
-    public int? n41 { get; set; }
-    public int? n42 { get; set; }
-    public int? n43 { get; set; }
-    public int? n44 { get; set; }
-    public int? n45 { get; set; }
-    public int? n46 { get; set; }
-    public int? n47 { get; set; }
-    public int? n48 { get; set; }
-    public int? n49 { get; set; }
+    public DQRDetail_2 n24 { get; set; } = new();
+    public DQRDetail_2 n25 { get; set; } = new();
+    public DQRDetail_2 n26 { get; set; } = new();
+    public DQRDetail_2 n27 { get; set; } = new();
+    public DQRDetail_2 n28 { get; set; } = new();
+    public DQRDetail_2 n29 { get; set; } = new();
+    public DQRDetail_2 n30 { get; set; } = new();
+    public DQRDetail_2 n31 { get; set; } = new();
+    public DQRDetail_2 n32 { get; set; } = new();
+    public DQRDetail_2 n33 { get; set; } = new();
+    public DQRDetail_2 n34 { get; set; } = new();
+    public DQRDetail_2 n35 { get; set; } = new();
+    public DQRDetail_2 n36 { get; set; } = new();
+    public DQRDetail_2 n37 { get; set; } = new();
+    public DQRDetail_2 n38 { get; set; } = new();
+    public DQRDetail_2 n39 { get; set; } = new();
+    public DQRDetail_2 n40 { get; set; } = new();
+    public DQRDetail_2 n41 { get; set; } = new();
+    public DQRDetail_2 n42 { get; set; } = new();
+    public DQRDetail_2 n43 { get; set; } = new();
+    public DQRDetail_2 n44 { get; set; } = new();
+    public DQRDetail_2 n45 { get; set; } = new();
+    public List<DQRDetail_2> n46 { get; set; } = new();
+    public List<DQRDetail_2> n47 { get; set; } = new();
+    public List<DQRDetail_2> n48 { get; set; } = new();
+    public List<DQRDetail_2> n49 { get; set; } = new();
 
 }
 
