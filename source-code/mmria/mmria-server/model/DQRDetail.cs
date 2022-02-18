@@ -15,6 +15,18 @@ public class DQRDetail_2
 
 
 }
+
+public class DQRDetail_3
+{
+    public DQRDetail_3()
+    {
+        
+    }
+    public int? t { get; set; }
+    public int? p { get; set; }
+
+
+}
 public class DQRDetail
 {
     public DQRDetail()
@@ -92,12 +104,12 @@ public class DQRDetail
     public DQRDetail_2 n41 { get; set; } = new();
     public DQRDetail_2 n42 { get; set; } = new();
     public DQRDetail_2 n43 { get; set; } = new();
-    public DQRDetail_2 n44 { get; set; } = new();
-    public DQRDetail_2 n45 { get; set; } = new();
-    public List<DQRDetail_2> n46 { get; set; } = new();
-    public List<DQRDetail_2> n47 { get; set; } = new();
-    public List<DQRDetail_2> n48 { get; set; } = new();
-    public List<DQRDetail_2> n49 { get; set; } = new();
+    public DQRDetail_3 n44 { get; set; } = new();
+    public DQRDetail_3 n45 { get; set; } = new();
+    public DQRDetail_3 n46 { get; set; } = new();
+    public DQRDetail_3 n47 { get; set; } = new();
+    public DQRDetail_3 n48 { get; set; } = new();
+    public DQRDetail_3 n49 { get; set; } = new();
 
 }
 

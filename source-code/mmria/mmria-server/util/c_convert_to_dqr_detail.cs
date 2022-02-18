@@ -374,6 +374,151 @@ namespace mmria.server.utils
                 }
             }*/
 
+            int cr_cta_outco = -1;
+            value_result = gs.get_value(source_object, "committee_review/chance_to_alter_outcome");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null &&
+                int.TryParse(value_result.result.ToString(), out test_int)
+            
+            )
+            {
+                cr_cta_outco = test_int;
+            }
+
+
+            //n44 44) Analyst Able to Assign Yes/No Preventability
+            //cr_do_revie: /committee_review/date_of_review
+            //cr_p_relat: /committee_review/pregnancy_relatedness
+
+
+            int cr_wtd_preve = -1;
+            value_result = gs.get_value(source_object, "committee_review/was_this_death_preventable");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_wtd_preve = test_int;
+            }
+
+            //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
+            //cr_wtd_preve:  /committee_review/was_this_death_preventable
+            dqr_detail.n44.t = 1;
+            dqr_detail.n44.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
+            {
+                (true, 0, _) => 1,
+                (true, 1, _) => 1,
+                (true, _, 0) => 1,
+                (true, _, 1) => 1,
+                (true, _, 2) => 1,
+                _ => 0
+            };
+
+
+            /*
+                ( 
+                    (cr_wtd_preve='0' AND cr_cta_outco IN ('2', '3','9999')) OR 
+                    (cr_wtd_preve = '1' AND cr_cta_outco IN ('0','1','3','9999')) OR
+                    (cr_wtd_preve='9999' AND cr_cta_outco IN ('3', '9999')) 
+                )
+
+            */
+            dqr_detail.n45.t = 1;
+            dqr_detail.n45.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
+            {
+                (true, 0, 2) => 1,
+                (true, 0, 3) => 1,
+                (true, 0, 9999) => 1,
+                (true, 1, 0) => 1,
+                (true, 1, 1) => 1,
+                (true, 1, 3) => 1,
+                (true, 1, 9999) => 1,
+                (true, 9999, 3) => 1,
+                (true, 9999, 9999) => 1,
+                _ => 0
+            };
+
+
+
+
+            //n46
+            dqr_detail.n46.p = 0;
+
+            int cr_ddctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_discrimination_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_ddctt_death = test_int;
+            }
+
+            //cr_ddctt_death IN ('1', '2')
+            /*
+            (
+                A3.cr_wtd_preve='1' OR 
+                A3.cr_cta_outco='0' OR 
+                A3.cr_cta_outco='1'
+            ) 
+            AND A2.cr_p_relat = '1'
+            //cr_ddctt_death IN ('1', '2')
+            //cr_ddctt_death:  /committee_review/did_discrimination_contribute_to_the_death
+
+            */ 
+
+            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
+            {
+                (true, 0, 1) => 1,
+                (true, 0, 2) => 1,
+                (true, 1, 1) => 1,
+                (true, 1, 2) => 1,
+                _ => 0
+            };
+            var grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
+            if
+            (
+                !grid_value_result.is_error &&
+                grid_value_result.result != null 
+            )
+            {
+                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
+                {
+                    int cdf_class = -1;
+                    if
+                    (
+                        cdf_class_dynamic != null &&
+                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
+                    )
+                    {
+                        if
+                        (
+                            cdf_class == 26 || 
+                            cdf_class == 27 || 
+                            cdf_class == 28 
+                        )
+                        {
+                            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
+                            {
+                                (true, 0, 1) => 1,
+                                (true, 0, 2) => 1,
+                                (true, 1, 1) => 1,
+                                (true, 1, 2) => 1,
+                                _ => 0
+                            };
+                            break;
+                        }
+                    }
+                }
+                cr_ddctt_death = test_int;
+            }
+
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			result = Newtonsoft.Json.JsonConvert.SerializeObject(dqr_detail, settings);
