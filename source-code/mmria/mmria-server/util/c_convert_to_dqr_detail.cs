@@ -139,6 +139,19 @@ namespace mmria.server.utils
             dqr_detail.n43.m = 0;
             dqr_detail.n43.u = 0;
 
+            dqr_detail.n44.t = 0;
+            dqr_detail.n44.p = 0;
+            dqr_detail.n45.t = 0;
+            dqr_detail.n45.p = 0;
+            dqr_detail.n46.t = 0;
+            dqr_detail.n46.p = 0;
+            dqr_detail.n47.t = 0;
+            dqr_detail.n47.p = 0;
+            dqr_detail.n48.t = 0;
+            dqr_detail.n48.p = 0;
+            dqr_detail.n49.t = 0;
+            dqr_detail.n49.p = 0;
+
             bool cr_do_revie_is_date = false;
             bool cr_p_relat_is_1 = false;
             bool hrcpr_bcp_secti_is_2 = false;
@@ -183,7 +196,6 @@ namespace mmria.server.utils
 
             int test_int = -1;
 
-            dqr_detail.n02 = 0;
             value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
             if(value_result.is_error)
             {
@@ -310,14 +322,6 @@ namespace mmria.server.utils
                     
                 }
             }
-            else
-            {
-                dqr_detail.n04 = 0;
-            }
-
-
-            dqr_detail.n05 = 0;
-            dqr_detail.n06 = 0;
 
             value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
             if
@@ -339,17 +343,8 @@ namespace mmria.server.utils
                     cr_p_relat_is_1 = true;
                     
                 }
-                else
-                {
-                    dqr_detail.n05 = 0;
-                    dqr_detail.n06 = 0;
-                }
             }
-            else
-            {
-                dqr_detail.n05 = 0;
-                dqr_detail.n06 = 0;
-            }
+
 
 
             value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
@@ -371,26 +366,14 @@ namespace mmria.server.utils
                     dqr_detail.n09 = 1;
                     hrcpr_bcp_secti_is_2 = true;
                 }
-                else
-                {
-                    dqr_detail.n07 = 0;
-                    dqr_detail.n09 = 0;
-                }
             }
-            else
-            {
-                dqr_detail.n07 = 0;
-                dqr_detail.n09 = 0;
-            }
+
 
             if(cr_do_revie_is_date && cr_p_relat_is_1)
             {
                 dqr_detail.n08 = 1;
             }
-            else
-            {
-                dqr_detail.n08 = 0;
-            }
+
 
 
             if
@@ -402,18 +385,14 @@ namespace mmria.server.utils
             {
                 dqr_detail.n09 = 1;
             }
-            else
-            {
-                dqr_detail.n08 = 0;
-            }
+
 
             //n10
-            dqr_detail.n10.m = 0;
-            dqr_detail.n10.u = 0;
             //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
             value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
             if
             (
+                cr_do_revie_is_date &&
                 cr_p_relat_is_1 &&
                 !value_result.is_error &&
                 value_result.result != null
@@ -529,8 +508,6 @@ namespace mmria.server.utils
             };
 
 
-
-
             //n46
             dqr_detail.n46.p = 0;
 
@@ -605,12 +582,7 @@ namespace mmria.server.utils
                 cr_ddctt_death = test_int;
             }
 
-            dqr_detail.n47.t = 0;
-            dqr_detail.n47.p = 0;
-            dqr_detail.n48.t = 0;
-            dqr_detail.n48.p = 0;
-            dqr_detail.n49.t = 0;
-            dqr_detail.n49.p = 0;
+
 
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
