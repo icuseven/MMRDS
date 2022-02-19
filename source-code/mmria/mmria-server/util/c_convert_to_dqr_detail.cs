@@ -470,18 +470,81 @@ namespace mmria.server.utils
                 cr_wtd_preve = test_int;
             }
 
+            int cr_ddctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_discrimination_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_ddctt_death = test_int;
+            }
+
+            int cr_dmhcctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_dmhcctt_death = test_int;
+            }
+
+            int cr_dsudctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_dsudctt_death = test_int;
+            }
+
             //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
             //cr_wtd_preve:  /committee_review/was_this_death_preventable
-            dqr_detail.n44.t = 1;
-            dqr_detail.n44.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
+            if 
+            (
+                cr_do_revie_is_date && 
+                (
+                    cr_wtd_preve == 1 ||
+                    cr_cta_outco == 0 ||
+                    cr_cta_outco == 1
+                )
+                && cr_p_relat_is_1
+            )
             {
-                (true, 0, _) => 1,
-                (true, 1, _) => 1,
-                (true, _, 0) => 1,
-                (true, _, 1) => 1,
-                (true, _, 2) => 1,
-                _ => 0
-            };
+                dqr_detail.n44.t = 1;
+
+                //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
+
+
+
+                //cr_ddctt_death IN ('1', '2')
+                //cr_ddctt_death IN ('1', '2') AND (CDF_26 = 1 OR CDF_27 = 1 OR CDF_28 = 1)
+
+                // cr_dmhcctt_death IN ('1', '2')
+                // cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+
+                // cr_dsudctt_death IN ('1', '2')
+                // cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+
+                // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+
+
+
+             //dqr_detail.n44.p
+
+
+            }
+                
+
+           
 
 
             /*
@@ -511,17 +574,7 @@ namespace mmria.server.utils
             //n46
             dqr_detail.n46.p = 0;
 
-            int cr_ddctt_death = -1;
-            value_result = gs.get_value(source_object, "committee_review/did_discrimination_contribute_to_the_death");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null && 
-                 int.TryParse(value_result.result.ToString(), out test_int)
-            )
-            {
-                cr_ddctt_death = test_int;
-            }
+
 
             //cr_ddctt_death IN ('1', '2')
             /*
@@ -567,7 +620,7 @@ namespace mmria.server.utils
                             cdf_class == 28 
                         )
                         {
-                            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
+                            dqr_detail.n46.p = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
                             {
                                 (true, 0, 1) => 1,
                                 (true, 0, 2) => 1,
@@ -579,9 +632,135 @@ namespace mmria.server.utils
                         }
                     }
                 }
-                cr_ddctt_death = test_int;
             }
 
+            //n47
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = cr_dmhcctt_death IN ('1', '2')
+p = cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+
+            cr_dmhcctt_death:  /committee_review/did_mental_health_conditions_contribute_to_the_death
+            */
+
+
+            dqr_detail.n47.t = (cr_p_relat_is_1, cr_wtd_preve, cr_dmhcctt_death) switch
+                            {
+                                (true, 0, 1) => 1,
+                                (true, 0, 2) => 1,
+                                (true, 1, 1) => 1,
+                                (true, 1, 2) => 1,
+                                _ => 0
+                            };
+
+            grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
+            if
+            (
+                !grid_value_result.is_error &&
+                grid_value_result.result != null 
+            )
+            {
+                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
+                {
+                    int cdf_class = -1;
+                    if
+                    (
+                        cdf_class_dynamic != null &&
+                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
+                    )
+                    {
+                        if
+                        (
+                            cdf_class == 6 
+                        )
+                        {
+                            dqr_detail.n47.p = (cr_p_relat_is_1, cr_wtd_preve, cr_dmhcctt_death) switch
+                            {
+                                (true, 0, 1) => 1,
+                                (true, 0, 2) => 1,
+                                (true, 1, 1) => 1,
+                                (true, 1, 2) => 1,
+                                _ => 0
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            //n48
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = cr_dsudctt_death IN ('1', '2')
+p = cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+
+            cr_dsudctt_death: /committee_review/did_substance_use_disorder_contribute_to_the_death
+            */
+
+
+            dqr_detail.n48.t = (cr_p_relat_is_1, cr_wtd_preve, cr_dsudctt_death) switch
+                            {
+                                (true, 0, 1) => 1,
+                                (true, 0, 2) => 1,
+                                (true, 1, 1) => 1,
+                                (true, 1, 2) => 1,
+                                _ => 0
+                            };
+
+            grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
+            if
+            (
+                !grid_value_result.is_error &&
+                grid_value_result.result != null 
+            )
+            {
+                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
+                {
+                    int cdf_class = -1;
+                    if
+                    (
+                        cdf_class_dynamic != null &&
+                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
+                    )
+                    {
+                        if
+                        (
+                            cdf_class == 7 
+                        )
+                        {
+                            dqr_detail.n48.p = (cr_p_relat_is_1, cr_wtd_preve, cr_dsudctt_death) switch
+                            {
+                                (true, 0, 1) => 1,
+                                (true, 0, 2) => 1,
+                                (true, 1, 1) => 1,
+                                (true, 1, 2) => 1,
+                                _ => 0
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            //n49
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = 
+p = ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+
+            cr_dsudctt_death: /committee_review/did_substance_use_disorder_contribute_to_the_death
+            */
 
 
 
