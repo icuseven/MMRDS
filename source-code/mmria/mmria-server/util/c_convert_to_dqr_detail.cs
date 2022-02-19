@@ -453,10 +453,6 @@ namespace mmria.server.utils
             }
 
 
-            //n44 44) Analyst Able to Assign Yes/No Preventability
-            //cr_do_revie: /committee_review/date_of_review
-            //cr_p_relat: /committee_review/pregnancy_relatedness
-
 
             int cr_wtd_preve = -1;
             value_result = gs.get_value(source_object, "committee_review/was_this_death_preventable");
@@ -506,8 +502,88 @@ namespace mmria.server.utils
                 cr_dsudctt_death = test_int;
             }
 
-            //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
-            //cr_wtd_preve:  /committee_review/was_this_death_preventable
+
+            if(cr_do_revie_is_date && cr_p_relat_is_1)
+            {
+                dqr_detail.n44.t = 1;
+                dqr_detail.n45.t = 1;
+
+                // n44 (cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
+                if
+                (
+                    cr_wtd_preve == 0 ||
+                    cr_wtd_preve == 1 ||
+                    cr_cta_outco == 0 ||
+                    cr_cta_outco == 1 ||
+                    cr_cta_outco == 2
+                )
+                {
+                    dqr_detail.n44.p = 1;
+                }
+
+                    /*n45 ( 
+                        (
+                            cr_wtd_preve = '1' AND 
+                            cr_cta_outco IN ('0','1','3','9999')
+                        ) OR 
+                        (
+                            cr_wtd_preve='0' AND
+                            cr_cta_outco IN ('2', '3','9999')
+                        ) 
+                        OR 
+                        (
+                            cr_wtd_preve='9999' AND 
+                            cr_cta_outco IN ('3', '9999')
+                        )
+                     )
+
+                    */
+                if
+                ( 
+                    (
+                        cr_wtd_preve == 1 && 
+                        (
+                            cr_cta_outco == 0 ||
+                            cr_cta_outco == 1 ||
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    ) 
+                    || 
+                    (
+                        cr_wtd_preve==0 &&
+                        (
+                            cr_cta_outco == 2 ||
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    ) 
+                    || 
+                    (
+                        cr_wtd_preve==9999 && 
+                        (
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    )
+                )
+                {
+                    dqr_detail.n45.p = 1;
+                }
+            }
+            
+
+
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+            (
+                A3.cr_wtd_preve='1' OR 
+                A3.cr_cta_outco='0' OR 
+                A3.cr_cta_outco='1'
+            )
+             AND 
+                A2.cr_p_relat = '1' 
+            */
             if 
             (
                 cr_do_revie_is_date && 
@@ -519,29 +595,122 @@ namespace mmria.server.utils
                 && cr_p_relat_is_1
             )
             {
-                dqr_detail.n44.t = 1;
 
-                //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
-
-
-
+                //n46
                 //cr_ddctt_death IN ('1', '2')
-                //cr_ddctt_death IN ('1', '2') AND (CDF_26 = 1 OR CDF_27 = 1 OR CDF_28 = 1)
+                if
+                (
+                    cr_ddctt_death == 1 ||
+                    cr_ddctt_death == 2
+                )
+                {
+                    dqr_detail.n46.t = 1;
+                }
+                
 
+                //n47
                 // cr_dmhcctt_death IN ('1', '2')
-                // cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+                if
+                (
+                    cr_dmhcctt_death == 1 ||
+                    cr_dmhcctt_death == 2
+                )
+                {
+                    dqr_detail.n47.t = 1;
+                }
 
+                //n48
                 // cr_dsudctt_death IN ('1', '2')
-                // cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+                if
+                (
+                    cr_dsudctt_death == 1 ||
+                    cr_dsudctt_death == 2
+                )
+                {
+                    dqr_detail.n48.t = 1;
+                }
+                
 
-                // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+
+                // n49
+                dqr_detail.n49.t = 1;
+               
 
 
+                var grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
+                if
+                (
+                    !grid_value_result.is_error &&
+                    grid_value_result.result != null 
+                )
+                {
 
-             //dqr_detail.n44.p
+                    foreach(var (index, value) in grid_value_result.result)
+                    {
+                        if
+                        (
+                            value != null &&
+                            int.TryParse(value.ToString(), out test_int)
+                        )
+                        {
+                            //n46
+                            //cr_ddctt_death IN ('1', '2') AND (CDF_26 = 1 OR CDF_27 = 1 OR CDF_28 = 1)
+                            if
+                            (
+                                (
+                                    cr_ddctt_death == 1 ||
+                                    cr_ddctt_death == 2 
+                                )
+                                &&
+                                (
+                                    test_int == 1 ||
+                                    test_int == 27 ||
+                                    test_int == 28
+                                )
+                            )
+                            {
+                     
+                                dqr_detail.n46.p = 1;
+                            }
+                            //n47
+                            // cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+                            if
+                            (
+                                (
+                                    cr_dmhcctt_death == 1 ||
+                                    cr_dmhcctt_death == 2
+                                 )
+                                 && test_int == 6
+                            )
+                            {
+                                dqr_detail.n47.p = 1;
+                            }
+                            //n48
+                            // cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+                            if
+                            (
+                                (
+                                    cr_dsudctt_death == 1 ||
+                                    cr_dsudctt_death == 2
+                                )
+                                && test_int == 7
+                            )
+                            {
+                                dqr_detail.n48.p = 1;
+                            }
+                        }
+                        // n49
+                        // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+                        //crcfw_class:  /committee_review/critical_factors_worksheet/class
+                        //crcfw_descr:  /committee_review/critical_factors_worksheet/description
+                        //crcfw_c_recom:  /committee_review/critical_factors_worksheet/committee_recommendations
+                    }
+                }
+
+                //dqr_detail.n44.p
 
 
-            }
+                }
                 
 
            
@@ -555,24 +724,11 @@ namespace mmria.server.utils
                 )
 
             */
-            dqr_detail.n45.t = 1;
-            dqr_detail.n45.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
-            {
-                (true, 0, 2) => 1,
-                (true, 0, 3) => 1,
-                (true, 0, 9999) => 1,
-                (true, 1, 0) => 1,
-                (true, 1, 1) => 1,
-                (true, 1, 3) => 1,
-                (true, 1, 9999) => 1,
-                (true, 9999, 3) => 1,
-                (true, 9999, 9999) => 1,
-                _ => 0
-            };
+
 
 
             //n46
-            dqr_detail.n46.p = 0;
+
 
 
 
@@ -589,50 +745,7 @@ namespace mmria.server.utils
 
             */ 
 
-            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
-            {
-                (true, 0, 1) => 1,
-                (true, 0, 2) => 1,
-                (true, 1, 1) => 1,
-                (true, 1, 2) => 1,
-                _ => 0
-            };
-            var grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
-            if
-            (
-                !grid_value_result.is_error &&
-                grid_value_result.result != null 
-            )
-            {
-                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
-                {
-                    int cdf_class = -1;
-                    if
-                    (
-                        cdf_class_dynamic != null &&
-                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
-                    )
-                    {
-                        if
-                        (
-                            cdf_class == 26 || 
-                            cdf_class == 27 || 
-                            cdf_class == 28 
-                        )
-                        {
-                            dqr_detail.n46.p = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
+
 
             //n47
             /*
@@ -647,50 +760,6 @@ p = cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
             */
 
 
-            dqr_detail.n47.t = (cr_p_relat_is_1, cr_wtd_preve, cr_dmhcctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-
-            grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
-            if
-            (
-                !grid_value_result.is_error &&
-                grid_value_result.result != null 
-            )
-            {
-                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
-                {
-                    int cdf_class = -1;
-                    if
-                    (
-                        cdf_class_dynamic != null &&
-                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
-                    )
-                    {
-                        if
-                        (
-                            cdf_class == 6 
-                        )
-                        {
-                            dqr_detail.n47.p = (cr_p_relat_is_1, cr_wtd_preve, cr_dmhcctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
-
 
             //n48
             /*
@@ -704,50 +773,6 @@ p = cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
             cr_dsudctt_death: /committee_review/did_substance_use_disorder_contribute_to_the_death
             */
 
-
-            dqr_detail.n48.t = (cr_p_relat_is_1, cr_wtd_preve, cr_dsudctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-
-            grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
-            if
-            (
-                !grid_value_result.is_error &&
-                grid_value_result.result != null 
-            )
-            {
-                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
-                {
-                    int cdf_class = -1;
-                    if
-                    (
-                        cdf_class_dynamic != null &&
-                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
-                    )
-                    {
-                        if
-                        (
-                            cdf_class == 7 
-                        )
-                        {
-                            dqr_detail.n48.p = (cr_p_relat_is_1, cr_wtd_preve, cr_dsudctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
 
 
             //n49
