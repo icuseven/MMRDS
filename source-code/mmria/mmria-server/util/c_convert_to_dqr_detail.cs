@@ -157,11 +157,15 @@ namespace mmria.server.utils
             bool hrcpr_bcp_secti_is_2 = false;
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
-            int means_of_fatal_injury = 9999;
 
             value_result = gs.get_value(source_object, "_id");
         
             dqr_detail._id  = ((object)value_result.result).ToString();
+
+            value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
+            dqr_detail.case_folder = ((object)value_result.result).ToString();
+        
+            dqr_detail._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
             value_result = gs.get_value(source_object, "addquarter");
             var obj = (object)value_result.result;
