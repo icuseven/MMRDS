@@ -307,15 +307,6 @@ namespace mmria.server.utils
             {
                 DateTime test_time = DateTime.MinValue;
                 var data_string = value_result.result.ToString();
-                /*
-                if
-                (
-                    !string.IsNullOrWhiteSpace(data_string) &&
-                    data_string.IndexOf("-") < 0
-                )
-                {
-                    System.Console.Write("here");
-                }*/
                 if
                 (
                     DateTime.TryParse(data_string, out test_time)
@@ -337,7 +328,7 @@ namespace mmria.server.utils
             {
                 if
                 (
-                    cr_do_revie_is_date == true &&
+                    cr_do_revie_is_date &&
                     int.TryParse(value_result.result.ToString(), out test_int) &&
                     test_int == 1
                 )
@@ -361,7 +352,7 @@ namespace mmria.server.utils
             {
                 if
                 (
-                    cr_p_relat_is_1 == true &&
+                    cr_p_relat_is_1 &&
                     int.TryParse(value_result.result.ToString(), out test_int) &&
                     test_int == 2
                 )
@@ -417,31 +408,131 @@ namespace mmria.server.utils
 
 
             
-/*
-            //n11
-            dqr_detail.n11.m = 0;
-            dqr_detail.n11.u = 0;
-            //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
-            value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
-            if
-            (
-                cr_p_relat_is_1 &&
-                !value_result.is_error &&
-                value_result.result != null
-            )
+            /*
+                        //n11
+                        hrdod_month = '9999' OR hrdod_day = '9999' OR hrdod_year = '9999'
+
+            hrdod_month: /home_record/date_of_death/month
+            hrdod_day:  /home_record/date_of_death/day
+            hrdod_year: /home_record/date_of_death/year
+            */
+
+            int hrdod_month = -1;
+            int hrdod_day = -1;
+            int hrdod_year = -1;
+           
+            value_result = gs.get_value(source_object, "home_record/date_of_death/month");
+            if(value_result.result != null)
             {
                 if(int.TryParse(value_result.result.ToString(), out test_int))
                 {
-                    if(test_int == 9999)
-                    {
-                        dqr_detail.n11.m = 1;
-                    }
-                    else if(test_int == 88)
-                    {
-                        dqr_detail.n11.u = 1;
-                    }
+                    hrdod_month = test_int;
                 }
-            }*/
+            }
+
+            value_result = gs.get_value(source_object, "home_record/date_of_death/day");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrdod_day = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "home_record/date_of_death/year");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrdod_year = test_int;
+                }
+            }
+
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                (
+                    hrdod_month == 9999 ||
+                    hrdod_day == 9999 ||
+                    hrdod_year == 9999
+                )
+            )
+            {
+                dqr_detail.n11.m = 1;
+            }
+
+            /*
+            n12
+
+            hrcpr_bcp_secti = '2' AND (bfdcpfodddod_month = '9999' OR bfdcpfodddod_day = '9999' OR bfdcpfodddod_year  = '9999')
+            hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+bfdcpfodddod_month: /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month
+bfdcpfodddod_day:  /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day
+bfdcpfodddod_year:   /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year
+
+*/
+int hrcpr_bcp_secti = -1;
+int bfdcpfodddod_month = -1;
+int bfdcpfodddod_day = -1;
+int bfdcpfodddod_year = -1;
+
+            value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrcpr_bcp_secti = test_int;
+                }
+            }
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_month = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_day = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_year = test_int;
+                }
+            }
+
+            
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti == 2 && 
+                (
+                    bfdcpfodddod_month == 9999 || 
+                    bfdcpfodddod_day == 9999 ||
+                    bfdcpfodddod_year  == 9999
+                )
+            )
+            {
+                dqr_detail.n12.m = 1;
+            }
+
+// *************
 
             int cr_cta_outco = -1;
             value_result = gs.get_value(source_object, "committee_review/chance_to_alter_outcome");
