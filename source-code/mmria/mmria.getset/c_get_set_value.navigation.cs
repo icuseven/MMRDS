@@ -159,7 +159,20 @@ namespace migrate
 			{
 				if(p_object.ContainsKey(p_name))
                 {
-                    result = p_object[p_name] as double?;
+                    if(p_object[p_name] is string)
+                    {
+                        if(double.TryParse(p_object[p_name].ToString(), out var test_double))
+                        {
+                            result = test_double;
+                        }
+                    }
+                    else
+                    {
+                        result = p_object[p_name] as double?;
+                    }
+                    
+
+                    
                 }
 
             }
