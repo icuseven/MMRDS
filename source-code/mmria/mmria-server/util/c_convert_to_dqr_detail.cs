@@ -699,21 +699,50 @@ namespace mmria.server.utils
                                 dqr_detail.n48.p = 1;
                             }
                         }
-                        // n49
-                        // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
-                        //crcfw_class:  /committee_review/critical_factors_worksheet/class
-                        //crcfw_descr:  /committee_review/critical_factors_worksheet/description
-                        //crcfw_c_recom:  /committee_review/critical_factors_worksheet/committee_recommendations
                     }
-                }
 
-                //dqr_detail.n44.p
+                     // n49
+                    // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+                    //crcfw_class:  /committee_review/critical_factors_worksheet/class
+                    //crcfw_descr:  /committee_review/critical_factors_worksheet/description
+                    //crcfw_c_recom:  /committee_review/critical_factors_worksheet/committee_recommendations
 
+                    if(gs.get_form(source_object, "committee_review") is var form)
+                    {
+                        if(gs.get_grid(form, "critical_factors_worksheet") is var grid_result)
+                        {
+                            var is_pass = true;
+                            foreach(IDictionary<string, object> item_object in grid_result)
+                            {
+                                var crcfw_class = gs.get_number(item_object, "class");
+                                var crcfw_descr = gs.get_string(item_object, "description");
+                                var crcfw_c_recom = gs.get_string(item_object, "committee_recommendations");
 
+                                if
+                                (
+                                    crcfw_class != null && crcfw_class != 9999 && 
+                                    !string.IsNullOrWhiteSpace(crcfw_descr) && 
+                                    ! string.IsNullOrWhiteSpace(crcfw_c_recom)
+                                )
+                                {
+                                    is_pass = is_pass && true;
+                                }
+                                else
+                                {
+                                    is_pass = is_pass && false;
+                                }
+                            }
+
+                            if(is_pass)
+                            {
+                                dqr_detail.n49.p = 1;
+                            }
+                        }
+                    }
                 }
                 
 
-           
+            }
 
 
             /*
