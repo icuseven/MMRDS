@@ -240,7 +240,7 @@ function show_filter_dialog()
         <!--label for="top_corner_close">Close</label-->
         <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div style="margin:15px;width:610px;">
+    <div style="margin:15px;width:580px;">
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
