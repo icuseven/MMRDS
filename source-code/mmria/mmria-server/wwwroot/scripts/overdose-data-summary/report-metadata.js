@@ -241,44 +241,58 @@ indicator_map.set
 (
     8,
     {
-        indicator_id : "mUndCofDeath",
-        title:"Primary Underlying Cause of Death",
-        description: "Underlying cause of death categories are created using the primary underlying cause of death PMSS-MM codes selected by the committee. Since these PMSS-MM underlying cause of death codes are only selected for deaths determined to be pregnancy-related, please use the filter function to restrict the data to pregnancy-related deaths.",
-        blank_field_id: "MUndCofDeath22",
+    indicator_id : "mDeathCause",
+    title:"Committee Determinations",
+    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
+    blank_field_id: "MCauseD15",
 
-        chart_title:"Primary Underlying Causes of Death",
-        x_axis_title:"Primary Underlying Cause of Death",
-        y_axis_title:"Number of deaths",
-        chart_title_508: "Bar chart showing number of deaths by underlying cause of death.",
-        
-        table_title:"Primary Underlying Causes of Death",
-        table_title_508:"Table showing number of deaths by underlying cause of death.",
+    chart_title:"Cause of Death",
+    table_title:"Cause of Death",
+    x_axis_title:"Number of deaths by Cause of Death",
+    y_axis_title:"Number of deaths",
+    
+    table_title:"Number of deaths by Cause of Death",
+    table_title_508:"Table showing number of deaths by Cause of Death.",
+    
 
-        field_id_list : [
-        { name: "MUndCofDeath1", title: "Hemorrhage (Excludes Aneurysms or CVA)" },
-        { name: "MUndCofDeath2", title: "Infection" },
-        { name: "MUndCofDeath3", title: "Embolism - Thrombotic (Non-Cerebral)" },
-        { name: "MUndCofDeath4", title: "Amniotic Fluid Embolism" },
-        { name: "MUndCofDeath5", title: "Hypertensive Disorders of Pregnancy" },
-        { name: "MUndCofDeath6", title: "Anesthesia Complications" },
-        { name: "MUndCofDeath7", title: "Cardiomyopathy" },
-        { name: "MUndCofDeath8", title: "Hematologic" },
-        { name: "MUndCofDeath9", title: "Collagen Vascular/Autoimmune Diseases" },
-        { name: "MUndCofDeath10", title: "Conditions Unique to Pregnancy" },
-        { name: "MUndCofDeath11", title: "Injury" },
-        { name: "MUndCofDeath12", title: "Cancer" },
-        { name: "MUndCofDeath13", title: "Cardiovascular Conditions" },
-        { name: "MUndCofDeath14", title: "Pulmonary Conditions (Excludes ARDS)" },
-        { name: "MUndCofDeath15", title: "Neurologic/Neurovascular Conditions (Excluding CVA)" },
-        { name: "MUndCofDeath16", title: "Renal Diseases" },
-        { name: "MUndCofDeath17", title: "Cerebrovascular Accident not Secondary to Hypertensive Disorders of Pregnancy" },
-        { name: "MUndCofDeath18", title: "Metabolic/Endocrine" },
-        { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
-        { name: "MUndCofDeath20", title: "Mental Health Conditions" },
-        { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
-        ],    
+    field_id_list : [
+        { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
+        { name: "MCauseD2", title: "Mental Health Conditions - No" },
+        { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
+        { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
+        { name: "MCauseD7", title: "Substance Use Disorder - No" },
+        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
+        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
+        { name: "MCauseD10", title: "Substance Use Disorder" },
+        { name: "MCauseD11", title: "Suicide - Yes" },
+        { name: "MCauseD12", title: "Suicide - No" },
+        { name: "MCauseD13", title: "Suicide - Probably" },
+        { name: "MCauseD14", title: "Suicide - Unknown" },
+        { name: "MCauseD15", title: "Suicide - Blank" },
+        { name: "MCauseD16", title: "Obesity - Yes" },
+        { name: "MCauseD17", title: "Obesity - No" },
+        { name: "MCauseD18", title: "Obesity - Probably" },
+        { name: "MCauseD19", title: "Obesity - Unknown" },
+        { name: "MCauseD20", title: "Obesity - (blank)" },
+        { name: "MCauseD21", title: "Discrimination - Yes" },
+        { name: "MCauseD22", title: "Discrimination - No" },
+        { name: "MCauseD23", title: "Discrimination - Probably" },
+        { name: "MCauseD24", title: "Discrimination - Unknown" },
+        { name: "MCauseD25", title: "Discrimination - (blank)" },
+        { name: "MCauseD26", title: "Homicide - Yes" },
+        { name: "MCauseD27", title: "Homicide - No" },
+        { name: "MCauseD28", title: "Homicide - Probably" },
+        { name: "MCauseD29", title: "Homicide - Unknown" },
+        { name: "MCauseD30", title: "Homicide - (blank)" },
+        //{ name: "MCauseD31", title: "MCauseD31" },
+
+    ],
+
     }
 );
+
 
 indicator_map.set
 (

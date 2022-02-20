@@ -305,7 +305,7 @@ indicator_map.set
     10,
     {
     indicator_id : "mDeathCause",
-    title:"Cause of Death",
+    title:"Committee Determinations",
     description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
     blank_field_id: "MCauseD15",
 
@@ -334,9 +334,23 @@ indicator_map.set
         { name: "MCauseD13", title: "Suicide - Probably" },
         { name: "MCauseD14", title: "Suicide - Unknown" },
         { name: "MCauseD15", title: "Suicide - Blank" },
-        // obesity
-        // discrimination
-        // 
+        { name: "MCauseD16", title: "Obesity - Yes" },
+        { name: "MCauseD17", title: "Obesity - No" },
+        { name: "MCauseD18", title: "Obesity - Probably" },
+        { name: "MCauseD19", title: "Obesity - Unknown" },
+        { name: "MCauseD20", title: "Obesity - (blank)" },
+        { name: "MCauseD21", title: "Discrimination - Yes" },
+        { name: "MCauseD22", title: "Discrimination - No" },
+        { name: "MCauseD23", title: "Discrimination - Probably" },
+        { name: "MCauseD24", title: "Discrimination - Unknown" },
+        { name: "MCauseD25", title: "Discrimination - (blank)" },
+        { name: "MCauseD26", title: "Homicide - Yes" },
+        { name: "MCauseD27", title: "Homicide - No" },
+        { name: "MCauseD28", title: "Homicide - Probably" },
+        { name: "MCauseD29", title: "Homicide - Unknown" },
+        { name: "MCauseD30", title: "Homicide - (blank)" },
+        //{ name: "MCauseD31", title: "MCauseD31" },
+
     ],
 
     }
