@@ -77,10 +77,13 @@ async function render8_table(p_metadata, p_data_list)
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
         const item = p_metadata.field_id_list[i];
-
-        categories.push(`"${item.title}"`);
-        totals.set(item.name, 0);
-        name_to_title.set(item.name, item.title);
+        if(item.title.indexOf("(blank)") < 0)
+        {
+            categories.push(`"${item.title}"`);
+        }
+            totals.set(item.name, 0);
+            name_to_title.set(item.name, item.title);
+        
     }
 
     for(var i = 0; i <p_data_list.data.length; i++)
