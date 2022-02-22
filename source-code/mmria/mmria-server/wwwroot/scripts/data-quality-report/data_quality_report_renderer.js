@@ -342,6 +342,21 @@ async function download_data_quality_report_button_click()
             summary_data.n09 += item.n07;
         }
 
+
+        if(item.add_quarter_number == quarter_number )
+        {
+
+        }
+        else if
+        (
+            item.add_quarter_number < quarter_number &&
+            item.add_quarter_number >= quarter_number - 1)
+        {
+
+        }
+
+
+
     }
 
 				// This is just some test data to see if it works, and yep it works
