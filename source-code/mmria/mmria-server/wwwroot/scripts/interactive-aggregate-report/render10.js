@@ -24,6 +24,7 @@ ${render_navigation_strip(10)}
 async function render10_chart(p_post_html, p_metadata, p_data_list)
 {
     const totals = new Map();
+    const titles = new Map();
 
     const categories = [];
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
@@ -31,8 +32,18 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
         const item = p_metadata.field_id_list[i];
         if(item.name != p_metadata.blank_field_id)
         {
-            categories.push(`"${item.title}"`);
+            if(item.title.indexOf("(blank)") > -1)
+            {
+                categories.push("");
+            }
+            else
+            {
+                categories.push(`"${item.title}"`);
+            }
             totals.set(item.name, 0);
+            titles.set(item.name, item.title);
+
+            
         }
     }
 
@@ -41,8 +52,11 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
         const item = p_data_list.data[i];
         if(totals.has(item.field_id))
         {
-            let val = totals.get(item.field_id);
-            totals.set(item.field_id, val + 1);
+            if(titles.get(item.field_id).indexOf("(blank)") < 0)
+            {
+                let val = totals.get(item.field_id);
+                totals.set(item.field_id, val + 1);
+            }
         }
     }
 
