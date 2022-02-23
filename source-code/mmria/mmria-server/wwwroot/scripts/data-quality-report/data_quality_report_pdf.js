@@ -10,16 +10,20 @@ $(function () {//http://www.w3schools.com/html/html_layout.asp
 
 });
 
-async function create_data_quality_report_download(p_data, p_quarter, p_jurisdiction) {
+async function create_data_quality_report_download(p_report_type, p_data, p_quarter, p_jurisdiction, p_jurisdiction_exclude, p_headers) {
 	g_jurisdiction = p_jurisdiction;
 	let p_ctx = {
+		report_type: p_report_type,
 		data: p_data,
 		quarter: p_quarter,
+		jurisdiction: p_jurisdiction,
+		jurisdiction_exclude: p_jurisdiction_exclude,
+		headers: p_headers
 	};
 
 	try {
 		// initialize_print_pdf(ctx);
-		document.title = getHeaderName();
+		document.title = p_headers.title;
 		await print_pdf(p_ctx);
 	}
 	catch (ex) {
@@ -27,7 +31,7 @@ async function create_data_quality_report_download(p_data, p_quarter, p_jurisdic
 		let profile_content_id = document.getElementById("profile_content_id");
 		{
 			profile_content_id.innerText = `
-An error has occurred generating PDF for ${getHeaderName()}.
+An error has occurred generating PDF for ${p_headers.title}.
  
 Please email mmriasupport@cdc.gov the ERROR DETAILS regarding this Print-PDF issue.
 
@@ -49,8 +53,9 @@ async function print_pdf(ctx) {
 	// Get unique PDF name
 	let pdfName = createNamePDF();
 
-	// Get the PDF Header Title
-	let pdfTitle = getHeaderName();
+	// Get the PDF Header Title & Subtitle
+	let pdfTitle = ctx.headers.title;
+	let pdfSubtitle = ctx.headers.subtitle;
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
@@ -109,7 +114,7 @@ async function print_pdf(ctx) {
 										{ text: pdfTitle, alignment: 'center', style: 'pageHeader', },
 									],
 									[
-										{ text: `Reporting Period: ${ ctx.quarter }`, alignment: 'center', style: 'pageSubHeader' },
+										{ text: pdfSubtitle, alignment: 'center', style: 'pageSubHeader' },
 									],
 								],									
 							},
@@ -342,12 +347,6 @@ function fmtStrDate(dt) {
 	return `${fmt2Digits(dtParts[1])}/${fmt2Digits(dtParts[2])}/${fmtYear(dtParts[0])}`;
 }
 
-// Get the header name
-function getHeaderName() {
-	let headerStr = `Data Quality Report for: ${g_jurisdiction}`;
-	return headerStr;
-}
-
 // Format number
 function fmtNumber( val ) {
 	if ( val == null || val == '' ) {
@@ -383,50 +382,79 @@ function formatContent(ctx) {
 	let retContent = [];
 	let body = [];
 
-	// Build summary page 1 & 2
-	body = dqr_summary(ctx);
+	if ( ctx.report_type == 'Summary' )
+	{
+		// Build summary page 1 & 2
+		body = dqr_summary(ctx);
 
-	console.log('body: ', body);
-	retContent.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 1; },
+		console.log('body: ', body);
+		retContent.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				id: 'DQR',
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
 			},
-			id: 'DQR',
-			width: '*',
-			table: {
-				headerRows: 0,
-				widths: ['*'],
-				body: body,
-			},
-		},
-	]);
+		]);
 
-	body = [];
-	// Add the notes
-	body = dqr_notes(ctx);
-	retContent.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 1; },
+		body = [];
+		// Add the notes
+		body = dqr_notes(ctx);
+		retContent.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				id: 'DQR',
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
 			},
-			id: 'DQR',
-			width: '*',
-			table: {
-				headerRows: 0,
-				widths: ['*'],
-				body: body,
+		]);
+	}
+	else
+	{
+		// Build the detail reportj
+		console.log('Build the DETAIL report');
+		body = dqr_detail(ctx);
+		retContent.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				id: 'DQR',
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
 			},
-		},
-	]);
+		]);
+
+
+	}
 
 	console.log('retContent: ', retContent);
 	return retContent;
@@ -439,6 +467,88 @@ function add_page_break() {
 	row.push([{ text: '', pageBreak: 'before' }]);
 
 	return row;
+}
+
+// Format detail pages
+function dqr_detail(ctx) {
+	let retPage = [];
+	let body = [];
+
+	body = format_detail_pages(ctx);
+
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 1; },
+			},
+			width: '*',
+			table: {
+				headerRows: 0,
+				widths: ['*'],
+				body: body,
+			},
+		},
+	]);
+
+	return retPage;
+}
+
+function format_detail_pages(ctx) {
+	let retPage = [];
+	// ***
+	// *** q - the question array
+	// *** d - the data array
+	// ***
+	// let q = g_dqr_questions;
+	// let d = ctx.data;
+	let rows = new Array();
+	// let fld = '';
+	// let fldSub = '';
+	// let startLoop;
+	// let endLoop;
+
+	// First table - 01) thru 05)
+	// Header
+	rows.push([
+		{
+			text: `Details`,
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, true],
+		},
+		{
+			text: `(as of ${ctx.quarter})`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [false, true, true, true],
+		},
+	],);
+
+
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 1; },
+			},
+			width: '*',
+			table: {
+				headerRows: 0,
+				widths: [350, '*'],
+				body: rows,
+			},
+		},
+	]);
+
+
+
+	return retPage;
 }
 
 // Format summary pages
@@ -465,7 +575,6 @@ function dqr_summary(ctx) {
 			},
 		},
 	]);
-
 
 	return retPage;
 }

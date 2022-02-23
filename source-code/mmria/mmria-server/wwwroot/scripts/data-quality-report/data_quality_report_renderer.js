@@ -1,6 +1,8 @@
 // Data Quality Report
 var selectedQuarter;
 var reportType;
+var jurisdiction;
+var jurisdictionExclude;
 
 function data_quality_report_render(p_quarters) 
 {
@@ -8,6 +10,8 @@ function data_quality_report_render(p_quarters)
 	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
 	selectedQuarter = p_quarters[0];
 	reportType = 'Summary';
+	jurisdiction = 'New York';
+	jurisdictionExclude = '';
 
 	result.push(`
 		<div class="row">
@@ -27,22 +31,42 @@ function data_quality_report_render(p_quarters)
 						>	
 							${data_quality_report_quarters_list}
 						</select>
-					</>
 					</div>
 					<div class="mb-4">
-						<div>Select Report Type:</div>
-						<div>
-							<input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
-							<label for="summary-report" class="mb-0 font-weight-normal mr-2">Summary Report</label>
-						</div>
-						<div>
-							<input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-							<label for="detail-report" class="mb-0 font-weight-normal mr-2">Detail Report</label>
-						</div>
-						<div>
-							<input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
-							<label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
-						</div>
+						<label for="report-type" class="mb-0 font-weight-bold mr-2">Select Report Type:</label>
+						<select
+							name="report-type"
+							id="report-type"
+							onchange="updateReportType(event)"
+						>
+							<option value="Summary">Summary Report</option>
+							<option value="Detail">Detail Report</option>
+							<option value="Summary & Detail">Summary & Detail Report</option>
+						</select>
+					</div>
+					<div class="mb-4">
+						<label for="jurisdiction" class="mb-0 font-weight-bold mr-2">Select Jurisdiction:</label>
+						<select
+							name="jurisdiction"
+							id="jurisdiction"
+							onchange="updateJurisdiction(event)"
+						>
+							<option value="New York">New York</option>
+							<option value="New York City">New York City</option>
+							<option value="Brooklyn">Brooklyn</option>
+						</select>
+					</div>
+					<div class="mb-4">
+						<label for="jurisdiction-exclude" class="mb-0 font-weight-bold mr-2">Select Jurisdiction to Exclude:</label>
+						<select
+							name="jurisdiction-exclude"
+							id="jurisdiction-exclude"
+							onchange="updateJurisdictionExclude(event)"
+						>
+						<option value="None">None</option>
+						<option value="New York City">New York City</option>
+						<option value="Brooklyn">Brooklyn</option>
+					</select>
 					</div>
 				</div>
 				<div class="card-footer bg-gray-13">
@@ -63,15 +87,30 @@ function data_quality_report_render(p_quarters)
 
 function updateQuarter(e) 
 {
-	console.log('updateQuarter: ', e.target.value);
+	// console.log('updateQuarter: ', e.target.value);
 	selectedQuarter = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateReportType(e)
 {
-	console.log('updateReportType: ', e.target.value);
+	// console.log('updateReportType: ', e.target.value);
 	reportType = e.target.value;
+	renderQuarterInfo();
+}
+
+function updateJurisdiction(e)
+{
+	// console.log('updateJurisdiction: ', e.target.value);
+	jurisdiction = e.target.value;
+	renderQuarterInfo();
+}
+
+function updateJurisdictionExclude(e)
+{
+	// console.log('updateJurisdictionExclude: ', e.target.value);
+	jurisdictionExclude = ( e.target.value == 'None' ) ? '' : e.target.value;
+	// console.log('jurisdictionExclude: ', jurisdictionExclude);
 	renderQuarterInfo();
 }
 
@@ -119,6 +158,10 @@ async function download_data_quality_report_button_click()
         url: `${location.protocol}//${location.host}/api/dqr-detail/${selected_quarter}`,
     });
       
+		const detail_data = {
+			n01: 0,
+			n02: 0,
+		};
 
     const summary_data = {
         n01:  0,
@@ -292,82 +335,248 @@ async function download_data_quality_report_button_click()
 				},
     }
 
+		let cnt = 0;
+
+		console.log('*** quarter_number: ', quarter_number);
 
     for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
         const item = dqr_detail_data.docs[i];
 
+				// if ( item.add_quarter_name == 'Q3-2021' )
+				// {
+				// 	console.log('*** item.add_quarter_name: ', item.add_quarter_name );
+				// 	console.log('*** item.add_quarter_number: ', item.add_quarter_number );
+				// 	console.log('*** item.cmp_quarter_name: ', item.cmp_quarter_name );
+				// 	console.log('*** item.cmp_quarter_number: ', item.cmp_quarter_number );
+				// 	console.log('*** _id: ', item._id);
+				// 	console.log('***** cnt: ', ++cnt);
+				// 	console.log('***** i: ', i);
+				// }
+
         // console.log('*** quarter: ', item.quarter_name);
         if ( item.add_quarter_number <= quarter_number ) 
         {
-            //console.log('****** FOUND ONE: ', item.quarter_name);
-            // Table One
-            summary_data.n01 += item.n01;
+            // Table One - 01) to 05)
+						summary_table_01_05( item );
 
-            summary_data.n02 += item.n02;
+						// Table Two - 06) to 09)
+						summary_table_06_09( item );
 
-            summary_data.n03[0] += item.n03[0];
-            summary_data.n03[1] += item.n03[1];
-            summary_data.n03[2] += item.n03[2];
-            summary_data.n03[3] += item.n03[3];
-            summary_data.n03[4] += item.n03[4];
-            summary_data.n03[5] += item.n03[5];
-            summary_data.n03[6] += item.n03[6];
-            summary_data.n03[7] += item.n03[7];
+						// Table Three - 10) to 34)
+						summary_table_10_34( item );
 
-            
-            summary_data.n04 += item.n04;
-            summary_data.n05 += item.n05;
+						// Table Four - 35) to 43)
+						summary_table_35_43( item );
 
-            
+						// Table Five - 44) to 45)
+						summary_table_44_45( item );
 
-        }
-        
-        if 
-        ( 
-            item.add_quarter_number == quarter_number && 
-            item.n05 == 1
-        ) 
-        {
-            summary_data.n06 += item.n06;
-            summary_data.n07 += item.n07;
-        }
-        else if 
-        ( 
-            item.add_quarter_number < quarter_number &&
-            item.add_quarter_number >= quarter_number - 1
-        ) 
-        {
-            summary_data.n08 += item.n06;
-            summary_data.n09 += item.n07;
+						// Table Six - 46) to 49)
+						summary_table_46_49( item );
         }
 
     }
 
-				// This is just some test data to see if it works, and yep it works
+		// Table One Summary
+		function summary_table_01_05( item )
+		{
+			// Accumulate Table One data
+			summary_data.n01 += item.n01;
+			summary_data.n02 += item.n02;
 
-				summary_data.n10.s.mn += 39;
-				summary_data.n10.s.mp += 4.1;
-				summary_data.n10.s.un += 21;
-				summary_data.n10.s.up += 6.1;
-				
-				summary_data.n10.p.mn += 109;
-				summary_data.n10.p.mp += 32.1;
-				summary_data.n10.p.un += 88;
-				summary_data.n10.p.up += 45.9;
-				
+			// Special handling for Question 03)
+			summary_data.n03[0] += item.n03[0];
+			summary_data.n03[1] += item.n03[1];
+			summary_data.n03[2] += item.n03[2];
+			summary_data.n03[3] += item.n03[3];
+			summary_data.n03[4] += item.n03[4];
+			summary_data.n03[5] += item.n03[5];
+			summary_data.n03[6] += item.n03[6];
+			summary_data.n03[7] += item.n03[7];
+
+			summary_data.n04 += item.n04;
+			summary_data.n05 += item.n05;
+			summary_data.n06 += item.n06;
+		}
+
+		// Table Two Summary
+		function summary_table_06_09( item )
+		{
+			// Add current quarter
+			if 
+			( 
+					item.add_quarter_number == quarter_number
+			) 
+			{
+					summary_data.n07 += item.n07;
+			}
+			// Not sure what this does
+			if 
+			( 
+					item.add_quarter_number < quarter_number &&
+					item.add_quarter_number >= quarter_number - 1
+			) 
+			{
+					summary_data.n08 += item.n08;
+					summary_data.n09 += item.n09;
+			}
+		}
+
+		// Table Three Summary
+		function summary_table_10_34( item )
+		{
+			// Add line 10) thru 34)
+			let startLoop = 10;
+			let endLoop = 34;
+			for ( let i = startLoop; i <= endLoop; i++ )
+			{
+				// Build the field name
+				let fld = 'n' + i;
+				// Check to see if this is current quarter
+				if ( item.add_quarter_number == quarter_number )
+				{
+					summary_data[fld].s.mn += item[fld].m;
+					summary_data[fld].s.un += item[fld].u;
+				}
+				if 
+				( 
+						item.add_quarter_number < quarter_number &&
+						item.add_quarter_number >= quarter_number - 1
+				)
+				{
+					summary_data[fld].p.mn += item[fld].m;
+					summary_data[fld].p.un += item[fld].u;
+				}
+			}
+		}
+
+		// Table Four Summary
+		function summary_table_35_43( item )
+		{
+			// console.log('in summary_table_35_43');
+		}
+
+		// Table Five Summary
+		function summary_table_44_45( item )
+		{
+			let startLoop = 44;
+			let endLoop = 45;
+			for ( let i = startLoop; i <= endLoop; i++ )
+			{
+				// Build the field name
+				let fld = 'n' + i;
+				// Check to see if this is current quarter
+				if ( item.add_quarter_number == quarter_number )
+				{
+					summary_data[fld].s.tn += item[fld].t;
+					summary_data[fld].s.pn += item[fld].p;
+				}
+				if 
+				( 
+						item.add_quarter_number < quarter_number &&
+						item.add_quarter_number >= quarter_number - 1
+				)
+				{
+					summary_data[fld].p.tn += item[fld].t;
+					summary_data[fld].p.pn += item[fld].p;
+				}
+			}
+		}
+		
+		// Table Six Summary
+		function summary_table_46_49( item )
+		{
+		}
+
+		// Calculate the summary percentages
+		function calculate_summary_percentages()
+		{
+			// This is a test to see if we can correctly calculate the percentages
+			let startLoop = 44;
+			let endLoop = 45;
+			for ( let i = startLoop; i <= endLoop; i++ )
+			{
+				// Build the field name
+				let fld = 'n' + i;
+
+				// Check for zero before doing the divide
+				if ( summary_data[fld].s.pn > 0 ) summary_data[fld].s.pp = summary_data[fld].s.tn / summary_data[fld].s.pn;
+				if ( summary_data[fld].p.pn > 0 ) summary_data[fld].p.pp = summary_data[fld].p.tn / summary_data[fld].p.pn;
+			}
+		}
+
+		// Get the previous 4 quarters based on the selected quarter
+		function getPreviousFourQuarters( q )
+		{
+			let qStr = '';
+
+			let arr = selected_quarter.split("-");
+			let qtr = parseInt(arr[0][1]);
+			let yy = parseInt(arr[1]);
+			
+			for ( let i = 0; i < 4; i++ )
+			{
+				// Check qtr to see if it is 1 - if so, then set to 4 and decrement yy
+				qtr--;
+				if ( qtr == 0 )
+				{
+					qtr = 4;
+					yy--;
+				}
+				qStr += `Q${qtr}-${yy}`;
+
+				if ( i < 3 ) qStr += ', ';
+			}
+			console.log('in getPrev 4 Q: ', arr, ' - ', qStr );
+
+			return qStr;
+		}
+
+		calculate_summary_percentages();
 
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
 
-    create_data_quality_report_download
-    (
-        summary_data, 
-        selected_quarter, 
-        'All Jurisdictions'
-    );
+		// Create Summary Report if reportType is Summary or Summary & Detail
+		if ( reportType == 'Summary' || reportType == 'Summary & Detail')
+		{
+			let headers = {
+				title: `Data Quality Report for: ${ jurisdiction }`,
+				subtitle: `Reporting Period: ${ selected_quarter }`
+			};
 
+			create_data_quality_report_download
+			(
+					'Summary',
+					summary_data, 
+					selected_quarter, 
+					jurisdiction,
+					jurisdictionExclude,
+					headers
+			);
+		}
+
+		// Create Detail Report if reportType is Detail or Summary & Detail
+		if ( reportType == 'Detail' || reportType == 'Summary & Detail')
+		{
+			let headers = {
+				title: `Data Quality Report Details for: ${ jurisdiction }`,
+				subtitle: `Reporting Period: ${ selected_quarter } - Previous 4 Periods: ${ getPreviousFourQuarters( selected_quarter )}`
+			};
+			
+			create_data_quality_report_download
+			(
+					'Detail',
+					detail_data, 
+					selected_quarter, 
+					jurisdiction,
+					jurisdictionExclude,
+					headers
+			);
+		}
 }
+
 // This function will call the pdf function
 function download_data_quality_report_pdf(selQuar) 
 {
