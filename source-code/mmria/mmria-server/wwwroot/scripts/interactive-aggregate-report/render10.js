@@ -24,39 +24,26 @@ ${render_navigation_strip(10)}
 async function render10_chart(p_post_html, p_metadata, p_data_list)
 {
     const totals = new Map();
-    const titles = new Map();
 
     const categories = [];
     for(var i = 0; i < p_metadata.field_id_list.length; i++)
     {
         const item = p_metadata.field_id_list[i];
-        if(item.name != p_metadata.blank_field_id)
+        
+        if(item.title.indexOf("(blank)") < 0)
         {
-            if(item.title.indexOf("(blank)") > -1)
-            {
-                categories.push("");
-            }
-            else
-            {
-                categories.push(`"${item.title}"`);
-            }
+            categories.push(`"${item.title}"`);
             totals.set(item.name, 0);
-            titles.set(item.name, item.title);
-
-            
         }
+        
     }
-
     for(var i = 0; i <p_data_list.data.length; i++)
     {
         const item = p_data_list.data[i];
         if(totals.has(item.field_id))
         {
-            if(titles.get(item.field_id).indexOf("(blank)") < 0)
-            {
-                let val = totals.get(item.field_id);
-                totals.set(item.field_id, val + 1);
-            }
+            let val = totals.get(item.field_id);
+            totals.set(item.field_id, val + 1);
         }
     }
 
@@ -66,8 +53,88 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
     {
         data.push(value);
     });
-    
-    render_chart_post_html(p_post_html, p_metadata, data, categories, totals);
+    const p_chart_name = "chart"
+    p_post_html.push
+    (
+        `var ${p_chart_name} = c3.generate({
+            legend: {
+                show: false
+            },
+            data: {
+                columns: [
+                    ["${p_metadata.indicator_id}", ${data.join(",")}
+                     ],
+                ],
+                type: 'bar',
+                names: {
+                    ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
+                },
+                labels: true,
+            },
+            padding: {
+                  //left: 375
+            },
+            axis: {
+                rotated: true, 
+                
+                x: {
+                    label: {
+                    text: '${p_metadata.x_axis_title}',
+                    position: 'outer-middle'  
+                    },
+                    tick: {
+                        multiline: false,
+                        culling: false,
+                        outer: false
+                    },
+                    type: 'category',
+                    categories: [${categories}],
+                },
+                y: {
+                    label: {
+                        text: '${p_metadata.y_axis_title}',
+                        position: 'outer-center' 
+                    },
+                }
+            },
+            //size: {
+            //    height: 600, 
+            //    width: 600
+            //  },
+              transition: {
+                duration: null
+              },
+              bindto: '#${p_chart_name}',
+              
+              onrendered: function()
+              {
+                const title_element = document.createElement("title");
+                title_element.innerText = '${p_metadata.chart_title_508}';
+
+                const description_element = document.createElement("desc");
+                description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
+
+                const svg_char = document.querySelector('#${p_chart_name} svg');
+
+                if(svg_char != null)
+                {
+                    const test_title = document.querySelector('#${p_chart_name} svg title');
+                    const test_desc = document.querySelector('#${p_chart_name} svg desc');
+
+                    if(test_title == null)
+                    {
+                        svg_char.appendChild(title_element);
+                    }
+
+                    if(test_desc == null)
+                    {
+                        svg_char.appendChild(description_element);
+                    }
+                }
+                
+              }
+            }); ` 
+    );
 
     return `
     <div class="card">
