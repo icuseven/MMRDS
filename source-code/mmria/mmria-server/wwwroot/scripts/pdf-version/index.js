@@ -84,7 +84,7 @@ async function create_print_version
 		p_data: p_data
 	};
 
-	console.log(' let p_ctx = ', p_ctx);
+	// console.log(' let p_ctx = ', p_ctx);
 	
 	try {
 		// initialize_print_pdf(ctx);
@@ -329,8 +329,8 @@ async function print_pdf(ctx) {
 	{
 		window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 	}
