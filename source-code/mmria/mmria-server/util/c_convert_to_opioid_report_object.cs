@@ -280,13 +280,13 @@ mDeathbyRace  MDeathbyRace17 17
 
 */
 
-            for(var i = 0; i < 21; i++)
+            for(var i = 0; i < 22; i++)
             result.Add($"mUndCofDeath MUndCofDeath{i+1}", get_new_struct($"mUndCofDeath MUndCofDeath{i+1}"));
 
             for(var i = 15; i < 30; i++)
             result.Add($"mDeathCause MCauseD{i+1}", get_new_struct($"mDeathCause MCauseD{i+1}"));
 
-            for(var i = 0; i < 3; i++)
+            for(var i = 0; i < 4; i++)
             result.Add($"mDeathPrevent MDeathPrevent{i+1}", get_new_struct($"mDeathPrevent MDeathPrevent{i+1}"));
 
             for(var i = 0; i < 10; i++)
@@ -4798,7 +4798,7 @@ foreach(var item in val_list)
             var current_id = get_value(p_source_object, "_id").ToString();
 
 
-            //mUndCofDeath MUndCofDeath21 21
+            //mUndCofDeath MUndCofDeath22 22
 /*
 MUndCofDeath1 If /committee_review/pmss_mm= 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, or 10.10
 MUndCofDeath2 If /committee_review/pmss_mm= 20.1, 20.2, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, or 20.11
@@ -4862,17 +4862,6 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
                 pmss_mm = test_double;
             }
             
-            if(pmss_mm == double.NaN)
-            {
-                return;
-            }
-
-
-
-
-
-
-
             try
             {	
                 var (indicator_id, field_id) = pmss_mm switch
@@ -4898,6 +4887,8 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
                     double v when MUndCofDeath19.Contains(v) => ("mUndCofDeath", "MUndCofDeath19"),
                     double v when MUndCofDeath20.Contains(v) => ("mUndCofDeath", "MUndCofDeath20"),
                     double v when MUndCofDeath21.Contains(v) => ("mUndCofDeath", "MUndCofDeath21"),
+                    9999D => ("mUndCofDeath", "MUndCofDeath22"),
+                    double.NaN => ("mUndCofDeath", "MUndCofDeath22"),
                     _ =>  ("", "")
                 };
 
@@ -4927,14 +4918,7 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
 
 			int test_int;
 
-            //mDeathPrevent MDeathPrevent3 3
-
-
-
-
-
-
-
+            //mDeathPrevent MDeathPrevent4 4
 
             var was_this_death_preventable = string.Empty;
             var chance_to_alter_outcome = -1;;
@@ -4967,16 +4951,6 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
             {
                 was_this_death_preventable = "9999";
             }
-
-
-            if
-            (
-                was_this_death_preventable == "9999"  && 
-                chance_to_alter_outcome == -1
-            )
-            {
-                return;
-            }
                 
 /*
 committee_review/was_this_death_preventable=1 (Yes) OR 
@@ -4988,14 +4962,11 @@ committee_review/chance_to_alter_outcome=1 (Some Chance
 
                 try
                 {	
-                   
-                    
                     if
                     (
                         was_this_death_preventable == "1" || 
                         chance_to_alter_outcome == 0 ||
                         chance_to_alter_outcome == 1
-                        
                     )
                     {
                         is_preventable = true;
@@ -5017,8 +4988,6 @@ committee_review/chance_to_alter_outcome=2 (No Chance)
 */
                 try
                 {	
-                   
-                    
                     if
                     (
                         !is_preventable &&
@@ -5026,7 +4995,6 @@ committee_review/chance_to_alter_outcome=2 (No Chance)
                             was_this_death_preventable == "0" || 
                             chance_to_alter_outcome == 2
                         )
-                        
                     )
                     {
                         var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -5048,13 +5016,10 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
 
                 try
                 {	
-                   
-                    
                     if
                     (
                         was_this_death_preventable == "9999" && 
                         chance_to_alter_outcome == 3
-                        
                     )
                     {
                         var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -5070,6 +5035,34 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
                     System.Console.WriteLine (ex);
                 }
             
+/*
+/committee_review/was_this_death_preventable=9999 (Blank) AND 
+/committee_review/chance_to_alter_outcome=9999 (Blank)
+*/
+            
+                try
+                {	
+                    if
+                    (
+                        was_this_death_preventable == "9999" && 
+                        (
+                            chance_to_alter_outcome == 9999 ||
+                            chance_to_alter_outcome == -1
+                        )
+                    )
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mDeathPrevent";
+                        curr.field_id = "MDeathPrevent4";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
 
         }
 

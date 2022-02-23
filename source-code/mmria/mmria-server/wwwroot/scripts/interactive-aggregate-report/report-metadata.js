@@ -309,11 +309,11 @@ indicator_map.set
     description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
     blank_field_id: "",
 
-    chart_title:"Circumstances surrounding death",
-    x_axis_title:"Committee determinations on circumstances surrounding death",
+    chart_title:"Frequency of selected committee determinations on circumstances surrounding death",
+    x_axis_title:"Committee determination of cause of death",
     y_axis_title:"Number of deaths",
     
-    table_title:"Frequency of selected committee determinations on circumstances surrounding death.", 
+    table_title:"Committee determination of cause of death", 
     table_title_508:"Table showing number of deaths by Cause of Death.",
     
 

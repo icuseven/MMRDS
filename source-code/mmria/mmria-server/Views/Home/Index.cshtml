@@ -164,8 +164,8 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/Case">View case data</a></li>
-            <li><a href="/export-queue">Export data</a></li>
+            <li><a href="/Case">View Case Data</a></li>
+            <li><a href="/export-queue">Export Data</a></li>
             @*<li><a href="/recover-case">Recover-case</a></li>*@
 
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
@@ -185,8 +185,8 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Analyst</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/analyst-case">View case data</a></li>
-            <li><a href="/export-queue">Export data</a></li>
+            <li><a href="/analyst-case">View Case Data</a></li>
+            <li><a href="/export-queue">Export Data</a></li>
 
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
               <li><a href="/interactive-aggregate-report" >View Aggregate Report</a></li>
@@ -205,7 +205,7 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/de-identified">View de-identified case data</a></li>
+            <li><a href="/de-identified">View De-identified Case Data</a></li>
           </ul>
         </div>
       </li>
@@ -307,13 +307,13 @@ else
                 @**<!--li><a href="/version-manager/migrate">Open data migration manager</a></li-->**@
               </ul>
             </li>
-            <li>
+            @*<li>
               <strong>Power BI Management</strong>
               <ul>
                 <li><a href="/power-bi-user">Open Power BI User</a></li>
                 
             </ul>
-            </li>
+            </li>*@
             <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
             <li><a href="/export-list-manager">Open Export List Manager</a></li>
             <li><a href="/sessionSummary">View Session Activity Report</a></li>
@@ -329,12 +329,12 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/_users">Manage users & case folders</a></li>
+            <li><a href="/_users">Manage Users & Case Folders</a></li>
             @if(is_abstractor)
             {
-                <li><a href="/manage-case-check-outs">Manage case check outs</a></li>
+                <li><a href="/manage-case-check-outs">Manage Case Check Outs</a></li>
             }
-            @if(is_power_bi_manager)
+            @*if(is_power_bi_manager)
             {
             <li>
               <strong>Power BI Management</strong>
@@ -343,7 +343,7 @@ else
                 
             </ul>
             </li>
-            }
+            }*@
             <li><a href="/vital-import-history">View Vitals Import History</a></li>
           </ul>
         </div>
@@ -374,7 +374,7 @@ else
 
           @if(!is_installation_admin)
           {
-            <li><a href="/Account/Profile" >View account profile</a></li>
+            <li><a href="/Account/Profile" >View Account Profile</a></li>
           }
           
           @*if(is_abstractor || is_committee_member || is_data_analyst)

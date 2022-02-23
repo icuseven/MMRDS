@@ -53,7 +53,8 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
     {
         data.push(value);
     });
-    const p_chart_name = "chart"
+    const p_chart_name = "chart";
+    /*
     p_post_html.push
     (
         `var ${p_chart_name} = c3.generate({
@@ -134,9 +135,10 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
                 
               }
             }); ` 
-    );
+    );*/
 
-    return `
+    return ``;
+    /*
     <div class="card">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
@@ -146,7 +148,7 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
         </div>
     </div>
     
-    `
+    `*/
 }
 
 async function render10_table(p_metadata, p_data_list)
@@ -248,7 +250,7 @@ async function render10_table(p_metadata, p_data_list)
 
 
         <tr>
-            <td>Homocide</td>
+            <td>Homicide</td>
             <td align=right>${totals.get("MCauseD26")}</td>
             <td align=right>${totals.get("MCauseD27")}</td>
             <td align=right>${totals.get("MCauseD28")}</td>

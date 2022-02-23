@@ -49,7 +49,7 @@ function render0()
 
 <tr onclick="window.location='#5'" style="cursor: pointer;">
 <td><strong>5</strong></td>
-<td><strong><a href="#5">OMB race recode</strong></td>
+<td><strong><a href="#5">OMB Race Recode</strong></td>
 <td>${indicator_map.get(5).description}</td>
 </tr>
 
