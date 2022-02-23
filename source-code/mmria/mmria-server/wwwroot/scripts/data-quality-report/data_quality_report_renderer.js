@@ -376,6 +376,21 @@ async function download_data_quality_report_button_click()
 						summary_table_46_49( item );
         }
 
+
+        if(item.add_quarter_number == quarter_number )
+        {
+
+        }
+        else if
+        (
+            item.add_quarter_number < quarter_number &&
+            item.add_quarter_number >= quarter_number - 1)
+        {
+
+        }
+
+
+
     }
 
 		// Table One Summary

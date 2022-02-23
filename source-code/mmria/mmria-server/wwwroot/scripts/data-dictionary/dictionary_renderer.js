@@ -527,7 +527,7 @@ function generate_system_generated_definition_list_table()
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >dlc_out</td>
-							<td class="td" width="1064">Record record was locked</td>
+							<td class="td" width="1064">Date record was locked</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >lco_by</td>

@@ -240,7 +240,7 @@ function show_filter_dialog()
         <!--label for="top_corner_close">Close</label-->
         <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div style="margin:15px;width:610px;">
+    <div style="margin:15px;width:580px;">
         <p>
         <strong>Pregnancy-Relatedness:</strong>
         <ul>
@@ -268,27 +268,28 @@ function show_filter_dialog()
                 <tr>
                     <td>
                         <label for="review_begin_date">Begin</label>
-                        <input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" onchange="review_begin_date_change(this.value)" />
+                        <input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onchange="review_begin_date_change(this.value)" />
                     </td>
                         
                     <td>
                         <label for="review_end_date">End</label>
-                        <input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}" onchange="review_end_date_change(this.value)" />
+                        <input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onchange="review_end_date_change(this.value)" />
                     </td>
                 </tr>
             </table>
         </p>
-        <p><strong>Dates of Death:</strong> 
+        <p>
+            <strong>Dates of Death:</strong> 
             <table>
                 <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
                 <tr>
                     <td>
                         <label for="death_begin_date">Begin</label>
-                        <input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" onchange="death_begin_date_change(this.value)" />
+                        <input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onchange="death_begin_date_change(this.value)" />
                     </td>
                     <td>
                         <label for="death_end_date">End</label>
-                        <input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}" onchange="death_end_date_change(this.value)" />
+                        <input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onchange="death_end_date_change(this.value)" />
                     </td>
                 </tr>
             </table>

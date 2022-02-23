@@ -305,38 +305,52 @@ indicator_map.set
     10,
     {
     indicator_id : "mDeathCause",
-    title:"Cause of Death",
+    title:"Committee Determinations",
     description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
-    blank_field_id: "MCauseD15",
+    blank_field_id: "",
 
-    chart_title:"Cause of Death",
-    table_title:"Cause of Death",
-    x_axis_title:"Number of deaths by Cause of Death",
+    chart_title:"Circumstances surrounding death",
+    x_axis_title:"Committee determinations on circumstances surrounding death",
     y_axis_title:"Number of deaths",
     
-    table_title:"Number of deaths by Cause of Death",
+    table_title:"Frequency of selected committee determinations on circumstances surrounding death.", 
     table_title_508:"Table showing number of deaths by Cause of Death.",
     
 
     field_id_list : [
+
+        { name: "MCauseD16", title: "Obesity - Yes" },
+        { name: "MCauseD17", title: "Obesity - No" },
+        { name: "MCauseD18", title: "Obesity - Probably" },
+        { name: "MCauseD19", title: "Obesity - Unknown" },
+        { name: "MCauseD20", title: "Obesity - (blank)" },
+        { name: "MCauseD21", title: "Discrimination - Yes" },
+        { name: "MCauseD22", title: "Discrimination - No" },
+        { name: "MCauseD23", title: "Discrimination - Probably" },
+        { name: "MCauseD24", title: "Discrimination - Unknown" },
+        { name: "MCauseD25", title: "Discrimination - (blank)" },
         { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
         { name: "MCauseD2", title: "Mental Health Conditions - No" },
         { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
         { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
+        { name: "MCauseD5", title: "Mental Health Conditions - (blank)" },
         { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
         { name: "MCauseD7", title: "Substance Use Disorder - No" },
-        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
-        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD10", title: "Substance Use Disorder" },
+        { name: "MCauseD8", title: "Substance Use Disorder - Probably" },
+        { name: "MCauseD9", title: "Substance Use Disorder - Unknown" },
+        { name: "MCauseD10", title: "Substance Use Disorder - (blank)" },
         { name: "MCauseD11", title: "Suicide - Yes" },
         { name: "MCauseD12", title: "Suicide - No" },
         { name: "MCauseD13", title: "Suicide - Probably" },
         { name: "MCauseD14", title: "Suicide - Unknown" },
-        { name: "MCauseD15", title: "Suicide - Blank" },
-        // obesity
-        // discrimination
-        // 
+        { name: "MCauseD15", title: "Suicide - (blank)" },
+        { name: "MCauseD26", title: "Homicide - Yes" },
+        { name: "MCauseD27", title: "Homicide - No" },
+        { name: "MCauseD28", title: "Homicide - Probably" },
+        { name: "MCauseD29", title: "Homicide - Unknown" },
+        { name: "MCauseD30", title: "Homicide - (blank)" },
+        //{ name: "MCauseD31", title: "MCauseD31" },
+
     ],
 
     }

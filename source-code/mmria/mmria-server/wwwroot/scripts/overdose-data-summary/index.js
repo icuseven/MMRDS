@@ -123,7 +123,7 @@ async function get_release_version()
 
     render();
 }
-
+// min max "2014-02-09"
 
 function review_begin_date_change(p_value)
 {

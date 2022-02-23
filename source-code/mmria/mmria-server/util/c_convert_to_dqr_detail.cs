@@ -139,16 +139,33 @@ namespace mmria.server.utils
             dqr_detail.n43.m = 0;
             dqr_detail.n43.u = 0;
 
+            dqr_detail.n44.t = 0;
+            dqr_detail.n44.p = 0;
+            dqr_detail.n45.t = 0;
+            dqr_detail.n45.p = 0;
+            dqr_detail.n46.t = 0;
+            dqr_detail.n46.p = 0;
+            dqr_detail.n47.t = 0;
+            dqr_detail.n47.p = 0;
+            dqr_detail.n48.t = 0;
+            dqr_detail.n48.p = 0;
+            dqr_detail.n49.t = 0;
+            dqr_detail.n49.p = 0;
+
             bool cr_do_revie_is_date = false;
             bool cr_p_relat_is_1 = false;
             bool hrcpr_bcp_secti_is_2 = false;
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
-            int means_of_fatal_injury = 9999;
 
             value_result = gs.get_value(source_object, "_id");
         
             dqr_detail._id  = ((object)value_result.result).ToString();
+
+            value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
+            dqr_detail.case_folder = ((object)value_result.result).ToString();
+        
+            dqr_detail._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
             value_result = gs.get_value(source_object, "addquarter");
             var obj = (object)value_result.result;
@@ -183,7 +200,6 @@ namespace mmria.server.utils
 
             int test_int = -1;
 
-            dqr_detail.n02 = 0;
             value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
             if(value_result.is_error)
             {
@@ -291,15 +307,6 @@ namespace mmria.server.utils
             {
                 DateTime test_time = DateTime.MinValue;
                 var data_string = value_result.result.ToString();
-                /*
-                if
-                (
-                    !string.IsNullOrWhiteSpace(data_string) &&
-                    data_string.IndexOf("-") < 0
-                )
-                {
-                    System.Console.Write("here");
-                }*/
                 if
                 (
                     DateTime.TryParse(data_string, out test_time)
@@ -310,14 +317,6 @@ namespace mmria.server.utils
                     
                 }
             }
-            else
-            {
-                dqr_detail.n04 = 0;
-            }
-
-
-            dqr_detail.n05 = 0;
-            dqr_detail.n06 = 0;
 
             value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
             if
@@ -329,7 +328,7 @@ namespace mmria.server.utils
             {
                 if
                 (
-                    cr_do_revie_is_date == true &&
+                    cr_do_revie_is_date &&
                     int.TryParse(value_result.result.ToString(), out test_int) &&
                     test_int == 1
                 )
@@ -339,17 +338,8 @@ namespace mmria.server.utils
                     cr_p_relat_is_1 = true;
                     
                 }
-                else
-                {
-                    dqr_detail.n05 = 0;
-                    dqr_detail.n06 = 0;
-                }
             }
-            else
-            {
-                dqr_detail.n05 = 0;
-                dqr_detail.n06 = 0;
-            }
+
 
 
             value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
@@ -362,7 +352,7 @@ namespace mmria.server.utils
             {
                 if
                 (
-                    cr_p_relat_is_1 == true &&
+                    cr_p_relat_is_1 &&
                     int.TryParse(value_result.result.ToString(), out test_int) &&
                     test_int == 2
                 )
@@ -371,26 +361,14 @@ namespace mmria.server.utils
                     dqr_detail.n09 = 1;
                     hrcpr_bcp_secti_is_2 = true;
                 }
-                else
-                {
-                    dqr_detail.n07 = 0;
-                    dqr_detail.n09 = 0;
-                }
             }
-            else
-            {
-                dqr_detail.n07 = 0;
-                dqr_detail.n09 = 0;
-            }
+
 
             if(cr_do_revie_is_date && cr_p_relat_is_1)
             {
                 dqr_detail.n08 = 1;
             }
-            else
-            {
-                dqr_detail.n08 = 0;
-            }
+
 
 
             if
@@ -402,18 +380,14 @@ namespace mmria.server.utils
             {
                 dqr_detail.n09 = 1;
             }
-            else
-            {
-                dqr_detail.n08 = 0;
-            }
+
 
             //n10
-            dqr_detail.n10.m = 0;
-            dqr_detail.n10.u = 0;
             //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
             value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
             if
             (
+                cr_do_revie_is_date &&
                 cr_p_relat_is_1 &&
                 !value_result.is_error &&
                 value_result.result != null
@@ -434,31 +408,131 @@ namespace mmria.server.utils
 
 
             
-/*
-            //n11
-            dqr_detail.n11.m = 0;
-            dqr_detail.n11.u = 0;
-            //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
-            value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
-            if
-            (
-                cr_p_relat_is_1 &&
-                !value_result.is_error &&
-                value_result.result != null
-            )
+            /*
+                        //n11
+                        hrdod_month = '9999' OR hrdod_day = '9999' OR hrdod_year = '9999'
+
+            hrdod_month: /home_record/date_of_death/month
+            hrdod_day:  /home_record/date_of_death/day
+            hrdod_year: /home_record/date_of_death/year
+            */
+
+            int hrdod_month = -1;
+            int hrdod_day = -1;
+            int hrdod_year = -1;
+           
+            value_result = gs.get_value(source_object, "home_record/date_of_death/month");
+            if(value_result.result != null)
             {
                 if(int.TryParse(value_result.result.ToString(), out test_int))
                 {
-                    if(test_int == 9999)
-                    {
-                        dqr_detail.n11.m = 1;
-                    }
-                    else if(test_int == 88)
-                    {
-                        dqr_detail.n11.u = 1;
-                    }
+                    hrdod_month = test_int;
                 }
-            }*/
+            }
+
+            value_result = gs.get_value(source_object, "home_record/date_of_death/day");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrdod_day = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "home_record/date_of_death/year");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrdod_year = test_int;
+                }
+            }
+
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                (
+                    hrdod_month == 9999 ||
+                    hrdod_day == 9999 ||
+                    hrdod_year == 9999
+                )
+            )
+            {
+                dqr_detail.n11.m = 1;
+            }
+
+            /*
+            n12
+
+            hrcpr_bcp_secti = '2' AND (bfdcpfodddod_month = '9999' OR bfdcpfodddod_day = '9999' OR bfdcpfodddod_year  = '9999')
+            hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+bfdcpfodddod_month: /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month
+bfdcpfodddod_day:  /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day
+bfdcpfodddod_year:   /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year
+
+*/
+int hrcpr_bcp_secti = -1;
+int bfdcpfodddod_month = -1;
+int bfdcpfodddod_day = -1;
+int bfdcpfodddod_year = -1;
+
+            value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    hrcpr_bcp_secti = test_int;
+                }
+            }
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_month = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_day = test_int;
+                }
+            }
+
+
+            value_result = gs.get_value(source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
+            if(value_result.result != null)
+            {
+                if(int.TryParse(value_result.result.ToString(), out test_int))
+                {
+                    bfdcpfodddod_year = test_int;
+                }
+            }
+
+            
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti == 2 && 
+                (
+                    bfdcpfodddod_month == 9999 || 
+                    bfdcpfodddod_day == 9999 ||
+                    bfdcpfodddod_year  == 9999
+                )
+            )
+            {
+                dqr_detail.n12.m = 1;
+            }
+
+// *************
 
             int cr_cta_outco = -1;
             value_result = gs.get_value(source_object, "committee_review/chance_to_alter_outcome");
@@ -474,10 +548,6 @@ namespace mmria.server.utils
             }
 
 
-            //n44 44) Analyst Able to Assign Yes/No Preventability
-            //cr_do_revie: /committee_review/date_of_review
-            //cr_p_relat: /committee_review/pregnancy_relatedness
-
 
             int cr_wtd_preve = -1;
             value_result = gs.get_value(source_object, "committee_review/was_this_death_preventable");
@@ -491,49 +561,6 @@ namespace mmria.server.utils
                 cr_wtd_preve = test_int;
             }
 
-            //(cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
-            //cr_wtd_preve:  /committee_review/was_this_death_preventable
-            dqr_detail.n44.t = 1;
-            dqr_detail.n44.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
-            {
-                (true, 0, _) => 1,
-                (true, 1, _) => 1,
-                (true, _, 0) => 1,
-                (true, _, 1) => 1,
-                (true, _, 2) => 1,
-                _ => 0
-            };
-
-
-            /*
-                ( 
-                    (cr_wtd_preve='0' AND cr_cta_outco IN ('2', '3','9999')) OR 
-                    (cr_wtd_preve = '1' AND cr_cta_outco IN ('0','1','3','9999')) OR
-                    (cr_wtd_preve='9999' AND cr_cta_outco IN ('3', '9999')) 
-                )
-
-            */
-            dqr_detail.n45.t = 1;
-            dqr_detail.n45.p = (cr_p_relat_is_1, cr_wtd_preve, cr_cta_outco) switch
-            {
-                (true, 0, 2) => 1,
-                (true, 0, 3) => 1,
-                (true, 0, 9999) => 1,
-                (true, 1, 0) => 1,
-                (true, 1, 1) => 1,
-                (true, 1, 3) => 1,
-                (true, 1, 9999) => 1,
-                (true, 9999, 3) => 1,
-                (true, 9999, 9999) => 1,
-                _ => 0
-            };
-
-
-
-
-            //n46
-            dqr_detail.n46.p = 0;
-
             int cr_ddctt_death = -1;
             value_result = gs.get_value(source_object, "committee_review/did_discrimination_contribute_to_the_death");
             if
@@ -545,6 +572,289 @@ namespace mmria.server.utils
             {
                 cr_ddctt_death = test_int;
             }
+
+            int cr_dmhcctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_dmhcctt_death = test_int;
+            }
+
+            int cr_dsudctt_death = -1;
+            value_result = gs.get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+            if
+            (
+                !value_result.is_error &&
+                value_result.result != null && 
+                 int.TryParse(value_result.result.ToString(), out test_int)
+            )
+            {
+                cr_dsudctt_death = test_int;
+            }
+
+
+            if(cr_do_revie_is_date && cr_p_relat_is_1)
+            {
+                dqr_detail.n44.t = 1;
+                dqr_detail.n45.t = 1;
+
+                // n44 (cr_wtd_preve IN ('1','0') OR cr_cta_outco IN ('0','1','2'))
+                if
+                (
+                    cr_wtd_preve == 0 ||
+                    cr_wtd_preve == 1 ||
+                    cr_cta_outco == 0 ||
+                    cr_cta_outco == 1 ||
+                    cr_cta_outco == 2
+                )
+                {
+                    dqr_detail.n44.p = 1;
+                }
+
+                    /*n45 ( 
+                        (
+                            cr_wtd_preve = '1' AND 
+                            cr_cta_outco IN ('0','1','3','9999')
+                        ) OR 
+                        (
+                            cr_wtd_preve='0' AND
+                            cr_cta_outco IN ('2', '3','9999')
+                        ) 
+                        OR 
+                        (
+                            cr_wtd_preve='9999' AND 
+                            cr_cta_outco IN ('3', '9999')
+                        )
+                     )
+
+                    */
+                if
+                ( 
+                    (
+                        cr_wtd_preve == 1 && 
+                        (
+                            cr_cta_outco == 0 ||
+                            cr_cta_outco == 1 ||
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    ) 
+                    || 
+                    (
+                        cr_wtd_preve==0 &&
+                        (
+                            cr_cta_outco == 2 ||
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    ) 
+                    || 
+                    (
+                        cr_wtd_preve==9999 && 
+                        (
+                            cr_cta_outco == 3 ||
+                            cr_cta_outco == 9999
+                        )
+                    )
+                )
+                {
+                    dqr_detail.n45.p = 1;
+                }
+            }
+            
+
+
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+            (
+                A3.cr_wtd_preve='1' OR 
+                A3.cr_cta_outco='0' OR 
+                A3.cr_cta_outco='1'
+            )
+             AND 
+                A2.cr_p_relat = '1' 
+            */
+            if 
+            (
+                cr_do_revie_is_date && 
+                (
+                    cr_wtd_preve == 1 ||
+                    cr_cta_outco == 0 ||
+                    cr_cta_outco == 1
+                )
+                && cr_p_relat_is_1
+            )
+            {
+
+                //n46
+                //cr_ddctt_death IN ('1', '2')
+                if
+                (
+                    cr_ddctt_death == 1 ||
+                    cr_ddctt_death == 2
+                )
+                {
+                    dqr_detail.n46.t = 1;
+                }
+                
+
+                //n47
+                // cr_dmhcctt_death IN ('1', '2')
+                if
+                (
+                    cr_dmhcctt_death == 1 ||
+                    cr_dmhcctt_death == 2
+                )
+                {
+                    dqr_detail.n47.t = 1;
+                }
+
+                //n48
+                // cr_dsudctt_death IN ('1', '2')
+                if
+                (
+                    cr_dsudctt_death == 1 ||
+                    cr_dsudctt_death == 2
+                )
+                {
+                    dqr_detail.n48.t = 1;
+                }
+                
+
+
+                // n49
+                dqr_detail.n49.t = 1;
+               
+
+
+                var grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
+                if
+                (
+                    !grid_value_result.is_error &&
+                    grid_value_result.result != null 
+                )
+                {
+
+                    foreach(var (index, value) in grid_value_result.result)
+                    {
+                        if
+                        (
+                            value != null &&
+                            int.TryParse(value.ToString(), out test_int)
+                        )
+                        {
+                            //n46
+                            //cr_ddctt_death IN ('1', '2') AND (CDF_26 = 1 OR CDF_27 = 1 OR CDF_28 = 1)
+                            if
+                            (
+                                (
+                                    cr_ddctt_death == 1 ||
+                                    cr_ddctt_death == 2 
+                                )
+                                &&
+                                (
+                                    test_int == 1 ||
+                                    test_int == 27 ||
+                                    test_int == 28
+                                )
+                            )
+                            {
+                     
+                                dqr_detail.n46.p = 1;
+                            }
+                            //n47
+                            // cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+                            if
+                            (
+                                (
+                                    cr_dmhcctt_death == 1 ||
+                                    cr_dmhcctt_death == 2
+                                 )
+                                 && test_int == 6
+                            )
+                            {
+                                dqr_detail.n47.p = 1;
+                            }
+                            //n48
+                            // cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+                            if
+                            (
+                                (
+                                    cr_dsudctt_death == 1 ||
+                                    cr_dsudctt_death == 2
+                                )
+                                && test_int == 7
+                            )
+                            {
+                                dqr_detail.n48.p = 1;
+                            }
+                        }
+                    }
+
+                     // n49
+                    // ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+                    //crcfw_class:  /committee_review/critical_factors_worksheet/class
+                    //crcfw_descr:  /committee_review/critical_factors_worksheet/description
+                    //crcfw_c_recom:  /committee_review/critical_factors_worksheet/committee_recommendations
+
+                    if(gs.get_form(source_object, "committee_review") is var form)
+                    {
+                        if(gs.get_grid(form, "critical_factors_worksheet") is var grid_result)
+                        {
+                            var is_pass = true;
+                            foreach(IDictionary<string, object> item_object in grid_result)
+                            {
+                                var crcfw_class = gs.get_number(item_object, "class");
+                                var crcfw_descr = gs.get_string(item_object, "description");
+                                var crcfw_c_recom = gs.get_string(item_object, "committee_recommendations");
+
+                                if
+                                (
+                                    crcfw_class != null && crcfw_class != 9999 && 
+                                    !string.IsNullOrWhiteSpace(crcfw_descr) && 
+                                    ! string.IsNullOrWhiteSpace(crcfw_c_recom)
+                                )
+                                {
+                                    is_pass = is_pass && true;
+                                }
+                                else
+                                {
+                                    is_pass = is_pass && false;
+                                }
+                            }
+
+                            if(is_pass)
+                            {
+                                dqr_detail.n49.p = 1;
+                            }
+                        }
+                    }
+                }
+                
+
+            }
+
+
+            /*
+                ( 
+                    (cr_wtd_preve='0' AND cr_cta_outco IN ('2', '3','9999')) OR 
+                    (cr_wtd_preve = '1' AND cr_cta_outco IN ('0','1','3','9999')) OR
+                    (cr_wtd_preve='9999' AND cr_cta_outco IN ('3', '9999')) 
+                )
+
+            */
+
+
+
+            //n46
+
+
+
 
             //cr_ddctt_death IN ('1', '2')
             /*
@@ -559,58 +869,48 @@ namespace mmria.server.utils
 
             */ 
 
-            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
-            {
-                (true, 0, 1) => 1,
-                (true, 0, 2) => 1,
-                (true, 1, 1) => 1,
-                (true, 1, 2) => 1,
-                _ => 0
-            };
-            var grid_value_result = gs.get_grid_value(source_object, "committee_review/critical_factors_worksheet/class");
-            if
-            (
-                !grid_value_result.is_error &&
-                grid_value_result.result != null 
-            )
-            {
-                foreach(var (index, cdf_class_dynamic) in grid_value_result.result)
-                {
-                    int cdf_class = -1;
-                    if
-                    (
-                        cdf_class_dynamic != null &&
-                        int.TryParse(cdf_class_dynamic.ToString(), out cdf_class)
-                    )
-                    {
-                        if
-                        (
-                            cdf_class == 26 || 
-                            cdf_class == 27 || 
-                            cdf_class == 28 
-                        )
-                        {
-                            dqr_detail.n46.t = (cr_p_relat_is_1, cr_wtd_preve, cr_ddctt_death) switch
-                            {
-                                (true, 0, 1) => 1,
-                                (true, 0, 2) => 1,
-                                (true, 1, 1) => 1,
-                                (true, 1, 2) => 1,
-                                _ => 0
-                            };
-                            break;
-                        }
-                    }
-                }
-                cr_ddctt_death = test_int;
-            }
 
-            dqr_detail.n47.t = 0;
-            dqr_detail.n47.p = 0;
-            dqr_detail.n48.t = 0;
-            dqr_detail.n48.p = 0;
-            dqr_detail.n49.t = 0;
-            dqr_detail.n49.p = 0;
+
+            //n47
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = cr_dmhcctt_death IN ('1', '2')
+p = cr_dmhcctt_death IN ('1', '2') AND (CDF_06 = 1)
+
+            cr_dmhcctt_death:  /committee_review/did_mental_health_conditions_contribute_to_the_death
+            */
+
+
+
+            //n48
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = cr_dsudctt_death IN ('1', '2')
+p = cr_dsudctt_death IN ('1', '2') AND (CDF_07 = 1)
+
+            cr_dsudctt_death: /committee_review/did_substance_use_disorder_contribute_to_the_death
+            */
+
+
+
+            //n49
+            /*
+            Valid Review Date: IsDate([cr_do_revie]) = True  AND
+  (A3.cr_wtd_preve='1' OR A3.cr_cta_outco='0' OR A3.cr_cta_outco='1') AND 
+  A2.cr_p_relat = '1'
+
+n = 
+p = ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> '' AND [crcfw_c_recom] IS NOT NULL AND [crcfw_c_recom] <> '')
+
+            cr_dsudctt_death: /committee_review/did_substance_use_disorder_contribute_to_the_death
+            */
+
 
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
