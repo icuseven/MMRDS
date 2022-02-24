@@ -38,6 +38,7 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
+        { name: "MUndCofDeath22", title: "(blank)" },
         ],    
     }
 );
@@ -77,7 +78,7 @@ indicator_map.set
         indicator_id : "mDeathPrevent",
         title:"Preventability",
         description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
-        blank_field_id: "MDeathPrevent3",
+        blank_field_id: "MDeathPrevent4",
 
         chart_title:"Preventability",
         table_title:"Preventability",
@@ -91,6 +92,7 @@ indicator_map.set
         { name: "MDeathPrevent1", title: "Preventable" },
         { name: "MDeathPrevent2", title: "Not Preventable" },
         { name: "MDeathPrevent3", title: "Unable to Determine" },
+        { name: "MDeathPrevent4", title: "(blank)" },
         ],
     }
 );
