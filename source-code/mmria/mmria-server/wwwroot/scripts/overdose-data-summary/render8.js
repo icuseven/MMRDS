@@ -256,29 +256,12 @@ async function render8_table(p_metadata, p_data_list)
     </thead>
     <tbody>
         <tr>
-            <td>Obesity</td>
-            <td align=right>${totals.get("MCauseD16")}</td>
-            <td align=right>${totals.get("MCauseD17")}</td>
-            <td align=right>${totals.get("MCauseD18")}</td>
-            <td align=right>${totals.get("MCauseD19")}</td>
-        </tr>
-        <tr>
-            <td>Discrimination</td>
-            <td align=right>${totals.get("MCauseD21")}</td>
-            <td align=right>${totals.get("MCauseD22")}</td>
-            <td align=right>${totals.get("MCauseD23")}</td>
-            <td align=right>${totals.get("MCauseD24")}</td>
-        </tr>
-
-        <tr>
             <td>Mental health conditions</td>
             <td align=right>${totals.get("MCauseD1")}</td>
             <td align=right>${totals.get("MCauseD2")}</td>
             <td align=right>${totals.get("MCauseD3")}</td>
             <td align=right>${totals.get("MCauseD4")}</td>
         </tr>
-
-
         <tr>
             <td>Substance use disorder</td>
             <td align=right>${totals.get("MCauseD6")}</td>
@@ -286,7 +269,6 @@ async function render8_table(p_metadata, p_data_list)
             <td align=right>${totals.get("MCauseD8")}</td>
             <td align=right>${totals.get("MCauseD9")}</td>
         </tr>
-
         <tr>
             <td>Suicide</td>
             <td align=right>${totals.get("MCauseD11")}</td>
@@ -294,24 +276,13 @@ async function render8_table(p_metadata, p_data_list)
             <td align=right>${totals.get("MCauseD13")}</td>
             <td align=right>${totals.get("MCauseD14")}</td>
         </tr>
-
-
-        <tr>
-            <td>Homicide</td>
-            <td align=right>${totals.get("MCauseD26")}</td>
-            <td align=right>${totals.get("MCauseD27")}</td>
-            <td align=right>${totals.get("MCauseD28")}</td>
-            <td align=right>${totals.get("MCauseD29")}</td>
-        </tr>
     </tbody>
 
     </table><br/>
-    <p><strong>Obesity - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD20")}</p>
-    <p><strong>Discrimination - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD25")}</p>
     <p><strong>Mental health conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
     <p><strong>Substance use disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
     <p><strong>Suicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD15")}</p>
-    <p><strong>Homicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD30")}</p>
+
     <br/>
     <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
     <br/>

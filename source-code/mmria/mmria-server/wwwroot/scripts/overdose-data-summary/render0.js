@@ -4,7 +4,9 @@ function render0()
     ${render_header()}
 <h3><strong>Overview</strong></h3>
 
-<p>This report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related. This report covers the deaths in MMRIA where the committee indicated the means of fatal injury was Poisoning/Overdose.</p>
+<p>This report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related.</p>
+
+<p><strong>This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section, on the Committee Decisions Form in MMRIA.</strong></p>
 
 <p>The report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Power BI report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Power BI report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. </p>
 

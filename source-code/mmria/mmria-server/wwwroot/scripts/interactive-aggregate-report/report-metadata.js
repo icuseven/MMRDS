@@ -81,7 +81,6 @@ indicator_map.set
         blank_field_id: "MDeathPrevent4",
 
         chart_title:"Preventability",
-        table_title:"Preventability",
         x_axis_title:"Preventability",
         y_axis_title:"Number of deaths",
         
@@ -135,7 +134,6 @@ indicator_map.set
 
 
         chart_title:"OMB Race Recode",
-        table_title:"OMB Race Recode",
         x_axis_title:"Number of deaths by OMB Race Recode",
         y_axis_title:"Number of deaths",
 
@@ -168,7 +166,6 @@ indicator_map.set
 
 
         chart_title:"Race",
-        table_title:"Race",
         x_axis_title:"Number of deaths by Race",
         y_axis_title:"Number of deaths",
         
@@ -208,7 +205,6 @@ indicator_map.set
         blank_field_id: "MRaceEth20",
 
         chart_title:"Race/Ethnicity",
-        table_title:"Race/Ethnicity",
         x_axis_title:"Number of deaths by Race/Ethnicity",
         y_axis_title:"Number of deaths",
         
@@ -251,7 +247,6 @@ indicator_map.set
 
 
         chart_title:"Age",
-        table_title:"Age",
         x_axis_title:"Number of deaths by Age",
         y_axis_title:"Number of deaths",
         
@@ -284,7 +279,6 @@ indicator_map.set
 
 
         chart_title:"Education",
-        table_title:"Education",
         x_axis_title:"Number of deaths by Education",
         y_axis_title:"Number of deaths",
         
@@ -368,14 +362,11 @@ indicator_map.set
         blank_field_id: "MEmoStress12",
 
         chart_title:"Emotional Stress",
-        table_title:"Emotional Stress",
         x_axis_title:"Number of deaths by Emotional Stress",
         y_axis_title:"Number of deaths",
         
         table_title:"Number of deaths by Emotional Stress",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
-        
-
         
         field_id_list : [
         { name: "MEmoStress3", title: "Child Protective Services involvement" },
@@ -405,7 +396,7 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
-        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
+        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. Each person can be placed into only one category for the mother’s living arrangements at time of death. Regarding homelessness, each person can have multiple time periods entered, and the graph reflects the number of persons who experienced homelessness in relation to pregnancy at that time period.",
         blank_field_id: "MLivD7",
 
         chart_title:"Mother&apos;s living arrangements at time of death",
@@ -474,7 +465,6 @@ indicator_map.set
 
 
         chart_title:"Incarceration",
-        table_title:"Incarceration",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
@@ -504,7 +494,6 @@ indicator_map.set
         blank_field_id: "MEviSub3",
 
         chart_title:"Substance Abuse Evidence",
-        table_title:"Substance Abuse Evidence",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
@@ -528,7 +517,6 @@ indicator_map.set
         blank_field_id: "MHxSub3",
 
         chart_title:"title not specified",
-        table_title:"title not specified",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
