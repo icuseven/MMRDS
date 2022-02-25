@@ -368,15 +368,8 @@ function getBase64ImageFromURL(url) {
 
 // create a unique PDF name based on datetime
 function createNamePDF() {
-	let today = new Date();
-	let yy = today.getFullYear() + ':';
-	let mm = fmt2Digits(today.getMonth() + 1) + ':';
-	let dd = fmt2Digits(today.getDate()) + '_';
-	let hh = fmt2Digits(today.getHours()) + ':';
-	let mn = fmt2Digits(today.getMinutes()) + ':';
-	let ss = fmt2Digits(today.getSeconds()) + '.pdf';
-
-	return 'mmria_' + yy + mm + dd + hh + mn + ss;
+	let utcDate = new Date().toISOString();
+	return `${g_d.home_record.record_id}` + '_' + utcDate + '.pdf';
 }
 
 // check field for null

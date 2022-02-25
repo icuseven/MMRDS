@@ -23,7 +23,7 @@ function data_quality_report_render(p_quarters)
 						</div>
 					</div>
 					<div class="mb-4">
-						<label for="quarters-list" class="mb-0 font-weight-bold mr-2">Select Export Quarter:</label>
+						<label for="quarters-list" class="mb-0 font-weight-bold mr-2">Select Quarter:</label>
 						<select 
 							name="quarters-list"
 							id="quarters-list"
@@ -87,30 +87,25 @@ function data_quality_report_render(p_quarters)
 
 function updateQuarter(e) 
 {
-	// console.log('updateQuarter: ', e.target.value);
 	selectedQuarter = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateReportType(e)
 {
-	// console.log('updateReportType: ', e.target.value);
 	reportType = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateJurisdiction(e)
 {
-	// console.log('updateJurisdiction: ', e.target.value);
 	jurisdiction = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateJurisdictionExclude(e)
 {
-	// console.log('updateJurisdictionExclude: ', e.target.value);
 	jurisdictionExclude = ( e.target.value == 'None' ) ? '' : e.target.value;
-	// console.log('jurisdictionExclude: ', jurisdictionExclude);
 	renderQuarterInfo();
 }
 
@@ -127,9 +122,7 @@ function renderQuarterInfo()
 
 function render_data_quality_report_quarters() 
 {
-	const result = [];
-
-	console.log('in render_data_quality_report_quarters');
+	let result = [];
 
 	// Build the dropdown list
 	g_quarters.map((value, index) => {
@@ -142,28 +135,154 @@ function render_data_quality_report_quarters()
 
 async function download_data_quality_report_button_click()
 {
+    let selected_quarter = document.getElementById('quarters-list').value;
+    let arr = selected_quarter.split("-");
+    let quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
 
-	console.log('in download_data_quality_report_button_click');
-
-    const selected_quarter = document.getElementById('quarters-list').value;
-    // const selected_quarter = "Q3-2021";
-
-    // 2021.5
-
-    const arr = selected_quarter.split("-");
-    const quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
-
-    const dqr_detail_data = await $.ajax
+    let dqr_detail_data = await $.ajax
     ({
         url: `${location.protocol}//${location.host}/api/dqr-detail/${selected_quarter}`,
     });
       
-		const detail_data = {
-			n01: 0,
-			n02: 0,
+		let detail_data = {
+			questions: [
+				{
+					qid: 39,
+					typ: 'Current Quarter, Missing',
+					detail: [
+						{
+							num: 114,
+							rec_id: 'WI-2016-8592',
+							dt_death: '10/11/2016',
+							dt_com_rev: '05/14/2021',
+							ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+						{
+							num: 115,
+							rec_id: 'WI-2017-0052',
+							dt_death: '10/02/2017',
+							dt_com_rev: '11/20/2020',
+							ia_id: '7e632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+						{
+							num: 116,
+							rec_id: 'WI-2017-4726',
+							dt_death: '10/17/2017',
+							dt_com_rev: '05/14/2021',
+							ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+					],
+				},
+				{
+					qid: 39,
+					typ: 'Current Quarter, Unknown',
+					detail: [],
+				},
+				{
+					qid: 39,
+					typ: 'Previous 4 Quarters, Missing',
+					detail: [
+						{
+							num: 314,
+							rec_id: 'WI-2016-8592',
+							dt_death: '10/11/2016',
+							dt_com_rev: '05/14/2021',
+							ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+						{
+							num: 315,
+							rec_id: 'WI-2017-0052',
+							dt_death: '10/02/2017',
+							dt_com_rev: '11/20/2020',
+							ia_id: '7e632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+						{
+							num: 316,
+							rec_id: 'WI-2017-4726',
+							dt_death: '10/17/2017',
+							dt_com_rev: '05/14/2021',
+							ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+					],
+				},
+				{
+					qid: 39,
+					typ: 'Previous 4 Quarters, Unknown',
+					detail: [],
+				},
+				{
+					qid: 40,
+					typ: 'Current Quarter, Missing',
+					detail: [
+						{
+							num: 1,
+							rec_id: 'OR-2019-4806',
+							dt_death: '05/27/2009',
+							dt_com_rev: '07/19/2021',
+							ia_id: 'd1632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+						{
+							num: 2,
+							rec_id: 'TN-2020-4226',
+							dt_death: '01/10/2019',
+							dt_com_rev: '08/31/2021',
+							ia_id: '2c632b47-4950-a4d1-fa17-e7368eaeefe',
+						},
+					],
+				},
+			],
+			cases: [
+				{
+					rec_id: 'WI-2017-7951',
+					ab_case_id: '',
+					dt_death: '06/10/2017',
+					dt_com_rev: '09/11/2020',
+					ia_id: '2c632b47-4950-a4d1-fa17-e7368eaeefe',
+					detail: [
+						{
+							qid: 19,
+							typ: 'Previous 4 Quarters, Missing',
+						},
+						{
+							qid: 29,
+							typ: 'Previous 4 Quarters, Missing',
+						},
+						{
+							qid: 32,
+							typ: 'Previous 4 Quarters, Missing',
+						},
+						{
+							qid: 39,
+							typ: 'Previous 4 Quarters, Unknown',
+						},
+					]
+				},
+				{
+					rec_id: 'WV-2019-1760',
+					ab_case_id: '2019EleH',
+					dt_death: '01/15/2019',
+					dt_com_rev: '09/09/2021',
+					ia_id: '8f032b47-4950-a4d1-fa17-e7368eaeefe',
+					detail: [
+						{
+							qid: 19,
+							typ: 'Current Quarter, Unknown',
+						},
+						{
+							qid: 38,
+							typ: 'Current Quarter, Missing',
+						},
+						{
+							qid: 39,
+							typ: 'Current Quarter, Unknown',
+						},
+					]
+				},
+			],
+			total: 667,
 		};
 
-    const summary_data = {
+    let summary_data = {
         n01:  0,
         n02 : 0,
         n03 : [ 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -337,24 +456,10 @@ async function download_data_quality_report_button_click()
 
 		let cnt = 0;
 
-		console.log('*** quarter_number: ', quarter_number);
-
     for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
-        const item = dqr_detail_data.docs[i];
+        let item = dqr_detail_data.docs[i];
 
-				// if ( item.add_quarter_name == 'Q3-2021' )
-				// {
-				// 	console.log('*** item.add_quarter_name: ', item.add_quarter_name );
-				// 	console.log('*** item.add_quarter_number: ', item.add_quarter_number );
-				// 	console.log('*** item.cmp_quarter_name: ', item.cmp_quarter_name );
-				// 	console.log('*** item.cmp_quarter_number: ', item.cmp_quarter_number );
-				// 	console.log('*** _id: ', item._id);
-				// 	console.log('***** cnt: ', ++cnt);
-				// 	console.log('***** i: ', i);
-				// }
-
-        // console.log('*** quarter: ', item.quarter_name);
         if ( item.add_quarter_number <= quarter_number ) 
         {
             // Table One - 01) to 05)
@@ -516,8 +621,14 @@ async function download_data_quality_report_button_click()
 				let fld = 'n' + i;
 
 				// Check for zero before doing the divide
-				if ( summary_data[fld].s.pn > 0 ) summary_data[fld].s.pp = summary_data[fld].s.tn / summary_data[fld].s.pn;
-				if ( summary_data[fld].p.pn > 0 ) summary_data[fld].p.pp = summary_data[fld].p.tn / summary_data[fld].p.pn;
+				if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+				{
+					summary_data[fld].s.pp = summary_data[fld].s.pn / summary_data[fld].s.tn;
+				}
+				if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+				{
+					summary_data[fld].p.pp = summary_data[fld].p.pn / summary_data[fld].p.tn;
+				}
 			}
 		}
 
@@ -543,7 +654,7 @@ async function download_data_quality_report_button_click()
 
 				if ( i < 3 ) qStr += ', ';
 			}
-			console.log('in getPrev 4 Q: ', arr, ' - ', qStr );
+			// console.log('in getPrev 4 Q: ', arr, ' - ', qStr );
 
 			return qStr;
 		}
@@ -557,56 +668,29 @@ async function download_data_quality_report_button_click()
 		if ( reportType == 'Summary' || reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report for: ${ jurisdiction }`,
-				subtitle: `Reporting Period: ${ selected_quarter }`
+				title: `Data Quality Report for: ${ jurisdiction }` + `${ ( jurisdictionExclude.length > 0 ? ' - Exclude ' + jurisdictionExclude : '')}`,
+				subtitle: `Reporting Period: ${ selected_quarter }`,
 			};
 
-			create_data_quality_report_download
-			(
-					'Summary',
-					summary_data, 
-					selected_quarter, 
-					jurisdiction,
-					jurisdictionExclude,
-					headers
-			);
+			await create_pdf(
+				'Summary', summary_data, selected_quarter, headers );
 		}
 
 		// Create Detail Report if reportType is Detail or Summary & Detail
 		if ( reportType == 'Detail' || reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report Details for: ${ jurisdiction }`,
-				subtitle: `Reporting Period: ${ selected_quarter } - Previous 4 Periods: ${ getPreviousFourQuarters( selected_quarter )}`
+				title: `Data Quality Report Details for: ${ jurisdiction }` + `${ ( jurisdictionExclude.length > 0 ? ' - Exclude ' + jurisdictionExclude : '')}`,
+				subtitle: `Reporting Period: ${ selected_quarter } - Previous 4 Periods: ${ getPreviousFourQuarters( selected_quarter )}`,
 			};
 			
-			create_data_quality_report_download
-			(
-					'Detail',
-					detail_data, 
-					selected_quarter, 
-					jurisdiction,
-					jurisdictionExclude,
-					headers
-			);
+			await create_pdf( 'Detail', detail_data, selected_quarter, headers );
 		}
 }
 
-// This function will call the pdf function
-function download_data_quality_report_pdf(selQuar) 
+// Function to call the pdfMake stuff
+async function create_pdf( report_type, data, quarter, headers )
 {
-	// Find out if need details for the quarter report is needed
-	let needDetails = document.getElementById('quarter-details');
-	console.log('needDetails: ', needDetails.checked);
-
-	// TODO: Figure out where to get the jurisdiction 
-	let jurisdiction = 'All Jurisdictions';
-	console.log('Download the PDF: ');
-	create_data_quality_report_download
-    (
-        {  n01:  7930 }, 
-        selQuar, 
-        jurisdiction
-    );
+	// Call to pdfMake
+	await create_data_quality_report_pdf( report_type, data, quarter, headers );
 }
-
