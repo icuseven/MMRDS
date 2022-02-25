@@ -80,17 +80,17 @@ indicator_map.set
         description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
         blank_field_id: "MDeathPrevent4",
 
-        chart_title:"Preventability",
-        x_axis_title:"Preventability",
+        chart_title:"Number of deaths by preventability",
+        x_axis_title:"MMRC preventability determination",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by preventability",
+        table_title:"MMRC preventability determination",
         table_title_508:"Table showing number of deaths by preventability.",
 
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
         { name: "MDeathPrevent2", title: "Not Preventable" },
-        { name: "MDeathPrevent3", title: "Unable to Determine" },
+        { name: "MDeathPrevent3", title: "Unable to Determine Preventability" },
         { name: "MDeathPrevent4", title: "(blank)" },
         ],
     }
@@ -133,18 +133,18 @@ indicator_map.set
         blank_field_id: "MOMBRaceRcd10",
 
 
-        chart_title:"OMB Race Recode",
-        x_axis_title:"Number of deaths by OMB Race Recode",
+        chart_title:"Number of deaths by OMB race recode",
+        x_axis_title:"OMB Race Recode",
         y_axis_title:"Number of deaths",
 
-        table_title:"Number of deaths by OMB Race Recode",
+        table_title:"OMB Race Recode",
         table_title_508:"Table showing number of deaths by OMB Race Recode.",    
 
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
-        { name: "MOMBRaceRcd2", title: "Black" },
-        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
-        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
+        { name: "MOMBRaceRcd2", title: "Black or African American" },
+        { name: "MOMBRaceRcd3", title: "American Indian or Alaska Native" },
+        { name: "MOMBRaceRcd4", title: "Native Hawaiian or Pacific Islander" },
         { name: "MOMBRaceRcd5", title: "Asian" },
         { name: "MOMBRaceRcd6", title: "Bi-Racial" },
         { name: "MOMBRaceRcd7", title: "Multi-Racial" },
