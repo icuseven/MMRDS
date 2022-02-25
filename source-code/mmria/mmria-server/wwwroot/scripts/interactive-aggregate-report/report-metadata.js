@@ -38,6 +38,7 @@ indicator_map.set
         { name: "MUndCofDeath19", title: "Gastrointestinal Disorders" },
         { name: "MUndCofDeath20", title: "Mental Health Conditions" },
         { name: "MUndCofDeath21", title: "Unknown Cause of Death" },
+        { name: "MUndCofDeath22", title: "(blank)" },
         ],    
     }
 );
@@ -77,20 +78,20 @@ indicator_map.set
         indicator_id : "mDeathPrevent",
         title:"Preventability",
         description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
-        blank_field_id: "MDeathPrevent3",
+        blank_field_id: "MDeathPrevent4",
 
-        chart_title:"Preventability",
-        table_title:"Preventability",
-        x_axis_title:"Preventability",
+        chart_title:"Number of deaths by preventability",
+        x_axis_title:"MMRC preventability determination",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by preventability",
+        table_title:"MMRC preventability determination",
         table_title_508:"Table showing number of deaths by preventability.",
 
         field_id_list : [
         { name: "MDeathPrevent1", title: "Preventable" },
         { name: "MDeathPrevent2", title: "Not Preventable" },
-        { name: "MDeathPrevent3", title: "Unable to Determine" },
+        { name: "MDeathPrevent3", title: "Unable to Determine Preventability" },
+        { name: "MDeathPrevent4", title: "(blank)" },
         ],
     }
 );
@@ -132,19 +133,18 @@ indicator_map.set
         blank_field_id: "MOMBRaceRcd10",
 
 
-        chart_title:"OMB Race Recode",
-        table_title:"OMB Race Recode",
-        x_axis_title:"Number of deaths by OMB Race Recode",
+        chart_title:"Number of deaths by OMB race recode",
+        x_axis_title:"OMB Race Recode",
         y_axis_title:"Number of deaths",
 
-        table_title:"Number of deaths by OMB Race Recode",
+        table_title:"OMB Race Recode",
         table_title_508:"Table showing number of deaths by OMB Race Recode.",    
 
         field_id_list : [
         { name: "MOMBRaceRcd1", title: "White" },
-        { name: "MOMBRaceRcd2", title: "Black" },
-        { name: "MOMBRaceRcd3", title: "American Indian/Alaska Native" },
-        { name: "MOMBRaceRcd4", title: "Pacific Islander" },
+        { name: "MOMBRaceRcd2", title: "Black or African American" },
+        { name: "MOMBRaceRcd3", title: "American Indian or Alaska Native" },
+        { name: "MOMBRaceRcd4", title: "Native Hawaiian or Pacific Islander" },
         { name: "MOMBRaceRcd5", title: "Asian" },
         { name: "MOMBRaceRcd6", title: "Bi-Racial" },
         { name: "MOMBRaceRcd7", title: "Multi-Racial" },
@@ -166,7 +166,6 @@ indicator_map.set
 
 
         chart_title:"Race",
-        table_title:"Race",
         x_axis_title:"Number of deaths by Race",
         y_axis_title:"Number of deaths",
         
@@ -206,7 +205,6 @@ indicator_map.set
         blank_field_id: "MRaceEth20",
 
         chart_title:"Race/Ethnicity",
-        table_title:"Race/Ethnicity",
         x_axis_title:"Number of deaths by Race/Ethnicity",
         y_axis_title:"Number of deaths",
         
@@ -249,7 +247,6 @@ indicator_map.set
 
 
         chart_title:"Age",
-        table_title:"Age",
         x_axis_title:"Number of deaths by Age",
         y_axis_title:"Number of deaths",
         
@@ -282,7 +279,6 @@ indicator_map.set
 
 
         chart_title:"Education",
-        table_title:"Education",
         x_axis_title:"Number of deaths by Education",
         y_axis_title:"Number of deaths",
         
@@ -309,11 +305,11 @@ indicator_map.set
     description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
     blank_field_id: "",
 
-    chart_title:"Circumstances surrounding death",
-    x_axis_title:"Committee determinations on circumstances surrounding death",
+    chart_title:"Frequency of selected committee determinations on circumstances surrounding death",
+    x_axis_title:"Committee determination of cause of death",
     y_axis_title:"Number of deaths",
     
-    table_title:"Frequency of selected committee determinations on circumstances surrounding death.", 
+    table_title:"Committee determination of cause of death", 
     table_title_508:"Table showing number of deaths by Cause of Death.",
     
 
@@ -366,14 +362,11 @@ indicator_map.set
         blank_field_id: "MEmoStress12",
 
         chart_title:"Emotional Stress",
-        table_title:"Emotional Stress",
         x_axis_title:"Number of deaths by Emotional Stress",
         y_axis_title:"Number of deaths",
         
         table_title:"Number of deaths by Emotional Stress",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
-        
-
         
         field_id_list : [
         { name: "MEmoStress3", title: "Child Protective Services involvement" },
@@ -403,7 +396,7 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
-        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
+        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. Each person can be placed into only one category for the mother’s living arrangements at time of death. Regarding homelessness, each person can have multiple time periods entered, and the graph reflects the number of persons who experienced homelessness in relation to pregnancy at that time period.",
         blank_field_id: "MLivD7",
 
         chart_title:"Mother&apos;s living arrangements at time of death",
@@ -472,7 +465,6 @@ indicator_map.set
 
 
         chart_title:"Incarceration",
-        table_title:"Incarceration",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
@@ -502,7 +494,6 @@ indicator_map.set
         blank_field_id: "MEviSub3",
 
         chart_title:"Substance Abuse Evidence",
-        table_title:"Substance Abuse Evidence",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
@@ -526,7 +517,6 @@ indicator_map.set
         blank_field_id: "MHxSub3",
 
         chart_title:"title not specified",
-        table_title:"title not specified",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
         
