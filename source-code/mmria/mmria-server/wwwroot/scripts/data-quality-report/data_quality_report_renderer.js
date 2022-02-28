@@ -2,7 +2,6 @@
 var selectedQuarter;
 var reportType;
 var jurisdiction;
-var jurisdictionExclude;
 
 function data_quality_report_render(p_quarters) 
 {
@@ -11,7 +10,6 @@ function data_quality_report_render(p_quarters)
 	selectedQuarter = p_quarters[0];
 	reportType = 'Summary';
 	jurisdiction = 'New York';
-	jurisdictionExclude = '';
 
 	result.push(`
 		<div class="row">
@@ -33,18 +31,6 @@ function data_quality_report_render(p_quarters)
 						</select>
 					</div>
 					<div class="mb-4">
-						<label for="report-type" class="mb-0 font-weight-bold mr-2">Select Report Type:</label>
-						<select
-							name="report-type"
-							id="report-type"
-							onchange="updateReportType(event)"
-						>
-							<option value="Summary">Summary Report</option>
-							<option value="Detail">Detail Report</option>
-							<option value="Summary & Detail">Summary & Detail Report</option>
-						</select>
-					</div>
-					<div class="mb-4">
 						<label for="jurisdiction" class="mb-0 font-weight-bold mr-2">Select Jurisdiction:</label>
 						<select
 							name="jurisdiction"
@@ -57,16 +43,19 @@ function data_quality_report_render(p_quarters)
 						</select>
 					</div>
 					<div class="mb-4">
-						<label for="jurisdiction-exclude" class="mb-0 font-weight-bold mr-2">Select Jurisdiction to Exclude:</label>
-						<select
-							name="jurisdiction-exclude"
-							id="jurisdiction-exclude"
-							onchange="updateJurisdictionExclude(event)"
-						>
-						<option value="None">None</option>
-						<option value="New York City">New York City</option>
-						<option value="Brooklyn">Brooklyn</option>
-					</select>
+						<div>Select Report Type:</div>
+						<div>
+							<input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
+							<label for="summary-report" class="mb-0 font-weight-normal mr-2">Summary Report</label>
+						</div>
+						<div>
+							<input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
+							<label for="detail-report" class="mb-0 font-weight-normal mr-2">Detail Report</label>
+						</div>
+						<div>
+							<input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
+							<label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
+						</div>
 					</div>
 				</div>
 				<div class="card-footer bg-gray-13">
@@ -100,12 +89,6 @@ function updateReportType(e)
 function updateJurisdiction(e)
 {
 	jurisdiction = e.target.value;
-	renderQuarterInfo();
-}
-
-function updateJurisdictionExclude(e)
-{
-	jurisdictionExclude = ( e.target.value == 'None' ) ? '' : e.target.value;
 	renderQuarterInfo();
 }
 
@@ -668,7 +651,7 @@ async function download_data_quality_report_button_click()
 		if ( reportType == 'Summary' || reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report for: ${ jurisdiction }` + `${ ( jurisdictionExclude.length > 0 ? ' - Exclude ' + jurisdictionExclude : '')}`,
+				title: `Data Quality Report for: ${ jurisdiction }`,
 				subtitle: `Reporting Period: ${ selected_quarter }`,
 			};
 
@@ -680,10 +663,21 @@ async function download_data_quality_report_button_click()
 		if ( reportType == 'Detail' || reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report Details for: ${ jurisdiction }` + `${ ( jurisdictionExclude.length > 0 ? ' - Exclude ' + jurisdictionExclude : '')}`,
+				title: `Data Quality Report Details for: ${ jurisdiction }`,
 				subtitle: `Reporting Period: ${ selected_quarter } - Previous 4 Periods: ${ getPreviousFourQuarters( selected_quarter )}`,
 			};
 			
+
+
+			// Test for empty detail
+			// let detail_data2 = {
+			// 	questions: [],
+			// 	cases: [],
+			// 	total: 0,
+			// };
+
+
+
 			await create_pdf( 'Detail', detail_data, selected_quarter, headers );
 		}
 }
