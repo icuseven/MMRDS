@@ -36,7 +36,7 @@ const g_nav_map = new Map();
 g_nav_map.set(0,"Overview");
 g_nav_map.set(1,"Pregnancy-Relatedness");
 g_nav_map.set(2,"Timing of Death");
-g_nav_map.set(3,"Race/Ethniciy");
+g_nav_map.set(3,"Race/Ethnicity");
 g_nav_map.set(4,"Age");
 g_nav_map.set(5,"Education");
 g_nav_map.set(6,"Substance Use");

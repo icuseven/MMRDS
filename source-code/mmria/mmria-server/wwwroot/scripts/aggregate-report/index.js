@@ -40,7 +40,7 @@ g_nav_map.set(3,"Preventability");
 g_nav_map.set(4,"Timing of Death");
 g_nav_map.set(5,"OMB Race Recode");
 g_nav_map.set(6,"Race");
-g_nav_map.set(7,"Race/Ethniciy");
+g_nav_map.set(7,"Race/Ethnicity");
 g_nav_map.set(8,"Age");
 g_nav_map.set(9,"Education");
 g_nav_map.set(10,"Committee Determinations");

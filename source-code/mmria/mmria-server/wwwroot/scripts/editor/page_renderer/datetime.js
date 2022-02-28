@@ -341,13 +341,13 @@ function create_onblur_datetime_event(p_result, p_metadata, p_metadata_path, p_o
 		if (p_ctx)
 		{
 			p_result.push(
-				` onblur="DateTime_Onblur(${p_is_date}, '${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', ${p_ctx.form_index}, ${p_ctx.grid_index})"`
+				` onblur='DateTime_Onblur(${p_is_date}, "${p_object_path}", "${p_metadata_path}", "${p_dictionary_path}", ${p_ctx.form_index}, ${p_ctx.grid_index})'`
 			);
 		}
 		else
 		{
 			p_result.push(
-				` onblur="DateTime_Onblur(${p_is_date}, '${p_object_path}', '${p_metadata_path}', '${p_dictionary_path}', null, null)"`
+				` onblur='DateTime_Onblur(${p_is_date}, "${p_object_path}", "${p_metadata_path}", "${p_dictionary_path}", null, null)'`
 			);
 		}
 	}

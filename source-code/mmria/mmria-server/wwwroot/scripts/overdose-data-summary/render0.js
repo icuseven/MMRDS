@@ -38,7 +38,7 @@ function render0()
 
 <tr onclick="window.location='#3'" style="cursor: pointer;">
 <td><strong>3</strong></td>
-<td><strong><a href="#3">Race/Ethniciy</strong></td>
+<td><strong><a href="#3">Race/Ethnicity</strong></td>
 <td>${indicator_map.get(3).description}</td>
 </tr>
 
