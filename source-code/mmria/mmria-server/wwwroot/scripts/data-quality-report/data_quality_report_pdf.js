@@ -472,64 +472,124 @@ function dqr_detail(ctx) {
 	let retPage = [];
 	let body = [];
 
-	body = format_detail_questions(ctx);
+	// Check to see if Detail Report has no cases
+	if ( ctx.data.questions.length == 0 && ctx.data.cases.length == 0 )
+	{
+		body = format_detail_no_data();
 
-	retPage.push([
+		retPage.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
+			},
+		]);
+	}
+	else
+	{
+		// Add detail records
+		body = format_detail_questions(ctx);
+
+		retPage.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
+			},
+		]);
+
+		body = [];
+		body = format_detail_cases(ctx);
+
+		retPage.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
+			},
+		]);
+
+		body = [];
+		body = format_detail_total(ctx);
+
+		retPage.push([
+			{
+				layout: {
+					defaultBorder: false,
+					paddingLeft: function (i, node) { return 1; },
+					paddingRight: function (i, node) { return 1; },
+					paddingTop: function (i, node) { return 2; },
+					paddingBottom: function (i, node) { return 1; },
+				},
+				width: '*',
+				table: {
+					headerRows: 0,
+					widths: ['*'],
+					body: body,
+				},
+			},
+		]);
+	}
+
+	return retPage;
+}
+
+// Case List by Data Quality Question
+function format_detail_no_data() {
+	let retPage = [];
+	let rows = new Array();
+
+	// Header
+	rows.push([
 		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 1; },
-			},
-			width: '*',
-			table: {
-				headerRows: 0,
-				widths: ['*'],
-				body: body,
-			},
+			text: 'No cases identified with issues in DQR',
+			style: ['pageSubHeader', 'fgRed', 'isBold'],
+			colSpan: '5',
+			alignment: 'center'
 		},
-	]);
-
-	body = [];
-	body = format_detail_cases(ctx);
+		{},{},{},{}
+	],);
 
 	retPage.push([
 		{
 			layout: {
 				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 1; },
 			},
 			width: '*',
 			table: {
 				headerRows: 0,
-				widths: ['*'],
-				body: body,
-			},
-		},
-	]);
-
-	body = [];
-	body = format_detail_total(ctx);
-
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-				paddingLeft: function (i, node) { return 1; },
-				paddingRight: function (i, node) { return 1; },
-				paddingTop: function (i, node) { return 2; },
-				paddingBottom: function (i, node) { return 1; },
-			},
-			width: '*',
-			table: {
-				headerRows: 0,
-				widths: ['*'],
-				body: body,
+				widths: ['*', '*', '*', '*', 'auto'],
+				body: rows,
 			},
 		},
 	]);
