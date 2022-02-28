@@ -124,40 +124,79 @@ async function get_release_version()
     render();
 }
 
-
 function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_review.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+    
 
-    const el = document.getElementById("review_end_date");
-    el.setAttribute("min", p_value);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+
+    if(test_date <= g_filter.date_of_review.end )
+    {
+        g_filter.date_of_review.begin = test_date;
+        const el = document.getElementById("review_end_date");
+        el.setAttribute("min", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("review_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.begin);
+    }
 }
 function review_end_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_review.end = new Date(arr[0], arr[1] - 1, arr[2]);
+    
 
-    const el = document.getElementById("review_begin_date");
-    el.setAttribute("max", p_value);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    if(g_filter.date_of_review.begin <= test_date)
+    {
+        g_filter.date_of_review.end = test_date;
+        const el = document.getElementById("review_begin_date");
+        el.setAttribute("max", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("review_end_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.end);
+    }
 }
 function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_death.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+    
 
-    const el = document.getElementById("death_end_date");
-    el.setAttribute("min", p_value);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    if(test_date <= g_filter.date_of_death.end)
+    {
+        g_filter.date_of_death.begin = test_date;
+        const el = document.getElementById("death_end_date");
+        el.setAttribute("min", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("death_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_death.begin);
+    }
 }
 function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
+    
 
-    const el = document.getElementById("death_begin_date");
-    el.setAttribute("max", p_value);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    if(g_filter.date_of_death.begin <=  test_date)
+    {
+        g_filter.date_of_death.end = test_date;
+        const el = document.getElementById("death_end_date");
+        el.setAttribute("max", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("");
+        el.value = ControlFormatDate(g_filter.date_of_death.end);
+    }
 }
-
 
 
 function  pregnancy_relatedness_all_change(p_control)
