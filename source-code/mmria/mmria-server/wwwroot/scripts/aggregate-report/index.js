@@ -128,24 +128,34 @@ async function get_release_version()
 function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
-
     g_filter.date_of_review.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+
+    const el = document.getElementById("review_end_date");
+    el.setAttribute("min", p_value);
 }
 function review_end_date_change(p_value)
 {
     const arr = p_value.split("-");
-    
     g_filter.date_of_review.end = new Date(arr[0], arr[1] - 1, arr[2]);
+
+    const el = document.getElementById("review_begin_date");
+    el.setAttribute("max", p_value);
 }
 function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
     g_filter.date_of_death.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+
+    const el = document.getElementById("death_end_date");
+    el.setAttribute("min", p_value);
 }
 function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
+
+    const el = document.getElementById("death_begin_date");
+    el.setAttribute("max", p_value);
 }
 
 
