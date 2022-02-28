@@ -22,7 +22,7 @@ function render0()
 
 <tr onclick="window.location='#1'" style="cursor: pointer;">
 <td><strong>1</strong></td>
-<td><strong><a href="#1">Pregnancy relatedness</a></strong></td>
+<td><strong><a href="#1">Pregnancy-Relatedness</a></strong></td>
 <td>${indicator_map.get(1).description}</td>
 </tr>
 

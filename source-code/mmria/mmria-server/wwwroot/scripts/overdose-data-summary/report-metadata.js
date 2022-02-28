@@ -68,20 +68,20 @@ indicator_map.set
         description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
         blank_field_id: "MRaceEth20",
 
-        chart_title:"Race/Ethnicity",
-        table_title:"Race/Ethnicity",
-        x_axis_title:"Number of deaths by Race/Ethnicity",
+        chart_title:"Number of deaths by race/ethnicity",
+        x_axis_title:"Race/ethnicity",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Race/Ethnicity",
-        table_title_508:"Table showing number of deaths by Race/Ethnicity.",
+        table_title:"Race/ethnicity",
+        table_title_508:"Table showing number of deaths by race/ethnicity.",
         
 
         field_id_list : [
 
-            { name: "MRaceEth3", title: "Hispanic" },
-            { name: "MRaceEth4", title: "Non-Hispanic Black" },
             { name: "MRaceEth5", title: "Non-Hispanic White" },
+            { name: "MRaceEth4", title: "Non-Hispanic Black" },
+            { name: "MRaceEth3", title: "Hispanic" },
+            /*
             { name: "MRaceEth6", title: "American Indian / Alaska Native" },
             { name: "MRaceEth7", title: "Native Hawaiian" },
             { name: "MRaceEth8", title: "Guamanian or Chamorro" },
@@ -93,9 +93,9 @@ indicator_map.set
             { name: "MRaceEth14", title: "Other Asian" },
             { name: "MRaceEth15", title: "Chinese" },
             { name: "MRaceEth16", title: "Japanese" },
-            { name: "MRaceEth17", title: "Vietnamese" },
+            { name: "MRaceEth17", title: "Vietnamese" },*/
             { name: "MRaceEth18", title: "Other Race" },
-            { name: "MRaceEth19", title: "Race Not Specified" },
+            //{ name: "MRaceEth19", title: "Race Not Specified" },
             { name: "MRaceEth20", title: "(Blank)" },
         ],
     }
@@ -112,22 +112,21 @@ indicator_map.set
         blank_field_id: "MAgeD8",
 
 
-        chart_title:"Age",
-        table_title:"Age",
-        x_axis_title:"Number of deaths by Age",
+        chart_title:"Number of deaths by mother’s age at death",
+        x_axis_title:"Age of mother at death (years)",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Age",
+        table_title:"Age of mother at death (years)",
         table_title_508:"Table showing number of deaths by Age.",
         
 
         field_id_list : [
         { name: "MAgeD1", title: "< 20" },
-        { name: "MAgeD2", title: "20 to 24" },
-        { name: "MAgeD3", title: "25 to 29" },
-        { name: "MAgeD4", title: "30 to 34" },
-        { name: "MAgeD5", title: "35 to 39" },
-        { name: "MAgeD6", title: "40 to 44" },
+        { name: "MAgeD2", title: "20-24" },
+        { name: "MAgeD3", title: "25-29" },
+        { name: "MAgeD4", title: "30-34" },
+        { name: "MAgeD5", title: "35-39" },
+        { name: "MAgeD6", title: "40-44" },
         { name: "MAgeD7", title: "45+" },
         { name: "MAgeD8", title: "(blank)" },
         
