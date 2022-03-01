@@ -4,6 +4,12 @@ var g_jurisdiction_list = [];
 var g_user_role_jurisdiction_list = [];
 var g_jurisdiction_tree = [];
 
+var g_model = {
+    reportType: "Summary",
+    selectedQuarter: "",
+    included_case_folder: []
+};
+
 $(async function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
@@ -59,6 +65,8 @@ async function main()
     }
 
     create_jurisdiction_list(g_jurisdiction_tree);
+
+    g_model.included_case_folder = g_jurisdiction_list;
 
 }
 

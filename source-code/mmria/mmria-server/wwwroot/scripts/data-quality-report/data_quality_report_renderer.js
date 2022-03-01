@@ -7,8 +7,8 @@ function data_quality_report_render(p_quarters)
 {
 	var result = [];
 	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
-	selectedQuarter = p_quarters[0];
-	reportType = 'Summary';
+	g_model.selectedQuarter = p_quarters[0];
+	g_model.reportType = 'Summary';
 	jurisdiction = 'New York';
 
 	result.push(`
