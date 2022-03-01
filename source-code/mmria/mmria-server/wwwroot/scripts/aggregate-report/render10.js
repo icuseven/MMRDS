@@ -261,8 +261,8 @@ async function render10_table(p_metadata, p_data_list)
     </table><br/>
     <p><strong>Obesity - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD20")}</p>
     <p><strong>Discrimination - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD25")}</p>
-    <p><strong>Mental health conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
-    <p><strong>Substance use disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
+    <p><strong>Mental Health Conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
+    <p><strong>Substance Use Disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
     <p><strong>Suicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD15")}</p>
     <p><strong>Homicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD30")}</p>
     <br/>

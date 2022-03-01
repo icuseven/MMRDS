@@ -2323,7 +2323,7 @@ function enable_print_button(event)
 let unique_tab_name = '';
 function pdf_case_onclick(event, type_output) 
 {
-	console.log('type_output: ', type_output);
+	//console.log('type_output: ', type_output);
   const btn = event.target;
   const dropdown = document.getElementById('print_case_id');
 	// console.log('dropdown2.value: ', dropdown2.value);
@@ -3568,17 +3568,17 @@ function update_charts()
 
         if (p_metadata.y_label && p_metadata.y_label != "") 
         {
-            var y_labels = p_metadata.y_label.split(",");
-            var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            let y_labels = p_metadata.y_label.split(",");
+            let y_axis_paths = p_metadata.y_axis.split(",");
+            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
         else 
         {
-            var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            let y_axis_paths = p_metadata.y_axis.split(",");
+            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
@@ -3591,7 +3591,7 @@ function update_charts()
 
         columns_data.forEach
         (function (item, index) {
-            var output = {};
+            let output = {};
 
             if (!item) return;
 
@@ -3603,7 +3603,7 @@ function update_charts()
 
         x_columns_data.forEach
         (function (item, index) {
-            var output = {};
+            let output = {};
 
             if (!item) return;
 
@@ -3617,15 +3617,15 @@ function update_charts()
 
         Object.values(xconvertedArray).forEach
         (function (obj, index) {
-            var key = Object.keys(obj)[0];
-            var data = [key];
+            let key = Object.keys(obj)[0];
+            let data = [key];
             xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
         });
 
         Object.values(convertedArray).forEach
         (function (obj, index)  {
-            var key = Object.keys(obj)[0];
-            var data = [key];
+            let key = Object.keys(obj)[0];
+            let data = [key];
 
             data = data.concat(obj[key]);
 
