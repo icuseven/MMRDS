@@ -1,5 +1,8 @@
 var g_release_version = null;
 var g_quarters = new Array();
+var g_jurisdiction_list = [];
+var g_user_role_jurisdiction_list = [];
+var g_jurisdiction_tree = [];
 
 $(async function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -20,6 +23,43 @@ async function main()
     });
       
     g_release_version = release_version;
+
+    const metadata_url = `${location.protocol}//${location.host}/api/jurisdiction_tree`;
+
+    const jurisdiction_tree = await $.ajax
+    ({
+        url: metadata_url,
+    });
+
+
+    g_jurisdiction_tree = jurisdiction_tree;
+
+    const my_user_response = await $.ajax
+    ({
+        url: location.protocol + '//' + location.host + '/api/user/my-user',
+    });
+
+    
+    g_user_name = my_user_response.name;
+
+
+    const my_role_list_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/user_role_jurisdiction_view/my-roles`, //&search_key=' + g_uid,
+    });
+    
+    g_user_role_jurisdiction_list = [];
+    for (let i in my_role_list_response.rows) 
+    {
+        let value = my_role_list_response.rows[i].value;
+        if(value.role_name=="abstractor")
+        {
+            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+        }
+    }
+
+    create_jurisdiction_list(g_jurisdiction_tree);
+
 }
 
 // Display the page
@@ -68,4 +108,36 @@ function render()
 	document.getElementById('form_content_id').innerHTML = data_quality_report_render(
 		g_quarters
 	).join('');
+
+    render_jurisdiction_include_list();
 }
+
+
+function create_jurisdiction_list(p_data) 
+{
+  for (var i = 0; i < g_user_role_jurisdiction_list.length; i++) 
+  {
+    var jurisdiction_regex = new RegExp('^' + g_user_role_jurisdiction_list[i]);
+    var match = p_data.name.match(jurisdiction_regex);
+
+    if (match) 
+    {
+      g_jurisdiction_list.push(p_data.name);
+      break;
+    }
+  }
+
+  if (p_data.children != null) 
+  {
+    for (var i = 0; i < p_data.children.length; i++) 
+    {
+      var child = p_data.children[i];
+
+      create_jurisdiction_list(child);
+    }
+  }
+}
+
+
+
+
