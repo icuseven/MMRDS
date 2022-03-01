@@ -169,7 +169,7 @@ indicator_map.set
         x_axis_title:"Race",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Race",
+        table_title:"Race",
         table_title_508:"Table showing number of deaths by Race.",
 
         field_id_list : [
@@ -279,7 +279,7 @@ indicator_map.set
         blank_field_id: "MEduc5",
 
 
-        chart_title:"Number of deaths by mother&apos;s age at death",
+        chart_title:"Number of deaths by mother&apos;s educational attainment",
         x_axis_title:"Educational attainment of mother",
         y_axis_title:"Number of deaths",
         
@@ -362,11 +362,11 @@ indicator_map.set
         description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
         blank_field_id: "MEmoStress12",
 
-        chart_title:"Emotional Stress",
-        x_axis_title:"Number of deaths by Emotional Stress",
+        chart_title:"Number of deaths by presence of social or emotional stressor",
+        x_axis_title:"Social or emotional stressor",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Emotional Stress",
+        table_title:"Social or emotional stressor",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
         
         field_id_list : [

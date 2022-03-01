@@ -115,8 +115,14 @@ function render0()
 }
 
 
-function render_table(p_metadata, p_data, p_totals, p_total)
+function render_table(p_metadata, p_data, p_totals, p_total, p_disable_blank)
 {
+    let blank_html = `<p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)}</p>`;
+    if(p_disable_blank != null || p_disable_blank == true)
+    {
+        blank_html = '';
+    }
+
     return `<table class="table rounded-0 mb-0" style="width:50%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
@@ -135,7 +141,7 @@ function render_table(p_metadata, p_data, p_totals, p_total)
         <td align=right><strong>${p_total}</strong></td></tr>
     </tfoot>
     </table><br/>
-    <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)}</p>
+    ${blank_html}
     <br/>
     <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
     <br/>

@@ -7,14 +7,20 @@ async function render11(p_post_html)
     ${render_header()}
 
 ${render_navigation_strip(11)}
-<div">
+<div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
-<div align=center>${await render11_chart(p_post_html, metadata, data_list)}</div>
-<br/>
-<div align=center>${await render11_table(metadata, data_list)}</div>
+<ul style="align:center;">
+    <li style="display: inline-block;float:left;width:48%">
+        <div align=center>${await render11_chart(p_post_html, metadata, data_list)}</div>
+    </li>
+    <li style="display: inline-block;float:left;width:48%">
+        <div align=center>${await render11_table(metadata, data_list)}</div>
+    </li>
+</ul>
 </div>
-
+<br style="clear:both">
+<p align=center>This data has been taken directly from the MMRIA database and is not a final report.</p>
 ${render_navigation_strip(11)}
 `;
 
@@ -107,5 +113,25 @@ async function render11_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    //return render_table(p_metadata, data, totals, total, true);
+
+    return `<table class="table rounded-0 mb-0" style="width:70%"
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
+    >
+    
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4;">
+        <th>${p_metadata.table_title}</th>
+        <th style="width:25%" align=right>Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    </table><br/>
+    <br/>
+    
+    <br/>
+    `
+
 }

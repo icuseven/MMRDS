@@ -7,58 +7,63 @@ function data_quality_report_render(p_quarters)
 {
 	var result = [];
 	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
-	selectedQuarter = p_quarters[0];
-	reportType = 'Summary';
+	g_model.selectedQuarter = p_quarters[0];
+	g_model.reportType = 'Summary';
 	jurisdiction = 'New York';
 
 	result.push(`
-		<div class="row">
-			<div class="col">
-				<div class="font-weight-bold pl-3">
-					<div class="mb-4">
-						<div id="quarter_msg" class="mb-3">
-							${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.
-						</div>
-					</div>
-					<div class="mb-4">
-						<label for="quarters-list" class="mb-0 font-weight-bold mr-2">Select Quarter:</label>
-						<select 
-							name="quarters-list"
-							id="quarters-list"
-							onchange="updateQuarter(event)"
-						>	
-							${data_quality_report_quarters_list}
-						</select>
-					</div>
-					<div class="mb-4">
-						<label for="jurisdiction" class="mb-0 font-weight-bold mr-2">Select Jurisdiction:</label>
-						<select
-							name="jurisdiction"
-							id="jurisdiction"
-							onchange="updateJurisdiction(event)"
-						>
-							<option value="New York">New York</option>
-							<option value="New York City">New York City</option>
-							<option value="Brooklyn">Brooklyn</option>
-						</select>
-					</div>
-					<div class="mb-4">
-						<div>Select Report Type:</div>
-						<div>
-							<input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
-							<label for="summary-report" class="mb-0 font-weight-normal mr-2">Summary Report</label>
-						</div>
-						<div>
-							<input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-							<label for="detail-report" class="mb-0 font-weight-normal mr-2">Detail Report</label>
-						</div>
-						<div>
-							<input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
-							<label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
-						</div>
-					</div>
-				</div>
-				<div class="card-footer bg-gray-13">
+        <div class="row">
+            <div class="col">                    
+                    <div class="mb-4">
+                        <div><strong>Select Report Type:</strong></div>
+                        <div>
+                            <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
+                            <label for="summary-report" class="mb-0 font-weight-normal mr-2">Summary Report</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
+                            <label for="detail-report" class="mb-0 font-weight-normal mr-2">Detail Report</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
+                            <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
+                        </div>
+                    </div>
+             </div>
+
+            <div class="col">
+                <div class="mb-4">
+                    <label for="quarters-list" class="mb-0 font-weight-bold mr-2">Select Quarter:</label><br>
+                    <select size=10 style="width:160px"
+                        name="quarters-list"
+                        id="quarters-list"
+                        onchange="updateQuarter(event)"
+                    >	
+                        ${data_quality_report_quarters_list}
+                    </select>
+                </div>
+                <div id="quarter_msg" class="mb-3">
+                ${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.
+                </div>
+            </div>                
+            <div class="col">   
+                <div class="mb-4">
+                    <label for="jurisdiction" class="mb-0 font-weight-bold mr-2">Jurisdiction Selection:</label><br>
+                    <select size=10
+                        name="jurisdiction"
+                        id="jurisdiction"
+                        onchange="updateJurisdiction(event)"
+                    >
+                        <option value="New York">New York</option>
+                        <option value="New York City">New York City</option>
+                        <option value="Brooklyn">Brooklyn</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+				<div class="card-footer bg-gray-13"  style="width:100%">
 					<button 
 						id="quarter_btn" 
 						class="btn btn-primary btn-lg w-100" 
@@ -72,6 +77,44 @@ function data_quality_report_render(p_quarters)
 	`);
 
 	return result;
+}
+
+
+function render_jurisdiction_include_list()
+{
+    const el = document.getElementById("jurisdiction");
+    const html_array = [];
+
+
+    for(var i = 0; i < g_jurisdiction_list.length; i++)
+    {
+        var child = g_jurisdiction_list[i];
+        
+        if(child == "/")
+        {
+            html_array.push("<option value='");
+            html_array.push(child.replace(/'/g, "&#39;"));
+            html_array.push("' ");
+            html_array.push(">");
+            html_array.push("Top Folder");
+            html_array.push("</option>");
+        }
+        else
+        {
+            html_array.push("<option value='");
+            html_array.push(child.replace(/'/g, "&#39;"));
+            html_array.push("' ");
+            html_array.push(">");
+            html_array.push(child);
+            html_array.push("</option>");
+        }
+        
+    }
+
+
+    el.innerHTML = html_array.join("");
+
+
 }
 
 function updateQuarter(e) 
