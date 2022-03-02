@@ -143,8 +143,16 @@ async function print_pdf(ctx) {
 			return headerObj;
 		},
 		footer: (currentPage, pageCount) => {
-			var tbl_footer = '*The denominator for this indicator is limited to pregnancy-related deaths with a completed ';
-			tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].';
+			var tbl_footer = '';
+			if ( ctx.report_type == 'Summary' )
+			{
+				tbl_footer = '*The denominator for this indicator is limited to pregnancy-related deaths with a completed ';
+				tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].';
+			}
+			else
+			{
+				tbl_footer = '';
+			}
 			if (currentPage < 3) {
 				return {
 					margin: [20, 0, 20, 0],
