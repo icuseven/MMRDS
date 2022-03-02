@@ -10,17 +10,15 @@ ${render_navigation_strip(11)}
 <div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
-<ul style="align:center;">
-    <li style="display: inline-block;float:left;width:48%">
-        <div align=center>${await render11_chart(p_post_html, metadata, data_list)}</div>
-    </li>
-    <li style="display: inline-block;float:left;width:48%">
-        <div align=center>${await render11_table(metadata, data_list)}</div>
-    </li>
-</ul>
+
+    <div align=center>${await render11_chart(p_post_html, metadata, data_list)}</div>
+    <br>
+    <div align=center>${await render11_table(metadata, data_list)}</div>
+
 </div>
-<br style="clear:both">
+<br>
 <p align=center>This data has been taken directly from the MMRIA database and is not a final report.</p>
+<br>
 ${render_navigation_strip(11)}
 `;
 
@@ -62,7 +60,7 @@ async function render11_chart(p_post_html, p_metadata, p_data_list)
     render_chart_post_html(p_post_html, p_metadata, data, categories, totals);
 
     return `
-    <div class="card">
+    <div class="card" style="width:50%;">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
@@ -115,7 +113,7 @@ async function render11_table(p_metadata, p_data_list)
 
     //return render_table(p_metadata, data, totals, total, true);
 
-    return `<table class="table rounded-0 mb-0" style="width:70%"
+    return `<table class="table rounded-0 mb-0" style="width:50%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     
@@ -128,10 +126,7 @@ async function render11_table(p_metadata, p_data_list)
     <tbody>
         ${data.join("")}
     </tbody>
-    </table><br/>
-    <br/>
-    
-    <br/>
+    </table>
     `
 
 }

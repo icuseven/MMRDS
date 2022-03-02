@@ -5,7 +5,7 @@ async function render9(p_post_html)
 
     return `
     ${render_header()}
-
+    <br>
 ${render_navigation_strip(9)}
 <div">
 <h3>${metadata.title}</h3>
@@ -56,7 +56,7 @@ async function render9_chart(p_post_html, p_metadata, p_data_list)
     render_chart_post_html(p_post_html, p_metadata, data, categories, totals);
 
     return `
-    <div class="card">
+    <div class="card" style="width:50%">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
@@ -107,5 +107,25 @@ async function render9_table(p_metadata, p_data_list)
     
 
 
-    return render_table(p_metadata, data, totals, total);
+    //return render_table(p_metadata, data, totals, total);
+
+    return `<table class="table rounded-0 mb-0" style="width:50%"
+    title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
+    >
+    
+    <thead class="thead">
+    <tr style="background-color:#e3d3e4;">
+        <th>${p_metadata.table_title}</th>
+        <th style="width:25%" align=right>Number of deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+        ${data.join("")}
+    </tbody>
+    </table><br/>
+    <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)}</p>
+    <br/>
+    <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+    <br/>
+    `
 }

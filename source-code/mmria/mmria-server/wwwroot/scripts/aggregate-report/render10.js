@@ -194,7 +194,15 @@ async function render10_table(p_metadata, p_data_list)
     
 
 
-    return `<table class="table rounded-0 mb-0" style="width:50%"
+    return `
+    <div class="card" style="width:50%">
+        <div class="card-header bg-secondary">
+        <h4 class="h5">${p_metadata.chart_title}</h4>
+        </div>
+    </div>
+    
+    <br>
+    <table class="table rounded-0 mb-0" style="width:50%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     

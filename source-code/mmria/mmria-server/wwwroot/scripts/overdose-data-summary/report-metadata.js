@@ -144,12 +144,11 @@ indicator_map.set
         blank_field_id: "MEduc5",
 
 
-        chart_title:"Education",
-        table_title:"Education",
-        x_axis_title:"Number of deaths by Education",
+        chart_title:"Number of deaths by mother’s educational attainment",
+        x_axis_title:"Educational attainment of mother",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Education",
+        table_title:"Educational attainment of mother",
         table_title_508:"Table showing number of deaths by Education.",
         
 
@@ -174,8 +173,8 @@ indicator_map.set
         blank_field_id: "MEviSub3",
 
         chart_title:"Number of deaths with evidence of substance use in prenatal records",
-        table_title:"Number of deaths with evidence of substance use in prenatal records",
-        x_axis_title:"Number of deaths with evidence of substance use in prenatal records",
+        table_title:"Evidence of substance use in prenatal records",
+        x_axis_title:"Evidence of substance use in prenatal records",
         y_axis_title:"Number of deaths",
         
 
@@ -198,7 +197,7 @@ indicator_map.set
         blank_field_id: "MHxSub3",
 
         chart_title:"History of documented substance use",
-        table_title:"History of documented substance use",
+        table_title:"Documented substance use",
         x_axis_title:"Documented substance use",
         y_axis_title:"Number of deaths",
         
@@ -216,22 +215,29 @@ indicator_map.set
 (
     7,
     {
-        indicator_id : "mHxofSubAbu",
+        indicator_id : "mSubstAutop",
         title:"Toxicology",
-        description:"description not specified",
-        blank_field_id: "MHxSub3",
+        description:"This graph is based on substances listed as toxicology results on the Autopsy form. The substances from the list were classified as Alcohol, Amphetamine, Benzodiazepines, Buprenorphine/Methadone, Cannabinoid, Cocaine, Opioid (excl Buprenorphine/Methadone), or Substance with Other Chemical Classification. Substances entered that were not on the dropdown, including metabolites of substances on the dropdown, are categorized as ‘Other’. This report does not take into account the specific substance levels noted in the toxicology report. Each category on the graph reflects the number of persons who had at least one substance in the category indicated.",
+        blank_field_id: "MSubAuto8",
 
-        chart_title:"Frequency of autopsy toxicology findings",
-        table_title:"Frequency of autopsy toxicology findings",
+        chart_title:"Number of deaths by substances on toxicology results",
+        table_title:"Drug class",
         x_axis_title:"title not specified",
         y_axis_title:"Number of deaths",
         
 
         field_id_list : [
-        { name: "MHxSub1", title: "Yes" },
-        { name: "MHxSub2", title: "No" },
-        { name: "MHxSub3", title: "(Blank)" },
-        { name: "MHxSub4", title: "Unknown" },
+        { name: "MSubAuto1", title: "Alcohol" },
+        { name: "MSubAuto2", title: "Amphetamine" },
+        { name: "MSubAuto3", title: "Benzodiazepine" },
+        { name: "MSubAuto4", title: "Buprenorphine/Methadone" },
+        { name: "MSubAuto9", title: "Cannabinoid" },
+        { name: "MSubAuto5", title: "Cocaine" },
+        { name: "MSubAuto6", title: "Opioid (excl Buprenorphine/Methadone)" },
+        { name: "MSubAuto7", title: "Substance with other chemical classification" },
+        { name: "MSubAuto8", title: "(blank)" },
+        { name: "MSubAuto10", title: "Other" },
+
         ],
     }
 );
@@ -304,10 +310,10 @@ indicator_map.set
         description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period",
         blank_field_id: "MMHTx4",
 
-        chart_title:"Substance Abuse Evidence",
-        table_title:"Substance Abuse Evidence",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        chart_title:"Documented mental health treatment (including substance use disorder)",
+        table_title:"Mental health treatment timing",
+        x_axis_title:"Mental health treatment timing",
+        y_axis_title:"Number of deaths",
         
 
         field_id_list : [
