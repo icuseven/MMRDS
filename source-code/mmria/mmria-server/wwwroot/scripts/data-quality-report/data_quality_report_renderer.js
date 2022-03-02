@@ -690,15 +690,15 @@ async function download_data_quality_report_button_click()
 				case_folder_display = '/';
 
 				// Loop thru and add the excluded jurisdictions
-				g_jurisdiction_list.map( (j) => {
+				g_jurisdiction_list.map( (j, i) => {
 					if ( j != '/' )
 					{
-						case_folder_exclude += j;
+						case_folder_exclude += ( g_model.includedCaseFolder.indexOf(j) > -1 ) ? '' : j + ', ';
 					}
 				});
 
 				// Append excluded jursisdiction to case_folder_display
-				case_folder_display += case_folder_exclude;
+				case_folder_display += case_folder_exclude.substring(0, (case_folder_exclude.length - 2));
 				
 				return case_folder_display;
 			}
