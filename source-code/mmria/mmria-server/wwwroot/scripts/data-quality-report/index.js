@@ -7,7 +7,7 @@ var g_jurisdiction_tree = [];
 var g_model = {
     reportType: "Summary",
     selectedQuarter: "",
-    included_case_folder: []
+    includedCaseFolder: []
 };
 
 $(async function ()
@@ -66,7 +66,7 @@ async function main()
 
     create_jurisdiction_list(g_jurisdiction_tree);
 
-    g_model.included_case_folder = g_jurisdiction_list;
+    g_model.includedCaseFolder = [...g_jurisdiction_list];
 
 }
 

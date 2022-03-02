@@ -1118,7 +1118,7 @@ function enable_print_button(event)
 }
 
 let unique_tab_name = '';
-function pdf_case_onclick(event, typeOutput) 
+function pdf_case_onclick(event, type_output) 
 {
   const btn = event.target;
   const dropdown = document.getElementById('print_case_id');
@@ -1134,7 +1134,7 @@ function pdf_case_onclick(event, typeOutput)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', unique_tab_name, section_name);
+            openTab('./pdf-version', unique_tab_name, section_name, type_output);
         }, 1000);	
 
       
@@ -1148,7 +1148,7 @@ function pdf_case_onclick(event, typeOutput)
   
       window.setTimeout(function()
       {
-          openTab('./pdf-version', unique_tab_name, section_name, record_number);
+          openTab('./pdf-version', unique_tab_name, section_name, type_output, record_number);
       }, 1000);	
       
     }

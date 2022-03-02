@@ -2326,14 +2326,8 @@ function pdf_case_onclick(event, type_output)
 	//console.log('type_output: ', type_output);
   const btn = event.target;
   const dropdown = document.getElementById('print_case_id');
-	// console.log('dropdown2.value: ', dropdown2.value);
-	// const dropdown = ( type_output == 'view' )
-	// 	? btn.previousSibling.previousSibling											// Need to go back 2 fields to get the dropdown value
-	// 	: btn.previousSibling.previousSibling.previousSibling;		// Need to go back 3 fields to get the dropdown value
-	
   // get value of selected option
   let section_name = dropdown.value;
-  //await print_pdf( section_name );
 
   unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 

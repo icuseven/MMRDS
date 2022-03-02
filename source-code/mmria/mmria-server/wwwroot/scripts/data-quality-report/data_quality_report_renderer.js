@@ -1,7 +1,4 @@
 // Data Quality Report
-var selectedQuarter;
-var reportType;
-var jurisdiction;
 
 function data_quality_report_render(p_quarters) 
 {
@@ -9,7 +6,6 @@ function data_quality_report_render(p_quarters)
 	var data_quality_report_quarters_list = render_data_quality_report_quarters(p_quarters);
 	g_model.selectedQuarter = p_quarters[0];
 	g_model.reportType = 'Summary';
-	jurisdiction = 'New York';
 
 	result.push(`
         <div class="row">
@@ -43,33 +39,22 @@ function data_quality_report_render(p_quarters)
                     </select>
                 </div>
                 <div id="quarter_msg" class="mb-3">
-                ${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.
-                </div>
-            </div>                
-            <div class="col">   
-                <div class="mb-4">
-                    <label for="jurisdiction" class="mb-0 font-weight-bold mr-2">Jurisdiction Selection:</label><br>
-                    <select size=10
-                        name="jurisdiction"
-                        id="jurisdiction"
-                        onchange="updateJurisdiction(event)"
-                    >
-                        <option value="New York">New York</option>
-                        <option value="New York City">New York City</option>
-                        <option value="Brooklyn">Brooklyn</option>
-                    </select>
+                ${g_model.selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.
                 </div>
             </div>
+						<div class="col">   
+								<div class="mb-4" id="jurisdiction"></div>
+						</div>
         </div>
 
         <div class="row">
 				<div class="card-footer bg-gray-13"  style="width:100%">
 					<button 
-						id="quarter_btn" 
+						id="generate_btn" 
 						class="btn btn-primary btn-lg w-100" 
 						onclick="download_data_quality_report_button_click()"
 					>
-						Generate ${reportType} Report for ${selectedQuarter}
+						Generate ${g_model.reportType} Report for ${g_model.selectedQuarter}
 					</button>
 				</div>
 			</div>
@@ -79,59 +64,75 @@ function data_quality_report_render(p_quarters)
 	return result;
 }
 
+function has_multiple_jurisdiction()
+{
+	return (g_jurisdiction_list.length > 1) ? true : false;
+}
 
 function render_jurisdiction_include_list()
 {
-    const el = document.getElementById("jurisdiction");
-    const html_array = [];
+  const el = document.getElementById("jurisdiction");
+  const html_array = [];
 
+	// Only run this if there is more than 1 jurisdiction
+	if ( has_multiple_jurisdiction() )
+	{
+		//  Add title
+		html_array.push("<div class='mb-0 font-weight-bold mr-2' >Select Cases From:</div>");
 
     for(var i = 0; i < g_jurisdiction_list.length; i++)
     {
         var child = g_jurisdiction_list[i];
-        
-        if(child == "/")
-        {
-            html_array.push("<option value='");
-            html_array.push(child.replace(/'/g, "&#39;"));
-            html_array.push("' ");
-            html_array.push(">");
-            html_array.push("Top Folder");
-            html_array.push("</option>");
-        }
-        else
-        {
-            html_array.push("<option value='");
-            html_array.push(child.replace(/'/g, "&#39;"));
-            html_array.push("' ");
-            html_array.push(">");
-            html_array.push(child);
-            html_array.push("</option>");
-        }
-        
+				html_array.push("<div>")
+				html_array.push("<input value='");
+				html_array.push(child.replace(/'/g, "&#39;"));
+				html_array.push("' ");
+				html_array.push("type='checkbox' ");
+				html_array.push("name='jurisdiction_checkbox' ");
+				html_array.push("onchange='updateJurisdiction(event)' ");
+				html_array.push("checked> ");
+				html_array.push(`${ (child == "/") ? "Top Folder" : child}`);
+				html_array.push("</div>")        
     }
 
-
     el.innerHTML = html_array.join("");
-
-
+	}
+	else
+	{
+		el.style.display = "none";
+	}
 }
 
 function updateQuarter(e) 
 {
-	selectedQuarter = e.target.value;
+	g_model.selectedQuarter = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateReportType(e)
 {
-	reportType = e.target.value;
+	g_model.reportType = e.target.value;
 	renderQuarterInfo();
 }
 
 function updateJurisdiction(e)
 {
-	jurisdiction = e.target.value;
+	var included_case_folder = [];
+
+	var checkboxes = document.getElementsByName('jurisdiction_checkbox');
+
+	for ( var checkbox of checkboxes )
+	{
+		if ( checkbox.checked )
+		{
+			included_case_folder.push(checkbox.value);
+
+		}
+	}
+
+
+	// Replace the case folder with checked items
+	g_model.includedCaseFolder = [...included_case_folder];
 	renderQuarterInfo();
 }
 
@@ -139,11 +140,15 @@ function renderQuarterInfo()
 {
 	// Update the message to show the currently selected quarter
 	document.getElementById('quarter_msg').innerHTML =
-		`${selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.`;
+		`${g_model.selectedQuarter} is the currently selected quarter that will be used to compare to the previous 4 quarters.`;
 
 	// Update the button to show the currently selected quarter
-	document.getElementById('quarter_btn').innerHTML =
-		`Generate ${reportType} Report for ${selectedQuarter}`;
+	document.getElementById('generate_btn').innerHTML =
+		`Generate ${g_model.reportType} Report for ${g_model.selectedQuarter}`;
+
+	// Get the Generate button id - disable if no jurisdiction items in array
+	document.getElementById('generate_btn').disabled = ( g_model.includedCaseFolder.length == 0 ) ? true : false;
+
 }
 
 function render_data_quality_report_quarters() 
@@ -649,21 +654,74 @@ async function download_data_quality_report_button_click()
 				// Check for zero before doing the divide
 				if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
 				{
-					summary_data[fld].s.pp = summary_data[fld].s.pn / summary_data[fld].s.tn;
+					summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
 				}
 				if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
 				{
-					summary_data[fld].p.pp = summary_data[fld].p.pn / summary_data[fld].p.tn;
+					summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
 				}
 			}
 		}
 
+		// Get the case folder info for header display
+		function getCaseFolder()
+		{
+			var case_folder_display = '/';
+			var case_folder_exclude = ' - Exclude: ';
+
+			// If only a single case folder then just return it
+			if ( g_jurisdiction_list.length == 1 )
+			{
+				case_folder_display = '/';
+				return case_folder_display;
+			}
+
+			// If g_jurisdiction_list.length is equal to g_model.includedCaseFolder.length - return Top Folder ('/')
+			if ( g_jurisdiction_list.length == g_model.includedCaseFolder.length )
+			{
+				case_folder_display = '/';
+				return case_folder_display;
+			}
+
+			// Now check to see if Top Folder is selected and other options are unselected
+			if ( g_model.includedCaseFolder[0] == '/' )
+			{
+				// Add the Top Folder
+				case_folder_display = '/';
+
+				// Loop thru and add the excluded jurisdictions
+				g_jurisdiction_list.map( (j) => {
+					if ( j != '/' )
+					{
+						case_folder_exclude += j;
+					}
+				});
+
+				// Append excluded jursisdiction to case_folder_display
+				case_folder_display += case_folder_exclude;
+				
+				return case_folder_display;
+			}
+
+			// If not Top Folder, then display what has been checked
+			case_folder_display = '';
+			g_model.includedCaseFolder.map( (j, i) => {
+				if ( i > 0 )
+				{
+					case_folder_display += ', ';
+				}
+				case_folder_display += j;
+			});
+
+			return case_folder_display;
+		}
+
 		// Get the previous 4 quarters based on the selected quarter
-		function getPreviousFourQuarters( q )
+		function getPreviousFourQuarters()
 		{
 			let qStr = '';
 
-			let arr = selected_quarter.split("-");
+			let arr = g_model.selectedQuarter.split("-");
 			let qtr = parseInt(arr[0][1]);
 			let yy = parseInt(arr[1]);
 			
@@ -680,7 +738,6 @@ async function download_data_quality_report_button_click()
 
 				if ( i < 3 ) qStr += ', ';
 			}
-			// console.log('in getPrev 4 Q: ', arr, ' - ', qStr );
 
 			return qStr;
 		}
@@ -690,24 +747,26 @@ async function download_data_quality_report_button_click()
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
 
+		let jurisdiction = '*****';
+
 		// Create Summary Report if reportType is Summary or Summary & Detail
-		if ( reportType == 'Summary' || reportType == 'Summary & Detail')
+		if ( g_model.reportType == 'Summary' || g_model.reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report for: ${ jurisdiction }`,
-				subtitle: `Reporting Period: ${ selected_quarter }`,
+				title: `Data Quality Report for: ${ getCaseFolder() }`,
+				subtitle: `Reporting Period: ${ g_model.selectedQuarter }`,
 			};
 
 			await create_pdf(
-				'Summary', summary_data, selected_quarter, headers );
+				'Summary', summary_data, g_model.selectedQuarter, headers );
 		}
 
 		// Create Detail Report if reportType is Detail or Summary & Detail
-		if ( reportType == 'Detail' || reportType == 'Summary & Detail')
+		if ( g_model.reportType == 'Detail' || g_model.reportType == 'Summary & Detail')
 		{
 			let headers = {
-				title: `Data Quality Report Details for: ${ jurisdiction }`,
-				subtitle: `Reporting Period: ${ selected_quarter } - Previous 4 Periods: ${ getPreviousFourQuarters( selected_quarter )}`,
+				title: `Data Quality Report Details for: ${ getCaseFolder() }`,
+				subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
 			};
 			
 
@@ -721,7 +780,7 @@ async function download_data_quality_report_button_click()
 
 
 
-			await create_pdf( 'Detail', detail_data, selected_quarter, headers );
+			await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
 		}
 }
 
