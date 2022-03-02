@@ -42,6 +42,9 @@ var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
+//let save_start_time, save_end_time;
+
+
 
 async function g_set_data_object_from_path
 (
@@ -55,6 +58,8 @@ async function g_set_data_object_from_path
   p_time_object
 ) 
 {
+
+  //save_start_time = performance.now();
   var is_search_result = false;
   var search_text = null;
 
@@ -644,13 +649,17 @@ else
         }
     );
   }
-update_charts();
+
+  window.setTimeout(update_charts, 0);
+
+    //save_end_time = performance.now();
 }
 
 
-
+//let startTime, endTime;
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
 {
+  
   let metadata = eval(p_metadata_path);
   let new_line_item = create_default_object(metadata, {}, true);
   let grid = eval(p_object_path);
@@ -687,8 +696,10 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
       eval(post_html_call_back.join(''));
     }
   });
-
-  update_charts();
+  
+    //startTime = performance.now();
+   window.setTimeout(update_charts, 0);
+  //endTime = performance.now();
 }
 
 
@@ -3559,17 +3570,17 @@ function update_charts()
 {
     for (let chart in g_charts)
     {
-        let item = g_charts[chart];
-        let p_metadata = g_chart_data[chart];
-        let columns_data = [];
-        let x_columns_data = [];
-        let convertedArray = [];
-        let xconvertedArray = [];
+        const item = g_charts[chart];
+        const p_metadata = g_chart_data[chart];
+        const columns_data = [];
+        const x_columns_data = [];
+        const convertedArray = [];
+        const xconvertedArray = [];
 
         if (p_metadata.y_label && p_metadata.y_label != "") 
         {
-            let y_labels = p_metadata.y_label.split(",");
-            let y_axis_paths = p_metadata.y_axis.split(",");
+            const y_labels = p_metadata.y_label.split(",");
+            const y_axis_paths = p_metadata.y_axis.split(",");
             for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
@@ -3577,7 +3588,7 @@ function update_charts()
         }
         else 
         {
-            let y_axis_paths = p_metadata.y_axis.split(",");
+            const y_axis_paths = p_metadata.y_axis.split(",");
             for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
@@ -3590,24 +3601,24 @@ function update_charts()
         }
 
         columns_data.forEach
-        (function (item, index) {
+        (function (data_item, index) {
             let output = {};
 
-            if (!item) return;
+            if (!data_item) return;
 
-            output[item[0]] = item.slice(1, item.length);
+            output[data_item[0]] = data_item.slice(1, data_item.length);
 
             convertedArray.push(output);
 
         });
 
         x_columns_data.forEach
-        (function (item, index) {
+        (function (data_item, index) {
             let output = {};
 
-            if (!item) return;
+            if (!data_item) return;
 
-            output[item[0]] = item.slice(1, item.length);
+            output[data_item[0]] = data_item.slice(1, data_item.length);
 
             xconvertedArray.push(output);
 
@@ -3617,23 +3628,23 @@ function update_charts()
 
         Object.values(xconvertedArray).forEach
         (function (obj, index) {
-            let key = Object.keys(obj)[0];
-            let data = [key];
+            const key = Object.keys(obj)[0];
+            const data = [key];
             xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
         });
 
         Object.values(convertedArray).forEach
         (function (obj, index)  {
-            let key = Object.keys(obj)[0];
-            let data = [key];
+            const key = Object.keys(obj)[0];
+            const data = [key];
 
-            data = data.concat(obj[key]);
+            const new_data = data.concat(obj[key]);
 
             item.load({
                 unload: ['x'],
                 columns: [
                     xdata,
-                    data
+                    new_data
                 ]
             });
 
