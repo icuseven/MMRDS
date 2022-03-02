@@ -9,7 +9,7 @@ async function render6(p_post_html)
 
     return `
     ${render_header()}
-
+    <br>
 ${render_navigation_strip(6)}
 <div>
 <h3>${metadata.title}</h3>

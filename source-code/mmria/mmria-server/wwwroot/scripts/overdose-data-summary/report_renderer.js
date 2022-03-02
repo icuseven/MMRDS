@@ -162,7 +162,6 @@ function render_header()
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
-<br/><br/>
     `;
 }
 
