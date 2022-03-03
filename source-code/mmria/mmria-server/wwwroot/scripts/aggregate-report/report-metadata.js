@@ -13,7 +13,7 @@ indicator_map.set
         y_axis_title:"Number of deaths",
         chart_title_508: "Bar chart showing number of deaths by underlying cause of death.",
         
-        table_title:"Primary Underlying Causes of Death",
+        table_title:"Primary Underlying Cause of Death",
         table_title_508:"Table showing number of deaths by underlying cause of death.",
 
         field_id_list : [
@@ -230,7 +230,7 @@ indicator_map.set
             { name: "MRaceEth15", title: "Chinese" },
             { name: "MRaceEth16", title: "Japanese" },
             { name: "MRaceEth17", title: "Vietnamese" },*/
-            { name: "MRaceEth18", title: "Other Race" },
+            { name: "MRaceEth18", title: "Other" },
             //{ name: "MRaceEth19", title: "Race Not Specified" },
             { name: "MRaceEth20", title: "(Blank)" },
         ],

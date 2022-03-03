@@ -94,7 +94,7 @@ indicator_map.set
             { name: "MRaceEth15", title: "Chinese" },
             { name: "MRaceEth16", title: "Japanese" },
             { name: "MRaceEth17", title: "Vietnamese" },*/
-            { name: "MRaceEth18", title: "Other Race" },
+            { name: "MRaceEth18", title: "Other" },
             //{ name: "MRaceEth19", title: "Race Not Specified" },
             { name: "MRaceEth20", title: "(Blank)" },
         ],
@@ -140,7 +140,7 @@ indicator_map.set
     {
         indicator_id : "mEducation",
         title:"Education",
-        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
+        description:"To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
         blank_field_id: "MEduc5",
 
 
@@ -222,7 +222,7 @@ indicator_map.set
 
         chart_title:"Number of deaths by substances on toxicology results",
         table_title:"Drug class",
-        x_axis_title:"title not specified",
+        x_axis_title:"Drug class",
         y_axis_title:"Number of deaths",
         
 
@@ -314,6 +314,7 @@ indicator_map.set
         table_title:"Mental health treatment timing",
         x_axis_title:"Mental health treatment timing",
         y_axis_title:"Number of deaths",
+        table_title_508:"Table showing number of deaths by Mental health treatment timing.",
         
 
         field_id_list : [
@@ -334,27 +335,29 @@ indicator_map.set
         description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
         blank_field_id: "MEmoStress12",
 
-        chart_title:"Emotional Stress",
-        table_title:"Emotional Stress",
-        x_axis_title:"Number of deaths by Emotional Stress",
+        chart_title:"Number of deaths by presence of social or emotional stressor",
+        x_axis_title:"Social or emotional stressor",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Emotional Stress",
+        table_title:"Social or emotional stressor",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
         
         field_id_list : [
+        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        { name: "MEmoStress9", title: "History of childhood trauma" },
         { name: "MEmoStress1", title: "History of domestic violence" },
         { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
-        { name: "MEmoStress3", title: "Child Protective Services involvement" },
         { name: "MEmoStress4", title: "History of substance use" },
-        { name: "MEmoStress5", title: "Unemployment" },
         { name: "MEmoStress6", title: "History of substance use treatment" },
         { name: "MEmoStress7", title: "Pregnancy unwanted" },
-        { name: "MEmoStress8", title: "Recent trauma" },
-        { name: "MEmoStress9", title: "History of childhood trauma" },
         { name: "MEmoStress10", title: "Prior suicide attempts" },
+        
+
+        { name: "MEmoStress8", title: "Recent trauma" },
+        { name: "MEmoStress5", title: "Unemployment" },
+       
         { name: "MEmoStress11", title: "Other" },
-        { name: "MEmoStress12", title: "Other" },
+        //{ name: "MEmoStress12", title: "Other" },
         { name: "MEmoStress13", title: "Unknown" },
         { name: "MEmoStress14", title: "None" },
         ],
@@ -399,7 +402,7 @@ indicator_map.set
         description:"description not specified",
         blank_field_id: "MHomeless5",
 
-        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
+        chart_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
         chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         x_axis_title:"Homelessness in relation to pregnancy",
@@ -430,15 +433,14 @@ indicator_map.set
     {
         indicator_id : "mIncarHx",
         title:"Mother&apos;s Incarceration History",
-        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
+        description: "Incarceration history is determined using the corresponding variable on the Social and Environmental Profile that asks, 'Was decedent ever incarcerated?’ Each person can have multiple time periods entered, and the graph reflects the number of persons incarcerated at that time period.",
         blank_field_id: "MHxIncar8",
 
-        chart_title:"Incarceration History",
-        table_title:"Incarceration History",
-        x_axis_title:"Incarceration History",
+        chart_title:"Number of deaths by mother&apos;s incarceration history in relation to pregnancy",
+        x_axis_title:" Incarceration history of mother",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Incarceration History",
+        table_title:" Incarceration history of mother",
         table_title_508:"Table showing number of deaths by Incarceration History.",
 
         field_id_list : [
