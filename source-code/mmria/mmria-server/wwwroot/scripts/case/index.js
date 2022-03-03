@@ -129,7 +129,7 @@ async function g_set_data_object_from_path
         grid_index: p_grid_index
       });
 
-      await autorecalculate(p_dictionary_path);
+      window.setTimeout(async ()=> { await autorecalculate(p_dictionary_path) });
       /*
       if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
       {
@@ -296,7 +296,7 @@ async function g_set_data_object_from_path
     g_data.date_last_updated = new Date();
     //g_data.last_updated_by = g_uid;
 
-    await autorecalculate(p_dictionary_path, p_form_index, p_grid_index);
+    window.setTimeout(async ()=> { await autorecalculate(p_dictionary_path, p_form_index, p_grid_index) });
 
 if
 (
