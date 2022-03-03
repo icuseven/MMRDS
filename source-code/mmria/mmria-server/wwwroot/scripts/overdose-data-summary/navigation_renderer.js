@@ -40,6 +40,14 @@ function render_navigation_strip(p_current_index)
     if(next_index < 14)
     {
         return `
+        <p align=center>
+            <span  class="spinner-container spinner-inline ml-2"  style="display: inline">
+                <span class="spinner-body text-primary">
+                    <span class="spinner"></span>
+                    <span class="spinner-info"></span>
+                </span>
+            </span>
+        </p>
         <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
             <ul class="d-flex justify-content-between">
                 <li class="tp-mp-prev tp-mp-arrow">
@@ -61,6 +69,14 @@ function render_navigation_strip(p_current_index)
     else
     {
         return `
+        <p align=center>
+            <span  class="spinner-container spinner-inline ml-2"  style="display: inline">
+                <span class="spinner-body text-primary">
+                    <span class="spinner"></span>
+                    <span class="spinner-info"></span>
+                </span>
+            </span>
+        </p>
         <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
             <ul class="d-flex justify-content-between">
                 <li class="tp-mp-prev tp-mp-arrow">

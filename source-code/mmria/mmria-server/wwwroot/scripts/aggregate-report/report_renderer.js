@@ -17,7 +17,15 @@ async function render(p_index)
         index = p_index;
     }
 
-    const post_html = [];
+    const post_html = [
+    `const all = document.getElementsByClassName('spinner-container')
+    for(let i = 0; i < all.length; i++)
+    {
+        let item = all[i];
+        item.remove();
+    }`
+    ];
+    
     switch(index)
     {
         case 1:
