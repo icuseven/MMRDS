@@ -45,7 +45,7 @@ g_nav_map.set(8,"Committee Determinations");
 g_nav_map.set(9,"Treatment History");
 g_nav_map.set(10,"Emotional Stress");
 g_nav_map.set(11,"Living Arrangements");
-g_nav_map.set(12,"Incareration History");
+g_nav_map.set(12,"Incarceration History");
 
 const relatedness_map = new Map();
 relatedness_map.set(9999, "(blank)");

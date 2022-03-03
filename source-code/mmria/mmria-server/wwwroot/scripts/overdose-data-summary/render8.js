@@ -287,8 +287,8 @@ async function render8_table(p_metadata, p_data_list)
     </tbody>
 
     </table><br/>
-    <p><strong>Mental health conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
-    <p><strong>Substance use disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
+    <p><strong>Mental Health Conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
+    <p><strong>Substance Use Disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
     <p><strong>Suicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD15")}</p>
 
     <br/>

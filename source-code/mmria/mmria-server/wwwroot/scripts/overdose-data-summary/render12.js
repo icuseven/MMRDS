@@ -57,7 +57,7 @@ async function render12_chart(p_post_html, p_metadata, p_data_list)
     render_chart_post_html(p_post_html, p_metadata, data, categories, totals, "chart1");
     
     return `
-    <div class="card">
+    <div class="card" style="width:50%">
         <div class="card-header bg-secondary">
         <h4 class="h5">${p_metadata.chart_title}</h4>
         </div>
@@ -111,7 +111,7 @@ async function render12_table(p_metadata, p_data_list)
 
     //return render_table(p_metadata, data, totals, total);
 
-    return `<table class="table rounded-0 mb-0"  style="width:80%"
+    return `<table class="table rounded-0 mb-0"  style="width:50%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     <thead class="thead">
@@ -123,10 +123,6 @@ async function render12_table(p_metadata, p_data_list)
     <tbody>
         ${data.join("")}
     </tbody>
-    <tfoot>
-        <tr style="background-color:#e3d3e4"><td><strong>Total</strong></td>
-        <td align=right><strong>${total}</strong></td></tr>
-    </tfoot>
     </table>
     <br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)} </p>
