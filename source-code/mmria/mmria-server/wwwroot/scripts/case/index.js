@@ -2336,7 +2336,11 @@ function pdf_case_onclick(event, type_output)
 {
 	//console.log('type_output: ', type_output);
   const btn = event.target;
-  const dropdown = document.getElementById('print_case_id');
+ 
+	const dropdown = ( type_output == 'view' )
+		? btn.previousSibling.previousSibling
+		: btn.previousSibling.previousSibling.previousSibling;
+
   // get value of selected option
   let section_name = dropdown.value;
 
@@ -2384,8 +2388,7 @@ function pdf_case_onclick(event, type_output)
 function print_case_onclick(event) 
 {
 	const btn = event.target;
-	// const dropdown = btn.previousSibling;
-	const dropdown = document.getElementById('print_case_id');
+	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
 	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
