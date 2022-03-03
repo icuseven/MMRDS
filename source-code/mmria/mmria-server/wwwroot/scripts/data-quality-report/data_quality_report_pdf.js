@@ -1441,16 +1441,16 @@ function format_summary_pages(ctx) {
 				columns:
 					[
 						{ width: 30, text: fmtNumber( d[fld].s.tn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 40, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 30, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 35, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 35, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
 					],
 			},
 			{
 				columns:
 					[
 						{ width: 30, text: fmtNumber( d[fld].p.tn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 40, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 30, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 35, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 35, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
 					],
 			},
 		],);
