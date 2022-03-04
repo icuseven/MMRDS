@@ -492,7 +492,7 @@ async function download_data_quality_report_button_click()
 
         if
         (
-            selected_case_folder_list.indexOf("/") < 0 &&
+            //selected_case_folder_list.indexOf("/") < 0 &&
             selected_case_folder_list.indexOf(item.case_folder) < 0
         )
         {

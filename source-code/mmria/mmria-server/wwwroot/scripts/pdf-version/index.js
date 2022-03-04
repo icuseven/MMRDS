@@ -1088,7 +1088,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			break;
 		case "P":
 		case "DIV":
-        case "SPAN":
+
 			let text_array = [];
 			for (let i = 0; i < p_node.childNodes.length; i++) {
 				let child = p_node.childNodes[i];
@@ -1097,6 +1097,14 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			text_array.push({ text: "\n" });
 			p_result.push({ text: text_array });
 			return;
+        case "SPAN":
+            let span_text_array = [];
+            for (let i = 0; i < p_node.childNodes.length; i++) {
+                let child = p_node.childNodes[i];
+                ConvertHTMLDOMWalker(span_text_array, child);
+            }
+            p_result.push({ text: span_text_array });
+            return;
 			break;
 		//case "SPAN":
 			//p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {}) });
