@@ -1,8 +1,8 @@
 var g_release_version = null;
 var g_quarters = new Array();
-var g_jurisdiction_list = [];
-var g_user_role_jurisdiction_list = [];
-var g_jurisdiction_tree = [];
+var g_case_folder_list = [];
+var g_user_role_case_folder_list = [];
+var g_case_folder_tree = [];
 
 var g_model = {
     reportType: "Summary",
@@ -30,15 +30,15 @@ async function main()
       
     g_release_version = release_version;
 
-    const metadata_url = `${location.protocol}//${location.host}/api/jurisdiction_tree`;
+    const case_folder_tree_url = `${location.protocol}//${location.host}/api/jurisdiction_tree`;
 
-    const jurisdiction_tree = await $.ajax
+    const case_folder_tree = await $.ajax
     ({
-        url: metadata_url,
+        url: case_folder_tree_url,
     });
 
 
-    g_jurisdiction_tree = jurisdiction_tree;
+    g_case_folder_tree = case_folder_tree;
 
     const my_user_response = await $.ajax
     ({
@@ -54,19 +54,19 @@ async function main()
         url: `${location.protocol}//${location.host}/api/user_role_jurisdiction_view/my-roles`, //&search_key=' + g_uid,
     });
     
-    g_user_role_jurisdiction_list = [];
+    g_user_role_case_folder_list = [];
     for (let i in my_role_list_response.rows) 
     {
         let value = my_role_list_response.rows[i].value;
         if(value.role_name=="abstractor")
         {
-            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+            g_user_role_case_folder_list.push(value.jurisdiction_id);
         }
     }
 
-    create_jurisdiction_list(g_jurisdiction_tree);
+    create_case_folder_list(g_case_folder_tree);
 
-    g_model.includedCaseFolder = [...g_jurisdiction_list];
+    g_model.includedCaseFolder = [...g_case_folder_list];
 
 }
 
@@ -117,20 +117,20 @@ function render()
 		g_quarters
 	).join('');
 
-    render_jurisdiction_include_list();
+    render_case_folder_include_list();
 }
 
 
-function create_jurisdiction_list(p_data) 
+function create_case_folder_list(p_data) 
 {
-  for (var i = 0; i < g_user_role_jurisdiction_list.length; i++) 
+  for (var i = 0; i < g_user_role_case_folder_list.length; i++) 
   {
-    var jurisdiction_regex = new RegExp('^' + g_user_role_jurisdiction_list[i]);
-    var match = p_data.name.match(jurisdiction_regex);
+    var case_folder_regex = new RegExp('^' + g_user_role_case_folder_list[i]);
+    var match = p_data.name.match(case_folder_regex);
 
     if (match) 
     {
-      g_jurisdiction_list.push(p_data.name);
+      g_case_folder_list.push(p_data.name);
       break;
     }
   }
@@ -141,11 +141,29 @@ function create_jurisdiction_list(p_data)
     {
       var child = p_data.children[i];
 
-      create_jurisdiction_list(child);
+      create_case_folder_list(child);
     }
   }
 }
 
 
+
+function get_selected_folder_list()
+{
+    const result = [];
+
+    const elementList = document.querySelectorAll("input[checked]");
+    
+    for(let i = 0; i < elementList.length; i++)
+    {
+        const item = elementList[i];
+        if(item.checked && item.value.indexOf("/") == 0)
+        {
+            result.push(item.value);
+        }
+    }
+
+    return result;
+}
 
 

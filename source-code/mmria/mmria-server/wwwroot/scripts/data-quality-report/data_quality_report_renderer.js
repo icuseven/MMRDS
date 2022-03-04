@@ -43,7 +43,7 @@ function data_quality_report_render(p_quarters)
                 </div>
             </div>
 						<div class="col">   
-								<div class="mb-4" id="jurisdiction"></div>
+								<div class="mb-4" id="case_folder"></div>
 						</div>
         </div>
 
@@ -64,32 +64,32 @@ function data_quality_report_render(p_quarters)
 	return result;
 }
 
-function has_multiple_jurisdiction()
+function has_multiple_case_folder()
 {
-	return (g_jurisdiction_list.length > 1) ? true : false;
+	return (g_case_folder_list.length > 1) ? true : false;
 }
 
-function render_jurisdiction_include_list()
+function render_case_folder_include_list()
 {
-  const el = document.getElementById("jurisdiction");
+  const el = document.getElementById("case_folder");
   const html_array = [];
 
-	// Only run this if there is more than 1 jurisdiction
-	if ( has_multiple_jurisdiction() )
+	// Only run this if there is more than 1 case_folder
+	if ( has_multiple_case_folder() )
 	{
 		//  Add title
 		html_array.push("<div class='mb-0 font-weight-bold mr-2' >Select Cases From:</div>");
 
-    for(var i = 0; i < g_jurisdiction_list.length; i++)
+    for(var i = 0; i < g_case_folder_list.length; i++)
     {
-        var child = g_jurisdiction_list[i];
+        var child = g_case_folder_list[i];
 				html_array.push("<div>")
 				html_array.push("<input value='");
 				html_array.push(child.replace(/'/g, "&#39;"));
 				html_array.push("' ");
 				html_array.push("type='checkbox' ");
-				html_array.push("name='jurisdiction_checkbox' ");
-				html_array.push("onchange='updateJurisdiction(event)' ");
+				html_array.push("name='case_folder_checkbox' ");
+				html_array.push("onchange='updatecase_folder(event)' ");
 				html_array.push("checked> ");
 				html_array.push(`${ (child == "/") ? "Top Folder" : child}`);
 				html_array.push("</div>")        
@@ -115,11 +115,11 @@ function updateReportType(e)
 	renderQuarterInfo();
 }
 
-function updateJurisdiction(e)
+function updatecase_folder(e)
 {
 	var included_case_folder = [];
 
-	var checkboxes = document.getElementsByName('jurisdiction_checkbox');
+	var checkboxes = document.getElementsByName('case_folder_checkbox');
 
 	for ( var checkbox of checkboxes )
 	{
@@ -146,7 +146,7 @@ function renderQuarterInfo()
 	document.getElementById('generate_btn').innerHTML =
 		`Generate ${g_model.reportType} Report for ${g_model.selectedQuarter}`;
 
-	// Get the Generate button id - disable if no jurisdiction items in array
+	// Get the Generate button id - disable if no case_folder items in array
 	document.getElementById('generate_btn').disabled = ( g_model.includedCaseFolder.length == 0 ) ? true : false;
 
 }
@@ -169,6 +169,8 @@ async function download_data_quality_report_button_click()
     let selected_quarter = document.getElementById('quarters-list').value;
     let arr = selected_quarter.split("-");
     let quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
+
+    const selected_case_folders = get_selected_folder_list();
 
     let dqr_detail_data = await $.ajax
     ({
@@ -670,14 +672,14 @@ async function download_data_quality_report_button_click()
 			var case_folder_exclude = ' - Exclude: ';
 
 			// If only a single case folder then just return it
-			if ( g_jurisdiction_list.length == 1 )
+			if ( g_case_folder_list.length == 1 )
 			{
 				case_folder_display = '/';
 				return case_folder_display;
 			}
 
-			// If g_jurisdiction_list.length is equal to g_model.includedCaseFolder.length - return Top Folder ('/')
-			if ( g_jurisdiction_list.length == g_model.includedCaseFolder.length )
+			// If g_case_folder_list.length is equal to g_model.includedCaseFolder.length - return Top Folder ('/')
+			if ( g_case_folder_list.length == g_model.includedCaseFolder.length )
 			{
 				case_folder_display = '/';
 				return case_folder_display;
@@ -689,8 +691,8 @@ async function download_data_quality_report_button_click()
 				// Add the Top Folder
 				case_folder_display = '/';
 
-				// Loop thru and add the excluded jurisdictions
-				g_jurisdiction_list.map( (j, i) => {
+				// Loop thru and add the excluded case_folders
+				g_case_folder_list.map( (j, i) => {
 					if ( j != '/' )
 					{
 						case_folder_exclude += ( g_model.includedCaseFolder.indexOf(j) > -1 ) ? '' : j + ', ';
@@ -747,7 +749,7 @@ async function download_data_quality_report_button_click()
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
 
-		let jurisdiction = '*****';
+		let case_folder = '*****';
 
 		// Create Summary Report if reportType is Summary or Summary & Detail
 		if ( g_model.reportType == 'Summary' || g_model.reportType == 'Summary & Detail')
