@@ -167,3 +167,8 @@ function get_selected_folder_list()
 }
 
 
+function has_multiple_case_folder()
+{
+	return (g_case_folder_list.length > 1) ? true : false;
+}
+

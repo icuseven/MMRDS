@@ -64,10 +64,7 @@ function data_quality_report_render(p_quarters)
 	return result;
 }
 
-function has_multiple_case_folder()
-{
-	return (g_case_folder_list.length > 1) ? true : false;
-}
+
 
 function render_case_folder_include_list()
 {
@@ -170,7 +167,7 @@ async function download_data_quality_report_button_click()
     let arr = selected_quarter.split("-");
     let quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
 
-    const selected_case_folders = get_selected_folder_list();
+    const selected_case_folder_list = get_selected_folder_list();
 
     let dqr_detail_data = await $.ajax
     ({
@@ -492,6 +489,15 @@ async function download_data_quality_report_button_click()
     for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
         let item = dqr_detail_data.docs[i];
+
+        if
+        (
+            selected_case_folder_list.indexOf("/") < 0 &&
+            selected_case_folder_list.indexOf(item.case_folder) < 0
+        )
+        {
+            continue;
+        }
 
         if ( item.add_quarter_number <= quarter_number ) 
         {
