@@ -175,7 +175,7 @@ async function render111_table(p_metadata, p_data_list)
 
     //return render_table(p_metadata, data, totals, total);
 
-    return `<table class="table rounded-0 mb-0"  style="width:80%"
+    return `<table class="table rounded-0 mb-0"  style="width:100%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     <thead class="thead">
@@ -237,7 +237,7 @@ async function render112_table(p_metadata, p_data_list)
     
 
 
-    return `<table class="table rounded-0 mb-0" style="width:80%"
+    return `<table class="table rounded-0 mb-0" style="width:100%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
     <thead class="thead">

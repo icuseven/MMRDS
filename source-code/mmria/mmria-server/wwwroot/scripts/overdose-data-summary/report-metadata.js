@@ -69,6 +69,7 @@ indicator_map.set
         blank_field_id: "MRaceEth20",
 
         chart_title:"Number of deaths by race/ethnicity",
+        chart_title_508:"Bar chart showing number of deaths by race/ethnicity.",
         x_axis_title:"Race/ethnicity",
         y_axis_title:"Number of deaths",
         
@@ -113,6 +114,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by mother’s age at death",
+        chart_title_508: "Bar chart showing number of deaths by age of mother at death in years.",
         x_axis_title:"Age of mother at death (years)",
         y_axis_title:"Number of deaths",
         
@@ -145,6 +147,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by mother’s educational attainment",
+        chart_title_508:"Bar chart showing number of deaths by educational attainment of mother.",
         x_axis_title:"Educational attainment of mother",
         y_axis_title:"Number of deaths",
         
@@ -173,10 +176,12 @@ indicator_map.set
         blank_field_id: "MEviSub3",
 
         chart_title:"Number of deaths with evidence of substance use in prenatal records",
-        table_title:"Evidence of substance use in prenatal records",
+        chart_title_508:"Bar chart showing number of deaths by evidence of substance use in prenatal records.",
         x_axis_title:"Evidence of substance use in prenatal records",
         y_axis_title:"Number of deaths",
         
+        table_title:"Evidence of substance use in prenatal records",
+        table_title_508:"Table chart showing number of deaths by evidence of substance use in prenatal records.",
 
         field_id_list : [
         { name: "MEviSub1", title: "Yes" },
@@ -197,10 +202,14 @@ indicator_map.set
         blank_field_id: "MHxSub3",
 
         chart_title:"History of documented substance use",
-        table_title:"Documented substance use",
+        chart_title_508:"Bar chart showing number of deaths by documented substance use.",
+        
         x_axis_title:"Documented substance use",
         y_axis_title:"Number of deaths",
         
+
+        table_title:"Documented substance use",
+        table_title_508:"Table chart showing number of deaths by documented substance use.",
 
         field_id_list : [
         { name: "MHxSub1", title: "Yes" },
@@ -221,10 +230,13 @@ indicator_map.set
         blank_field_id: "MSubAuto8",
 
         chart_title:"Number of deaths by substances on toxicology results",
-        table_title:"Drug class",
+        chart_title_508: "Bar chart showing number of deaths by drug class.",
+
+        
         x_axis_title:"Drug class",
         y_axis_title:"Number of deaths",
         
+        table_title:"Drug class",
 
         field_id_list : [
         { name: "MSubAuto1", title: "Alcohol" },
@@ -311,9 +323,11 @@ indicator_map.set
         blank_field_id: "MMHTx4",
 
         chart_title:"Documented mental health treatment (including substance use disorder)",
-        table_title:"Mental health treatment timing",
+        chart_title_508:"Bar chart showing number of deaths by mental health treatment timing.",
         x_axis_title:"Mental health treatment timing",
         y_axis_title:"Number of deaths",
+
+        table_title:"Mental health treatment timing",
         table_title_508:"Table showing number of deaths by Mental health treatment timing.",
         
 
@@ -336,6 +350,7 @@ indicator_map.set
         blank_field_id: "MEmoStress12",
 
         chart_title:"Number of deaths by presence of social or emotional stressor",
+        chart_title_508:"Bar chart showing number of deaths by presence of social or emotional stressor.",
         x_axis_title:"Social or emotional stressor",
         y_axis_title:"Number of deaths",
         
@@ -437,6 +452,7 @@ indicator_map.set
         blank_field_id: "MHxIncar8",
 
         chart_title:"Number of deaths by mother&apos;s incarceration history in relation to pregnancy",
+        chart_title_508:"Bar chart showing number of deaths by incarceration history of mother.",
         x_axis_title:" Incarceration history of mother",
         y_axis_title:"Number of deaths",
         

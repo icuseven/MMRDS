@@ -81,6 +81,7 @@ indicator_map.set
         blank_field_id: "MDeathPrevent4",
 
         chart_title:"Number of deaths by preventability",
+        chart_title_508: "Bar chart showing number of deaths by MMRC preventability determination.",
         x_axis_title:"MMRC preventability determination",
         y_axis_title:"Number of deaths",
         
@@ -134,6 +135,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by OMB race recode",
+        chart_title_508:"OMB Race Recode	Bar chart showing number of deaths by OMB race recode.",
         x_axis_title:"OMB Race Recode",
         y_axis_title:"Number of deaths",
 
@@ -166,6 +168,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by race",
+        chart_title_508: "Bar chart showing number of deaths by race.",
         x_axis_title:"Race",
         y_axis_title:"Number of deaths",
         
@@ -205,6 +208,7 @@ indicator_map.set
         blank_field_id: "MRaceEth20",
 
         chart_title:"Number of deaths by race/ethnicity",
+        chart_title_508:"Race/Ethnicity	Bar chart showing number of deaths by race/ethnicity.",
         x_axis_title:"Race/ethnicity",
         y_axis_title:"Number of deaths",
         
@@ -248,6 +252,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by mother’s age at death",
+        chart_title_508:"Age	Bar chart showing number of deaths by age of mother at death in years.",
         x_axis_title:"Age of mother at death (years)",
         y_axis_title:"Number of deaths",
         
@@ -280,6 +285,7 @@ indicator_map.set
 
 
         chart_title:"Number of deaths by mother&apos;s educational attainment",
+        chart_title_508:"Bar chart showing number of deaths by educational attainment of mother.",
         x_axis_title:"Educational attainment of mother",
         y_axis_title:"Number of deaths",
         
@@ -363,6 +369,7 @@ indicator_map.set
         blank_field_id: "MEmoStress12",
 
         chart_title:"Number of deaths by presence of social or emotional stressor",
+        chart_title_508:"Bar chart showing number of deaths by presence of social or emotional stressor.",
         x_axis_title:"Social or emotional stressor",
         y_axis_title:"Number of deaths",
         
