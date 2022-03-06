@@ -72,9 +72,12 @@ namespace mmria.server
                                 {
                                     if
                                     (
-                                        doc.value.case_review_day != 9999 && 
-                                        doc.value.case_review_month != 9999 &&
-                                        doc.value.case_review_year != 9999
+                                        doc.value.year_of_death.HasValue && doc.value.year_of_death.Value != 9999 &&
+                                        doc.value.month_of_death.HasValue && doc.value.month_of_death.Value != 9999 &&
+                                        doc.value.day_of_death.HasValue && doc.value.day_of_death.Value != 9999 &&
+                                        doc.value.case_review_day.HasValue && doc.value.case_review_day.Value != 9999 && 
+                                        doc.value.case_review_month.HasValue && doc.value.case_review_month.Value != 9999 &&
+                                        doc.value.case_review_year.HasValue && doc.value.case_review_year.Value != 9999
                                     )
                                     {
                                         result.Add(doc.value);
@@ -101,9 +104,12 @@ namespace mmria.server
                             {
                                 if
                                 (
-                                    doc.value.case_review_day != 9999 && 
-                                    doc.value.case_review_month != 9999 &&
-                                    doc.value.case_review_year != 9999
+                                    doc.value.year_of_death.HasValue && doc.value.year_of_death.Value != 9999 &&
+                                    doc.value.month_of_death.HasValue && doc.value.month_of_death.Value != 9999 &&
+                                    doc.value.day_of_death.HasValue && doc.value.day_of_death.Value != 9999 &&
+                                    doc.value.case_review_day.HasValue && doc.value.case_review_day.Value != 9999 && 
+                                    doc.value.case_review_month.HasValue && doc.value.case_review_month.Value != 9999 &&
+                                    doc.value.case_review_year.HasValue && doc.value.case_review_year.Value != 9999
                                 )
                                 {
                                     result.Add(doc.value);
