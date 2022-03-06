@@ -70,7 +70,15 @@ namespace mmria.server
                                     utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
                                 )
                                 {
-                                    result.Add(doc.value);
+                                    if
+                                    (
+                                        doc.value.case_review_day != 9999 && 
+                                        doc.value.case_review_month != 9999 &&
+                                        doc.value.case_review_year != 9999
+                                    )
+                                    {
+                                        result.Add(doc.value);
+                                    }
                                     break;
                                 }
                             }
@@ -91,7 +99,15 @@ namespace mmria.server
                                 utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
                             )
                             {
-                                result.Add(doc.value);
+                                if
+                                (
+                                    doc.value.case_review_day != 9999 && 
+                                    doc.value.case_review_month != 9999 &&
+                                    doc.value.case_review_year != 9999
+                                )
+                                {
+                                    result.Add(doc.value);
+                                }
                                 break;
                             }
                         }
