@@ -124,7 +124,7 @@ function render_table(p_metadata, p_data, p_totals, p_total)
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
-        <th style="width:25%" align=right>Number of deaths</th>
+        <th style="width:25%;text-align:right;">Number of deaths</th>
     </tr>
     </thead>
     <tbody>
@@ -165,7 +165,7 @@ function render_chart_508_description(p_metadata, p_data, p_totals)
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
-        <th style="width:25%" align=right>Number of deaths</th>
+        <th style="width:25%;text-align:right;">Number of deaths</th>
     </tr>
     </thead>
     <tbody>
