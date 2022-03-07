@@ -209,10 +209,10 @@ async function render10_table(p_metadata, p_data_list)
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
-        <th align=right>Yes</th>
-        <th align=right>No</th>
-        <th align=right>Probably</th>
-        <th align=right>Unknown</th>
+        <th style="text-align:right;">Yes</th>
+        <th style="text-align:right;">No</th>
+        <th style="text-align:right;">Probably</th>
+        <th style="text-align:right;">Unknown</th>
     </tr>
     </thead>
     <tbody>
