@@ -1,5 +1,6 @@
 var g_current;
 var g_writeText;
+var g_jurisdiction;
 
 
 $(function () {//http://www.w3schools.com/html/html_layout.asp
@@ -9,14 +10,16 @@ $(function () {//http://www.w3schools.com/html/html_layout.asp
 
 });
 
-async function create_data_quality_report_pdf(p_report_type, p_data, p_quarter, p_headers) {
+async function create_data_quality_report_download(p_report_type, p_data, p_quarter, p_jurisdiction, p_jurisdiction_exclude, p_headers) {
+	g_jurisdiction = p_jurisdiction;
 	let p_ctx = {
 		report_type: p_report_type,
 		data: p_data,
 		quarter: p_quarter,
+		jurisdiction: p_jurisdiction,
+		jurisdiction_exclude: p_jurisdiction_exclude,
 		headers: p_headers
 	};
-	// console.log('in create_data_quality_report_pdf: ', p_ctx);
 
 	try {
 		// initialize_print_pdf(ctx);
@@ -24,7 +27,7 @@ async function create_data_quality_report_pdf(p_report_type, p_data, p_quarter, 
 		await print_pdf(p_ctx);
 	}
 	catch (ex) {
-		// console.log('ERR: ', ex);
+		console.log('ERR: ', ex);
 		let profile_content_id = document.getElementById("profile_content_id");
 		{
 			profile_content_id.innerText = `
@@ -66,8 +69,6 @@ async function print_pdf(ctx) {
 		pageMargins: [10, 50, 10, 50],
 		info: {
 			title: pdfTitle,
-			author: 'MMRIA',
-			subject: 'Data Quality Report',
 		},
 		header: (currentPage, pageCount) => {
 			// console.log( 'currentPage: ', currentPage );
@@ -143,16 +144,8 @@ async function print_pdf(ctx) {
 			return headerObj;
 		},
 		footer: (currentPage, pageCount) => {
-			var tbl_footer = '';
-			if ( ctx.report_type == 'Summary' )
-			{
-				tbl_footer = '*The denominator for this indicator is limited to pregnancy-related deaths with a completed ';
-				tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].';
-			}
-			else
-			{
-				tbl_footer = '';
-			}
+			var tbl_footer = '*The denominator for this indicator is limited to pregnancy-related deaths with a completed ';
+			tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].';
 			if (currentPage < 3) {
 				return {
 					margin: [20, 0, 20, 0],
@@ -201,7 +194,7 @@ async function print_pdf(ctx) {
 				decoration: 'underline',
 			},
 			lightFill: {
-				fillColor: '#eeeeee',
+				fillColor: '#dedede',
 			},
 			blueFill: {
 				fillColor: '#cce6ff',
@@ -238,10 +231,8 @@ async function print_pdf(ctx) {
 		},
 		content: retContent,
 	};
-	// Create the pdf file
-	// pdfMake.createPdf(doc).download(pdfName);
-	pdfMake.createPdf(doc).open();
-
+	// Create the download file
+	pdfMake.createPdf(doc).download(pdfName);
 }
 
 // ************************************************************************
@@ -396,6 +387,7 @@ function formatContent(ctx) {
 		// Build summary page 1 & 2
 		body = dqr_summary(ctx);
 
+		console.log('body: ', body);
 		retContent.push([
 			{
 				layout: {
@@ -405,6 +397,7 @@ function formatContent(ctx) {
 					paddingTop: function (i, node) { return 2; },
 					paddingBottom: function (i, node) { return 1; },
 				},
+				id: 'DQR',
 				width: '*',
 				table: {
 					headerRows: 0,
@@ -415,10 +408,8 @@ function formatContent(ctx) {
 		]);
 
 		body = [];
-
 		// Add the notes
 		body = dqr_notes(ctx);
-
 		retContent.push([
 			{
 				layout: {
@@ -428,6 +419,7 @@ function formatContent(ctx) {
 					paddingTop: function (i, node) { return 2; },
 					paddingBottom: function (i, node) { return 1; },
 				},
+				id: 'DQR',
 				width: '*',
 				table: {
 					headerRows: 0,
@@ -439,9 +431,9 @@ function formatContent(ctx) {
 	}
 	else
 	{
-		// Build the detail report
+		// Build the detail reportj
+		console.log('Build the DETAIL report');
 		body = dqr_detail(ctx);
-
 		retContent.push([
 			{
 				layout: {
@@ -451,6 +443,7 @@ function formatContent(ctx) {
 					paddingTop: function (i, node) { return 2; },
 					paddingBottom: function (i, node) { return 1; },
 				},
+				id: 'DQR',
 				width: '*',
 				table: {
 					headerRows: 0,
@@ -460,9 +453,10 @@ function formatContent(ctx) {
 			},
 		]);
 
+
 	}
 
-	// console.log('retContent: ', retContent);
+	console.log('retContent: ', retContent);
 	return retContent;
 }
 
@@ -480,355 +474,79 @@ function dqr_detail(ctx) {
 	let retPage = [];
 	let body = [];
 
-	// Check to see if Detail Report has no cases
-	if ( ctx.data.questions.length == 0 && ctx.data.cases.length == 0 )
-	{
-		body = format_detail_no_data();
-
-		retPage.push([
-			{
-				layout: {
-					defaultBorder: false,
-					paddingLeft: function (i, node) { return 1; },
-					paddingRight: function (i, node) { return 1; },
-					paddingTop: function (i, node) { return 2; },
-					paddingBottom: function (i, node) { return 1; },
-				},
-				width: '*',
-				table: {
-					headerRows: 0,
-					widths: ['*'],
-					body: body,
-				},
-			},
-		]);
-	}
-	else
-	{
-		// Add detail records
-		body = format_detail_questions(ctx);
-
-		retPage.push([
-			{
-				layout: {
-					defaultBorder: false,
-					paddingLeft: function (i, node) { return 1; },
-					paddingRight: function (i, node) { return 1; },
-					paddingTop: function (i, node) { return 2; },
-					paddingBottom: function (i, node) { return 1; },
-				},
-				width: '*',
-				table: {
-					headerRows: 0,
-					widths: ['*'],
-					body: body,
-				},
-			},
-		]);
-
-		body = [];
-		body = format_detail_cases(ctx);
-
-		retPage.push([
-			{
-				layout: {
-					defaultBorder: false,
-					paddingLeft: function (i, node) { return 1; },
-					paddingRight: function (i, node) { return 1; },
-					paddingTop: function (i, node) { return 2; },
-					paddingBottom: function (i, node) { return 1; },
-				},
-				width: '*',
-				table: {
-					headerRows: 0,
-					widths: ['*'],
-					body: body,
-				},
-			},
-		]);
-
-		body = [];
-		body = format_detail_total(ctx);
-
-		retPage.push([
-			{
-				layout: {
-					defaultBorder: false,
-					paddingLeft: function (i, node) { return 1; },
-					paddingRight: function (i, node) { return 1; },
-					paddingTop: function (i, node) { return 2; },
-					paddingBottom: function (i, node) { return 1; },
-				},
-				width: '*',
-				table: {
-					headerRows: 0,
-					widths: ['*'],
-					body: body,
-				},
-			},
-		]);
-	}
-
-	return retPage;
-}
-
-// Case List by Data Quality Question
-function format_detail_no_data() {
-	let retPage = [];
-	let rows = new Array();
-
-	// Header
-	rows.push([
-		{
-			text: 'No cases identified with issues in DQR',
-			style: ['pageSubHeader', 'fgRed', 'isBold'],
-			colSpan: '5',
-			alignment: 'center'
-		},
-		{},{},{},{}
-	],);
+	body = format_detail_pages(ctx);
 
 	retPage.push([
 		{
 			layout: {
 				defaultBorder: false,
-			},
-			width: '*',
-			table: {
-				headerRows: 0,
-				widths: ['*', '*', '*', '*', 'auto'],
-				body: rows,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Case List by Data Quality Question
-function format_detail_questions(ctx) {
-	let retPage = [];
-	// ***
-	// *** q - the question constants array
-	// *** d - the data array
-	// ***
-	let q = g_dqr_questions;
-	let d = ctx.data.questions;
-	let rows = new Array();
-	let fld = '';
-
-	// Header
-	rows.push([
-		{
-			text: 'Case List by Data Quality Question',
-			style: ['pageSubHeader', 'blueFill', 'isBold'],
-			colSpan: '5',
-			alignment: 'center'
-		},
-		{},{},{},{}
-	],);
-
-	// Sub Header
-	rows.push([
-		{ text: '#', style: ['tableLabel', 'blueFill'], alignment: 'center', },
-		{ text: 'MMRIA Record-ID#', style: ['tableLabel', 'blueFill'], },
-		{ text: 'Date of Death', style: ['tableLabel', 'blueFill'], },
-		{ text: 'ComRev Date', style: ['tableLabel', 'blueFill'], },
-		{ text: 'MMRIA Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
-	],);
-
-	// Questions loop
-	if ( d.length == 0 )
-	{
-		// No questions
-		rows.push([
-			{ text: 'No Data Quality Questions to Display', style: ['tableDetail'], colSpan: '5', },
-			{},{},{},{},
-		],);
-	}
-	else
-	{
-		// Loop thru the questions
-		for ( let i = 0; i < d.length; i++ )
-		{
-			// Build the index to question constants
-			fld = ( d[i].qid < 10 ) ? 'n0' + d[i].qid : 'n' + d[i].qid;
-		
-			// Show the question and type identifier
-			rows.push([
-				{ text: `${q[fld]} - ${d[i].typ}`, style: ['tableLabel'], colSpan: '5', border: [false, false, false, true], },
-				{},{},{},{},
-			],);
-
-			// Loop thru the detail lines for this question
-			if ( d[i].detail.length == 0 )
-			{
-				rows.push([
-					{ text: 'No cases to report', style: ['tableDetail', 'lightFill'], colSpan: '5', },
-					{},{},{},{},
-				],);
-			}
-			else
-			{
-				for ( let j = 0; j < d[i].detail.length; j++ )
-				{
-					rows.push([
-						{ text: `${d[i].detail[j].num}`, style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], alignment: 'center', },
-						{ text: `${d[i].detail[j].rec_id}`, style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], },
-						{ text: `${d[i].detail[j].dt_death}`, style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], },
-						{ text: `${d[i].detail[j].dt_com_rev}`, style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], },
-						{ text: `${d[i].detail[j].ia_id}`, style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], },
-					],);	
-				}
-			}
-
-			// Add a line at end of section
-			rows.push([
-				{ text: ' ', colSpan: '5', border: [false, true, false, false], },{},{},{},{},
-			],);
-		}
-	}
-
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-			},
-			width: '*',
-			table: {
-				headerRows: 2,
-				widths: [30, '*', '*', '*', 'auto'],
-				body: rows,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Case List by MMRIA-ID#
-function format_detail_cases(ctx) {
-	let retPage = [];
-	// ***
-	// *** q - the question constants array
-	// *** d - the data array
-	// ***
-	let q = g_dqr_questions;
-	let d = ctx.data.cases;
-	let rows = new Array();
-	let fld = '';
-
-	// Header
-	rows.push([
-		{
-			text: 'Case List by MMRIA-ID#',
-			style: ['pageSubHeader', 'blueFill', 'isBold'],
-			colSpan: '5',
-			alignment: 'center'
-		},
-		{},{},{},{},
-	],);
-
-	// Sub Header
-	rows.push([
-		{ text: 'MMRIA Record-ID#', style: ['tableLabel', 'blueFill'], },
-		{ text: 'Agency-Based Case ID#', style: ['tableLabel', 'blueFill'], },
-		{ text: 'Date of Death', style: ['tableLabel', 'blueFill'], },
-		{ text: 'ComRev Date', style: ['tableLabel', 'blueFill'], },
-		{ text: 'MMRIA Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
-	],);
-
-	// case loop
-	if ( d.length == 0 )
-	{
-		// No cases
-		rows.push([
-			{ text: 'No Case List Data to Display', style: ['tableDetail'], colSpan: '5', },
-			{},{},{},{},
-		],);
-	}
-	else
-	{
-		// Loop thru the questions
-		for ( let i = 0; i < d.length; i++ )
-		{
-			// Show the question and type identifier
-			rows.push([
-				{ text: `${d[i].rec_id}`, style: ['tableLabel'], border: [false, false, false, true], },
-				{ text: `${d[i].ab_case_id}`, style: ['tableLabel'], border: [false, false, false, true], },
-				{ text: `${d[i].dt_death}`, style: ['tableLabel'], border: [false, false, false, true], },
-				{ text: `${d[i].dt_com_rev}`, style: ['tableLabel'], border: [false, false, false, true], },
-				{ text: `${d[i].ia_id}`, style: ['tableLabel'], border: [false, false, false, true], },
-			],);
-
-			// Loop thru the detail lines for this question
-			for ( let j = 0; j < d[i].detail.length; j++ )
-			{
-				// Build the index to question constants
-				fld = ( d[i].detail[j].qid < 10 ) ? 'n0' + d[i].detail[j].qid : 'n' + d[i].detail[j].qid;
-		
-				rows.push([
-					{ 
-						text: [
-							{ text: `${fmt2Digits(j + 1)} `, style: ['tableDetail', 'isItalics'], },
-							{ text: ` ${q[fld]} - ${d[i].detail[j].typ}`, },
-						], 
-						style: ['tableDetail', `${ (j % 2 == 0) ? 'lightFill' : ''}`], 
-						colSpan: '5', 
-					},
-					{},{},{},{},
-				],);	
-			}
-
-			// Add a line at end of section with underline
-			rows.push([ { text: ' ', colSpan: '5', border: [false, true, false, false], },{},{},{},{}, ],);
-		}
-	}
-
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
-			},
-			width: '*',
-			table: {
-				headerRows: 2,
-				widths: [80, 100, 80, 80, '*'],
-				body: rows,
-			},
-		},
-	]);
-
-	return retPage;
-}
-
-// Total # of cases with issues
-function format_detail_total(ctx) {
-	let retPage = [];
-	let d = ctx.data.total;
-	let rows = new Array();
-
-	// Add blank line
-	rows.push([ { text: ' ', }, ],);
-
-	// Total
-	rows.push([
-		{ text: `Total # of cases identified with issues in DQR: ${ d }`, style: ['tableLabel'], },
-	],);
-
-	retPage.push([
-		{
-			layout: {
-				defaultBorder: false,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 1; },
 			},
 			width: '*',
 			table: {
 				headerRows: 0,
 				widths: ['*'],
+				body: body,
+			},
+		},
+	]);
+
+	return retPage;
+}
+
+function format_detail_pages(ctx) {
+	let retPage = [];
+	// ***
+	// *** q - the question array
+	// *** d - the data array
+	// ***
+	// let q = g_dqr_questions;
+	// let d = ctx.data;
+	let rows = new Array();
+	// let fld = '';
+	// let fldSub = '';
+	// let startLoop;
+	// let endLoop;
+
+	// First table - 01) thru 05)
+	// Header
+	rows.push([
+		{
+			text: `Details`,
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, true],
+		},
+		{
+			text: `(as of ${ctx.quarter})`,
+			style: ['tableLabel', 'lightFill'],
+			alignment: 'center',
+			border: [false, true, true, true],
+		},
+	],);
+
+
+	retPage.push([
+		{
+			layout: {
+				defaultBorder: true,
+				paddingLeft: function (i, node) { return 1; },
+				paddingRight: function (i, node) { return 1; },
+				paddingTop: function (i, node) { return 2; },
+				paddingBottom: function (i, node) { return 1; },
+			},
+			width: '*',
+			table: {
+				headerRows: 0,
+				widths: [350, '*'],
 				body: rows,
 			},
 		},
 	]);
+
+
 
 	return retPage;
 }
@@ -880,12 +598,12 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: `Summary of ALL Deaths Entered into MMRIA as of ${ctx.quarter}`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, true],
 		},
 		{
 			text: `N (as of ${ctx.quarter})`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [false, true, true, true],
 		},
@@ -935,13 +653,13 @@ function format_summary_pages(ctx) {
 		rows.push([
 			{
 				text: q[fldSub],
-				style: ['tableDetail', `${ (i % 2 == 0) ? 'lightFill' : ''}`],
+				style: ['tableDetail'],
 				border: [true, false, true, false],
 				preserveLeadingSpaces: true,
 			},
 			{
 				text: d[fld][i],
-				style: ['tableDetail', `${ (i % 2 == 0) ? 'lightFill' : ''}`],
+				style: ['tableDetail'],
 				alignment: 'center',
 				border: [true, false, true, false],
 			},
@@ -993,12 +711,12 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: `Summary of Deaths included in this ${ctx.quarter} Report`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, true],
 		},
 		{
 			text: `N (as of ${ctx.quarter})`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [false, true, true, true],
 		},
@@ -1051,18 +769,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
@@ -1071,18 +789,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: `${ctx.quarter}, N = 132`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Previous 4 Qtrs, N = 520',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1091,18 +809,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabelSmall', 'blueFill'],
+			style: ['tableLabelSmall', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: 'How your data looks',
-			style: ['tableLabelSmall', 'blueFill'],
+			style: ['tableLabelSmall', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'How your data looked',
-			style: ['tableLabelSmall', 'blueFill'],
+			style: ['tableLabelSmall', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1111,18 +829,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Missing          Unknown',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Missing          Unknown',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1131,18 +849,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, true],
 		},
 		{
 			text: 'N       %            N          %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 		},
 		{
 			text: 'N       %            N          %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 		},
@@ -1210,18 +928,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
@@ -1230,18 +948,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: `${ctx.quarter}, N = 132`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Previous 4 Qtrs, N = 520',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1250,18 +968,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Missing          Unknown',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Missing          Unknown',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1270,18 +988,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, true],
 		},
 		{
 			text: 'N       %            N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 		},
 		{
 			text: 'N       %            N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 		},
@@ -1347,18 +1065,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
 		{
 			text: 'Deaths Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
@@ -1367,18 +1085,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: `${ctx.quarter}, N = 132`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Previous 4 Qtrs, N = 520',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1387,18 +1105,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Total    Passed Logic Chk',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Total    Passed Logic Chk',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1407,19 +1125,19 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: 'Logic Checks for Reviewed Pregnancy-Related Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, true],
 		},
 		{
 			text: '  N              N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 			preserveLeadingSpaces: true,
 		},
 		{
 			text: '  N              N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 			preserveLeadingSpaces: true,
@@ -1441,16 +1159,16 @@ function format_summary_pages(ctx) {
 				columns:
 					[
 						{ width: 30, text: fmtNumber( d[fld].s.tn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 35, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 35, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].s.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].s.pp ), style: ['tableDetail'], alignment: 'right', },
 					],
 			},
 			{
 				columns:
 					[
 						{ width: 30, text: fmtNumber( d[fld].p.tn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 35, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
-						{ width: 35, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 40, text: fmtNumber( d[fld].p.pn ), style: ['tableDetail'], alignment: 'right', },
+						{ width: 30, text: fmtPercent( d[fld].p.pp ), style: ['tableDetail'], alignment: 'right', },
 					],
 			},
 		],);
@@ -1484,18 +1202,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, true, false, false],
 		},
 		{
 			text: 'Preventable Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
 		{
 			text: 'Preventable Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, true, true, false],
 		},
@@ -1504,38 +1222,38 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
-			border: [true, false, true, false],
+			style: ['tableLabel', 'lightFill'],
+			border: [true, true, false, false],
 		},
 		{
 			text: 'Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
-			border: [true, false, true, false],
+			border: [true, true, true, false],
 		},
 		{
 			text: 'Reviewed in',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
-			border: [true, false, true, false],
+			border: [true, true, true, false],
 		},
 	],);
 	// Header line 3
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: `${ctx.quarter}, N = 132`,
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Previous 4 Qtrs, N = 520',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1544,18 +1262,18 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: '',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Total    Passed Logic Chk',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
 			text: 'Total    Passed Logic Chk',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
@@ -1564,19 +1282,19 @@ function format_summary_pages(ctx) {
 	rows.push([
 		{
 			text: 'Logic Checks for Reviewed Preventable Pregnancy-Related Deaths',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			border: [true, false, true, true],
 		},
 		{
 			text: '  N              N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 			preserveLeadingSpaces: true,
 		},
 		{
 			text: '  N              N        %',
-			style: ['tableLabel', 'blueFill'],
+			style: ['tableLabel', 'lightFill'],
 			alignment: 'center',
 			border: [true, false, true, true],
 			preserveLeadingSpaces: true,

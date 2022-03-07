@@ -42,6 +42,9 @@ var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
+//let save_start_time, save_end_time;
+
+
 
 async function g_set_data_object_from_path
 (
@@ -55,6 +58,8 @@ async function g_set_data_object_from_path
   p_time_object
 ) 
 {
+
+  //save_start_time = performance.now();
   var is_search_result = false;
   var search_text = null;
 
@@ -124,7 +129,7 @@ async function g_set_data_object_from_path
         grid_index: p_grid_index
       });
 
-      await autorecalculate(p_dictionary_path);
+      window.setTimeout(async ()=> { await autorecalculate(p_dictionary_path) });
       /*
       if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
       {
@@ -291,7 +296,7 @@ async function g_set_data_object_from_path
     g_data.date_last_updated = new Date();
     //g_data.last_updated_by = g_uid;
 
-    await autorecalculate(p_dictionary_path, p_form_index, p_grid_index);
+    window.setTimeout(async ()=> { await autorecalculate(p_dictionary_path, p_form_index, p_grid_index) });
 
 if
 (
@@ -644,13 +649,17 @@ else
         }
     );
   }
-update_charts();
+
+  window.setTimeout(update_charts, 0);
+
+    //save_end_time = performance.now();
 }
 
 
-
+//let startTime, endTime;
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
 {
+  
   let metadata = eval(p_metadata_path);
   let new_line_item = create_default_object(metadata, {}, true);
   let grid = eval(p_object_path);
@@ -687,8 +696,10 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
       eval(post_html_call_back.join(''));
     }
   });
-
-  update_charts();
+  
+    //startTime = performance.now();
+   window.setTimeout(update_charts, 0);
+  //endTime = performance.now();
 }
 
 
@@ -2323,17 +2334,15 @@ function enable_print_button(event)
 let unique_tab_name = '';
 function pdf_case_onclick(event, type_output) 
 {
-	console.log('type_output: ', type_output);
+	//console.log('type_output: ', type_output);
   const btn = event.target;
-  const dropdown = document.getElementById('print_case_id');
-	// console.log('dropdown2.value: ', dropdown2.value);
-	// const dropdown = ( type_output == 'view' )
-	// 	? btn.previousSibling.previousSibling											// Need to go back 2 fields to get the dropdown value
-	// 	: btn.previousSibling.previousSibling.previousSibling;		// Need to go back 3 fields to get the dropdown value
-	
+ 
+	const dropdown = ( type_output == 'view' )
+		? btn.previousSibling.previousSibling
+		: btn.previousSibling.previousSibling.previousSibling;
+
   // get value of selected option
   let section_name = dropdown.value;
-  //await print_pdf( section_name );
 
   unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
@@ -2379,8 +2388,7 @@ function pdf_case_onclick(event, type_output)
 function print_case_onclick(event) 
 {
 	const btn = event.target;
-	// const dropdown = btn.previousSibling;
-	const dropdown = document.getElementById('print_case_id');
+	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
 	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
@@ -2437,7 +2445,9 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
 	// console.log('p_number: ', p_number);
 	// console.log('p_type_output: ', p_type_output);
 
-  // check if a WindowProxy object has already been created.
+
+   // g_data.case_narrative.case_opening_overview = textarea_control_strip_html_attributes(g_data.case_narrative.case_opening_overview);
+
   if (!window[tabName] || window[tabName].closed) 
   {
     window[tabName] = window.open(pageRoute, tabName, null, false);
@@ -3559,26 +3569,26 @@ function update_charts()
 {
     for (let chart in g_charts)
     {
-        let item = g_charts[chart];
-        let p_metadata = g_chart_data[chart];
-        let columns_data = [];
-        let x_columns_data = [];
-        let convertedArray = [];
-        let xconvertedArray = [];
+        const item = g_charts[chart];
+        const p_metadata = g_chart_data[chart];
+        const columns_data = [];
+        const x_columns_data = [];
+        const convertedArray = [];
+        const xconvertedArray = [];
 
         if (p_metadata.y_label && p_metadata.y_label != "") 
         {
-            var y_labels = p_metadata.y_label.split(",");
-            var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            const y_labels = p_metadata.y_label.split(",");
+            const y_axis_paths = p_metadata.y_axis.split(",");
+            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
         }
         else 
         {
-            var y_axis_paths = p_metadata.y_axis.split(",");
-            for (var y_index = 0; y_index < y_axis_paths.length; y_index++) 
+            const y_axis_paths = p_metadata.y_axis.split(",");
+            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
             {
                 columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
             }
@@ -3590,24 +3600,24 @@ function update_charts()
         }
 
         columns_data.forEach
-        (function (item, index) {
-            var output = {};
+        (function (data_item, index) {
+            let output = {};
 
-            if (!item) return;
+            if (!data_item) return;
 
-            output[item[0]] = item.slice(1, item.length);
+            output[data_item[0]] = data_item.slice(1, data_item.length);
 
             convertedArray.push(output);
 
         });
 
         x_columns_data.forEach
-        (function (item, index) {
-            var output = {};
+        (function (data_item, index) {
+            let output = {};
 
-            if (!item) return;
+            if (!data_item) return;
 
-            output[item[0]] = item.slice(1, item.length);
+            output[data_item[0]] = data_item.slice(1, data_item.length);
 
             xconvertedArray.push(output);
 
@@ -3617,23 +3627,23 @@ function update_charts()
 
         Object.values(xconvertedArray).forEach
         (function (obj, index) {
-            var key = Object.keys(obj)[0];
-            var data = [key];
+            const key = Object.keys(obj)[0];
+            const data = [key];
             xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
         });
 
         Object.values(convertedArray).forEach
         (function (obj, index)  {
-            var key = Object.keys(obj)[0];
-            var data = [key];
+            const key = Object.keys(obj)[0];
+            const data = [key];
 
-            data = data.concat(obj[key]);
+            const new_data = data.concat(obj[key]);
 
             item.load({
                 unload: ['x'],
                 columns: [
                     xdata,
-                    data
+                    new_data
                 ]
             });
 
@@ -5783,27 +5793,31 @@ autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_deliver
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum);
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum);
 
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.year", arc_eha_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.month", arc_eha_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum.day", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/month", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/day", arc_eha_days_postpartum);
 
-function arc_eha_days_postpartum() 
+function arc_eha_days_postpartum(p_form_index) 
 {
-    var days = null;
-    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
-    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
-    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(this.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
-    var start_date = new Date(start_year, start_month - 1, start_day);
-    var end_date = new Date(end_year, end_month - 1, end_day);
+    let days = null;
+    let start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    let start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    let start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    let end_year = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.year);
+    let end_month = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.month);
+    let end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.day);
+    let start_date = new Date(start_year, start_month - 1, start_day);
+    let end_date = new Date(end_year, end_month - 1, end_day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival.days_postpartum.days_postpartum = days;
-        $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum", days);
     }
+
+    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum", days);
+
+
+    
 }
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ADMISSION
 /*
@@ -5840,8 +5854,9 @@ function arc_eha_days_postpartum(p_form_index)
     {
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum = days;
-        $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum", days);
     }
+
+    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum", days);
 }
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT DISCHARGE
 /*

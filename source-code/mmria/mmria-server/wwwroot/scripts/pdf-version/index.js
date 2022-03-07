@@ -368,15 +368,8 @@ function getBase64ImageFromURL(url) {
 
 // create a unique PDF name based on datetime
 function createNamePDF() {
-	let today = new Date();
-	let yy = today.getFullYear() + ':';
-	let mm = fmt2Digits(today.getMonth() + 1) + ':';
-	let dd = fmt2Digits(today.getDate()) + '_';
-	let hh = fmt2Digits(today.getHours()) + ':';
-	let mn = fmt2Digits(today.getMinutes()) + ':';
-	let ss = fmt2Digits(today.getSeconds()) + '.pdf';
-
-	return 'mmria_' + yy + mm + dd + hh + mn + ss;
+	let utcDate = new Date().toISOString();
+	return `${g_d.home_record.record_id}` + '_' + utcDate + '.pdf';
 }
 
 // check field for null
@@ -1095,7 +1088,6 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			break;
 		case "P":
 		case "DIV":
-        case "SPAN":
 			let text_array = [];
 			for (let i = 0; i < p_node.childNodes.length; i++) {
 				let child = p_node.childNodes[i];
@@ -1104,12 +1096,17 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			text_array.push({ text: "\n" });
 			p_result.push({ text: text_array });
 			return;
-			break;
-		//case "SPAN":
-			//p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, {}) });
-			return;
+        case "SPAN":
+            let span_text_array = [];
+            for (let i = 0; i < p_node.childNodes.length; i++) {
+                let child = p_node.childNodes[i];
+                ConvertHTMLDOMWalker(span_text_array, child);
+            }
+            p_result.push({ text: span_text_array });
+            return;
 			break;
 		case "STRONG":
+        case "B":
 			let strong_attr = { bold: true };
 			p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
 			return;

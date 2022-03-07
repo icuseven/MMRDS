@@ -232,12 +232,25 @@ function textarea_control_strip_html_attributes(p_value)
 
     let StripTrailingBR = /<br><br>(<br>|<br>.?)+/gi;
 
+    const Replace1 = /<br><\/p>/gi;
+    const Replace2 = /<br><\/span>/gi;
+    const Replace3 = /<p><span [^>]+><\/span><\/p>/gi;
+    const Replace4 = /<span [^>]+><\/span>/gi;
+
     let PseudoTagRegex = /<\/?[a-z]:[^>]+>/gi;
 
     let crlf_regex = /\n/g;
 
     let node = document.createElement("body");
-    node.innerHTML = p_value.replace(CommentRegex,"").replace(crlf_regex," ").replace(Strip5PlusBr,"<br><br>").replace(StripTrailingBR,"").replace(PseudoTagRegex,"").trim();
+    node.innerHTML = p_value.replace(CommentRegex,"")
+        .replace(crlf_regex," ")
+        .replace(Strip5PlusBr,"<br><br>")
+        .replace(StripTrailingBR,"")
+        .replace(PseudoTagRegex,"")
+        .replace(Replace1, "</p>")
+        .replace(Replace2, "</span>")
+        .replace(Replace3,"")
+        .replace(Replace4,"").trim();
 
     DOMWalker(node);
 

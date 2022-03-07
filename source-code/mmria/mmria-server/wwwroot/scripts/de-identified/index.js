@@ -1042,7 +1042,7 @@ function set_local_case(p_data, p_call_back)
 
   if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
   {
-    localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
+    //localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
 
     if(p_call_back)
     {
@@ -1118,11 +1118,15 @@ function enable_print_button(event)
 }
 
 let unique_tab_name = '';
-function pdf_case_onclick(event, typeOutput) 
+function pdf_case_onclick(event, type_output) 
 {
   const btn = event.target;
-  const dropdown = document.getElementById('print_case_id');
-  // get value of selected option
+
+	const dropdown = ( type_output == 'view' )
+		? btn.previousSibling.previousSibling
+		: btn.previousSibling.previousSibling.previousSibling;
+
+	// get value of selected option
   const section_name = dropdown.value;
 
   unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
@@ -1134,7 +1138,7 @@ function pdf_case_onclick(event, typeOutput)
 
         window.setTimeout(function()
         {
-            openTab('./pdf-version', unique_tab_name, section_name);
+            openTab('./pdf-version', unique_tab_name, section_name, type_output);
         }, 1000);	
 
       
@@ -1148,7 +1152,7 @@ function pdf_case_onclick(event, typeOutput)
   
       window.setTimeout(function()
       {
-          openTab('./pdf-version', unique_tab_name, section_name, record_number);
+          openTab('./pdf-version', unique_tab_name, section_name, type_output, record_number);
       }, 1000);	
       
     }
@@ -1187,7 +1191,6 @@ function print_case_onclick(event)
 {
 	const btn = event.target;
 	const dropdown = btn.previousSibling;
-	// const dropdown = document.getElementById('print_case_id');
 	// get value of selected option
 	const section_name = dropdown.value;
 	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);

@@ -44,7 +44,6 @@ namespace mmria.server
 				{
 					row_list = all_docs_dictionary ["rows"] as List<object> ;
 				}
-				
 
 				if(row_list != null)
 				foreach (object row_item in row_list)
@@ -55,9 +54,23 @@ namespace mmria.server
 					{
 
 						KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
+
+
 						if(convert_result.Key)
 						{
-							result.Add(convert_result.Value);
+                            var item = convert_result.Value;
+                            
+				//home_record/date_of_death/year ne 9999 
+                // and committee_review/date_of_review is not missing
+                            if
+                            (
+                                item.year_of_death.HasValue && 
+                                item.year_of_death.Value != 9999 &&
+                                item.year_of_case_review.HasValue
+                            )
+                            {
+							    result.Add(item);
+                            }
 						}
 					}
 	

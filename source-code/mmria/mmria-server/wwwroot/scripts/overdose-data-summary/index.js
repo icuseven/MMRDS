@@ -36,7 +36,7 @@ const g_nav_map = new Map();
 g_nav_map.set(0,"Overview");
 g_nav_map.set(1,"Pregnancy-Relatedness");
 g_nav_map.set(2,"Timing of Death");
-g_nav_map.set(3,"Race/Ethniciy");
+g_nav_map.set(3,"Race/Ethnicity");
 g_nav_map.set(4,"Age");
 g_nav_map.set(5,"Education");
 g_nav_map.set(6,"Substance Use");
@@ -45,7 +45,7 @@ g_nav_map.set(8,"Committee Determinations");
 g_nav_map.set(9,"Treatment History");
 g_nav_map.set(10,"Emotional Stress");
 g_nav_map.set(11,"Living Arrangements");
-g_nav_map.set(12,"Incareration History");
+g_nav_map.set(12,"Incarceration History");
 
 const relatedness_map = new Map();
 relatedness_map.set(9999, "(blank)");
@@ -129,25 +129,82 @@ function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
 
-    g_filter.date_of_review.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const current_date = new Date();
+
+
+    if(test_date <= current_date && test_date <= g_filter.date_of_review.end )
+    {
+        g_filter.date_of_review.begin = test_date;
+        const el = document.getElementById("review_end_date");
+        el.setAttribute("min", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("review_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.begin);
+    }
 }
 function review_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     
-    g_filter.date_of_review.end = new Date(arr[0], arr[1] - 1, arr[2]);
+
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const current_date = new Date();
+
+    if(test_date <= current_date && g_filter.date_of_review.begin <= test_date)
+    {
+        g_filter.date_of_review.end = test_date;
+        const el = document.getElementById("review_begin_date");
+        el.setAttribute("max", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("review_end_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.end);
+    }
 }
 function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_death.begin = new Date(arr[0], arr[1] - 1, arr[2]);
+    
+
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const current_date = new Date();
+
+    if(test_date <= current_date && test_date <= g_filter.date_of_death.end)
+    {
+        g_filter.date_of_death.begin = test_date;
+        const el = document.getElementById("death_end_date");
+        el.setAttribute("min", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("death_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_death.begin);
+    }
 }
 function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
-    g_filter.date_of_death.end = new Date(arr[0], arr[1] - 1, arr[2]);
-}
+    
 
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const current_date = new Date();
+
+    if(test_date <= current_date && g_filter.date_of_death.begin <=  test_date)
+    {
+        g_filter.date_of_death.end = test_date;
+        const el = document.getElementById("death_end_date");
+        el.setAttribute("max", p_value);
+    }
+    else
+    {
+        const el = document.getElementById("");
+        el.value = ControlFormatDate(g_filter.date_of_death.end);
+    }
+}
 
 function  pregnancy_relatedness_all_change(p_control)
 {

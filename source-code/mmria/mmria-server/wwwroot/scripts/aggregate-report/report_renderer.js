@@ -17,7 +17,15 @@ async function render(p_index)
         index = p_index;
     }
 
-    const post_html = [];
+    const post_html = [
+    `const all = document.getElementsByClassName('spinner-container')
+    for(let i = 0; i < all.length; i++)
+    {
+        let item = all[i];
+        item.remove();
+    }`
+    ];
+    
     switch(index)
     {
         case 1:
@@ -157,7 +165,7 @@ function render_header()
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
-<br/><br/>
+
     `;
 }
 
@@ -262,33 +270,51 @@ function show_filter_dialog()
         </ul>    
         </p>
         <p>
-            <strong>Review Dates:</strong> 
+            
             <table>
-                <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
+                <tr>
+                    <th><strong>Review Dates:</strong></th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
                 <tr>
                     <td>
                         <label for="review_begin_date">Begin</label>
-                        <input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" onchange="review_begin_date_change(this.value)" />
+                        <input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
                     </td>
-                        
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     <td>
                         <label for="review_end_date">End</label>
-                        <input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}" onchange="review_end_date_change(this.value)" />
+                        <input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
                     </td>
                 </tr>
             </table>
         </p>
-        <p><strong>Dates of Death:</strong> 
+        <p>
+            
             <table>
-                <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
+                <tr>
+                    <th><strong>Dates of Death:</strong></th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
                 <tr>
                     <td>
                         <label for="death_begin_date">Begin</label>
-                        <input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" onchange="death_begin_date_change(this.value)" />
+                        <input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
                     </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td>
                         <label for="death_end_date">End</label>
-                        <input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}" onchange="death_end_date_change(this.value)" />
+                        <input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
                     </td>
                 </tr>
             </table>

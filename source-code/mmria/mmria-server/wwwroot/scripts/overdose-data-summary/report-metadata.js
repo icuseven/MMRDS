@@ -68,20 +68,21 @@ indicator_map.set
         description:"To be included in one of these categories, both the race and Hispanic origin variables must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is more likely to be self-reported, and if that is missing or incomplete, race/ethnicity is ascertained from the Death Certificate.",
         blank_field_id: "MRaceEth20",
 
-        chart_title:"Race/Ethnicity",
-        table_title:"Race/Ethnicity",
-        x_axis_title:"Number of deaths by Race/Ethnicity",
+        chart_title:"Number of deaths by race/ethnicity",
+        chart_title_508:"Bar chart showing number of deaths by race/ethnicity.",
+        x_axis_title:"Race/ethnicity",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Race/Ethnicity",
-        table_title_508:"Table showing number of deaths by Race/Ethnicity.",
+        table_title:"Race/ethnicity",
+        table_title_508:"Table showing number of deaths by race/ethnicity.",
         
 
         field_id_list : [
 
-            { name: "MRaceEth3", title: "Hispanic" },
-            { name: "MRaceEth4", title: "Non-Hispanic Black" },
             { name: "MRaceEth5", title: "Non-Hispanic White" },
+            { name: "MRaceEth4", title: "Non-Hispanic Black" },
+            { name: "MRaceEth3", title: "Hispanic" },
+            /*
             { name: "MRaceEth6", title: "American Indian / Alaska Native" },
             { name: "MRaceEth7", title: "Native Hawaiian" },
             { name: "MRaceEth8", title: "Guamanian or Chamorro" },
@@ -93,9 +94,9 @@ indicator_map.set
             { name: "MRaceEth14", title: "Other Asian" },
             { name: "MRaceEth15", title: "Chinese" },
             { name: "MRaceEth16", title: "Japanese" },
-            { name: "MRaceEth17", title: "Vietnamese" },
-            { name: "MRaceEth18", title: "Other Race" },
-            { name: "MRaceEth19", title: "Race Not Specified" },
+            { name: "MRaceEth17", title: "Vietnamese" },*/
+            { name: "MRaceEth18", title: "Other" },
+            //{ name: "MRaceEth19", title: "Race Not Specified" },
             { name: "MRaceEth20", title: "(Blank)" },
         ],
     }
@@ -112,22 +113,22 @@ indicator_map.set
         blank_field_id: "MAgeD8",
 
 
-        chart_title:"Age",
-        table_title:"Age",
-        x_axis_title:"Number of deaths by Age",
+        chart_title:"Number of deaths by mother’s age at death",
+        chart_title_508: "Bar chart showing number of deaths by age of mother at death in years.",
+        x_axis_title:"Age of mother at death (years)",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Age",
+        table_title:"Age of mother at death (years)",
         table_title_508:"Table showing number of deaths by Age.",
         
 
         field_id_list : [
         { name: "MAgeD1", title: "< 20" },
-        { name: "MAgeD2", title: "20 to 24" },
-        { name: "MAgeD3", title: "25 to 29" },
-        { name: "MAgeD4", title: "30 to 34" },
-        { name: "MAgeD5", title: "35 to 39" },
-        { name: "MAgeD6", title: "40 to 44" },
+        { name: "MAgeD2", title: "20-24" },
+        { name: "MAgeD3", title: "25-29" },
+        { name: "MAgeD4", title: "30-34" },
+        { name: "MAgeD5", title: "35-39" },
+        { name: "MAgeD6", title: "40-44" },
         { name: "MAgeD7", title: "45+" },
         { name: "MAgeD8", title: "(blank)" },
         
@@ -141,16 +142,16 @@ indicator_map.set
     {
         indicator_id : "mEducation",
         title:"Education",
-        description:"Add To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
+        description:"To be included in one of these categories, education must be completed on the Birth/Fetal Death Certificate or Death Certificate. Priority is given to data entered on the Birth/Fetal Death Certificate because it is self-reported, and if that is missing or incomplete, education level is pulled from the Death Certificate.",
         blank_field_id: "MEduc5",
 
 
-        chart_title:"Education",
-        table_title:"Education",
-        x_axis_title:"Number of deaths by Education",
+        chart_title:"Number of deaths by mother’s educational attainment",
+        chart_title_508:"Bar chart showing number of deaths by educational attainment of mother.",
+        x_axis_title:"Educational attainment of mother",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Education",
+        table_title:"Educational attainment of mother",
         table_title_508:"Table showing number of deaths by Education.",
         
 
@@ -175,10 +176,12 @@ indicator_map.set
         blank_field_id: "MEviSub3",
 
         chart_title:"Number of deaths with evidence of substance use in prenatal records",
-        table_title:"Number of deaths with evidence of substance use in prenatal records",
-        x_axis_title:"Number of deaths with evidence of substance use in prenatal records",
+        chart_title_508:"Bar chart showing number of deaths by evidence of substance use in prenatal records.",
+        x_axis_title:"Evidence of substance use in prenatal records",
         y_axis_title:"Number of deaths",
         
+        table_title:"Evidence of substance use in prenatal records",
+        table_title_508:"Table chart showing number of deaths by evidence of substance use in prenatal records.",
 
         field_id_list : [
         { name: "MEviSub1", title: "Yes" },
@@ -199,10 +202,14 @@ indicator_map.set
         blank_field_id: "MHxSub3",
 
         chart_title:"History of documented substance use",
-        table_title:"History of documented substance use",
+        chart_title_508:"Bar chart showing number of deaths by documented substance use.",
+        
         x_axis_title:"Documented substance use",
         y_axis_title:"Number of deaths",
         
+
+        table_title:"Documented substance use",
+        table_title_508:"Table chart showing number of deaths by documented substance use.",
 
         field_id_list : [
         { name: "MHxSub1", title: "Yes" },
@@ -217,22 +224,32 @@ indicator_map.set
 (
     7,
     {
-        indicator_id : "mHxofSubAbu",
+        indicator_id : "mSubstAutop",
         title:"Toxicology",
-        description:"description not specified",
-        blank_field_id: "MHxSub3",
+        description:"This graph is based on substances listed as toxicology results on the Autopsy form. The substances from the list were classified as Alcohol, Amphetamine, Benzodiazepines, Buprenorphine/Methadone, Cannabinoid, Cocaine, Opioid (excl Buprenorphine/Methadone), or Substance with Other Chemical Classification. Substances entered that were not on the dropdown, including metabolites of substances on the dropdown, are categorized as ‘Other’. This report does not take into account the specific substance levels noted in the toxicology report. Each category on the graph reflects the number of persons who had at least one substance in the category indicated.",
+        blank_field_id: "MSubAuto8",
 
-        chart_title:"Frequency of autopsy toxicology findings",
-        table_title:"Frequency of autopsy toxicology findings",
-        x_axis_title:"title not specified",
+        chart_title:"Number of deaths by substances on toxicology results",
+        chart_title_508: "Bar chart showing number of deaths by drug class.",
+
+        
+        x_axis_title:"Drug class",
         y_axis_title:"Number of deaths",
         
+        table_title:"Drug class",
 
         field_id_list : [
-        { name: "MHxSub1", title: "Yes" },
-        { name: "MHxSub2", title: "No" },
-        { name: "MHxSub3", title: "(Blank)" },
-        { name: "MHxSub4", title: "Unknown" },
+        { name: "MSubAuto1", title: "Alcohol" },
+        { name: "MSubAuto2", title: "Amphetamine" },
+        { name: "MSubAuto3", title: "Benzodiazepine" },
+        { name: "MSubAuto4", title: "Buprenorphine/Methadone" },
+        { name: "MSubAuto9", title: "Cannabinoid" },
+        { name: "MSubAuto5", title: "Cocaine" },
+        { name: "MSubAuto6", title: "Opioid (excl Buprenorphine/Methadone)" },
+        { name: "MSubAuto7", title: "Substance with other chemical classification" },
+        { name: "MSubAuto8", title: "(blank)" },
+        { name: "MSubAuto10", title: "Other" },
+
         ],
     }
 );
@@ -241,53 +258,56 @@ indicator_map.set
 (
     8,
     {
-    indicator_id : "mDeathCause",
-    title:"Committee Determinations",
-    description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether obesity, discrimination, mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide or homicide.",
-    blank_field_id: "MCauseD15",
-
-    chart_title:"Circumstances surrounding death",
-    x_axis_title:"Committee determinations on circumstances surrounding death",
-    y_axis_title:"Number of deaths",
+        indicator_id : "mDeathCause",
+        title:"Committee Determinations",
+        description:"This table is based on committee determination of factors surrounding the death from the first page of Committee Decisions form, including whether mental health conditions and/or substance use disorder contributed to the death, and whether the death was a suicide.",
+        blank_field_id: "",
     
-    table_title:"Frequency of selected committee determinations on circumstances surrounding death.", 
-    table_title_508:"Table showing number of deaths by Cause of Death.",
+        chart_title:"Frequency of selected committee determinations on circumstances surrounding death",
+        x_axis_title:"Committee determination of cause of death",
+        y_axis_title:"Number of deaths",
+        
+        table_title:"Committee determination of cause of death", 
+        table_title_508:"Table showing number of deaths by Cause of Death.",
+        
     
-
-    field_id_list : [
-        { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
-        { name: "MCauseD2", title: "Mental Health Conditions - No" },
-        { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
-        { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD5", title: "Mental Health Conditions - Blank" },
-        { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
-        { name: "MCauseD7", title: "Substance Use Disorder - No" },
-        { name: "MCauseD8", title: "Mental Health Conditions - Probably" },
-        { name: "MCauseD9", title: "Mental Health Conditions - Unknown" },
-        { name: "MCauseD10", title: "Substance Use Disorder" },
-        { name: "MCauseD11", title: "Suicide - Yes" },
-        { name: "MCauseD12", title: "Suicide - No" },
-        { name: "MCauseD13", title: "Suicide - Probably" },
-        { name: "MCauseD14", title: "Suicide - Unknown" },
-        { name: "MCauseD15", title: "Suicide - Blank" },
-        { name: "MCauseD16", title: "Obesity - Yes" },
-        { name: "MCauseD17", title: "Obesity - No" },
-        { name: "MCauseD18", title: "Obesity - Probably" },
-        { name: "MCauseD19", title: "Obesity - Unknown" },
-        { name: "MCauseD20", title: "Obesity - (blank)" },
-        { name: "MCauseD21", title: "Discrimination - Yes" },
-        { name: "MCauseD22", title: "Discrimination - No" },
-        { name: "MCauseD23", title: "Discrimination - Probably" },
-        { name: "MCauseD24", title: "Discrimination - Unknown" },
-        { name: "MCauseD25", title: "Discrimination - (blank)" },
-        { name: "MCauseD26", title: "Homicide - Yes" },
-        { name: "MCauseD27", title: "Homicide - No" },
-        { name: "MCauseD28", title: "Homicide - Probably" },
-        { name: "MCauseD29", title: "Homicide - Unknown" },
-        { name: "MCauseD30", title: "Homicide - (blank)" },
-        //{ name: "MCauseD31", title: "MCauseD31" },
-
-    ],
+        field_id_list : [
+    /*
+            { name: "MCauseD16", title: "Obesity - Yes" },
+            { name: "MCauseD17", title: "Obesity - No" },
+            { name: "MCauseD18", title: "Obesity - Probably" },
+            { name: "MCauseD19", title: "Obesity - Unknown" },
+            { name: "MCauseD20", title: "Obesity - (blank)" },
+            { name: "MCauseD21", title: "Discrimination - Yes" },
+            { name: "MCauseD22", title: "Discrimination - No" },
+            { name: "MCauseD23", title: "Discrimination - Probably" },
+            { name: "MCauseD24", title: "Discrimination - Unknown" },
+            { name: "MCauseD25", title: "Discrimination - (blank)" },
+            */
+            { name: "MCauseD1", title: "Mental Health Conditions - Yes" },
+            { name: "MCauseD2", title: "Mental Health Conditions - No" },
+            { name: "MCauseD3", title: "Mental Health Conditions - Probably" },
+            { name: "MCauseD4", title: "Mental Health Conditions - Unknown" },
+            { name: "MCauseD5", title: "Mental Health Conditions - (blank)" },
+            { name: "MCauseD6", title: "Substance Use Disorder - Yes" },
+            { name: "MCauseD7", title: "Substance Use Disorder - No" },
+            { name: "MCauseD8", title: "Substance Use Disorder - Probably" },
+            { name: "MCauseD9", title: "Substance Use Disorder - Unknown" },
+            { name: "MCauseD10", title: "Substance Use Disorder - (blank)" },
+            { name: "MCauseD11", title: "Suicide - Yes" },
+            { name: "MCauseD12", title: "Suicide - No" },
+            { name: "MCauseD13", title: "Suicide - Probably" },
+            { name: "MCauseD14", title: "Suicide - Unknown" },
+            { name: "MCauseD15", title: "Suicide - (blank)" },
+            /*{ name: "MCauseD26", title: "Homicide - Yes" },
+            { name: "MCauseD27", title: "Homicide - No" },
+            { name: "MCauseD28", title: "Homicide - Probably" },
+            { name: "MCauseD29", title: "Homicide - Unknown" },
+            { name: "MCauseD30", title: "Homicide - (blank)" },
+            */
+            //{ name: "MCauseD31", title: "MCauseD31" },
+    
+        ],
 
     }
 );
@@ -302,10 +322,13 @@ indicator_map.set
         description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period",
         blank_field_id: "MMHTx4",
 
-        chart_title:"Substance Abuse Evidence",
-        table_title:"Substance Abuse Evidence",
-        x_axis_title:"title not specified",
-        y_axis_title:"title not specified",
+        chart_title:"Documented mental health treatment (including substance use disorder)",
+        chart_title_508:"Bar chart showing number of deaths by mental health treatment timing.",
+        x_axis_title:"Mental health treatment timing",
+        y_axis_title:"Number of deaths",
+
+        table_title:"Mental health treatment timing",
+        table_title_508:"Table showing number of deaths by Mental health treatment timing.",
         
 
         field_id_list : [
@@ -326,27 +349,30 @@ indicator_map.set
         description:"History of social and emotional stress is determined using the corresponding variable on the Social and Environmental Profile. Each person can have multiple stressors entered, and the graph reflects the number of persons with each stressor selected.",
         blank_field_id: "MEmoStress12",
 
-        chart_title:"Emotional Stress",
-        table_title:"Emotional Stress",
-        x_axis_title:"Number of deaths by Emotional Stress",
+        chart_title:"Number of deaths by presence of social or emotional stressor",
+        chart_title_508:"Bar chart showing number of deaths by presence of social or emotional stressor.",
+        x_axis_title:"Social or emotional stressor",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Emotional Stress",
+        table_title:"Social or emotional stressor",
         table_title_508:"Table showing number of deaths by Emotional Stress.",
         
         field_id_list : [
+        { name: "MEmoStress3", title: "Child Protective Services involvement" },
+        { name: "MEmoStress9", title: "History of childhood trauma" },
         { name: "MEmoStress1", title: "History of domestic violence" },
         { name: "MEmoStress2", title: "History of psychiatric hospitalizations or treatment" },
-        { name: "MEmoStress3", title: "Child Protective Services involvement" },
         { name: "MEmoStress4", title: "History of substance use" },
-        { name: "MEmoStress5", title: "Unemployment" },
         { name: "MEmoStress6", title: "History of substance use treatment" },
         { name: "MEmoStress7", title: "Pregnancy unwanted" },
-        { name: "MEmoStress8", title: "Recent trauma" },
-        { name: "MEmoStress9", title: "History of childhood trauma" },
         { name: "MEmoStress10", title: "Prior suicide attempts" },
+        
+
+        { name: "MEmoStress8", title: "Recent trauma" },
+        { name: "MEmoStress5", title: "Unemployment" },
+       
         { name: "MEmoStress11", title: "Other" },
-        { name: "MEmoStress12", title: "Other" },
+        //{ name: "MEmoStress12", title: "Other" },
         { name: "MEmoStress13", title: "Unknown" },
         { name: "MEmoStress14", title: "None" },
         ],
@@ -358,7 +384,7 @@ indicator_map.set(
     {
         indicator_id : "mLivingArrange",
         title:"Living Arrangements",
-        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. For both variables, each person can be placed into only one category.",
+        description:"Living arrangements at time of death and history of homelessness are determined using the corresponding variables on the Social and Environmental Profile. Each person can be placed into only one category for the mother’s living arrangements at time of death. Regarding homelessness, each person can have multiple time periods entered, and the graph reflects the number of persons who experienced homelessness in relation to pregnancy at that time period.",
         blank_field_id: "MLivD7",
 
         chart_title:"Mother&apos;s living arrangements at time of death",
@@ -391,7 +417,7 @@ indicator_map.set
         description:"description not specified",
         blank_field_id: "MHomeless5",
 
-        chart_title:"Number of deaths by mother&apos;s experiences of homelessness in relation to pregnancy",
+        chart_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
         chart_title_508:"Bar chart showing number of deaths by mothers experiences of homelessness in relation to pregnancy.",
 
         x_axis_title:"Homelessness in relation to pregnancy",
@@ -422,15 +448,15 @@ indicator_map.set
     {
         indicator_id : "mIncarHx",
         title:"Mother&apos;s Incarceration History",
-        description: "Deaths are considered preventable if the committee selected ‘yes’ for the question ‘Was this death preventable?’ on the Committee Decisions form or selected ‘some chance’ or ‘good chance’ for the ‘Chance to alter outcome’ field on the Committee Decisions form.",
+        description: "Incarceration history is determined using the corresponding variable on the Social and Environmental Profile that asks, 'Was decedent ever incarcerated?’ Each person can have multiple time periods entered, and the graph reflects the number of persons incarcerated at that time period.",
         blank_field_id: "MHxIncar8",
 
-        chart_title:"Incarceration History",
-        table_title:"Incarceration History",
-        x_axis_title:"Incarceration History",
+        chart_title:"Number of deaths by mother&apos;s incarceration history in relation to pregnancy",
+        chart_title_508:"Bar chart showing number of deaths by incarceration history of mother.",
+        x_axis_title:" Incarceration history of mother",
         y_axis_title:"Number of deaths",
         
-        table_title:"Number of deaths by Incarceration History",
+        table_title:" Incarceration history of mother",
         table_title_508:"Table showing number of deaths by Incarceration History.",
 
         field_id_list : [
