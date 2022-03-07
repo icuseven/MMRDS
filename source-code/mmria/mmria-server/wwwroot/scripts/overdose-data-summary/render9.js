@@ -116,7 +116,7 @@ async function render9_table(p_metadata, p_data_list)
     <thead class="thead">
     <tr style="background-color:#e3d3e4;">
         <th>${p_metadata.table_title}</th>
-        <th style="width:25%" align=right>Number of deaths</th>
+        <th style="width:25%;text-align:right;">Number of deaths</th>
     </tr>
     </thead>
     <tbody>
