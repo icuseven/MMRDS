@@ -105,10 +105,6 @@ async function render1_table(p_metadata, p_data_list)
         }
     });
     
-
-    return render_table(p_metadata, data, totals, total);
-
-<<<<<<< HEAD
     return `<table class="table rounded-0 mb-0" style="width:50%"
     title="${p_metadata.table_title_508 != null ? p_metadata.table_title_508.replace("'", ""): ""}"
     >
@@ -132,8 +128,6 @@ async function render1_table(p_metadata, p_data_list)
     <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
     <br/>
     `
-=======
->>>>>>> 3c83bb27fa4b3ac6680b9206453b1e27b4210002
 }
 
 

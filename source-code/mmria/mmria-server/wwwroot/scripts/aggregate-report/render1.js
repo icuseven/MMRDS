@@ -105,8 +105,6 @@ async function render1_table(p_metadata, p_data_list)
         }
     });
     
-
-<<<<<<< HEAD:source-code/mmria/mmria-server/wwwroot/scripts/interactive-aggregate-report/render1.js
     //return render_table(p_metadata, data, totals, total);
 
     return `<table class="table rounded-0 mb-0" style="width:50%"
@@ -132,9 +130,7 @@ async function render1_table(p_metadata, p_data_list)
     <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
     <br/>
     `
-=======
     return render_table(p_metadata, data, totals, total);
->>>>>>> 3c83bb27fa4b3ac6680b9206453b1e27b4210002:source-code/mmria/mmria-server/wwwroot/scripts/aggregate-report/render1.js
 }
 
 
