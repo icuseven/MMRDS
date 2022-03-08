@@ -613,7 +613,29 @@ async function download_data_quality_report_button_click()
 		// Table Four Summary
 		function summary_table_35_43( item )
 		{
-			// console.log('in summary_table_35_43');
+			// Add line 35) thru 43)
+			let startLoop = 35;
+			let endLoop = 43;
+			for ( let i = startLoop; i <= endLoop; i++ )
+			{
+				// Build the field name
+				let fld = 'n' + i;
+				// Check to see if this is current quarter
+				if ( item.add_quarter_number == quarter_number )
+				{
+					summary_data[fld].s.mn += item[fld].m;
+					summary_data[fld].s.un += item[fld].u;
+				}
+				if 
+				( 
+						item.add_quarter_number < quarter_number &&
+						item.add_quarter_number >= quarter_number - 1
+				)
+				{
+					summary_data[fld].p.mn += item[fld].m;
+					summary_data[fld].p.un += item[fld].u;
+				}
+			}
 		}
 
 		// Table Five Summary
@@ -646,6 +668,28 @@ async function download_data_quality_report_button_click()
 		// Table Six Summary
 		function summary_table_46_49( item )
 		{
+			let startLoop = 46;
+			let endLoop = 49;
+			for ( let i = startLoop; i <= endLoop; i++ )
+			{
+				// Build the field name
+				let fld = 'n' + i;
+				// Check to see if this is current quarter
+				if ( item.add_quarter_number == quarter_number )
+				{
+					summary_data[fld].s.tn += item[fld].t;
+					summary_data[fld].s.pn += item[fld].p;
+				}
+				if 
+				( 
+						item.add_quarter_number < quarter_number &&
+						item.add_quarter_number >= quarter_number - 1
+				)
+				{
+					summary_data[fld].p.tn += item[fld].t;
+					summary_data[fld].p.pn += item[fld].p;
+				}
+			}
 		}
 
 		// Calculate the summary percentages
@@ -653,7 +697,7 @@ async function download_data_quality_report_button_click()
 		{
 			// This is a test to see if we can correctly calculate the percentages
 			let startLoop = 44;
-			let endLoop = 45;
+			let endLoop = 49;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
 				// Build the field name
@@ -755,8 +799,6 @@ async function download_data_quality_report_button_click()
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
 
-		let case_folder = '*****';
-
 		// Create Summary Report if reportType is Summary or Summary & Detail
 		if ( g_model.reportType == 'Summary' || g_model.reportType == 'Summary & Detail')
 		{
@@ -778,8 +820,10 @@ async function download_data_quality_report_button_click()
 			};
 			
 
+			// *****
+			// Uncomment the lines below to test for empty detail report that show empty message
+			// *****
 
-			// Test for empty detail
 			// let detail_data2 = {
 			// 	questions: [],
 			// 	cases: [],
