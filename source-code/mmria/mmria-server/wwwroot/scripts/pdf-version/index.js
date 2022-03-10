@@ -1142,25 +1142,24 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			return;
 			break;
 		case "LI":
-			if (p_node.childNodes.length > 1) {
-				// Do this if there are multiple p tags in a single bullet
+			if (p_node.childNodes.length > 1) 
+            {
 				let li_array = [];
-				for (let i = 0; i < p_node.childNodes.length; i++) {
+				for (let i = 0; i < p_node.childNodes.length; i++) 
+                {
 					let child = p_node.childNodes[i];
 
 					ConvertHTMLDOMWalker(li_array, child);
 
 				}
-				// Create a single text string
-				let strLi = '';
-				li_array.forEach((a) => {
-					a.text.forEach((b) => {
-						strLi += b.text;
-					});
-				});
-				p_result.push({ text: strLi });
-			} else {
-				// Do this if there is a single record
+				const text_only = [];
+                process_li_array(text_only, li_array);
+
+                p_result.push({ text: text_only });
+
+			} 
+            else 
+            {
 				let li_node = { text: p_node.textContent.trim() }
 				p_result.push(convert_attribute_to_pdf(p_node, li_node));
 			}
@@ -1177,6 +1176,24 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 	}
 
 
+}
+
+function process_li_array(p_result, p_array)
+{
+    for (let i = 0; i < p_array.length; i++) 
+    {
+        const item = p_array[i];
+
+        if(Array.isArray(item.text))
+        {
+            process_li_array(p_result, item.text);
+        }
+        else
+        {
+            p_result.push(item.text);
+        }
+
+    }
 }
 
 // Core Summary - display all of the core summary fields
