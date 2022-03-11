@@ -380,19 +380,123 @@ namespace migrate.set
 2b) If [arbf_f_lengt] is empty/blank/null, then set [arbf_f_lengt_uom] to 9999 (equivalent to Missing)
 
 
-arbf_f_weigh = autopsy_report/biometrics/fetus/fetal_weight_uom
-arbf_f_weigh_uom = autopsy_report/biometrics/fetus/fetal_length_uom
+arbf_f_weigh = autopsy_report/biometrics/fetus/fetal_weight
+arbf_f_weigh_uom = autopsy_report/biometrics/fetus/fetal_weight_uom
 arbf_f_lengt = autopsy_report/biometrics/fetus/fetal_length
 arbf_f_lengt_uom = autopsy_report/biometrics/fetus/fetal_length_uom
+
+
+arbf_f_weigh_oz = autopsy_report/biometrics/fetus/fetal_weight_ounce_value
 
 
 */
 
 
+int? arbf_f_weight = null;
+int? arbf_f_weight_uom = null;
+int? arbf_f_length = null;
+int? arbf_f_lengt_uom = null;
+
+value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_weight");
+if(value_result.result is not null)
+{
+
+	if
+	(
+		value_result.result is string arbf_f_weight_string
+	)
+	{
+		if(int.TryParse(arbf_f_weight_string, out int test_int))
+		arbf_f_weight = test_int;
+	}
+	else if(value_result.result is Int64)
+	{
+		arbf_f_weight = (int) value_result.result;
+	}
+
+
+}
+
+
+value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_weight_uom");
+if(value_result.result is not null)
+{
+	if
+	(
+		value_result.result is string fetal_weight_uom_string
+	)
+	{
+		if(int.TryParse(fetal_weight_uom_string, out int test_int))
+		arbf_f_weight_uom = test_int;
+	}
+	else if(value_result.result is Int64)
+	{
+		arbf_f_weight_uom = (int) value_result.result;
+	}
+}
+
+
+value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_length");
+if(value_result.result is not null)
+{
+	if
+	(
+		value_result.result is string fetal_length_string 
+	)
+	{
+		if(int.TryParse(fetal_length_string, out int test_int))
+		arbf_f_length = test_int;
+	}
+	else if(value_result.result is Int64)
+	{
+		arbf_f_length = (int) value_result.result;
+	}
+}
+
+
+value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_length_uom");
+if(value_result.result is not null)
+{
+	if
+	(
+		value_result.result is string fetal_length_uom_string 
+	)
+	{
+		if(int.TryParse(fetal_length_uom_string, out int test_int))
+		arbf_f_lengt_uom = test_int;
+	}
+	else if(value_result.result is Int64)
+	{
+		arbf_f_lengt_uom = (int) value_result.result;
+		
+	}
+}
+
+
+if(arbf_f_weight.HasValue)
+{
+	//1a) When there is a value in existing data field: Fetal Weight (grams) [arbf_f_weigh] then set the Fetal Weight UOM field [arbf_f_weigh_uom] to the Value [0] (equivalent to Grams).
+}
+else
+{
+	//1b) If [arbf_f_weigh] is empty/blank/null, then set [arbf_f_weigh_uom] to 9999 (equivalent to Missing)
+	//arbf_f_length_uom
+}
+
+
+if(arbf_f_length.HasValue)
+{
+//2a) When there is a value in existing data field: Fetal Length (inches) [arbf_f_lengt] then set the Fetal Length UOM field [arbf_f_lengt_uom] to the Value [0] (equivalent to Inches)
+}
+else
+{
+//2b) If [arbf_f_lengt] is empty/blank/null, then set [arbf_f_lengt_uom] to 9999 (equivalent to Missing)
+}
 
 
 
 
+/*
 					foreach(var node in  pmss_set)
 					{
 						value_result = gs.get_value(doc, node.path);
@@ -428,6 +532,7 @@ arbf_f_lengt_uom = autopsy_report/biometrics/fetus/fetal_length_uom
 							Console.WriteLine(ex);
 						}	
 					}
+					*/
 
 
 					if(!is_report_only_mode && case_has_changed)
