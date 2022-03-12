@@ -536,45 +536,6 @@ else if (! arbf_f_length_uom.HasValue)
 
 
 
-/*
-					foreach(var node in  pmss_set)
-					{
-						value_result = gs.get_value(doc, node.path);
-						try
-						{
-							if(!value_result.is_error)
-							{
-								var value = value_result.result;
-								if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
-								{
-									continue;	
-								}
-								var value_string = value.ToString();
-								if(pmss_map.ContainsKey(value_string))
-								{
-									if(case_change_count == 0)
-									{
-										case_change_count += 1;
-										case_has_changed = true;
-									}
-									
-									dynamic new_value = pmss_map[value_string];
-
-									case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
-									var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";
-									this.output_builder.AppendLine(output_text);
-									Console.WriteLine(output_text);
-								}
-							}	
-						}
-						catch(Exception ex)
-						{
-							Console.WriteLine(ex);
-						}	
-					}
-					*/
-
-
 					if(!is_report_only_mode && case_has_changed)
 					{
 						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.7 part1");
