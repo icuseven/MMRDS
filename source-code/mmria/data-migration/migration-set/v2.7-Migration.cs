@@ -395,7 +395,7 @@ arbf_f_weigh_oz = autopsy_report/biometrics/fetus/fetal_weight_ounce_value
 int? arbf_f_weight = null;
 int? arbf_f_weight_uom = null;
 int? arbf_f_length = null;
-int? arbf_f_lengt_uom = null;
+int? arbf_f_length_uom = null;
 
 value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_weight");
 if(value_result.result is not null)
@@ -418,7 +418,8 @@ if(value_result.result is not null)
 }
 
 
-value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_weight_uom");
+var arbf_f_weight_uom_path = "autopsy_report/biometrics/fetus/fetal_weight_uom";
+value_result = gs.get_value(doc, arbf_f_weight_uom_path);
 if(value_result.result is not null)
 {
 	if
@@ -453,8 +454,8 @@ if(value_result.result is not null)
 	}
 }
 
-
-value_result = gs.get_value(doc, "autopsy_report/biometrics/fetus/fetal_length_uom");
+var fetal_length_uom_path = "autopsy_report/biometrics/fetus/fetal_length_uom";
+value_result = gs.get_value(doc, fetal_length_uom_path);
 if(value_result.result is not null)
 {
 	if
@@ -463,11 +464,11 @@ if(value_result.result is not null)
 	)
 	{
 		if(int.TryParse(fetal_length_uom_string, out int test_int))
-		arbf_f_lengt_uom = test_int;
+		arbf_f_length_uom = test_int;
 	}
 	else if(value_result.result is Int64)
 	{
-		arbf_f_lengt_uom = (int) value_result.result;
+		arbf_f_length_uom = (int) value_result.result;
 		
 	}
 }
@@ -476,21 +477,60 @@ if(value_result.result is not null)
 if(arbf_f_weight.HasValue)
 {
 	//1a) When there is a value in existing data field: Fetal Weight (grams) [arbf_f_weigh] then set the Fetal Weight UOM field [arbf_f_weigh_uom] to the Value [0] (equivalent to Grams).
+	if(case_change_count == 0)
+	{
+		case_change_count += 1;
+		case_has_changed = true;
+	}
+	
+	case_has_changed = case_has_changed && gs.set_value(arbf_f_weight_uom_path, "0", doc);
+	var output_text = $"item record_id: {mmria_id} path:{arbf_f_weight_uom_path} set to => {0} Gram";
+	this.output_builder.AppendLine(output_text);
+	Console.WriteLine(output_text);
 }
-else
+else if (! arbf_f_weight_uom.HasValue)
 {
 	//1b) If [arbf_f_weigh] is empty/blank/null, then set [arbf_f_weigh_uom] to 9999 (equivalent to Missing)
-	//arbf_f_length_uom
+	if(case_change_count == 0)
+	{
+		case_change_count += 1;
+		case_has_changed = true;
+	}
+	
+	case_has_changed = case_has_changed && gs.set_value(arbf_f_weight_uom_path, "9999", doc);
+	var output_text = $"item record_id: {mmria_id} path:{arbf_f_weight_uom_path} set to => {9999} (blank)";
+	this.output_builder.AppendLine(output_text);
+	Console.WriteLine(output_text);
 }
 
 
 if(arbf_f_length.HasValue)
 {
-//2a) When there is a value in existing data field: Fetal Length (inches) [arbf_f_lengt] then set the Fetal Length UOM field [arbf_f_lengt_uom] to the Value [0] (equivalent to Inches)
+	//2a) When there is a value in existing data field: Fetal Length (inches) [arbf_f_lengt] then set the Fetal Length UOM field [arbf_f_lengt_uom] to the Value [0] (equivalent to Inches)
+	if(case_change_count == 0)
+	{
+		case_change_count += 1;
+		case_has_changed = true;
+	}
+	
+	case_has_changed = case_has_changed && gs.set_value(fetal_length_uom_path, "0", doc);
+	var output_text = $"item record_id: {mmria_id} path:{fetal_length_uom_path} set to => {0} Inches";
+	this.output_builder.AppendLine(output_text);
+	Console.WriteLine(output_text);
 }
-else
+else if (! arbf_f_length_uom.HasValue)
 {
-//2b) If [arbf_f_lengt] is empty/blank/null, then set [arbf_f_lengt_uom] to 9999 (equivalent to Missing)
+	//2b) If [arbf_f_lengt] is empty/blank/null, then set [arbf_f_lengt_uom] to 9999 (equivalent to Missing)
+	if(case_change_count == 0)
+	{
+		case_change_count += 1;
+		case_has_changed = true;
+	}
+	
+	case_has_changed = case_has_changed && gs.set_value(fetal_length_uom_path, "9999", doc);
+	var output_text = $"item record_id: {mmria_id} path:{fetal_length_uom_path} set to => {9999} (blank)";
+	this.output_builder.AppendLine(output_text);
+	Console.WriteLine(output_text);
 }
 
 
