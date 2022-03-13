@@ -857,9 +857,11 @@ function convert_html_to_pdf(p_value) {
 
 }
 
-function convert_attribute_to_pdf(p_node, p_result) {
+function convert_attribute_to_pdf(p_node, p_result) 
+{
 	//{ text: d.case_opening_overview, style: ['tableDetail'], },
 	let result = {};
+
 
 	if (p_result != null) {
 		result = p_result;
@@ -888,14 +890,18 @@ function convert_attribute_to_pdf(p_node, p_result) {
 	*/
 
 
-	if (p_node.attributes != null) {
+	if (p_node.attributes != null) 
+    {
 
-		for (let i = 0; i < p_node.attributes.length; i++) {
+		for (let i = 0; i < p_node.attributes.length; i++) 
+        {
 			let attr = p_node.attributes[i];
 
-			if (attr.name == "style") {
+			if (attr.name == "style") 
+            {
 				let style_array = attr.value.split(';');
-				for (let style_index = 0; style_index < style_array.length; style_index++) {
+				for (let style_index = 0; style_index < style_array.length; style_index++) 
+                {
 					let kvp = style_array[style_index].split(":");
 					switch (kvp[0].trim()) {
 						case "text-align":
@@ -928,10 +934,13 @@ function convert_attribute_to_pdf(p_node, p_result) {
 
 }
 
-function rgb_to_hex(p_value) {
-	if (p_value.split("(").length < 2) {
+function rgb_to_hex(p_value) 
+{
+	if (p_value.split("(").length < 2) 
+    {
 		return p_value;
 	}
+
 	let a = p_value.split("(")[1].split(")")[0];
 	a = a.split(",");
 	let b = a.map(function (x) {             //For each array element
@@ -1094,7 +1103,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 				ConvertHTMLDOMWalker(text_array, child);
 			}
 			text_array.push({ text: "\n" });
-			p_result.push({ text: text_array });
+			p_result.push({ text: text_array, style: convert_attribute_to_pdf(p_node)});
 			return;
         case "SPAN":
             let span_text_array = [];
@@ -1102,7 +1111,15 @@ function ConvertHTMLDOMWalker(p_result, p_node)
                 let child = p_node.childNodes[i];
                 ConvertHTMLDOMWalker(span_text_array, child);
             }
-            p_result.push({ text: span_text_array });
+
+            if(span_text_array.length == 1)
+            {
+                p_result.push({ text: ' ' + span_text_array[0].text,  style: convert_attribute_to_pdf(p_node) });
+            }
+            else
+            {
+                p_result.push({ text: span_text_array,  style: convert_attribute_to_pdf(p_node) });
+            }
             return;
 			break;
 		case "STRONG":
@@ -1150,7 +1167,6 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 					let child = p_node.childNodes[i];
 
 					ConvertHTMLDOMWalker(li_array, child);
-
 				}
 				const text_only = [];
                 process_li_array(text_only, li_array);
