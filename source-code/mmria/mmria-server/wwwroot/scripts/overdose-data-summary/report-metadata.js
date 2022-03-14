@@ -36,7 +36,7 @@ indicator_map.set
     {
         indicator_id : "mTimingofDeath",
         title:"Timing of Death",
-        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy",
+        description:"The timing of death is determined by calculating the length of time between the date of death on the Home Record and the date of delivery on the Birth/Fetal Death Certificate form. If any elements of either date are missing (month, day, or year), the abstractor-assigned timing of death fields on the Home Record are used to assign the timing. If timing of death is still missing, the pregnancy checkbox on the Death Certificate form is used to assign timing of death in relation to pregnancy.",
         blank_field_id: "MTimeD4",
 
         chart_title:"Number of deaths by timing of death in relation to pregnancy",
@@ -319,7 +319,7 @@ indicator_map.set
     {
         indicator_id : "mMHTxTiming",
         title:"Treatment history",
-        description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period",
+        description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period.",
         blank_field_id: "MMHTx4",
 
         chart_title:"Documented mental health treatment (including substance use disorder)",
