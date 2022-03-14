@@ -6,7 +6,8 @@ namespace mmria.server.utils
 {
 	public partial class c_convert_to_opioid_report_object
 	{
-
+        
+        //static HashSet<string> BlankIdSet = new HashSet<string>();
 		Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
 
 		string source_json;
@@ -1263,9 +1264,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 		private deaths_by_age_enum get_age_classifier (System.Dynamic.ExpandoObject p_source_object)
 		{
-
 				int? age_of_mother = null;
-
 
 				int calculate_age(DateTime date_of_birth, DateTime date_of_death)  
 				{  
@@ -1281,8 +1280,6 @@ mDeathbyRace  MDeathbyRace17 17
 
 
 				object val1 = get_value (p_source_object, "death_certificate/demographics/age");
-				val1 = null;
-
 				if
 				(
 					val1 != null && 
@@ -1409,7 +1406,7 @@ mDeathbyRace  MDeathbyRace17 17
 						*/
 
 						val1 = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/age");
-						val1 = null;
+
 						if
 						(
 							val1 != null && 
@@ -2188,6 +2185,7 @@ mAgeatDeath	MAgeD6	45+
 			break;
 		case deaths_by_age_enum.blank:
 		default:
+            //BlankIdSet.Add(p_mmria_id);
 			p_opioid_report_value.field_id = "MAgeD8";
 			break;
 	}
