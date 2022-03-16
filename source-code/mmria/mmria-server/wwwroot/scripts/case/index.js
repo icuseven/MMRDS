@@ -698,7 +698,7 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   });
   
     //startTime = performance.now();
-   window.setTimeout(update_charts, 0);
+   //window.setTimeout(update_charts, 0);
   //endTime = performance.now();
 }
 
@@ -2344,7 +2344,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2361,7 +2361,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+				unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2391,7 +2391,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
-	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
+	unique_tab_name = '_print_tab_' //+ Math.random().toString(36).substring(2, 9);
   
 	if (section_name) 
 	{
@@ -2456,7 +2456,7 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
         g_metadata,
         g_data,
         p_section,
-				p_type_output,
+		p_type_output,
         p_number,
         g_metadata_summary,
         p_show_hidden
@@ -2470,7 +2470,7 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
       g_metadata,
       g_data,
       p_section,
-			p_type_output,
+	p_type_output,
       p_number,
       g_metadata_summary,
       p_show_hidden
