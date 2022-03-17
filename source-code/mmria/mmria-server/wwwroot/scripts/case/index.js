@@ -3567,6 +3567,8 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
 
 function update_charts()
 {
+    return;
+    
     for (let chart in g_charts)
     {
         const item = g_charts[chart];
