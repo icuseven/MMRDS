@@ -5267,7 +5267,9 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             //    && value9 == "N")
             //    determinedValues.Add("11");
             //else 
-            if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
+            if 
+            (
+                value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
                 && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                 && value9 == "U")
                 determinedValues.Add("7777");
@@ -5296,6 +5298,9 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
 
                 if (int.TryParse(value8, out result))
                     determinedValues.Add(value8);
+
+                if (int.TryParse(value9, out result))
+                    determinedValues.Add(value9);
 
             }
 
