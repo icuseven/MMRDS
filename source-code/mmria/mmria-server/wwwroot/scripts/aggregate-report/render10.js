@@ -54,101 +54,10 @@ async function render10_chart(p_post_html, p_metadata, p_data_list)
         data.push(value);
     });
     const p_chart_name = "chart";
-    /*
-    p_post_html.push
-    (
-        `var ${p_chart_name} = c3.generate({
-            legend: {
-                show: false
-            },
-            data: {
-                columns: [
-                    ["${p_metadata.indicator_id}", ${data.join(",")}
-                     ],
-                ],
-                type: 'bar',
-                names: {
-                    ${p_metadata.indicator_id}: "${p_metadata.x_axis_title}",
-                },
-                labels: true,
-            },
-            padding: {
-                  //left: 375
-            },
-            axis: {
-                rotated: true, 
-                
-                x: {
-                    label: {
-                    text: '${p_metadata.x_axis_title}',
-                    position: 'outer-middle'  
-                    },
-                    tick: {
-                        multiline: false,
-                        culling: false,
-                        outer: false
-                    },
-                    type: 'category',
-                    categories: [${categories}],
-                },
-                y: {
-                    label: {
-                        text: '${p_metadata.y_axis_title}',
-                        position: 'outer-center' 
-                    },
-                }
-            },
-            //size: {
-            //    height: 600, 
-            //    width: 600
-            //  },
-              transition: {
-                duration: null
-              },
-              bindto: '#${p_chart_name}',
-              
-              onrendered: function()
-              {
-                const title_element = document.createElement("title");
-                title_element.innerText = '${p_metadata.chart_title_508}';
-
-                const description_element = document.createElement("desc");
-                description_element.innerText = '${render_chart_508_description(p_metadata, data, totals)}';
-
-                const svg_char = document.querySelector('#${p_chart_name} svg');
-
-                if(svg_char != null)
-                {
-                    const test_title = document.querySelector('#${p_chart_name} svg title');
-                    const test_desc = document.querySelector('#${p_chart_name} svg desc');
-
-                    if(test_title == null)
-                    {
-                        svg_char.appendChild(title_element);
-                    }
-
-                    if(test_desc == null)
-                    {
-                        svg_char.appendChild(description_element);
-                    }
-                }
-                
-              }
-            }); ` 
-    );*/
+    
 
     return ``;
-    /*
-    <div class="card">
-        <div class="card-header bg-secondary">
-        <h4 class="h5">${p_metadata.chart_title}</h4>
-        </div>
-        <div class="card-body">
-            <div id="chart"></div>
-        </div>
-    </div>
-    
-    `*/
+
 }
 
 async function render10_table(p_metadata, p_data_list)
@@ -217,14 +126,14 @@ async function render10_table(p_metadata, p_data_list)
     </thead>
     <tbody>
         <tr>
-            <td>Obesity</td>
+            <td>Did obesity contribute to the death?</td>
             <td align=right>${totals.get("MCauseD16")}</td>
             <td align=right>${totals.get("MCauseD17")}</td>
             <td align=right>${totals.get("MCauseD18")}</td>
             <td align=right>${totals.get("MCauseD19")}</td>
         </tr>
         <tr>
-            <td>Discrimination</td>
+            <td>Did discrimination contribute to the death?</td>
             <td align=right>${totals.get("MCauseD21")}</td>
             <td align=right>${totals.get("MCauseD22")}</td>
             <td align=right>${totals.get("MCauseD23")}</td>
@@ -232,7 +141,7 @@ async function render10_table(p_metadata, p_data_list)
         </tr>
 
         <tr>
-            <td>Mental health conditions</td>
+            <td>Did mental health conditions contribute to the death?</td>
             <td align=right>${totals.get("MCauseD1")}</td>
             <td align=right>${totals.get("MCauseD2")}</td>
             <td align=right>${totals.get("MCauseD3")}</td>
@@ -241,7 +150,7 @@ async function render10_table(p_metadata, p_data_list)
 
 
         <tr>
-            <td>Substance use disorder</td>
+            <td>Did substance use disorder contribute to the death?</td>
             <td align=right>${totals.get("MCauseD6")}</td>
             <td align=right>${totals.get("MCauseD7")}</td>
             <td align=right>${totals.get("MCauseD8")}</td>
@@ -249,7 +158,7 @@ async function render10_table(p_metadata, p_data_list)
         </tr>
 
         <tr>
-            <td>Suicide</td>
+            <td>Was this death a suicide?</td>
             <td align=right>${totals.get("MCauseD11")}</td>
             <td align=right>${totals.get("MCauseD12")}</td>
             <td align=right>${totals.get("MCauseD13")}</td>
@@ -258,7 +167,7 @@ async function render10_table(p_metadata, p_data_list)
 
 
         <tr>
-            <td>Homicide</td>
+            <td>Was this death a homicide?</td>
             <td align=right>${totals.get("MCauseD26")}</td>
             <td align=right>${totals.get("MCauseD27")}</td>
             <td align=right>${totals.get("MCauseD28")}</td>

@@ -267,7 +267,7 @@ indicator_map.set
         x_axis_title:"Committee determination of cause of death",
         y_axis_title:"Number of deaths",
         
-        table_title:"Committee determination of cause of death", 
+        table_title:"Committee determinations", 
         table_title_508:"Table showing number of deaths by Cause of Death.",
         
     
