@@ -650,7 +650,7 @@ else
     );
   }
 
-  window.setTimeout(update_charts, 0);
+  //window.setTimeout(update_charts, 0);
 
     //save_end_time = performance.now();
 }
