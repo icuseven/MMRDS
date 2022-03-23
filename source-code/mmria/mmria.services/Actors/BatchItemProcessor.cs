@@ -1481,9 +1481,11 @@ namespace RecordsProcessor_Worker.Actors
                                     field_set["PPO"],
                                     field_set["INFT"],
                                     field_set["PCES"],
-                                    field_set["EHYPE"]
-                                ), new_case);
+                                    field_set["EHYPE"],
+                                    field_set["INFT_DRG"],
+                                    field_set["INFT_ART"]
 
+                                ), new_case);
 
                         gs.set_multi_value(Parent_NAT_IJE_to_MMRIA_Path["infections_present_or_treated_during_pregnancy"],
                                 NAT_infections_present_or_treated_during_pregnancy_Rule(
@@ -5248,11 +5250,26 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
             return determinedValues.ToArray();
         }
 
-        private object NAT_risk_factors_in_this_pregnancy_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, string value9)
+        private object NAT_risk_factors_in_this_pregnancy_Rule(string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, string value9, string value10, string value11)
         {
             //    /*Use values from 11 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, INFT_DRG, INFT_ART, PPO] to populate MMRIA multi-select field (bfdcprf_rfit_pregn). Note that these 11 IJE fields are not listed sequentially in order in this spreadsheet/IJE ordering.
 
             //   EHYPE = Y --> bfdcprf_rfit_pregn = 4 Eclampsia Hypertension
+
+/*
+                                    field_set["PDIAB"],
+                                    field_set["GDIAB"],
+                                    field_set["PHYPE"],
+                                    field_set["GHYPE"],
+                                    field_set["PPB"],
+                                    field_set["PPO"],
+                                    field_set["INFT"],
+                                    field_set["PCES"],
+                                    field_set["EHYPE"],
+                                    field_set["INFT_DRG"],
+                                    field_set["INFT_ART"]
+*/
+
 
             //   If every one of the following 9 IJE fields (PDIAB, GDIAB, PHYPE, GHYPE, PPB, INFT, PCES, EHYPE, PPO) is equal to "N", then bfdcprf_rfit_pregn = 11 None of the above
 
@@ -5302,6 +5319,12 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
                 if (int.TryParse(value9, out result))
                     determinedValues.Add(value9);
 
+                if (int.TryParse(value10, out result))
+                    determinedValues.Add(value10);
+
+
+                if (int.TryParse(value11, out result))
+                    determinedValues.Add(value11);
             }
 
             return determinedValues.ToArray();
