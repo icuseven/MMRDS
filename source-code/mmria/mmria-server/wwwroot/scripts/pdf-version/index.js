@@ -2216,7 +2216,7 @@ function print_pdf_render_content(ctx) {
 				// console.log('  xRec len: ', xRec.length);
 				// Loop thru to get the dates
 				xRec.forEach((x) => {
-					xLabels.unshift(reformatDate(x[x_axis_parts[0][2]]));
+					xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
 				});
 				// console.log('   *** xLabels: ', xLabels);
 
@@ -2235,7 +2235,7 @@ function print_pdf_render_content(ctx) {
 				if (y_axis_field_cnt == 1) {
 					// Create option info
 					yRec.forEach((y) => {
-						yDataOne.unshift(y[y_axis_parts[0][2]]);
+						yDataOne.push(y[y_axis_parts[0][2]]);
 					});
 
 					optData = {
@@ -2253,8 +2253,8 @@ function print_pdf_render_content(ctx) {
 				} else {
 					// Create option info
 					yRec.forEach((y) => {
-						yDataOne.unshift(y[y_axis_parts[0][2]]);
-						yDataTwo.unshift(y[y_axis_parts[1][2]]);
+						yDataOne.push(y[y_axis_parts[0][2]]);
+						yDataTwo.push(y[y_axis_parts[1][2]]);
 					});
 
 					optData = {
