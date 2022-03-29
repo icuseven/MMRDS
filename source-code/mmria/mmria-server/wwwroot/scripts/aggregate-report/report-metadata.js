@@ -785,7 +785,7 @@ function is_less_than_date
             return true;
         }
 
-        is_month = month < filter_month;
+        is_month = month == filter_month;
     }
 
     if(is_year && is_month && day != 9999)
