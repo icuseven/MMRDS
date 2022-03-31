@@ -934,27 +934,8 @@ function prenatal_last_ga(p_control) {
         }
     }
 }
-//CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ARRIVAL
-/*
-path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum
-event=onfocus
-*/
-function eha_days_postpartum(p_control) {
-    var days = null;
-    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
-    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
-    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(this.year);
-    var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);
-    var start_date = new Date(start_year, start_month - 1, start_day);
-    var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
-        days = $global.calc_days(start_date, end_date);
-        this.days_postpartum = days;
-        p_control.value = this.days_postpartum;
-    }
-}
+
+
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ADMISSION
 /*
 path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum

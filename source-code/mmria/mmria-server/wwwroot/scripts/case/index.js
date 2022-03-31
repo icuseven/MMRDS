@@ -3780,6 +3780,7 @@ async function autorecalculate
     p_grid_index
 )
 {
+    console.log("autorecalculate called");
     if(independent_autocalc_list.has(p_independent_variable_mmria_path))
     {
         return await autorecalculate_all_gestation(p_form_index, p_grid_index);
@@ -5810,16 +5811,22 @@ function arc_eha_days_postpartum(p_form_index)
     let end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.day);
     let start_date = new Date(start_year, start_month - 1, start_day);
     let end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true && 
+        start_date <= end_date
+    ) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival.days_postpartum.days_postpartum = days;
     }
+    else
+    {
+        g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival.days_postpartum.days_postpartum = days;
+    }
 
     $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum", days);
-
-
-    
 }
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ADMISSION
 /*
