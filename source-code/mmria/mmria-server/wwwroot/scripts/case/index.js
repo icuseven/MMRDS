@@ -324,6 +324,7 @@ else if
         g_data,
         function () 
         {
+            /*
             if(value == null || value == "")
             {
                 document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').setAttribute('disabled', 'disabled');
@@ -332,7 +333,7 @@ else if
             {
                 document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').removeAttribute('disabled');
             } 
-            
+            */
             gui_remove_broken_rule_click(convert_object_path_to_jquery_id(p_object_path));
         }
     );
