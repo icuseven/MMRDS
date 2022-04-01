@@ -324,6 +324,32 @@ else if
         g_data,
         function () 
         {
+
+            const new_value = eval(p_object_path);
+
+            let date_part_display_value = "";
+            let time_part_display_value = '00:00:00';
+            if(new_value != null && new_value != "")
+            {
+                if(new_value.indexOf("T"))
+                {
+                    const date_time_object = new Date(new_value);
+        
+                    date_part_display_value = 
+                    (date_time_object.getMonth() + 1) + "/" + 
+                    date_time_object.getDate() + "/" + 
+                    date_time_object.getFullYear();
+        
+                    time_part_display_value = ("00" + date_time_object.getHours()).slice(-2) + ":" 
+                    + ("00" + date_time_object.getMinutes()).slice(-2) 
+                    + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
+        
+                }
+            }
+
+            document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').value = time_part_display_value;
+
+
             /*
             if(value == null || value == "")
             {
