@@ -331,6 +331,7 @@ else if
             let time_part_display_value = '00:00:00';
             if(new_value != null && new_value != "")
             {
+                /*
                 if(new_value.indexOf("T"))
                 {
                     const date_time_object = new Date(new_value);
@@ -344,10 +345,14 @@ else if
                     + ("00" + date_time_object.getMinutes()).slice(-2) 
                     + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
         
-                }
+                }*/
+            }
+            else
+            {
+                document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').value = time_part_display_value;
             }
 
-            document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').value = time_part_display_value;
+            
 
 
             /*
