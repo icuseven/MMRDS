@@ -34,9 +34,21 @@ function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push("<div>");
             page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+            p_result.push
+            (`
+            <span class='add-on'>
+      <i data-time-icon='icon-time' data-date-icon='icon-calendar'>
+      </i>
+    </span>
+            
+            `);
+
             p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
                 p_post_html_render.push(`
-                    format: 'LT',
+                    format: 'HH:mm:ss',
+                    defaultDate: '',
+                    keepInvalid: true,
+                    useCurrent: false,
 					icons: {
 						time: 'x24 fill-p cdc-icon-clock_01',
 						date: 'x24 fill-p cdc-icon-calendar_01',

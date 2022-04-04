@@ -464,7 +464,10 @@ else
                 $(
                     '#' + convert_object_path_to_jquery_id(p_object_path) + ' input'
                 ).datetimepicker({
-                    format: 'LT',
+                    format: 'HH:mm:ss',
+                    defaultDate: '',
+                    keepInvalid: true,
+                    useCurrent: false,
                     icons: {
                     time: 'x24 fill-p cdc-icon-clock_01',
                     date: 'x24 fill-p cdc-icon-calendar_01',
@@ -1986,21 +1989,14 @@ function show_print_version()
   window.open('./print-version', '_print_version');
 }
 
-function show_data_dictionary() 
-{
-  window.open('./data-dictionary', '_data_dictionary');
-}
-
-function show_user_administration() 
-{
-  window.open('./_users', '_users');
-}
-
 function apply_tool_tips() 
 {
   $('[rel=tooltip]').tooltip();
   $('.time').datetimepicker({
-    format: 'LT',
+    format: 'HH:mm:ss',
+    defaultDate: '',
+    keepInvalid: true,
+    useCurrent: false,
     icons: {
       time: 'x24 fill-p cdc-icon-clock_01',
       date: 'x24 fill-p cdc-icon-calendar_01',
@@ -3812,7 +3808,7 @@ async function autorecalculate
     p_grid_index
 )
 {
-    console.log("autorecalculate called");
+    //console.log("autorecalculate called");
     if(independent_autocalc_list.has(p_independent_variable_mmria_path))
     {
         return await autorecalculate_all_gestation(p_form_index, p_grid_index);
