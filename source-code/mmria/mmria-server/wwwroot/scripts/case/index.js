@@ -42,7 +42,7 @@ var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
-//let save_start_time, save_end_time;
+let save_start_time, save_end_time;
 
 
 
@@ -684,14 +684,13 @@ else
         }
     );
   }
-
-  //window.setTimeout(update_charts, 0);
-
-    //save_end_time = performance.now();
+  save_start_time = performance.now();
+  window.setTimeout(update_charts, 0);
+    save_end_time = performance.now();
 }
 
 
-//let startTime, endTime;
+let startTime, endTime;
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
 {
   
@@ -732,9 +731,9 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
     }
   });
   
-    //startTime = performance.now();
-   //window.setTimeout(update_charts, 0);
-  //endTime = performance.now();
+    startTime = performance.now();
+   window.setTimeout(update_charts, 0);
+  endTime = performance.now();
 }
 
 
@@ -3595,7 +3594,7 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
 
 function update_charts()
 {
-    return;
+    
     
     for (let chart in g_charts)
     {
@@ -3629,9 +3628,12 @@ function update_charts()
             x_columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("]", "").replace("'", "").slice(0, -1).split(",").map(String));
         }
 
-        columns_data.forEach
-        (function (data_item, index) {
-            let output = {};
+
+        for(let columns_data_index = 0; columns_data_index < columns_data.length; columns_data_index++)
+        {
+            const output = {};
+
+            const data_item = columns_data[columns_data_index];
 
             if (!data_item) return;
 
@@ -3639,19 +3641,23 @@ function update_charts()
 
             convertedArray.push(output);
 
-        });
+        }
 
-        x_columns_data.forEach
-        (function (data_item, index) {
-            let output = {};
 
+
+
+        for(let x_columns_data_index = 0; x_columns_data_index < x_columns_data.length; x_columns_data_index++)
+        {
+            const output = {};
+
+            const data_item = x_columns_data[x_columns_data_index];
             if (!data_item) return;
 
             output[data_item[0]] = data_item.slice(1, data_item.length);
 
             xconvertedArray.push(output);
 
-        });
+        }
 
         let xdata;
 
