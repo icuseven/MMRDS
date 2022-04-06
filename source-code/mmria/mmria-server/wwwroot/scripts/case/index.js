@@ -803,7 +803,7 @@ function g_delete_grid_item_action
 			eval(post_html_call_back.join(""));
 		}
     });
-    update_charts();
+    window.setTimeout(update_charts, 0);
 
 }
 
@@ -3644,8 +3644,6 @@ function update_charts()
         }
 
 
-
-
         for(let x_columns_data_index = 0; x_columns_data_index < x_columns_data.length; x_columns_data_index++)
         {
             const output = {};
@@ -3659,31 +3657,46 @@ function update_charts()
 
         }
 
-        let xdata;
+        let xdata = ['x'];
 
-        Object.values(xconvertedArray).forEach
-        (function (obj, index) {
+        // xconvertedArray [ [], []]
+
+        for(let xconvertedArray_index = 0; xconvertedArray_index < xconvertedArray.length; xconvertedArray_index++)
+        {
+            const obj = xconvertedArray[xconvertedArray_index];
+            const arr = obj.x;
+            //const data = ['x'];
+            //xdata = data.concat(obj[key]).map(update_charts_1);
+            for(let data_index = 0; data_index < arr.length; data_index ++)
+            {
+                xdata.push(arr[data_index].replace(/'/g, "",));
+            }
+        }
+
+
+        // convertedArray [ { temp: [] }, ]
+        for(let convertedArray_index = 0; convertedArray_index < convertedArray.length; convertedArray_index++)
+        {
+            const obj = convertedArray[convertedArray_index];
             const key = Object.keys(obj)[0];
-            const data = [key];
-            xdata = data.concat(obj[key]).map(function (x) { return x.replace("'", "",).replace("'", ""); });
-        });
-
-        Object.values(convertedArray).forEach
-        (function (obj, index)  {
-            const key = Object.keys(obj)[0];
+            const arr = obj[key];
             const data = [key];
 
-            const new_data = data.concat(obj[key]);
+
+            for(let data_index = 0; data_index < arr.length; data_index ++)
+            {
+                data.push(arr[data_index]);
+            }
 
             item.load({
                 unload: ['x'],
                 columns: [
                     xdata,
-                    new_data
+                    data
                 ]
             });
 
-        });
+        }
         item.flush();
     }
 }
