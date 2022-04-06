@@ -29,8 +29,10 @@ async function render(p_index)
     switch(index)
     {
         case 1:
+            // display load indicator modal
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
+            // close load indicator modal
             break;
         case 2:
             document.getElementById('output').innerHTML = await render2(post_html);
