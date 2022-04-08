@@ -190,10 +190,6 @@ function render_header()
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
-
-<dialog  id="loading-modal" style="top:65%;width:65%" class="p-0 set-radius">
-</dialog>
-
     `;
 }
 
@@ -370,15 +366,41 @@ function close_filter()
 
 function render_loading_modal()
 {
-    let ei = document.getElementById("loading-modal");
-    
-    ei.innerHTML = `
-    `;
+    let ei;
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();   
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("div");
+    //     var element = document.getElementById("loading-modal");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+
+    ei.innerHTML = ``;
 }
 
 function show_loading_modal()
 {
-    let ei  = document.getElementById("loading-modal");
+    let ei;
+
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();   
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("div");
+    //     var element = document.getElementById("loading-modal");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
     
     ei.innerHTML = `
     <div style="margin:50px;width:50px;">
@@ -398,9 +420,22 @@ function show_loading_modal()
 
 function close_loading_modal()
 {
-    let ei = document.getElementById("loading-modal");
-    ei.close();    
+    let ei;
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();    
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("loading-modal");
+    //     var element = document.getElementById("");
+    //     element.appendChild(tag);
 
+    //     ei = document.getElementById("loading-modal");
+    // }
+
+    //render_filter_summary();
     //render_loading_modal();
     //render();
 }
