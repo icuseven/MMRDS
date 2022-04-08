@@ -30,9 +30,12 @@ async function render(p_index)
     {
         case 1:
             // display load indicator modal KCLTODO
+            //show_loading_dialog()
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
             // close load indicator modal
+            let ei = document.getElementById("loading-dialog");
+            ei.close();
             break;
         case 2:
             document.getElementById('output').innerHTML = await render2(post_html);
@@ -166,6 +169,9 @@ function render_header()
 </div>
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
+</dialog>
+
+<dialog  id="loading-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 
     `;
@@ -341,6 +347,30 @@ function close_filter()
     //render_filter_summary();
     render();
 }
+
+function show_loading_dialog()
+{
+    let el  = document.getElementById("loading-dialog");
+    
+    el.innerHTML = `
+ <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+        <span id="ui-id-1" class="ui-dialog-title">Loading</span>
+        <!--label for="top_corner_close">Close</label-->
+        <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+    </div>
+    <div style="margin:15px;width:500px;">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+`;
+
+    el.showModal();
+
+}
+
 
 
 

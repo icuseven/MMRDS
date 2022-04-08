@@ -3,7 +3,7 @@ async function render1(p_post_html)
     const metadata = indicator_map.get(1);
     const set_data_list = await get_indicator_values(metadata.indicator_id);
 
-    await delay(0);
+    await delay(0); // KCLTODO
 
     const data_list = await get_indicator_values(metadata.indicator_id);
 
