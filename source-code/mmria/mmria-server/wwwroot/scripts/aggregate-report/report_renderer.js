@@ -25,21 +25,20 @@ async function render(p_index)
         item.remove();
     }`
     ];
- 
+
     switch(index)
     {
         case 1:
             // display load indicator modal KCLTODO
-            //show_loading_dialog()
+            //show_loading_modal();
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
             // close load indicator modal
-            let ei = document.getElementById("loading-dialog");
-            ei.close();
+            //close_loading_modal();
             break;
         case 2:
             document.getElementById('output').innerHTML = await render2(post_html);
-            eval(post_html.join(""));
+            eval(post_html.join(""));          
             break;
         case 3:
             document.getElementById('output').innerHTML = await render3(post_html);
@@ -348,7 +347,27 @@ function close_filter()
     render();
 }
 
-function show_loading_dialog()
+function show_loading_modal()
+{
+    let ei  = document.getElementById("loading-dialog");
+    
+    ei.innerHTML = `
+    <div style="margin:50px;width:50px;">
+    <div id="form_content_id" class="pb-3">
+    <span class="spinner-container spinner-content spinner-active">
+        <span class="spinner-body text-primary">
+        <span class="spinner"></span>
+        <span class="spinner-info">Loading...</span>
+        </span>
+    </span>
+    </div>
+    </div>
+`;
+
+    ei.showModal();
+}
+
+function Xshow_loading_dialog()
 {
     let el  = document.getElementById("loading-dialog");
     
@@ -362,13 +381,27 @@ function show_loading_dialog()
         <br/>
         <br/>
         <br/>
+        <div id="form_content_id" class="pb-3">
+        <span class="spinner-container spinner-content spinner-active">
+            <span class="spinner-body text-primary">
+            <span class="spinner"></span>
+            <span class="spinner-info">Loading...</span>
+            </span>
+        </span>
+        </div>
+        <br/>
         <br/>
         <br/>
     </div>
 `;
 
     el.showModal();
+}
 
+function close_loading_modal()
+{
+    let ei = document.getElementById("loading-dialog");
+    ei.close(); 
 }
 
 
