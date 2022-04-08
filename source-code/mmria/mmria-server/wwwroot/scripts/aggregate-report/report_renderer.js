@@ -30,62 +30,83 @@ async function render(p_index)
     {
         case 1:
             // display load indicator modal KCLTODO
-            //show_loading_modal();
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
             // close load indicator modal
-            //close_loading_modal();
+            close_loading_modal();
             break;
         case 2:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render2(post_html);
-            eval(post_html.join(""));          
+            eval(post_html.join(""));  
+            close_loading_modal();        
             break;
         case 3:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render3(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 4:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render4(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 5:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render5(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 6:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render6(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 7:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render7(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 8:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render8(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 9:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render9(post_html);
             eval(post_html.join(""));
-            break;
-    
+            close_loading_modal();
+            break;  
         case 10:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render10(post_html);
             eval(post_html.join(""));
-            break;
-                    
-        case 11:
+            close_loading_modal();
+            break;                  
+        case 11:        
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render11(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
-
-        case 12:
+        case 12:         
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render12(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 1:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case -1:
         default:
@@ -170,7 +191,7 @@ function render_header()
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 
-<dialog  id="loading-dialog" style="top:65%;width:65%" class="p-0 set-radius">
+<dialog  id="loading-modal" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 
     `;
@@ -349,7 +370,7 @@ function close_filter()
 
 function show_loading_modal()
 {
-    let ei  = document.getElementById("loading-dialog");
+    let ei  = document.getElementById("loading-modal");
     
     ei.innerHTML = `
     <div style="margin:50px;width:50px;">
@@ -369,7 +390,7 @@ function show_loading_modal()
 
 function Xshow_loading_dialog()
 {
-    let el  = document.getElementById("loading-dialog");
+    let el  = document.getElementById("loading-modal");
     
     el.innerHTML = `
  <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
@@ -400,7 +421,7 @@ function Xshow_loading_dialog()
 
 function close_loading_modal()
 {
-    let ei = document.getElementById("loading-dialog");
+    let ei = document.getElementById("loading-modal");
     ei.close(); 
 }
 
