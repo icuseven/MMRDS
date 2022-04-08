@@ -403,8 +403,8 @@ function show_loading_modal()
     // }
     
     ei.innerHTML = `
-    <div style="margin:50px;width:50px;">
-    <div id="form_content_id" class="pb-3">
+    <div style="padding:50px;" class="display-6">
+    <div id="form_content_id" >
     <span class="spinner-container spinner-content spinner-active">
         <span class="spinner-body text-primary">
         <span class="spinner"></span>
