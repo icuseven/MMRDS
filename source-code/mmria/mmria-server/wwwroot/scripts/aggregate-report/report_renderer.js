@@ -25,11 +25,11 @@ async function render(p_index)
         item.remove();
     }`
     ];
-    
+ 
     switch(index)
     {
         case 1:
-            // display load indicator modal
+            // display load indicator modal KCLTODO
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
             // close load indicator modal
