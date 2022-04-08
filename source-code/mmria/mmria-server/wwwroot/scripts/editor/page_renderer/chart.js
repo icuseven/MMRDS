@@ -94,7 +94,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         var y_axis_paths = p_metadata.y_axis.split(",");
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
-            let y_axis_path = y_axis_paths[y_index];
+            const y_axis_path = y_axis_paths[y_index];
             update_g_charts(y_axis_path, `${chart_gen_name}`);
 
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]));
@@ -110,7 +110,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         var y_axis_paths = p_metadata.y_axis.split(",");
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
-            let y_axis_path = y_axis_paths[y_index];
+            const y_axis_path = y_axis_paths[y_index];
             update_g_charts(y_axis_path, `${chart_gen_name}`);
 
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
@@ -179,14 +179,14 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
-	var result = [];
-	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	var array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 
 	if(array)
 	{
-		var field = array_field[1];
+		const field = array_field[1];
 
 		result.push("[");
 		//result.push("['x'");
@@ -194,9 +194,9 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 		//result.push(50, 20, 10, 40, 15, 25);
 
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(var i = 0; i < array.length; i++)
+		for(let i = 0; i < array.length; i++)
 		{
-			var val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
 				result.push(parseFloat(val));
@@ -223,12 +223,12 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
 	let result = [];
-	let array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	let array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 	if(array)
 	{
-		let field = array_field[1];
+		const field = array_field[1];
 
 
 		result.push("['x'");
@@ -238,18 +238,18 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
 		for(let i = 0; i < array.length; i++)
 		{
-			let val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
-				let res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
+				const res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
 				if(res)
 				{
 					result.push("'" + make_c3_date(val) +"'");
 				}
 				else 
 				{
-					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
-					if(res)
+					const res2 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+					if(res2)
 					{
 						//let date_time = new Date(val);
 						//result.push("'" + date_time.toISOString() + "'");
@@ -263,7 +263,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			}
 			else
 			{
-				result.push(0);
+				//result.push(0);
 			}
 			
 		}
@@ -281,12 +281,12 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
-	var result = [];
-	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	var array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 
-	var field = array_field[1];
+	const field = array_field[1];
 
 	if(p_label)
 	{
@@ -303,9 +303,9 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 		//result.push(50, 20, 10, 40, 15, 25);
 
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(var i = 0; i < array.length; i++)
+		for(let i = 0; i < array.length; i++)
 		{
-			var val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
 				result.push(parseFloat(val).toFixed(2));
