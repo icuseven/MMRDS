@@ -36,8 +36,8 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
 var g_record_id_list = {};
-var g_charts = {};
-var g_chart_data = {};
+const g_charts = new Map();
+const g_chart_data = new Map();
 var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
@@ -685,12 +685,12 @@ else
     );
   }
   save_start_time = performance.now();
-  window.setTimeout(update_charts, 0);
+  window.setTimeout(function() { update_charts(p_dictionary_path) }, 0);
     save_end_time = performance.now();
 }
 
 
-let startTime, endTime;
+
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
 {
   
@@ -731,9 +731,7 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
     }
   });
   
-    startTime = performance.now();
-   window.setTimeout(update_charts, 0);
-  endTime = performance.now();
+
 }
 
 
@@ -803,7 +801,7 @@ function g_delete_grid_item_action
 			eval(post_html_call_back.join(""));
 		}
     });
-    window.setTimeout(update_charts, 0);
+    //window.setTimeout(update_charts, 0);
 
 }
 
@@ -1544,8 +1542,8 @@ function window_on_hash_change(e)
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
         {
             g_ui.broken_rules = {};
-            g_charts = {};
-            g_chart_data = {};
+            g_charts.clear();
+            g_chart_data.clear();
             if(g_data_is_checked_out)
             {
                 save_case(g_data, function () 
@@ -1565,8 +1563,8 @@ function window_on_hash_change(e)
         }
         else
         {
-            g_charts = {};
-            g_chart_data = {};
+            g_charts.clear();
+            g_chart_data.clear();
             if(g_data_is_checked_out)
             {
                 save_case(g_data, function () 
@@ -1624,8 +1622,8 @@ function window_on_hash_change(e)
       if (g_ui.case_view_list.length > 0) 
       {
         g_ui.broken_rules = {};
-        g_charts = {};
-        g_chart_data = {};
+        g_charts.clear();
+        g_chart_data.clear();
         get_specific_case
         (
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
@@ -3592,112 +3590,71 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
     }
 }
 
-function update_charts()
+function update_charts(p_path)
 {
-    
+    if
+    (
+        p_path != null &&
+        ! g_charts.has(p_path.substring(1))
+    )
+    {
+        return;
+    }
     
     for (let chart in g_charts)
     {
-        const item = g_charts[chart];
-        const p_metadata = g_chart_data[chart];
-        const columns_data = [];
-        const x_columns_data = [];
-        const convertedArray = [];
-        const xconvertedArray = [];
 
-        if (p_metadata.y_label && p_metadata.y_label != "") 
+        if
+        (
+            p_path != null &&
+            ! g_charts.has(p_path.substring(1))
+        )
         {
-            const y_labels = p_metadata.y_label.split(",");
-            const y_axis_paths = p_metadata.y_axis.split(",");
-            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
-            {
-                columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
-            }
-        }
-        else 
-        {
-            const y_axis_paths = p_metadata.y_axis.split(",");
-            for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
-            {
-                columns_data.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], g_ui).replace("['", "").replace("]", "").replace("'", "").split(",").map(String));
-            }
+            continue;
         }
 
-        if (p_metadata.x_axis && p_metadata.x_axis != "") 
+        const path_to_chart_name = g_charts.get(p_path.substring(1));
+
+        if( !path_to_chart_name.has(chart)) continue;
+
+
+        const chart_data = g_chart_data.get(chart);
+
+        const p_result = [];
+        const p_post_html_render = [];
+
+        chart_render
+        (
+            p_result, 
+            chart_data.p_metadata, 
+            null, // undefined
+            chart_data.p_ui, // g_ui
+            chart_data.p_metadata_path, //"g_metadata.children[17].children[12]"
+            chart_data.p_object_path, // "g_data.er_visit_and_hospital_medical_records[0].temperature_graph"
+            chart_data.p_dictionary_path, // "/er_visit_and_hospital_medical_records/temperature_graph"
+            chart_data.p_is_grid_context, // false
+            p_post_html_render, 
+            chart_data.p_search_ctx, // undefined
+            chart_data.p_ctx // { form_index: 0, grid_index: null }
+        );
+
+        document.getElementById(chart_data.div_id).innerHTML = p_result.join('');
+      
+        if (p_post_html_render.length > 0) 
         {
-            x_columns_data.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, g_ui).replace("['", "").replace("]", "").replace("'", "").slice(0, -1).split(",").map(String));
-        }
-
-
-        for(let columns_data_index = 0; columns_data_index < columns_data.length; columns_data_index++)
-        {
-            const output = {};
-
-            const data_item = columns_data[columns_data_index];
-
-            if (!data_item) return;
-
-            output[data_item[0]] = data_item.slice(1, data_item.length);
-
-            convertedArray.push(output);
-
-        }
-
-
-        for(let x_columns_data_index = 0; x_columns_data_index < x_columns_data.length; x_columns_data_index++)
-        {
-            const output = {};
-
-            const data_item = x_columns_data[x_columns_data_index];
-            if (!data_item) return;
-
-            output[data_item[0]] = data_item.slice(1, data_item.length);
-
-            xconvertedArray.push(output);
-
-        }
-
-        let xdata = ['x'];
-
-        // xconvertedArray [ [], []]
-
-        for(let xconvertedArray_index = 0; xconvertedArray_index < xconvertedArray.length; xconvertedArray_index++)
-        {
-            const obj = xconvertedArray[xconvertedArray_index];
-            const arr = obj.x;
-            //const data = ['x'];
-            //xdata = data.concat(obj[key]).map(update_charts_1);
-            for(let data_index = 0; data_index < arr.length; data_index ++)
-            {
-                xdata.push(arr[data_index].replace(/'/g, "",));
-            }
+          try
+          {
+            eval(p_post_html_render.join(''));
+          } 
+          catch (ex) 
+          {
+            console.log(ex);
+          }
         }
 
 
-        // convertedArray [ { temp: [] }, ]
-        for(let convertedArray_index = 0; convertedArray_index < convertedArray.length; convertedArray_index++)
-        {
-            const obj = convertedArray[convertedArray_index];
-            const key = Object.keys(obj)[0];
-            const arr = obj[key];
-            const data = [key];
+           // console.log("here");
 
-
-            for(let data_index = 0; data_index < arr.length; data_index ++)
-            {
-                data.push(arr[data_index]);
-            }
-
-            item.load({
-                unload: ['x'],
-                columns: [
-                    xdata,
-                    data
-                ]
-            });
-
-        }
-        item.flush();
     }
 }
 

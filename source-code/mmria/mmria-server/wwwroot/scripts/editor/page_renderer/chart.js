@@ -1,20 +1,6 @@
 function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-
-	// console.log('*******************************');
-	// console.log('p_result: ', p_result);
-	// console.log('p_metadata: ', p_metadata);
-	// console.log('p_ui: ', p_ui);
-	// console.log('p_metadata_path: ', p_metadata_path);
-	// console.log('p_object_path: ', p_object_path);
-	// console.log('p_dictionary_path: ', p_dictionary_path);
-	// console.log('p_is_grid_context: ', p_is_grid_context);
-	// console.log('p_post_html_render: ', p_post_html_render);
-	// console.log('p_search_ctx: ', p_search_ctx);
-	// console.log('p_ctx: ', p_ctx);
-	// console.log('style_object: ', style_object);
-	// console.log('##############################');
 	
 	p_result.push
 	(
@@ -27,30 +13,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		`
 		
 	);
-
-	/*
-	p_result.push("<span ");
-	if(style_object)
-    {
-		p_result.push(" style='");
-		p_result.push(get_style_string(style_object.promptcontrol.style));
-		p_result.push("'>");
-    }
-    if(p_metadata.description && p_metadata.description.length > 0)
-    {
-        p_result.push("rel='tooltip' data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
-    }
-    else
-    {
-        p_result.push(">");
-    } 
-    
-    p_result.push(p_metadata.prompt);
-	p_result.push("</span>");
-	*/
-	//p_result.push("</div>");
 
 	var chart_size = get_chart_size(style_object.control.style);
 	var chart_gen_name = "chart_" + convert_object_path_to_jquery_id(p_object_path);
@@ -72,19 +34,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       },`);
 
 
-
-
-
-/*
-
-
-d3.select('#chart svg').append('text')
-.attr('x', d3.select('#chart svg').node().getBoundingClientRect().width / 2)
-.attr('y', 16)
-.attr('text-anchor', 'middle')
-.style('font-size', '1.4em')
-.text('Title of this chart');
-*/
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
         p_post_html_render.push("axis: {");
@@ -127,17 +76,16 @@ d3.select('#chart svg').append('text')
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
         p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
-        //p_post_html_render.push("x: 'x', ");
     }
 
     p_post_html_render.push("      columns: [");
 
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
+
+        update_g_charts(p_metadata.x_axis, `${chart_gen_name}`);
         p_post_html_render.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui));
     }
-    //p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
-    //p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
 
 
     if(p_metadata.y_label && p_metadata.y_label != "")
@@ -146,6 +94,9 @@ d3.select('#chart svg').append('text')
         var y_axis_paths = p_metadata.y_axis.split(",");
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
+            const y_axis_path = y_axis_paths[y_index];
+            update_g_charts(y_axis_path, `${chart_gen_name}`);
+
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]));
             if(y_index < y_axis_paths.length-1)
             {
@@ -159,6 +110,9 @@ d3.select('#chart svg').append('text')
         var y_axis_paths = p_metadata.y_axis.split(",");
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
+            const y_axis_path = y_axis_paths[y_index];
+            update_g_charts(y_axis_path, `${chart_gen_name}`);
+
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
             if(y_index < y_axis_paths.length-1)
             {
@@ -167,7 +121,31 @@ d3.select('#chart svg').append('text')
         }
 	}
 
-	g_chart_data[`${chart_gen_name}`] = p_metadata;
+    //var g_charts = {} map chart_name to c3.generate;
+    //var g_chart_data = {} map chart_name to metadata;
+
+
+
+
+
+	g_chart_data.set(`${chart_gen_name}`, {
+    div_id: convert_object_path_to_jquery_id(p_object_path),
+	p_result: p_result,
+	p_metadata: p_metadata,
+    p_ui: p_ui,
+    p_metadata_path: p_metadata_path,
+    p_object_path: p_object_path,
+    p_dictionary_path: p_dictionary_path,
+    p_is_grid_context: p_is_grid_context,
+    p_post_html_render: p_post_html_render,
+    p_search_ctx: p_search_ctx,
+    p_ctx: p_ctx,
+    style_object: style_object
+    
+    });
+
+
+
 
     p_post_html_render.push("  ]");
     p_post_html_render.push("  },");
@@ -185,18 +163,30 @@ d3.select('#chart svg').append('text')
 	
 }
 
+
+function update_g_charts(p_path, p_chart_name)
+{
+    if( !g_charts.has(p_path))
+    {
+        g_charts.set(p_path, new Set());
+    }
+
+    g_charts.get(p_path).add(p_chart_name)
+}
+
+
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
-	var result = [];
-	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	var array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 
 	if(array)
 	{
-		var field = array_field[1];
+		const field = array_field[1];
 
 		result.push("[");
 		//result.push("['x'");
@@ -204,9 +194,9 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 		//result.push(50, 20, 10, 40, 15, 25);
 
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(var i = 0; i < array.length; i++)
+		for(let i = 0; i < array.length; i++)
 		{
-			var val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
 				result.push(parseFloat(val));
@@ -233,12 +223,12 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
 	let result = [];
-	let array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	let array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 	if(array)
 	{
-		let field = array_field[1];
+		const field = array_field[1];
 
 
 		result.push("['x'");
@@ -248,18 +238,18 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
 		for(let i = 0; i < array.length; i++)
 		{
-			let val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
-				let res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
+				const res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
 				if(res)
 				{
 					result.push("'" + make_c3_date(val) +"'");
 				}
 				else 
 				{
-					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
-					if(res)
+					const res2 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+					if(res2)
 					{
 						//let date_time = new Date(val);
 						//result.push("'" + date_time.toISOString() + "'");
@@ -273,7 +263,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			}
 			else
 			{
-				result.push(0);
+				//result.push(0);
 			}
 			
 		}
@@ -291,12 +281,12 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
-	var result = [];
-	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+	const result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	var array = eval(array_field[0]);
+	const array = eval(array_field[0]);
 
-	var field = array_field[1];
+	const field = array_field[1];
 
 	if(p_label)
 	{
@@ -313,16 +303,11 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 		//result.push(50, 20, 10, 40, 15, 25);
 
 		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(var i = 0; i < array.length; i++)
+		for(let i = 0; i < array.length; i++)
 		{
-			var val = array[i][field];
+			const val = array[i][field];
 			if(val)
 			{
-				/*
-				var temp = parseFloat(val);
-				var rounded = Math.round(temp * 100) / 100;
-				result.push(rounded);
-				*/
 				result.push(parseFloat(val).toFixed(2));
 			}
 			else
