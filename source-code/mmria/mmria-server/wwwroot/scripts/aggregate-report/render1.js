@@ -1,12 +1,8 @@
 async function render1(p_post_html)
 {
     const metadata = indicator_map.get(1);
-    const set_data_list = await get_indicator_values(metadata.indicator_id);
-
-    await delay(0); // KCLTODO
-
+    // await delay(2000); // KCLTODO
     const data_list = await get_indicator_values(metadata.indicator_id);
-
     
     return `
     ${render_header()}
@@ -28,25 +24,6 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function kcl_get_indicator_values(indicator)
-{
-    get_data_list = await get_indicator_values(indicator);
-
-    return new Promise((resolve, reject) =>
-        {
-            if (!isNullOrUndefined(get_data_list))
-            {
-                //alert("resolve");
-                resolve(get_data_list);
-            }
-            else
-            {
-                //alert("reject");
-                reject();
-            }
-        }
-    );
-}
 
 async function render1_chart(p_post_html, p_metadata, p_data_list)
 {
