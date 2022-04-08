@@ -368,6 +368,14 @@ function close_filter()
     render();
 }
 
+function render_loading_modal()
+{
+    let ei = document.getElementById("loading-modal");
+    
+    ei.innerHTML = `
+    `;
+}
+
 function show_loading_modal()
 {
     let ei  = document.getElementById("loading-modal");
@@ -388,41 +396,13 @@ function show_loading_modal()
     ei.showModal();
 }
 
-function Xshow_loading_dialog()
-{
-    let el  = document.getElementById("loading-modal");
-    
-    el.innerHTML = `
- <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-        <span id="ui-id-1" class="ui-dialog-title">Loading</span>
-        <!--label for="top_corner_close">Close</label-->
-        <button id="top_corner_close" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="close_filter()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
-    </div>
-    <div style="margin:15px;width:500px;">
-        <br/>
-        <br/>
-        <br/>
-        <div id="form_content_id" class="pb-3">
-        <span class="spinner-container spinner-content spinner-active">
-            <span class="spinner-body text-primary">
-            <span class="spinner"></span>
-            <span class="spinner-info">Loading...</span>
-            </span>
-        </span>
-        </div>
-        <br/>
-        <br/>
-        <br/>
-    </div>
-`;
-
-    el.showModal();
-}
-
 function close_loading_modal()
 {
     let ei = document.getElementById("loading-modal");
-    ei.close(); 
+    ei.close();    
+
+    //render_loading_modal();
+    //render();
 }
 
 

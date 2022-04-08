@@ -349,6 +349,14 @@ function close_filter()
     render();
 }
 
+function render_loading_modal()
+{
+    let ei = document.getElementById("loading-modal");
+    
+    ei.innerHTML = `
+    `;
+}
+
 function show_loading_modal()
 {
     let ei  = document.getElementById("loading-modal");
@@ -371,8 +379,12 @@ function show_loading_modal()
 
 function close_loading_modal()
 {
+    //alert("close modal")
     let ei = document.getElementById("loading-modal");
     ei.close();    
+
+    //render_loading_modal();
+    //render();
 }
 
 
