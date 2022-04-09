@@ -485,6 +485,10 @@ namespace mmria.server.utils
               default:
                 if (val != null)
                 {
+                    if(path=="host_state")
+                    {
+                        val = val.ToString().ToUpper();
+                    }
 
                   if (val is List<object>)
                   {
