@@ -28,65 +28,86 @@ async function render(p_index)
     switch(index)
     {
         case 1:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render1(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 2:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render2(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 3:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render3(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 4:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render4(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 5:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render5(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 6:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render6(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 7:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render7(post_html);
             eval(post_html.join(""));
             break;
         case 8:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render8(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 9:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render9(post_html);
             eval(post_html.join(""));
-            break;
-    
+            close_loading_modal();
+            break;    
         case 10:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render10(post_html);
             eval(post_html.join(""));
-            break;
-                    
+            close_loading_modal();
+            break;                
         case 11:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render11(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
-
         case 12:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render12(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 13:
+            show_loading_modal();
             document.getElementById('output').innerHTML = await render13(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
-
-        case 1:
-            document.getElementById('output').innerHTML = await render1(post_html);
-            eval(post_html.join(""));
-            break;
+        // case 1:
+        //     document.getElementById('output').innerHTML = await render1(post_html);
+        //     eval(post_html.join(""));
+        //     break;
         case -1:
         default:
             document.getElementById('output').innerHTML = render0();
@@ -325,5 +346,80 @@ function close_filter()
     render();
 }
 
+function render_loading_modal()
+{
+    let ei;
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();   
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("div");
+    //     var element = document.getElementById("loading-modal");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+
+    ei.innerHTML = ``;
+}
+
+function show_loading_modal()
+{
+    let ei;
+
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();   
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("div");
+    //     var element = document.getElementById("loading-modal");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+    
+    ei.innerHTML = `
+    <div style="padding:50px;" class="display-6">
+    <div id="form_content_id" >
+    <span class="spinner-container spinner-content spinner-active">
+        <span class="spinner-body text-primary">
+        <span class="spinner"></span>
+        <span class="spinner-info">Loading...</span>
+        </span>
+    </span>
+    </div>
+    </div>
+`;
+
+    ei.showModal();
+}
+
+function close_loading_modal()
+{
+    let ei;
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();    
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("loading-modal");
+    //     var element = document.getElementById("");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+
+    //render_filter_summary();
+    //render_loading_modal();
+    //render();
+}
 
 
