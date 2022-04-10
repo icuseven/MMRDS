@@ -11,12 +11,11 @@ var g_model = {
 };
 
 $(async function ()
-{//http://www.w3schools.com/html/html_layout.asp
+{
   'use strict';
 	document.getElementById('form_content_id').innerHTML = '';
 	await main();
 
-	// Display the page
 	display_page();
 });
 
@@ -70,13 +69,10 @@ async function main()
 
 }
 
-// Display the page
+
 function display_page() 
 {
-	// Load the select list array
 	g_quarters = load_quarters();
-
-	// Render the page
 	render();
 }
 
@@ -86,17 +82,15 @@ function load_quarters()
 	let curYear = today.getFullYear();
 	let curQuarter = Math.floor((today.getMonth() + 3) / 3);
 	let quarters = new Array();
-	let cutoffYear = 2019;	// The last quarter will be Q1 of this year
+	let cutoffYear = 2019;	
 
-	// Create the Quarters list for the dropdown
-	// Add all quarters from now, decending
 	while ( curQuarter > 0 )
 	{
 		quarters.push( `Q${ curQuarter }-${ curYear }` );
 		curQuarter--;
 	}
 
-	// Now let's put all of the quarters from the current year 
+	
 	curYear--;
 	while ( curYear >= cutoffYear )
 	{
