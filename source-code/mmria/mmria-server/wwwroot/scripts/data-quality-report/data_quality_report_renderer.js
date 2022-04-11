@@ -1,5 +1,3 @@
-// Data Quality Report
-
 function data_quality_report_render(p_quarters) 
 {
 	var result = [];
@@ -501,50 +499,11 @@ async function download_data_quality_report_button_click()
 
         if ( item.add_quarter_number <= quarter_number ) 
         {
-            // Table One - 01) to 05)
-						summary_table_01_05( item );
 
-						// Table Two - 06) to 09)
-						summary_table_06_09( item );
-
-						// Table Three - 10) to 34)
-						summary_table_10_34( item );
-
-						// Table Four - 35) to 43)
-						summary_table_35_43( item );
-
-						// Table Five - 44) to 45)
-						summary_table_44_45( item );
-
-						// Table Six - 46) to 49)
-						summary_table_46_49( item );
-        }
-
-
-        if(item.add_quarter_number == quarter_number )
-        {
-
-        }
-        else if
-        (
-            item.add_quarter_number < quarter_number &&
-            item.add_quarter_number >= quarter_number - 1)
-        {
-
-        }
-
-
-
-    }
-
-		// Table One Summary
-		function summary_table_01_05( item )
-		{
-			// Accumulate Table One data
-			summary_data.n01 += item.n01;
+            summary_data.n01 += item.n01;
 			summary_data.n02 += item.n02;
 
-			// Special handling for Question 03)
+
 			summary_data.n03[0] += item.n03[0];
 			summary_data.n03[1] += item.n03[1];
 			summary_data.n03[2] += item.n03[2];
@@ -557,12 +516,8 @@ async function download_data_quality_report_button_click()
 			summary_data.n04 += item.n04;
 			summary_data.n05 += item.n05;
 			summary_data.n06 += item.n06;
-		}
 
-		// Table Two Summary
-		function summary_table_06_09( item )
-		{
-			// Add current quarter
+
 			if 
 			( 
 					item.add_quarter_number == quarter_number
@@ -570,7 +525,7 @@ async function download_data_quality_report_button_click()
 			{
 					summary_data.n07 += item.n07;
 			}
-			// Not sure what this does
+
 			if 
 			( 
 					item.add_quarter_number < quarter_number &&
@@ -580,19 +535,14 @@ async function download_data_quality_report_button_click()
 					summary_data.n08 += item.n08;
 					summary_data.n09 += item.n09;
 			}
-		}
 
-		// Table Three Summary
-		function summary_table_10_34( item )
-		{
-			// Add line 10) thru 34)
-			let startLoop = 10;
+            let startLoop = 10;
 			let endLoop = 34;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
-				// Build the field name
+
 				let fld = 'n' + i;
-				// Check to see if this is current quarter
+
 				if ( item.add_quarter_number == quarter_number )
 				{
 					summary_data[fld].s.mn += item[fld].m;
@@ -608,19 +558,14 @@ async function download_data_quality_report_button_click()
 					summary_data[fld].p.un += item[fld].u;
 				}
 			}
-		}
 
-		// Table Four Summary
-		function summary_table_35_43( item )
-		{
-			// Add line 35) thru 43)
-			let startLoop = 35;
-			let endLoop = 43;
+            startLoop = 35;
+			endLoop = 43;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
-				// Build the field name
+
 				let fld = 'n' + i;
-				// Check to see if this is current quarter
+
 				if ( item.add_quarter_number == quarter_number )
 				{
 					summary_data[fld].s.mn += item[fld].m;
@@ -636,18 +581,13 @@ async function download_data_quality_report_button_click()
 					summary_data[fld].p.un += item[fld].u;
 				}
 			}
-		}
-
-		// Table Five Summary
-		function summary_table_44_45( item )
-		{
-			let startLoop = 44;
-			let endLoop = 45;
+			startLoop = 44;
+			endLoop = 45;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
-				// Build the field name
+
 				let fld = 'n' + i;
-				// Check to see if this is current quarter
+
 				if ( item.add_quarter_number == quarter_number )
 				{
 					summary_data[fld].s.tn += item[fld].t;
@@ -663,18 +603,15 @@ async function download_data_quality_report_button_click()
 					summary_data[fld].p.pn += item[fld].p;
 				}
 			}
-		}
-		
-		// Table Six Summary
-		function summary_table_46_49( item )
-		{
-			let startLoop = 46;
-			let endLoop = 49;
+
+
+            startLoop = 46;
+			endLoop = 49;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
-				// Build the field name
+
 				let fld = 'n' + i;
-				// Check to see if this is current quarter
+
 				if ( item.add_quarter_number == quarter_number )
 				{
 					summary_data[fld].s.tn += item[fld].t;
@@ -690,20 +627,18 @@ async function download_data_quality_report_button_click()
 					summary_data[fld].p.pn += item[fld].p;
 				}
 			}
-		}
-
-		// Calculate the summary percentages
+        }
+    }
 		function calculate_summary_percentages()
 		{
-			// This is a test to see if we can correctly calculate the percentages
+
 			let startLoop = 44;
 			let endLoop = 49;
 			for ( let i = startLoop; i <= endLoop; i++ )
 			{
-				// Build the field name
+
 				let fld = 'n' + i;
 
-				// Check for zero before doing the divide
 				if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
 				{
 					summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
@@ -715,33 +650,31 @@ async function download_data_quality_report_button_click()
 			}
 		}
 
-		// Get the case folder info for header display
 		function getCaseFolder()
 		{
 			var case_folder_display = '/';
 			var case_folder_exclude = ' - Exclude: ';
 
-			// If only a single case folder then just return it
+
 			if ( g_case_folder_list.length == 1 )
 			{
 				case_folder_display = '/';
 				return case_folder_display;
 			}
 
-			// If g_case_folder_list.length is equal to g_model.includedCaseFolder.length - return Top Folder ('/')
+			
 			if ( g_case_folder_list.length == g_model.includedCaseFolder.length )
 			{
 				case_folder_display = '/';
 				return case_folder_display;
 			}
 
-			// Now check to see if Top Folder is selected and other options are unselected
 			if ( g_model.includedCaseFolder[0] == '/' )
 			{
-				// Add the Top Folder
+
 				case_folder_display = '/';
 
-				// Loop thru and add the excluded case_folders
+
 				g_case_folder_list.map( (j, i) => {
 					if ( j != '/' )
 					{
@@ -749,13 +682,13 @@ async function download_data_quality_report_button_click()
 					}
 				});
 
-				// Append excluded jursisdiction to case_folder_display
+
 				case_folder_display += case_folder_exclude.substring(0, (case_folder_exclude.length - 2));
 				
 				return case_folder_display;
 			}
 
-			// If not Top Folder, then display what has been checked
+
 			case_folder_display = '';
 			g_model.includedCaseFolder.map( (j, i) => {
 				if ( i > 0 )
@@ -768,7 +701,7 @@ async function download_data_quality_report_button_click()
 			return case_folder_display;
 		}
 
-		// Get the previous 4 quarters based on the selected quarter
+
 		function getPreviousFourQuarters()
 		{
 			let qStr = '';
@@ -779,7 +712,7 @@ async function download_data_quality_report_button_click()
 			
 			for ( let i = 0; i < 4; i++ )
 			{
-				// Check qtr to see if it is 1 - if so, then set to 4 and decrement yy
+				
 				qtr--;
 				if ( qtr == 0 )
 				{
@@ -799,7 +732,7 @@ async function download_data_quality_report_button_click()
 		console.log('dqr_detail_data: ', dqr_detail_data);
 		console.log('summary_data: ', summary_data);
 
-		// Create Summary Report if reportType is Summary or Summary & Detail
+
 		if ( g_model.reportType == 'Summary' || g_model.reportType == 'Summary & Detail')
 		{
 			let headers = {
@@ -811,7 +744,7 @@ async function download_data_quality_report_button_click()
 				'Summary', summary_data, g_model.selectedQuarter, headers );
 		}
 
-		// Create Detail Report if reportType is Detail or Summary & Detail
+
 		if ( g_model.reportType == 'Detail' || g_model.reportType == 'Summary & Detail')
 		{
 			let headers = {
@@ -836,9 +769,8 @@ async function download_data_quality_report_button_click()
 		}
 }
 
-// Function to call the pdfMake stuff
+
 async function create_pdf( report_type, data, quarter, headers )
 {
-	// Call to pdfMake
 	await create_data_quality_report_pdf( report_type, data, quarter, headers );
 }

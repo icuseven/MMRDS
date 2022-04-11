@@ -358,10 +358,11 @@ namespace mmria.server.utils
               continue;
             }
 
-            if (
-              path_to_node_map[path].type.ToLower() == "list" &&
-              path_to_node_map[path].is_multiselect != null &&
-                  path_to_node_map[path].is_multiselect == true
+            if 
+            (
+                path_to_node_map[path].type.ToLower() == "list" &&
+                path_to_node_map[path].is_multiselect != null &&
+                path_to_node_map[path].is_multiselect == true
             )
             {
               //System.Console.WriteLine("break");
@@ -369,7 +370,7 @@ namespace mmria.server.utils
 
             if(path == "case_narrative/case_opening_overview")
             {
-                System.Console.WriteLine("break");
+                //System.Console.WriteLine("break");
             }
 
             dynamic val = get_value(case_doc as IDictionary<string, object>, path);
@@ -550,6 +551,12 @@ namespace mmria.server.utils
                   if (val != null)
                   {
 					string clearText = "";
+
+                    if(path=="host_state")
+                    {
+                        val = val.ToString().ToUpper();
+                    }
+
                     if(path == "case_narrative/case_opening_overview")
                     {
                       clearText = mmria.common.util.CaseNarrative.StripHTML(val);
