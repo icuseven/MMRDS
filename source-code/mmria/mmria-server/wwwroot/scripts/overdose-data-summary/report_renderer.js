@@ -67,6 +67,7 @@ async function render(p_index)
             show_loading_modal();
             document.getElementById('output').innerHTML = await render7(post_html);
             eval(post_html.join(""));
+            close_loading_modal();
             break;
         case 8:
             show_loading_modal();
