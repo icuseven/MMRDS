@@ -197,7 +197,7 @@ function render_header()
         <p>
             <strong>Select Report Type:</strong>  
             <span style="float:right;">
-                <button class="btn btn-primary" onclick="show_filter_dialog()">View PDF</button>
+                <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
             </span>
         </p> 
         <p>
@@ -207,7 +207,7 @@ function render_header()
         <p>
             <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
             <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
-            <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Print PDF</button></span></p>
+            <span style="float:right"><button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button></span></p>
         </p>
     </li> 
 </ul>
@@ -215,6 +215,32 @@ function render_header()
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
     `;
+}
+
+const bc = new BroadcastChannel('pdf_channel');
+bc.onmessage = (eventMessage) => {
+  
+}
+
+function updateReportType(e)
+{
+	g_reportType = e.target.value;
+}
+
+function view_pdf_click()
+{
+	var url =  'aggregate-report/pdf';
+    window.open(url, '_aggregate_report');
+
+    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+}
+
+function print_pdf_click()
+{
+	var url =  'aggregate-report/pdf';
+    window.open(url, '_aggregate_report');
+
+    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
 }
 
 function render_filter_summary()
