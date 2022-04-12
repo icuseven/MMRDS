@@ -3638,7 +3638,7 @@ function update_charts(p_path)
             chart_data.p_ctx // { form_index: 0, grid_index: null }
         );
 
-        document.getElementById(chart_data.div_id).innerHTML = p_result.join('');
+        document.getElementById(chart_data.div_id).outerHTML = p_result.join('');
       
         if (p_post_html_render.length > 0) 
         {
