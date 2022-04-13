@@ -181,7 +181,7 @@ function render_header()
     }
 
     return `
-    <div>
+    <div id="filter-pdf-control" style="height:150px;">
         <ul style="align:center;">
             <li style="display: inline-block;float:left;width:48%">
                 <div 

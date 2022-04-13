@@ -6,10 +6,9 @@ async function render12(p_post_html)
     const metadata2 = indicator_map.get(13);
     const data_list2 = await get_indicator_values(metadata2.indicator_id);
 
-
     return `
     ${render_header()}
-
+ 
 ${render_navigation_strip(12)}
 <div>
 <h3>${metadata.title}</h3>
