@@ -17,6 +17,8 @@ async function render(p_index)
         index = p_index;
     }
 
+    g_report_index = index;
+
     const post_html = [
     `const all = document.getElementsByClassName('spinner-container')
     for(let i = 0; i < all.length; i++)
@@ -200,7 +202,7 @@ function render_header()
     `;
 }
 
-const bc = new BroadcastChannel('pdf_channel');
+const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (eventMessage) => {
   
 }
@@ -215,7 +217,13 @@ function view_pdf_click()
 	var url =  'aggregate-report/pdf';
     window.open(url, '_aggregate_report');
 
-    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+    const message_data = {
+        reportType: g_reportType,
+        report_index: g_report_index,
+        view_or_print: "view"
+    }
+
+    window.setTimeout(()=> bc.postMessage(message_data), 2000);
 }
 
 function print_pdf_click()
@@ -223,7 +231,13 @@ function print_pdf_click()
 	var url =  'aggregate-report/pdf';
     window.open(url, '_aggregate_report');
 
-    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+    const message_data = {
+        reportType: g_reportType,
+        report_index: g_report_index,
+        view_or_print: "print"
+    }
+
+    window.setTimeout(()=> bc.postMessage(message_data), 2000);
 }
 
 function render_filter_summary()

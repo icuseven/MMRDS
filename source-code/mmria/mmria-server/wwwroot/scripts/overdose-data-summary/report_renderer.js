@@ -17,6 +17,8 @@ async function render(p_index)
         index = p_index;
     }
 
+    g_report_index = index;
+
     const post_html = [
         `const all = document.getElementsByClassName('spinner-container')
         for(let i = 0; i < all.length; i++)
@@ -201,7 +203,7 @@ function render_header()
 }
 
 
-const bc = new BroadcastChannel('pdf_channel');
+const bc = new BroadcastChannel('overdose_pdf_channel');
 bc.onmessage = (eventMessage) => {
   
 }
@@ -216,7 +218,13 @@ function view_pdf_click()
 	var url =  'overdose-data-summary/pdf';
     window.open(url, '_overdose_data_summary_report');
 
-    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+    const message_data = {
+        reportType: g_reportType,
+        report_index: g_report_index,
+        view_or_print: "view"
+    }
+
+    window.setTimeout(()=> bc.postMessage(message_data), 2000);
 }
 
 function print_pdf_click()
@@ -224,7 +232,13 @@ function print_pdf_click()
 	var url =  'overdose-data-summary/pdf';
     window.open(url, '_overdose_data_summary_report');
 
-    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+    const message_data = {
+        reportType: g_reportType,
+        report_index: g_report_index,
+        view_or_print: "print"
+    }
+
+    window.setTimeout(()=> bc.postMessage(message_data), 2000);
 }
 
 
