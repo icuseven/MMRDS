@@ -181,41 +181,18 @@ function render_header()
     }
 
     return `
-<ul style="align:center;">
-    <li style="display: inline-block;float:left;width:48%">
-        <div 
-            id="filter-summary"
-            style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
-            <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
-            <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
-            <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
-        </div>
-    </li>
-
-    <li style="display: inline-block;float:right;width:48%">
-        <div 
-        id="pdf-control"
-        style="width:360px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
-        <p>
-            <strong>Select Report Type:</strong>  
-            <span style="float:right;">
-                <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
-            </span>
-        </p> 
-        <p>
-            <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
-            <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
-        </p>
-        <p>
-            <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-            <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
-            <span style="float:right"><button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button></span></p>
-        </p>
-    </li> 
-</ul>
+<div 
+    id="filter-summary"
+    style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+>
+    <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
+    <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
+    <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
+</div>
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
+
     `;
 }
 
