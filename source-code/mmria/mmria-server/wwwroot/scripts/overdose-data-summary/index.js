@@ -4,6 +4,8 @@ var g_couchdb_url = null;
 var g_metadata = null;
 
 var g_reportType = "Summary";
+var g_report_index = 0;
+
 
 var g_list_lookup = {};
 
