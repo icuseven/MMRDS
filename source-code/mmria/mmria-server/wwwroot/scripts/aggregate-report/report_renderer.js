@@ -187,6 +187,12 @@ function render_header()
     <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
     <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
 </div>
+<div id="pdf-control">
+    <p style="padding: 10px;">
+        <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
+        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
+    </p>
+</div>
 
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
