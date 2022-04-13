@@ -194,6 +194,32 @@ function render_header()
     `;
 }
 
+const bc = new BroadcastChannel('pdf_channel');
+bc.onmessage = (eventMessage) => {
+  
+}
+
+function updateReportType(e)
+{
+	g_reportType = e.target.value;
+}
+
+function view_pdf_click()
+{
+	var url =  'aggregate-report/pdf';
+    window.open(url, '_aggregate_report');
+
+    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+}
+
+function print_pdf_click()
+{
+	var url =  'aggregate-report/pdf';
+    window.open(url, '_aggregate_report');
+
+    window.setTimeout(()=> bc.postMessage({type: 'update_title', title: "inputValue"}), 2000);
+}
+
 function render_filter_summary()
 {
     let pregnancy_relatedness_html = "All";

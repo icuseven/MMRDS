@@ -3,6 +3,8 @@ var g_data = null;
 var g_couchdb_url = null;
 var g_metadata = null;
 
+var g_reportType = "Summary";
+
 var g_list_lookup = {};
 
 const g_filter = {
