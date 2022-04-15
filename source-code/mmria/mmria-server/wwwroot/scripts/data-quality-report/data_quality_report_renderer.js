@@ -1,3 +1,4 @@
+
 function data_quality_report_render(p_quarters) 
 {
 	var result = [];
@@ -490,12 +491,34 @@ async function download_data_quality_report_button_click()
 
         if
         (
-            //selected_case_folder_list.indexOf("/") < 0 &&
+            selected_case_folder_list.indexOf("/") < 0 &&
             selected_case_folder_list.indexOf(item.case_folder) < 0
         )
         {
             continue;
         }
+
+
+        if
+        (
+            selected_case_folder_list.indexOf("/") > -1 &&
+            item.case_folder != "/"
+        )
+        {
+            if
+            (           
+                g_case_folder_list.indexOf(item.case_folder) < 0 &&
+                selected_case_folder_list.indexOf(item.case_folder) < 0
+            )
+            {
+
+            }
+            else
+            {
+                continue;
+            }
+        }
+        
 
         if ( item.add_quarter_number <= quarter_number ) 
         {

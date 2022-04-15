@@ -10,6 +10,7 @@ var g_model = {
     includedCaseFolder: []
 };
 
+
 $(async function ()
 {
   'use strict';
