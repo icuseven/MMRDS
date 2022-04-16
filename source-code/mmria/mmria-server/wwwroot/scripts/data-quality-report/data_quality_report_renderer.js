@@ -311,179 +311,8 @@ async function download_data_quality_report_button_click()
 			total: 667,
 		};
 
-    let summary_data = {
-        n01:  0,
-        n02 : 0,
-        n03 : [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-        n04 : 0,
-        n05 : 0,
-        n06 : 0,
-        n07 : 0,
-        n08 : 0,
-        n09 : 0,
-				n10: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n11: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n12: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n13: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n14: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n15: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n16: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n17: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n18: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n19: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n20: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n21: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n22: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n23: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n24: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n25: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n26: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n27: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n28: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n29: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n30: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n31: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n32: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n33: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n34: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n35: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n36: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n37: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n38: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n39: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n40: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n41: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n42: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n43: {
-					s: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-					p: { mn: 0, mp: 0.0, un: 0, up: 0.0 },
-				},
-				n44: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-				n45: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-				n46: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-				n47: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-				n48: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-				n49: {
-					s: { tn: 0, pn: 0, pp: 0.0 },
-					p: { tn: 0, pn: 0, pp: 0.0 },
-				},
-    }
+    let summary_data = get_new_summary_data();
 
-		let cnt = 0;
 
     for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
@@ -538,7 +367,7 @@ async function download_data_quality_report_button_click()
 
 			summary_data.n04 += item.n04;
 			summary_data.n05 += item.n05;
-			summary_data.n06 += item.n06;
+			
         }
 
         if 
@@ -546,20 +375,10 @@ async function download_data_quality_report_button_click()
             item.add_quarter_number == quarter_number
         ) 
         {
+            summary_data.n06 += item.n06;
             summary_data.n07 += item.n07;
-        }
-
-        if 
-        ( 
-            item.add_quarter_number <= quarter_number &&
-            item.add_quarter_number >= quarter_number - 1
-        ) 
-        {
-            summary_data.n08 += item.n08;
-            summary_data.n09 += item.n09;
 
 
-            
             for(let i = 10; i < 50; i++)
             {
                 let fld = `n${i}`;
@@ -577,6 +396,34 @@ async function download_data_quality_report_button_click()
                 }
             }
         }
+
+        if 
+        ( 
+            item.add_quarter_number < quarter_number &&
+            item.add_quarter_number >= quarter_number - 1
+        ) 
+        {
+            summary_data.n08 += item.n08;
+            summary_data.n09 += item.n09;
+
+            for(let i = 10; i < 50; i++)
+            {
+                let fld = `n${i}`;
+
+                // 10-44
+                if(i < 45)
+                {
+                    summary_data[fld].p.mn += item[fld].m;
+                    summary_data[fld].p.un += item[fld].u;
+                }
+                else
+                {
+                    summary_data[fld].p.tn += item[fld].t;
+                    summary_data[fld].p.pn += item[fld].p;
+                }
+            }
+
+        }
     }
 
     // calculate summary percentages
@@ -591,6 +438,7 @@ async function download_data_quality_report_button_click()
         {
             summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
         }
+
         if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
         {
             summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
