@@ -539,257 +539,187 @@ async function download_data_quality_report_button_click()
 			summary_data.n04 += item.n04;
 			summary_data.n05 += item.n05;
 			summary_data.n06 += item.n06;
+        }
+
+        if 
+        ( 
+            item.add_quarter_number == quarter_number
+        ) 
+        {
+            summary_data.n07 += item.n07;
+        }
+
+        if 
+        ( 
+            item.add_quarter_number <= quarter_number &&
+            item.add_quarter_number >= quarter_number - 1
+        ) 
+        {
+            summary_data.n08 += item.n08;
+            summary_data.n09 += item.n09;
 
 
-			if 
-			( 
-					item.add_quarter_number == quarter_number
-			) 
-			{
-					summary_data.n07 += item.n07;
-			}
+            
+            for(let i = 10; i < 50; i++)
+            {
+                let fld = `n${i}`;
 
-			if 
-			( 
-					item.add_quarter_number < quarter_number &&
-					item.add_quarter_number >= quarter_number - 1
-			) 
-			{
-					summary_data.n08 += item.n08;
-					summary_data.n09 += item.n09;
-			}
-
-            let startLoop = 10;
-			let endLoop = 34;
-			for ( let i = startLoop; i <= endLoop; i++ )
-			{
-
-				let fld = 'n' + i;
-
-				if ( item.add_quarter_number == quarter_number )
-				{
-					summary_data[fld].s.mn += item[fld].m;
-					summary_data[fld].s.un += item[fld].u;
-				}
-				if 
-				( 
-						item.add_quarter_number < quarter_number &&
-						item.add_quarter_number >= quarter_number - 1
-				)
-				{
-					summary_data[fld].p.mn += item[fld].m;
-					summary_data[fld].p.un += item[fld].u;
-				}
-			}
-
-            startLoop = 35;
-			endLoop = 43;
-			for ( let i = startLoop; i <= endLoop; i++ )
-			{
-
-				let fld = 'n' + i;
-
-				if ( item.add_quarter_number == quarter_number )
-				{
-					summary_data[fld].s.mn += item[fld].m;
-					summary_data[fld].s.un += item[fld].u;
-				}
-				if 
-				( 
-						item.add_quarter_number < quarter_number &&
-						item.add_quarter_number >= quarter_number - 1
-				)
-				{
-					summary_data[fld].p.mn += item[fld].m;
-					summary_data[fld].p.un += item[fld].u;
-				}
-			}
-			startLoop = 44;
-			endLoop = 45;
-			for ( let i = startLoop; i <= endLoop; i++ )
-			{
-
-				let fld = 'n' + i;
-
-				if ( item.add_quarter_number == quarter_number )
-				{
-					summary_data[fld].s.tn += item[fld].t;
-					summary_data[fld].s.pn += item[fld].p;
-				}
-				if 
-				( 
-						item.add_quarter_number < quarter_number &&
-						item.add_quarter_number >= quarter_number - 1
-				)
-				{
-					summary_data[fld].p.tn += item[fld].t;
-					summary_data[fld].p.pn += item[fld].p;
-				}
-			}
-
-
-            startLoop = 46;
-			endLoop = 49;
-			for ( let i = startLoop; i <= endLoop; i++ )
-			{
-
-				let fld = 'n' + i;
-
-				if ( item.add_quarter_number == quarter_number )
-				{
-					summary_data[fld].s.tn += item[fld].t;
-					summary_data[fld].s.pn += item[fld].p;
-				}
-				if 
-				( 
-						item.add_quarter_number < quarter_number &&
-						item.add_quarter_number >= quarter_number - 1
-				)
-				{
-					summary_data[fld].p.tn += item[fld].t;
-					summary_data[fld].p.pn += item[fld].p;
-				}
-			}
+                // 10-44
+                if(i < 45)
+                {
+                    summary_data[fld].s.mn += item[fld].m;
+                    summary_data[fld].s.un += item[fld].u;
+                }
+                else
+                {
+                    summary_data[fld].s.tn += item[fld].t;
+                    summary_data[fld].s.pn += item[fld].p;
+                }
+            }
         }
     }
-		function calculate_summary_percentages()
-		{
 
-			let startLoop = 44;
-			let endLoop = 49;
-			for ( let i = startLoop; i <= endLoop; i++ )
-			{
+    // calculate summary percentages
+    let startLoop = 44;
+    let endLoop = 49;
+    for ( let i = startLoop; i <= endLoop; i++ )
+    {
 
-				let fld = 'n' + i;
+        let fld = 'n' + i;
 
-				if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
-				{
-					summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
-				}
-				if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
-				{
-					summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
-				}
-			}
-		}
+        if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+        {
+            summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
+        }
+        if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+        {
+            summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
+        }
+    }
 
-		function getCaseFolder()
-		{
-			var case_folder_display = '/';
-			var case_folder_exclude = ' - Exclude: ';
+    //console.log('dqr_detail_data: ', dqr_detail_data);
+    //console.log('summary_data: ', summary_data);
 
 
-			if ( g_case_folder_list.length == 1 )
-			{
-				case_folder_display = '/';
-				return case_folder_display;
-			}
+    if 
+    ( 
+        g_model.reportType == 'Summary' || 
+        g_model.reportType == 'Summary & Detail'
+    )
+    {
+        let headers = {
+            title: `Data Quality Report for: ${ getCaseFolder() }`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter }`,
+        };
 
-			
-			if ( g_case_folder_list.length == g_model.includedCaseFolder.length )
-			{
-				case_folder_display = '/';
-				return case_folder_display;
-			}
-
-			if ( g_model.includedCaseFolder[0] == '/' )
-			{
-
-				case_folder_display = '/';
+        await create_pdf(
+            'Summary', summary_data, g_model.selectedQuarter, headers );
+    }
 
 
-				g_case_folder_list.map( (j, i) => {
-					if ( j != '/' )
-					{
-						case_folder_exclude += ( g_model.includedCaseFolder.indexOf(j) > -1 ) ? '' : j + ', ';
-					}
-				});
+    if 
+    ( 
+        g_model.reportType == 'Detail' || 
+        g_model.reportType == 'Summary & Detail'
+    )
+    {
+        let headers = {
+            title: `Data Quality Report Details for: ${ getCaseFolder() }`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+        };
+        
 
+        // *****
+        // Uncomment the lines below to test for empty detail report that show empty message
+        // *****
 
-				case_folder_display += case_folder_exclude.substring(0, (case_folder_exclude.length - 2));
-				
-				return case_folder_display;
-			}
+        // let detail_data2 = {
+        // 	questions: [],
+        // 	cases: [],
+        // 	total: 0,
+        // };
 
-
-			case_folder_display = '';
-			g_model.includedCaseFolder.map( (j, i) => {
-				if ( i > 0 )
-				{
-					case_folder_display += ', ';
-				}
-				case_folder_display += j;
-			});
-
-			return case_folder_display;
-		}
-
-
-		function getPreviousFourQuarters()
-		{
-			let qStr = '';
-
-			let arr = g_model.selectedQuarter.split("-");
-			let qtr = parseInt(arr[0][1]);
-			let yy = parseInt(arr[1]);
-			
-			for ( let i = 0; i < 4; i++ )
-			{
-				
-				qtr--;
-				if ( qtr == 0 )
-				{
-					qtr = 4;
-					yy--;
-				}
-				qStr += `Q${qtr}-${yy}`;
-
-				if ( i < 3 ) qStr += ', ';
-			}
-
-			return qStr;
-		}
-
-		calculate_summary_percentages();
-
-		console.log('dqr_detail_data: ', dqr_detail_data);
-		console.log('summary_data: ', summary_data);
-
-
-		if ( g_model.reportType == 'Summary' || g_model.reportType == 'Summary & Detail')
-		{
-			let headers = {
-				title: `Data Quality Report for: ${ getCaseFolder() }`,
-				subtitle: `Reporting Period: ${ g_model.selectedQuarter }`,
-			};
-
-			await create_pdf(
-				'Summary', summary_data, g_model.selectedQuarter, headers );
-		}
-
-
-		if ( g_model.reportType == 'Detail' || g_model.reportType == 'Summary & Detail')
-		{
-			let headers = {
-				title: `Data Quality Report Details for: ${ getCaseFolder() }`,
-				subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
-			};
-			
-
-			// *****
-			// Uncomment the lines below to test for empty detail report that show empty message
-			// *****
-
-			// let detail_data2 = {
-			// 	questions: [],
-			// 	cases: [],
-			// 	total: 0,
-			// };
+        await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
+    }
+}
 
 
 
-			await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
-		}
+function getCaseFolder()
+{
+    var case_folder_display = '/';
+    var case_folder_exclude = ' - Exclude: ';
+
+
+    if ( g_case_folder_list.length == 1 )
+    {
+        case_folder_display = '/';
+        return case_folder_display;
+    }
+
+    
+    if ( g_case_folder_list.length == g_model.includedCaseFolder.length )
+    {
+        case_folder_display = '/';
+        return case_folder_display;
+    }
+
+    if ( g_model.includedCaseFolder[0] == '/' )
+    {
+
+        case_folder_display = '/';
+
+
+        g_case_folder_list.map( (j, i) => {
+            if ( j != '/' )
+            {
+                case_folder_exclude += ( g_model.includedCaseFolder.indexOf(j) > -1 ) ? '' : j + ', ';
+            }
+        });
+
+
+        case_folder_display += case_folder_exclude.substring(0, (case_folder_exclude.length - 2));
+        
+        return case_folder_display;
+    }
+
+
+    case_folder_display = '';
+    g_model.includedCaseFolder.map( (j, i) => {
+        if ( i > 0 )
+        {
+            case_folder_display += ', ';
+        }
+        case_folder_display += j;
+    });
+
+    return case_folder_display;
+}
+
+
+function getPreviousFourQuarters()
+{
+    let qStr = '';
+
+    let arr = g_model.selectedQuarter.split("-");
+    let qtr = parseInt(arr[0][1]);
+    let yy = parseInt(arr[1]);
+    
+    for ( let i = 0; i < 4; i++ )
+    {
+        
+        qtr--;
+        if ( qtr == 0 )
+        {
+            qtr = 4;
+            yy--;
+        }
+        qStr += `Q${qtr}-${yy}`;
+
+        if ( i < 3 ) qStr += ', ';
+    }
+
+    return qStr;
 }
 
 
