@@ -158,6 +158,53 @@ namespace mmria.server.utils
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
 
+            int get_list_value_by_path(string p_path)
+            {
+                
+                int result = -1;
+                int test_int = -1;
+                var value_result = gs.get_value(source_object, p_path);
+                if
+                (
+                    !value_result.is_error &&
+                    value_result.result != null && 
+                    int.TryParse(value_result.result.ToString(), out test_int)
+                )
+                {
+                    result = test_int;
+                }
+
+                return result;
+
+            }
+            
+            List<int> get_mutilist_value_by_path(string p_path)
+            {
+                
+                List<int> result = new();
+
+                int test_int = -1;
+                var value_result = gs.get_value(source_object, p_path);
+                if
+                (
+                    !value_result.is_error &&
+                    value_result.result != null && 
+                    value_result.result is List<int> 
+                )
+                {
+                    var value_result_list = value_result.result as List<int>;
+                    foreach(var item in value_result_list)
+                    {
+                        if(int.TryParse(item.ToString(), out test_int))
+                        result.Add(test_int);
+                    }
+                }
+
+                return result;
+
+            }
+
+
             value_result = gs.get_value(source_object, "_id");
         
             dqr_detail._id  = ((object)value_result.result).ToString();
@@ -530,6 +577,67 @@ int bfdcpfodddod_year = -1;
             )
             {
                 dqr_detail.n12.m = 1;
+            }
+
+
+
+            var dcdi_p_statu = get_list_value_by_path("death_certificate/death_information/pregnancy_status");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    dcdi_p_statu == -1 ||
+                    dcdi_p_statu == 9999 
+                )
+                {
+                    dqr_detail.n13.m = 1;
+                }
+
+
+                if
+                (
+                    dcdi_p_statu == 88 ||
+                    dcdi_p_statu == 8888
+                )
+                {
+                    dqr_detail.n13.u = 1;
+                }
+
+            }
+
+
+           // hrcpr_bcp_secti: /home_record/case_progress_report/birth_certificate_parent_section
+            var bfdcpr_ro_mothe = get_mutilist_value_by_path("birth_fetal_death_certificate_parent/race/race_of_mother");
+            var bfdcpdom_ioh_origi = get_list_value_by_path("birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    hrcpr_bcp_secti == 2 &&
+                    (
+                        bfdcpr_ro_mothe.Count == 0 || 
+                        bfdcpr_ro_mothe.IndexOf(9999) > -1 ||
+                        bfdcpr_ro_mothe.IndexOf(8888) > -1 ||
+                        (
+                            bfdcpdom_ioh_origi == -1 ||
+                            bfdcpdom_ioh_origi == 9999 ||
+                            bfdcpdom_ioh_origi == 8888 ||
+                            bfdcpdom_ioh_origi == 7777
+                        )
+                    )
+                )
+                {
+                    dqr_detail.n14.m = 1;
+                }
             }
 
 // *************
@@ -977,6 +1085,9 @@ p = ([crcfw_class] <> '9999' AND [crcfw_descr] IS NOT NULL AND [crcfw_descr] <> 
                 break;
             }
         }
+
+
+
 
 
 	}
