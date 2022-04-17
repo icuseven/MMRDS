@@ -834,7 +834,7 @@ int bfdcpfodddod_year = -1;
                 if
                 (
                     saepsec_cl_arran == 7777 ||
-                    saepsec_cl_arran == 888
+                    saepsec_cl_arran == 8888
                 )
                 {
                     dqr_detail.n20.u = 1;
@@ -925,13 +925,152 @@ int bfdcpfodddod_year = -1;
                     dqr_detail.n25.u = 1;
                 }
             }
+            var bfdcplor_u_statu = get_string_value_by_path("birth_fetal_death_certificate_parent/location_of_residence/urban_status");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                if(bfdcplor_u_statu == null)
+                {
+                    dqr_detail.n26.m = 1;
+                }
+
+                if(bfdcplor_u_statu == "Undetermined")
+                {
+                    dqr_detail.n26.u = 1;
+                }
+            }
+
+            var cdi_wa_perfo = get_list_value_by_path("death_certificate/death_information/was_autopsy_performed");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cdi_wa_perfo == -1 ||
+                    cdi_wa_perfo == 9999                
+                )
+                {
+                    dqr_detail.n27.m = 1;
+                }
+
+                if
+                (
+                    cdi_wa_perfo == 7777 
+                )
+                {
+                    dqr_detail.n27.u = 1;
+                }
+            }
 
 
+            var ar_autopsy_type = get_list_value_by_path("autopsy_report/type_of_autopsy_or_examination");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    ar_autopsy_type == -1 ||
+                    ar_autopsy_type == 9999                
+                )
+                {
+                    dqr_detail.n28.m = 1;
+                }
+
+                if
+                (
+                    ar_autopsy_type == 7777 
+                )
+                {
+                    dqr_detail.n28.u = 1;
+                }
+            }
 
 
+            var pppcf_pso_payme = get_list_value_by_path("prenatal/primary_prenatal_care_facility/principal_source_of_payment");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    pppcf_pso_payme == -1 ||
+                    pppcf_pso_payme == 9999                
+                )
+                {
+                    dqr_detail.n29.m = 1;
+                }
 
+                if
+                (
+                    pppcf_pso_payme == 7777 
+                )
+                {
+                    dqr_detail.n29.u = 1;
+                }
+            }
 
+            var bfdcppc_psopft_deliv = get_list_value_by_path("birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                if
+                (
+                    bfdcppc_psopft_deliv == -1 ||
+                    bfdcppc_psopft_deliv == 9999                
+                )
+                {
+                    dqr_detail.n30.m = 1;
+                }
 
+                if
+                (
+                    bfdcppc_psopft_deliv == 7777 
+                )
+                {
+                    dqr_detail.n30.u = 1;
+                }
+            }
+
+            var saephcs_np_care = get_list_value_by_path("social_and_environmental_profile/health_care_system/no_prenatal_care");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    saephcs_np_care == -1 ||
+                    saephcs_np_care == 9999                
+                )
+                {
+                    dqr_detail.n31.m = 1;
+                }
+
+                if
+                (
+                    saephcs_np_care == 7777 
+                )
+                {
+                    dqr_detail.n31.u = 1;
+                }
+            }
 
 // *************
 
