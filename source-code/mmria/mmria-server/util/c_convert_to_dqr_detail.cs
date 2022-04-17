@@ -204,6 +204,60 @@ namespace mmria.server.utils
 
             }
 
+            int? get_integer_value_by_path(string p_path)
+            {
+                int? result = null;
+
+                int test_int = -1;
+
+                var value_result = gs.get_value(source_object, p_path);
+                if(value_result.result != null)
+                {
+                    if(int.TryParse(value_result.result.ToString(), out test_int))
+                    {
+                        result = test_int;
+                    }
+                }
+
+                return result;
+            }
+
+            float? get_float_value_by_path(string p_path)
+            {
+                float? result = null;
+
+                float test_int = -1;
+
+                var value_result = gs.get_value(source_object, p_path);
+                if(value_result.result != null)
+                {
+                    if(float.TryParse(value_result.result.ToString(), out test_int))
+                    {
+                        result = test_int;
+                    }
+                }
+
+                return result;
+            }
+
+            string get_string_value_by_path(string p_path)
+            {
+                string result = null;
+
+                float test_int = -1;
+
+                var value_result = gs.get_value(source_object, p_path);
+                if(value_result.result != null)
+                {
+                    if( !string.IsNullOrWhiteSpace(value_result.result.ToString()))
+                    {
+                        result = value_result.result;
+                    }
+                }
+
+                return result;
+            }
+
 
             value_result = gs.get_value(source_object, "_id");
         
@@ -639,6 +693,245 @@ int bfdcpfodddod_year = -1;
                     dqr_detail.n14.m = 1;
                 }
             }
+
+
+            var dcr_race = get_mutilist_value_by_path("death_certificate/race/race");
+            var dcd_ioh_origi = get_list_value_by_path("death_certificate/demographics/is_of_hispanic_origin");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    dcr_race.Count == 0 || 
+                    dcr_race.IndexOf(9999) > -1||
+                    dcr_race.IndexOf(8888) > -1||
+                    
+                    dcd_ioh_origi == -1 ||
+                    dcd_ioh_origi == 9999 ||
+                    dcd_ioh_origi == 8888 ||
+                    dcd_ioh_origi == 7777
+                )
+                {
+                    dqr_detail.n15.m = 1;
+                }
+            }
+
+
+
+            var dcd_age = get_integer_value_by_path("death_certificate/demographics/age");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if(dcd_age == null)
+                {
+                    dqr_detail.n16.m = 1;
+                }
+            }
+
+
+            //hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+            var bfdcpdom_e_level = get_list_value_by_path("birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                if
+                (
+                    bfdcpdom_e_level == -1 ||
+                    bfdcpdom_e_level == 9999
+                )
+                {
+                    dqr_detail.n17.m = 1;
+                }
+
+                if
+                (
+                    bfdcpdom_e_level == 7777 ||
+                    bfdcpdom_e_level == 8888
+                )
+                {
+                    dqr_detail.n17.u = 1;
+                }
+            }
+
+
+            var dcd_e_level = get_list_value_by_path("death_certificate/demographics/education_level");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    dcd_e_level == -1 ||
+                    dcd_e_level == 9999                
+                )
+                {
+                    dqr_detail.n18.m = 1;
+                }
+
+                if
+                (
+                    dcd_e_level == 7777 ||
+                    dcd_e_level == 8888
+                )
+                {
+                    dqr_detail.n18.u = 1;
+                }
+            }
+
+            var saepsoes_eosoe_stres = get_list_value_by_path("social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    saepsoes_eosoe_stres == -1 ||
+                    saepsoes_eosoe_stres == 9999                
+                )
+                {
+                    dqr_detail.n19.m = 1;
+                }
+
+                if
+                (
+                    saepsoes_eosoe_stres == 7777 
+                )
+                {
+                    dqr_detail.n19.u = 1;
+                }
+            }
+
+            var saepsec_cl_arran = get_list_value_by_path("social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    saepsec_cl_arran == -1 ||
+                    saepsec_cl_arran == 9999                
+                )
+                {
+                    dqr_detail.n20.m = 1;
+                }
+
+                if
+                (
+                    saepsec_cl_arran == 7777 ||
+                    saepsec_cl_arran == 888
+                )
+                {
+                    dqr_detail.n20.u = 1;
+                }
+            }
+
+            var dcaod_eddf_resid = get_float_value_by_path("death_certificate/address_of_death/estimated_death_distance_from_residence");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if(dcaod_eddf_resid == null)
+                {
+                    dqr_detail.n21.m = 1;
+                }
+            }
+
+            //hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+            var bfdcplor_edf_resid = get_float_value_by_path("birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                if(bfdcplor_edf_resid == null)
+                {
+                    dqr_detail.n22.m = 1;
+                }
+            }
+
+
+            var dcaod_u_statu = get_string_value_by_path("death_certificate/address_of_death/urban_status");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 
+            )
+            {
+                if(dcaod_u_statu == null)
+                {
+                    dqr_detail.n23.m = 1;
+                }
+
+                if(dcaod_u_statu == "Undetermined")
+                {
+                    dqr_detail.n23.u = 1;
+                }
+            }
+
+            var dcpolr_u_statu = get_string_value_by_path("death_certificate/place_of_last_residence/urban_status");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if(dcpolr_u_statu == null)
+                {
+                    dqr_detail.n24.m = 1;
+                }
+
+                if(dcpolr_u_statu == "Undetermined")
+                {
+                    dqr_detail.n24.u = 1;
+                }
+            }
+
+
+            var bfdcpfodl_u_statu = get_string_value_by_path("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                hrcpr_bcp_secti_is_2
+            )
+            {
+                if(bfdcpfodl_u_statu == null)
+                {
+                    dqr_detail.n25.m = 1;
+                }
+
+                if(bfdcpfodl_u_statu == "Undetermined")
+                {
+                    dqr_detail.n25.u = 1;
+                }
+            }
+
+
+
+
+
+
+
 
 // *************
 
