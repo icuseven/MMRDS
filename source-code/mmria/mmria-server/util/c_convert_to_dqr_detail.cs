@@ -1072,71 +1072,311 @@ int bfdcpfodddod_year = -1;
                 }
             }
 
+
+            var saephca_bthc_acces = get_list_value_by_path("social_and_environmental_profile/health_care_access/barriers_to_health_care_access");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    saephca_bthc_acces == -1 ||
+                    saephca_bthc_acces == 9999                
+                )
+                {
+                    dqr_detail.n32.m = 1;
+                }
+
+                if
+                (
+                    saephca_bthc_acces == 7777 
+                )
+                {
+                    dqr_detail.n32.u = 1;
+                }
+            }
+
+
+            var saep_ds_use = get_list_value_by_path("social_and_environmental_profile/documented_substance_use");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    saep_ds_use == -1 ||
+                    saep_ds_use == 9999                
+                )
+                {
+                    dqr_detail.n33.m = 1;
+                }
+
+                if
+                (
+                    saep_ds_use == 7777 ||
+                    saep_ds_use == 8888
+                )
+                {
+                    dqr_detail.n33.u = 1;
+                }
+            }
+
+
+            var mhp_wtdpmh_condi = get_list_value_by_path("mental_health_profile/were_there_documented_preexisting_mental_health_conditions");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    mhp_wtdpmh_condi == -1 ||
+                    mhp_wtdpmh_condi == 9999                
+                )
+                {
+                    dqr_detail.n34.m = 1;
+                }
+
+                if
+                (
+                    mhp_wtdpmh_condi == 7777 ||
+                    mhp_wtdpmh_condi == 8888
+                )
+                {
+                    dqr_detail.n34.u = 1;
+                }
+            }
+
+
+            var cr_p_mm = get_float_value_by_path("committee_review/pmss_mm");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_p_mm == null ||
+                    cr_p_mm == -1 ||
+                    cr_p_mm == 9999                
+                )
+                {
+                    dqr_detail.n35.m = 1;
+                }
+
+                if
+                (
+                    cr_p_mm == 999F ||
+                    cr_p_mm == 999.1F
+                )
+                {
+                    dqr_detail.n35.u = 1;
+                }
+            }
+
+
+            var cr_wtd_preve = get_list_value_by_path("committee_review/was_this_death_preventable");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_wtd_preve == -1 ||
+                    cr_wtd_preve == 9999
+                )
+                {
+                    dqr_detail.n36.m = 1;
+                }
+            }
+
+            var cr_cta_outco = get_list_value_by_path("committee_review/chance_to_alter_outcome");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_cta_outco == -1 ||
+                    cr_cta_outco == 9999
+                )
+                {
+                    dqr_detail.n37.m = 1;
+                }
+
+                if
+                (
+                    cr_cta_outco == 3                
+                )
+                {
+                    dqr_detail.n37.u = 1;
+                }
+            }
+
+            var cr_doctt_death = get_list_value_by_path("committee_review/did_obesity_contribute_to_the_death");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_doctt_death == -1 ||
+                    cr_doctt_death == 9999
+                )
+                {
+                    dqr_detail.n38.m = 1;
+                }
+
+                if
+                (
+                    cr_doctt_death == 7777                
+                )
+                {
+                    dqr_detail.n38.u = 1;
+                }
+            }
+
+
+            var cr_ddctt_death = get_list_value_by_path("committee_review/did_discrimination_contribute_to_the_death");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_ddctt_death == -1 ||
+                    cr_ddctt_death == 9999
+                )
+                {
+                    dqr_detail.n39.m = 1;
+                }
+
+                if
+                (
+                    cr_ddctt_death == 7777                
+                )
+                {
+                    dqr_detail.n39.u = 1;
+                }
+            }
+
+            var cr_dmhcctt_death = get_list_value_by_path("committee_review/did_mental_health_conditions_contribute_to_the_death");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_dmhcctt_death == -1 ||
+                    cr_dmhcctt_death == 9999
+                )
+                {
+                    dqr_detail.n40.m = 1;
+                }
+
+                if
+                (
+                    cr_dmhcctt_death == 7777                
+                )
+                {
+                    dqr_detail.n40.u = 1;
+                }
+            }
+
+
+            var cr_dsudctt_death = get_list_value_by_path("committee_review/did_substance_use_disorder_contribute_to_the_death");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_dsudctt_death == -1 ||
+                    cr_dsudctt_death == 9999
+                )
+                {
+                    dqr_detail.n41.m = 1;
+                }
+
+                if
+                (
+                    cr_dsudctt_death == 7777                
+                )
+                {
+                    dqr_detail.n41.u = 1;
+                }
+            }
+
+            var cr_wtda_sucid = get_list_value_by_path("committee_review/was_this_death_a_sucide");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+                    cr_wtda_sucid == -1 ||
+                    cr_wtda_sucid == 9999
+                )
+                {
+                    dqr_detail.n42.m = 1;
+                }
+
+                if
+                (
+                    cr_wtda_sucid == 7777                
+                )
+                {
+                    dqr_detail.n42.u = 1;
+                }
+            }
+
+            var cr_wtda_homic = get_list_value_by_path("committee_review/was_this_death_a_homicide");
+            if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1
+            )
+            {
+                if
+                (
+
+                    cr_wtda_homic == -1 ||
+                    cr_wtda_homic == 9999                
+                )
+                {
+                    dqr_detail.n41.m = 1;
+                }
+
+                if
+                (
+                    cr_wtda_homic == 7777                
+                )
+                {
+                    dqr_detail.n41.u = 1;
+                }
+            }
+
 // *************
-
-            int cr_cta_outco = -1;
-            value_result = gs.get_value(source_object, "committee_review/chance_to_alter_outcome");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null &&
-                int.TryParse(value_result.result.ToString(), out test_int)
-            
-            )
-            {
-                cr_cta_outco = test_int;
-            }
-
-
-
-            int cr_wtd_preve = -1;
-            value_result = gs.get_value(source_object, "committee_review/was_this_death_preventable");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null && 
-                 int.TryParse(value_result.result.ToString(), out test_int)
-            )
-            {
-                cr_wtd_preve = test_int;
-            }
-
-            int cr_ddctt_death = -1;
-            value_result = gs.get_value(source_object, "committee_review/did_discrimination_contribute_to_the_death");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null && 
-                 int.TryParse(value_result.result.ToString(), out test_int)
-            )
-            {
-                cr_ddctt_death = test_int;
-            }
-
-            int cr_dmhcctt_death = -1;
-            value_result = gs.get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null && 
-                 int.TryParse(value_result.result.ToString(), out test_int)
-            )
-            {
-                cr_dmhcctt_death = test_int;
-            }
-
-            int cr_dsudctt_death = -1;
-            value_result = gs.get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-            if
-            (
-                !value_result.is_error &&
-                value_result.result != null && 
-                 int.TryParse(value_result.result.ToString(), out test_int)
-            )
-            {
-                cr_dsudctt_death = test_int;
-            }
-
 
             if(cr_do_revie_is_date && cr_p_relat_is_1)
             {
