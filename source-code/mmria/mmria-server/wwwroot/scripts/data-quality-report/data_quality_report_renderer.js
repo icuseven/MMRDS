@@ -260,7 +260,226 @@ async function download_data_quality_report_button_click()
         url: `${location.protocol}//${location.host}/api/dqr-detail/${selected_quarter}`,
     });
       
-		let detail_data = {
+		
+
+    let summary_data = get_new_summary_data();
+
+
+    for(let i = 0; i < dqr_detail_data.docs.length; i++)
+    {
+        let item = dqr_detail_data.docs[i];
+
+        if
+        (
+            selected_case_folder_list.indexOf("/") < 0 &&
+            selected_case_folder_list.indexOf(item.case_folder) < 0
+        )
+        {
+            continue;
+        }
+
+
+        if
+        (
+            selected_case_folder_list.indexOf("/") > -1 &&
+            item.case_folder != "/"
+        )
+        {
+            if
+            (           
+                g_case_folder_list.indexOf(item.case_folder) < 0 &&
+                selected_case_folder_list.indexOf(item.case_folder) < 0
+            )
+            {
+
+            }
+            else
+            {
+                continue;
+            }
+        }
+        
+
+        set_case_header(item);
+        
+        if ( item.add_quarter_number <= quarter_number ) 
+        {
+
+            summary_data.n01 += item.n01;
+			summary_data.n02 += item.n02;
+
+
+			summary_data.n03[0] += item.n03[0];
+			summary_data.n03[1] += item.n03[1];
+			summary_data.n03[2] += item.n03[2];
+			summary_data.n03[3] += item.n03[3];
+			summary_data.n03[4] += item.n03[4];
+			summary_data.n03[5] += item.n03[5];
+			summary_data.n03[6] += item.n03[6];
+			summary_data.n03[7] += item.n03[7];
+
+			summary_data.n04 += item.n04;
+			summary_data.n05 += item.n05;
+			
+        }
+
+        if 
+        ( 
+            item.add_quarter_number == quarter_number
+        ) 
+        {
+            summary_data.n06 += item.n06;
+            summary_data.n07 += item.n07;
+
+
+            for(let i = 10; i < 50; i++)
+            {
+                let fld = `n${i}`;
+
+
+
+                if
+                (
+                    item[fld].m == 1
+                )
+                {
+                    set_map_detail_data(i, "Current Quarter, Missing", item._id);
+                }
+
+                if
+                (
+                    item[fld].u == 1
+                )
+                {
+                    set_map_detail_data(i, "Current Quarter, Unknown", item._id);
+                }
+
+                // 10-44
+                if(i < 45)
+                {
+                    summary_data[fld].s.mn += item[fld].m;
+                    summary_data[fld].s.un += item[fld].u;
+                }
+                else
+                {
+                    summary_data[fld].s.tn += item[fld].t;
+                    summary_data[fld].s.pn += item[fld].p;
+                }
+            }
+        }
+
+        if 
+        ( 
+            item.add_quarter_number < quarter_number &&
+            item.add_quarter_number >= quarter_number - 1
+        ) 
+        {
+            summary_data.n08 += item.n08;
+            summary_data.n09 += item.n09;
+
+            for(let i = 10; i < 50; i++)
+            {
+                let fld = `n${i}`;
+
+                if
+                (
+                    item[fld].m == 1
+                )
+                {
+                    set_map_detail_data(i, "Previous 4 Quarters, Missing", item._id);
+                }
+
+                if
+                (
+                    item[fld].u == 1
+                )
+                {
+                    set_map_detail_data(i, "Previous 4 Quarters, Unknown", item._id);
+                }
+
+                // 10-44
+                if(i < 45)
+                {
+                    summary_data[fld].p.mn += item[fld].m;
+                    summary_data[fld].p.un += item[fld].u;
+                }
+                else
+                {
+                    summary_data[fld].p.tn += item[fld].t;
+                    summary_data[fld].p.pn += item[fld].p;
+                }
+            }
+
+        }
+    }
+
+    // calculate summary percentages
+    let startLoop = 44;
+    let endLoop = 49;
+    for ( let i = startLoop; i <= endLoop; i++ )
+    {
+
+        let fld = 'n' + i;
+
+        if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+        {
+            summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
+        }
+
+        if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+        {
+            summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
+        }
+    }
+
+    //console.log('dqr_detail_data: ', dqr_detail_data);
+    //console.log('summary_data: ', summary_data);
+
+
+    if 
+    ( 
+        g_model.reportType == 'Summary' || 
+        g_model.reportType == 'Summary & Detail'
+    )
+    {
+        let headers = {
+            title: `Data Quality Report for: ${ getCaseFolder() }`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter }`,
+        };
+
+        await create_pdf(
+            'Summary', summary_data, g_model.selectedQuarter, headers );
+    }
+
+
+    if 
+    ( 
+        g_model.reportType == 'Detail' || 
+        g_model.reportType == 'Summary & Detail'
+    )
+    {
+        let headers = {
+            title: `Data Quality Report Details for: ${ getCaseFolder() }`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+        };
+        
+
+        // *****
+        // Uncomment the lines below to test for empty detail report that show empty message
+        // *****
+
+        // let detail_data2 = {
+        // 	questions: [],
+        // 	cases: [],
+        // 	total: 0,
+        // };
+
+        /*
+        const question_detail_map = new Map();
+        const case_detail_map = new Map();
+        const case_header_map = new Map();
+        */
+       let detail_data = {
 			questions: [
 				{
 					qid: 39,
@@ -398,203 +617,110 @@ async function download_data_quality_report_button_click()
 			total: 667,
 		};
 
-    let summary_data = get_new_summary_data();
-
-
-    for(let i = 0; i < dqr_detail_data.docs.length; i++)
-    {
-        let item = dqr_detail_data.docs[i];
-
-        if
+        question_detail_map.forEach
         (
-            selected_case_folder_list.indexOf("/") < 0 &&
-            selected_case_folder_list.indexOf(item.case_folder) < 0
-        )
-        {
-            continue;
-        }
-
-
-        if
-        (
-            selected_case_folder_list.indexOf("/") > -1 &&
-            item.case_folder != "/"
-        )
-        {
-            if
-            (           
-                g_case_folder_list.indexOf(item.case_folder) < 0 &&
-                selected_case_folder_list.indexOf(item.case_folder) < 0
-            )
+            (qitem, qid) => 
             {
+                const current_quarter_missing = 
+                {
+                    qid: qid,
+                    typ: "Current Quarter, Missing",
+                    detail: []
+                }
+                const current_quarter_unknown = 
+                {
+                    qid: qid,
+                    typ: "Current Quarter, Unknown",
+                    detail: []
+                }
+                const previous_quarter_missing = 
+                {
+                    qid: qid,
+                    typ: "Previous 4 Quarters, Missing",
+                    detail: []
+                }
 
-            }
-            else
-            {
-                continue;
-            }
-        }
-        
-
-        set_case_header(item);
-        
-        if ( item.add_quarter_number <= quarter_number ) 
-        {
-
-            summary_data.n01 += item.n01;
-			summary_data.n02 += item.n02;
-
-
-			summary_data.n03[0] += item.n03[0];
-			summary_data.n03[1] += item.n03[1];
-			summary_data.n03[2] += item.n03[2];
-			summary_data.n03[3] += item.n03[3];
-			summary_data.n03[4] += item.n03[4];
-			summary_data.n03[5] += item.n03[5];
-			summary_data.n03[6] += item.n03[6];
-			summary_data.n03[7] += item.n03[7];
-
-			summary_data.n04 += item.n04;
-			summary_data.n05 += item.n05;
-			
-        }
-
-        if 
-        ( 
-            item.add_quarter_number == quarter_number
-        ) 
-        {
-            summary_data.n06 += item.n06;
-            summary_data.n07 += item.n07;
-
-
-            for(let i = 10; i < 50; i++)
-            {
-                let fld = `n${i}`;
-
-
-
-                if
+                const previous_quarter_unknown = 
+                {
+                    qid: qid,
+                    typ: "Previous 4 Quarters, Unknown",
+                    detail: []
+                }
+                
+                qitem.forEach
                 (
-                    item[fld].m == 1 ||
-                    item[fld].u == 1
-                )
-                {
-                    set_map_detail_data(i, "Current Quarter", item._id);
-                }
+                    (t_item, type_id) => 
+                    {
+                        t_item.forEach
+                        (
+                            (case_id) =>
+                            {
+                                const header = case_header_map.get(case_id);
+                                switch(type_id)
+                                {
+                                    case "Current Quarter, Missing":
 
-                // 10-44
-                if(i < 45)
+                                        current_quarter_missing.detail.push({
+                                            num: 0,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
+                                    case "Current Quarter, Unknown":
+                                        current_quarter_unknown.detail.push({
+                                            num: 0,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
+                                    case "Previous 4 Quarters, Missing":
+                                        previous_quarter_missing.detail.push({
+                                            num: 0,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
+                                    case "Previous 4 Quarters, Unknown":
+                                        previous_quarter_unknown.detail.push({
+                                            num: 0,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
+                                }
+                                //console.log("here");
+                            }
+                        );
+                    }
+                );
+
+
+                if(current_quarter_missing.detail.length > 0)  
                 {
-                    summary_data[fld].s.mn += item[fld].m;
-                    summary_data[fld].s.un += item[fld].u;
+                    detail_data.questions.push(current_quarter_missing);
                 }
-                else
+                if(current_quarter_unknown.detail.length > 0)  
                 {
-                    summary_data[fld].s.tn += item[fld].t;
-                    summary_data[fld].s.pn += item[fld].p;
+                    detail_data.questions.push(current_quarter_unknown);
+                }
+                if(previous_quarter_missing.detail.length > 0) 
+                {
+                    detail_data.questions.push(previous_quarter_missing);
+                }
+                if(previous_quarter_unknown.detail.length > 0) 
+                {
+                    detail_data.questions.push(previous_quarter_unknown);
                 }
             }
-        }
-
-        if 
-        ( 
-            item.add_quarter_number < quarter_number &&
-            item.add_quarter_number >= quarter_number - 1
-        ) 
-        {
-            summary_data.n08 += item.n08;
-            summary_data.n09 += item.n09;
-
-            for(let i = 10; i < 50; i++)
-            {
-                let fld = `n${i}`;
-
-                if
-                (
-                    item[fld].m == 1 ||
-                    item[fld].u == 1
-                )
-                {
-                    set_map_detail_data(i, "Previous 4 Quarters", item._id);
-                }
-
-                // 10-44
-                if(i < 45)
-                {
-                    summary_data[fld].p.mn += item[fld].m;
-                    summary_data[fld].p.un += item[fld].u;
-                }
-                else
-                {
-                    summary_data[fld].p.tn += item[fld].t;
-                    summary_data[fld].p.pn += item[fld].p;
-                }
-            }
-
-        }
-    }
-
-    // calculate summary percentages
-    let startLoop = 44;
-    let endLoop = 49;
-    for ( let i = startLoop; i <= endLoop; i++ )
-    {
-
-        let fld = 'n' + i;
-
-        if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
-        {
-            summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
-        }
-
-        if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
-        {
-            summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
-        }
-    }
-
-    //console.log('dqr_detail_data: ', dqr_detail_data);
-    //console.log('summary_data: ', summary_data);
-
-
-    if 
-    ( 
-        g_model.reportType == 'Summary' || 
-        g_model.reportType == 'Summary & Detail'
-    )
-    {
-        let headers = {
-            title: `Data Quality Report for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter }`,
-        };
-
-        await create_pdf(
-            'Summary', summary_data, g_model.selectedQuarter, headers );
-    }
-
-
-    if 
-    ( 
-        g_model.reportType == 'Detail' || 
-        g_model.reportType == 'Summary & Detail'
-    )
-    {
-        let headers = {
-            title: `Data Quality Report Details for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
-        };
-        
-
-        // *****
-        // Uncomment the lines below to test for empty detail report that show empty message
-        // *****
-
-        // let detail_data2 = {
-        // 	questions: [],
-        // 	cases: [],
-        // 	total: 0,
-        // };
+        );
 
         await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
     }
