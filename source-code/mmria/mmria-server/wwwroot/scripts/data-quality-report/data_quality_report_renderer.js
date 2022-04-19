@@ -160,6 +160,93 @@ function render_data_quality_report_quarters()
 }
 
 
+
+const question_detail_map = new Map();
+const case_detail_map = new Map();
+const case_header_map = new Map();
+
+
+function set_case_header
+(
+
+    p_detail
+)
+{
+    case_header_map.set
+    (
+        p_detail._id,
+        {
+            //num: 316,
+            rec_id: p_detail.record_id,
+            dt_death: p_detail.dt_death,
+            dt_com_rev: p_detail.dt_com_rev,
+            ia_id: p_detail._id
+        }
+    );
+}
+
+function set_map_detail_data
+(
+    p_qid, //: 39,
+    p_type, //: 'Current Quarter, Missing',
+    p_case_id//: [
+)
+{
+
+    let qid_map = question_detail_map.get(p_qid);
+    if(qid_map == null)
+    {
+        qid_map = new Map();
+        question_detail_map.set(p_qid,qid_map)
+    }
+
+    let type_map = qid_map.get(p_type);
+    if(type_map == null)
+    {
+        type_map = new Set();
+        qid_map.set(p_type, type_map);
+    }
+
+    type_map.add(p_case_id);
+
+
+    let case_map = case_detail_map.get(p_case_id);
+    if(case_map == null)
+    {
+        case_map = new Map();
+        case_detail_map.set(p_case_id, case_map);
+    }
+
+    let case_qid_map = case_map.get(p_qid);
+    if(case_qid_map == null)
+    {
+        case_qid_map = new Set();
+        case_map.set(p_qid, case_qid_map);
+    }
+
+    case_qid_map.add({
+        case_id: p_case_id,
+        type: p_type
+    })
+
+}
+
+function set_detail_data_case
+(
+    p_qid, //: 39,
+    p_type, //: 'Current Quarter, Missing',
+    p_detail//: [
+)
+{
+    /*
+    num: 316,
+    rec_id: 'WI-2017-4726',
+    dt_death: '10/17/2017',
+    dt_com_rev: '05/14/2021',
+    ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+    */
+}
+
 async function download_data_quality_report_button_click()
 {
     let selected_quarter = document.getElementById('quarters-list').value;
@@ -349,6 +436,8 @@ async function download_data_quality_report_button_click()
         }
         
 
+        set_case_header(item);
+        
         if ( item.add_quarter_number <= quarter_number ) 
         {
 
@@ -383,6 +472,17 @@ async function download_data_quality_report_button_click()
             {
                 let fld = `n${i}`;
 
+
+
+                if
+                (
+                    item[fld].m == 1 ||
+                    item[fld].u == 1
+                )
+                {
+                    set_map_detail_data(i, "Current Quarter", item._id);
+                }
+
                 // 10-44
                 if(i < 45)
                 {
@@ -409,6 +509,15 @@ async function download_data_quality_report_button_click()
             for(let i = 10; i < 50; i++)
             {
                 let fld = `n${i}`;
+
+                if
+                (
+                    item[fld].m == 1 ||
+                    item[fld].u == 1
+                )
+                {
+                    set_map_detail_data(i, "Previous 4 Quarters", item._id);
+                }
 
                 // 10-44
                 if(i < 45)
