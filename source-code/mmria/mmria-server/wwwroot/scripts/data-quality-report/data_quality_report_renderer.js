@@ -722,6 +722,36 @@ async function download_data_quality_report_button_click()
             }
         );
 
+
+
+        case_detail_map.forEach
+        (
+            (qitem, case_id) => 
+            {
+
+                const header = case_header_map.get(case_id);
+                let new_item = {
+                    rec_id: header.rec_id,
+                    dt_death: header.dt_death,
+                    dt_com_rev: header.dt_com_rev,
+                    ia_id: header.ia_id.substring(4),
+					ab_case_id: '',
+					detail: []
+                }
+                
+                qitem.forEach
+                (
+                    (t_item, qid) => 
+                    {
+
+                        new_item.detail.push({ qid: qid, typ:t_item.values().next().value.type});
+                    }
+                );
+
+                detail_data.cases.push(new_item);
+            }
+        );
+
         await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
     }
 }
