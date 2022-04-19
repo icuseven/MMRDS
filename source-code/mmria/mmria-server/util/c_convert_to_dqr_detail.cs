@@ -47,6 +47,20 @@ namespace mmria.server.utils
             migrate.C_Get_Set_Value.get_value_result value_result = null;
 			var dqr_detail = new mmria.server.model.dqr.DQRDetail();
 
+            //dqr_detail.case_folder = "";
+            //dqr_detail.record_id = ""; //'OR-2019-4806',
+            //dqr_detail.dt_death = ""; //: '05/27/2009',
+            //dqr_detail.dt_com_rev = ""; //: '07/19/2021',
+            //dqr_detail._id = ""; //: 'd1632b47-4950-a4d1-fa17-e7368eaeefe',
+
+/*
+
+							rec_id: 'OR-2019-4806',
+							dt_death: '05/27/2009',
+							dt_com_rev: '07/19/2021',
+							ia_id: 'd1632b47-4950-a4d1-fa17-e7368eaeefe',
+*/
+
             dqr_detail.n01 = 0;
             dqr_detail.n02 = 0;
             dqr_detail.n03[0] = 0;
@@ -265,6 +279,9 @@ namespace mmria.server.utils
 
             value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
             dqr_detail.case_folder = ((object)value_result.result).ToString();
+
+            value_result = gs.get_value(source_object, "home_record/record_id");
+            dqr_detail.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
         
             dqr_detail._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
@@ -415,6 +432,7 @@ namespace mmria.server.utils
                 {
                     dqr_detail.n04 = 1;
                     cr_do_revie_is_date = true;
+                    dqr_detail.dt_com_rev = $"{test_time.Month}/{test_time.Day}/{test_time.Year}"; //: '07/19/2021',
                     
                 }
             }
@@ -563,6 +581,8 @@ namespace mmria.server.utils
             {
                 dqr_detail.n11.m = 1;
             }
+
+            dqr_detail.dt_death = $"{hrdod_month}/{hrdod_day}/{hrdod_year}"; //: '05/27/2009',
 
             /*
             n12

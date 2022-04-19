@@ -40,6 +40,9 @@ public class DQRDetail
 
     public string record_id { get; set; }
 
+    public string dt_death { get; set; }
+	public string dt_com_rev { get; set; }
+
     public string data_type { get; set; } = "dqr-detail";
 
     public string add_quarter_name { get; set; }
