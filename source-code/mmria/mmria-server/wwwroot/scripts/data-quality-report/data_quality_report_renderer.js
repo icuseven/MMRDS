@@ -263,7 +263,10 @@ async function download_data_quality_report_button_click()
 		
 
     let summary_data = get_new_summary_data();
-
+    dqr_detail_data.docs.sort(
+    (a, b) => {
+        return a.record_id - b.record_id;
+    });
 
     for(let i = 0; i < dqr_detail_data.docs.length; i++)
     {
@@ -481,7 +484,7 @@ async function download_data_quality_report_button_click()
         */
        let detail_data = {
 			questions: [
-				{
+				/*{
 					qid: 39,
 					typ: 'Current Quarter, Missing',
 					detail: [
@@ -565,8 +568,8 @@ async function download_data_quality_report_button_click()
 						},
 					],
 				},
-			],
-			cases: [
+			*/],
+			cases: [/*
 				{
 					rec_id: 'WI-2017-7951',
 					ab_case_id: '',
@@ -613,7 +616,7 @@ async function download_data_quality_report_button_click()
 						},
 					]
 				},
-			],
+			*/],
 			total: 667,
 		};
 
@@ -651,6 +654,7 @@ async function download_data_quality_report_button_click()
                 (
                     (t_item, type_id) => 
                     {
+                        let num_count = 1;
                         t_item.forEach
                         (
                             (case_id) =>
@@ -661,7 +665,7 @@ async function download_data_quality_report_button_click()
                                     case "Current Quarter, Missing":
 
                                         current_quarter_missing.detail.push({
-                                            num: 0,
+                                            num: num_count,
                                             rec_id: header.rec_id,
                                             dt_death: header.dt_death,
                                             dt_com_rev: header.dt_com_rev,
@@ -670,7 +674,7 @@ async function download_data_quality_report_button_click()
                                         break;
                                     case "Current Quarter, Unknown":
                                         current_quarter_unknown.detail.push({
-                                            num: 0,
+                                            num: num_count,
                                             rec_id: header.rec_id,
                                             dt_death: header.dt_death,
                                             dt_com_rev: header.dt_com_rev,
@@ -679,7 +683,7 @@ async function download_data_quality_report_button_click()
                                         break;
                                     case "Previous 4 Quarters, Missing":
                                         previous_quarter_missing.detail.push({
-                                            num: 0,
+                                            num: num_count,
                                             rec_id: header.rec_id,
                                             dt_death: header.dt_death,
                                             dt_com_rev: header.dt_com_rev,
@@ -688,7 +692,7 @@ async function download_data_quality_report_button_click()
                                         break;
                                     case "Previous 4 Quarters, Unknown":
                                         previous_quarter_unknown.detail.push({
-                                            num: 0,
+                                            num: num_count,
                                             rec_id: header.rec_id,
                                             dt_death: header.dt_death,
                                             dt_com_rev: header.dt_com_rev,
@@ -696,6 +700,8 @@ async function download_data_quality_report_button_click()
                                         });
                                         break;
                                 }
+
+                                num_count += 1;
                                 //console.log("here");
                             }
                         );
@@ -722,7 +728,7 @@ async function download_data_quality_report_button_click()
             }
         );
 
-
+        detail_data.total = detail_data.questions.length;
 
         case_detail_map.forEach
         (
