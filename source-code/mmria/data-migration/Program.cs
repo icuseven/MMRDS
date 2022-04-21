@@ -40,10 +40,10 @@ namespace migrate
 
 		static List<string> test_list = new List<string>()
 		{
-			//"uat",
-			//"fl_dev",
-
-			////"test",
+			"uat",
+			"fl_dev",
+			"qa",
+			"test",
 			"localhost",
 			/*"az",
 					"ma",
@@ -216,7 +216,7 @@ namespace migrate
 
 			bool is_test_list = true;
 			
-			bool is_report_only_mode = true;
+			bool is_report_only_mode = false;
 
 
 			RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
@@ -378,13 +378,16 @@ namespace migrate
 						var v2_6_2 = new migrate.set.v2_6_2_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await v2_6_2.execute();
 
+						var v2_7 = new migrate.set.v2_7_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_7.execute();
+
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await SubstanceMigration.execute();
 					}
 					else if(MigrationType == RunTypeEnum.DataMigration)
 					{
-						var v2_7 = new migrate.set.v2_7_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await v2_7.execute();
+						var v2_8 = new migrate.set.v2_8_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_8.execute();
 
 
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);

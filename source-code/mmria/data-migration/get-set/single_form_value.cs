@@ -229,7 +229,7 @@ namespace migrate
 
         public bool set_multi_value(string p_metadata_path, object p_value, object p_case)
 		{
-			bool result = false;
+			bool result = true;
 
 			var metadata_path_array = p_metadata_path.Split("/");
 			var item_key = metadata_path_array[0];

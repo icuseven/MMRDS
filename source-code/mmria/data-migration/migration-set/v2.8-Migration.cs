@@ -66,6 +66,9 @@ public class v2_8_Migration
 		this.output_builder.AppendLine($"v2_8_Migration started at: {begin_time.ToString("o")}");
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
+
+		
+
 		try
 		{
 			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
@@ -124,6 +127,60 @@ public class v2_8_Migration
 					if(mmria_id.IndexOf("_design") > -1)
 					{
 						continue;
+					}
+
+
+					void check_and_update_muilti_value(string p_path)
+					{
+
+						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
+
+						multiform_value_result = gs.get_multiform_value(doc, p_path);
+
+						if
+						(
+							multiform_value_result.result is not null &&
+							multiform_value_result.result is List<(int, object)> result_list && 
+							result_list.Count > 0
+						)
+						{
+
+							var new_list = new List<(int, object)>();
+							var has_changed = false;
+
+							foreach(var (index, value) in result_list)
+							{
+								if(value != null)
+								{
+									var time_value_string = value.ToString();
+
+									if( !isStandardTime(time_value_string))
+									{
+
+										var new_time = ConvertToStandardTime(time_value_string);
+
+
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+										
+										new_list.Add((index, new_time));
+
+									}
+								}
+							}
+
+							if(new_list.Count > 0)
+							{
+
+								case_has_changed = case_has_changed && gs.set_multi_value(p_path, new_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{p_path} set from {string.Join(",",result_list)} => {string.Join(",",new_list)}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
+						}
 					}
 
 /*
@@ -271,19 +328,15 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 
 
 
-var multiform_value_result = gs.get_multiform_value(doc, "birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
-multiform_value_result = gs.get_multiform_value(doc, "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival");
-multiform_value_result = gs.get_multiform_value(doc, "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission");
-multiform_value_result = gs.get_multiform_value(doc, "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge");
-multiform_value_result = gs.get_multiform_value(doc, "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor ");
-multiform_value_result = gs.get_multiform_value(doc, "er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture");
-multiform_value_result = gs.get_multiform_value(doc, "other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time");
 
 
-
-
-
-
+			check_and_update_muilti_value("birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
+			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival");
+			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission");
+			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge");
+			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor ");
+			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture");
+			check_and_update_muilti_value("other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time");
 
 
 
@@ -325,6 +378,8 @@ multiform_value_result = gs.get_multiform_value(doc, "other_medical_office_visit
 
 		return result;
 	}
+
+
 
 	string ConvertToStandardTime(string p_value)
 	{
