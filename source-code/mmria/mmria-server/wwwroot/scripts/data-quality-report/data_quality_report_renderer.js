@@ -274,6 +274,7 @@ async function download_data_quality_report_button_click()
 
         if
         (
+            selected_case_folder_list.length > 0 &&
             selected_case_folder_list.indexOf("/") < 0 &&
             selected_case_folder_list.indexOf(item.case_folder) < 0
         )
@@ -301,7 +302,22 @@ async function download_data_quality_report_button_click()
                 continue;
             }
         }
-        
+        else if
+        (
+            selected_case_folder_list.length == 0 &&
+            g_case_folder_list.indexOf("/") > -1
+        )
+        {
+            // do nothing console.log("here");
+        }
+        else if
+        (
+            selected_case_folder_list.length == 0 &&
+            g_case_folder_list.indexOf(item.case_folder) < 0
+        )
+        {
+            continue;
+        }
 
         set_case_header(item);
         
