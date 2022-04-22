@@ -825,8 +825,8 @@ function render_search_result_list()
 						</td>
 						<td class="td" data-type="committee_review_date">
 						${
-              value_list.committee_review_date != null
-                ? escape(value_list.committee_review_date)
+              value_list.date_of_committee_review != null
+                ? value_list.date_of_committee_review
                 : 'N/A'
             }
 						</td>
@@ -896,8 +896,8 @@ function render_selected_case_list(p_result, p_answer_summary)
 				</td>
 				<td class="td" data-type="committee_review_date">
 				${
-          value_list.committee_review_date != null
-            ? escape(value_list.committee_review_date)
+          value_list.date_of_committee_review != null
+            ? value_list.date_of_committee_review
             : 'N/A'
         }
 				</td>
