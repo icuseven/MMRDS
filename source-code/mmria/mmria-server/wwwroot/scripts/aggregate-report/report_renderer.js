@@ -182,7 +182,7 @@ function render_header()
 
     return `
     <div id="filter-pdf-control" style="height:170px;">
-        <div style="display: inline-block;float:left;width:71%">
+        <div style="display: inline-block;float:left;width:71%;margin-bottom:20px;">
             <div 
                 id="filter-summary"
                 style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
