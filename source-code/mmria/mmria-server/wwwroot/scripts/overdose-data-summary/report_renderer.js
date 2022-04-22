@@ -161,8 +161,7 @@ function render_header()
     else
     {
         const html = [];
-        html.push("<tr >");
-        var first = true;
+        html.push("<ul>");
 
         relatedness_map.forEach
         (
@@ -171,34 +170,25 @@ function render_header()
 
                 if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
                 {
-                    html.push("<td><a style:'white-space:nowrap;'> ");
-                    if(first)
-                    {
-                        html.push(value);
-                    }
-                    else{
-                        html.push(" \u2022 " + value);
-                    }
-                    first = false;
-                    html.push("</a></td>");
+                    html.push("<li>");
+                    html.push(value);
+                    html.push("</li>");
                 }
             }
         );
-        html.push("</tr>");
+        
+        html.push("</ul>");
         pregnancy_relatedness_html = html.join("");
     }
 
     return `
     <div id="filter-pdf-control" style="height:170px;">
         <div style="display: inline-block;float:left;width:71%">
-            <div id="filter-summary" 
-                style="width:945px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
-                <p>
-                    <strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  
-                    <span style="float:right">
-                        <button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button>
-                    </span>
-                </p>
+            <div 
+                id="filter-summary"
+                style="width:415px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;"
+            >
+                <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
                 <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
                 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
             </div>
