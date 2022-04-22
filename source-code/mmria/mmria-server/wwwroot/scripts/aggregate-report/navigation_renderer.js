@@ -48,7 +48,7 @@ function render_navigation_strip(p_current_index)
                 </span>
             </span>
         </p-->
-        <nav role="navigation" aria-label="Previous and Next Pages" class="tp-multipage">
+        <nav role="navigation" aria-label="Previous and Next Pages"  style="clear:both;" class="tp-multipage">
             <ul class="d-flex justify-content-between">
                 <li class="tp-mp-prev tp-mp-arrow">
                     <a href="#${previous_index}" title="Previous Page"><span class="d-lg-none">Prev</span><span class="d-none d-lg-inline">${previous_tab_name}</span></a>

@@ -2,7 +2,7 @@ function render0()
 {
     return `
     ${render_header()}
-<h3><strong>Overview</strong></h3>
+<h3 style="clear:both;"><strong>Overview</strong></h3>
 
 <p>The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related.</p>
 
