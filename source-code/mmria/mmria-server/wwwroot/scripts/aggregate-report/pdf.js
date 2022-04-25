@@ -21,7 +21,7 @@ function render()
 {
     var doc = {
         content: [
-            'First paragraph',
+            'First paragraph of Summary Report',
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
         ]
         

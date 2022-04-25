@@ -142,7 +142,7 @@ function ControlFormatDate(p_value)
 
 
 
-function render_header()
+function render_header(p_current_index)
 {
     const reporting_state_element = document.getElementById("reporting_state")
     reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
@@ -196,11 +196,12 @@ function render_header()
             <div id="pdf-control" 
                 style="width:300px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
-                    <strong>Select Report Type:</strong>  
+                    <!-- <strong>Select Report Type:</strong> -->
                     <span style="float:right;">
-                        <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
+                        <button class="btn btn-primary" onclick="view_pdf_click(${p_current_index})">View PDF</button>
                     </span>
                 </p> 
+                <!--
                 <p>
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
                     <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
@@ -212,6 +213,7 @@ function render_header()
                         <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
                     </span>
                 </p>
+                -->
             </div>
         </div>
     </div>
@@ -232,7 +234,7 @@ function updateReportType(e)
 	g_reportType = e.target.value;
 }
 
-function view_pdf_click()
+function view_pdf_click(p_current_index)
 {
 	var url =  'aggregate-report/pdf';
     window.open(url, '_aggregate_report');
