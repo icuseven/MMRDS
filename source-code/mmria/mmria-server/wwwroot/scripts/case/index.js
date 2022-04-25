@@ -3672,6 +3672,8 @@ independent_autocalc_niosh_set.add("/social_and_environmental_profile/socio_econ
 const independent_autocalc_gestation_event_set = new Set();
 
 
+
+
 independent_autocalc_gestation_event_set.add("/prenatal/other_lab_tests/date_and_time");
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_1st_prenatal_visit");
 independent_autocalc_gestation_event_set.add("/prenatal/current_pregnancy/date_of_last_prenatal_visit");
@@ -3720,6 +3722,9 @@ independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_m
 independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/day");
 independent_autocalc_list.add("/prenatal/current_pregnancy/date_of_last_normal_menses/year");
 
+independent_autocalc_list.add("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
+independent_autocalc_list.add("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
+independent_autocalc_list.add("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
 
 
 const dependent_autocalc_list = new Set();
@@ -3846,20 +3851,33 @@ async function autorecalculate
         }
 
 
+        const delivery_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month
+        const delivery_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day
+        const delivery_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year
+
+        const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
+        const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
 
 
+        let map = null;
 
-
-        let ga = [];
         switch(p_independent_variable_mmria_path)
         {
             case "/prenatal/other_lab_tests/date_and_time":
 
-                ga = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.other_lab_tests[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.other_lab_tests[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.other_lab_tests[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.other_lab_tests[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -3884,12 +3902,20 @@ async function autorecalculate
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/month":
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/day":
             case "/prenatal/current_pregnancy/date_of_1st_prenatal_visit/year":
-                ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                map = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
                 
-                if (ga.length > 1) 
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
-                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -3915,11 +3941,19 @@ async function autorecalculate
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/month":
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/day":
             case "/prenatal/current_pregnancy/date_of_last_prenatal_visit/year":
-                ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
-                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = map.get('ga')[0];
+                    g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -3944,11 +3978,19 @@ async function autorecalculate
 
             break;
             case "/prenatal/routine_monitoring/date_and_time":
-                ga = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.routine_monitoring[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -3972,11 +4014,19 @@ async function autorecalculate
                 
             break;
             case "/prenatal/diagnostic_procedures/date":
-                ga = autorecalculate_get_event_date("/prenatal/diagnostic_procedures/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/diagnostic_procedures/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.diagnostic_procedures[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.diagnostic_procedures[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.diagnostic_procedures[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.diagnostic_procedures[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4001,11 +4051,19 @@ async function autorecalculate
             
             break;
             case "/prenatal/problems_identified_grid/date_1st_noted":
-                ga = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.problems_identified_grid[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4029,11 +4087,19 @@ async function autorecalculate
                 
             break;
             case "/prenatal/medications_and_drugs_during_pregnancy/date":
-                ga = autorecalculate_get_event_date("/prenatal/medications_and_drugs_during_pregnancy/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/medications_and_drugs_during_pregnancy/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.medications_and_drugs_during_pregnancy[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.medications_and_drugs_during_pregnancy[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.medications_and_drugs_during_pregnancy[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.medications_and_drugs_during_pregnancy[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4057,11 +4123,19 @@ async function autorecalculate
                 
             break;
             case "/prenatal/pre_delivery_hospitalizations_details/date":
-                ga = autorecalculate_get_event_date("/prenatal/pre_delivery_hospitalizations_details/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/pre_delivery_hospitalizations_details/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.pre_delivery_hospitalizations_details[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.pre_delivery_hospitalizations_details[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.pre_delivery_hospitalizations_details[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.pre_delivery_hospitalizations_details[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4086,11 +4160,19 @@ async function autorecalculate
                 
             break;
             case "/prenatal/medical_referrals/date":
-                ga = autorecalculate_get_event_date("/prenatal/medical_referrals/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/prenatal/medical_referrals/date", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.prenatal.medical_referrals[p_grid_index].gestational_age_weeks = ga[0];
-                    g_data.prenatal.medical_referrals[p_grid_index].gestational_age_days = ga[1];
+                    g_data.prenatal.medical_referrals[p_grid_index].gestational_age_weeks = map.get('ga')[0];
+                    g_data.prenatal.medical_referrals[p_grid_index].gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4118,11 +4200,19 @@ async function autorecalculate
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/month":
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/day":
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year":
-                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = map.get('ga')[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4150,11 +4240,19 @@ async function autorecalculate
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day":
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year":
                     
-                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = map.get('ga')[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4183,11 +4281,19 @@ async function autorecalculate
             case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/year":
         
 
-                ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
-                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = map.get('ga')[0];
+                    g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4212,11 +4318,19 @@ async function autorecalculate
             break;
             case "/other_medical_office_visits/visit/date_of_medical_office_visit":
                 
-                ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
-                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = map.get('ga')[0];
+                    g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4242,11 +4356,19 @@ async function autorecalculate
     
             break;
             case "/medical_transport/date_of_transport":
-                ga = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = ga[0];
-                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = ga[1];
+                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = map.get('ga')[0];
+                    g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4270,11 +4392,19 @@ async function autorecalculate
                 
             break;
             case "/medical_transport/transport_vital_signs/date_and_time":
-                ga = autorecalculate_get_event_date("/medical_transport/transport_vital_signs/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/medical_transport/transport_vital_signs/date_and_time", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.medical_transport[p_form_index].transport_vital_signs[p_grid_index].gestational_weeks = ga[0];
-                    g_data.medical_transport[p_form_index].transport_vital_signs[p_grid_index].gestational_days = ga[1];
+                    g_data.medical_transport[p_form_index].transport_vital_signs[p_grid_index].gestational_weeks = map.get('ga')[0];
+                    g_data.medical_transport[p_form_index].transport_vital_signs[p_grid_index].gestational_days = map.get('ga')[1];
                 }
                 else
                 {
@@ -4298,11 +4428,19 @@ async function autorecalculate
                 
             break;
             case "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening":
-                ga = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
-                if (ga.length > 1) 
+                map = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
+                if 
+                (
+                    map.get('ga').length > 1 &&
+                    (
+                        ! is_valid_delivery_date ||
+                        is_valid_delivery_date &&
+                        map.get('event_date') < delivery_date
+                    )
+                ) 
                 {
-                    g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].gestational_weeks = ga[0];
-                    g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].gestational_days = ga[1];              
+                    g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].gestational_weeks = map.get('ga')[0];
+                    g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].gestational_days = map.get('ga')[1];              
                 }
                 else
                 {
@@ -4645,6 +4783,17 @@ async function autorecalculate_all_gestation
     let is_edd = false;
     let is_lmp = false;
 
+
+    const delivery_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month
+    const delivery_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day
+    const delivery_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year
+
+    const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
+    const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
+
+
+
+
     if 
     (
         //$global.isValidDate(event_year, event_month, event_day) == true && 
@@ -4689,13 +4838,22 @@ async function autorecalculate_all_gestation
 
 
 
-    let ga = [];
+    let map = null;
 
-    ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
-    if (ga.length > 1) 
+
+    map = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_last_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+    if 
+    (
+        map.get('ga').length > 1 &&
+        (
+            ! is_valid_delivery_date ||
+            is_valid_delivery_date &&
+            map.get('event_date') < delivery_date
+        )
+    ) 
     {
-        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
-        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = map.get('ga')[0];
+        g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = map.get('ga')[1];
     }
     else
     {
@@ -4716,11 +4874,19 @@ async function autorecalculate_all_gestation
     );
     
 
-    ga = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
-    if (ga.length > 1) 
+    map = autorecalculate_get_event_date("/prenatal/current_pregnancy/date_of_1st_prenatal_visit", is_edd, edd_date, is_lmp, lmp_date)
+    if 
+    (
+        map.get('ga').length > 1 &&
+        (
+            ! is_valid_delivery_date ||
+            is_valid_delivery_date &&
+            map.get('event_date') < delivery_date
+        )
+    ) 
     {
-        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
-        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = map.get('ga')[0];
+        g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = map.get('ga')[1];
     }
     else
     {
@@ -4748,10 +4914,10 @@ async function autorecalculate_all_gestation
     {
         if (ga.length > 1) 
         {
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = map.get('ga')[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = map.get('ga')[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', map.get('ga')[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', map.get('ga')[1]);
         }
     }*/
 
@@ -4760,11 +4926,19 @@ async function autorecalculate_all_gestation
     (
         function (item, index) 
         {
-            ga = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/routine_monitoring/date_and_time", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            )  
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4783,11 +4957,19 @@ async function autorecalculate_all_gestation
     (
         function (item, index) 
         {
-            ga = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/other_lab_tests/date_and_time", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4804,11 +4986,19 @@ async function autorecalculate_all_gestation
     (
         function (item, index)
         {
-            ga = autorecalculate_get_event_date("/prenatal/diagnostic_procedures/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/diagnostic_procedures/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4827,11 +5017,19 @@ async function autorecalculate_all_gestation
     (
         function(item, index)
         {
-            ga = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/problems_identified_grid/date_1st_noted", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4849,11 +5047,19 @@ async function autorecalculate_all_gestation
     (
         function(item, index)
         {
-            ga = autorecalculate_get_event_date("/prenatal/medications_and_drugs_during_pregnancy/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/medications_and_drugs_during_pregnancy/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4871,11 +5077,19 @@ async function autorecalculate_all_gestation
     (
         function(item, index)
         {
-            ga = autorecalculate_get_event_date("/prenatal/pre_delivery_hospitalizations_details/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/pre_delivery_hospitalizations_details/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4894,11 +5108,19 @@ async function autorecalculate_all_gestation
     (
         function(item, index)
         {
-            ga = autorecalculate_get_event_date("/prenatal/medical_referrals/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/prenatal/medical_referrals/date", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_age_weeks = ga[0];
-                item.gestational_age_days = ga[1];
+                item.gestational_age_weeks = map.get('ga')[0];
+                item.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4916,11 +5138,19 @@ async function autorecalculate_all_gestation
     (
         function (item, index) 
         {
-            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival", is_edd, edd_date, is_lmp, lmp_date, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival", is_edd, edd_date, is_lmp, lmp_date, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
-                item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+                item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = map.get('ga')[0];
+                item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4931,11 +5161,19 @@ async function autorecalculate_all_gestation
             $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days", item.basic_admission_and_discharge_information.date_of_arrival.gestational_age_days, index);
             
 
-            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission", is_edd, edd_date, is_lmp, lmp_date, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            )  
             {
-                item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
-                item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
+                item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = map.get('ga')[0];
+                item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4947,11 +5185,19 @@ async function autorecalculate_all_gestation
             $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days", item.basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days, index);
             
 
-            ga = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge", is_edd, edd_date, is_lmp, lmp_date, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
-                item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
+                item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = map.get('ga')[0];
+                item.basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4968,11 +5214,19 @@ async function autorecalculate_all_gestation
     (
         function (item, index) 
         {
-            ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
-                item.visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+                item.visit.date_of_medical_office_visit.gestational_age_weeks = map.get('ga')[0];
+                item.visit.date_of_medical_office_visit.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -4991,11 +5245,19 @@ async function autorecalculate_all_gestation
     (
         function (form_item, form_index) 
         {
-            ga = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, form_index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, form_index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                form_item.date_of_transport.gestational_age_weeks = ga[0];
-                form_item.date_of_transport.gestational_age_days = ga[1];
+                form_item.date_of_transport.gestational_age_weeks = map.get('ga')[0];
+                form_item.date_of_transport.gestational_age_days = map.get('ga')[1];
             }
             else
             {
@@ -5011,11 +5273,19 @@ async function autorecalculate_all_gestation
             (
                 function(grid_item, grid_index)
                 {
-                    ga = autorecalculate_get_event_date("/medical_transport/transport_vital_signs/date_and_time", is_edd, edd_date, is_lmp, lmp_date, form_index, grid_index)
-                    if (ga.length > 1) 
+                    map = autorecalculate_get_event_date("/medical_transport/transport_vital_signs/date_and_time", is_edd, edd_date, is_lmp, lmp_date, form_index, grid_index)
+                    if 
+                    (
+                        map.get('ga').length > 1 &&
+                        (
+                            ! is_valid_delivery_date ||
+                            is_valid_delivery_date &&
+                            map.get('event_date') < delivery_date
+                        )
+                    ) 
                     {
-                        grid_item.gestational_weeks = ga[0];
-                        grid_item.gestational_days = ga[1];
+                        grid_item.gestational_weeks = map.get('ga')[0];
+                        grid_item.gestational_days = map.get('ga')[1];
                     }
                     else
                     {
@@ -5037,11 +5307,19 @@ async function autorecalculate_all_gestation
     (
         function(item, index)
         {
-            ga = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date, null, index)
-            if (ga.length > 1) 
+            map = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date, null, index)
+            if 
+            (
+                map.get('ga').length > 1 &&
+                (
+                    ! is_valid_delivery_date ||
+                    is_valid_delivery_date &&
+                    map.get('event_date') < delivery_date
+                )
+            ) 
             {
-                item.gestational_weeks = ga[0];
-                item.gestational_days = ga[1];  
+                item.gestational_weeks = map.get('ga')[0];
+                item.gestational_days = map.get('ga')[1];  
             }
             else
             {
@@ -5250,7 +5528,10 @@ function autorecalculate_get_event_date
         }
     }
 
-    return result;
+    const map = new Map();
+    map.set('event_date', event_date);
+    map.set('ga', result);
+    return map;
 }
 
 function autorecalculate_get_event_date_separate(p_value)
@@ -5681,10 +5962,10 @@ function arc_prenatal_1st_ultra_ga(p_control)
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) 
         {
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = map.get('ga')[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = map.get('ga')[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', map.get('ga')[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', map.get('ga')[1]);
         }
     } 
     else if 
@@ -5696,10 +5977,10 @@ function arc_prenatal_1st_ultra_ga(p_control)
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) 
         {
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = ga[0];
-            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = ga[1];
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', ga[0]);
-            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', ga[1]);
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = map.get('ga')[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = map.get('ga')[1];
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound', map.get('ga')[0]);
+            $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days', map.get('ga')[1]);
         }
     }
 }
@@ -5804,6 +6085,9 @@ autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_an
 autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/month", arc_eha_days_postpartum);
 autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/day", arc_eha_days_postpartum);
 
+
+
+
 function arc_eha_days_postpartum(p_form_index) 
 {
     let days = null;
@@ -5863,7 +6147,12 @@ function arc_eha_days_postpartum(p_form_index)
     var end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true && 
+        start_date <= end_date
+    ) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum = days;
@@ -5987,8 +6276,8 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     const ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
     if (ga.length > 1) 
     {
-        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
-        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = map.get('ga')[0];
+        g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = map.get('ga')[1];
     }
     else
     {
@@ -6083,8 +6372,8 @@ function arc_mt_days_postpartum(p_form_index)
     if (ga.length > 1) 
     {
         
-        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = ga[0];
-        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = ga[1];
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = map.get('ga')[0];
+        g_data.medical_transport[p_form_index].date_of_transport.gestational_age_days = map.get('ga')[1];
     }
     else
     {
