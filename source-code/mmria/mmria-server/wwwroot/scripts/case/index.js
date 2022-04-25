@@ -6107,11 +6107,11 @@ function arc_eha_days_postpartum(p_form_index)
     ) 
     {
         days = $global.calc_days(start_date, end_date);
-        g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival.days_postpartum.days_postpartum = days;
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.days_postpartum = days;
     }
     else
     {
-        g_data.er_visit_and_hospital_medical_records.basic_admission_and_discharge_information.date_of_arrival.days_postpartum.days_postpartum = days;
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_arrival.days_postpartum = days;
     }
 
     $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/days_postpartum", days);
@@ -6122,18 +6122,18 @@ path=er_visit_and_hospital_medical_records/basic_admission_and_discharge_informa
 event=onfocus
 */
 
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_eha_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum);
-autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_eha_days_postpartum2);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_eha_days_postpartum2);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_eha_days_postpartum2);
 
 
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year", arc_eha_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/month", arc_eha_days_postpartum);
-autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day", arc_eha_days_postpartum);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/year", arc_eha_days_postpartum2);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/month", arc_eha_days_postpartum2);
+autocalc_map.safe_set("/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/day", arc_eha_days_postpartum2);
 
 
 
-function arc_eha_days_postpartum(p_form_index) 
+function arc_eha_days_postpartum2(p_form_index) 
 {
 
     if(p_form_index == null) return;
