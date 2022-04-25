@@ -6,7 +6,7 @@ bc.onmessage = (message_data) => {
     console.log(`report_index: ${message_data.data.report_index}`);
     console.log(`view_or_print: ${message_data.data.view_or_print}`);
 
-    render();
+    render(message_data.data.report_index);
     
   /*
   message_data = {
@@ -17,11 +17,11 @@ bc.onmessage = (message_data) => {
 */
 }
 
-function render()
+function render(report_index)
 {
     var doc = {
         content: [
-            'First paragraph of Summary Report',
+            'First paragraph of Report ' + report_index,
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
         ]
         

@@ -180,7 +180,8 @@ function render_header(p_current_index)
         pregnancy_relatedness_html = html.join("");
     }
 
-    return `
+    var ret = 
+    `
     <div id="filter-pdf-control" style="height:170px;">
         <div style="display: inline-block;float:left;width:71%;margin-bottom:20px;">
             <div 
@@ -192,8 +193,11 @@ function render_header(p_current_index)
                 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
             </div>
         </div>
-        <div style="display: inline-block;float:right;width:25%">
-            <div id="pdf-control" 
+        <div style="display: inline-block;float:right;width:25%">`;
+        if(p_current_index > 0) 
+        {
+        ret = ret +  
+            `<div id="pdf-control" 
                 style="width:300px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
                     <!-- <strong>Select Report Type:</strong> -->
@@ -214,14 +218,16 @@ function render_header(p_current_index)
                     </span>
                 </p>
                 -->
-            </div>
-        </div>
+            </div>`
+         };
+        ret = ret + `</div>
     </div>
     
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 
     `;
+    return ret;
 }
 
 const bc = new BroadcastChannel('aggregate_pdf_channel');
@@ -242,7 +248,7 @@ function view_pdf_click(p_current_index)
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "view"
+        view_or_print: "view"        
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
