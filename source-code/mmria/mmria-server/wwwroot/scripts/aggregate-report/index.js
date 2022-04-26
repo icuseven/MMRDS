@@ -4,7 +4,7 @@ var g_couchdb_url = null;
 var g_metadata = null;
 
 var g_reportType = "Summary";
-var g_developer = -1;
+var g_webport = -1;
 var g_report_index = 0;
 
 
@@ -117,7 +117,7 @@ async function get_release_version()
       
     g_release_version = get_release_version_response;
 
-    g_developer = window.location.host.split("-")[0].split(":")[1];
+    g_webport = window.location.host.split("-")[0].split(":")[1];
 
     const g_metadata_response = await $.ajax
     (
