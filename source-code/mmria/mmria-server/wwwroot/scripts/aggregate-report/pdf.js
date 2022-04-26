@@ -232,14 +232,178 @@ function render_pdf(report_index)
 
 async function aggregate_pdf(report_index)
 {
-    await print_aggregate_pdf(report_index);
+    // let curQuarter = 1;
+    // let curYear = today.getFullYear();
+
+
+    // let quarter = `Q${ curQuarter }-${ curYear }`;
+
+    // let headers = {
+    //     title: `Data Quality Report for: Unknown`,
+    //     subtitle: `Reporting Period: ${ quarter }`,
+    // };
+
+    //     let detail_data = {
+    //     questions: [
+    //         /*{
+    //             qid: 39,
+    //             typ: 'Current Quarter, Missing',
+    //             detail: [
+    //                 {
+    //                     num: 114,
+    //                     rec_id: 'WI-2016-8592',
+    //                     dt_death: '10/11/2016',
+    //                     dt_com_rev: '05/14/2021',
+    //                     ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //                 {
+    //                     num: 115,
+    //                     rec_id: 'WI-2017-0052',
+    //                     dt_death: '10/02/2017',
+    //                     dt_com_rev: '11/20/2020',
+    //                     ia_id: '7e632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //                 {
+    //                     num: 116,
+    //                     rec_id: 'WI-2017-4726',
+    //                     dt_death: '10/17/2017',
+    //                     dt_com_rev: '05/14/2021',
+    //                     ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //             ],
+    //         },
+    //         {
+    //             qid: 39,
+    //             typ: 'Current Quarter, Unknown',
+    //             detail: [],
+    //         },
+    //         {
+    //             qid: 39,
+    //             typ: 'Previous 4 Quarters, Missing',
+    //             detail: [
+    //                 {
+    //                     num: 314,
+    //                     rec_id: 'WI-2016-8592',
+    //                     dt_death: '10/11/2016',
+    //                     dt_com_rev: '05/14/2021',
+    //                     ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //                 {
+    //                     num: 315,
+    //                     rec_id: 'WI-2017-0052',
+    //                     dt_death: '10/02/2017',
+    //                     dt_com_rev: '11/20/2020',
+    //                     ia_id: '7e632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //                 {
+    //                     num: 316,
+    //                     rec_id: 'WI-2017-4726',
+    //                     dt_death: '10/17/2017',
+    //                     dt_com_rev: '05/14/2021',
+    //                     ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //             ],
+    //         },
+    //         {
+    //             qid: 39,
+    //             typ: 'Previous 4 Quarters, Unknown',
+    //             detail: [],
+    //         },
+    //         {
+    //             qid: 40,
+    //             typ: 'Current Quarter, Missing',
+    //             detail: [
+    //                 {
+    //                     num: 1,
+    //                     rec_id: 'OR-2019-4806',
+    //                     dt_death: '05/27/2009',
+    //                     dt_com_rev: '07/19/2021',
+    //                     ia_id: 'd1632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //                 {
+    //                     num: 2,
+    //                     rec_id: 'TN-2020-4226',
+    //                     dt_death: '01/10/2019',
+    //                     dt_com_rev: '08/31/2021',
+    //                     ia_id: '2c632b47-4950-a4d1-fa17-e7368eaeefe',
+    //                 },
+    //             ],
+    //         },
+    //     */],
+    //     cases: [/*
+    //         {
+    //             rec_id: 'WI-2017-7951',
+    //             ab_case_id: '',
+    //             dt_death: '06/10/2017',
+    //             dt_com_rev: '09/11/2020',
+    //             ia_id: '2c632b47-4950-a4d1-fa17-e7368eaeefe',
+    //             detail: [
+    //                 {
+    //                     qid: 19,
+    //                     typ: 'Previous 4 Quarters, Missing',
+    //                 },
+    //                 {
+    //                     qid: 29,
+    //                     typ: 'Previous 4 Quarters, Missing',
+    //                 },
+    //                 {
+    //                     qid: 32,
+    //                     typ: 'Previous 4 Quarters, Missing',
+    //                 },
+    //                 {
+    //                     qid: 39,
+    //                     typ: 'Previous 4 Quarters, Unknown',
+    //                 },
+    //             ]
+    //         },
+    //         {
+    //             rec_id: 'WV-2019-1760',
+    //             ab_case_id: '2019EleH',
+    //             dt_death: '01/15/2019',
+    //             dt_com_rev: '09/09/2021',
+    //             ia_id: '8f032b47-4950-a4d1-fa17-e7368eaeefe',
+    //             detail: [
+    //                 {
+    //                     qid: 19,
+    //                     typ: 'Current Quarter, Unknown',
+    //                 },
+    //                 {
+    //                     qid: 38,
+    //                     typ: 'Current Quarter, Missing',
+    //                 },
+    //                 {
+    //                     qid: 39,
+    //                     typ: 'Current Quarter, Unknown',
+    //                 },
+    //             ]
+    //         },
+    //     */],
+    //     total: 667,
+    // };
+
+    //await print_aggregate_pdf('Detail', detail_data, quarter, headers, report_index);I
+    await print_aggregate_pdf('Detail', detail_data, quarter, headers,report_index);
 }
 
-async function print_aggregate_pdf(report_index)
+//async function print_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, report_index)
+async function print_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, report_index)
 {
+	let p_ctx = {
+	// 	report_type: p_report_type,
+	// 	data: p_data,
+	// 	quarter: p_quarter,
+	// 	headers: p_headers,
+        index: report_index
+	};
+
+//     await print_pdf(p_ctx);
+// }
+
+// async function print_pdf(ctx)
+// {
     var doc = {
         content: [
-            'First paragraph of the Aggregate Report ' + report_index,
+            'First paragraph of the Aggregate Report ' + p_ctx.index,
             'Another paragraph, this <h3>time a little bit longer</h3> to make sure, this line will be divided into at least two lines'
         ]    
     }
