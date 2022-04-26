@@ -6,7 +6,6 @@ bc.onmessage = (message_data) => {
     console.log(`view_or_print: ${message_data.data.view_or_print}`);
 //    console.log(`document: ${message_data.data.document}`);
 
-    //render(message_data.data.report_index, message_data.data.document);
     //render_pdf(message_data.data.report_index);
     //create_pdf(message_data.data.report_index);
     aggregate_pdf(message_data.data.report_index);
@@ -37,27 +36,6 @@ function render_pdf(report_index)
     
     //pdfMake.createPdf(doc).open();
 }
-
-// function render(report_index)
-// {
-//     //const metadata = indicator_map.get(report_index);
-//     // // await delay(2000); // KCLTODO
-//     // const data_list = await get_indicator_values(metadata.indicator_id);
-
-//     var doc = {
-//         content: [
-//             'First paragraph of Report ' + report_index,
-//             'Another paragraph, this <h3>time a little bit longer</h3> to make sure, this line will be divided into at least two lines'
-//         ]    
-//     }
-
-//     window.setTimeout
-// 		(
-// 			//async function () { await pdfMake.createPdf(doc).open(window); },
-// 			 async function () { await pdfMake.createPdf(doc).open(); },
-// 			3000
-// 		);
-// }
 
 // async function create_pdf(report_index)
 // {
@@ -252,7 +230,12 @@ function render_pdf(report_index)
 // 	}
 // }
 
-function aggregate_pdf(report_index)
+async function aggregate_pdf(report_index)
+{
+    await print_aggregate_pdf(report_index);
+}
+
+async function print_aggregate_pdf(report_index)
 {
     var doc = {
         content: [
