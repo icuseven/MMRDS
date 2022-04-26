@@ -191,6 +191,7 @@ function render_header(p_current_index)
                 <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
                 <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
                 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
+              <!--<p><strong>DEV ID: ${g_developer}</strong><p>-->
             </div>
         </div>
         <div style="display: inline-block;float:right;width:25%">`;
