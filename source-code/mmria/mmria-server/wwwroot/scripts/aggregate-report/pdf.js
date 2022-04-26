@@ -230,6 +230,21 @@ function render_pdf(report_index)
 // 	}
 // }
 
+const g_nav_map = new Map();
+g_nav_map.set(0,"Overview");
+g_nav_map.set(1,"Primary Underlying Causes of Death");
+g_nav_map.set(2,"Pregnancy-Relatedness");
+g_nav_map.set(3,"Preventability");
+g_nav_map.set(4,"Timing of Death");
+g_nav_map.set(5,"OMB Race Recode");
+g_nav_map.set(6,"Race");
+g_nav_map.set(7,"Race/Ethnicity");
+g_nav_map.set(8,"Age");
+g_nav_map.set(9,"Education");
+g_nav_map.set(10,"Committee Determinations");
+g_nav_map.set(11,"Emotional Stress");
+g_nav_map.set(12,"Living Arrangements");
+
 async function aggregate_pdf(report_index)
 {
     let today = new Date();
@@ -239,8 +254,10 @@ async function aggregate_pdf(report_index)
     let quarter = `Q${ curQuarter }-${ curYear }`;
 
     let headers = {
-        title: `Data Quality Report for: Unknown`,
-        subtitle: `Reporting Period: ${ quarter }`,
+       // title: `Data Quality Report for: Unknown`,
+        title: `${g_nav_map.get(report_index)}`,
+        //subtitle: `Reporting Period: ${ quarter }`,
+        subtitle: `<description here>`,
     };
 
         let detail_data = {
@@ -1162,7 +1179,7 @@ function format_detail_no_data() {
 	// Header
 	rows.push([
 		{
-			text: 'No cases identified with issues in DQR',
+			text: '<table here>',
 			style: ['pageSubHeader', 'fgRed', 'isBold'],
 			colSpan: '5',
 			alignment: 'center'
