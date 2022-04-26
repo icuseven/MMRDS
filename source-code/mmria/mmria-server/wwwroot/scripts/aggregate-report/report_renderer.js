@@ -245,10 +245,22 @@ function view_pdf_click(p_current_index)
 	var url =  'aggregate-report/pdf';
     window.open(url, '_aggregate_report');
 
+    // const post_html = [
+    //     `const all = document.getElementsByClassName('spinner-container')
+    //     for(let i = 0; i < all.length; i++)
+    //     {
+    //         let item = all[i];
+    //         item.remove();
+    //     }`
+    //     ];
+
+    //doc = await render1(post_html);
+
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "view"        
+        view_or_print: "view"
+        // document: doc     
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
