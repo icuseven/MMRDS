@@ -406,6 +406,9 @@ async function print_aggregate_pdf(ctx)
 			fgRed: {
 				color: '#990000',
 			},
+            fgBlack: {
+				color: '#000000',
+			},
 			isUnderlined: {
 				decoration: 'underline',
 			},
@@ -992,7 +995,18 @@ function format_detail_no_data(ctx) {
 		{
 			text: `${description}`,
 			//style: ['pageSubHeader', 'fgRed', 'isBold'],
-			style: ['tableDetail', 'fgRed', 'isBold'],
+			style: ['tableDetail', 'fgBlack', 'isBold'],
+			colSpan: '5',
+			alignment: 'center'
+		},
+		{},{},{},{}
+	],);
+
+    rows.push([
+		{
+			text: '---<(*)>---',
+			//style: ['pageSubHeader', 'fgRed', 'isBold'],
+			style: ['tableDetail', 'fgBlack', 'isBold'],
 			colSpan: '5',
 			alignment: 'center'
 		},
