@@ -381,11 +381,11 @@ async function aggregate_pdf(report_index)
         total: 667,
     };
 
-    await print_aggregate_pdf('Detail', detail_data, quarter, headers, report_index);
-    //await print_pdf('Detail', detail_data, quarter, headers, report_index);
+    //await working_aggregate_pdf('Detail', detail_data, quarter, headers, report_index);
+    await stage_aggregate_pdf('Detail', detail_data, quarter, headers, report_index);
 }
 
-async function print_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, p_report_index)
+async function working_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, p_report_index)
 {
     let p_ctx = {
         report_type: p_report_type,
@@ -395,14 +395,53 @@ async function print_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, 
             index: p_report_index
         };
 
-//     await print_pdf(p_ctx);
-// }
-
-// async function print_pdf(ctx)
-// {
     var doc = {
         content: [
             'First paragraph of Report ' + p_ctx.index,
+            'Another paragraph, this <h3>time a little bit longer</h3> to make sure, this line will be divided into at least two lines'
+        ]    
+    }
+
+    window.setTimeout
+    (
+        //async function () { await pdfMake.createPdf(doc).open(window); },
+            async function () { await pdfMake.createPdf(doc).open(); },
+        1000
+    );
+    
+    //pdfMake.createPdf(doc).open();
+}
+
+async function stage_aggregate_pdf(p_report_type, p_data, p_quarter, p_headers, p_report_index)
+{
+    let p_ctx = {
+        report_type: p_report_type,
+        	data: p_data,
+        	quarter: p_quarter,
+        	headers: p_headers,
+            index: p_report_index
+        };
+
+    await print_aggregate_pdf(p_ctx);
+}
+
+async function print_aggregate_pdf(ctx)
+{
+    g_writeText = '';
+
+	// // Get unique PDF name
+	//let pdfName = createNamePDF();
+
+	// Get the PDF Header Title & Subtitle
+	let pdfTitle = ctx.headers.title;
+	let pdfSubtitle = ctx.headers.subtitle;
+
+	// Get the logoUrl for Header
+	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
+
+    var doc = {
+        content: [
+            'First paragraph of Report ' + ctx.index,
             'Another paragraph, this <h3>time a little bit longer</h3> to make sure, this line will be divided into at least two lines'
         ]    
     }
