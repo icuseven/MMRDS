@@ -429,8 +429,8 @@ async function print_aggregate_pdf(ctx)
 {
     g_writeText = '';
 
-	// // Get unique PDF name
-	//let pdfName = createNamePDF();
+	// Get unique PDF name
+	let pdfName = createNamePDF();
 
 	// Get the PDF Header Title & Subtitle
 	let pdfTitle = ctx.headers.title;
@@ -654,4 +654,51 @@ async function print_pdf(ctx) {
 	// pdfMake.createPdf(doc).download(pdfName);
 	pdfMake.createPdf(doc).open();
 
+}
+
+// ************************************************************************
+// ************************************************************************
+//
+// Begin - Generic Functions
+//
+// ************************************************************************
+// ************************************************************************
+
+// getBase64ImageFromURL
+function getBase64ImageFromURL(url) {
+	return new Promise((resolve, reject) => {
+		let img = new Image();
+		img.setAttribute("crossOrigin", "anonymous");
+		img.onload = () => {
+			let canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			let ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			let dataURL = canvas.toDataURL("image/png");
+			resolve(dataURL);
+		};
+		img.onerror = error => {
+			reject(error);
+		};
+		img.src = url;
+	});
+}
+
+// create a unique PDF name based on datetime
+function createNamePDF() {
+	let today = new Date();
+	let yy = today.getFullYear() + ':';
+	let mm = fmt2Digits(today.getMonth() + 1) + ':';
+	let dd = fmt2Digits(today.getDate()) + '_';
+	let hh = fmt2Digits(today.getHours()) + ':';
+	let mn = fmt2Digits(today.getMinutes()) + ':';
+	let ss = fmt2Digits(today.getSeconds()) + '.pdf';
+
+	return 'DQR_mmria_' + yy + mm + dd + hh + mn + ss;
+}
+
+function fmt2Digits(val) {
+	if (val == null || val == '9999') return '  ';
+	return ((val < 10) ? '0' : '') + val;
 }
