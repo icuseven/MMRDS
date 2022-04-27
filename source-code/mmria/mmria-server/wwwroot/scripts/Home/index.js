@@ -80,7 +80,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<th class='th' scope='col'>Is Active</th>");
       role_list_html.push("<th class='th' scope='col'>Start Date</th>");
       role_list_html.push("<th class='th' scope='col'>End Date</th>");
-      role_list_html.push("<th class='th' scope='col'>Days Till<br/>Role Expires</th>");
+      role_list_html.push("<th class='th' scope='col'>Days Til<br/>Role Expires</th>");
       role_list_html.push("<th class='th' scope='col'>Role Added By</th>");
       role_list_html.push("</tr>");
       role_list_html.push("</thead>");
@@ -156,44 +156,11 @@ function load_user_role_jurisdiction()
     role_list_html.push("</table>");
     
     document.getElementById("role_list").innerHTML = role_list_html.join("");
-    //load_profile();
+
 	});
 }
 
-function load_profile()
-{
-  /*
-  profile.on_login_call_back = function ()
-  {
-    $("#landing_page").hide();
-    $("#logout_page").hide();
-    $("#footer").hide();
-    $("#root").removeClass("header");
-  };
 
-  profile.on_logout_call_back = function (p_user_name, p_password)
-  {
-    if(update_session_timer_interval_id != null)
-    {
-      window.clearInterval(update_session_timer_interval_id);
-      update_session_timer_interval_id = null;
-    }
-
-    //$("#landing_page").show();
-    $("#root").addClass("header");
-    $("#footer").show();
-
-    document.getElementById('navbar').innerHTML = "";
-    document.getElementById('form_content_id').innerHTML ="";
-
-
-    var url = location.protocol + '//' + location.host + '/';
-    window.location.href = url;
-  };
-
-  
-  profile.initialize_profile();*/
-}
 
 function open_blank_version(p_section)
 {
