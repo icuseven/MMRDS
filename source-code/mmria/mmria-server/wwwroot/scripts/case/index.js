@@ -6239,6 +6239,7 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     var end_day = parseInt(g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
+
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
     {
         days = $global.calc_days(start_date, end_date);
@@ -6286,9 +6287,23 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
         //return;
     }
 
-    
+    const delivery_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month
+    const delivery_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day
+    const delivery_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year
+
+    const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
+    const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
+
     const ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
-    if (ga.length > 1) 
+    if 
+    (
+        map.get('ga').length > 1 &&
+        (
+            ! is_valid_delivery_date ||
+            is_valid_delivery_date &&
+            map.get('event_date') < delivery_date
+        )
+    ) 
     {
         g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_weeks = map.get('ga')[0];
         g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.gestational_age_days = map.get('ga')[1];
@@ -6382,8 +6397,23 @@ function arc_mt_days_postpartum(p_form_index)
         return;
     }
 
+    const delivery_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month
+    const delivery_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day
+    const delivery_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year
+
+    const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
+    const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
+
     const ga = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
-    if (ga.length > 1) 
+    if 
+    (
+        map.get('ga').length > 1 &&
+        (
+            ! is_valid_delivery_date ||
+            is_valid_delivery_date &&
+            map.get('event_date') < delivery_date
+        )
+    ) 
     {
         
         g_data.medical_transport[p_form_index].date_of_transport.gestational_age_weeks = map.get('ga')[0];
@@ -6874,5 +6904,3 @@ function arc_prenatal_care_dlnm_gestation()
         $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days', g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days);
     }
 }
-
-
