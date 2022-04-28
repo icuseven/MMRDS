@@ -6294,7 +6294,7 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
     const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
 
-    const ga = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
+    const map = autorecalculate_get_event_date("/other_medical_office_visits/visit/date_of_medical_office_visit", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
     if 
     (
         map.get('ga').length > 1 &&
@@ -6404,7 +6404,7 @@ function arc_mt_days_postpartum(p_form_index)
     const delivery_date = new Date(delivery_year, delivery_month -1, delivery_day);
     const is_valid_delivery_date = $global.isValidDate(delivery_year, delivery_month, delivery_day);
 
-    const ga = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
+    const map = autorecalculate_get_event_date("/medical_transport/date_of_transport", is_edd, edd_date, is_lmp, lmp_date, p_form_index)
     if 
     (
         map.get('ga').length > 1 &&
