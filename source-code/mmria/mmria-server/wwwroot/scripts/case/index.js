@@ -6157,6 +6157,10 @@ function arc_eha_days_postpartum2(p_form_index)
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum = days;
     }
+    else
+    {
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_admission.days_postpartum = "";
+    }
 
     $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/days_postpartum", days);
 }
@@ -6189,12 +6193,22 @@ function arc_ehd_days_dhdc_postpartum(p_form_index)
     var end_day = parseInt(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true && 
+        start_date <= end_date
+    ) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.days_postpartum = days;
-        $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/days_postpartum", days);
     }
+    else
+    {
+        g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge.days_postpartum = "";
+    }
+
+    $mmria.set_control_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/days_postpartum", days);
 }
 //CALCULATE DAYS POST-PARTUM ON OFFICE VISIT FORM
 /*
