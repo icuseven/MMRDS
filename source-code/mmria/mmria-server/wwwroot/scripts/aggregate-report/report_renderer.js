@@ -195,30 +195,29 @@ function render_header(p_current_index)
             </div>
         </div>
         <div style="display: inline-block;float:right;width:25%">`;
-        if(g_webport == 12345 && p_current_index > 0) 
+        if (p_current_index > 0) //if(g_webport == 12345 && p_current_index > 0) 
         {
         ret = ret +  
             `<div id="pdf-control" 
                 style="width:300px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
-                    <!-- <strong>Select Report Type:</strong> -->
+                    <strong>Select Report Type:</strong>
                     <span style="float:right;">
                         <button class="btn btn-primary" onclick="view_pdf_click(${p_current_index})">View PDF</button>
                     </span>
                 </p> 
-                <!--
                 <p>
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
                     <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
                 </p>
                 <p>
                     <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-                    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
+                    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>                   
                     <span style="float:right">
-                        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
-                    </span>
+                        <button class="btn btn-primary" onclick="print_pdf_click(${p_current_index})">Print PDF</button>
+                    </span>                   
                 </p>
-                -->
+
             </div>`
          };
         ret = ret + `</div>
@@ -260,14 +259,15 @@ function view_pdf_click(p_current_index)
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "view"
+        view_or_print: "view",
+        report_index: p_current_index
         // document: doc     
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
 }
 
-function print_pdf_click()
+function print_pdf_click(p_current_index)
 {
 	var url =  'aggregate-report/pdf';
     window.open(url, '_aggregate_report');
@@ -275,7 +275,8 @@ function print_pdf_click()
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "print"
+        view_or_print: "print",
+        report_index: p_current_index
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
