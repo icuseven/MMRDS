@@ -4467,15 +4467,11 @@ async function autorecalculate
                 //let map = autorecalculate_get_event_date_combined("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening")
                 if 
                 (
-                    map.get('ga').length > 1 &&
-                    (
-                        ! is_valid_delivery_date ||
-                        is_valid_delivery_date &&
-                        map.get('event_date') > delivery_date
-                    )
+                    is_valid_delivery_date &&
+                    map.get('event_date') > delivery_date
                 ) 
                 {
-                    days = $global.calc_days(start_date, g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
+                    const days = $global.calc_days(delivery_date, map.get('event_date'));
                     g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
                     $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
                 } 
@@ -6239,7 +6235,12 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
 
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true && 
+        start_date <= end_date
+    ) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.other_medical_office_visits[p_form_index].visit.date_of_medical_office_visit.days_postpartum = days;    
@@ -6442,7 +6443,7 @@ autocalc_map.safe_set("/mental_health_profile/were_there_documented_mental_healt
 
 function arc_mh_days_postpartum(p_form_index, p_grid_index) 
 {
-    if(p_form_index == null) return;
+    //if(p_form_index == null) return;
 
     if(p_grid_index == null) return;
 
@@ -6459,40 +6460,76 @@ function arc_mh_days_postpartum(p_form_index, p_grid_index)
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
+
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+
+    let is_edd = false;
+    let is_lmp = false;
+
     if 
     (
-        $global.isValidDate(start_year, start_month, start_day) == true && 
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(edd_year, edd_month, edd_day) == true
+    )
+    {
+        is_edd = true;
+
+    }
+    else if 
+    (
+        //$global.isValidDate(event_year, event_month, event_day) == true && 
+        $global.isValidDate(lmp_year, lmp_month, lmp_day) == true
+    )
+    {
+        is_lmp = true;
+    }
+
+
+    let map = autorecalculate_get_event_date
+    (
+        "/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", 
+        is_edd,
+        edd_date, 
+        is_lmp, 
+        lmp_date,
+        p_form_index,
+        p_grid_index
+    );
+
+    
+    if 
+    (
+        is_valid_delivery_date && 
         g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening != null && 
         g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening != ''
     ) 
     {
-        let map = autorecalculate_get_event_date_combined("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening")
+        
         if 
         (
-            map.get('ga').length > 1 &&
-            (
-                ! is_valid_delivery_date ||
-                is_valid_delivery_date &&
-                map.get('event_date') > delivery_date
-            )
+
+            is_valid_delivery_date &&
+            map.get('event_date') > delivery_date
+            
         ) 
         {
-            days = $global.calc_days(start_date, g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
+            days = $global.calc_days(start_date,  map.get('event_date'));
             g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
-            $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
         } 
         else 
         {
-            var end_date = new Date(g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].date_of_screening);
-            if (start_date <= end_date) 
-            {
-                days = $global.calc_days(start_date, end_date);
 
-                g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = days;
-                $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
-            }
+            g_data.mental_health_profile.were_there_documented_mental_health_conditions[p_grid_index].days_postpartum = "";
         }
 
+        $mmria.set_control_value("mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum", days, p_form_index, p_grid_index);
 
         //map = autorecalculate_get_event_date("/mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening", is_edd, edd_date, is_lmp, lmp_date, p_form_index, p_grid_index)
         if 
