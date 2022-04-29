@@ -80,7 +80,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<th class='th' scope='col'>Is Active</th>");
       role_list_html.push("<th class='th' scope='col'>Start Date</th>");
       role_list_html.push("<th class='th' scope='col'>End Date</th>");
-      role_list_html.push("<th class='th' scope='col'>Days Til<br/>Role Expires</th>");
+      role_list_html.push("<th class='th' scope='col'>Days unil<br/>Role Expires</th>");
       role_list_html.push("<th class='th' scope='col'>Role Added By</th>");
       role_list_html.push("</tr>");
       role_list_html.push("</thead>");
