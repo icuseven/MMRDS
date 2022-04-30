@@ -23,6 +23,11 @@ function data_quality_report_render(p_quarters)
                             <input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
                         </div>
+                        <div>
+                            <input type="radio" id="summary-detail-report" name="report-type" value="Debug" onclick="updateReportType(event)">
+                            <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Debug</label>
+                            <input type="text" id="debug-report" name="report-type" value=""/>
+                        </div>
                     </div>
              </div>
 
@@ -245,6 +250,13 @@ function set_detail_data_case
     dt_com_rev: '05/14/2021',
     ia_id: '6d632b47-4950-a4d1-fa17-e7368eaeefe',
     */
+}
+
+
+const g_debug_list = [];
+async function create_debug()
+{
+    
 }
 
 async function download_data_quality_report_button_click()
