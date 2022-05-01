@@ -26,8 +26,8 @@ function data_quality_report_render(p_quarters)
                         <div>
                             <input type="radio" id="summary-detail-report" name="report-type" value="Debug" onclick="updateReportType(event)">
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Debug</label>
-                            <input type="text" id="debug-report" name="report-type" value=""/><br/>
-                            <textarea id="debug-text-area" rows=7 cols=40></textarea>
+                            <input type="text" id="debug-report-question" name="report-type" value=""/><br/>
+                            <textarea id="debug-report-external-list" rows=7 cols=40></textarea>
                         </div>
                     </div>
              </div>
@@ -253,15 +253,26 @@ function set_detail_data_case
     */
 }
 
+var g_debug_report_question = null;
+var g_debug_report_external_list = null;
+var g_internal_set = null;
+var g_external_set = null;
 
 const g_debug_list = [];
 async function create_debug()
 {
-    
+    //debug-report-question
+    //debug-report-external-list
 }
 
 async function download_data_quality_report_button_click()
 {
+    g_debug_report_question = document.getElementById("debug-report-question").value;
+    g_debug_report_external_list = document.getElementById("debug-report-external-list").value;
+    g_internal_set = new Set();
+    g_external_set = new Set();
+    
+
     let selected_quarter = document.getElementById('quarters-list').value;
     let arr = selected_quarter.split("-");
     let quarter_number = parseFloat(`${arr[1].trim('"')}.${((parseInt(arr[0].replace("Q","")) - 1) * .25).toString().replace("0.","")}`);
@@ -333,9 +344,41 @@ async function download_data_quality_report_button_click()
         }
 
         set_case_header(item);
+        const new_id = item._id.replace("dqr-", "")
         
         if ( item.add_quarter_number <= quarter_number ) 
         {
+            if(g_model.reportType == "Debug")
+            {
+                
+                switch(g_debug_report_question)
+                {
+                    case "1":
+                        if(item.n01 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "2":
+                        if(item.n02 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "3":
+                        if(item.n03 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "4":
+                        if(item.n04 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "5":
+                        if(item.n05 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "6":
+                        if(item.n05 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "7":
+                        if(item.n07 == 1) g_internal_set.add(new_id);
+                    break;                                                                                                                                               
+                    default:
+                        break;
+                }
+                
+            }
 
             summary_data.n01 += item.n01;
 			summary_data.n02 += item.n02;
@@ -467,6 +510,72 @@ async function download_data_quality_report_button_click()
     //console.log('dqr_detail_data: ', dqr_detail_data);
     //console.log('summary_data: ', summary_data);
 
+
+    if(g_model.reportType == "Debug")
+    {
+        /*
+        g_internal_set
+        var g_debug_report_question = null;
+        var g_debug_report_external_list = null;
+        var g_internal_set = null;
+        g_external_set
+        */
+
+        const internal_only = new Set();
+        const external_only = new Set();
+
+        for(let item of g_debug_report_external_list.split("\n"))
+        {
+            g_external_set.add(item);
+        }
+
+
+        for(let item of g_internal_set)
+        {
+            if( !g_external_set.has(item))
+            {
+                internal_only.add(item);
+            }
+        }
+
+        for(let item of g_external_set)
+        {
+            if( !g_internal_set.has(item))
+            {
+                external_only.add(item);
+            }
+        }
+
+        const dd = {
+            content: [
+                `Selected DQR Question: ${g_debug_report_question}`,
+            ]
+            
+        }
+
+        const internal_ul = { ul: [] };
+        dd.content.push( { text: "\n\n"});
+        dd.content.push("INTERNAL ONLY ******");
+        for(let item of internal_only)
+        {
+            internal_ul.ul.push(item);
+        }
+
+        dd.content.push(internal_ul);
+       
+        dd.content.push( { text: "\n\n"});
+        dd.content.push("EXTERNAL ONLY ******");
+
+        const external_ul = { ul: [] };
+        for(let item of external_only)
+        {
+            external_ul.ul.push(item);
+        }
+        dd.content.push(external_ul);
+
+        await pdfMake.createPdf(dd).open();
+        
+    }
 
     if 
     ( 
