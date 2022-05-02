@@ -558,7 +558,8 @@ async function download_data_quality_report_button_click()
         dd.content.push("INTERNAL ONLY ******");
         for(let item of internal_only)
         {
-            internal_ul.ul.push(item);
+            const detail = case_header_map.get("dqr-" + item);
+            internal_ul.ul.push(`${item} ${detail.rec_id} ${detail.dt_death} ${detail.dt_com_rev}`);
         }
 
         dd.content.push(internal_ul);
@@ -569,7 +570,8 @@ async function download_data_quality_report_button_click()
         const external_ul = { ul: [] };
         for(let item of external_only)
         {
-            external_ul.ul.push(item);
+            const detail = case_header_map.get("dqr-" + item)
+            external_ul.ul.push(`${item} ${detail.rec_id} ${detail.dt_death} ${detail.dt_com_rev}`);
         }
         dd.content.push(external_ul);
 
