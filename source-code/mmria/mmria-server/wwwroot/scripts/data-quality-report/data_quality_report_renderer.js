@@ -570,8 +570,7 @@ async function download_data_quality_report_button_click()
         const external_ul = { ul: [] };
         for(let item of external_only)
         {
-            const detail = case_header_map.get("dqr-" + item)
-            external_ul.ul.push(`${item} ${detail.rec_id} ${detail.dt_death} ${detail.dt_com_rev}`);
+            external_ul.ul.push(`${item}`);
         }
         dd.content.push(external_ul);
 
