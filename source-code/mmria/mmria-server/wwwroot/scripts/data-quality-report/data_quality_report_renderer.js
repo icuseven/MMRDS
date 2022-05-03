@@ -363,13 +363,19 @@ async function download_data_quality_report_button_click()
                         if(item.n03 == 1) g_internal_set.add(new_id);
                     break;
                     case "4":
-                        if(item.n04 == 1) g_internal_set.add(new_id);
+                        if(item.cmp_quarter_number <= quarter_number)
+                        {
+                            if(item.n04 == 1) g_internal_set.add(new_id);
+                        }
                     break;
                     case "5":
                         if(item.n05 == 1) g_internal_set.add(new_id);
                     break;
                     case "6":
-                        if(item.n05 == 1) g_internal_set.add(new_id);
+                        if(item.cmp_quarter_number == quarter_number)
+                        {
+                            if(item.n06 == 1) g_internal_set.add(new_id);
+                        }
                     break;
                     case "7":
                         if(item.n07 == 1) g_internal_set.add(new_id);
@@ -393,55 +399,65 @@ async function download_data_quality_report_button_click()
 			summary_data.n03[6] += item.n03[6];
 			summary_data.n03[7] += item.n03[7];
 
-			summary_data.n04 += item.n04;
+            if(item.cmp_quarter_number <= quarter_number)
+            {
+			    summary_data.n04 += item.n04;
+            }
 			summary_data.n05 += item.n05;
 			
         }
 
-        if 
-        ( 
-            item.add_quarter_number == quarter_number
-        ) 
+        if(item.cmp_quarter_number == quarter_number)
         {
             summary_data.n06 += item.n06;
             summary_data.n07 += item.n07;
+        }
+        
+        if
+        (
+            item.cmp_quarter_number < quarter_number &&
+            item.cmp_quarter_number >= quarter_number - 1
+        )
+        {
+            summary_data.n08 += item.n08;
+            summary_data.n09 += item.n09;
+        }
+
+        for(let i = 10; i < 50; i++)
+        {
+            let fld = `n${i}`;
 
 
-            for(let i = 10; i < 50; i++)
+
+            if
+            (
+                item[fld].m == 1
+            )
             {
-                let fld = `n${i}`;
+                set_map_detail_data(i, "Current Quarter, Missing", item._id);
+            }
 
+            if
+            (
+                item[fld].u == 1
+            )
+            {
+                set_map_detail_data(i, "Current Quarter, Unknown", item._id);
+            }
 
-
-                if
-                (
-                    item[fld].m == 1
-                )
-                {
-                    set_map_detail_data(i, "Current Quarter, Missing", item._id);
-                }
-
-                if
-                (
-                    item[fld].u == 1
-                )
-                {
-                    set_map_detail_data(i, "Current Quarter, Unknown", item._id);
-                }
-
-                // 10-44
-                if(i < 45)
-                {
-                    summary_data[fld].s.mn += item[fld].m;
-                    summary_data[fld].s.un += item[fld].u;
-                }
-                else
-                {
-                    summary_data[fld].s.tn += item[fld].t;
-                    summary_data[fld].s.pn += item[fld].p;
-                }
+            // 10-44
+            if(i < 45)
+            {
+                summary_data[fld].s.mn += item[fld].m;
+                summary_data[fld].s.un += item[fld].u;
+            }
+            else
+            {
+                summary_data[fld].s.tn += item[fld].t;
+                summary_data[fld].s.pn += item[fld].p;
             }
         }
+        
 
         if 
         ( 
@@ -449,8 +465,6 @@ async function download_data_quality_report_button_click()
             item.add_quarter_number >= quarter_number - 1
         ) 
         {
-            summary_data.n08 += item.n08;
-            summary_data.n09 += item.n09;
 
             for(let i = 10; i < 50; i++)
             {
