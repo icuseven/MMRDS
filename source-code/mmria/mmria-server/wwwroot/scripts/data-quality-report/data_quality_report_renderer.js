@@ -461,8 +461,8 @@ async function download_data_quality_report_button_click()
 
         if 
         ( 
-            item.add_quarter_number < quarter_number &&
-            item.add_quarter_number >= quarter_number - 1
+            item.cmp_quarter_number <= quarter_number &&
+            item.cmp_quarter_number >= quarter_number - 1
         ) 
         {
 
