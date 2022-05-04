@@ -405,108 +405,108 @@ async function download_data_quality_report_button_click()
             }
 			summary_data.n05 += item.n05;
 			
-        }
-
-        if(item.cmp_quarter_number == quarter_number)
-        {
-            summary_data.n06 += item.n06;
-            summary_data.n07 += item.n07;
-        }
-        
-        if
-        (
-            item.cmp_quarter_number < quarter_number &&
-            item.cmp_quarter_number >= quarter_number - 1
-        )
-        {
-            summary_data.n08 += item.n08;
-            summary_data.n09 += item.n09;
-        }
-
-
-        if 
-        ( 
-            item.cmp_quarter_number == quarter_number 
-        ) 
-        {
-
-            for(let i = 10; i < 50; i++)
-            {
-                let fld = `n${i}`;
-
-
-
-                if
-                (
-                    item[fld].m == 1
-                )
-                {
-                    set_map_detail_data(i, "Current Quarter, Missing", item._id);
-                }
-
-                if
-                (
-                    item[fld].u == 1
-                )
-                {
-                    set_map_detail_data(i, "Current Quarter, Unknown", item._id);
-                }
-
-                // 10-44
-                if(i < 45)
-                {
-                    summary_data[fld].s.mn += item[fld].m;
-                    summary_data[fld].s.un += item[fld].u;
-                }
-                else
-                {
-                    summary_data[fld].s.tn += item[fld].t;
-                    summary_data[fld].s.pn += item[fld].p;
-                }
-            }
-        }
         
 
-        if 
-        ( 
-            item.cmp_quarter_number < quarter_number &&
-            item.cmp_quarter_number >= quarter_number - 1
-        ) 
-        {
-
-            for(let i = 10; i < 50; i++)
+            if(item.cmp_quarter_number == quarter_number)
             {
-                let fld = `n${i}`;
+                summary_data.n06 += item.n06;
+                summary_data.n07 += item.n07;
+            }
+            
+            if
+            (
+                item.cmp_quarter_number < quarter_number &&
+                item.cmp_quarter_number >= quarter_number - 1
+            )
+            {
+                summary_data.previous4QuarterReview += item.n06;
 
-                if
-                (
-                    item[fld].m == 1
-                )
-                {
-                    set_map_detail_data(i, "Previous 4 Quarters, Missing", item._id);
-                }
-
-                if
-                (
-                    item[fld].u == 1
-                )
-                {
-                    set_map_detail_data(i, "Previous 4 Quarters, Unknown", item._id);
-                }
-
-                // 10-44
-                if(i < 45)
-                {
-                    summary_data[fld].p.mn += item[fld].m;
-                    summary_data[fld].p.un += item[fld].u;
-                }
-                else
-                {
-                    summary_data[fld].p.tn += item[fld].t;
-                    summary_data[fld].p.pn += item[fld].p;
-                }
+                summary_data.n08 += item.n08;
+                summary_data.n09 += item.n09;
             }
 
+
+            if 
+            ( 
+                item.cmp_quarter_number == quarter_number 
+            ) 
+            {
+
+                for(let i = 10; i < 50; i++)
+                {
+                    let fld = `n${i}`;
+                    if
+                    (
+                        item[fld].m == 1
+                    )
+                    {
+                        set_map_detail_data(i, "Current Quarter, Missing", item._id);
+                    }
+
+                    if
+                    (
+                        item[fld].u == 1
+                    )
+                    {
+                        set_map_detail_data(i, "Current Quarter, Unknown", item._id);
+                    }
+
+                    // 10-44
+                    if(i < 45)
+                    {
+                        summary_data[fld].s.mn += item[fld].m;
+                        summary_data[fld].s.un += item[fld].u;
+                    }
+                    else
+                    {
+                        summary_data[fld].s.tn += item[fld].t;
+                        summary_data[fld].s.pn += item[fld].p;
+                    }
+                }
+            }
+            
+
+            if 
+            ( 
+                item.cmp_quarter_number < quarter_number &&
+                item.cmp_quarter_number >= quarter_number - 1
+            ) 
+            {
+
+                for(let i = 10; i < 50; i++)
+                {
+                    let fld = `n${i}`;
+
+                    if
+                    (
+                        item[fld].m == 1
+                    )
+                    {
+                        set_map_detail_data(i, "Previous 4 Quarters, Missing", item._id);
+                    }
+
+                    if
+                    (
+                        item[fld].u == 1
+                    )
+                    {
+                        set_map_detail_data(i, "Previous 4 Quarters, Unknown", item._id);
+                    }
+
+                    // 10-44
+                    if(i < 45)
+                    {
+                        summary_data[fld].p.mn += item[fld].m;
+                        summary_data[fld].p.un += item[fld].u;
+                    }
+                    else
+                    {
+                        summary_data[fld].p.tn += item[fld].t;
+                        summary_data[fld].p.pn += item[fld].p;
+                    }
+                }
+
+            }
         }
     }
 

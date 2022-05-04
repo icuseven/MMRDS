@@ -170,6 +170,7 @@ function has_multiple_case_folder()
 function get_new_summary_data()
 {
     return {
+        previous4QuarterReview: 0,
         n01:  0,
         n02 : 0,
         n03 : [ 0, 0, 0, 0, 0, 0, 0, 0 ],

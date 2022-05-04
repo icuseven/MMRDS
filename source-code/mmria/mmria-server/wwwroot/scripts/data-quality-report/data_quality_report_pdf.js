@@ -1081,7 +1081,7 @@ function format_summary_pages(ctx) {
 			border: [true, false, true, false],
 		},
 		{
-			text: `Previous 4 Qtrs, N = ${ctx.data.n04 - ctx.data.n06}`,
+			text: `Previous 4 Qtrs, N = ${ctx.data.previous4QuarterReview - ctx.data.n06}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
@@ -1240,7 +1240,7 @@ function format_summary_pages(ctx) {
 			border: [true, false, true, false],
 		},
 		{
-			text: `Previous 4 Qtrs, N =  ${ctx.data.n04 - ctx.data.n06}`,
+			text: `Previous 4 Qtrs, N =  ${ctx.data.previous4QuarterReview - ctx.data.n06}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
@@ -1377,7 +1377,7 @@ function format_summary_pages(ctx) {
 			border: [true, false, true, false],
 		},
 		{
-			text: `Previous 4 Qtrs, N = ${ctx.data.n04 - ctx.data.n06}`,
+			text: `Previous 4 Qtrs, N = ${ctx.data.previous4QuarterReview - ctx.data.n06}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
@@ -1534,7 +1534,7 @@ function format_summary_pages(ctx) {
 			border: [true, false, true, false],
 		},
 		{
-			text: `Previous 4 Qtrs, N = ${ctx.data.n04 - ctx.data.n06}`,
+			text: `Previous 4 Qtrs, N = ${ctx.data.previous4QuarterReview - ctx.data.n06}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
