@@ -24,37 +24,27 @@ const header_style = { background:'#CCCCCC', bold:true };
 
 function get_report_page_table()
 {
-    return {
-        layout: 'lightLines', // optional
+    const result =  {
+        layout: 'lightLines',
         margin: [ 180, 5, 180, 5],
         table: {
-          // headers are automatically repeated if the table spans over multiple pages
-          // you can declare how many rows should be treated as headers
           headerRows: 1,
-          
           widths: [ '*', 'auto'],
-  
           body: [
             [ 'Report Page', 'Page Number' ],
-            [ 'Pregnancy-Relatedness', { text:'2', alignment: 'right' } ],
-            [ 'Timing of Death', { text:'3', alignment: 'right' } ],
-            [ 'Race / Ethnicity', { text:'4', alignment: 'right' } ],
-            [ 'Age', { text:'5', alignment: 'right' } ],
-            [ 'Education', { text:'6', alignment: 'right' } ],
-            [ 'Substance Use', { text:'7', alignment: 'right' } ],
-            [ 'Toxicology', { text:'9', alignment: 'right' } ],
-            [ 'Committee Determinations', { text:'10', alignment: 'right' } ],
-            [ 'Treatment History', { text:'11', alignment: 'right' } ],
-            [ 'Emotional Stress', { text:'12', alignment: 'right' } ],
-            [ 'Living Arrangements', { text:'13', alignment: 'right' } ],
-            [ 'Incarceration History', { text:'15', alignment: 'right' } ]
-            
           ]
         }
       };
+
+      for(const [key, metadata] of indicator_map)
+      {
+        result.table.body.push([ metadata.title, { text: '0', aligment: 'right'}]);
+      }
+
+      return result;
 }
 
-function render(msg)
+async function render(msg)
 {
     var doc = {
         pageOrientation: 'landscape',
@@ -64,15 +54,51 @@ function render(msg)
             alignment: 'center'
         },
         content: [
-            { text: 'Overview'.padEnd(240, ' '), style: header_style },
+            { text: 'Overview'.padEnd(240 -'Overview'.length, ' '), style: header_style },
             '\n\n',
             'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n',
-            { text: 'Report Pages'.padEnd(240, ' '), style: header_style },
-            get_report_page_table()
-            
-
+            { text: 'Report Pages'.padEnd(240 - 'Report Pages'.length, ' '), style: header_style },
+            get_report_page_table(),
         ]
         
+    }
+
+    function CreateIndicatorTable(p_metadata, p_data)
+    {
+        const result =  {
+            layout: 'lightLines',
+            margin: [ 180, 5, 180, 5],
+            table: {
+              headerRows: 1,
+              widths: [ 'auto', 'auto'],
+              body: [
+                [ `${p_metadata.table_title}`, 'Number of deaths' ],                
+              ]
+            }
+          };
+
+          for(const item of p_metadata.field_id_list)
+          {
+            result.table.body.push([ item.title.trim(), { text: '0', alignment: 'right'}]);
+          }
+
+          return result;
+    }
+
+    for(const [key, metadata] of indicator_map)
+    {
+        doc.content.push({ text: '', pageBreak: 'after'});
+        doc.content.push({ text: metadata.title.padEnd(240 - metadata.title.length, ' '), style: header_style });
+        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: metadata.description });
+        doc.content.push({ text: '\n\n' });
+        const result = await get_indicator_values(metadata.indicator_id);
+
+        doc.content.push(CreateIndicatorTable(metadata, g_data))
+        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: `Number of deaths with missing (blank) values: 0`, alignment: 'center'})
+
+
     }
 
     window.setTimeout

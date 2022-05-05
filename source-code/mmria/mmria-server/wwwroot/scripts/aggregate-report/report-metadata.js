@@ -540,12 +540,12 @@ indicator_map.set
 
 async function get_indicator_values(p_indicator_id)
 {
-    const get_data_response = await $.ajax
-    ({
+    const get_data_response = await fetch
+    (
         
         //url: `${location.protocol}//${location.host}/api/powerbi-measures/${p_indicator_id}`,
-        url: `${location.protocol}//${location.host}/api/measure-indicator/${p_indicator_id}`,
-    });
+        `${location.protocol}//${location.host}/api/measure-indicator/${p_indicator_id}`,
+    );
 
     g_data = { total: 0, data: []};
 
