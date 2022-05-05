@@ -109,6 +109,7 @@ async function render()
         const totals = new Map();
 
         const categories = [];
+        const category_data = [];
         for(var i = 0; i < metadata.field_id_list.length; i++)
         {
             const item = metadata.field_id_list[i];
@@ -133,9 +134,43 @@ async function render()
     
         totals.forEach((value, key) =>
         {
+            if(key != metadata.blank_field_id)
+            {
+                category_data.push(value);
+            }
             data.push(value);
         });
 
+        const colorOne = '#FFFFFF';
+        const colorTwo = '#FFFF00';
+       const optData = {
+            labels: categories,
+            datasets: [
+                {
+                    label: metadata.x_axis_title,
+                    fill: false,
+                    backgroundColor: colorOne,
+                    borderColor: colorOne,
+                    data: category_data,
+                },
+                {
+                    label: metadata.y_axis_title,
+                    fill: false,
+                    backgroundColor: colorTwo,
+                    borderColor: colorTwo,
+                    data: categories,
+                },
+            ]
+        };
+
+
+       const retImg = doChart2(metadata.indicator_id, optData, metadata.chart_title);
+
+        doc.content.push
+        ([
+            { image: retImg, width: 550, alignment: 'center', }
+        ]);
+        doc.content.push({ text: '\n\n' });
         doc.content.push(CreateIndicatorTable(metadata, totals))
         doc.content.push({ text: '\n\n' });
         doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
@@ -150,4 +185,74 @@ async function render()
 			 async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
+}
+
+function doChart2(p_id_prefix, chartData, chartTitle) 
+{
+	let wrapper_id = `${p_id_prefix}chartWrapper`;
+	let container = document.getElementById(wrapper_id);
+
+	if (container != null) 
+    {
+		container.remove();
+	}
+
+	container = document.createElement('div')
+	container.id = wrapper_id;
+	document.body.appendChild(container);
+
+	let canvas_id = `myChart${p_id_prefix}`;
+	let canvas = document.createElement('canvas');
+	canvas.id = canvas_id;
+
+	canvas.setAttribute('width', '800');
+	container.appendChild(canvas);
+
+	const config = {
+		type: 'bar',
+		data: chartData,
+		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: chartTitle,
+					color: '#1010dd',
+					font: {
+						weight: 'bold',
+						size: 36
+					}
+				}
+			},
+			maintainAspectRatio: false,
+			responsive: true,
+			animation: null,
+			animate: false,
+			scales: {
+				y: {
+					beginAtZero: true,
+					ticks: {
+						font: {
+							size: 20,
+						}
+					}
+				},
+				x: {
+					ticks: {
+						font: {
+							size: 26,
+						}
+					}
+				}
+			},
+		},
+	};
+
+
+	let myImgChart = new Chart(canvas.getContext('2d'), config);
+
+	myImgChart.draw();
+	myImgChart.render();
+
+	return myImgChart.toBase64Image();
+
 }
