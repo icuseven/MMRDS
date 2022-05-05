@@ -181,6 +181,19 @@ function render_header()
         pregnancy_relatedness_html = html.join("");
     }
 
+    let current_page_html = `<p>
+    <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
+    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
+    <span style="float:right">
+        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
+    </span>
+</p>`;
+
+if(g_report_index < 1)
+{
+    current_page_html = '';
+}
+
     return `
     <div id="filter-pdf-control" style="height:170px;">
         <div style="display: inline-block;float:left;width:71%;margin-bottom:20px;">
@@ -195,7 +208,7 @@ function render_header()
         </div>
         <div style="display: inline-block;float:right;width:25%">
             <div id="pdf-control" 
-                style="width:300px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
+                style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
                     <strong>Select Report Type:</strong>  
                     <span style="float:right;">
@@ -206,13 +219,7 @@ function render_header()
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
                     <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
                 </p>
-                <p>
-                    <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-                    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
-                    <span style="float:right">
-                        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
-                    </span>
-                </p>
+                ${current_page_html}
             </div>
         </div>
     </div>
@@ -242,7 +249,8 @@ function view_pdf_click()
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "view"
+        view_or_print: "view",
+        g_filter: g_filter
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
@@ -256,7 +264,8 @@ function print_pdf_click()
     const message_data = {
         reportType: g_reportType,
         report_index: g_report_index,
-        view_or_print: "print"
+        view_or_print: "print",
+        g_filter: g_filter
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);

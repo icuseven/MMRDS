@@ -180,8 +180,22 @@ function render_header(p_current_index)
         pregnancy_relatedness_html = html.join("");
     }
 
-    var ret = 
-    `
+    let current_page_html = `<p>
+    <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
+    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>                   
+    <span style="float:right">
+        <button class="btn btn-primary" onclick="print_pdf_click(${p_current_index})">Print PDF</button>
+    </span>                   
+</p>`
+
+if(p_current_index < 1)
+{
+    current_page_html = '';
+}
+
+
+
+   return `
     <div id="filter-pdf-control" style="height:170px;">
         <div style="display: inline-block;float:left;width:71%;margin-bottom:20px;">
             <div 
@@ -191,15 +205,11 @@ function render_header(p_current_index)
                 <p><strong>Pregnancy-Relatedness:</strong> ${pregnancy_relatedness_html}  <span style="float:right"><button class="btn btn-primary" onclick="show_filter_dialog()">Filter</button></span></p>
                 <p><strong>Review Dates:</strong> ${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}</p>
                 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
-                <!--<p><strong>DEV ID: ${g_webport}</strong><p>-->
             </div>
         </div>
-        <div style="display: inline-block;float:right;width:25%">`;
-        if (p_current_index > 0) //if(g_webport == 12345 && p_current_index > 0) 
-        {
-        ret = ret +  
-            `<div id="pdf-control" 
-                style="width:300px;height:170px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
+        <div style="display: inline-block;float:right;width:25%">
+            <div id="pdf-control" 
+                style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
                     <strong>Select Report Type:</strong>
                     <span style="float:right;">
@@ -210,24 +220,15 @@ function render_header(p_current_index)
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
                     <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
                 </p>
-                <p>
-                    <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-                    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>                   
-                    <span style="float:right">
-                        <button class="btn btn-primary" onclick="print_pdf_click(${p_current_index})">Print PDF</button>
-                    </span>                   
-                </p>
-
-            </div>`
-         };
-        ret = ret + `</div>
+                ${current_page_html}
+            </div>
+        </div>
     </div>
     
 <dialog  id="filter-dialog" style="top:65%;width:65%" class="p-0 set-radius">
 </dialog>
 
     `;
-    return ret;
 }
 
 const bc = new BroadcastChannel('aggregate_pdf_channel');
@@ -260,8 +261,7 @@ function view_pdf_click(p_current_index)
         reportType: g_reportType,
         report_index: g_report_index,
         view_or_print: "view",
-        report_index: p_current_index
-        // document: doc     
+        g_filter: g_filter
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
@@ -276,7 +276,7 @@ function print_pdf_click(p_current_index)
         reportType: g_reportType,
         report_index: g_report_index,
         view_or_print: "print",
-        report_index: p_current_index
+        g_filter: g_filter
     }
 
     window.setTimeout(()=> bc.postMessage(message_data), 2000);
