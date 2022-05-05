@@ -1,9 +1,15 @@
+var g_data =  null;
+var g_filter = null;
+
 const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (message_data) => {
 
     console.log(`reportType: ${message_data.data.reportType}`);
     console.log(`report_index: ${message_data.data.report_index}`);
     console.log(`view_or_print: ${message_data.data.view_or_print}`);
+
+
+    g_filter = message_data.data.g_filter;
 //    console.log(`document: ${message_data.data.document}`);
 
     //render_pdf(message_data.data.report_index);
@@ -63,7 +69,7 @@ async function render(msg)
         
     }
 
-    function CreateIndicatorTable(p_metadata, p_data)
+    function CreateIndicatorTable(p_metadata, p_totals)
     {
         const result =  {
             layout: 'lightLines',
@@ -79,7 +85,10 @@ async function render(msg)
 
           for(const item of p_metadata.field_id_list)
           {
-            result.table.body.push([ item.title.trim(), { text: '0', alignment: 'right'}]);
+              if(item.name != p_metadata.blank_field_id)
+              {
+                result.table.body.push([ item.title.trim(), { text: p_totals.get(item.name), alignment: 'right'}]);
+              }
           }
 
           return result;
@@ -94,9 +103,40 @@ async function render(msg)
         doc.content.push({ text: '\n\n' });
         const result = await get_indicator_values(metadata.indicator_id);
 
-        doc.content.push(CreateIndicatorTable(metadata, g_data))
+        const totals = new Map();
+
+        const categories = [];
+        for(var i = 0; i < metadata.field_id_list.length; i++)
+        {
+            const item = metadata.field_id_list[i];
+            if(item.name != metadata.blank_field_id)
+            {
+                categories.push(`"${item.title}"`);
+            }
+            totals.set(item.name, 0);
+        }
+    
+        for(var i = 0; i < g_data.data.length; i++)
+        {
+            const item = g_data.data[i];
+            if(totals.has(item.field_id))
+            {
+                let val = totals.get(item.field_id);
+                totals.set(item.field_id, val + 1);
+            }
+        }
+    
+        const data = [];
+    
+        totals.forEach((value, key) =>
+        {
+            data.push(value);
+        });
+     
+
+        doc.content.push(CreateIndicatorTable(metadata, totals))
         doc.content.push({ text: '\n\n' });
-        doc.content.push({ text: `Number of deaths with missing (blank) values: 0`, alignment: 'center'})
+        doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
 
 
     }
