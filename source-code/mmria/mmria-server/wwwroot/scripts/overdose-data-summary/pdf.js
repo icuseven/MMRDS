@@ -141,7 +141,7 @@ async function render()
             data.push(value);
         });
 
-        const colorOne = '#FFFFFF';
+        const colorOne = '#CCCCCC';
         const colorTwo = '#FFFF00';
        const optData = {
             labels: categories,
@@ -152,19 +152,12 @@ async function render()
                     backgroundColor: colorOne,
                     borderColor: colorOne,
                     data: category_data,
-                },
-                {
-                    label: metadata.y_axis_title,
-                    fill: false,
-                    backgroundColor: colorTwo,
-                    borderColor: colorTwo,
-                    data: categories,
-                },
+                }
             ]
         };
 
 
-       const retImg = doChart2(metadata.indicator_id, optData, metadata.chart_title);
+       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title);
 
         doc.content.push
         ([
@@ -187,7 +180,7 @@ async function render()
 		);
 }
 
-function doChart2(p_id_prefix, chartData, chartTitle) 
+function create_chart(p_id_prefix, chartData, chartTitle) 
 {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
@@ -209,7 +202,7 @@ function doChart2(p_id_prefix, chartData, chartTitle)
 	container.appendChild(canvas);
 
 	const config = {
-		type: 'bar',
+		type: 'line',
 		data: chartData,
 		options: {
 			plugins: {

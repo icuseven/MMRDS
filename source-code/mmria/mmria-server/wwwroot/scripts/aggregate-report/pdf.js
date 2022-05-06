@@ -4,10 +4,11 @@ var g_filter = null;
 const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (message_data) => {
 
+    /*
     console.log(`reportType: ${message_data.data.reportType}`);
     console.log(`report_index: ${message_data.data.report_index}`);
     console.log(`view_or_print: ${message_data.data.view_or_print}`);
-
+    */
 
     g_filter = message_data.data.g_filter;
 //    console.log(`document: ${message_data.data.document}`);
@@ -131,33 +132,31 @@ async function render(msg)
     
         totals.forEach((value, key) =>
         {
+            if(key != metadata.blank_field_id)
+            {
+                category_data.push(value);
+            }
             data.push(value);
         });
      
-        const colorOne = '#FFFFFF';
+        const colorOne = '#CCCCCC';
         const colorTwo = '#FFFF00';
        const optData = {
             labels: categories,
             datasets: [
                 {
                     label: metadata.x_axis_title,
-                    fill: false,
+                    data: category_data,
                     backgroundColor: colorOne,
                     borderColor: colorOne,
-                    data: category_data,
-                },
-                {
-                    label: metadata.y_axis_title,
-                    fill: false,
-                    backgroundColor: colorTwo,
-                    borderColor: colorTwo,
-                    data: categories,
-                },
+                    boraderWidth: 1
+                    
+                }
             ]
         };
 
 
-       const retImg = doChart2(metadata.indicator_id, optData, metadata.chart_title);
+       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title);
 
         doc.content.push
         ([
@@ -179,7 +178,7 @@ async function render(msg)
 		);
 }
 
-function doChart2(p_id_prefix, chartData, chartTitle) 
+function create_chart(p_id_prefix, chartData, chartTitle) 
 {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
@@ -201,7 +200,7 @@ function doChart2(p_id_prefix, chartData, chartTitle)
 	container.appendChild(canvas);
 
 	const config = {
-		type: 'bar',
+		type: 'line',
 		data: chartData,
 		options: {
 			plugins: {
