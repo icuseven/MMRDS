@@ -139,7 +139,7 @@ async function render(msg)
             data.push(value);
         });
      
-        const colorOne = '#CCCCCC';
+        const colorOne = '#b890bb';
         const colorTwo = '#FFFF00';
        const optData = {
             labels: categories,
@@ -148,8 +148,8 @@ async function render(msg)
                     label: metadata.x_axis_title,
                     data: category_data,
                     backgroundColor: colorOne,
-                    borderColor: colorOne,
-                    boraderWidth: 1
+                    //borderColor: colorTwo,
+                    //borderWidth: 1
                     
                 }
             ]
@@ -160,7 +160,7 @@ async function render(msg)
 
         doc.content.push
         ([
-            { image: retImg, width: 550, alignment: 'center', }
+            { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 180, 5], }
         ]);
         doc.content.push({ text: '\n\n' });
         doc.content.push(CreateIndicatorTable(metadata, totals))
@@ -200,9 +200,11 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 	container.appendChild(canvas);
 
 	const config = {
-		type: 'line',
+        
+		type: 'bar',
 		data: chartData,
 		options: {
+            indexAxis: 'y',
 			plugins: {
 				title: {
 					display: true,
