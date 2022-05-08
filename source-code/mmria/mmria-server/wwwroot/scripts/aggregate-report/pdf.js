@@ -33,7 +33,7 @@ function get_report_page_table()
 {
     const result =  {
         layout: 'lightLines',
-        margin: [ 180, 5, 180, 5],
+        margin: [ 5, 5, 5, 5],
         table: {
           headerRows: 1,
           widths: [ '*', 'auto'],
@@ -136,6 +136,8 @@ async function render(msg)
 {
     var doc = {
         pageOrientation: 'landscape',
+        pageSize: 'A5',
+        width: 595.28,
         footer: { 
             text: 'This data has been taken directly from the MMRIA database and is not a final report.',
             style: {italics:true },
@@ -155,7 +157,7 @@ async function render(msg)
     {
         const result =  {
             layout: 'lightLines',
-            margin: [ 180, 5, 180, 5],
+            margin: [ 5, 5, 5, 5],
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -191,7 +193,7 @@ async function render(msg)
 
         doc.content.push
         ([
-            { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 180, 5], }
+            { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
         ]);
         doc.content.push({ text: '\n\n' });
         doc.content.push(CreateIndicatorTable(metadata, totals))
@@ -274,9 +276,6 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 
 	myImgChart.draw();
 	myImgChart.render();
-
-	//return myImgChart.toBase64Image();
-
 }
 
 
