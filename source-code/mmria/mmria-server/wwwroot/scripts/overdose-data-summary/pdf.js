@@ -12,7 +12,7 @@ bc.onmessage = (message_data) => {
 
     g_filter = message_data.data.g_filter;
 
-    render(message_data.data);
+    pre_render(message_data.data);
     
   /*
   message_data = {
@@ -46,6 +46,87 @@ function get_report_page_table()
 
     return result;
 }
+
+
+
+let indicator_id_to_data = new Map();
+
+async function pre_render(msg)
+{
+    indicator_id_to_data = new Map();
+
+    for(const [key, metadata] of indicator_map)
+    {
+        await get_indicator_values(metadata.indicator_id);
+        const totals = new Map();
+
+        const categories = [];
+        const category_data = [];
+        for(var i = 0; i < metadata.field_id_list.length; i++)
+        {
+            const item = metadata.field_id_list[i];
+            if(item.name != metadata.blank_field_id)
+            {
+                categories.push(`"${item.title}"`);
+            }
+            totals.set(item.name, 0);
+        }
+    
+        for(var i = 0; i < g_data.data.length; i++)
+        {
+            const item = g_data.data[i];
+            if(totals.has(item.field_id))
+            {
+                let val = totals.get(item.field_id);
+                totals.set(item.field_id, val + 1);
+            }
+        }
+    
+        const data = [];
+    
+        totals.forEach((value, key) =>
+        {
+            if(key != metadata.blank_field_id)
+            {
+                category_data.push(value);
+            }
+            data.push(value);
+        });
+
+        const colorOne = '#b890bb';
+        const colorTwo = '#FFFF00';
+       const optData = {
+            labels: categories,
+            datasets: [
+                {
+                    label: metadata.x_axis_title,
+                    data: category_data,
+                    backgroundColor: colorOne,
+                    //borderColor: colorTwo,
+                    //borderWidth: 1
+                    
+                }
+            ]
+        };
+
+
+        indicator_id_to_data.set
+        (
+            key,
+            {
+                metadata: metadata,
+                totals: totals
+            }
+
+        );
+
+       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title);
+    }
+
+
+    window.setTimeout(render, 1000);
+}
+
 
 async function render()
 {
@@ -104,61 +185,12 @@ async function render()
         doc.content.push({ text: '\n\n' });
         doc.content.push({ text: metadata.description });
         doc.content.push({ text: '\n\n' });
-        const result = await get_indicator_values(metadata.indicator_id);
 
-        const totals = new Map();
-
-        const categories = [];
-        const category_data = [];
-        for(var i = 0; i < metadata.field_id_list.length; i++)
-        {
-            const item = metadata.field_id_list[i];
-            if(item.name != metadata.blank_field_id)
-            {
-                categories.push(`"${item.title}"`);
-            }
-            totals.set(item.name, 0);
-        }
-    
-        for(var i = 0; i <g_data.data.length; i++)
-        {
-            const item = g_data.data[i];
-            if(totals.has(item.field_id))
-            {
-                let val = totals.get(item.field_id);
-                totals.set(item.field_id, val + 1);
-            }
-        }
-    
-        const data = [];
-    
-        totals.forEach((value, key) =>
-        {
-            if(key != metadata.blank_field_id)
-            {
-                category_data.push(value);
-            }
-            data.push(value);
-        });
-
-        const colorOne = '#b890bb';
-        const colorTwo = '#FFFF00';
-       const optData = {
-            labels: categories,
-            datasets: [
-                {
-                    label: metadata.x_axis_title,
-                    fill: false,
-                    backgroundColor: colorOne,
-                    //borderColor: colorTwo,
-                    data: category_data,
-                }
-            ]
-        };
+        const totals = indicator_id_to_data.get(key).totals;
 
 
-       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title);
-
+        const retImg = get_chart_image(metadata.indicator_id);
+        
         doc.content.push
         ([
             { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 180, 5]}
@@ -249,6 +281,14 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 	myImgChart.draw();
 	myImgChart.render();
 
-	return myImgChart.toBase64Image();
+	//return myImgChart.toBase64Image();
 
+}
+
+function get_chart_image(p_indicator_id) 
+{
+    let canvas_id = `myChart${p_indicator_id}`;
+	const result = document.getElementById(canvas_id);
+
+	return result.toDataURL();
 }
