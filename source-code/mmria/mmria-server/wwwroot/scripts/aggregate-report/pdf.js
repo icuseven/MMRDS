@@ -75,7 +75,7 @@ async function pre_render(msg)
             const item = metadata.field_id_list[i];
             if(item.name != metadata.blank_field_id)
             {
-                categories.push(`"${item.title}"`);
+                categories.push(`${item.title}`);
             }
             totals.set(item.name, 0);
         }
@@ -193,12 +193,12 @@ async function render(msg)
         const result =  {
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
-            alignment: 'center',
+            //alignment: 'center',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
               body: [
-                [ `${p_metadata.table_title}`, 'Number of deaths' ],                
+                [ { text:`${p_metadata.table_title}`, bold:true, fillColor:'#CCCCCC'}, { text:'Number of deaths', bold:true, fillColor:'#CCCCCC'} ],                
               ]
             }
           };
@@ -207,7 +207,7 @@ async function render(msg)
           {
               if(item.name != p_metadata.blank_field_id)
               {
-                result.table.body.push([  { text:item.title, aligment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
+                result.table.body.push([  { text:item.title, alignment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
               }
           }
 
@@ -367,17 +367,17 @@ function render_committee_determination_table(p_metadata, p_totals)
     const table =  {
         layout: 'lightLines',
         margin: [ 5, 5, 5, 5],
-        alignment: 'center',
+        //alignment: 'center',
         table: {
           headerRows: 1,
           widths: [ '*', 'auto', 'auto', 'auto', 'auto'],
           body: [
             [ 
-                `${p_metadata.table_title}`, 
-                { text:'Yes', bold:true }, 
-                { text:'No', bold:true },
-                { text:'Probably', bold:true },
-                { text:'Unknown', bold:true },
+                { text:`${p_metadata.table_title}`, bold:true, fillColor:'#CCCCCC'}, 
+                { text:'Yes', bold:true, fillColor:'#CCCCCC'}, 
+                { text:'No', bold:true, fillColor:'#CCCCCC'},
+                { text:'Probably', bold:true, fillColor:'#CCCCCC'},
+                { text:'Unknown', bold:true, fillColor:'#CCCCCC'},
             ],                
           ]
         }
@@ -463,6 +463,8 @@ push_table_text('Was this death a homicide?', 26);
 */
 
 result.push(table);
+
+result.push('\n');
 
 
 push_total_text('Obesity - Number of deaths with missing (blank) values:', p_totals.get("MCauseD20"));

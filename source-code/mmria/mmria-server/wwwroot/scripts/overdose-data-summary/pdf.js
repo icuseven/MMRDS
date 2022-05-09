@@ -73,7 +73,7 @@ async function pre_render(msg)
             const item = metadata.field_id_list[i];
             if(item.name != metadata.blank_field_id)
             {
-                categories.push(`"${item.title}"`);
+                categories.push(`${item.title}`);
             }
             totals.set(item.name, 0);
         }
@@ -195,12 +195,12 @@ async function render()
         const result =  {
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
-            alignment: 'center',
+            //alignment: 'center',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
               body: [
-                [ `${p_metadata.table_title.trim()}`, 'Number of deaths' ],                
+                [ { text:`${p_metadata.table_title.trim()}`, bold:true, fillColor:'#CCCCCC'}, { text:'Number of deaths', bold:true, fillColor:'#CCCCCC'} ],                
               ]
             }
           };
@@ -209,7 +209,7 @@ async function render()
           {
             if(item.name != p_metadata.blank_field_id)
             {
-                result.table.body.push([ { text:item.title, aligment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
+                result.table.body.push([ { text:item.title, alignment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
             }
           }
 
@@ -372,17 +372,17 @@ function render_committee_determination_table(p_metadata, p_totals)
     const table =  {
         layout: 'lightLines',
         margin: [ 5, 5, 5, 5],
-        alignment: 'center',
+        //alignment: 'center',
         table: {
           headerRows: 1,
           widths: [ '*', 'auto', 'auto', 'auto', 'auto'],
           body: [
             [ 
-                `${p_metadata.table_title}`, 
-                { text:'Yes', bold:true }, 
-                { text:'No', bold:true },
-                { text:'Probably', bold:true },
-                { text:'Unknown', bold:true },
+                { text:`${p_metadata.table_title}`, bold:true, fillColor:'#CCCCCC'}, 
+                { text:'Yes', bold:true, fillColor:'#CCCCCC'}, 
+                { text:'No', bold:true, fillColor:'#CCCCCC'},
+                { text:'Probably', bold:true, fillColor:'#CCCCCC'},
+                { text:'Unknown', bold:true, fillColor:'#CCCCCC'},
             ],                
           ]
         }
@@ -418,7 +418,7 @@ function render_committee_determination_table(p_metadata, p_totals)
   
         );
       }
-      push_table_text('Did obesity contribute to the death?', 16);
+      //push_table_text('Did obesity contribute to the death?', 16);
 /*
         <td>Did obesity contribute to the death?</td>
         <td align=right>${totals.get("MCauseD16")}</td>
@@ -426,7 +426,7 @@ function render_committee_determination_table(p_metadata, p_totals)
         <td align=right>${totals.get("MCauseD18")}</td>
         <td align=right>${totals.get("MCauseD19")}</td>
 */
-push_table_text('Did discrimination contribute to the death?', 21);
+//push_table_text('Did discrimination contribute to the death?', 21);
 /*
         <td>Did discrimination contribute to the death?</td>
         <td align=right>${totals.get("MCauseD21")}</td>
@@ -458,7 +458,7 @@ push_table_text('Was this death a suicide?', 11);
         <td align=right>${totals.get("MCauseD13")}</td>
         <td align=right>${totals.get("MCauseD14")}</td>
 */
-push_table_text('Was this death a homicide?', 26);
+//push_table_text('Was this death a homicide?', 26);
 /*
         <td>Was this death a homicide?</td>
         <td align=right>${totals.get("MCauseD26")}</td>
@@ -468,14 +468,15 @@ push_table_text('Was this death a homicide?', 26);
 */
 
 result.push(table);
+result.push('\n');
 
 
-push_total_text('Obesity - Number of deaths with missing (blank) values:', p_totals.get("MCauseD20"));
-push_total_text('Discrimination - Number of deaths with missing (blank) values:', p_totals.get("MCauseD25"));
+//push_total_text('Obesity - Number of deaths with missing (blank) values:', p_totals.get("MCauseD20"));
+//push_total_text('Discrimination - Number of deaths with missing (blank) values:', p_totals.get("MCauseD25"));
 push_total_text('Mental Health Conditions - Number of deaths with missing (blank) values:', p_totals.get("MCauseD5"));
 push_total_text('Substance Use Disorder - Number of deaths with missing (blank) values:', p_totals.get("MCauseD10"));
 push_total_text('Suicide - Number of deaths with missing (blank) values:', p_totals.get("MCauseD15"));
-push_total_text('Homicide - Number of deaths with missing (blank) values:', p_totals.get("MCauseD30"));
+//push_total_text('Homicide - Number of deaths with missing (blank) values:', p_totals.get("MCauseD30"));
 
 
 /*
