@@ -37,6 +37,7 @@ function get_report_page_table()
     const result =  {
         layout: 'lightLines',
         margin: [ 5, 5, 5, 5],
+        fontSize: 10,
         table: {
           headerRows: 1,
           widths: [ '*', 'auto'],
@@ -144,9 +145,9 @@ async function render(msg)
         pageSize: 'A5',
         width: 595.28,
         defaultStyle: {
-			fontSize: 12,
+			fontSize: 10,
 		},
-        pageMargins: [20, 80, 20, 20],
+        pageMargins: [20, 35, 20, 20],
         header: { 
             margin: 10,
             columns: [
@@ -193,7 +194,7 @@ async function render(msg)
         const result =  {
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
-            //alignment: 'center',
+            fontSize: 10,
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -367,7 +368,7 @@ function render_committee_determination_table(p_metadata, p_totals)
     const table =  {
         layout: 'lightLines',
         margin: [ 5, 5, 5, 5],
-        //alignment: 'center',
+        fontSize: 10,
         table: {
           headerRows: 1,
           widths: [ '*', 'auto', 'auto', 'auto', 'auto'],
