@@ -45,7 +45,7 @@ function get_report_page_table()
 
     for(const [key, metadata] of indicator_map)
     {
-    result.table.body.push([ metadata.title, { text: '0', aligment: 'right'}]);
+    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: '0', aligment: 'right'}]);
     }
 
     return result;
@@ -201,7 +201,7 @@ async function render()
               headerRows: 1,
               widths: [ 'auto', 'auto'],
               body: [
-                [ { text:`${p_metadata.table_title.trim()}`, bold:true, fillColor:'#CCCCCC'}, { text:'Number of deaths', bold:true, fillColor:'#CCCCCC'} ],                
+                [ { text:`${p_metadata.table_title.replace(/&apos;/g, '\'')}`, bold:true, fillColor:'#CCCCCC'}, { text:'Number of deaths', bold:true, fillColor:'#CCCCCC'} ],                
               ]
             }
           };
@@ -216,7 +216,7 @@ async function render()
             }
           }
 
-          result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right'}]);
+          result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
 
           return result;
     }
@@ -224,7 +224,7 @@ async function render()
     for(const [key, metadata] of indicator_map)
     {
         doc.content.push({ text: '', pageBreak: 'after'});
-        doc.content.push({ text: metadata.title.padEnd(240 - metadata.title.length, ' '), style: header_style });
+        doc.content.push({ text: metadata.title.replace(/&apos;/g, '\'').padEnd(240 - metadata.title.length, ' '), style: header_style });
         doc.content.push({ text: '\n' });
         doc.content.push({ text: metadata.description });
         doc.content.push({ text: '\n' });
