@@ -142,8 +142,8 @@ async function render(msg)
 {
     var doc = {
         pageOrientation: 'landscape',
-        pageSize: 'A5',
-        width: 595.28,
+        pageSize: 'A4',
+        width: 841.28,
         defaultStyle: {
 			fontSize: 10,
 		},
