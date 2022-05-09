@@ -48,7 +48,7 @@ function get_report_page_table()
 
       for(const [key, metadata] of indicator_map)
       {
-        result.table.body.push([ metadata.title, { text: '0', aligment: 'right'}]);
+        result.table.body.push([ { text:metadata.title, aligment: 'left' }, { text: '0', aligment: 'right'}]);
       }
 
       return result;
@@ -207,7 +207,7 @@ async function render(msg)
           {
               if(item.name != p_metadata.blank_field_id)
               {
-                result.table.body.push([ item.title.trim(), { text: p_totals.get(item.name), alignment: 'right'}]);
+                result.table.body.push([  { text:item.title, aligment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
               }
           }
 
@@ -225,16 +225,27 @@ async function render(msg)
         const totals = indicator_id_to_data.get(key).totals;
 
 
-        const retImg = get_chart_image(metadata.indicator_id);
+        if(metadata.indicator_id == 'mDeathCause')
+        {
+            const result_array = render_committee_determination_table(metadata, totals);
+            for(const item of result_array)
+            {
+                doc.content.push(item);
+            }
+        }
+        else
+        {
+            const retImg = get_chart_image(metadata.indicator_id);
 
-        doc.content.push
-        ([
-            { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
-        ]);
-        doc.content.push({ text: '\n' });
-        doc.content.push(CreateIndicatorTable(metadata, totals))
-        doc.content.push({ text: '\n' });
-        doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
+            doc.content.push
+            ([
+                { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
+            ]);
+            doc.content.push({ text: '\n' });
+            doc.content.push(CreateIndicatorTable(metadata, totals))
+            doc.content.push({ text: '\n' });
+            doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
+        }
     }
 
     window.setTimeout
@@ -347,4 +358,132 @@ function getBase64ImageFromURL(url) {
 		};
 		img.src = url;
 	});
+}
+
+
+function render_committee_determination_table(p_metadata, p_totals)
+{
+    const result = []
+    const table =  {
+        layout: 'lightLines',
+        margin: [ 5, 5, 5, 5],
+        alignment: 'center',
+        table: {
+          headerRows: 1,
+          widths: [ '*', 'auto', 'auto', 'auto', 'auto'],
+          body: [
+            [ 
+                `${p_metadata.table_title}`, 
+                { text:'Yes', bold:true }, 
+                { text:'No', bold:true },
+                { text:'Probably', bold:true },
+                { text:'Unknown', bold:true },
+            ],                
+          ]
+        }
+      };
+
+      /*
+      for(const item of p_metadata.field_id_list)
+      {
+          if(item.name != p_metadata.blank_field_id)
+          {
+            result.table.body.push([ item.title.trim(), { text: p_totals.get(item.name), alignment: 'right'}]);
+          }
+      }*/
+
+
+      function push_total_text(p_text, p_total_value)
+      {
+        result.push({ text: [{ text: p_text, bold: true}, ` ${p_total_value}`] });
+      }
+
+      function push_table_text(p_text, p_start)
+      {
+        table.table.body.push
+        (
+
+            [
+            p_text,
+            { text:p_totals.get(`MCauseD` + p_start), alignment: 'right' }, 
+            { text:p_totals.get(`MCauseD` + (p_start + 1)), alignment: 'right' }, 
+            { text:p_totals.get(`MCauseD` + (p_start + 2)), alignment: 'right' }, 
+            { text:p_totals.get(`MCauseD` + (p_start + 3)), alignment: 'right' }
+            ]
+  
+        );
+      }
+      push_table_text('Did obesity contribute to the death?', 16);
+/*
+        <td>Did obesity contribute to the death?</td>
+        <td align=right>${totals.get("MCauseD16")}</td>
+        <td align=right>${totals.get("MCauseD17")}</td>
+        <td align=right>${totals.get("MCauseD18")}</td>
+        <td align=right>${totals.get("MCauseD19")}</td>
+*/
+push_table_text('Did discrimination contribute to the death?', 21);
+/*
+        <td>Did discrimination contribute to the death?</td>
+        <td align=right>${totals.get("MCauseD21")}</td>
+        <td align=right>${totals.get("MCauseD22")}</td>
+        <td align=right>${totals.get("MCauseD23")}</td>
+        <td align=right>${totals.get("MCauseD24")}</td>
+*/
+push_table_text('Did mental health conditions contribute to the death?', 1);
+/*
+        <td>Did mental health conditions contribute to the death?</td>
+        <td align=right>${totals.get("MCauseD1")}</td>
+        <td align=right>${totals.get("MCauseD2")}</td>
+        <td align=right>${totals.get("MCauseD3")}</td>
+        <td align=right>${totals.get("MCauseD4")}</td>
+*/
+push_table_text('Did substance use disorder contribute to the death?', 6);
+/*
+        <td>Did substance use disorder contribute to the death?</td>
+        <td align=right>${totals.get("MCauseD6")}</td>
+        <td align=right>${totals.get("MCauseD7")}</td>
+        <td align=right>${totals.get("MCauseD8")}</td>
+        <td align=right>${totals.get("MCauseD9")}</td>
+*/
+push_table_text('Was this death a suicide?', 11);
+/*
+        <td>Was this death a suicide?</td>
+        <td align=right>${totals.get("MCauseD11")}</td>
+        <td align=right>${totals.get("MCauseD12")}</td>
+        <td align=right>${totals.get("MCauseD13")}</td>
+        <td align=right>${totals.get("MCauseD14")}</td>
+*/
+push_table_text('Was this death a homicide?', 26);
+/*
+        <td>Was this death a homicide?</td>
+        <td align=right>${totals.get("MCauseD26")}</td>
+        <td align=right>${totals.get("MCauseD27")}</td>
+        <td align=right>${totals.get("MCauseD28")}</td>
+        <td align=right>${totals.get("MCauseD29")}</td>
+*/
+
+result.push(table);
+
+
+push_total_text('Obesity - Number of deaths with missing (blank) values:', p_totals.get("MCauseD20"));
+push_total_text('Discrimination - Number of deaths with missing (blank) values:', p_totals.get("MCauseD25"));
+push_total_text('Mental Health Conditions - Number of deaths with missing (blank) values:', p_totals.get("MCauseD5"));
+push_total_text('Substance Use Disorder - Number of deaths with missing (blank) values:', p_totals.get("MCauseD10"));
+push_total_text('Suicide - Number of deaths with missing (blank) values:', p_totals.get("MCauseD15"));
+push_total_text('Homicide - Number of deaths with missing (blank) values:', p_totals.get("MCauseD30"));
+
+
+/*
+</table><br/>
+<p><strong>Obesity - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD20")}</p>
+<p><strong>Discrimination - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD25")}</p>
+<p><strong>Mental Health Conditions - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD5")}</p>
+<p><strong>Substance Use Disorder - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD10")}</p>
+<p><strong>Suicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD15")}</p>
+<p><strong>Homicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD30")}</p>
+<br/>
+<p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+<br/>
+*/
+    return result;
 }
