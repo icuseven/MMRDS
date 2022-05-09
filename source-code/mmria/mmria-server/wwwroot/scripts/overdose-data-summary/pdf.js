@@ -1,5 +1,8 @@
 var g_data =  null;
 var g_filter = null;
+var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]);
+var g_logoUrl = null;
+
 
 const bc = new BroadcastChannel('overdose_pdf_channel');
 bc.onmessage = (message_data) => {
@@ -53,6 +56,9 @@ let indicator_id_to_data = new Map();
 
 async function pre_render(msg)
 {
+
+    g_logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
+
     indicator_id_to_data = new Map();
 
     for(const [key, metadata] of indicator_map)
@@ -134,6 +140,35 @@ async function render()
         pageOrientation: 'landscape',
         pageSize: 'A5',
         width: 595.28,
+        defaultStyle: {
+			fontSize: 12,
+		},
+        pageMargins: [20, 80, 20, 20],
+        header: { 
+            margin: 10,
+            columns: [
+                {
+                    image: `${g_logoUrl}`,
+                    width: 30,
+                    margin: [0, 0, 0, 10]
+                },
+                { 
+                    width: '*',
+                    text: `${g_host_site}-MMRIA Overdose Data Summary`, 
+                    alignment: 'center'
+                },
+                { 
+                    width: 110,
+                    text:[ 
+                        { text: 'Page:', bold:true },
+                        '1 ',
+                        'of ',
+                        '15'                 
+                    ], 
+                    alignment: 'right'
+                }
+            ]
+        },
         footer: { 
             text: 'This data has been taken directly from the MMRIA database and is not a final report.',
             style: {italics:true },
@@ -141,7 +176,7 @@ async function render()
         },
         content: [
             { text: 'Overview'.padEnd(240 - 'Overview'.length, ' '), style: header_style },
-            '\n\n',
+            '\n',
             'The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n',
             'This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the MMRIA Committee Decisions Form. The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.\n\n',
             'The Overdose Report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis.\n\n',
@@ -160,6 +195,7 @@ async function render()
         const result =  {
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
+            alignment: 'center',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -184,9 +220,9 @@ async function render()
     {
         doc.content.push({ text: '', pageBreak: 'after'});
         doc.content.push({ text: metadata.title.padEnd(240 - metadata.title.length, ' '), style: header_style });
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push({ text: metadata.description });
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
 
         const totals = indicator_id_to_data.get(key).totals;
 
@@ -197,9 +233,9 @@ async function render()
         ([
             { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5]}
         ]);
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push(CreateIndicatorTable(metadata, totals))
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
 
 
@@ -291,4 +327,31 @@ function get_chart_image(p_indicator_id)
 	const result = document.getElementById(canvas_id);
 
 	return result.toDataURL();
+}
+
+function sanitize_encodeHTML(s) 
+{
+	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    return result;
+}
+
+
+function getBase64ImageFromURL(url) {
+	return new Promise((resolve, reject) => {
+		let img = new Image();
+		img.setAttribute("crossOrigin", "anonymous");
+		img.onload = () => {
+			let canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			let ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			let dataURL = canvas.toDataURL("image/png");
+			resolve(dataURL);
+		};
+		img.onerror = error => {
+			reject(error);
+		};
+		img.src = url;
+	});
 }

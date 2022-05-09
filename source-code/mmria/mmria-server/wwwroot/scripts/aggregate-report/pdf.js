@@ -1,5 +1,8 @@
 var g_data =  null;
 var g_filter = null;
+var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]);
+var g_logoUrl = null;
+
 
 const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (message_data) => {
@@ -56,6 +59,8 @@ let indicator_id_to_data = new Map();
 
 async function pre_render(msg)
 {
+    g_logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
+
     indicator_id_to_data = new Map();
 
     for(const [key, metadata] of indicator_map)
@@ -138,6 +143,36 @@ async function render(msg)
         pageOrientation: 'landscape',
         pageSize: 'A5',
         width: 595.28,
+        defaultStyle: {
+			fontSize: 12,
+		},
+        pageMargins: [20, 80, 20, 20],
+        header: { 
+            margin: 10,
+            columns: [
+                {
+                    image: `${g_logoUrl}`,
+                    width: 30,
+                    margin: [0, 0, 0, 10]
+                },
+                { 
+                    width: '*',
+                    text: `${g_host_site}-MMRIA Aggregate Report`, 
+                    alignment: 'center'
+                },
+                { 
+                    
+                    width: 110,
+                    text:[ 
+                        { text: 'Page:', bold:true },
+                        '1 ',
+                        'of ',
+                        '15'                 
+                    ], 
+                    alignment: 'right'
+                }
+            ]
+        },
         footer: { 
             text: 'This data has been taken directly from the MMRIA database and is not a final report.',
             style: {italics:true },
@@ -145,7 +180,7 @@ async function render(msg)
         },
         content: [
             { text: 'Overview'.padEnd(240 -'Overview'.length, ' '), style: header_style },
-            '\n\n',
+            '\n',
             'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n',
             { text: 'Report Pages'.padEnd(240 - 'Report Pages'.length, ' '), style: header_style },
             get_report_page_table(),
@@ -158,6 +193,7 @@ async function render(msg)
         const result =  {
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
+            alignment: 'center',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -182,9 +218,9 @@ async function render(msg)
     {
         doc.content.push({ text: '', pageBreak: 'after'});
         doc.content.push({ text: metadata.title.padEnd(240 - metadata.title.length, ' '), style: header_style });
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push({ text: metadata.description });
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
 
         const totals = indicator_id_to_data.get(key).totals;
 
@@ -195,9 +231,9 @@ async function render(msg)
         ([
             { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
         ]);
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push(CreateIndicatorTable(metadata, totals))
-        doc.content.push({ text: '\n\n' });
+        doc.content.push({ text: '\n' });
         doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
     }
 
@@ -285,4 +321,30 @@ function get_chart_image(p_indicator_id)
 	const result = document.getElementById(canvas_id);
 
 	return result.toDataURL();
+}
+
+function sanitize_encodeHTML(s) 
+{
+	let result = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    return result;
+}
+
+function getBase64ImageFromURL(url) {
+	return new Promise((resolve, reject) => {
+		let img = new Image();
+		img.setAttribute("crossOrigin", "anonymous");
+		img.onload = () => {
+			let canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			let ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			let dataURL = canvas.toDataURL("image/png");
+			resolve(dataURL);
+		};
+		img.onerror = error => {
+			reject(error);
+		};
+		img.src = url;
+	});
 }
