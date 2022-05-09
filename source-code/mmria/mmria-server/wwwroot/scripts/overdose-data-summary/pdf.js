@@ -106,7 +106,7 @@ async function pre_render(msg)
             labels: categories,
             datasets: [
                 {
-                    label: metadata.x_axis_title,
+                    label: metadata.x_axis_title.replace(/&apos;/g, '\''),
                     data: category_data,
                     backgroundColor: colorOne,
                     //borderColor: colorTwo,
@@ -127,7 +127,7 @@ async function pre_render(msg)
 
         );
 
-       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title);
+       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''));
     }
 
 
@@ -206,13 +206,17 @@ async function render()
             }
           };
 
+          let total = 0;
           for(const item of p_metadata.field_id_list)
           {
             if(item.name != p_metadata.blank_field_id)
             {
+                total += p_totals.get(item.name);
                 result.table.body.push([ { text:item.title, alignment: 'left' }, { text: p_totals.get(item.name), alignment: 'right'}]);
             }
           }
+
+          result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right'}]);
 
           return result;
     }
@@ -369,7 +373,10 @@ function getBase64ImageFromURL(url) {
 
 function render_committee_determination_table(p_metadata, p_totals)
 {
-    const result = []
+    const result = [
+        { text:p_metadata.chart_title, bold:true, background:'#b890bb', alignment:'center', fontSize:14},
+        '\n'
+    ];
     const table =  {
         layout: 'lightLines',
         margin: [ 5, 5, 5, 5],
