@@ -220,7 +220,7 @@ if(p_current_index < 1)
                 <p>
                     ${current_page_html}
                     <span style="float:right">
-                        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
+                        <button class="btn btn-primary" onclick="print_pdf_click()">Save PDF</button>
                     </span>
                 </p>
             </div>

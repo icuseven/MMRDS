@@ -2,17 +2,21 @@ var g_data =  null;
 var g_filter = null;
 var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]);
 var g_logoUrl = null;
+var g_view_or_print = 'view';
 
 
 const bc = new BroadcastChannel('overdose_pdf_channel');
 bc.onmessage = (message_data) => {
 
     g_filter = message_data.data.g_filter;
+    g_view_or_print = message_data.data.view_or_print;
 
     pre_render(message_data.data);
 }
 
 const header_style = { background:'#CCCCCC', bold:true };
+
+const indicator_to_page_map = new Map();
 
 function get_report_page_table()
 {
@@ -31,7 +35,7 @@ function get_report_page_table()
 
     for(const [key, metadata] of indicator_map)
     {
-    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: '0', aligment: 'right'}]);
+    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: `${metadata.indicator_id} 0`, aligment: 'right'}]);
     }
 
     return result;
@@ -274,10 +278,27 @@ async function render()
     window.setTimeout
 		(
 			//async function () { await pdfMake.createPdf(doc).open(window); },
-			 async function () { await pdfMake.createPdf(doc).open(); },
+			 async function () 
+             { 
+                if(g_view_or_print == 'print')
+                {
+                 await pdfMake.createPdf( doc ).download( createNamePDF() );
+                }
+                else
+                {
+                 await pdfMake.createPdf(doc).open(); 
+                }
+            },
 			3000
 		);
 }
+
+function createNamePDF() 
+{
+	let utcDate = new Date().toISOString();
+	return `Overdose-Data-Summary_${utcDate}.pdf`;
+}
+
 
 function create_chart(p_id_prefix, chartData, chartTitle) 
 {
