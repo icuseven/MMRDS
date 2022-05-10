@@ -138,6 +138,12 @@ async function render()
     over_view_layout.table.body.push([ '', get_report_page_table()]);
 
     var doc = {
+        info: {
+            title: `${g_host_site}-MMRIA Overdose Data Summary`,
+            //author: 'john doe',
+            //subject: 'subject of document',
+           // keywords: 'keywords for document',
+          },
         pageOrientation: 'landscape',
         pageSize: 'A4',
         width: 841.28,
@@ -145,31 +151,37 @@ async function render()
 			fontSize: 10,
 		},
         pageMargins: [20, 35, 20, 20],
-        header: { 
-            margin: 10,
-            columns: [
-                {
-                    image: `${g_logoUrl}`,
-                    width: 30,
-                    margin: [0, 0, 0, 10]
-                },
-                { 
-                    width: '*',
-                    text: `${g_host_site}-MMRIA Overdose Data Summary`, 
-                    alignment: 'center'
-                },
-                { 
-                    width: 110,
-                    text:[ 
-                        { text: 'Page:', bold:true },
-                        '1 ',
-                        'of ',
-                        '15'                 
-                    ], 
-                    alignment: 'right'
-                }
-            ]
-        },
+        header: (currentPage, pageCount) => {
+
+            const result = { 
+                margin: 10,
+                columns: [
+                    {
+                        image: `${g_logoUrl}`,
+                        width: 30,
+                        margin: [0, 0, 0, 10]
+                    },
+                    { 
+                        width: '*',
+                        text: `${g_host_site}-MMRIA Aggregate Report`, 
+                        alignment: 'center'
+                    },
+                    { 
+                        
+                        width: 110,
+                        text:[ 
+                            { text: 'Page:', bold:true },
+                            `${currentPage}`,
+                            ' of ',
+                            `${pageCount}`                 
+                        ], 
+                        alignment: 'right'
+                    }
+                ]
+            }
+			
+			return result;
+		},
         footer: { 
             text: 'This data has been taken directly from the MMRIA database and is not a final report.',
             style: {italics:true },
