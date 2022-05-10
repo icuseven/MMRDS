@@ -124,6 +124,7 @@ async function pre_render(msg)
 async function render()
 {
 
+    const report_datetime = `Report Generated ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
     const over_view_layout = get_main_page_layout_table();
 
 
@@ -140,7 +141,7 @@ async function render()
     var doc = {
         info: {
             title: `${g_host_site}-MMRIA Overdose Data Summary`,
-            //author: 'john doe',
+            author: `${document.getElementById('uid').innerText}`,
             //subject: 'subject of document',
            // keywords: 'keywords for document',
           },
@@ -163,14 +164,14 @@ async function render()
                     },
                     { 
                         width: '*',
-                        text: `${g_host_site}-MMRIA Aggregate Report`, 
+                        text: `${g_host_site}-MMRIA Aggregate Report\n${report_datetime}`, 
                         alignment: 'center'
                     },
                     { 
                         
                         width: 110,
                         text:[ 
-                            { text: 'Page:', bold:true },
+                            { text: 'Page: ', bold:true },
                             `${currentPage}`,
                             ' of ',
                             `${pageCount}`                 
@@ -233,6 +234,7 @@ async function render()
         const doc_layout = get_main_page_layout_table();
 
         doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
+        doc_layout.table.body.push(['', get_filter()]);
         doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), style: header_style, fillColor:'#CCCCCC' }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
         doc_layout.table.body.push(['', { text: metadata.description }]);
@@ -530,6 +532,86 @@ function get_main_page_layout_table()
           ]
         }
       };
+
+    return result;
+}
+
+const relatedness_map = new Map();
+relatedness_map.set(9999, "(blank)");
+relatedness_map.set(1, "Pregnancy-Related");
+relatedness_map.set(0, "Pregnancy-Associated, but NOT -Related");
+relatedness_map.set(2, "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness");
+relatedness_map.set(99, "Not Pregnancy-Related or -Associated (i.e. False Positive)");
+
+function pad_number(n) 
+{
+    n = n + '';
+    return n.length >= 2 ? n : new Array(2 - n.length + 1).join("0") + n;
+}
+
+function formatDate(p_value)
+{
+    const result= pad_number(p_value.getMonth() + 1) + '/' + pad_number(p_value.getDate()) + '/' +  p_value.getFullYear();
+
+    return result;
+}
+
+function get_filter()
+{
+    const filter_detail =  [ ]
+
+    const result =  {
+        layout: 'noBorders',
+        margin: [ 5, 5, 5, 5],
+        fontSize: 10,
+        width: 'auto',
+        table: {
+          headerRows: 0,
+          widths: [ 'auto', '*', '*'],
+          body: [
+            [ { text:'Pregnancy-Relatedness', bold:true}, { text: 'Date of Review', bold:true},{ text: 'Date of Death', bold:true}],
+                filter_detail
+          ]
+        }
+      };
+
+    const reporting_state_element = document.getElementById("reporting_state")
+    reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
+
+    const current_datetime = new Date();
+
+    const report_datetime_element = document.getElementById("report_datetime")
+    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
+
+    let pregnancy_relatedness_html = "All";
+    if(g_filter.pregnancy_relatedness.length == 4)
+    {
+        filter_detail.push("All")
+    }
+    else
+    {
+        const html = { ul: [] };
+        
+
+        relatedness_map.forEach
+        (
+            (value, key) =>
+            {
+
+                if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
+                {
+
+                    html.ul.push(value);
+                }
+            }
+        );
+        
+        filter_detail.push(html);
+    }
+
+    filter_detail.push(`${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}`);
+    filter_detail.push(`${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}`);
+
 
     return result;
 }
