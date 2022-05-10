@@ -7,28 +7,10 @@ var g_logoUrl = null;
 const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (message_data) => {
 
-    /*
-    console.log(`reportType: ${message_data.data.reportType}`);
-    console.log(`report_index: ${message_data.data.report_index}`);
-    console.log(`view_or_print: ${message_data.data.view_or_print}`);
-    */
-
     g_filter = message_data.data.g_filter;
-//    console.log(`document: ${message_data.data.document}`);
 
-    //render_pdf(message_data.data.report_index);
-    //create_pdf(message_data.data.report_index);
     pre_render(message_data.data);
-  /*
-  message_data = {
-        reportType: g_reportType,
-        report_index: g_report_index,
-        view_or_print: g_view_or_print
-    }
-*/
 }
-
-
 
 const header_style = { background:'#CCCCCC', bold:true };
 
@@ -140,6 +122,14 @@ async function pre_render(msg)
 
 async function render(msg)
 {
+    const over_view_layout = get_main_page_layout_table();
+
+     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' } ]);
+     over_view_layout.table.body.push([ '', '\n' ]);
+     over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
+     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:'#CCCCCC' } ]);
+     over_view_layout.table.body.push([ '', get_report_page_table() ]);
+
     var doc = {
         pageOrientation: 'landscape',
         pageSize: 'A4',
@@ -180,11 +170,7 @@ async function render(msg)
             alignment: 'center'
         },
         content: [
-            { text: 'Overview'.padEnd(240 -'Overview'.length, ' '), style: header_style },
-            '\n',
-            'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n',
-            { text: 'Report Pages'.padEnd(240 - 'Report Pages'.length, ' '), style: header_style },
-            get_report_page_table(),
+            over_view_layout
         ]
         
     }
@@ -220,11 +206,13 @@ async function render(msg)
 
     for(const [key, metadata] of indicator_map)
     {
-        doc.content.push({ text: '', pageBreak: 'after'});
-        doc.content.push({ text: metadata.title.replace(/&apos;/g, '\'').padEnd(240 - metadata.title.length, ' '), style: header_style });
-        doc.content.push({ text: '\n' });
-        doc.content.push({ text: metadata.description });
-        doc.content.push({ text: '\n' });
+        const doc_layout = get_main_page_layout_table();
+
+        doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), style: header_style, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: '\n' }]);
+        doc_layout.table.body.push(['', { text: metadata.description }]);
+        doc_layout.table.body.push(['', { text: '\n' }]);
 
         const totals = indicator_id_to_data.get(key).totals;
 
@@ -234,23 +222,30 @@ async function render(msg)
             const result_array = render_committee_determination_table(metadata, totals);
             for(const item of result_array)
             {
-                doc.content.push(item);
+                doc_layout.table.body.push(['', item]);
             }
         }
         else
         {
             const retImg = get_chart_image(metadata.indicator_id);
 
-            doc.content.push
-            ([
-                { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
-            ]);
-            doc.content.push({ text: '\n' });
-            doc.content.push(CreateIndicatorTable(metadata, totals))
-            doc.content.push({ text: '\n' });
-            doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
+            doc_layout.table.body.push
+            (
+                [
+                    '', 
+                    [
+                        { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5], }
+                    ]
+                ]
+            );
+            doc_layout.table.body.push(['', { text: '\n' }]);
+            doc_layout.table.body.push(['', CreateIndicatorTable(metadata, totals)]);
+            doc_layout.table.body.push(['', { text: '\n' }]);
+            doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}]);
             
         }
+
+        doc.content.push(doc_layout);
     }
 
     window.setTimeout
@@ -495,5 +490,25 @@ push_total_text('Homicide - Number of deaths with missing (blank) values:', p_to
 <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
 <br/>
 */
+    return result;
+}
+
+
+function get_main_page_layout_table()
+{
+    const result =  {
+        layout: 'noBorders',
+        margin: [ 5, 5, 5, 5],
+        fontSize: 10,
+        width: 'auto',
+        table: {
+          headerRows: 0,
+          widths: [ 5, 'auto'],
+          body: [
+            
+          ]
+        }
+      };
+
     return result;
 }

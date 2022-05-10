@@ -7,23 +7,9 @@ var g_logoUrl = null;
 const bc = new BroadcastChannel('overdose_pdf_channel');
 bc.onmessage = (message_data) => {
 
-
-    console.log(`reportType: ${message_data.data.reportType}`);
-    console.log(`report_index: ${message_data.data.report_index}`);
-    console.log(`view_or_print: ${message_data.data.view_or_print}`);
-    
-
     g_filter = message_data.data.g_filter;
 
     pre_render(message_data.data);
-    
-  /*
-  message_data = {
-        reportType: g_reportType,
-        report_index: g_report_index,
-        view_or_print: g_view_or_print
-    }
-*/
 }
 
 const header_style = { background:'#CCCCCC', bold:true };
@@ -137,6 +123,20 @@ async function pre_render(msg)
 
 async function render()
 {
+
+    const over_view_layout = get_main_page_layout_table();
+
+
+    
+
+    over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' }]);
+    over_view_layout.table.body.push([ '', '\n']);
+    over_view_layout.table.body.push([ '', 'The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n']);
+    over_view_layout.table.body.push([ '', 'This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the MMRIA Committee Decisions Form. The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.\n\n']);
+    over_view_layout.table.body.push([ '', 'The Overdose Report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis.\n\n']);
+    over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:'#CCCCCC' }]);
+    over_view_layout.table.body.push([ '', get_report_page_table()]);
+
     var doc = {
         pageOrientation: 'landscape',
         pageSize: 'A4',
@@ -176,14 +176,8 @@ async function render()
             alignment: 'center'
         },
         content: [
-            { text: 'Overview'.padEnd(240 - 'Overview'.length, ' '), style: header_style },
-            '\n',
-            'The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n',
-            'This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the MMRIA Committee Decisions Form. The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.\n\n',
-            'The Overdose Report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis.\n\n',
-            { text: 'Report Pages'.padEnd(240 - 'Report Pages'.length, ' '), style: header_style },
-            get_report_page_table(),
-            
+
+            over_view_layout
             
 
         ]
@@ -197,6 +191,7 @@ async function render()
             layout: 'lightLines',
             margin: [ 5, 5, 5, 5],
             fontSize: 10,
+            alignment:'center',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -223,11 +218,13 @@ async function render()
 
     for(const [key, metadata] of indicator_map)
     {
-        doc.content.push({ text: '', pageBreak: 'after'});
-        doc.content.push({ text: metadata.title.replace(/&apos;/g, '\'').padEnd(240 - metadata.title.length, ' '), style: header_style });
-        doc.content.push({ text: '\n' });
-        doc.content.push({ text: metadata.description });
-        doc.content.push({ text: '\n' });
+        const doc_layout = get_main_page_layout_table();
+
+        doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), style: header_style, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: '\n' }]);
+        doc_layout.table.body.push(['', { text: metadata.description }]);
+        doc_layout.table.body.push(['', { text: '\n' }]);
 
         const totals = indicator_id_to_data.get(key).totals;
 
@@ -237,22 +234,25 @@ async function render()
             const result_array = render_committee_determination_table(metadata, totals);
             for(const item of result_array)
             {
-                doc.content.push(item);
+                doc_layout.table.body.push(['', item]);
             }
         }
         else
         {
             const retImg = get_chart_image(metadata.indicator_id);
 
-            doc.content.push
-            ([
+            doc_layout.table.body.push
+            (['',[ 
+                
                 { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5]}
-            ]);
-            doc.content.push({ text: '\n' });
-            doc.content.push(CreateIndicatorTable(metadata, totals))
-            doc.content.push({ text: '\n' });
-            doc.content.push({ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'})
+            ]]);
+            doc_layout.table.body.push([ '',{ text: '\n' }]);
+            doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals)]);
+            doc_layout.table.body.push([ '',{ text: '\n' }]);
+            doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}])
         }
+
+        doc.content.push(doc_layout);
 
     }
 
@@ -499,5 +499,25 @@ push_total_text('Suicide - Number of deaths with missing (blank) values:', p_tot
 <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
 <br/>
 */
+    return result;
+}
+
+
+function get_main_page_layout_table()
+{
+    const result =  {
+        layout: 'noBorders',
+        margin: [ 5, 5, 5, 5],
+        fontSize: 10,
+        width: 'auto',
+        table: {
+          headerRows: 0,
+          widths: [ 5, 'auto'],
+          body: [
+            
+          ]
+        }
+      };
+
     return result;
 }

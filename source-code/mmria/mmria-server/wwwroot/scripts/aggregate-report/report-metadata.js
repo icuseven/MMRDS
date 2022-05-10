@@ -461,7 +461,7 @@ indicator_map.set
         ],
     }
 );
-
+/*
 indicator_map.set
 (
     14,
@@ -475,6 +475,8 @@ indicator_map.set
         chart_title:"Incarceration",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
+
+        table_title:"",
         
 
         field_id_list : [
@@ -504,6 +506,8 @@ indicator_map.set
         chart_title:"Substance Abuse Evidence",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
+
+        table_title:"",
         
 
         field_id_list : [
@@ -527,6 +531,8 @@ indicator_map.set
         chart_title:"title not specified",
         x_axis_title:"title not specified",
         y_axis_title:"title not specified",
+
+        table_title:"",
         
 
         field_id_list : [
@@ -536,7 +542,7 @@ indicator_map.set
         { name: "MHxSub4", title: "Unknown" },
         ],
     }
-);
+);*/
 
 async function get_indicator_values(p_indicator_id)
 {

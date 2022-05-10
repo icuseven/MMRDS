@@ -181,13 +181,10 @@ function render_header()
         pregnancy_relatedness_html = html.join("");
     }
 
-    let current_page_html = `<p>
+    let current_page_html = `
     <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
     <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
-    <span style="float:right">
-        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
-    </span>
-</p>`;
+    `;
 
 if(g_report_index < 1)
 {
@@ -208,7 +205,7 @@ if(g_report_index < 1)
         </div>
         <div style="display: inline-block;float:right;width:25%">
             <div id="pdf-control" 
-                style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
+                style="width:300px;height:140px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
                     <strong>Select Report Type:</strong>  
                     <span style="float:right;">
@@ -219,7 +216,14 @@ if(g_report_index < 1)
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
                     <label for="summary-report" class="mb-0 font-weight-normal mr-2">Full Report</label>
                 </p>
-                ${current_page_html}
+                <p>
+                    ${current_page_html}
+                    <span style="float:right">
+                        <button class="btn btn-primary" onclick="print_pdf_click()">Print PDF</button>
+                    </span>
+                </p>
+
+
             </div>
         </div>
     </div>
