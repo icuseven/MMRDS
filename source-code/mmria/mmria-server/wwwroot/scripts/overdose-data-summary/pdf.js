@@ -145,9 +145,9 @@ async function render()
             //subject: 'subject of document',
            // keywords: 'keywords for document',
           },
-        pageOrientation: 'landscape',
+        pageOrientation: 'portrait',
         pageSize: 'A4',
-        width: 841.28,
+        width: 594.28,
         defaultStyle: {
 			fontSize: 10,
 		},
