@@ -126,6 +126,7 @@ async function render(msg)
     const report_datetime = `Report Generated ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
     const over_view_layout = get_main_page_layout_table();
 
+    over_view_layout.table.body.push(['', get_filter()]);
      over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' } ]);
      over_view_layout.table.body.push([ '', '\n' ]);
      over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
@@ -224,7 +225,7 @@ async function render(msg)
 
         doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), style: header_style, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC' }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
         doc_layout.table.body.push(['', { text: metadata.description }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
@@ -575,31 +576,25 @@ function get_filter()
     const report_datetime_element = document.getElementById("report_datetime")
     report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
-    let pregnancy_relatedness_html = "All";
-    if(g_filter.pregnancy_relatedness.length == 4)
-    {
-        filter_detail.push("All")
-    }
-    else
-    {
-        const html = { ul: [] };
-        
 
-        relatedness_map.forEach
-        (
-            (value, key) =>
+    const html = { ul: [] };
+    
+
+    relatedness_map.forEach
+    (
+        (value, key) =>
+        {
+
+            if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
             {
 
-                if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
-                {
-
-                    html.ul.push(value);
-                }
+                html.ul.push(value);
             }
-        );
-        
-        filter_detail.push(html);
-    }
+        }
+    );
+    
+    filter_detail.push(html);
+
 
     filter_detail.push(`${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}`);
     filter_detail.push(`${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}`);

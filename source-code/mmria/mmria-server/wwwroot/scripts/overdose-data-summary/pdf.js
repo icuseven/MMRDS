@@ -129,7 +129,7 @@ async function render()
 
 
     
-
+    over_view_layout.table.body.push(['', get_filter()]);
     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' }]);
     over_view_layout.table.body.push([ '', '\n']);
     over_view_layout.table.body.push([ '', 'The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n']);
@@ -235,7 +235,7 @@ async function render()
 
         doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), style: header_style, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC' }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
         doc_layout.table.body.push(['', { text: metadata.description }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
@@ -583,31 +583,23 @@ function get_filter()
     const report_datetime_element = document.getElementById("report_datetime")
     report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
-    let pregnancy_relatedness_html = "All";
-    if(g_filter.pregnancy_relatedness.length == 4)
-    {
-        filter_detail.push("All")
-    }
-    else
-    {
-        const html = { ul: [] };
-        
+    const html = { ul: [] };
+    
 
-        relatedness_map.forEach
-        (
-            (value, key) =>
+    relatedness_map.forEach
+    (
+        (value, key) =>
+        {
+
+            if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
             {
 
-                if(g_filter.pregnancy_relatedness.indexOf(key) > -1)
-                {
-
-                    html.ul.push(value);
-                }
+                html.ul.push(value);
             }
-        );
-        
-        filter_detail.push(html);
-    }
+        }
+    );
+    
+    filter_detail.push(html);
 
     filter_detail.push(`${formatDate(g_filter.date_of_review.begin)} - ${formatDate(g_filter.date_of_review.end)}`);
     filter_detail.push(`${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}`);
