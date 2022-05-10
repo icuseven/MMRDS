@@ -3,6 +3,8 @@ var g_filter = null;
 var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]);
 var g_logoUrl = null;
 var g_view_or_print = 'view';
+var g_report_type = null;
+var g_report_index = null;
 
 
 const bc = new BroadcastChannel('aggregate_pdf_channel');
@@ -11,6 +13,9 @@ bc.onmessage = (message_data) => {
     g_filter = message_data.data.g_filter;
 
     g_view_or_print = message_data.data.view_or_print;
+
+    g_report_type = message_data.data.reportType;
+    g_report_index = message_data.data.report_index;
 
     pre_render(message_data.data);
 }
@@ -188,10 +193,16 @@ async function render(msg)
             alignment: 'center'
         },
         content: [
-            over_view_layout
+            
         ]
         
+    };
+
+    if(g_report_type!='Detail')
+    {
+        doc.content.push(over_view_layout)
     }
+
 
     function CreateIndicatorTable(p_metadata, p_totals)
     {
@@ -224,9 +235,17 @@ async function render(msg)
 
     for(const [key, metadata] of indicator_map)
     {
+        if(g_report_type=='Detail' && key != g_report_index)
+        {
+            continue;
+        }
+
         const doc_layout = get_main_page_layout_table();
 
-        doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
+        if(g_report_type!='Detail')
+        { 
+            doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
+        }
         doc_layout.table.body.push(['', get_filter()]);
         doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC' }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
