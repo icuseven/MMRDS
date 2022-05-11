@@ -76,6 +76,12 @@ async function pre_render(msg)
 
     for(const [key, metadata] of indicator_map)
     {
+
+        if(g_report_type=='Detail' && key != g_report_index)
+        {
+            continue;
+        }
+
         await get_indicator_values(metadata.indicator_id);
         const totals = new Map();
 
