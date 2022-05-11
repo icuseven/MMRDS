@@ -433,8 +433,8 @@ indicator_map.set
     13,
     {
         indicator_id : "mHomeless",
-        title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
-        description:"description not specified",
+        title:"Living Arrangements",
+        description:"",
         blank_field_id: "MHomeless5",
 
         chart_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",

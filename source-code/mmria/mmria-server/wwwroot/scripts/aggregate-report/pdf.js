@@ -25,7 +25,7 @@ const header_style = { background:'#CCCCCC', bold:true };
 function get_report_page_table()
 {
     const result =  {
-        layout: 'lightLines',
+        layout: 'lightHorizontalLines',
         margin: [ 5, 5, 5, 5],
         fontSize: 10,
         table: {
@@ -78,7 +78,7 @@ async function pre_render(msg)
         {
             continue;
         }
-        
+
         await get_indicator_values(metadata.indicator_id);
         const totals = new Map();
 
@@ -154,7 +154,7 @@ async function pre_render(msg)
 async function render(msg)
 {
 
-    const report_datetime = `Report Generated ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
+    const report_datetime = `Report Generated: ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
     const over_view_layout = get_main_page_layout_table();
 
     over_view_layout.table.body.push(['', get_filter()]);
@@ -230,7 +230,7 @@ async function render(msg)
     function CreateIndicatorTable(p_metadata, p_totals)
     {
         const result =  {
-            layout: 'lightLines',
+            layout: 'lightHorizontalLines',
             margin: [ 5, 5, 5, 5],
             fontSize: 10,
             table: {
@@ -617,13 +617,13 @@ function get_filter()
     const result =  {
         layout: 'noBorders',
         margin: [ 5, 5, 5, 5],
-        fontSize: 10,
+        fontSize: 8,
         width: 'auto',
         table: {
           headerRows: 0,
           widths: [ 'auto', '*', '*'],
           body: [
-            [ { text:'Pregnancy-Relatedness', bold:true}, { text: 'Date of Review', bold:true},{ text: 'Date of Death', bold:true}],
+            [ { text:'Pregnancy-Relatedness:', bold:true}, { text: 'Review Dates:', bold:true},{ text: 'Dates of Death:', bold:true}],
                 filter_detail
           ]
         }

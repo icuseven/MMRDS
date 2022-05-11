@@ -197,8 +197,8 @@ indicator_map.set
     6.2,
     {
         indicator_id : "mHxofSubAbu",
-        title:"History of documented substance use",
-        description:"description not specified",
+        title:"Substance Use",
+        description:"",
         blank_field_id: "MHxSub3",
 
         chart_title:"History of documented substance use",
@@ -413,8 +413,8 @@ indicator_map.set
     11.2,
     {
         indicator_id : "mHomeless",
-        title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
-        description:"description not specified",
+        title:"Living Arrangements",
+        description:"",
         blank_field_id: "MHomeless5",
 
         chart_title:"Mother&apos;s experiences of homelessness in relation to pregnancy",
