@@ -33,18 +33,35 @@ function get_report_page_table()
           headerRows: 1,
           widths: [ '*', 'auto'],
           body: [
-            [ 'Report Page', 'Page Number' ],
+            [ { text:'Report Page', bold:true }, { text:'Page Number', bold:true} ],
           ]
         }
       };
 
     for(const [key, metadata] of indicator_map)
     {
-    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: `${metadata.indicator_id} 0`, aligment: 'right'}]);
+    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, alignment: 'right'}]);
     }
 
     return result;
 }
+
+
+const indicator_to_page = new Map();
+indicator_to_page.set('mPregRelated', { page_number:2, margin: [ 0,0,0,0]});
+indicator_to_page.set('mTimingofDeath', { page_number:3, margin: [ 0,0,0,0]});
+indicator_to_page.set('mDeathsbyRaceEth', { page_number:4, margin: [ 0,0,0,0]});
+indicator_to_page.set('mAgeatDeath', { page_number:5, margin: [ 0,0,0,0]});
+indicator_to_page.set('mEducation', { page_number:6, margin: [ 0,0,0,0]});
+indicator_to_page.set('mDeathSubAbuseEvi', { page_number:7, margin: [ 0,0,0,0]});
+indicator_to_page.set('mHxofSubAbu', { page_number:8, margin: [ 0,0,0,0]});
+indicator_to_page.set('mSubstAutop', { page_number:9, margin: [ 0,0,0,0]});
+indicator_to_page.set('mDeathCause', { page_number:10, margin: [ 0,0,0,0]});
+indicator_to_page.set('mMHTxTiming', { page_number:11, margin: [ 0,0,0,0]});
+indicator_to_page.set('mHxofEmoStress', { page_number:12, margin: [ 0,0,0,0]});
+indicator_to_page.set('mLivingArrange', { page_number:13, margin: [ 0,0,0,0]});
+indicator_to_page.set('mHomeless', { page_number:14, margin: [ 0,0,0,0]});
+indicator_to_page.set('mIncarHx', { page_number:15, margin: [ 0,0,0,0]});
 
 
 
