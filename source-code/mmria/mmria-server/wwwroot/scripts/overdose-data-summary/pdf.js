@@ -1,6 +1,6 @@
 var g_data =  null;
 var g_filter = null;
-var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]);
+var g_host_site = sanitize_encodeHTML(window.location.host.split("-")[0]).toUpperCase();
 var g_logoUrl = null;
 var g_view_or_print = 'view';
 var g_report_type = null;
