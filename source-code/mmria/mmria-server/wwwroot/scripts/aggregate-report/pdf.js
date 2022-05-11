@@ -48,7 +48,7 @@ function get_report_page_table()
 
 
 const indicator_to_page = new Map();
-indicator_to_page.set('mUndCofDeath', { page_number: 2, margin:[ 0,0,0,0]});
+indicator_to_page.set('mUndCofDeath', { page_number: 2, margin:[ 100,0,0,0]});
 indicator_to_page.set('mPregRelated', { page_number: 3, margin:[ 0,0,0,0]});
 indicator_to_page.set('mDeathPrevent', { page_number: 4, margin:[ 0,0,0,0]});
 indicator_to_page.set('mTimingofDeath', { page_number: 5, margin:[ 0,0,0,0]});
@@ -190,7 +190,8 @@ async function render(msg)
                         },
                         { 
                             text: `${g_host_site}-MMRIA Aggregate Report`, 
-                            alignment: 'center'
+                            alignment: 'center',
+                            bold:true
                         },
                         { 
                             text:[ 
@@ -244,11 +245,11 @@ async function render(msg)
     }
 
 
-    function CreateIndicatorTable(p_metadata, p_totals)
+    function CreateIndicatorTable(p_metadata, p_totals, p_margin = [ 5, 5, 5, 5])
     {
         const result =  {
             layout: 'lightHorizontalLines',
-            margin: [ 5, 5, 5, 5],
+            margin: p_margin,
             fontSize: 10,
             table: {
               headerRows: 1,
@@ -317,7 +318,7 @@ async function render(msg)
                 ]
             );
             doc_layout.table.body.push(['', { text: '\n' }]);
-            doc_layout.table.body.push(['', CreateIndicatorTable(metadata, totals)]);
+            doc_layout.table.body.push(['', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id.margin))]);
             doc_layout.table.body.push(['', { text: '\n' }]);
             doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}]);
             

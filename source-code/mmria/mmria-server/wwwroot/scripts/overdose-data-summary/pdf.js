@@ -48,7 +48,7 @@ function get_report_page_table()
 
 
 const indicator_to_page = new Map();
-indicator_to_page.set('mPregRelated', { page_number:2, margin: [ 0,0,0,0]});
+indicator_to_page.set('mPregRelated', { page_number:2, margin: [ 100,0,0,0]});
 indicator_to_page.set('mTimingofDeath', { page_number:3, margin: [ 0,0,0,0]});
 indicator_to_page.set('mDeathsbyRaceEth', { page_number:4, margin: [ 0,0,0,0]});
 indicator_to_page.set('mAgeatDeath', { page_number:5, margin: [ 0,0,0,0]});
@@ -201,7 +201,8 @@ async function render()
                         },
                         { 
                             text: `${g_host_site}-MMRIA Overdose Data Summary`, 
-                            alignment: 'center'
+                            alignment: 'center',
+                            bold:true
                         },
                         { 
                             text:[ 
@@ -248,11 +249,11 @@ async function render()
     }
 
 
-    function CreateIndicatorTable(p_metadata, p_totals)
+    function CreateIndicatorTable(p_metadata, p_totals, p_margin = [ 5, 5, 5, 5])
     {
         const result =  {
             layout: 'lightHorizontalLines',
-            margin: [ 5, 5, 25, 5],
+            margin: p_margin,
             fontSize: 10,
             alignment:'center',
             table: {
@@ -319,7 +320,7 @@ async function render()
                 { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5]}
             ]]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
-            doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals)]);
+            doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
             doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}])
         }
