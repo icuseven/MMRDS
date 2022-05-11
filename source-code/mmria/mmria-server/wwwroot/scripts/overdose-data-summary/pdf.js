@@ -185,7 +185,8 @@ async function render()
         pageMargins: [20, 45, 20, 20],
         header: (currentPage, pageCount) => {
 
-            const result = {
+            const result = [
+                {
                 layout: 'noBorders',
                 margin: [ 5, 5, 5, 2],
                 fontSize: 10,
@@ -213,22 +214,26 @@ async function render()
                             ], 
                             alignment: 'right'
                         }
-                    ],                
-                 
-                    [ 
-                        '',
-                        '', 
-                        { 
-                            text:[
-                                { text:'Report Generated: ', bold:true },
-                                { text: `${report_datetime}`}
-                            ], 
-                            alignment:'right'
-                        }
                     ]
-                    ]
+                ]                
+        
                 }
-              };
+              },
+              {
+                  columns:[
+                    { text:'', width: 5},
+                    { text:'', width: 5},
+                    { 
+                        text:[
+                            { text:'Report Generated: ', bold:true },
+                            { text: `${report_datetime}`}
+                        ], 
+                        alignment:'right',
+                        margin:[0,0,5,0]
+                    }
+                ]
+              }
+            ];
 
 			return result;
 		},
