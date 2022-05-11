@@ -373,13 +373,28 @@ async function download_data_quality_report_button_click()
                     break;
                     case "6":
                         if(item.cmp_quarter_number == quarter_number)
+                        /*if
+                        (
+                            item.cmp_quarter_number < quarter_number &&
+                            item.cmp_quarter_number >= quarter_number - 1
+                        )*/
                         {
                             if(item.n06 == 1) g_internal_set.add(new_id);
                         }
                     break;
                     case "7":
                         if(item.n07 == 1) g_internal_set.add(new_id);
-                    break;                                                                                                                                               
+                    break;
+                    case "header":
+                        if
+                        (
+                            item.cmp_quarter_number < quarter_number &&
+                            item.cmp_quarter_number >= quarter_number - 1.25
+                        )
+                        {
+                            if(item.n06 == 1) g_internal_set.add(new_id);
+                        }
+                        break; 
                     default:
                         break;
                 }
@@ -412,11 +427,10 @@ async function download_data_quality_report_button_click()
                 summary_data.n06 += item.n06;
                 summary_data.n07 += item.n07;
             }
-            
-            if
+            else if
             (
                 item.cmp_quarter_number < quarter_number &&
-                item.cmp_quarter_number >= quarter_number - 1
+                item.cmp_quarter_number >= quarter_number - 1.25
             )
             {
                 summary_data.previous4QuarterReview += item.n06;
@@ -469,7 +483,7 @@ async function download_data_quality_report_button_click()
             if 
             ( 
                 item.cmp_quarter_number < quarter_number &&
-                item.cmp_quarter_number >= quarter_number - 1
+                item.cmp_quarter_number >= quarter_number - 1.25
             ) 
             {
 
@@ -577,7 +591,7 @@ async function download_data_quality_report_button_click()
 
         const internal_ul = { ul: [] };
         dd.content.push( { text: "\n\n"});
-        dd.content.push("INTERNAL ONLY ******");
+        dd.content.push(`INTERNAL ONLY ****** ${internal_only.size}`);
         for(let item of internal_only)
         {
             const detail = case_header_map.get("dqr-" + item);
@@ -587,7 +601,7 @@ async function download_data_quality_report_button_click()
         dd.content.push(internal_ul);
        
         dd.content.push( { text: "\n\n"});
-        dd.content.push("EXTERNAL ONLY ******");
+        dd.content.push(`EXTERNAL ONLY ****** ${external_only.size}`);
 
         const external_ul = { ul: [] };
         for(let item of external_only)
