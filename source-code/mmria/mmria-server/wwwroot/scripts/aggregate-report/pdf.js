@@ -154,7 +154,7 @@ async function pre_render(msg)
 async function render(msg)
 {
 
-    const report_datetime = `Report Generated: ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
+    const report_datetime = `${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`;
     const over_view_layout = get_main_page_layout_table();
 
     over_view_layout.table.body.push(['', get_filter()]);
@@ -174,32 +174,49 @@ async function render(msg)
           },
           header: (currentPage, pageCount) => {
 
-            const result = { 
-                margin: 10,
-                columns: [
-                    {
-                        image: `${g_logoUrl}`,
-                        width: 30,
-                        margin: [0, 0, 0, 10]
-                    },
-                    { 
-                        width: '*',
-                        text: `${g_host_site}-MMRIA Aggregate Report\n${report_datetime}`, 
-                        alignment: 'center'
-                    },
-                    { 
-                        
-                        width: 110,
-                        text:[ 
-                            { text: 'Page: ', bold:true },
-                            `${currentPage}`,
-                            ' of ',
-                            `${pageCount}`                 
-                        ], 
-                        alignment: 'right'
-                    }
-                ]
-            }
+            const result = {
+                layout: 'noBorders',
+                margin: [ 5, 5, 5, 2],
+                fontSize: 10,
+                alignment:'center',
+                table: {
+                  headerRows: 1,
+                  widths: [ 30, '*','auto'],
+                  body: [
+                    [
+                        {
+                            image: `${g_logoUrl}`,
+                            width: 30,
+                        },
+                        { 
+                            text: `${g_host_site}-MMRIA Aggregate Report`, 
+                            alignment: 'center'
+                        },
+                        { 
+                            text:[ 
+                                { text: 'Page: ', bold:true },
+                                `${currentPage}`,
+                                ' of ',
+                                `${pageCount}`                 
+                            ], 
+                            alignment: 'right'
+                        }
+                    ],                
+                 
+                    [ 
+                        '',
+                        '', 
+                        { 
+                            text:[
+                                { text:'Report Generated: ', bold:true },
+                                { text: `${report_datetime}`}
+                            ], 
+                            alignment:'right'
+                        }
+                    ]
+                    ]
+                }
+              };
 			
 			return result;
 		},
@@ -209,7 +226,7 @@ async function render(msg)
         defaultStyle: {
 			fontSize: 10,
 		},
-        pageMargins: [20, 35, 20, 20],
+        pageMargins: [20, 45, 20, 20],
         footer: { 
             text: 'This data has been taken directly from the MMRIA database and is not a final report.',
             style: {italics:true },
@@ -270,9 +287,9 @@ async function render(msg)
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC', margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
-        doc_layout.table.body.push(['', { text: metadata.description }]);
+        doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
 
         const totals = indicator_id_to_data.get(key).totals;
@@ -364,7 +381,7 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 				title: {
 					display: true,
 					text: chartTitle,
-					color: '#1010dd',
+					color: '#000000',
 					font: {
 						weight: 'bold',
 						size: 36

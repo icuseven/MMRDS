@@ -125,6 +125,7 @@ async function pre_render(msg)
             datasets: [
                 {
                     label: metadata.x_axis_title.replace(/&apos;/g, '\''),
+
                     data: category_data,
                     backgroundColor: colorOne,
                     //borderColor: colorTwo,
@@ -156,11 +157,9 @@ async function pre_render(msg)
 async function render()
 {
 
-    const report_datetime = `Report Generated: ${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`
+    const report_datetime = `${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`;
     const over_view_layout = get_main_page_layout_table();
 
-
-    
     over_view_layout.table.body.push(['', get_filter()]);
     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' }]);
     over_view_layout.table.body.push([ '', '\n']);
@@ -183,36 +182,53 @@ async function render()
         defaultStyle: {
 			fontSize: 10,
 		},
-        pageMargins: [20, 35, 20, 20],
+        pageMargins: [20, 45, 20, 20],
         header: (currentPage, pageCount) => {
 
-            const result = { 
-                margin: 10,
-                columns: [
-                    {
-                        image: `${g_logoUrl}`,
-                        width: 30,
-                        margin: [0, 0, 0, 10]
-                    },
-                    { 
-                        width: '*',
-                        text: `${g_host_site}-MMRIA Overdose Data Summary\n${report_datetime}`, 
-                        alignment: 'center'
-                    },
-                    { 
-                        
-                        width: 110,
-                        text:[ 
-                            { text: 'Page: ', bold:true },
-                            `${currentPage}`,
-                            ' of ',
-                            `${pageCount}`                 
-                        ], 
-                        alignment: 'right'
-                    }
-                ]
-            }
-			
+            const result = {
+                layout: 'noBorders',
+                margin: [ 5, 5, 5, 2],
+                fontSize: 10,
+                alignment:'center',
+                table: {
+                  headerRows: 1,
+                  widths: [ 30, '*','auto'],
+                  body: [
+                    [
+                        {
+                            image: `${g_logoUrl}`,
+                            width: 30,
+                        },
+                        { 
+                            text: `${g_host_site}-MMRIA Overdose Data Summary`, 
+                            alignment: 'center'
+                        },
+                        { 
+                            text:[ 
+                                { text: 'Page: ', bold:true },
+                                `${currentPage}`,
+                                ' of ',
+                                `${pageCount}`                 
+                            ], 
+                            alignment: 'right'
+                        }
+                    ],                
+                 
+                    [ 
+                        '',
+                        '', 
+                        { 
+                            text:[
+                                { text:'Report Generated: ', bold:true },
+                                { text: `${report_datetime}`}
+                            ], 
+                            alignment:'right'
+                        }
+                    ]
+                    ]
+                }
+              };
+
 			return result;
 		},
         footer: { 
@@ -236,7 +252,7 @@ async function render()
     {
         const result =  {
             layout: 'lightHorizontalLines',
-            margin: [ 5, 5, 5, 5],
+            margin: [ 5, 5, 25, 5],
             fontSize: 10,
             alignment:'center',
             table: {
@@ -277,9 +293,9 @@ async function render()
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC' }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC', margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
-        doc_layout.table.body.push(['', { text: metadata.description }]);
+        doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
 
         const totals = indicator_id_to_data.get(key).totals;
@@ -370,7 +386,7 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 					display: true,
 					text: chartTitle,
 					color:
-                     '#1010dd',
+                     '#000000',
 					font: {
 						weight: 'bold',
 						size: 36
