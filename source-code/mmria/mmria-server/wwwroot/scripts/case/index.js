@@ -3872,7 +3872,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -3910,7 +3910,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -3948,7 +3948,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -3985,7 +3985,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4021,7 +4021,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4058,7 +4058,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4094,7 +4094,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4130,7 +4130,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4167,7 +4167,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4207,7 +4207,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4247,7 +4247,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4288,7 +4288,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4325,7 +4325,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4363,7 +4363,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4399,7 +4399,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4435,7 +4435,7 @@ async function autorecalculate
                     (
                         ! is_valid_delivery_date ||
                         is_valid_delivery_date &&
-                        map.get('event_date') < delivery_date
+                        map.get('event_date') <= delivery_date
                     )
                 ) 
                 {
@@ -4843,7 +4843,7 @@ async function autorecalculate_all_gestation
         (
             ! is_valid_delivery_date ||
             is_valid_delivery_date &&
-            map.get('event_date') < delivery_date
+            map.get('event_date') <= delivery_date
         )
     ) 
     {
@@ -4876,7 +4876,7 @@ async function autorecalculate_all_gestation
         (
             ! is_valid_delivery_date ||
             is_valid_delivery_date &&
-            map.get('event_date') < delivery_date
+            map.get('event_date') <= delivery_date
         )
     ) 
     {
@@ -4928,7 +4928,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             )  
             {
@@ -4959,7 +4959,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -4988,7 +4988,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5019,7 +5019,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5049,7 +5049,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5079,7 +5079,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5110,7 +5110,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5140,7 +5140,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5163,7 +5163,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             )  
             {
@@ -5187,7 +5187,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5216,7 +5216,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5247,7 +5247,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -5275,7 +5275,7 @@ async function autorecalculate_all_gestation
                         (
                             ! is_valid_delivery_date ||
                             is_valid_delivery_date &&
-                            map.get('event_date') < delivery_date
+                            map.get('event_date') <= delivery_date
                         )
                     ) 
                     {
@@ -5309,7 +5309,7 @@ async function autorecalculate_all_gestation
                 (
                     ! is_valid_delivery_date ||
                     is_valid_delivery_date &&
-                    map.get('event_date') < delivery_date
+                    map.get('event_date') <= delivery_date
                 )
             ) 
             {
@@ -6098,7 +6098,7 @@ function arc_eha_days_postpartum(p_form_index)
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 
         $global.isValidDate(end_year, end_month, end_day) == true && 
-        start_date <= end_date
+        start_date < end_date
     ) 
     {
         days = $global.calc_days(start_date, end_date);
@@ -6146,7 +6146,7 @@ function arc_eha_days_postpartum2(p_form_index)
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 
         $global.isValidDate(end_year, end_month, end_day) == true && 
-        start_date <= end_date
+        start_date < end_date
     ) 
     {
         days = $global.calc_days(start_date, end_date);
@@ -6192,7 +6192,7 @@ function arc_ehd_days_dhdc_postpartum(p_form_index)
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 
         $global.isValidDate(end_year, end_month, end_day) == true && 
-        start_date <= end_date
+        start_date < end_date
     ) 
     {
         days = $global.calc_days(start_date, end_date);
@@ -6239,7 +6239,7 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 
         $global.isValidDate(end_year, end_month, end_day) == true && 
-        start_date <= end_date
+        start_date < end_date
     ) 
     {
         days = $global.calc_days(start_date, end_date);
@@ -6301,7 +6301,7 @@ function arc_omov_days_calc_gestataion_postpartum(p_form_index)
         (
             ! is_valid_delivery_date ||
             is_valid_delivery_date &&
-            map.get('event_date') < delivery_date
+            map.get('event_date') <= delivery_date
         )
     ) 
     {
@@ -6349,7 +6349,12 @@ function arc_mt_days_postpartum(p_form_index)
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
     var start_date = new Date(start_year, start_month - 1, start_day);
     var end_date = new Date(end_year, end_month - 1, end_day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true && 
+        start_date < end_date
+    ) 
     {
         days = $global.calc_days(start_date, end_date);
         g_data.medical_transport[p_form_index].date_of_transport.days_postpartum = days;
@@ -6411,7 +6416,7 @@ function arc_mt_days_postpartum(p_form_index)
         (
             ! is_valid_delivery_date ||
             is_valid_delivery_date &&
-            map.get('event_date') < delivery_date
+            map.get('event_date') <= delivery_date
         )
     ) 
     {
@@ -6538,7 +6543,7 @@ function arc_mh_days_postpartum(p_form_index, p_grid_index)
             (
                 ! is_valid_delivery_date ||
                 is_valid_delivery_date &&
-                map.get('event_date') < delivery_date
+                map.get('event_date') <= delivery_date
             )
         ) 
         {
