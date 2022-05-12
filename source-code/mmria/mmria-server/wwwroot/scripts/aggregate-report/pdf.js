@@ -164,10 +164,10 @@ async function render(msg)
     const over_view_layout = get_main_page_layout_table();
 
     over_view_layout.table.body.push(['', get_filter()]);
-     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:fill_Color } ]);
+     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:fill_Color, color:'#000080' } ]);
      over_view_layout.table.body.push([ '', '\n' ]);
      over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
-     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:fill_Color } ]);
+     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:fill_Color, color:'#000080' } ]);
      over_view_layout.table.body.push([ '', get_report_page_table() ]);
 
     var doc = {
@@ -304,7 +304,7 @@ async function render(msg)
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, margin:[0,0,15,0] }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, color:'#000080', margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
         doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
