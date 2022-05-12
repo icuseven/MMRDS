@@ -40,7 +40,16 @@ function get_report_page_table()
 
     for(const [key, metadata] of indicator_map)
     {
-    result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, alignment: 'right'}]);
+        if
+        (
+            metadata.indicator_id == 'mHxofSubAbu' ||
+            metadata.indicator_id == 'mHomeless'
+        )
+        {
+            continue;
+        }
+
+        result.table.body.push([ metadata.title.replace(/&apos;/g, '\''), { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, alignment: 'right'}]);
     }
 
     return result;
@@ -199,11 +208,14 @@ async function render()
                         {
                             image: `${g_logoUrl}`,
                             width: 30,
+                            margin:[60,0,0,0],
                         },
                         { 
                             text: `${g_host_site}-MMRIA Overdose Data Summary`, 
                             alignment: 'center',
-                            bold:true
+                            //bold:true,
+				            color: '#000080',
+            
                         },
                         { 
                             text:[ 
@@ -212,7 +224,9 @@ async function render()
                                 ' of ',
                                 `${pageCount}`                 
                             ], 
-                            alignment: 'right'
+                            alignment: 'right',
+                            fontSize:8,
+                            margin:[0,0,5,0],
                         }
                     ]
                 ]                
@@ -229,7 +243,9 @@ async function render()
                             { text: `${report_datetime}`}
                         ], 
                         alignment:'right',
-                        margin:[0,0,5,0]
+                        margin:[0,0,0,0],
+                        fontSize:8,
+                        margin:[0,0,5,0],
                     }
                 ]
               }

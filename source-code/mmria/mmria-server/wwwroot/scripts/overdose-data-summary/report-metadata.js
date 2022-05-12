@@ -318,7 +318,7 @@ indicator_map.set
     9,
     {
         indicator_id : "mMHTxTiming",
-        title:"Treatment history",
+        title:"Treatment History",
         description:"Treatment history is determined from variables on the Mental Health Profile that ask if treatment for mental health conditions was received prior to, during, or after the most recent pregnancy. The mental health conditions represented here are documented by the abstractor and may include depression, anxiety disorder, bipolar disorder, psychotic disorder, substance use disorder, or ‘other’. Each timing category includes all persons with at least one indicated treatment in that time period.",
         blank_field_id: "MMHTx4",
 
@@ -447,7 +447,7 @@ indicator_map.set
     12,
     {
         indicator_id : "mIncarHx",
-        title:"Mother&apos;s Incarceration History",
+        title:"Incarceration History",
         description: "Incarceration history is determined using the corresponding variable on the Social and Environmental Profile that asks, 'Was decedent ever incarcerated?’ Each person can have multiple time periods entered, and the graph reflects the number of persons incarcerated at that time period.",
         blank_field_id: "MHxIncar8",
 

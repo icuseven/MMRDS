@@ -6,6 +6,8 @@ var g_view_or_print = 'view';
 var g_report_type = null;
 var g_report_index = null;
 
+const fill_Color = '#CCCCCC';
+
 
 const bc = new BroadcastChannel('aggregate_pdf_channel');
 bc.onmessage = (message_data) => {
@@ -39,6 +41,10 @@ function get_report_page_table()
 
       for(const [key, metadata] of indicator_map)
       {
+        if(metadata.indicator_id == 'mHomeless')
+        {
+            continue;
+        }
         result.table.body.push([ { text:metadata.title.replace(/&apos;/g, '\''), alignment: 'left' }, { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, aligment: 'right'}]);
       }
 
@@ -158,10 +164,10 @@ async function render(msg)
     const over_view_layout = get_main_page_layout_table();
 
     over_view_layout.table.body.push(['', get_filter()]);
-     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC' } ]);
+     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:fill_Color } ]);
      over_view_layout.table.body.push([ '', '\n' ]);
      over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
-     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:'#CCCCCC' } ]);
+     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:fill_Color } ]);
      over_view_layout.table.body.push([ '', get_report_page_table() ]);
 
     var doc = {
@@ -188,11 +194,13 @@ async function render(msg)
                         {
                             image: `${g_logoUrl}`,
                             width: 30,
+                            margin:[60,0,0,0],
                         },
                         { 
                             text: `${g_host_site}-MMRIA Aggregate Report`, 
                             alignment: 'center',
-                            bold:true
+                            //bold:true,
+				            color: '#000080',
                         },
                         { 
                             text:[ 
@@ -201,7 +209,9 @@ async function render(msg)
                                 ' of ',
                                 `${pageCount}`                 
                             ], 
-                            alignment: 'right'
+                            alignment: 'right',
+                            fontSize:8,
+                            margin:[0,0,5,0],
                         }
                     ]
                 ]                
@@ -218,7 +228,8 @@ async function render(msg)
                             { text: `${report_datetime}`}
                         ], 
                         alignment:'right',
-                        margin:[0,0,5,0]
+                        margin:[0,0,10,0],
+                        fontSize:8
                     }
                 ]
               }
@@ -260,7 +271,7 @@ async function render(msg)
               headerRows: 1,
               widths: [ 'auto', 'auto'],
               body: [
-                [ { text:`${p_metadata.table_title.replace(/&apos;/g, '\'')}`, bold:true, fillColor:'#CCCCCC'}, { text:'Number of deaths', bold:true, fillColor:'#CCCCCC'} ],                
+                [ { text:`${p_metadata.table_title.replace(/&apos;/g, '\'')}`, bold:true, fillColor:fill_Color}, { text:'Number of deaths', bold:true, fillColor:fill_Color} ],                
               ]
             }
           };
@@ -293,7 +304,7 @@ async function render(msg)
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }
         doc_layout.table.body.push(['', get_filter()]);
-        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:'#CCCCCC', margin:[0,0,15,0] }]);
+        doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
         doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
         doc_layout.table.body.push(['', { text: '\n' }]);
@@ -476,11 +487,11 @@ function render_committee_determination_table(p_metadata, p_totals)
           widths: [ '*', 'auto', 'auto', 'auto', 'auto'],
           body: [
             [ 
-                { text:`${p_metadata.table_title}`, bold:true, fillColor:'#CCCCCC'}, 
-                { text:'Yes', bold:true, fillColor:'#CCCCCC'}, 
-                { text:'No', bold:true, fillColor:'#CCCCCC'},
-                { text:'Probably', bold:true, fillColor:'#CCCCCC'},
-                { text:'Unknown', bold:true, fillColor:'#CCCCCC'},
+                { text:`${p_metadata.table_title}`, bold:true, fillColor:fill_Color}, 
+                { text:'Yes', bold:true, fillColor:fill_Color}, 
+                { text:'No', bold:true, fillColor:fill_Color},
+                { text:'Probably', bold:true, fillColor:fill_Color},
+                { text:'Unknown', bold:true, fillColor:fill_Color},
             ],                
           ]
         }
