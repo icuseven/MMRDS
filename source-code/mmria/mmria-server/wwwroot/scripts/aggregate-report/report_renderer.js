@@ -208,7 +208,7 @@ if(p_current_index < 1)
             <div id="pdf-control" 
                 style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
-                    <strong>Select Report Type:</strong>
+                    <strong>Save and Print:</strong>
 
                 </p> 
                 <p>
