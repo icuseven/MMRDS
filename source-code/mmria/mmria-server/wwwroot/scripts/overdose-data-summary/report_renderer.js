@@ -205,12 +205,10 @@ if(g_report_index < 1)
         </div>
         <div style="display: inline-block;float:right;width:25%">
             <div id="pdf-control" 
-                style="width:300px;height:140px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
+                style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
-                    <strong>Select Report Type:</strong>  
-                    <span style="float:right;">
-                        <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
-                    </span>
+                    <strong>Save and Print</strong>  
+                   
                 </p> 
                 <p>
                     <input type="radio" id="summary-report" name="report-type" value="Summary" onclick="updateReportType(event)" checked>
@@ -218,7 +216,11 @@ if(g_report_index < 1)
                 </p>
                 <p>
                     ${current_page_html}
-                    <span style="float:right">
+                </p>
+                <span>
+                    <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
+                </span>
+                    <span>
                         <button class="btn btn-primary" onclick="print_pdf_click()">Save PDF</button>
                     </span>
                 </p>

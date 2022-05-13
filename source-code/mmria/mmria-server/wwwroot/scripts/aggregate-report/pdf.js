@@ -54,8 +54,8 @@ function get_report_page_table()
 
 
 const indicator_to_page = new Map();
-indicator_to_page.set('mUndCofDeath', { page_number: 2, margin:[ 60,0,0,0]});
-indicator_to_page.set('mPregRelated', { page_number: 3, margin:[ 80,0,0,0]});
+indicator_to_page.set('mUndCofDeath', { page_number: 2, margin:[ 0,0,0,0]});
+indicator_to_page.set('mPregRelated', { page_number: 3, margin:[ 0,0,0,0]});
 indicator_to_page.set('mDeathPrevent', { page_number: 4, margin:[ 0,0,0,0]});
 indicator_to_page.set('mTimingofDeath', { page_number: 5, margin:[ 0,0,0,0]});
 indicator_to_page.set('mOMBRaceRcd', { page_number: 6, margin:[ 0,0,0,0]});
@@ -336,7 +336,7 @@ async function render(msg)
             doc_layout.table.body.push(['', { text: '\n' }]);
             doc_layout.table.body.push(['', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
             doc_layout.table.body.push(['', { text: '\n' }]);
-            doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}]);
+            doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}]);
             
         }
 
@@ -363,7 +363,7 @@ async function render(msg)
 function createNamePDF() 
 {
 	let utcDate = new Date().toISOString();
-	return `Overdose-Data-Summary_${utcDate}.pdf`;
+	return `Aggregate-Report_${utcDate}.pdf`;
 }
 
 
@@ -403,7 +403,13 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 						weight: 'bold',
 						size: 36
 					}
-				}
+				},
+                legend: {
+                    display: false,
+                    labels: {
+                        color: 'rgb(255, 99, 132)'
+                    }
+                }
 			},
 			maintainAspectRatio: false,
 			responsive: true,
@@ -475,11 +481,11 @@ function getBase64ImageFromURL(url) {
 function render_committee_determination_table(p_metadata, p_totals)
 {
     const result = [
-        { text:p_metadata.chart_title, bold:true, background:'#b890bb', alignment:'center', fontSize:14},
+        { text:p_metadata.chart_title, bold:true, background:'#FFFFFF', alignment:'center', fontSize:10},
         '\n'
     ];
     const table =  {
-        layout: 'lightLines',
+        layout: 'lightHorizontalLines',
         margin: [ 5, 5, 5, 5],
         fontSize: 10,
         table: {

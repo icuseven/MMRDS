@@ -57,7 +57,7 @@ function get_report_page_table()
 
 
 const indicator_to_page = new Map();
-indicator_to_page.set('mPregRelated', { page_number:2, margin: [ 100,0,0,0]});
+indicator_to_page.set('mPregRelated', { page_number:2, margin: [ 0,0,0,0]});
 indicator_to_page.set('mTimingofDeath', { page_number:3, margin: [ 0,0,0,0]});
 indicator_to_page.set('mDeathsbyRaceEth', { page_number:4, margin: [ 0,0,0,0]});
 indicator_to_page.set('mAgeatDeath', { page_number:5, margin: [ 0,0,0,0]});
@@ -78,7 +78,7 @@ let indicator_id_to_data = new Map();
 
 async function pre_render(msg)
 {
-
+    //Chart.defaults.font.color = '#000000';
     g_logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
 
     indicator_id_to_data = new Map();
@@ -129,12 +129,12 @@ async function pre_render(msg)
 
         const colorOne = '#b890bb';
         const colorTwo = '#FFFF00';
-       const optData = {
+        const optData = {
             labels: categories,
+            
             datasets: [
                 {
                     label: metadata.x_axis_title.replace(/&apos;/g, '\''),
-
                     data: category_data,
                     backgroundColor: colorOne,
                     //borderColor: colorTwo,
@@ -338,12 +338,12 @@ async function render()
             doc_layout.table.body.push
             (['',[ 
                 
-                { image: retImg, width: 550, alignment: 'center', margin: [ 5, 5, 5, 5]}
+                { image: retImg, width: 520, alignment: 'center', margin: [ 5, 5, 5, 5]}
             ]]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
             doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
-            doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'center'}])
+            doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}])
         }
 
         doc.content.push(doc_layout);
@@ -413,7 +413,13 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 						weight: 'bold',
 						size: 36
 					}
-				}
+				},
+                legend: {
+                    display: false,
+                    labels: {
+                        color: 'rgb(255, 99, 132)'
+                    }
+                }
 			},
 			maintainAspectRatio: false,
 			responsive: true,
@@ -484,12 +490,13 @@ function getBase64ImageFromURL(url) {
 
 function render_committee_determination_table(p_metadata, p_totals)
 {
+    //background:'#b890bb'
     const result = [
-        { text:p_metadata.chart_title, bold:true, background:'#b890bb', alignment:'center', fontSize:14},
+        { text:p_metadata.chart_title, bold:true, background:'#FFFFFF', alignment:'center', fontSize:10},
         '\n'
     ];
     const table =  {
-        layout: 'lightLines',
+        layout: 'lightHorizontalLines',
         margin: [ 5, 5, 5, 5],
         fontSize: 10,
         table: {
