@@ -455,8 +455,10 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
   return result;
 }
 
-function renderSummarySection(el = undefined) {
-  if (el) {
+function renderSummarySection(el = undefined) 
+{
+  if (el) 
+  {
     let val = capitalizeFirstLetter(el.value);
     let prop = el.dataset.prop;
     const props = document.querySelectorAll(
@@ -745,7 +747,8 @@ var g_case_view_request = {
   },
 };
 
-function get_case_set() {
+function get_case_set() 
+{
   var case_view_url =
     location.protocol +
     '//' +
@@ -990,7 +993,7 @@ function render_de_identified_search_result()
 function render_de_identified_search_result_item(p_item) 
 {
   let item_id = p_item.path.replace(/\//g, '-');
-  selected_metadata_dictionary[item_id] = p_item.node;
+  selected_metadata_dictionary.set(item_id, p_item.node);
   const checked = answer_summary.de_identified_field_set.includes(item_id);
   return `<tr class="tr">
 				<td class="td text-center" width="38">
@@ -1007,7 +1010,7 @@ function render_de_identified_search_result_item(p_item)
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 													data-prop="search--${p_item.path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
-										<span class="pointer-none"><strong>Path:</strong> ${p_item.path}</span>
+										<span class="pointer-none">[${p_item.node.sass_export_name == null ? '' : p_item.node.sass_export_name}]  <strong>Path:</strong> ${p_item.path}</span>
 									</button>
 								</th>
 							</tr>
@@ -1122,10 +1125,25 @@ function de_identified_select_all_click()
 
 function add_standard_de_identified_fields_click()
 {
-    g_standard_export_report_set;
-    g_de_identified_search_result;
+    //g_standard_export_report_set;
+    //g_de_identified_search_result;
+
+    for(const i in g_standard_de_identified_list.paths)
+    {
+        const path = g_standard_de_identified_list.paths[i];
+        const key = `-${path.replace(/\//g, '-')}`;
+        if(answer_summary.de_identified_field_set.indexOf(key) < 0)
+        {
+            answer_summary.de_identified_field_set.push(key);
+            selected_metadata_dictionary.set(key, g_path_to_node.get(`/${path}`));
+        }
+    }
+
+    let de_identify_search_result_list = document.getElementById('de_identify_search_result_list');
+
+    de_identify_search_result_list.innerHTML = render_de_identified_search_result();
     renderSelectedSearchedSummary();
-    renderSummarySection(p_checkbox);
+    renderSummarySection();
 }
 
 function de_identified_result_checkbox_click(p_checkbox) 
@@ -1155,7 +1173,7 @@ function render_selected_de_identified_list(p_answer_summary)
 {
   return p_answer_summary.de_identified_field_set
     .map((item_id) => {
-      const value_list = selected_metadata_dictionary[item_id];
+      const value_list = selected_metadata_dictionary.get(item_id);
       return `<tr class="tr">
 				<td class="td text-center" width="38">
 					<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}" checked=true />
@@ -1169,7 +1187,7 @@ function render_selected_de_identified_list(p_answer_summary)
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 													data-prop="selected--${item_id.replace(/-/g, '/')}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
-										<span class="pointer-none"><strong>Path:</strong> ${item_id.replace(
+										<span class="pointer-none"> [${value_list.sass_export_name == null ? '': value_list.sass_export_name}] <strong>Path:</strong>${item_id.replace(
                       /-/g,
                       '/'
                     )}</span>
@@ -1413,13 +1431,17 @@ function render_filter_records_per_page(p_sort)
     return f_result.join('');
 }
 
-function case_filter_type_click(p_value) {
+function case_filter_type_click(p_value) 
+{
   answer_summary.case_filter_type = p_value.value.toLowerCase();
 
   var custom_case_filter = document.getElementById('custom_case_filter');
-  if (p_value.value.toLowerCase() == 'custom') {
+  if (p_value.value.toLowerCase() == 'custom') 
+  {
     custom_case_filter.style.display = 'block';
-  } else {
+  } 
+  else 
+  {
     custom_case_filter.style.display = 'none';
   }
 

@@ -10,6 +10,7 @@ var g_current_version = null;
 var g_all_de_identified_paths = [];
 var g_standard_export_report_set  = {};
 const g_de_identified_search_result = new Map();
+const g_path_to_node = new Map();
 
 var g_ui = { is_collapsed: [] };
 var g_filter = {
@@ -33,7 +34,7 @@ var g_filter = {
 };
 
 var selected_dictionary = {};
-var selected_metadata_dictionary = {};
+var selected_metadata_dictionary = new Map();
 
 var answer_summary = {
   all_or_core: 'all',
@@ -59,7 +60,8 @@ $(function () {
   //update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
-function load_data() {
+function load_data() 
+{
   var url = location.protocol + '//' + location.host + '/api/export_queue';
 
   $.ajax({
@@ -82,7 +84,8 @@ function load_data() {
   });
 }
 
-function render() {
+function render() 
+{
   g_data.sort(function (a, b) {
     return b.date_created - a.date_created;
   });
@@ -94,7 +97,27 @@ function render() {
   // render_answer_summary();
 }
 
-function create_queue_item(
+function populate_path_to_node(p_node, p_path)
+{
+    switch(p_node.type.toLowerCase())
+    {
+        case 'form':
+        case 'app':
+        case 'group':
+        case 'grid':
+            for(let i = 0; i < p_node.children.length; i++)
+            {
+                const child = p_node.children[i];
+                populate_path_to_node(child, `${p_path}/${child.name}`)
+            }
+        default:
+            g_path_to_node.set(p_path, p_node);
+            break;
+    }
+}
+
+function create_queue_item
+(
   p_export_type,
   p_all_or_core,
   p_grantee_name,
@@ -471,6 +494,7 @@ function get_metadata()
   {
     g_metadata = response;
     g_all_de_identified_paths = getDeIdentifiedPaths(response.children);
+    populate_path_to_node(g_metadata, '');
     for (var i in g_metadata.lookup) 
     {
       var child = g_metadata.lookup[i];
