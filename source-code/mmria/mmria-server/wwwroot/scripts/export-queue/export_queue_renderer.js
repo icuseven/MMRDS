@@ -155,7 +155,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
             }; border: 1px solid #bbb;">
 							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 							<div class="form-inline mb-2">
-								<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+								<label for="de_identify_search_text" class="mr-2"> Search text:</label>
 								<input type="text"
 											 class="form-control mr-2"
 											 id="de_identify_search_text"
@@ -163,13 +163,19 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								<select id="de_identify_form_filter" class="custom-select mr-2" onchange="">
 									${render_de_identify_form_filter(p_filter)}
 								</select>
-								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="init_inline_loader(de_identified_search_click)">Search</button>
+								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="init_inline_loader(de_identified_search_click)">Apply Field Search Filters</button>
 								<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 							</div>
 							<div class="row">
 								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all_click()">
-									Select All
+									Select All Search Results
 								</button>
+                                <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_all_click()">
+                                    Clear All Search Results
+                                </button>
+                                <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="add_standard_de_identified_fields_click()">
+                                    Add Standard De-Identified Fields
+                                </button>
 							</div>
 							
 							<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
@@ -198,6 +204,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 													<span id="de_identified_count">Fields that have been de-identified (${
                             p_answer_summary.de_identified_field_set.length
                           })</span>
+                                        <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_all_click()">
+                                            Clear All Search Results
+                                        </button>
 												</span>
 											</th>
 										</tr>
@@ -1083,6 +1092,14 @@ function renderSelectedSearchedSummary()
   countEl.innerHTML = `Fields that have been de-identified (${answer_summary.de_identified_field_set.length})`;
 }
 
+function de_identified_clear_all_click() 
+{
+    //g_de_identified_search_result.clear();
+    answer_summary.de_identified_field_set = [];
+    renderSelectedSearchedSummary();
+    renderSummarySection();
+}
+
 function de_identified_select_all_click() 
 {
   const fieldSet = g_all_de_identified_paths.map
@@ -1101,6 +1118,14 @@ function de_identified_select_all_click()
   renderSelectedSearchedSummary();
   renderSummarySection();
 
+}
+
+function add_standard_de_identified_fields_click()
+{
+    g_standard_export_report_set;
+    g_de_identified_search_result;
+    renderSelectedSearchedSummary();
+    renderSummarySection(p_checkbox);
 }
 
 function de_identified_result_checkbox_click(p_checkbox) 
