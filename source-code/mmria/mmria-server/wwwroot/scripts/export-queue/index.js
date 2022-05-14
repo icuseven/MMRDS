@@ -9,6 +9,7 @@ var g_delete_node_clip_board = null;
 var g_current_version = null;
 var g_all_de_identified_paths = [];
 var g_standard_export_report_set  = {};
+const g_de_identified_search_result = new Map();
 
 var g_ui = { is_collapsed: [] };
 var g_filter = {

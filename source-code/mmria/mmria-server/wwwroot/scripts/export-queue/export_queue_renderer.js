@@ -919,59 +919,69 @@ function de_identified_search_click()
 {
   g_filter.selected_form = document.getElementById('de_identify_form_filter').value;
 
+  const search_text = document.getElementById('de_identify_search_text').value;
+
   let de_identify_search_result_list = document.getElementById('de_identify_search_result_list');
-  de_identify_search_result_list.innerHTML = render_de_identified_search_result(g_metadata.children);
+
+  g_de_identified_search_result.clear();
+  get_de_identified_search_results(g_metadata, '', search_text, g_filter.selected_form);
+  de_identify_search_result_list.innerHTML = render_de_identified_search_result();
 }
 
-function render_de_identified_search_result(children, path = '') 
+function get_de_identified_search_results(p_node, p_path,  p_search_text, p_form)
 {
-  return children
-    .map((child) => {
-      if (child.type === 'form' && g_filter.selected_form) 
-      {
-        if (child.name.toLowerCase() == g_filter.selected_form.toLowerCase()) 
-        {
-          return render_de_identified_search_result(
-            child.children,
-            '/' + child.name
-          );
-        } 
-        else 
-        {
-          // filter the ones that don't match
-          return []; // empty array will get flatted
-        }
-      } 
-      else if (['app', 'group', 'grid', 'form'].includes(child.type)) 
-      {
-        return render_de_identified_search_result(
-          child.children,
-          '/' + child.name
-        );
-      } 
-      else 
-      {
-        const p_path = path + '/' + child.name;
-        return render_de_identified_search_result_item(child, p_path);
-      }
-    })
-    .flat()
-    .join('');
+    switch(p_node.type.toLowerCase())
+    {
+        case 'form':
+        case 'app':
+        case 'group':
+        case 'grid':
+            if
+            (
+                p_form != null &&
+                p_form != '' && 
+                p_node.type.toLowerCase() == 'form'
+            )
+            {
+                if(p_form.toLowerCase() != p_node.name.toLowerCase())
+                {
+                    return;
+                }
+            }
+            for(let i = 0; i < p_node.children.length; i++)
+            {
+                const child = p_node.children[i];
+                get_de_identified_search_results(child, `${p_path}/${child.name}`,  p_search_text, p_form)
+            }
+        default:
+            if
+            (
+                p_node.name.indexOf(p_search_text) > -1 ||
+                p_path.indexOf(p_search_text) > -1
+            )
+            {
+                g_de_identified_search_result.set(p_path, { node: p_node, path:p_path });
+            }
+            break;
+    }
 }
 
-function render_de_identified_search_result_item(child, p_path) 
+function render_de_identified_search_result() 
 {
-  // if a search has been applied filter the results
-  if (g_filter.search_text) 
-  {
-    const textToSearch = p_path + child.propt;
-    const searchRegex = new RegExp(g_filter.search_text.toLowerCase());
-    // skip the render if there is no match
-    if (!textToSearch.match(searchRegex)) return '';
-  }
+    const result = [];
+    for(const item of g_de_identified_search_result)
+    {
+        //render_de_identified_search_result
+        result.push(render_de_identified_search_result_item(item[1]));
+    }
 
-  let item_id = p_path.replace(/\//g, '-');
-  selected_metadata_dictionary[item_id] = child;
+    return result.join("");
+}
+
+function render_de_identified_search_result_item(p_item) 
+{
+  let item_id = p_item.path.replace(/\//g, '-');
+  selected_metadata_dictionary[item_id] = p_item.node;
   const checked = answer_summary.de_identified_field_set.includes(item_id);
   return `<tr class="tr">
 				<td class="td text-center" width="38">
@@ -986,15 +996,15 @@ function render_de_identified_search_result_item(child, p_path)
 							<tr class="tr">
 								<th class="th" colspan="4" scope="colgroup">
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
-													data-prop="search--${p_path}"
+													data-prop="search--${p_item.path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
-										<span class="pointer-none"><strong>Path:</strong> ${p_path}</span>
+										<span class="pointer-none"><strong>Path:</strong> ${p_item.path}</span>
 									</button>
 								</th>
 							</tr>
 						</thead>
 						<thead class="thead">
-							<tr class="tr bg-white" data-show="search--${p_path}" style="display: none">
+							<tr class="tr bg-white" data-show="search--${p_item.path}" style="display: none">
 								<th class="th" scope="col">Name</th>
 								<th class="th" scope="col">Type</th>
 								<th class="th" scope="col">Prompt</th>
@@ -1002,10 +1012,10 @@ function render_de_identified_search_result_item(child, p_path)
 							</tr>
 						</thead>
 						<tbody class="tbody">
-							<tr class="tr" data-show="search--${p_path}" style="display: none">
-								<td class="td">${child.name}</td>
-								<td class="td">${child.type}</td>
-								<td class="td">${child.prompt}</td>
+							<tr class="tr" data-show="search--${p_item.path}" style="display: none">
+								<td class="td">${p_item.node.name}</td>
+								<td class="td">${p_item.node.type}</td>
+								<td class="td">${p_item.node.prompt}</td>
 								<td class="td"></td>
 							</tr>
 						</tbody>
