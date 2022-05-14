@@ -8,7 +8,6 @@ var g_delete_attribute_clip_board = null;
 var g_delete_node_clip_board = null;
 var g_current_version = null;
 var g_all_de_identified_paths = [];
-var g_toggle_can_select_all = true;
 var g_standard_export_report_set  = {};
 
 var g_ui = { is_collapsed: [] };

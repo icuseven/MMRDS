@@ -167,7 +167,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 							</div>
 							<div class="row">
-								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all()">
+								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all_click()">
 									Select All
 								</button>
 							</div>
@@ -915,38 +915,42 @@ function render_selected_case_list(p_result, p_answer_summary)
   }
 }
 
-function de_identified_search_click() {
-  g_filter.selected_form = document.getElementById(
-    'de_identify_form_filter'
-  ).value;
+function de_identified_search_click() 
+{
+  g_filter.selected_form = document.getElementById('de_identify_form_filter').value;
 
-  let de_identify_search_result_list = document.getElementById(
-    'de_identify_search_result_list'
-  );
-  de_identify_search_result_list.innerHTML = render_de_identified_search_result(
-    g_metadata.children
-  );
+  let de_identify_search_result_list = document.getElementById('de_identify_search_result_list');
+  de_identify_search_result_list.innerHTML = render_de_identified_search_result(g_metadata.children);
 }
 
-function render_de_identified_search_result(children, path = '') {
+function render_de_identified_search_result(children, path = '') 
+{
   return children
     .map((child) => {
-      if (child.type === 'form' && g_filter.selected_form) {
-        if (child.name.toLowerCase() == g_filter.selected_form.toLowerCase()) {
+      if (child.type === 'form' && g_filter.selected_form) 
+      {
+        if (child.name.toLowerCase() == g_filter.selected_form.toLowerCase()) 
+        {
           return render_de_identified_search_result(
             child.children,
             '/' + child.name
           );
-        } else {
+        } 
+        else 
+        {
           // filter the ones that don't match
           return []; // empty array will get flatted
         }
-      } else if (['app', 'group', 'grid', 'form'].includes(child.type)) {
+      } 
+      else if (['app', 'group', 'grid', 'form'].includes(child.type)) 
+      {
         return render_de_identified_search_result(
           child.children,
           '/' + child.name
         );
-      } else {
+      } 
+      else 
+      {
         const p_path = path + '/' + child.name;
         return render_de_identified_search_result_item(child, p_path);
       }
@@ -955,14 +959,17 @@ function render_de_identified_search_result(children, path = '') {
     .join('');
 }
 
-function render_de_identified_search_result_item(child, p_path) {
+function render_de_identified_search_result_item(child, p_path) 
+{
   // if a search has been applied filter the results
-  if (g_filter.search_text) {
+  if (g_filter.search_text) 
+  {
     const textToSearch = p_path + child.propt;
     const searchRegex = new RegExp(g_filter.search_text.toLowerCase());
     // skip the render if there is no match
     if (!textToSearch.match(searchRegex)) return '';
   }
+
   let item_id = p_path.replace(/\//g, '-');
   selected_metadata_dictionary[item_id] = child;
   const checked = answer_summary.de_identified_field_set.includes(item_id);
@@ -1007,7 +1014,8 @@ function render_de_identified_search_result_item(child, p_path) {
 			</tr>`;
 }
 
-function render_standard_de_identify_fields(p_paths) {
+function render_standard_de_identify_fields(p_paths) 
+{
   let result = '';
 
   for (let i = 0; i < p_paths.paths.length; i++) {
@@ -1024,20 +1032,27 @@ function render_standard_de_identify_fields(p_paths) {
   return result;
 }
 
-function render_de_identify_form_filter(p_filter) {
-  let result = [];
+function render_de_identify_form_filter(p_filter) 
+{
+  const result = [];
 
   result.push(`<option value="">(Any Form)</option>`);
 
-  for (let i = 0; i < g_metadata.children.length; i++) {
+  for (let i = 0; i < g_metadata.children.length; i++) 
+  {
     let item = g_metadata.children[i];
 
-    if (item.type.toLowerCase() == 'form') {
-      if (p_filter.selected_form == item.name) {
-        result.push(
+    if (item.type.toLowerCase() == 'form') 
+    {
+      if (p_filter.selected_form == item.name) 
+      {
+        result.push
+        (
           `<option value="${item.name}" selected>${item.prompt}</option>`
         );
-      } else {
+      } 
+      else 
+      {
         result.push(`<option value="${item.name}">${item.prompt}</option>`);
       }
     }
@@ -1046,29 +1061,23 @@ function render_de_identify_form_filter(p_filter) {
   return result.join('');
 }
 
-function renderSelectedSearchedSummary() {
-  // Render Selected Section
-  const selectedFieldList = document.getElementById(
-    'selected_de_identified_field_list'
-  );
-  selectedFieldList.innerHTML = render_selected_de_identified_list(
-    answer_summary
-  );
-  // Render Search Results Section
-  const de_identify_search_result_list = document.getElementById(
-    'de_identify_search_result_list'
-  );
-  de_identify_search_result_list.innerHTML = render_de_identified_search_result(
-    g_metadata.children
-  );
-  // Set the Selected Count
+function renderSelectedSearchedSummary() 
+{
+
+  const selectedFieldList = document.getElementById('selected_de_identified_field_list');
+  selectedFieldList.innerHTML = render_selected_de_identified_list(answer_summary);
+
+  const de_identify_search_result_list = document.getElementById('de_identify_search_result_list');
+  de_identify_search_result_list.innerHTML = render_de_identified_search_result(g_metadata.children);
   const countEl = document.getElementById('de_identified_count');
   countEl.innerHTML = `Fields that have been de-identified (${answer_summary.de_identified_field_set.length})`;
 }
 
-function de_identified_select_all() {
-  const fieldSet = g_all_de_identified_paths.map((path) =>
-    path.replace(/\//g, '-')
+function de_identified_select_all_click() 
+{
+  const fieldSet = g_all_de_identified_paths.map
+  (
+      (path) => path.replace(/\//g, '-')
   );
   answer_summary.de_identified_field_set = g_toggle_can_select_all
     ? fieldSet
@@ -1081,34 +1090,34 @@ function de_identified_select_all() {
   formSelectEl.innerHTML = render_de_identify_form_filter(g_filter);
   renderSelectedSearchedSummary();
   renderSummarySection();
-  const selectAllButton = document.getElementById('select-all-deidentified');
-  // toggled
-  g_toggle_can_select_all = !g_toggle_can_select_all;
-  // go off the toggled value
-  selectAllButton.innerHTML = g_toggle_can_select_all
-    ? 'Select All'
-    : 'Clear All';
+
 }
 
-function de_identified_result_checkbox_click(p_checkbox) {
+function de_identified_result_checkbox_click(p_checkbox) 
+{
   const value = p_checkbox.value;
   const index = answer_summary.de_identified_field_set.indexOf(value);
-  if (p_checkbox.checked) {
-    // add it to the list
-    if (index < 0) {
+  if (p_checkbox.checked) 
+  {
+    if (index < 0) 
+    {
       answer_summary.de_identified_field_set.push(value);
     }
-  } else {
-    // remove it
-    if (index > -1) {
+  } 
+  else 
+  {
+    if (index > -1) 
+    {
       answer_summary.de_identified_field_set.splice(index, 1);
     }
   }
+
   renderSelectedSearchedSummary();
   renderSummarySection(p_checkbox);
 }
 
-function render_selected_de_identified_list(p_answer_summary) {
+function render_selected_de_identified_list(p_answer_summary) 
+{
   return p_answer_summary.de_identified_field_set
     .map((item_id) => {
       const value_list = selected_metadata_dictionary[item_id];
