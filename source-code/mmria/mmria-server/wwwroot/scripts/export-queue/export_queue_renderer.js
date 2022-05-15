@@ -969,7 +969,12 @@ function get_de_identified_search_results(p_node, p_path,  p_search_text, p_form
             if
             (
                 p_node.name.indexOf(p_search_text) > -1 ||
-                p_path.indexOf(p_search_text) > -1
+                p_path.indexOf(p_search_text) > -1 ||
+                p_node.prompt.indexOf(p_search_text) > -1 ||
+                (
+                    p_node.sass_export_name != null &&
+                    p_node.sass_export_name.indexOf(p_search_text) > -1
+                )
             )
             {
                 g_de_identified_search_result.set(p_path, { node: p_node, path:p_path });
@@ -1097,7 +1102,6 @@ function renderSelectedSearchedSummary()
 
 function de_identified_clear_all_click() 
 {
-    //g_de_identified_search_result.clear();
     answer_summary.de_identified_field_set = [];
     renderSelectedSearchedSummary();
     renderSummarySection();
@@ -1105,29 +1109,26 @@ function de_identified_clear_all_click()
 
 function de_identified_select_all_click() 
 {
-  const fieldSet = g_all_de_identified_paths.map
-  (
-      (path) => path.replace(/\//g, '-')
-  );
-  answer_summary.de_identified_field_set = g_toggle_can_select_all
-    ? fieldSet
-    : [];
-  g_filter.search_text = '';
-  g_filter.selected_form = '';
-  const searchBoxEl = document.getElementById('de_identify_search_text');
-  const formSelectEl = document.getElementById('de_identify_form_filter');
-  searchBoxEl.value = '';
-  formSelectEl.innerHTML = render_de_identify_form_filter(g_filter);
-  renderSelectedSearchedSummary();
-  renderSummarySection();
+    for(const [key, value] of g_de_identified_search_result)
+    {
+        const path = value.path;
+        const key = `${path.replace(/\//g, '-')}`;
+        if(answer_summary.de_identified_field_set.indexOf(key) < 0)
+        {
+            answer_summary.de_identified_field_set.push(key);
+            selected_metadata_dictionary.set(key, g_path_to_node.get(path));
+        }
+    }
 
+    let de_identify_search_result_list = document.getElementById('de_identify_search_result_list');
+
+    de_identify_search_result_list.innerHTML = render_de_identified_search_result();
+    renderSelectedSearchedSummary();
+    renderSummarySection();
 }
 
 function add_standard_de_identified_fields_click()
 {
-    //g_standard_export_report_set;
-    //g_de_identified_search_result;
-
     for(const i in g_standard_de_identified_list.paths)
     {
         const path = g_standard_de_identified_list.paths[i];
