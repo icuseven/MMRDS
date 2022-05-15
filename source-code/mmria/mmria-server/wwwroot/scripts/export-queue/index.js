@@ -94,7 +94,7 @@ function render()
     answer_summary,
     g_filter
   ).join('');
-  // render_answer_summary();
+  
 }
 
 function populate_path_to_node(p_node, p_path)

@@ -968,6 +968,22 @@ function get_de_identified_search_results(p_node, p_path,  p_search_text, p_form
         default:
             if
             (
+                p_node.type.toLowerCase() == 'label' ||
+                p_node.type.toLowerCase() == 'mirror' ||
+                p_node.type.toLowerCase() == 'group' ||
+                p_node.type.toLowerCase() == 'grid' ||
+                p_node.type.toLowerCase() == 'form' ||
+                p_node.type.toLowerCase() == 'button' ||
+                p_node.sass_export_name == null ||
+                p_node.sass_export_name == ''
+
+            )
+            {
+                return;
+            }
+
+            if
+            (
                 p_node.name.indexOf(p_search_text) > -1 ||
                 p_path.indexOf(p_search_text) > -1 ||
                 p_node.prompt.indexOf(p_search_text) > -1 ||
@@ -1440,6 +1456,7 @@ function case_filter_type_click(p_value)
   if (p_value.value.toLowerCase() == 'custom') 
   {
     custom_case_filter.style.display = 'block';
+    
   } 
   else 
   {
@@ -1461,20 +1478,29 @@ function de_identify_filter_type_click(p_value) {
 
   // Making this a promise so I can return a 'then' method
   return new Promise((resolve, reject) => {
-    if (true) {
-      if (p_value.value.toLowerCase() == 'standard') {
+    if (true) 
+    {
+      if (p_value.value.toLowerCase() == 'standard') 
+      {
         de_identify_filter.style.display = 'none';
         de_identify_filter_standard.style.display = 'block';
-      } else if (p_value.value.toLowerCase() == 'custom') {
+      } 
+      else if (p_value.value.toLowerCase() == 'custom') 
+      {
         de_identify_filter_standard.style.display = 'none';
         de_identify_filter.style.display = 'block';
-      } else {
+        de_identified_search_click();
+      } 
+      else 
+      {
         de_identify_filter_standard.style.display = 'none';
         de_identify_filter.style.display = 'none';
       }
       answer_summary.de_identified_selection_type = p_value.value.toLowerCase();
       resolve();
-    } else {
+    } 
+    else 
+    {
       reject();
     }
   });
