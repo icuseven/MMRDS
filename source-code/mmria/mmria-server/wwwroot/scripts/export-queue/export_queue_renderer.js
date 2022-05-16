@@ -204,11 +204,11 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="2" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
-													<span id="de_identified_count">Fields to be de-identified (${
+													<span id="de_identified_count">Selected Fields to De-identify (${
                             p_answer_summary.de_identified_field_set.length
                           })</span>
                                         <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_all_click()">
-                                            Clear All Search Results
+                                            Clear All Selected
                                         </button>
 												</span>
 											</th>

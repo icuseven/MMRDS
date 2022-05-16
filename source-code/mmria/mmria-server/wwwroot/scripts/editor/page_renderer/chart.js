@@ -44,7 +44,14 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		p_post_html_render.push(" position: 'outer-right',");
 		p_post_html_render.push("},");
         p_post_html_render.push("tick: {");
-		p_post_html_render.push(" format: '%m/%d/%Y',");
+        if(p_metadata.type.toLowerCase() == 'datetime')
+        {
+		    p_post_html_render.push(" format: '%m/%d/%Y %H:%M:%S',");
+        }
+        else
+        {
+            p_post_html_render.push(" format: '%m/%d/%Y',");
+        }
 		p_post_html_render.push("},");
 		p_post_html_render.push("height: 55");
 		p_post_html_render.push("        }");
