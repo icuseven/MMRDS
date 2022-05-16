@@ -7,7 +7,7 @@ async function render6(p_post_html)
     ${render_header(6)}
     <br>
 ${render_navigation_strip(6)}
-<div">
+<div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
 <div align=center>${await render6_chart(p_post_html, metadata, data_list)}</div>

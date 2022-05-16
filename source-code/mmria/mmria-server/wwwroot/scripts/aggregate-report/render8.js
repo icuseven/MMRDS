@@ -7,7 +7,7 @@ async function render8(p_post_html)
     ${render_header(8)}
     <br>
 ${render_navigation_strip(8)}
-<div">
+<div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
 <div align=center>${await render8_chart(p_post_html, metadata, data_list)}</div>
