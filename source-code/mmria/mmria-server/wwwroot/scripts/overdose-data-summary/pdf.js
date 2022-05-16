@@ -169,6 +169,7 @@ async function render()
     const report_datetime = `${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`;
     const over_view_layout = get_main_page_layout_table();
 
+    over_view_layout.table.body.push([ '', { text: 'Overdose Data Summary', style: header_style, fillColor:'#CCCCCC', color:'#000080' }]);
     over_view_layout.table.body.push(['', get_filter()]);
     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC', color:'#000080' }]);
     over_view_layout.table.body.push([ '', '\n']);
@@ -187,17 +188,17 @@ async function render()
           },
         pageOrientation: 'portrait',
         pageSize: 'A4',
-        width: 594.28,
+        width: 554.28,
         defaultStyle: {
 			fontSize: 10,
 		},
-        pageMargins: [20, 45, 20, 20],
+        pageMargins: [25, 45, 25, 25],
         header: (currentPage, pageCount) => {
 
             const result = [
                 {
                 layout: 'noBorders',
-                margin: [ 5, 5, 5, 2],
+                margin: [ 25, 25, 25, 25],
                 fontSize: 10,
                 alignment:'center',
                 table: {
@@ -219,11 +220,10 @@ async function render()
                         },
                         { 
                             text:[ 
-                                { text: 'Page: ', bold:true },
-                                `${currentPage}`,
-                                ' of ',
-                                `${pageCount}`                 
-                            ], 
+                            { text: 'Page: ', bold:true },
+                            `${currentPage}`,
+                            ' of ',
+                            `${pageCount}` ],                               
                             alignment: 'right',
                             fontSize:8,
                             margin:[0,0,5,0],
@@ -232,31 +232,31 @@ async function render()
                 ]                
         
                 }
-              },
-              {
-                  columns:[
-                    { text:'', width: 5},
-                    { text:'', width: 5},
-                    { 
-                        text:[
-                            { text:'Report Generated: ', bold:true },
-                            { text: `${report_datetime}`}
-                        ], 
-                        alignment:'right',
-                        margin:[0,0,0,0],
-                        fontSize:8,
-                        margin:[0,0,5,0],
-                    }
-                ]
               }
             ];
 
 			return result;
 		},
         footer: { 
-            text: 'This data has been taken directly from the MMRIA database and is not a final report.',
-            style: {italics:true },
-            alignment: 'center'
+            fontSize: 6,
+            margin: [ 25, 0, 25, 25],
+            widths: [ '*','auto'],
+            columns: [
+            {
+                text: 'This data has been taken directly from the MMRIA database and is not a final report.',
+                style: {italics:true },
+                alignment: 'left',
+                
+            },
+            {
+                text:[
+                    { text:'Report Generated: ', bold:true },
+                    { text: `${report_datetime}`}
+                ], 
+                alignment:'right'
+
+            } 
+        ]
         },
         content: [    
 
@@ -338,7 +338,7 @@ async function render()
             doc_layout.table.body.push
             (['',[ 
                 
-                { image: retImg, width: 520, alignment: 'center', margin: [ 5, 5, 5, 5]}
+                { image: retImg, width: 500, alignment: 'center', margin: [ 5, 5, 5, 5]}
             ]]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
             doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
@@ -497,7 +497,7 @@ function render_committee_determination_table(p_metadata, p_totals)
     ];
     const table =  {
         layout: 'lightHorizontalLines',
-        margin: [ 5, 5, 5, 5],
+        margin: [ 0, 5, 5, 5],
         fontSize: 10,
         table: {
           headerRows: 1,
