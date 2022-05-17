@@ -91,12 +91,40 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     p_post_html_render.push("      columns: [");
 
-    if(p_metadata.x_axis && p_metadata.x_axis != "")
+    const x_array = get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui);
+    const x_has_value = [];
+    if(x_array.length > 0)
     {
-        p_post_html_render.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui));
+        for(const index in x_array)
+        {
+            if(x_array[index] != null)
+            {
+                x_has_value [index] = true;
+                p_post_html_render.push(x_array[index]);
+                if(index != x_array.length - 1)
+                {
+                    p_post_html_render.push(",")
+                }
+            }
+            else
+            {
+                x_has_value[index] = false;
+            }
+        }
+
+        p_post_html_render.push("],")
     }
 
+    
+    //if()
+    //result[result.length-1] = result[result.length-1] + "]";
+		//return result.join(",") + ",";
 
+
+    //p_post_html_render.push();
+
+
+/*
     if(p_metadata.y_label && p_metadata.y_label != "")
     {
         var y_labels = p_metadata.y_label.split(",");
@@ -113,21 +141,46 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         }
     }
     else
-    {
+    {*/
 
         var y_axis_paths = p_metadata.y_axis.split(",");
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
             const y_axis_path = y_axis_paths[y_index];
            
+            const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
+            const y_has_value = [];
+            if(y_array.length > 0)
+            {
+                for(const index in y_array)
+                {
+                    if(y_array[index] != null && x_has_value[index])
+                    {
+                        y_has_value [index] = true;
+                        p_post_html_render.push(y_array[index]);
+                        if(index != y_array.length - 1)
+                        {
+                            p_post_html_render.push(",")
+                        }
+                    }
+                    else
+                    {
+                        y_has_value[index] = false;
+                    }
+                }
+        
+                p_post_html_render.push("],")
+            }
 
-            p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
+
+/*
+            p_post_html_render.push();
             if(y_index < y_axis_paths.length-1)
             {
                 p_post_html_render.push(",");
-            }
+            }*/
         }
-	}
+	//}
 
     //var g_charts = {} map chart_name to c3.generate;
     //var g_chart_data = {} map chart_name to metadata;
@@ -171,7 +224,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	
 }
 
-
+/*
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
@@ -213,7 +266,7 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 		return "";
 	}
 	
-}
+}*/
 
 function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 {
@@ -260,18 +313,20 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			}
 			else
 			{
-				//result.push(0);
+				result.push(null);
 			}
 			
 		}
 
-		result[result.length-1] = result[result.length-1] + "]";
-		return result.join(",") + ",";
+		//result[result.length-1] = result[result.length-1] + "]";
+		//return result.join(",") + ",";
 	}
 	else
 	{
-		return "";
+		//return "";
 	}
+
+    return result;
 }
 
 function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
@@ -314,11 +369,13 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 			
 		}
 
-		result[result.length-1] = result[result.length-1] + "]";
-		return result.join(",");
+		//result[result.length-1] = result[result.length-1] + "]";
+		//return result.join(",");
 	}
 	else
 	{
-		return result.join("") + "]";;
+		//return result.join("") + "]";;
 	}
+
+    return result;
 }
