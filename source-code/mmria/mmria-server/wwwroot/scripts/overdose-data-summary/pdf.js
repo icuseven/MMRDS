@@ -86,7 +86,33 @@ async function pre_render(msg)
     for(const [key, metadata] of indicator_map)
     {
 
-        if(g_report_type=='Detail' && key != g_report_index)
+
+        
+        if
+        (
+            g_report_type == 'Detail' &&
+            g_report_index == 6 &&
+            (
+                key == 6 ||
+                key == 6.2
+            ) 
+        )
+        {
+            // print
+        }
+        else if
+        (
+            g_report_type == 'Detail' &&
+            g_report_index == 11 &&
+            (
+                key == 11 ||
+                key == 11.2
+            ) 
+        )
+        {
+            // print
+        }
+        else if(g_report_type=='Detail' && key != g_report_index)
         {
             continue;
         }
@@ -155,7 +181,10 @@ async function pre_render(msg)
 
         );
 
-       const retImg = create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''));
+        if(key != 8)
+        {
+            create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''));
+        }
     }
 
 
@@ -238,14 +267,15 @@ async function render()
 			return result;
 		},
         footer: { 
-            fontSize: 6,
+            
             margin: [ 25, 0, 25, 25],
-            widths: [ '*','auto'],
+            widths: [ 250,'auto'],
             columns: [
             {
                 text: 'This data has been taken directly from the MMRIA database and is not a final report.',
                 style: {italics:true },
                 alignment: 'left',
+                fontSize: 7,
                 
             },
             {
@@ -253,7 +283,8 @@ async function render()
                     { text:'Report Generated: ', bold:true },
                     { text: `${report_datetime}`}
                 ], 
-                alignment:'right'
+                alignment:'right',
+                fontSize: 7,
 
             } 
         ]
@@ -303,14 +334,56 @@ async function render()
 
     for(const [key, metadata] of indicator_map)
     {
-        if(g_report_type=='Detail' && key != g_report_index)
+        if
+        (
+            g_report_type == 'Detail' &&
+            g_report_index == 6 &&
+            (
+                key == 6 ||
+                key == 6.2
+            ) 
+        )
+        {
+            // print
+        }
+        else if
+        (
+            g_report_type == 'Detail' &&
+            g_report_index == 11 &&
+            (
+                key == 11 ||
+                key == 11.2
+            ) 
+        )
+        {
+            // print
+        }
+        else if
+        (
+            g_report_type=='Detail' && 
+            key != g_report_index
+        )
         {
             continue;
         }
 
         const doc_layout = get_main_page_layout_table();
 
-        if(g_report_type!='Detail')
+        if
+        (
+            g_report_type!='Detail' ||
+            (
+                g_report_type=='Detail' &&
+                g_report_index == 6 && 
+                key == 6.2
+            ) ||
+            (
+                g_report_type=='Detail' &&
+                g_report_index == 11 && 
+                key == 11.2
+            )
+
+        )
         { 
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }

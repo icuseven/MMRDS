@@ -430,7 +430,7 @@ indicator_map.set(
 
 indicator_map.set
 (
-    13,
+    12.2,
     {
         indicator_id : "mHomeless",
         title:"Living Arrangements",
