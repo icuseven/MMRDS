@@ -44,7 +44,11 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		p_post_html_render.push(" position: 'outer-right',");
 		p_post_html_render.push("},");
         p_post_html_render.push("tick: {");
-        if(p_metadata.type.toLowerCase() == 'datetime')
+        if
+        (
+            p_metadata.x_type != null &&
+            p_metadata.x_type.toLowerCase() == 'datetime'
+        )
         {
 		    p_post_html_render.push(" format: '%m/%d/%Y %H:%M:%S',");
         }
@@ -89,8 +93,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
-
-        update_g_charts(p_metadata.x_axis, `${chart_gen_name}`);
         p_post_html_render.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui));
     }
 
@@ -102,8 +104,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
             const y_axis_path = y_axis_paths[y_index];
-            update_g_charts(y_axis_path, `${chart_gen_name}`);
-
+        
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]));
             if(y_index < y_axis_paths.length-1)
             {
@@ -118,7 +119,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
             const y_axis_path = y_axis_paths[y_index];
-            update_g_charts(y_axis_path, `${chart_gen_name}`);
+           
 
             p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
             if(y_index < y_axis_paths.length-1)
@@ -168,17 +169,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_post_html_render.push("     .style('font-size', '1.4em')");
 	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 	
-}
-
-
-function update_g_charts(p_path, p_chart_name)
-{
-    if( !g_charts.has(p_path))
-    {
-        g_charts.set(p_path, new Set());
-    }
-
-    g_charts.get(p_path).add(p_chart_name)
 }
 
 
