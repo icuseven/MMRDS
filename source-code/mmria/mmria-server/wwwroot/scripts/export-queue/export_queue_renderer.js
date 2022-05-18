@@ -171,7 +171,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all_click()">
 									Select All Search Results
 								</button>
-                                <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_all_click()">
+                                <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_selected_search_result_click()">
                                     Clear All Search Results
                                 </button>
                                 
@@ -1122,6 +1122,29 @@ function renderSelectedSearchedSummary()
 function de_identified_clear_all_click() 
 {
     answer_summary.de_identified_field_set = [];
+    renderSelectedSearchedSummary();
+    renderSummarySection();
+}
+
+function de_identified_clear_selected_search_result_click() 
+{
+
+    for(const [key, value] of g_de_identified_search_result)
+    {
+        const path = value.path;
+        const key = `${path.replace(/\//g, '-')}`;
+        const selected_index = answer_summary.de_identified_field_set.indexOf(key);
+        if(selected_index > -1)
+        {
+            //answer_summary.de_identified_field_set.push(key);
+            //selected_metadata_dictionary.set(key, g_path_to_node.get(path));
+
+            answer_summary.de_identified_field_set.splice(selected_index, 1);
+        }
+
+    }
+
+
     renderSelectedSearchedSummary();
     renderSummarySection();
 }
