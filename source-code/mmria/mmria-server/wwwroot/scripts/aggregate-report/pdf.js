@@ -45,7 +45,7 @@ function get_report_page_table()
         {
             continue;
         }
-        result.table.body.push([ { text:metadata.title.replace(/&apos;/g, '\''), alignment: 'left' }, { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, aligment: 'right'}]);
+        result.table.body.push([ { text:metadata.title.replace(/&apos;/g, '\''), alignment: 'left' }, { text: `${indicator_to_page.get(metadata.indicator_id).page_number}`, alignment: 'right'}]);
       }
 
       return result;
@@ -211,7 +211,7 @@ async function render(msg)
                         {
                             image: `${g_logoUrl}`,
                             width: 30,
-                            margin:[60,0,0,0],
+                            margin:[60,-5,0,0],
                         },
                         { 
                             text: `${g_host_site}-MMRIA Aggregate Report`, 
@@ -247,7 +247,7 @@ async function render(msg)
 		},
         pageMargins: [25, 45, 25, 25],
         footer: { 
-            fontSize: 6,
+            fontSize: 7,
             margin: [ 25, 0, 25, 25],
             columns: [
             {
@@ -459,14 +459,31 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 						font: {
 							size: 20,
 						}
-					}
+
+					},
+                    title: {
+                        display: true,
+                        text: 'y axis - to do',
+                        font: {
+							size: 26,
+						}
+                      }
 				},
 				x: {
 					ticks: {
 						font: {
 							size: 26,
 						}
-					}
+					},
+                    title: {
+                        display: true,
+                        text: 'Number of deaths',
+                        font: {
+							size: 26,
+						}
+                      }
+
+                    
 				}
 			},
 		},

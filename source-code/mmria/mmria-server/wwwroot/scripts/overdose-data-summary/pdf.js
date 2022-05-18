@@ -238,7 +238,7 @@ async function render()
                         {
                             image: `${g_logoUrl}`,
                             width: 30,
-                            margin:[60,0,0,0],
+                            margin:[60,-5,0,0],
                         },
                         { 
                             text: `${g_host_site}-MMRIA Overdose Data Summary`, 
@@ -505,14 +505,28 @@ function create_chart(p_id_prefix, chartData, chartTitle)
 						font: {
 							size: 20,
 						}
-					}
+					},
+                    title: {
+                        display: true,
+                        text: 'y axis - to do',
+                        font: {
+							size: 26,
+						}
+                      }
 				},
 				x: {
 					ticks: {
 						font: {
 							size: 26,
 						}
-					}
+					},
+                    title: {
+                        display: true,
+                        text: 'Number of deaths',
+                        font: {
+							size: 26,
+						}
+                      }
 				}
 			},
 		},

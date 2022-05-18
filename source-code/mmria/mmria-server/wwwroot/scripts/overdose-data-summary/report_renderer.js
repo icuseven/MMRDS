@@ -203,9 +203,9 @@ if(g_report_index < 1)
                 <p><strong>Dates of Death:</strong> ${formatDate(g_filter.date_of_death.begin)} - ${formatDate(g_filter.date_of_death.end)}</p>
             </div>
         </div>
-        <div style="display: inline-block;float:right;width:25%">
+        <div style="display: inline-block;float:right">
             <div id="pdf-control" 
-                style="width:300px;padding: 10px;border: 2px solid #000;border-radius: 15px;-moz-border-radius: 15px;">
+                style="width:220px;padding: 10px;border: 2px solid #000;margin-bottom:15px;border-radius: 15px;-moz-border-radius: 15px;">
                 <p>
                     <strong>Save and Print</strong>  
                    
@@ -219,7 +219,7 @@ if(g_report_index < 1)
                 </p>
                 <span>
                     <button class="btn btn-primary" onclick="view_pdf_click()">View PDF</button>
-                </span>
+                </span> 
                     <span>
                         <button class="btn btn-primary" onclick="print_pdf_click()">Save PDF</button>
                     </span>
