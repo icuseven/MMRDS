@@ -164,7 +164,7 @@ async function pre_render(msg)
         if(key != 10)
         {
 
-            create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''));
+            create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''), metadata);
         }
     }
 
@@ -405,7 +405,7 @@ function createNamePDF()
 }
 
 
-function create_chart(p_id_prefix, chartData, chartTitle, p_height = 600) 
+function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height = 600) 
 {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
@@ -471,7 +471,7 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_height = 600)
 					},
                     title: {
                         display: true,
-                        text: 'y axis - to do',
+                        text: `${p_metadata.x_axis_title.replace(/&apos;/g, '\'')}`,
                         /*font: {
 							size: 26,
 						}*/
