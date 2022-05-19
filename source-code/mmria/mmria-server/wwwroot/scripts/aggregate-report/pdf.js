@@ -135,17 +135,13 @@ async function pre_render(msg)
         });
 
         const colorOne = '#b890bb';
-        const colorTwo = '#FFFF00';
-       const optData = {
+        const optData = {
             labels: categories,
             datasets: [
                 {
                     label: metadata.x_axis_title.replace(/&apos;/g, '\''),
                     data: category_data,
                     backgroundColor: colorOne,
-                    //borderColor: colorTwo,
-                    //borderWidth: 1
-                    
                 }
             ]
         };
@@ -163,7 +159,6 @@ async function pre_render(msg)
 
         if(key != 10)
         {
-
             create_chart(metadata.indicator_id, optData, metadata.chart_title.replace(/&apos;/g, '\''), metadata);
         }
     }
@@ -176,6 +171,9 @@ async function pre_render(msg)
 
 async function render(msg)
 {
+    const current_datetime = new Date();
+    const report_datetime_element = document.getElementById("report_datetime")
+    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
     const report_datetime = `${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`;
     const over_view_layout = get_main_page_layout_table();
@@ -281,10 +279,16 @@ async function render(msg)
 
     function CreateIndicatorTable(p_metadata, p_totals, p_margin = [ 5, 5, 5, 5])
     {
+
+        let fontSize = 10;
+        if(p_metadata.indicator_id == "mUndCofDeath")
+        {
+            fontSize = 7;
+        }
         const result =  {
             layout: 'lightHorizontalLines',
             margin: p_margin,
-            fontSize: 10,
+            fontSize: fontSize,
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -304,7 +308,10 @@ async function render(msg)
               }
           }
 
-          result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
+          if(p_metadata.indicator_id != "mHxofEmoStress")
+          {
+            result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
+          }
           return result;
     }
 
@@ -343,15 +350,24 @@ async function render(msg)
         }
         doc_layout.table.body.push(['', get_filter()]);
         doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, color:'#000080', margin:[0,0,15,0] }]);
-        doc_layout.table.body.push(['', { text: '\n' }]);
+        if(metadata.indicator_id == "mUndCofDeath")
+        {
+            doc_layout.table.body.push(['', { text: '\n' }]);
+        }
         doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
-        doc_layout.table.body.push(['', { text: '\n' }]);
-
+        if(metadata.indicator_id == "mUndCofDeath")
+        {
+            doc_layout.table.body.push(['', { text: '\n' }]);
+        }
         const totals = indicator_id_to_data.get(key).totals;
 
 
         if(metadata.indicator_id == 'mDeathCause')
         {
+            if(metadata.indicator_id == "mUndCofDeath")
+            {
+                doc_layout.table.body.push(['', { text: '\n\n' }]);
+            }
             const result_array = render_committee_determination_table(metadata, totals);
             for(const item of result_array)
             {
@@ -371,9 +387,15 @@ async function render(msg)
                     ]
                 ]
             );
-            doc_layout.table.body.push(['', { text: '\n' }]);
+            if(metadata.indicator_id == "mUndCofDeath")
+            {
+                doc_layout.table.body.push(['', { text: '\n' }]);
+            }
             doc_layout.table.body.push(['', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
-            doc_layout.table.body.push(['', { text: '\n' }]);
+            if(metadata.indicator_id == "mUndCofDeath")
+            {
+                doc_layout.table.body.push(['', { text: '\n' }]);
+            }
             doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}]);
             
         }
@@ -445,7 +467,7 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
 					color: '#000000',
 					font: {
 						weight: 'bold',
-						//size: 36
+						size: 30
 					}
 				},
                 legend: {
@@ -472,22 +494,22 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                     title: {
                         display: true,
                         text: `${p_metadata.x_axis_title.replace(/&apos;/g, '\'')}`,
-                        /*font: {
-							size: 26,
-						}*/
+                        font: {
+							weight: 'bold',
+						}
                       }
 				},
 				x: {
 					ticks: {
 						/*font: {
-							size: 26,
+							size: 20,
 						}*/
 					},
                     title: {
                         display: true,
                         text: 'Number of deaths',
                         /*font: {
-							size: 26,
+							size: 20,
 						}*/
                       }
 
@@ -680,11 +702,6 @@ function get_filter()
 
     const reporting_state_element = document.getElementById("reporting_state")
     reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
-
-    const current_datetime = new Date();
-
-    const report_datetime_element = document.getElementById("report_datetime")
-    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
 
     const html = { ul: [] };

@@ -155,18 +155,13 @@ async function pre_render(msg)
         });
 
         const colorOne = '#b890bb';
-        const colorTwo = '#FFFF00';
         const optData = {
             labels: categories,
-            
             datasets: [
                 {
                     label: metadata.x_axis_title.replace(/&apos;/g, '\''),
                     data: category_data,
                     backgroundColor: colorOne,
-                    //borderColor: colorTwo,
-                    //borderWidth: 1
-                    
                 }
             ]
         };
@@ -195,6 +190,11 @@ async function pre_render(msg)
 
 async function render()
 {
+
+    const current_datetime = new Date();
+    const report_datetime_element = document.getElementById("report_datetime")
+    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
+
 
     const report_datetime = `${document.getElementById('report_datetime').innerText} by ${document.getElementById('uid').innerText}`;
     const over_view_layout = get_main_page_layout_table();
@@ -711,11 +711,6 @@ function get_filter()
 
     const reporting_state_element = document.getElementById("reporting_state")
     reporting_state_element.innerHTML = `<strong>Reporting State: </strong> ${g_filter.reporting_state}`;
-
-    const current_datetime = new Date();
-
-    const report_datetime_element = document.getElementById("report_datetime")
-    report_datetime_element.innerHTML = `${current_datetime.toDateString().replace(/(\d{2})/, "$1,")} ${current_datetime.toLocaleTimeString()}`;
 
     const html = { ul: [] };
     
