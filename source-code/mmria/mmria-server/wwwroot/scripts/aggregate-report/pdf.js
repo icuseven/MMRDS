@@ -437,7 +437,8 @@ async function render(msg)
              { 
                 if(g_view_or_print == 'print')
                 {
-                 await pdfMake.createPdf( doc ).download( createNamePDF() );
+                    await pdfMake.createPdf( doc ).download( createNamePDF() );
+                    window.setTimeout(()=> window.close(), 1000);
                 }
                 else
                 {
