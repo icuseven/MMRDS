@@ -328,8 +328,17 @@ async function render()
             }
           }
 
-          result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
-
+        if
+        (
+            p_metadata.indicator_id != 'mIncarHx' &&
+            p_metadata.indicator_id != 'mHxofSubAbu' &&
+            p_metadata.indicator_id != 'mSubstAutop' &&
+            p_metadata.indicator_id != 'mHxofEmoStress' &&
+            p_metadata.indicator_id != 'mHomeless'
+        )
+        {
+            result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
+        }
           return result;
     }
 
@@ -416,8 +425,15 @@ async function render()
             ]]);
             doc_layout.table.body.push([ '',{ text: '\n' }]);
             doc_layout.table.body.push([ '', CreateIndicatorTable(metadata, totals, indicator_to_page.get(metadata.indicator_id).margin)]);
-            doc_layout.table.body.push([ '',{ text: '\n' }]);
-            doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}])
+            if
+            (
+                metadata.indicator_id != 'mHxofEmoStress' &&
+                metadata.indicator_id != 'mMHTxTiming'
+            )
+            {
+                doc_layout.table.body.push([ '',{ text: '\n' }]);
+                doc_layout.table.body.push([ '',{ text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}])
+            }
         }
 
         doc.content.push(doc_layout);

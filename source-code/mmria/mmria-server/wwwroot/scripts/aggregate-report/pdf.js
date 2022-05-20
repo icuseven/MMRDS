@@ -396,8 +396,15 @@ async function render(msg)
             {
                 doc_layout.table.body.push(['', { text: '\n' }]);
             }
-            doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}]);
-            
+
+            if
+            (
+                metadata.indicator_id != 'mHxofEmoStress'
+
+            )
+            {
+                doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}]);
+            }
         }
 
         doc.content.push(doc_layout);
@@ -495,7 +502,7 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                         display: true,
                         text: `${p_metadata.x_axis_title.replace(/&apos;/g, '\'')}`,
                         font: {
-							weight: 'bold',
+							//weight: 'bold',
 						}
                       }
 				},

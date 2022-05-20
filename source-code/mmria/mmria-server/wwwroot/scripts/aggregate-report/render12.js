@@ -3,7 +3,7 @@ async function render12(p_post_html)
     const metadata = indicator_map.get(12);
     const data_list = await get_indicator_values(metadata.indicator_id);
 
-    const metadata2 = indicator_map.get(13);
+    const metadata2 = indicator_map.get(12.2);
     const data_list2 = await get_indicator_values(metadata2.indicator_id);
 
     return `
