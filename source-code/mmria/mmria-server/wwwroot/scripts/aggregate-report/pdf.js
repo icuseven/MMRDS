@@ -350,6 +350,17 @@ async function render(msg)
         { 
             doc_layout.table.body.push(['', { text: '', pageBreak: 'after'}]);
         }
+
+
+        if
+        (
+            g_report_type == 'Detail' &&
+            g_report_index == key
+        )
+        {
+            doc_layout.table.body.push([ '', { text: 'Aggregate Report', style: header_style, fillColor:'#CCCCCC', color:'#000080' }]);
+        }
+
         doc_layout.table.body.push(['', get_filter()]);
         doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, color:'#000080', margin:[0,0,15,0] }]);
         if(metadata.indicator_id != "mUndCofDeath")
@@ -519,6 +530,7 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                       }
 				},
 				x: {
+                    suggestedMax: Math.max.apply(Math, chartData.datasets[0].data)  + 1,
 					ticks: {
                         color: '#000000'
 						/*font: {
