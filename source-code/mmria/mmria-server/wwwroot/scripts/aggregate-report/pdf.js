@@ -309,11 +309,15 @@ async function render(msg)
               }
           }
 
-          if(p_metadata.indicator_id != "mHxofEmoStress")
-          {
+        if
+        (
+            p_metadata.indicator_id != "mHxofEmoStress" &&
+            p_metadata.indicator_id != 'mHomeless' 
+        )
+        {
             result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
-          }
-          return result;
+        }
+        return result;
     }
 
     for(const [key, metadata] of indicator_map)
@@ -412,9 +416,7 @@ async function render(msg)
 
             if
             (
-                metadata.indicator_id != 'mHxofEmoStress' &&
-                metadata.indicator_id != 'mHomeless' 
-
+                metadata.indicator_id != 'mHxofEmoStress'
             )
             {
                 if(metadata.indicator_id != "mUndCofDeath")
@@ -439,7 +441,7 @@ async function render(msg)
                 }
                 else
                 {
-                 await pdfMake.createPdf(doc).open(); 
+                 await pdfMake.createPdf(doc).open(window); 
                 }
             },
 			3000
@@ -481,6 +483,9 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
 		options: {
             indexAxis: 'y',
 			plugins: {
+                tooltips: {
+                    enabled: false
+                },
                 datalabels: {
                     color: '#000000',
                     anchor: 'end',

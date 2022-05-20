@@ -464,7 +464,7 @@ async function render()
                 }
                 else
                 {
-                 await pdfMake.createPdf(doc).open(); 
+                 await pdfMake.createPdf(doc).open(window); 
                 }
             },
 			3000
@@ -507,6 +507,9 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata,  p_height 
 		options: {
             indexAxis: 'y',
 			plugins: {
+                tooltips: {
+                    enabled: false
+                },
                 datalabels: {
                     color: '#000000',
                     anchor: 'end',
