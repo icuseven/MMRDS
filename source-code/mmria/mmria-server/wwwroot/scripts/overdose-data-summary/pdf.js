@@ -308,7 +308,7 @@ async function render()
             layout: 'lightHorizontalLines',
             margin: p_margin,
             fontSize: 10,
-            alignment:'center',
+            alignment:'left',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -334,7 +334,8 @@ async function render()
             p_metadata.indicator_id != 'mHxofSubAbu' &&
             p_metadata.indicator_id != 'mSubstAutop' &&
             p_metadata.indicator_id != 'mHxofEmoStress' &&
-            p_metadata.indicator_id != 'mHomeless'
+            p_metadata.indicator_id != 'mHomeless' &&
+            p_metadata.indicator_id != 'mMHTxTiming'
         )
         {
             result.table.body.push([  { text:'Total', alignment: 'left', bold:true }, { text: total, alignment: 'right', bold:true}]);
@@ -498,17 +499,20 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata,  p_height 
                 datalabels: {
                     color: '#000000',
                     anchor: 'end',
-                    align:'right'
+                    align:'right',
+                    font: {
+						//weight: 'bold',
+						size: 20
+					}
                   },
 				title: {
 					display: true,
 					text: chartTitle,
-					color:
-                     '#000000',
-					/*font: {
+					color: '#000000',
+                     font: {
 						weight: 'bold',
-						size: 36
-					}*/
+						size: 30
+					}
 				},
                 legend: {
                     display: false,
@@ -525,20 +529,24 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata,  p_height 
 				y: {
 					beginAtZero: true,
 					ticks: {
-						/*font: {
-							size: 20,
-						}*/
+                        color: '#000000',
+						font: {
+							size: 16,
+						}
 					},
                     title: {
                         display: true,
                         text: `${p_metadata.x_axis_title.replace(/&apos;/g, '\'')}`,
-                        /*font: {
-							size: 26,
-						}*/
+                        font: {
+							//weight: 'bold',
+                            size:20
+						}
                       }
 				},
 				x: {
+                    suggestedMax: 7,
 					ticks: {
+                        color: '#000000',
 						/*font: {
 							size: 26,
 						}*/
@@ -546,9 +554,11 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata,  p_height 
                     title: {
                         display: true,
                         text: 'Number of deaths',
-                        /*font: {
-							size: 26,
-						}*/
+                        font: {
+                            color: '#000000',
+							//weight: 'bold',
+                            size:20
+						}
                       }
 				}
 			},

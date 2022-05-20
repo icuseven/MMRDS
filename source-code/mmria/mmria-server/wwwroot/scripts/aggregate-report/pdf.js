@@ -289,6 +289,7 @@ async function render(msg)
             layout: 'lightHorizontalLines',
             margin: p_margin,
             fontSize: fontSize,
+            alignment:'left',
             table: {
               headerRows: 1,
               widths: [ 'auto', 'auto'],
@@ -328,6 +329,7 @@ async function render(msg)
         )
         {
             // print
+           
         }
         else if(g_report_type=='Detail' && key != g_report_index)
         {
@@ -350,12 +352,12 @@ async function render(msg)
         }
         doc_layout.table.body.push(['', get_filter()]);
         doc_layout.table.body.push(['', { text: metadata.title.replace(/&apos;/g, '\''), bold:true, fillColor:fill_Color, color:'#000080', margin:[0,0,15,0] }]);
-        if(metadata.indicator_id == "mUndCofDeath")
+        if(metadata.indicator_id != "mUndCofDeath")
         {
             doc_layout.table.body.push(['', { text: '\n' }]);
         }
         doc_layout.table.body.push(['', { text: metadata.description, margin:[0,0,15,0] }]);
-        if(metadata.indicator_id == "mUndCofDeath")
+        if(metadata.indicator_id != "mUndCofDeath")
         {
             doc_layout.table.body.push(['', { text: '\n' }]);
         }
@@ -387,7 +389,7 @@ async function render(msg)
                     ]
                 ]
             );
-            if(metadata.indicator_id == "mUndCofDeath")
+            if(metadata.indicator_id != "mUndCofDeath")
             {
                 doc_layout.table.body.push(['', { text: '\n' }]);
             }
@@ -399,10 +401,15 @@ async function render(msg)
 
             if
             (
-                metadata.indicator_id != 'mHxofEmoStress'
+                metadata.indicator_id != 'mHxofEmoStress' &&
+                metadata.indicator_id != 'mHomeless' 
 
             )
             {
+                if(metadata.indicator_id != "mUndCofDeath")
+                {
+                    doc_layout.table.body.push([ '',{ text: '\n' }]);
+                }
                 doc_layout.table.body.push(['', { text: `Number of deaths with missing (blank) values: ${totals.get(metadata.blank_field_id)}`, alignment: 'left'}]);
             }
         }
@@ -466,7 +473,11 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                 datalabels: {
                     color: '#000000',
                     anchor: 'end',
-                    align:'right'
+                    align:'right',
+                    font: {
+						//weight: 'bold',
+						size: 20
+					}
                   },
 				title: {
 					display: true,
@@ -492,10 +503,10 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
 				y: {
 					beginAtZero: true,
 					ticks: {
-                        /*
+                        color: '#000000',
 						font: {
-							size: 20,
-						}*/
+							size: 16,
+						}
 
 					},
                     title: {
@@ -503,11 +514,13 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                         text: `${p_metadata.x_axis_title.replace(/&apos;/g, '\'')}`,
                         font: {
 							//weight: 'bold',
+                            size:20
 						}
                       }
 				},
 				x: {
 					ticks: {
+                        color: '#000000'
 						/*font: {
 							size: 20,
 						}*/
@@ -515,9 +528,10 @@ function create_chart(p_id_prefix, chartData, chartTitle, p_metadata, p_height =
                     title: {
                         display: true,
                         text: 'Number of deaths',
-                        /*font: {
+                        font: {
+                            color: '#000000',
 							size: 20,
-						}*/
+						}
                       }
 
                     

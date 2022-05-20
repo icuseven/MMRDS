@@ -183,7 +183,7 @@ function render_header()
 
     let current_page_html = `
     <input type="radio" id="detail-report" name="report-type" value="Detail" onclick="updateReportType(event)">
-    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Page</label>
+    <label for="detail-report" class="mb-0 font-weight-normal mr-2">Current Report Page</label>
     `;
 
 if(g_report_index < 1)
