@@ -2163,41 +2163,54 @@ function print_pdf_render_content(ctx) {
 			}
 			break;
 		case "chart":
-			// console.log('*************** type: ', ctx.metadata.type);
 			let chartBody = [];
-			// Check to see if there are multiple fields for x and/or y axis
+
 			let x_axis_path = ctx.metadata.x_axis.split(',');
 			let y_axis_path = ctx.metadata.y_axis.split(',');
 			let y_axis_field_cnt = y_axis_path.length;
 
-			// Break the path into parts
 			let x_axis_parts = [];
 			x_axis_path.forEach((p) => {
-				x_axis_parts.push(p.split('/'));
+                if
+                (
+                    p!=null &&
+                    p!= ""
+                )
+                {
+				    x_axis_parts.push(p.split('/'));
+                }
 			});
 			let y_axis_parts = [];
 			y_axis_path.forEach((p) => {
-				y_axis_parts.push(p.split('/'));
+                if
+                (
+                    p!=null &&
+                    p!=""
+                )
+                {
+				    y_axis_parts.push(p.split('/'));
+                }
 			});
 
 			let thereBeRecords = true;
 
-			// See if single record
-			if (typeof ctx.multiFormIndex == 'undefined') {
-				// console.log('CHART single record');
-				// Check to see if there are any records using the path parts
-
-				// See if there is any info
-				if (ctx.p_data.hasOwnProperty([x_axis_parts[0][0]]) == false ||
+			if (typeof ctx.multiFormIndex == 'undefined') 
+            {
+				if 
+                (
+                    ctx.p_data.hasOwnProperty([x_axis_parts[0][0]]) == false ||
 					ctx.p_data[x_axis_parts[0][0]].hasOwnProperty([x_axis_parts[0][1]]) == false
-				) {
+				) 
+                {
 					chartBody.push([
 						{
 							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
 						},
 					]);
 					thereBeRecords = false;
-				} else if (ctx.p_data[x_axis_parts[0][0]].length == 0) {
+				} 
+                else if (ctx.p_data[x_axis_parts[0][0]].length == 0) 
+                {
 					chartBody.push([
 						{
 							text: 'No Graph Records', style: ['tableDetail'], alignment: 'center',
@@ -2206,21 +2219,27 @@ function print_pdf_render_content(ctx) {
 					thereBeRecords = false;
 				}
 			}
-			if (thereBeRecords) {
-				// Labels will be from the x_axis
+
+			if (thereBeRecords) 
+            {
 				let xLabels = [];
 				let xRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
 					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
-				// console.log('  xRec: ', xRec);
-				// console.log('  xRec len: ', xRec.length);
-				// Loop thru to get the dates
-				xRec.forEach((x) => {
-					xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
-				});
-				// console.log('   *** xLabels: ', xLabels);
 
-				// Data will be from the y_axis
+                    
+				xRec.forEach((x) => {
+                    if
+                    (
+                        x[x_axis_parts[0][2]]!= null &&
+                        x[x_axis_parts[0][2]] != ''
+                    )
+                    {
+					    xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
+                    }
+				});
+
+                
 				let yRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[y_axis_parts[0][0]][y_axis_parts[0][1]]
 					: ctx.p_data[y_axis_parts[0][0]][ctx.multiFormIndex][y_axis_parts[0][1]];
@@ -2230,12 +2249,19 @@ function print_pdf_render_content(ctx) {
 				let colorTwo = 'rgb(255, 0, 0)';
 				let optData;
 
-				// console.log('  yRec: ', yRec);
-				// console.log('  y_axis_field_cnt: ', y_axis_field_cnt);
-				if (y_axis_field_cnt == 1) {
-					// Create option info
+
+				if (y_axis_field_cnt == 1) 
+                {
+
 					yRec.forEach((y) => {
-						yDataOne.push(y[y_axis_parts[0][2]]);
+                        if
+                        (
+                            y[y_axis_parts[0][2]] != null &&
+                            y[y_axis_parts[0][2]] != ''
+                        )
+                        {
+                            yDataOne.push(y[y_axis_parts[0][2]]);
+                        }
 					});
 
 					optData = {
@@ -2250,12 +2276,37 @@ function print_pdf_render_content(ctx) {
 							},
 						]
 					};
-				} else {
-					// Create option info
-					yRec.forEach((y) => {
-						yDataOne.push(y[y_axis_parts[0][2]]);
-						yDataTwo.push(y[y_axis_parts[1][2]]);
-					});
+				} 
+                else 
+                {
+
+					yRec.forEach
+                    (
+                        (y) => {
+
+                                if
+                                (
+                                    y[y_axis_parts[0][2]] != null &&
+                                    y[y_axis_parts[0][2]] != ''
+                                )
+                                {
+                                    yDataOne.push(y[y_axis_parts[0][2]]);
+                                    //yDataTwo.push(y[y_axis_parts[1][2]]);
+                                }
+
+
+                                if
+                                (
+                                    y_axis_parts[1][2] != null &&
+                                    y_axis_parts[1][2] != ''
+                                )
+                                {
+                                    //yDataOne.push(y[y_axis_parts[0][2]]);
+                                    yDataTwo.push(y[y_axis_parts[1][2]]);
+                                }
+             
+					    }
+                    );
 
 					optData = {
 						labels: xLabels,
@@ -2277,16 +2328,19 @@ function print_pdf_render_content(ctx) {
 						]
 					};
 				}
-				// Create the graph
+
 				let retImg = '';
 				let imgName = (typeof ctx.multiFormIndex == 'undefined')
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
 				retImg = doChart2(imgName, optData, ctx.metadata.prompt);
-				// Add image to chartBody
-				chartBody.push([
-					{ image: retImg, width: 550, alignment: 'center', }
-				]);
+
+				chartBody.push
+                (
+                    [
+					    { image: retImg, width: 550, alignment: 'center', }
+				    ]
+                );
 			}
 			
 			// Now push it to the context
