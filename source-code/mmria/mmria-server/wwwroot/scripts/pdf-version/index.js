@@ -400,10 +400,34 @@ function fmtYear(val) {
 }
 
 // Reformat date - from YYYY/MM/DD to MM/DD/YYYY
-function reformatDate(dt) {
-	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
-	let date = new Date(dt);
-	return (!isNaN(date.getTime())) ? `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}` : '';
+function reformatDate(dt) 
+{
+	if 
+    (
+        dt == null || 
+        dt.length == 0 || 
+        dt == '0001-01-01T00:00:00'
+    ) 
+    {
+        return '  /  /    ';
+    }
+
+	const date = new Date(dt);
+	if(!isNaN(date.getTime())) 
+    {
+        if(dt.indexOf("T") > -1)
+        {
+            return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        }
+        else
+        {
+            return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}`
+        }
+    }
+    else
+    {
+        return '';
+    } 
 }
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
