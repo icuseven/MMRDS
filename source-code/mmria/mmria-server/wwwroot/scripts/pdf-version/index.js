@@ -2338,17 +2338,6 @@ function print_pdf_render_content(ctx) {
                 
 
 
-                xRec.forEach((x, index) => {
-                    if
-                    (
-                        x[x_axis_parts[0][2]]!= null &&
-                        x[x_axis_parts[0][2]] != '' &&
-                        x_is_valid[index]
-                    )
-                    {
-                        xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
-                    }
-                });
 
 				
 				let yDataOne = [];
@@ -2360,6 +2349,21 @@ function print_pdf_render_content(ctx) {
 
 				if (y_axis_field_cnt == 1) 
                 {
+
+
+                    xRec.forEach((x, index) => {
+                        if
+                        (
+                            x[x_axis_parts[0][2]]!= null &&
+                            x[x_axis_parts[0][2]] != '' &&
+                            x_is_valid[index] &&
+                            y_is_valid[index]
+                        )
+                        {
+                            xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
+                        }
+                    });
+    
 
 					yRec.forEach((y, index) => {
                         if
@@ -2390,6 +2394,22 @@ function print_pdf_render_content(ctx) {
                 else 
                 {
 
+                    xRec.forEach((x, index) => {
+                        if
+                        (
+                            x[x_axis_parts[0][2]]!= null &&
+                            x[x_axis_parts[0][2]] != '' &&
+                            x_is_valid[index] &&
+                            (
+                                y_is_valid_one[index] || 
+                                y_is_valid_two[index]
+                            )
+                        )
+                        {
+                            xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
+                        }
+                    });
+
 					yRec.forEach
                     (
                         (y, index) => {
@@ -2399,7 +2419,8 @@ function print_pdf_render_content(ctx) {
                                     y[y_axis_parts[0][2]] != null &&
                                     y[y_axis_parts[0][2]] != '' &&
                                     y_is_valid_one[index] &&
-                                    x_is_valid[index]
+                                    x_is_valid[index] &&
+                                    y_is_valid_one[index]
                                 )
                                 {
                                     yDataOne.push(y[y_axis_parts[0][2]]);
@@ -2412,7 +2433,8 @@ function print_pdf_render_content(ctx) {
                                     y_axis_parts[1][2] != null &&
                                     y_axis_parts[1][2] != '' &&
                                     y_is_valid_one[index] &&
-                                    x_is_valid[index]
+                                    x_is_valid[index] &&
+                                    y_is_valid_two[index]
                                 )
                                 {
                                     //yDataOne.push(y[y_axis_parts[0][2]]);
