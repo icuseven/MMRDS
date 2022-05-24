@@ -91,99 +91,112 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     p_post_html_render.push("      columns: [");
 
+    var y_axis_paths = p_metadata.y_axis.split(",");
+
     const x_array = get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui);
     const x_has_value = [];
+    const y_has_value = [];
     if(x_array.length > 0)
     {
         for(const index in x_array)
         {
-            if(x_array[index] != null)
+            if
+            (
+                x_array[index] != null &&
+                x_array[index] != ''
+            )
             {
                 x_has_value [index] = true;
-                p_post_html_render.push(x_array[index]);
-                if(index != x_array.length - 1)
-                {
-                    p_post_html_render.push(",")
-                }
+               
             }
             else
             {
                 x_has_value[index] = false;
             }
         }
-
-        p_post_html_render.push("],")
     }
 
-    
-    //if()
-    //result[result.length-1] = result[result.length-1] + "]";
-		//return result.join(",") + ",";
 
-
-    //p_post_html_render.push();
-
-
-/*
-    if(p_metadata.y_label && p_metadata.y_label != "")
+    for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
     {
-        var y_labels = p_metadata.y_label.split(",");
-        var y_axis_paths = p_metadata.y_axis.split(",");
-        for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
-        {
-            const y_axis_path = y_axis_paths[y_index];
+        const y_axis_path = y_axis_paths[y_index];
+       
+        const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
         
-            p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]));
-            if(y_index < y_axis_paths.length-1)
+        if(y_array.length > 0)
+        {
+            for(const index in y_array)
             {
-                p_post_html_render.push(",");
+                if
+                (
+                    y_array[index] != null && 
+                    y_array[index] != '' &&
+                    y_array[index] != 'null'
+                )
+                {
+                    y_has_value [index] = true;
+                }
+                else
+                {
+                    y_has_value[index] = false;
+                }
             }
         }
-    }
-    else
-    {*/
 
-        var y_axis_paths = p_metadata.y_axis.split(",");
+
+        if(x_array.length > 0)
+        {
+            for(const index in x_array)
+            {
+                if
+                (
+                    x_has_value [index] &&
+                    y_has_value [index]
+                )
+                {
+                    p_post_html_render.push(x_array[index]);
+                    if(index != x_array.length - 1)
+                    {
+                        p_post_html_render.push(",")
+                    }
+                }
+            }
+    
+            p_post_html_render.push("],")
+        }
+    
+            
         for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
         {
             const y_axis_path = y_axis_paths[y_index];
-           
+            
             const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
-            const y_has_value = [];
+            
             if(y_array.length > 0)
             {
                 for(const index in y_array)
                 {
-                    if(y_array[index] != null && x_has_value[index])
+                    if
+                    (
+                        y_has_value[index] && 
+                        x_has_value[index]
+                    )
                     {
-                        y_has_value [index] = true;
                         p_post_html_render.push(y_array[index]);
                         if(index != y_array.length - 1)
                         {
                             p_post_html_render.push(",")
                         }
                     }
-                    else
-                    {
-                        y_has_value[index] = false;
-                    }
                 }
         
                 p_post_html_render.push("],")
             }
-
-
-/*
-            p_post_html_render.push();
-            if(y_index < y_axis_paths.length-1)
-            {
-                p_post_html_render.push(",");
-            }*/
         }
-	//}
+    
 
-    //var g_charts = {} map chart_name to c3.generate;
-    //var g_chart_data = {} map chart_name to metadata;
+    }
+
 
 
 
