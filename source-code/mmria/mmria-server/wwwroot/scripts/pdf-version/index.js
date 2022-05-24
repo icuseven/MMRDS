@@ -2204,6 +2204,7 @@ function print_pdf_render_content(ctx) {
 				    x_axis_parts.push(p.split('/'));
                 }
 			});
+
 			let y_axis_parts = [];
 			y_axis_path.forEach((p) => {
                 if
@@ -2246,27 +2247,110 @@ function print_pdf_render_content(ctx) {
 
 			if (thereBeRecords) 
             {
+                const x_is_valid = [];
+                const y_is_valid = [];
+
 				let xLabels = [];
 				let xRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[x_axis_parts[0][0]][x_axis_parts[0][1]]
 					: ctx.p_data[x_axis_parts[0][0]][ctx.multiFormIndex][x_axis_parts[0][1]];
 
-                    
-				xRec.forEach((x) => {
+
+                xRec.forEach((x) => {
                     if
                     (
                         x[x_axis_parts[0][2]]!= null &&
                         x[x_axis_parts[0][2]] != ''
                     )
                     {
-					    xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
+                        x_is_valid.push(true);
                     }
-				});
+                    else
+                    {
+                        x_is_valid.push(false);
+                    }
+                });
 
-                
-				let yRec = (typeof ctx.multiFormIndex == 'undefined')
+    
+                let y_is_valid_one = [];
+				let y_is_valid_two = [];
+                let yRec = (typeof ctx.multiFormIndex == 'undefined')
 					? ctx.p_data[y_axis_parts[0][0]][y_axis_parts[0][1]]
 					: ctx.p_data[y_axis_parts[0][0]][ctx.multiFormIndex][y_axis_parts[0][1]];
+
+                    if (y_axis_field_cnt == 1) 
+                    {
+                        yRec.forEach((y) => {
+                            if
+                            (
+                                y[y_axis_parts[0][2]] != null &&
+                                y[y_axis_parts[0][2]] != '' &&
+                                y[y_axis_parts[0][2]] != 'null'
+                            )
+                            {
+                                y_is_valid.push(true);
+                            }
+                            else
+                            {
+                                y_is_valid.push(false);
+                            }
+                        });
+                    }
+                    else
+                    {
+        
+                        yRec.forEach
+                        (
+                            (y) => {
+        
+                                    if
+                                    (
+                                        y[y_axis_parts[0][2]] != null &&
+                                        y[y_axis_parts[0][2]] != '' &&
+                                        y[y_axis_parts[0][2]] != 'null' 
+                                    )
+                                    {
+                                        y_is_valid_one.push(true);
+                                    }
+                                    else
+                                    {
+                                        y_is_valid_one.push(false);
+                                    }
+          
+        
+        
+                                    if
+                                    (
+                                        y[y_axis_parts[1][2]] != null &&
+                                        y[y_axis_parts[1][2]] != '' &&
+                                        y[y_axis_parts[1][2]] != 'null'
+                                    )
+                                    {
+                                        y_is_valid_two.push(true);
+                                    }
+                                    else
+                                    {
+                                        y_is_valid_two.push(false);
+                                    }
+                            }
+                        );
+                    }
+                
+
+
+                xRec.forEach((x, index) => {
+                    if
+                    (
+                        x[x_axis_parts[0][2]]!= null &&
+                        x[x_axis_parts[0][2]] != '' &&
+                        x_is_valid[index]
+                    )
+                    {
+                        xLabels.push(reformatDate(x[x_axis_parts[0][2]]));
+                    }
+                });
+
+				
 				let yDataOne = [];
 				let yDataTwo = [];
 				let colorOne = 'rgb(0, 0, 255)';
@@ -2277,11 +2361,13 @@ function print_pdf_render_content(ctx) {
 				if (y_axis_field_cnt == 1) 
                 {
 
-					yRec.forEach((y) => {
+					yRec.forEach((y, index) => {
                         if
                         (
                             y[y_axis_parts[0][2]] != null &&
-                            y[y_axis_parts[0][2]] != ''
+                            y[y_axis_parts[0][2]] != '' &&
+                            y_is_valid[index] &&
+                            x_is_valid[index]
                         )
                         {
                             yDataOne.push(y[y_axis_parts[0][2]]);
@@ -2306,12 +2392,14 @@ function print_pdf_render_content(ctx) {
 
 					yRec.forEach
                     (
-                        (y) => {
+                        (y, index) => {
 
                                 if
                                 (
                                     y[y_axis_parts[0][2]] != null &&
-                                    y[y_axis_parts[0][2]] != ''
+                                    y[y_axis_parts[0][2]] != '' &&
+                                    y_is_valid_one[index] &&
+                                    x_is_valid[index]
                                 )
                                 {
                                     yDataOne.push(y[y_axis_parts[0][2]]);
@@ -2322,7 +2410,9 @@ function print_pdf_render_content(ctx) {
                                 if
                                 (
                                     y_axis_parts[1][2] != null &&
-                                    y_axis_parts[1][2] != ''
+                                    y_axis_parts[1][2] != '' &&
+                                    y_is_valid_one[index] &&
+                                    x_is_valid[index]
                                 )
                                 {
                                     //yDataOne.push(y[y_axis_parts[0][2]]);
