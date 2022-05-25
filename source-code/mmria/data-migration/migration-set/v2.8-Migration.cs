@@ -175,7 +175,7 @@ public class v2_8_Migration
 							if(new_list.Count > 0)
 							{
 
-								case_has_changed = case_has_changed && gs.set_multi_value(p_path, new_list, doc);
+								case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_path, new_list);
 								var output_text = $"item record_id: {mmria_id} path:{p_path} set from {string.Join(",",result_list)} => {string.Join(",",new_list)}";
 								this.output_builder.AppendLine(output_text);
 								Console.WriteLine(output_text);
