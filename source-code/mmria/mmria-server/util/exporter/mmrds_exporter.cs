@@ -2366,8 +2366,10 @@ namespace mmria.server.utils
     public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
     {
       dynamic result = null;
+      
+      var de_identified_path = System.Text.RegularExpressions.Regex.Replace(p_path, "/[0-9]/", "/");
 
-      if (de_identified_set.Contains(p_path))
+      if (de_identified_set.Contains(de_identified_path))
       {
         return result;
       }

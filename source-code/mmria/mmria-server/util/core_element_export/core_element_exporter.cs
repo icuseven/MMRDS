@@ -1471,7 +1471,9 @@ namespace mmria.server.utils
     {
       dynamic result = null;
 
-      if (de_identified_set.Contains(p_path))
+      var de_identified_path = System.Text.RegularExpressions.Regex.Replace(p_path, "/[0-9]/", "/");
+
+      if (de_identified_set.Contains(de_identified_path))
       {
         return result;
       }
