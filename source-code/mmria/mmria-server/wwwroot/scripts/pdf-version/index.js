@@ -329,8 +329,8 @@ async function print_pdf(ctx) {
 	{
 		window.setTimeout
 		(
-			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			// async function () { await pdfMake.createPdf(doc).open(window); },
+			async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 	}
@@ -412,12 +412,20 @@ function reformatDate(dt)
         return '  /  /    ';
     }
 
+    function pad(n) 
+    {
+        const width = 2;
+        const z = '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+      }
+
 	const date = new Date(dt);
 	if(!isNaN(date.getTime())) 
     {
         if(dt.indexOf("T") > -1)
         {
-            return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+            return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
         }
         else
         {
