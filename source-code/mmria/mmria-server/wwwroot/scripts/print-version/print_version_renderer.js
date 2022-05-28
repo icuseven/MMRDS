@@ -7,7 +7,7 @@ function print_version_render
   p_metadata_path,
   p_object_path,
   p_post_html_render,
-  p_muliform_index,
+  p_multiform_index,
   p_is_grid_context
 ) 
 {
@@ -38,7 +38,7 @@ function print_version_render
               p_metadata_path + '.children[' + i + ']',
               p_object_path + '.' + child.name,
               p_post_html_render,
-              p_muliform_index,
+              p_multiform_index,
               p_is_grid_context
             )
           );
@@ -89,7 +89,7 @@ function print_version_render
                       p_metadata_path,
                       p_object_path + '[' + i + '].' + child.name,
                       p_post_html_render,
-                      p_muliform_index,
+                      p_multiform_index,
                       true
                   )
               );
@@ -179,7 +179,7 @@ function print_version_render
                   p_metadata_path + '.children[' + i + ']',
                   p_object_path + '.' + child.name,
                   p_post_html_render,
-                  p_muliform_index,
+                  p_multiform_index,
                   false
                 )
               );
@@ -337,7 +337,7 @@ function print_version_render
                         p_metadata_path + '.children[' + i + ']',
                         p_object_path + '.' + child.name,
                         p_post_html_render,
-                        p_muliform_index,
+                        p_multiform_index,
                         p_is_grid_context
                     )
                 );
@@ -350,7 +350,7 @@ function print_version_render
       result.push("<div  class='chart' id='");
       result.push
       (
-        convert_object_path_to_jquery_id(p_object_path, p_muliform_index)
+        convert_object_path_to_jquery_id(p_object_path, p_multiform_index)
       );
 
       result.push("' ");
@@ -380,7 +380,7 @@ function print_version_render
       p_post_html_render.push("  bindto: '#");
       p_post_html_render.push
       (
-        convert_object_path_to_jquery_id(p_object_path, p_muliform_index)
+        convert_object_path_to_jquery_id(p_object_path, p_multiform_index)
       );
       p_post_html_render.push("',");
 
@@ -438,69 +438,133 @@ d3.select('#chart svg').append('text')
 
       p_post_html_render.push('      columns: [');
 
-      if (p_metadata.x_axis && p_metadata.x_axis != '') 
-      {
-        p_post_html_render.push
-        (
-          get_chart_x_range_from_path
-          (
-            p_metadata,
-            p_metadata.x_axis,
-            p_ui,
-            p_muliform_index
-          )
-        );
-      }
-      //p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
-      //p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
+      var y_axis_paths = p_metadata.y_axis.split(",");
 
-      if (p_metadata.y_label && p_metadata.y_label != '') 
-      {
-        let y_labels = p_metadata.y_label.split(',');
-        let y_axis_paths = p_metadata.y_axis.split(',');
-        for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
+    const x_array = get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_multiform_index);
+    const x_has_value = [];
+    const y_has_value = [];
+    if(x_array.length > 0)
+    {
+        for(const index in x_array)
         {
-          p_post_html_render.push
-          (
-            get_chart_y_range_from_path
+            if
             (
-              p_metadata,
-              y_axis_paths[y_index],
-              p_ui,
-              y_labels[y_index],
-              p_muliform_index
+                x_array[index] != null &&
+                x_array[index] != ''
             )
-          );
-          if (y_index < y_axis_paths.length - 1) 
-          {
-            p_post_html_render.push(',');
-          }
+            {
+                x_has_value [index] = true;
+               
+            }
+            else
+            {
+                x_has_value[index] = false;
+            }
         }
-      } 
-      else 
-      {
-        let y_axis_paths = p_metadata.y_axis.split(',');
-        for (let y_index = 0; y_index < y_axis_paths.length; y_index++) 
+    }
+
+
+    for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+    {
+        const y_axis_path = y_axis_paths[y_index];
+       
+        const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_multiform_index)
+        
+        if(y_array.length > 0)
         {
-          p_post_html_render.push
-          (
-            get_chart_y_range_from_path
-            (
-              p_metadata,
-              y_axis_paths[y_index],
-              p_ui,
-              null,
-              p_muliform_index
-            )
-          );
-
-          if (y_index < y_axis_paths.length - 1) 
-          {
-            p_post_html_render.push(',');
-          }
+            for(const index in y_array)
+            {
+                if
+                (
+                    y_array[index] != null && 
+                    y_array[index] != '' &&
+                    y_array[index] != 'null'
+                )
+                {
+                    y_has_value [index] = true;
+                }
+                else
+                {
+                    y_has_value[index] = false;
+                }
+            }
         }
-      }
 
+
+        if(x_array.length > 0)
+        {
+            for(const index in x_array)
+            {
+                if
+                (
+                    x_has_value [index] &&
+                    y_has_value [index]
+                )
+                {
+                    p_post_html_render.push(x_array[index]);
+                    if(index != x_array.length - 1)
+                    {
+                        p_post_html_render.push(",")
+                    }
+                }
+            }
+    
+            p_post_html_render.push("],")
+        }
+    
+            
+        for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+        {
+            const y_axis_path = y_axis_paths[y_index];
+            
+            const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_multiform_index)
+            
+            if(y_array.length > 0)
+            {
+                for(const index in y_array)
+                {
+                    if
+                    (
+                        y_has_value[index] && 
+                        x_has_value[index]
+                    )
+                    {
+                        p_post_html_render.push(y_array[index]);
+                        if(index != y_array.length - 1)
+                        {
+                            p_post_html_render.push(",")
+                        }
+                    }
+                }
+        
+                p_post_html_render.push("],")
+            }
+        }
+    
+
+    }
+
+
+
+
+/*
+
+	g_chart_data.set(`${chart_gen_name}`, {
+    div_id: convert_object_path_to_jquery_id(p_object_path),
+	p_result: p_result,
+	p_metadata: p_metadata,
+    p_ui: p_ui,
+    p_metadata_path: p_metadata_path,
+    p_object_path: p_object_path,
+    p_dictionary_path: p_dictionary_path,
+    p_is_grid_context: p_is_grid_context,
+    p_post_html_render: p_post_html_render,
+    p_search_ctx: p_search_ctx,
+    p_ctx: p_ctx,
+    style_object: style_object
+    
+    });
+*/
       p_post_html_render.push('  ]');
       p_post_html_render.push("  },");
       p_post_html_render.push("  line: {");
@@ -511,13 +575,13 @@ d3.select('#chart svg').append('text')
       p_post_html_render.push
       (
         " d3.select('#" +
-          convert_object_path_to_jquery_id(p_object_path, p_muliform_index) +
+          convert_object_path_to_jquery_id(p_object_path, p_multiform_index) +
           " svg').append('text')"
       );
       p_post_html_render.push
       (
         "     .attr('x', d3.select('#" +
-          convert_object_path_to_jquery_id(p_object_path, p_muliform_index) +
+          convert_object_path_to_jquery_id(p_object_path, p_multiform_index) +
           " svg').node().getBoundingClientRect().width / 2)"
       );
       p_post_html_render.push("     .attr('y', 16)");
@@ -526,7 +590,7 @@ d3.select('#chart svg').append('text')
       p_post_html_render.push("     .text('" + p_metadata.prompt + "');");
 
       if (p_metadata.x_axis && p_metadata.x_axis != '') {
-          p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path, p_muliform_index) + " svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')");
+          p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path, p_multiform_index) + " svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')");
           p_post_html_render.push("     .attr('transform', 'rotate(325)translate(-25,0)');");
       }
 
@@ -651,191 +715,116 @@ d3.select('#chart svg').append('text')
   return result;
 }
 
-function get_chart_x_ticks_from_path
-(
-  p_metadata,
-  p_metadata_path,
-  p_ui,
-  p_current_multiform_index
-) 
+function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_multiform_index)
 {
-  //prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
-  // p_ui.url_state.path_array.length
-  let result = [];
-  let array_field = eval
-  (
-    convert_dictionary_path_to_array_field
-    (
-      p_metadata_path,
-      p_current_multiform_index
-    )
-  );
+	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
+	// p_ui.url_state.path_array.length
+	let result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path, p_multiform_index));
 
-  let array = eval(array_field[0]);
+	const array = eval(array_field[0]);
+	if(array)
+	{
+		const field = array_field[1];
 
-  if (array) 
-  {
-    let field = array_field[1];
 
-    result.push('[');
-    //result.push("['x'");
-    // ['data2', 50, 20, 10, 40, 15, 25]
-    //result.push(50, 20, 10, 40, 15, 25);
+		result.push("['x'");
+		// ['data2', 50, 20, 10, 40, 15, 25]
+		//result.push(50, 20, 10, 40, 15, 25);
 
-    //result = ['data2', 50, 20, 10, 40, 15, 25];
-    for (let i = 0; i < array.length; i++) 
-    {
-      let val = array[i][field];
+		//result = ['data2', 50, 20, 10, 40, 15, 25];
+		for(let i = 0; i < array.length; i++)
+		{
+			const val = array[i][field];
+			if(val)
+			{
+				const res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
+				if(res)
+				{
+					result.push("'" + make_c3_date(val) +"'");
+				}
+				else 
+				{
+					const res2 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+					if(res2)
+					{
+						//let date_time = new Date(val);
+						//result.push("'" + date_time.toISOString() + "'");
+						result.push("'" + make_c3_date(val) +"'");
+					}
+					else
+					{
+						result.push(parseFloat(val));
+					}
+				}
+			}
+			else
+			{
+				result.push(null);
+			}
+			
+		}
 
-      if (val) 
-      {
-        result.push(parseFloat(val));
-      } 
-      else 
-      {
-        result.push(0);
-      }
-    }
+		//result[result.length-1] = result[result.length-1] + "]";
+		//return result.join(",") + ",";
+	}
+	else
+	{
+		//return "";
+	}
 
-    result[result.length - 1] = result[result.length - 1] + ']';
-
-    return result.join(',');
-  } 
-  else
-  {
-    return '';
-  }
+    return result;
 }
 
-function get_chart_x_range_from_path
-(
-  p_metadata,
-  p_metadata_path,
-  p_ui,
-  p_current_multiform_index
-) 
+function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_multiform_index, p_label)
 {
-  //prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
-  // p_ui.url_state.path_array.length
-  let result = [];
-  let array_field = eval
-  (
-    convert_dictionary_path_to_array_field
-    (
-      p_metadata_path,
-      p_current_multiform_index
-    )
-  );
+	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
+	// p_ui.url_state.path_array.length
+	const result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path, p_multiform_index));
 
-  let array = eval(array_field[0]);
-  if (array) 
-  {
-    let field = array_field[1];
+	const array = eval(array_field[0]);
 
-    result.push("['x'");
-    // ['data2', 50, 20, 10, 40, 15, 25]
-    //result.push(50, 20, 10, 40, 15, 25);
+	const field = array_field[1];
 
-    //result = ['data2', 50, 20, 10, 40, 15, 25];
-    for (let i = 0; i < array.length; i++) 
-    {
-      let val = array[i][field];
-      if (val) 
-      {
-        let res = val.match(/^\d\d\d\d-\d\d?-\d+$/);
-        if (res) 
-        {
-          result.push("'" + make_c3_date(val) + "'");
-        } 
-        else 
-        {
-          res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
-          if (res)
-          {
-            //let date_time = new Date(val);
-            //result.push("'" + date_time.toISOString() + "'");
-            result.push("'" + make_c3_date(val) + "'");
-          } 
-          else 
-          {
-            result.push(parseFloat(val));
-          }
-        }
-      } 
-      else 
-      {
-        result.push(0);
-      }
-    }
+	if(p_label)
+	{
+		result.push("['" + p_label + "'");
+	}
+	else
+	{
+		result.push("['" + array_field[1] + "'");
+	}
+	
+	if(array)
+	{
+		// ['data2', 50, 20, 10, 40, 15, 25]
+		//result.push(50, 20, 10, 40, 15, 25);
 
-    result[result.length - 1] = result[result.length - 1] + ']';
-    return result.join(',') + ',';
-  } 
-  else 
-  {
-    return '';
-  }
-}
+		//result = ['data2', 50, 20, 10, 40, 15, 25];
+		for(let i = 0; i < array.length; i++)
+		{
+			const val = array[i][field];
+			if(val)
+			{
+				result.push(parseFloat(val).toFixed(2));
+			}
+			else
+			{
+				result.push('null');
+			}
+			
+		}
 
-function get_chart_y_range_from_path
-(
-  p_metadata,
-  p_metadata_path,
-  p_ui,
-  p_label,
-  p_current_multiform_index
-) 
-{
-  //prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
-  // p_ui.url_state.path_array.length
-  let result = [];
-  let array_field = eval
-  (
-    convert_dictionary_path_to_array_field
-    (
-      p_metadata_path,
-      p_current_multiform_index
-    )
-  );
-  let array = eval(array_field[0]);
-  let field = array_field[1];
+		//result[result.length-1] = result[result.length-1] + "]";
+		//return result.join(",");
+	}
+	else
+	{
+		//return result.join("") + "]";;
+	}
 
-  if (p_label) 
-  {
-    result.push("['" + p_label + "'");
-  } 
-  else 
-  {
-    result.push("['" + array_field[1] + "'");
-  }
-
-  if (array) 
-  {
-    // ['data2', 50, 20, 10, 40, 15, 25]
-    //result.push(50, 20, 10, 40, 15, 25);
-
-    //result = ['data2', 50, 20, 10, 40, 15, 25];
-    for (let i = 0; i < array.length; i++) 
-    {
-      let val = array[i][field];
-
-      if (val) 
-      {
-        result.push(parseFloat(val));
-      } 
-      else 
-      {
-        result.push('null');
-      }
-    }
-
-    result[result.length - 1] = result[result.length - 1] + ']';
-    return result.join(',');
-  } 
-  else 
-  {
-    return result.join('') + ']';
-  }
+    return result;
 }
 
 function convert_dictionary_path_to_array_field
