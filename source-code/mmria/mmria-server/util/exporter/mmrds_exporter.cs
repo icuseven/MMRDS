@@ -612,7 +612,7 @@ namespace mmria.server.utils
           }
           path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
 
-        System.Console.WriteLine("flat grid-star 621");
+        //System.Console.WriteLine("flat grid-star 621");
           // flat grid - start
           foreach (KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
           {
@@ -909,7 +909,7 @@ namespace mmria.server.utils
           }
           // flat grid - end
 
-          System.Console.WriteLine("multiform-start 918");
+          //System.Console.WriteLine("multiform-start 918");
 
           // multiform - start
           foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
