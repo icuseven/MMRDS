@@ -400,7 +400,18 @@ d3.select('#chart svg').append('text')
         p_post_html_render.push("type: 'timeseries',");
         p_post_html_render.push('localtime: false,');
         p_post_html_render.push('tick: {');
-        p_post_html_render.push(" format: '%m/%d/%Y'");
+        if
+        (
+            p_metadata.x_type != null &&
+            p_metadata.x_type.toLowerCase() == 'datetime'
+        )
+        {
+		    p_post_html_render.push(" format: '%m/%d/%Y %H:%M:%S',");
+        }
+        else
+        {
+            p_post_html_render.push(" format: '%m/%d/%Y'");
+        }
         p_post_html_render.push('},');
         p_post_html_render.push("height: 55");
         p_post_html_render.push("        }");
