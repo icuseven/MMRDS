@@ -97,10 +97,15 @@ function user_entry_render(p_user, p_i, p_created_by)
         (
             role_set.indexOf(user_role.role_name) > -1  &&
             (
-                g_managed_jurisdiction_set[user_role.jurisdiction_id] != null ||
-                g_managed_jurisdiction_set[user_role.jurisdiction_id] == true
+                (
+                    g_managed_jurisdiction_set[user_role.jurisdiction_id] != null &&
+                    g_managed_jurisdiction_set[user_role.jurisdiction_id] == true
+                ) 
+                ||
+                g_managed_jurisdiction_set["/"] == true
 
-            ) &&
+            ) 
+            &&
             user_role.user_id == p_user.name
         )
 		{
