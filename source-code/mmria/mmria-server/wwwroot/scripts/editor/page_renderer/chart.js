@@ -17,6 +17,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	var chart_size = get_chart_size(style_object.control.style);
 	var chart_gen_name = "chart_" + convert_object_path_to_jquery_id(p_object_path);
 
+   
+
 	p_post_html_render.push(` g_charts['${chart_gen_name}'] = 
 	  c3.generate({
 		size: {
@@ -93,6 +95,13 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     var y_axis_paths = p_metadata.y_axis.split(",");
 
+    if( ! g_charts.has(p_metadata.x_axis))
+    {
+        g_charts.set(p_metadata.x_axis, new Set()); 
+    }
+
+    g_charts.get(p_metadata.x_axis).add(chart_gen_name); 
+
     const x_array = get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui);
     const x_has_value = [];
     const y_has_value = [];
@@ -119,9 +128,16 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
     {
-        const y_axis_path = y_axis_paths[y_index];
+        const y_axis_path = y_axis_paths[y_index].trim();
+
+        if( ! g_charts.has(y_axis_path))
+        {
+            g_charts.set(y_axis_path, new Set()); 
+        }
+
+        g_charts.get(y_axis_path).add(chart_gen_name); 
        
-        const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
+        const y_array = get_chart_y_range_from_path(p_metadata, y_axis_path, p_ui)
         
         if(y_array.length > 0)
         {
@@ -142,20 +158,48 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
                 }
             }
         }
+    }
 
-
-        if(x_array.length > 0)
+    if(x_array.length > 0)
+    {
+        for(const index in x_array)
         {
-            for(const index in x_array)
+            if
+            (
+                x_has_value [index] &&
+                y_has_value [index]
+            )
+            {
+                p_post_html_render.push(x_array[index]);
+                if(index != x_array.length - 1)
+                {
+                    p_post_html_render.push(",")
+                }
+            }
+        }
+
+        p_post_html_render.push("],")
+    }
+
+        
+    for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+    {
+        const y_axis_path = y_axis_paths[y_index].trim();
+        
+        const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
+        
+        if(y_array.length > 0)
+        {
+            for(const index in y_array)
             {
                 if
                 (
-                    x_has_value [index] &&
-                    y_has_value [index]
+                    y_has_value[index] && 
+                    x_has_value[index]
                 )
                 {
-                    p_post_html_render.push(x_array[index]);
-                    if(index != x_array.length - 1)
+                    p_post_html_render.push(y_array[index]);
+                    if(index != y_array.length - 1)
                     {
                         p_post_html_render.push(",")
                     }
@@ -164,59 +208,31 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     
             p_post_html_render.push("],")
         }
-    
-            
-        for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
-        {
-            const y_axis_path = y_axis_paths[y_index];
-            
-            const y_array = get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui)
-            
-            if(y_array.length > 0)
-            {
-                for(const index in y_array)
-                {
-                    if
-                    (
-                        y_has_value[index] && 
-                        x_has_value[index]
-                    )
-                    {
-                        p_post_html_render.push(y_array[index]);
-                        if(index != y_array.length - 1)
-                        {
-                            p_post_html_render.push(",")
-                        }
-                    }
-                }
-        
-                p_post_html_render.push("],")
-            }
-        }
-    
-
     }
-
-
-
-
-
-
-	g_chart_data.set(`${chart_gen_name}`, {
-    div_id: convert_object_path_to_jquery_id(p_object_path),
-	p_result: p_result,
-	p_metadata: p_metadata,
-    p_ui: p_ui,
-    p_metadata_path: p_metadata_path,
-    p_object_path: p_object_path,
-    p_dictionary_path: p_dictionary_path,
-    p_is_grid_context: p_is_grid_context,
-    p_post_html_render: p_post_html_render,
-    p_search_ctx: p_search_ctx,
-    p_ctx: p_ctx,
-    style_object: style_object
     
-    });
+
+
+
+
+	g_chart_data.set
+    (
+        `${chart_gen_name}`, 
+        {
+            div_id: convert_object_path_to_jquery_id(p_object_path),
+            p_result: p_result,
+            p_metadata: p_metadata,
+            p_ui: p_ui,
+            p_metadata_path: p_metadata_path,
+            p_object_path: p_object_path,
+            p_dictionary_path: p_dictionary_path,
+            p_is_grid_context: p_is_grid_context,
+            p_post_html_render: p_post_html_render,
+            p_search_ctx: p_search_ctx,
+            p_ctx: p_ctx,
+            style_object: style_object
+    
+        }
+    );
 
 
 
@@ -237,49 +253,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	
 }
 
-/*
-function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
-{
-	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
-	// p_ui.url_state.path_array.length
-	const result = [];
-	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
-
-	const array = eval(array_field[0]);
-
-	if(array)
-	{
-		const field = array_field[1];
-
-		result.push("[");
-		//result.push("['x'");
-		// ['data2', 50, 20, 10, 40, 15, 25]
-		//result.push(50, 20, 10, 40, 15, 25);
-
-		//result = ['data2', 50, 20, 10, 40, 15, 25];
-		for(let i = 0; i < array.length; i++)
-		{
-			const val = array[i][field];
-			if(val)
-			{
-				result.push(parseFloat(val));
-			}
-			else
-			{
-				result.push(0);
-			}
-			
-		}
-
-		result[result.length-1] = result[result.length-1] + "]";
-		return result.join(",");
-	}
-	else
-	{
-		return "";
-	}
-	
-}*/
 
 function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 {
@@ -391,4 +364,62 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 	}
 
     return result;
+}
+
+
+function update_charts(p_path)
+{
+
+
+    if
+    (
+        p_path != null &&
+        ! g_charts.has(p_path.substring(1))
+    )
+    {
+        return;
+    }
+
+    const chart_set = g_charts.get(p_path.substring(1));
+    
+    for (const chart of chart_set)
+    {
+        const chart_data = g_chart_data.get(chart);
+
+        const p_result = [];
+        const p_post_html_render = [];
+
+        chart_render
+        (
+            p_result, 
+            chart_data.p_metadata, 
+            null, // undefined
+            chart_data.p_ui, // g_ui
+            chart_data.p_metadata_path, //"g_metadata.children[17].children[12]"
+            chart_data.p_object_path, // "g_data.er_visit_and_hospital_medical_records[0].temperature_graph"
+            chart_data.p_dictionary_path, // "/er_visit_and_hospital_medical_records/temperature_graph"
+            chart_data.p_is_grid_context, // false
+            p_post_html_render, 
+            chart_data.p_search_ctx, // undefined
+            chart_data.p_ctx // { form_index: 0, grid_index: null }
+        );
+
+        document.getElementById(chart_data.div_id).outerHTML = p_result.join('');
+      
+        if (p_post_html_render.length > 0) 
+        {
+          try
+          {
+            eval(p_post_html_render.join(''));
+          } 
+          catch (ex) 
+          {
+            console.log(ex);
+          }
+        }
+
+
+           // console.log("here");
+
+    }
 }

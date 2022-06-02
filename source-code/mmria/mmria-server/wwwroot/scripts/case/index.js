@@ -684,9 +684,9 @@ else
         }
     );
   }
-  save_start_time = performance.now();
+
   window.setTimeout(function() { update_charts(p_dictionary_path) }, 0);
-    save_end_time = performance.now();
+ 
 }
 
 
@@ -801,7 +801,7 @@ function g_delete_grid_item_action
 			eval(post_html_call_back.join(""));
 		}
     });
-    //window.setTimeout(update_charts, 0);
+
 
 }
 
@@ -3590,73 +3590,7 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
     }
 }
 
-function update_charts(p_path)
-{
-    if
-    (
-        p_path != null &&
-        ! g_charts.has(p_path.substring(1))
-    )
-    {
-        return;
-    }
-    
-    for (let chart in g_charts)
-    {
 
-        if
-        (
-            p_path != null &&
-            ! g_charts.has(p_path.substring(1))
-        )
-        {
-            continue;
-        }
-
-        const path_to_chart_name = g_charts.get(p_path.substring(1));
-
-        if( !path_to_chart_name.has(chart)) continue;
-
-
-        const chart_data = g_chart_data.get(chart);
-
-        const p_result = [];
-        const p_post_html_render = [];
-
-        chart_render
-        (
-            p_result, 
-            chart_data.p_metadata, 
-            null, // undefined
-            chart_data.p_ui, // g_ui
-            chart_data.p_metadata_path, //"g_metadata.children[17].children[12]"
-            chart_data.p_object_path, // "g_data.er_visit_and_hospital_medical_records[0].temperature_graph"
-            chart_data.p_dictionary_path, // "/er_visit_and_hospital_medical_records/temperature_graph"
-            chart_data.p_is_grid_context, // false
-            p_post_html_render, 
-            chart_data.p_search_ctx, // undefined
-            chart_data.p_ctx // { form_index: 0, grid_index: null }
-        );
-
-        document.getElementById(chart_data.div_id).outerHTML = p_result.join('');
-      
-        if (p_post_html_render.length > 0) 
-        {
-          try
-          {
-            eval(p_post_html_render.join(''));
-          } 
-          catch (ex) 
-          {
-            console.log(ex);
-          }
-        }
-
-
-           // console.log("here");
-
-    }
-}
 
 
 const independent_autocalc_niosh_set = new Set();
