@@ -295,17 +295,18 @@ Updated By
                 }
                 else
                 {
-                    var dateStr = change.old_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
+                    @* var dateStr = change.new_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
                     if (DateTime.TryParse(dateStr, out DateTime utcDate))
                     {
                         var tmpStr = utcDate.ToString();
                         @tmpStr
                     }
                     else
-                    { 
-                        var tmpStr = dateStr;
+                    {  
+                         var tmpStr = dateStr;
                         @tmpStr
-                    }
+                    } *@
+                    @change.new_value
                 }
             }
             else if(change.metadata_type == "date")
@@ -343,17 +344,18 @@ Updated By
                 }
                 else
                 {
-                    var dateStr = change.new_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
+                    @* var dateStr = change.new_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
                     if (DateTime.TryParse(dateStr, out DateTime utcDate))
                     {
                         var tmpStr = utcDate.ToString();
                         @tmpStr
                     }
                     else
-                    { 
-                        var tmpStr = dateStr;
+                    {  
+                         var tmpStr = dateStr;
                         @tmpStr
-                    }
+                    } *@
+                    @change.new_value
                 }
             }
             else if(change.metadata_type == "date")
