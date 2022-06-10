@@ -432,20 +432,33 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
       td(item.status);
     }
     function getButtons() {
-      function buttonEl(value) {
-        if (!['Confirm', 'Cancel', 'Download', 'Delete'].includes(value)) {
-          console.error('Unknown button type: ' + value);
+      function buttonEl(value) 
+      {
+        if 
+        (
+            !['Confirm', 'Cancel', 'Download', 'Delete'].includes(value)
+        ) 
+        {
+            console.error('Unknown button type: ' + value);
         }
+        
         const clickType = value.toLowerCase();
         return `<input type="button" value='${value}' onclick="${clickType}_export_item('${item._id}')" />`;
       }
-      if (item.status == 'Confirmation Required') {
+      if (item.status == 'Confirmation Required') 
+      {
         return buttonEl('Confirm') + '|' + buttonEl('Cancel');
-      } else if (item.status == 'Download') {
+      } 
+      else if (item.status == 'Download') 
+      {
         return buttonEl('Download');
-      } else if (item.status == 'Downloaded') {
+      } 
+      else if (item.status == 'Downloaded') 
+      {
         return buttonEl('Download') + '|' + buttonEl('Delete');
-      } else {
+      } 
+      else 
+      {
         return '';
       }
     }
@@ -1216,6 +1229,11 @@ function render_selected_de_identified_list(p_answer_summary)
 {
   return p_answer_summary.de_identified_field_set
     .map((item_id) => {
+        if( !selected_metadata_dictionary.has(item_id))
+        {
+            return '';
+        }
+
       const value_list = selected_metadata_dictionary.get(item_id);
       return `<tr class="tr">
 				<td class="td text-center" width="38">
