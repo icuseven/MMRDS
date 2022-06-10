@@ -1038,7 +1038,7 @@ function set_all_lists_in_definition(p_definitions, p_metadata, p_path)
 
 function add_attachment_click(p_value)
 {
-    let doc_name = p_value.value.toLowerCase();
+    const doc_name = p_value.value.toLowerCase();
     document.getElementById("add_attachment_id").value = g_data._id;
     document.getElementById("add_attachment_rev").value = g_data._rev;
     document.getElementById("add_attachment_doc_name").value = doc_name;
