@@ -295,7 +295,18 @@ Updated By
                 }
                 else
                 {
-                    @change.old_value
+                    @* var dateStr = change.new_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
+                    if (DateTime.TryParse(dateStr, out DateTime utcDate))
+                    {
+                        var tmpStr = utcDate.ToString();
+                        @tmpStr
+                    }
+                    else
+                    {  
+                         var tmpStr = dateStr;
+                        @tmpStr
+                    } *@
+                    @change.new_value
                 }
             }
             else if(change.metadata_type == "date")
@@ -333,6 +344,17 @@ Updated By
                 }
                 else
                 {
+                    @* var dateStr = change.new_value.Replace("-11-31","-12-01"); // Nov 31st is not a valid date
+                    if (DateTime.TryParse(dateStr, out DateTime utcDate))
+                    {
+                        var tmpStr = utcDate.ToString();
+                        @tmpStr
+                    }
+                    else
+                    {  
+                         var tmpStr = dateStr;
+                        @tmpStr
+                    } *@
                     @change.new_value
                 }
             }
@@ -349,11 +371,11 @@ Updated By
             }
             else if(!string.IsNullOrWhiteSpace(change.new_value) && change.new_value?.Length> 30)
             {
-                @change.new_value.Substring(0, 30); 
+                @change.new_value.Substring(0, 30)
             }
             else
             {
-                @change.new_value;
+                @change.new_value
             }
         </td>
         @{var link = $"/_audit/{Model.id}/detail/{item._id}/{change.temp_index}";}
