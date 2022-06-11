@@ -15,8 +15,10 @@ var $mmria = function()
 			}
 
 	
-            
-            request.push("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress=")
+            var base_url = `${location.protocol}//${location.host}/api/tamuGeoCode?`
+
+            request.push(base_url);
+            request.push("streetAddress=")
             request.push(p_street);
             request.push("&city=");
             request.push(p_city);
@@ -24,8 +26,6 @@ var $mmria = function()
             request.push(state);
             request.push("&zip=")
             request.push(p_zip);
-            request.push("&apikey=");
-            request.push("7c39ae93786d4aa3adb806cb66de51b8");
             request.push("&format=json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01");
 
             let geocode_url = request.join("");
@@ -39,37 +39,37 @@ var $mmria = function()
                 
                 let geo_data = null;
                 
-                let data = eval('(' + response + ')');
+                const data = response;
                 // set the latitude and logitude
                 //death_certificate/place_of_last_residence/latitude
                 //death_certificate/place_of_last_residence/longitude
                 if
                 (
                     data &&
-                    data.FeatureMatchingResultType &&
-					!(["Unmatchable","ExceptionOccurred", "0"].indexOf(data.FeatureMatchingResultType) > -1) &&                 
-                    data.OutputGeocodes &&
-                    data.OutputGeocodes.length > 0 &&
-                    data.OutputGeocodes[0].OutputGeocode &&
-                    data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType &&
-                    !(["Unmatchable","ExceptionOccurred"].indexOf(data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType) > -1)
+                    data.featureMatchingResultType &&
+					!(["Unmatchable","ExceptionOccurred", "0"].indexOf(data.featureMatchingResultType) > -1) &&                 
+                    data.outputGeocodes &&
+                    data.outputGeocodes.length > 0 &&
+                    data.outputGeocodes[0].outputGeocode &&
+                    data.outputGeocodes[0].outputGeocode.featureMatchingResultType &&
+                    !(["Unmatchable","ExceptionOccurred"].indexOf(data.outputGeocodes[0].outputGeocode.featureMatchingResultType) > -1)
 				)
                 {
                     geo_data = { 
-                            FeatureMatchingResultType: data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType,
-							FeatureMatchingGeographyType: data.OutputGeocodes[0].OutputGeocode.FeatureMatchingGeographyType,
-							latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
-                            longitude: data.OutputGeocodes[0].OutputGeocode.Longitude,
-							NAACCRGISCoordinateQualityCode: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityCode,
-                            NAACCRGISCoordinateQualityType: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityType,
-                            NAACCRCensusTractCertaintyCode: data.OutputGeocodes[0].CensusValues[0].CensusValue1.NAACCRCensusTractCertaintyCode,
-                            NAACCRCensusTractCertaintyType: data.OutputGeocodes[0].CensusValues[0].CensusValue1.NAACCRCensusTractCertaintyType,
-							CensusCbsaFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaFips,
-                            CensusCbsaMicro: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaMicro,
-                            CensusStateFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusStateFips,
-                            CensusCountyFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCountyFips,
-                            CensusTract: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusTract,
-                            CensusMetDivFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusMetDivFips
+                            FeatureMatchingResultType: data.outputGeocodes[0].outputGeocode.featureMatchingResultType,
+							FeatureMatchingGeographyType: data.outputGeocodes[0].outputGeocode.featureMatchingGeographyType,
+							latitude: data.outputGeocodes[0].outputGeocode.latitude,
+                            longitude: data.outputGeocodes[0].outputGeocode.longitude,
+							NAACCRGISCoordinateQualityCode: data.outputGeocodes[0].outputGeocode.naaccrgisCoordinateQualityCode,
+                            NAACCRGISCoordinateQualityType: data.outputGeocodes[0].outputGeocode.naaccrgisCoordinateQualityType,
+                            NAACCRCensusTractCertaintyCode: data.outputGeocodes[0].censusValues[0].CensusValue1.naaccrCensusTractCertaintyCode,
+                            NAACCRCensusTractCertaintyType: data.outputGeocodes[0].censusValues[0].CensusValue1.naaccrCensusTractCertaintyType,
+							CensusCbsaFips: data.outputGeocodes[0].censusValues[0].CensusValue1.censusCbsaFips,
+                            CensusCbsaMicro: data.outputGeocodes[0].censusValues[0].CensusValue1.censusCbsaMicro,
+                            CensusStateFips: data.outputGeocodes[0].censusValues[0].CensusValue1.censusStateFips,
+                            CensusCountyFips: data.outputGeocodes[0].censusValues[0].CensusValue1.censusCountyFips,
+                            CensusTract: data.outputGeocodes[0].censusValues[0].CensusValue1.censusTract,
+                            CensusMetDivFips: data.outputGeocodes[0].censusValues[0].CensusValue1.censusMetDivFips
 							
                         };
                 }
