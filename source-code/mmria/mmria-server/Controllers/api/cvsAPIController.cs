@@ -51,11 +51,11 @@ public class cvsAPIController: ControllerBase
             case "server":
                 var sever_status_body = new server_status_post_body()
                 {
-                    id = "cdc",
-                    secret = "Ekg5RN1N#5xxuvT5",
+                    id = ConfigDB.name_value["cvs_api_id"],
+                    secret = ConfigDB.name_value["cvs_api_key"],
 
                 };
-                
+
                 var body_text = JsonSerializer.Serialize(sever_status_body);
                 var server_statu_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
@@ -66,50 +66,50 @@ public class cvsAPIController: ControllerBase
 
 
 
-        case "data":
-            var get_all_data_body = new get_all_data_post_body()
-            {
-                id = "cdc",
-                secret = "Ekg5RN1N#5xxuvT5",
-                payload = new()
+            case "data":
+                var get_all_data_body = new get_all_data_post_body()
                 {
-                    c_geoid = "13089",
-                    t_geoid = "13089021204",
-                    year = "2012"
-                }
-            };
+                    id = ConfigDB.name_value["cvs_api_id"],
+                    secret = ConfigDB.name_value["cvs_api_key"],
+                    payload = new()
+                    {
+                        c_geoid = "13089",
+                        t_geoid = "13089021204",
+                        year = "2012"
+                    }
+                };
 
-            body_text = JsonSerializer.Serialize(get_all_data_body);
-            var get_all_data_curl = new mmria.server.cURL("POST", null, base_url, body_text);
+                body_text = JsonSerializer.Serialize(get_all_data_body);
+                var get_all_data_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
-            result = await get_all_data_curl.executeAsync();
-            System.Console.WriteLine(result);
+                result = await get_all_data_curl.executeAsync();
+                System.Console.WriteLine(result);
 
 
-            break;
+                break;
 
-        case "dashboard":
+            case "dashboard":
 
-            var get_dashboard_body = new get_dashboard_post_body()
-            {
-                id = "cdc",
-                secret = "Ekg5RN1N#5xxuvT5",
-                payload = new()
+                var get_dashboard_body = new get_dashboard_post_body()
                 {
-                    lat = "33.880577",
-                    lon = "-84.29106", 
-                    year= "2012",
-                    id = "GA-2012-1234"
-                }
-            };
+                    id = ConfigDB.name_value["cvs_api_id"],
+                    secret = ConfigDB.name_value["cvs_api_key"],
+                    payload = new()
+                    {
+                        lat = "33.880577",
+                        lon = "-84.29106", 
+                        year= "2012",
+                        id = "GA-2012-1234"
+                    }
+                };
 
-            body_text = JsonSerializer.Serialize(get_dashboard_body);
-            var get_dashboard_curl = new mmria.server.cURL("POST", null, base_url, body_text);
+                body_text = JsonSerializer.Serialize(get_dashboard_body);
+                var get_dashboard_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
-            result = await get_dashboard_curl.executeAsync();
-            System.Console.WriteLine(result);
+                result = await get_dashboard_curl.executeAsync();
+                System.Console.WriteLine(result);
 
-            break;
+                break;
         }
 
 
