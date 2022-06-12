@@ -2,6 +2,83 @@ var $mmria = function()
 {
     return {
 
+        get_cvs_api_data_info: async function
+        (
+            c_geoid,
+            t_geoid,
+            year
+        )
+        {
+            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
+
+            const response = await fetch
+            (
+                base_url,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "data",                        
+                        c_geoid: "13089",
+                        t_geoid: "13089021204",
+                        year: "2012"
+
+                    }),
+                }
+            );
+
+            return response;
+
+        },
+
+        get_cvs_api_dashboard_info: async function
+        (
+            lat,
+            lon, 
+            year,
+            id
+        )
+        {            
+            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
+
+            const response = await fetch
+            (
+                base_url,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "server",
+                        lat: "33.880577",
+                        lon: "-84.29106", 
+                        year: "2012",
+                        id: "GA-2012-1234"
+
+                    }),
+                }
+            );
+
+            return response;
+
+        },
+
+        get_cvs_api_server_info: async function()
+        {
+            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
+
+            const response = await fetch
+            (
+                base_url,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "server",
+
+                    }),
+                }
+            );
+
+            return response;
+
+        },
         get_geocode_info: function(p_street, p_city, p_state, p_zip, p_call_back_action)
         {
             
