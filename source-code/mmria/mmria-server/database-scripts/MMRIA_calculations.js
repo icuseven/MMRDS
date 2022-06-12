@@ -781,7 +781,8 @@ function pregnancy_interval(p_control) {
 path=death_certificate/address_of_death/cmd_calculate_distance
 event=onclick
 */
-function death_distance(p_control) {
+function death_distance(p_control) 
+{
     var dist = null;
     var res_lat = parseFloat(g_data.death_certificate.place_of_last_residence.latitude);
     var res_lon = parseFloat(g_data.death_certificate.place_of_last_residence.longitude);
@@ -793,6 +794,8 @@ function death_distance(p_control) {
         $mmria.save_current_record();
         $mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
     }
+
+
 }
 // CALCULATE DISTANCE FROM PLACE OF RESIDENCE TO HOSPITAL OF DELIVERY OF INFANT
 /*
@@ -921,6 +924,19 @@ function geocode_dc_last_res(p_control)
                 state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
+
+
+            const t_geoid = g_data.death_certificate.place_of_last_residence.census_tract_fips.padStart(6, "0");
+            $mmria.get_cvs_api_data_info
+            (
+                g_data.death_certificate.place_of_last_residence.state_county_fips,  //c_geoid, // = "13089",
+                t_geoid, // = "13089021204",
+                g_data.home_record.date_of_death.year, //year = "2012"
+                $mmria.callback_cvs_data_success,
+                $mmria.callback_cvs_data_error
+            );
+
+
 
             $mmria.save_current_record();
             $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
@@ -1115,12 +1131,15 @@ function geocode_dc_injury_place(p_control)
 		}
     });
 }
+
+
+
 //GEOCODE PLACE OF DEATH ON DC FORM
 /*
 path=death_certificate/address_of_death/cmd_get_coordinates
 event=onclick
 */
-function geocode_dc_death_place(p_control)
+function  geocode_dc_death_place(p_control)
 {
     var street = this.street;
     var city = this.city;
@@ -1216,6 +1235,7 @@ function geocode_dc_death_place(p_control)
             $mmria.set_control_value('death_certificate/address_of_death/census_met_div_fips', g_data.death_certificate.address_of_death.census_met_div_fips);
             $mmria.set_control_value('death_certificate/address_of_death/urban_status', g_data.death_certificate.address_of_death.urban_status);
             $mmria.set_control_value('death_certificate/address_of_death/state_county_fips', g_data.death_certificate.address_of_death.state_county_fips);
+
 		}
 		else
 		{

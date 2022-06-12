@@ -33,7 +33,10 @@ public class cvsAPIController: ControllerBase
     
     [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [HttpPost]
-    public async Task<System.Dynamic.ExpandoObject> Post(post_payload post_payload) 
+    public async Task<System.Dynamic.ExpandoObject> Post
+    (
+        [FromBody] post_payload post_payload
+    ) 
     { 
         var is_abstractor = false;
         var is_data_analyst = false;
@@ -87,9 +90,9 @@ public class cvsAPIController: ControllerBase
                             secret = ConfigDB.name_value["cvs_api_key"],
                             payload = new()
                             {
-                                c_geoid = "13089",
-                                t_geoid = "13089021204",
-                                year = "2012"
+                                c_geoid = post_payload.c_geoid,
+                                t_geoid = post_payload.t_geoid,
+                                year = post_payload.year
                             }
                         };
 
@@ -109,10 +112,10 @@ public class cvsAPIController: ControllerBase
                         secret = ConfigDB.name_value["cvs_api_key"],
                         payload = new()
                         {
-                            lat = "33.880577",
-                            lon = "-84.29106", 
-                            year= "2012",
-                            id = "GA-2012-1234"
+                            lat = post_payload.lat,
+                            lon = post_payload.lon, 
+                            year= post_payload.year,
+                            id = post_payload.id
                         }
                     };
 

@@ -1,70 +1,86 @@
 var $mmria = function() 
 {
     return {
-
-        get_cvs_api_data_info: async function
+        callback_cvs_data_success: function (p_result)
+        {
+            console.log(p_result.json());
+        },
+        callback_cvs_data_error: function (p_result)
+        {
+            console.log(p_result);
+        },
+        get_cvs_api_data_info: function
         (
             c_geoid,
             t_geoid,
-            year
+            year,
+            p_success_call_back,
+            p_error_call_back
         )
         {
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
 
-            const response = await fetch
+            fetch
             (
                 base_url,
                 {
                     method: "POST",
+                    headers: {"Content-type": "application/json;charset=UTF-8"},
                     body: JSON.stringify({
                         action: "data",                        
-                        c_geoid: "13089",
-                        t_geoid: "13089021204",
-                        year: "2012"
+                        c_geoid: c_geoid,
+                        t_geoid: t_geoid,
+                        year: year
 
                     }),
                 }
-            );
-
-            return response;
+            )            
+            .then(response => p_success_call_back(response)) 
+            .catch(err => p_error_call_back(err));
 
         },
 
-        get_cvs_api_dashboard_info: async function
+        get_cvs_api_dashboard_info: function
         (
             lat,
             lon, 
             year,
-            id
+            id,
+            p_success_call_back,
+            p_error_call_back
         )
         {            
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
 
-            const response = await fetch
+            fetch
             (
                 base_url,
                 {
                     method: "POST",
                     body: JSON.stringify({
-                        action: "server",
-                        lat: "33.880577",
-                        lon: "-84.29106", 
-                        year: "2012",
-                        id: "GA-2012-1234"
+                        action: "dashboard",
+                        lat: lat,
+                        lon: lon, 
+                        year: year,
+                        id: id
 
                     }),
                 }
-            );
-
-            return response;
+            )
+            .then(response => p_success_call_back(response)) 
+            .catch(err => p_error_call_back(err));
 
         },
 
-        get_cvs_api_server_info: async function()
+        get_cvs_api_server_info: function
+        (
+            p_success_call_back,
+            p_error_call_back
+        )
         {
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
 
-            const response = await fetch
+            fetch
             (
                 base_url,
                 {
@@ -74,9 +90,11 @@ var $mmria = function()
 
                     }),
                 }
-            );
+            )
+            .then(response => p_success_call_back(response)) 
+            .catch(err => p_error_call_back(err));
 
-            return response;
+
 
         },
         get_geocode_info: function(p_street, p_city, p_state, p_zip, p_call_back_action)
