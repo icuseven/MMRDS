@@ -43,7 +43,7 @@ namespace mmria.server
 
                 var result = new common.texas_am.geocode_response();
 
-                string geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+                string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
                 //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
 
                 string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={street_address}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
