@@ -359,6 +359,31 @@ function committee_review_date_of_review_changed(p_control)
 }
 
 
+
+
+/*
+path=death_certificate/place_of_last_residence/view_community_vital_signs_button
+event=onclick
+*/
+function dc_plc_cvs_button_click(p_control) 
+{
+    $mmria.dc_plc_cvs_button_click(p_control);
+}
+
+
+
+
+/*
+path=cvs/view_community_vital_signs_button
+event=onclick
+*/
+function cvs_view_community_vital_signs_button_click(p_control) 
+{
+    $mmria.cvs_view_community_vital_signs_button_click(p_control);
+}
+
+
+
 /*
 path=home_record/case_status/overall_case_status
 event=onchange
@@ -394,6 +419,9 @@ home_record/case_progress_report/committe_review_worksheet
 g_data
 
 
+/home_record/case_progress_report/community_vital_signs
+Cannont be 9999, 0 or 1
+
 */
 
     let selected_value = new Number(p_control.value);
@@ -412,7 +440,8 @@ g_data
             "9999": true
         }
 
-        if(
+        if
+        (
             is_correct_staus[g_data.home_record.case_progress_report.death_certificate] &&
             is_correct_staus[g_data.home_record.case_progress_report.autopsy_report] &&
             is_correct_staus[g_data.home_record.case_progress_report.birth_certificate_parent_section] &&
@@ -425,7 +454,9 @@ g_data
             is_correct_staus[g_data.home_record.case_progress_report.mental_health_profile] &&
             is_correct_staus[g_data.home_record.case_progress_report.informant_interviews	] &&
             is_correct_staus[g_data.home_record.case_progress_report.case_narrative] &&
-            is_correct_staus[g_data.home_record.case_progress_report.committe_review_worksheet]
+            is_correct_staus[g_data.home_record.case_progress_report.committe_review_worksheet] &&
+            is_correct_staus[g_data.home_record.case_progress_report.community_vital_signs]
+
         )
         {
             is_valid_status = true;
@@ -433,7 +464,7 @@ g_data
        
         if(is_valid_status)
         {
-            console.log(is_valid_status);
+            //console.log(is_valid_status);
             
 
             if (is_invalid_status[g_data.home_record.overall_assessment_of_timing_of_death.abstrator_assigned_status])

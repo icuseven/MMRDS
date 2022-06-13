@@ -1,6 +1,14 @@
 var $mmria = function() 
 {
     return {
+        dc_plc_cvs_button_click: function (p_control)
+        {
+            $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+        },
+        cvs_view_community_vital_signs_button_click: function (p_control)
+        {
+            $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+        },
         callback_cvs_data_success: function (p_result)
         {
             console.log(p_result.json());
