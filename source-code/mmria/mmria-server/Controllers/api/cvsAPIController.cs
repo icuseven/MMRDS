@@ -5,6 +5,7 @@ using System.Linq;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.IO;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ public class cvsAPIController: ControllerBase
     
     [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [HttpPost]
-    public async Task<System.Dynamic.ExpandoObject> Post
+    public async Task<string> Post
     (
         [FromBody] post_payload post_payload
     ) 
@@ -59,12 +60,16 @@ public class cvsAPIController: ControllerBase
         }
   
 
-        var result = string.Empty;
+        IActionResult result = null;
+        var response_string = string.Empty;
+        System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
 
         try
         {
+            
+
             switch(post_payload.action)
             {
                 case "server":
@@ -78,8 +83,10 @@ public class cvsAPIController: ControllerBase
                     var body_text = JsonSerializer.Serialize(sever_status_body);
                     var server_statu_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
-                    result = await server_statu_curl.executeAsync();
-                    System.Console.WriteLine(result);
+                    response_string = await server_statu_curl.executeAsync();
+                    System.Console.WriteLine(response_string);
+
+    
                 break;
                 case "data":
                     if(is_abstractor)
@@ -90,17 +97,22 @@ public class cvsAPIController: ControllerBase
                             secret = ConfigDB.name_value["cvs_api_key"],
                             payload = new()
                             {
+                                
                                 c_geoid = post_payload.c_geoid,
                                 t_geoid = post_payload.t_geoid,
                                 year = post_payload.year
+                                /*
+                                c_geoid = "13089",
+                                t_geoid = "13089021204",
+                                year = "2012"*/
                             }
                         };
 
                         body_text = JsonSerializer.Serialize(get_all_data_body);
                         var get_all_data_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
-                        result = await get_all_data_curl.executeAsync();
-                        System.Console.WriteLine(result);
+                        response_string = await get_all_data_curl.executeAsync();
+                        System.Console.WriteLine(response_string);
                     }
 
                     break;
@@ -122,19 +134,62 @@ public class cvsAPIController: ControllerBase
                     body_text = JsonSerializer.Serialize(get_dashboard_body);
                     var get_dashboard_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
-                    result = await get_dashboard_curl.executeAsync();
-                    System.Console.WriteLine(result);
+                    response_string = await get_dashboard_curl.executeAsync();
+                    System.Console.WriteLine(response_string);
+
+                    responseDictionary = JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string) as IDictionary<string,object>;
+
+
+/*
+"body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
+"body": "\"PDF is being created!\""
+"body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
+"isBase64Encoded": true
+*/
+
+                    if
+                    (
+                        responseDictionary != null &&
+                        (bool) responseDictionary["isBase64Encoded"] == true
+                    )
+                    {
+                        var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
+                        var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
+
+                        result = Ok(contents);
+                    }
+
+
 
                     break;
             }
         }
-        catch(Exception ex)
+        catch(System.Net.WebException ex)
         {
             System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
+            
+            /*return Problem(
+                type: "/docs/errors/forbidden",
+                title: "CVS API Error",
+                detail: ex.Message,
+                statusCode: (int) ex.Status,
+                instance: HttpContext.Request.Path
+            );*/
         }
 
 
-        return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(result);
+        if(result == null)
+        {
+            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
+            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
+        }
+        else
+        {
+            return null;
+            //return result;
+        }
+
+        return response_string;
     }
 
 

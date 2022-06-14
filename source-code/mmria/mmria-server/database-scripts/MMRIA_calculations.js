@@ -957,7 +957,7 @@ function geocode_dc_last_res(p_control)
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
 
 
-            const t_geoid = g_data.death_certificate.place_of_last_residence.census_tract_fips.padStart(6, "0");
+            const t_geoid = state_county_fips + g_data.death_certificate.place_of_last_residence.census_tract_fips.replace(".","").padStart(6, "0");
             $mmria.get_cvs_api_data_info
             (
                 g_data.death_certificate.place_of_last_residence.state_county_fips,  //c_geoid, // = "13089",

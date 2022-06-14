@@ -212,9 +212,6 @@ namespace migrate
 			config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
 			*/
 
-
-
-
 			bool is_test_list = true;
 			
 			bool is_report_only_mode = true;
@@ -387,11 +384,14 @@ namespace migrate
 
 						var v2_8 = new migrate.set.v2_8_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						await v2_8.execute();
+
+						var v2_8_1 = new migrate.set.v2_8_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_8_1.execute();
 					}
 					else if(MigrationType == RunTypeEnum.DataMigration)
 					{
-						//var v2_8_1 = new migrate.set.v2_8_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						//await v2_8_1.execute();
+						var v2_9 = new migrate.set.v2_9_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						await v2_9.execute();
 
 
 						var SubstanceMigration = new migrate.set.SubstanceMigration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, config_metadata_user_name, config_metadata_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
@@ -401,8 +401,8 @@ namespace migrate
 					{
 
 
-						var v2_8_1 = new migrate.set.v2_8_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-						await v2_8_1.execute();
+						//var v2_8_1 = new migrate.set.v2_8_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+						//await v2_8_1.execute();
 
 						//var v2_6_2 = new migrate.set.v2_6_2_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
 						//await v2_6_2.execute();
