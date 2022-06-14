@@ -485,7 +485,7 @@ async function download_data_quality_report_button_click()
             if 
             ( 
                 item.cmp_quarter_number < quarter_number &&
-                item.cmp_quarter_number >= quarter_number - 1.25
+                item.cmp_quarter_number >= quarter_number - 1.0
             ) 
             {
 
