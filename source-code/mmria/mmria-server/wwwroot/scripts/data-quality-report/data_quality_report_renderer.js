@@ -417,8 +417,10 @@ async function download_data_quality_report_button_click()
             if(item.cmp_quarter_number <= quarter_number)
             {
 			    summary_data.n04 += item.n04;
+                summary_data.n05 += item.n05;
+
             }
-			summary_data.n05 += item.n05;
+			
 			
         
 
@@ -430,7 +432,7 @@ async function download_data_quality_report_button_click()
             else if
             (
                 item.cmp_quarter_number < quarter_number &&
-                item.cmp_quarter_number >= quarter_number - 1.25
+                item.cmp_quarter_number >= quarter_number - 1.0
             )
             {
                 summary_data.previous4QuarterReview += item.n06;
