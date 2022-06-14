@@ -523,6 +523,22 @@ namespace mmria.server.utils
                         dqr_detail.n10.u = 1;
                     }
                 }
+                else
+                {
+                    dqr_detail.n10.m = 1;
+                }
+            }
+            else if
+            (
+                cr_do_revie_is_date &&
+                cr_p_relat_is_1 &&
+                (
+                    value_result.is_error ||
+                    value_result.result == null
+                )
+            )
+            {
+                dqr_detail.n10.m = 1;
             }
 
 
