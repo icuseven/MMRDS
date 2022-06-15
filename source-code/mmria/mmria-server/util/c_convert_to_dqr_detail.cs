@@ -1409,7 +1409,7 @@ int bfdcpfodddod_year = -1;
                     cr_wtda_homic == 9999                
                 )
                 {
-                    dqr_detail.n41.m = 1;
+                    dqr_detail.n43.m = 1;
                 }
 
                 if
@@ -1417,7 +1417,7 @@ int bfdcpfodddod_year = -1;
                     cr_wtda_homic == 7777                
                 )
                 {
-                    dqr_detail.n41.u = 1;
+                    dqr_detail.n43.u = 1;
                 }
             }
 

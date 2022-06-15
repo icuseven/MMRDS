@@ -518,7 +518,7 @@ async function download_data_quality_report_button_click()
                     }
 
                     // 10-44
-                    if(i < 45)
+                    if(i < 44)
                     {
                         summary_data[fld].s.mn += item[fld].m;
                         summary_data[fld].s.un += item[fld].u;
@@ -560,7 +560,7 @@ async function download_data_quality_report_button_click()
                     }
 
                     // 10-44
-                    if(i < 45)
+                    if(i < 44)
                     {
                         summary_data[fld].p.mn += item[fld].m;
                         summary_data[fld].p.un += item[fld].u;
