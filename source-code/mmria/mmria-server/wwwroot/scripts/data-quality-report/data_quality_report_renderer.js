@@ -256,6 +256,8 @@ function set_detail_data_case
 var g_debug_report_question = null;
 var g_debug_report_external_list = null;
 var g_internal_set = null;
+var g_current_set = new Set();
+var g_previous_set = new Set();
 var g_external_set = null;
 
 const g_debug_list = [];
@@ -271,6 +273,8 @@ async function download_data_quality_report_button_click()
     g_debug_report_external_list = document.getElementById("debug-report-external-list").value;
     g_internal_set = new Set();
     g_external_set = new Set();
+    g_current_set = new Set();
+    g_previous_set = new Set();
     
 
     let selected_quarter = document.getElementById('quarters-list').value;
@@ -384,6 +388,52 @@ async function download_data_quality_report_button_click()
                     break;
                     case "7":
                         if(item.n07 == 1) g_internal_set.add(new_id);
+                    break;
+                    case "14":
+                        
+                        if(item.cmp_quarter_number == quarter_number)
+                        {
+                            if
+                            (
+                                item.n14.m == 1 || 
+                                item.n14.u == 1 
+                            ) 
+                            {
+                                g_internal_set.add(new_id)
+                                if(item.n14.m == 1)
+                                {
+                                    g_current_set.add(new_id);
+                                }
+                                else
+                                {
+                                    //g_previous_set.add(new_id);
+                                }
+                            }
+                        }
+                        else if
+                        (
+                            item.cmp_quarter_number < quarter_number &&
+                            item.cmp_quarter_number >= quarter_number - 1.0
+                        )
+                        {
+                            if
+                            (
+                                item.n14.m == 1 || 
+                                item.n14.u == 1 
+                            ) 
+                            {
+                                g_internal_set.add(new_id)
+                                if(item.n14.m == 1)
+                                {
+                                    g_previous_set.add(new_id);
+                                }
+                                else
+                                {
+                                    //g_previous_set.add(new_id);
+                                }
+                            }
+                        }
+
                     break;
                     case "header":
                         if
@@ -597,7 +647,9 @@ async function download_data_quality_report_button_click()
         for(let item of internal_only)
         {
             const detail = case_header_map.get("dqr-" + item);
-            internal_ul.ul.push(`${item} ${detail.rec_id} ${detail.dt_death} ${detail.dt_com_rev}`);
+            const is_missing = g_current_set.has(item) ? "current" : "";
+            const is_unknown = g_previous_set.has(item) ? "previous" : "";
+            internal_ul.ul.push(`${item} ${detail.rec_id} ${detail.dt_death} ${detail.dt_com_rev} ${is_missing} ${is_unknown}`);
         }
 
         dd.content.push(internal_ul);
