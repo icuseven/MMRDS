@@ -662,7 +662,10 @@ int bfdcpfodddod_year = -1;
                 (
                     bfdcpfodddod_month == 9999 || 
                     bfdcpfodddod_day == 9999 ||
-                    bfdcpfodddod_year  == 9999
+                    bfdcpfodddod_year  == 9999 ||
+                    bfdcpfodddod_month == -1 || 
+                    bfdcpfodddod_day == -1 ||
+                    bfdcpfodddod_year  == -1
                 )
             )
             {
