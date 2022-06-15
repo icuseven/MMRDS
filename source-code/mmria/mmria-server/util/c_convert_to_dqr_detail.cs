@@ -203,10 +203,10 @@ namespace mmria.server.utils
                 (
                     !value_result.is_error &&
                     value_result.result != null && 
-                    value_result.result is List<int> 
+                    value_result.result is List<object> 
                 )
                 {
-                    var value_result_list = value_result.result as List<int>;
+                    var value_result_list = value_result.result as List<object>;
                     foreach(var item in value_result_list)
                     {
                         if(int.TryParse(item.ToString(), out test_int))
@@ -701,7 +701,13 @@ int bfdcpfodddod_year = -1;
                 }
 
             }
+/*
 
+            if(dqr_detail._id.Equals("FL-2020-0176",StringComparison.OrdinalIgnoreCase))
+            {
+                System.Console.WriteLine("here");
+            }
+*/
 
            // hrcpr_bcp_secti: /home_record/case_progress_report/birth_certificate_parent_section
             var bfdcpr_ro_mothe = get_mutilist_value_by_path("birth_fetal_death_certificate_parent/race/race_of_mother");
