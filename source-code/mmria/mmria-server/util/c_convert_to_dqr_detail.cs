@@ -1662,7 +1662,7 @@ int bfdcpfodddod_year = -1;
                     }
                 }
                 
-
+                dqr_detail.n49.t = dqr_detail.n49.p;
             }
 
 
