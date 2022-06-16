@@ -3,21 +3,99 @@ var $mmria = function()
     return {
         dc_plc_cvs_button_click: function (p_control)
         {
-            $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+/*
+
+death_certificate/place_of_last_residence/latitude
+death_certificate/place_of_last_residence/longitude
+home_record/date_of_death/year
+home_record/record_id
+
+"body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
+"body": "\"PDF is being created!\""
+"body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
+    "isBase64Encoded": true
+
+
+*/
+
+
+
+            $mmria.info_dialog_show("CVS PDF","Validation: Census track certainty code is 3 or 4 or 9", "PDF click");
         },
         cvs_view_community_vital_signs_button_click: function (p_control)
         {
-            $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+            $mmria.info_dialog_show("CVS PDF","Validation: Census track certainty code is 3 or 4 or 9", "PDF click");
         },
         callback_cvs_data_success: function (p_result)
         {
-            console.log(p_result.json());
+
+            //const data = eval("(" + p_result + ")"); 
+            console.log(p_result);
+            //console.log(data);
+
+/*
+{
+    "tract": {
+        "GEOID": "13089021204",
+        "YEAR": 2012,
+        "state": "GA",
+        "stfips": "13",
+        "NAME": "Census Tract 212.04, DeKalb County, Georgia",
+        "pctNOIns_Fem": 0.634703196347032,
+        "pctNoVehicle": 0.398314014752371,
+        "pctMOVE": 0.122659960882928,
+        "pctSPHH": 0.498920086393089,
+        "pctOVERCROWDHH": 0.23709167544784,
+        "pctOWNER_OCC": 0.0969441517386723,
+        "pct_less_well": 0.763715710723192,
+        "NDI_raw": 0.907978292667599,
+        "pctPOV": 0.464707497940126,
+        "ICE_INCOME_all": -0.287671232876712,
+        "MEDHHINC": 29154
+    },
+    "county": {
+        "GEOID": "13089",
+        "YEAR": 2012,
+        "state": "13",
+        "NAME": "DeKalb County, Georgia",
+        "pctNOIns_Fem": 0.194079130988133,
+        "pctNoVehicle": 0.0951164691458929,
+        "pctMOVE": 0.19548739309249,
+        "pctSPHH": 0.453825381455576,
+        "pctOVERCROWDHH": 0.0267523346804099,
+        "pctOWNER_OCC": 0.577101212368887,
+        "pct_less_well": 0.0926513501166921,
+        "NDI_raw": 0.418629060182515,
+        "pctPOV": 0.18592785864285,
+        "ICE_INCOME_all": -0.0421150615265858,
+        "MEDHHINC": 51252,
+        "MDrate": 503.048413990318,
+        "pctOBESE": 26.3,
+        "FI": 0.206,
+        "CNMrate": 1.27282421307643,
+        "OBGYNrate": 65.8484388432624,
+        "rtTEENBIRTH": 33.69108,
+        "rtSTD": 559.6,
+        "rtMHPRACT": 27.063170911122,
+        "rtDRUGODMORTALITY": 7.37393,
+        "rtOPIOIDPRESCRIPT": 49.4,
+        "SocCap": -0.470602722262832,
+        "rtSocASSOC": 7.22644244541661,
+        "pctHOUSE_DISTRESS": 0,
+        "rtVIOLENTCR_ICPSR": 598.146171086774,
+        "isolation": 0.784223001253116
+    }
+}
+*/
+
+
+
         },
         callback_cvs_data_error: function (p_result)
         {
             console.log(p_result);
         },
-        get_cvs_api_data_info: function
+        get_cvs_api_data_info: async function
         (
             c_geoid,
             t_geoid,
@@ -28,7 +106,8 @@ var $mmria = function()
         {
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
 
-            fetch
+           /* 
+            await fetch
             (
                 base_url,
                 {
@@ -45,9 +124,26 @@ var $mmria = function()
             )            
             .then(response => p_success_call_back(response)) 
             .catch(err => p_error_call_back(err));
+            */
 
+            await $.ajax(
+                {
+                    url: base_url,
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: p_success_call_back,
+                    error: p_error_call_back,
+                    data: JSON.stringify({
+                        action: "data",                        
+                        c_geoid: c_geoid,
+                        t_geoid: t_geoid,
+                        year: year
+
+                    })
+                }
+            );
         },
-
         get_cvs_api_dashboard_info: function
         (
             lat,

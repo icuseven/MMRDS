@@ -1071,6 +1071,9 @@ $(function ()
   let default_local_storage_limit = 300; */
 
 
+
+  window.setTimeout(()=> { $mmria.get_cvs_api_server_info(()=>{},()=>{}); }, 0);
+
   $('#profile_form2').on('submit', navigation_away);
 
   if 
