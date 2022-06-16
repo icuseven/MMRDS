@@ -587,24 +587,26 @@ async function download_data_quality_report_button_click()
         if(i < 44)
         {
 
-            if ( summary_data.n06 > 0 && summary_data[fld].s.mn > 0 )
+            if ( summary_data.n06 > 0)
             {
                 summary_data[fld].s.mp = (summary_data[fld].s.mn / summary_data.n06) * 100;
+                summary_data[fld].s.up = (summary_data[fld].s.un / summary_data.n06) * 100;
             }
 
-            if ( summary_data.n08 > 0 && summary_data[fld].p.un > 0 )
+            if ( summary_data.n08 > 0)
             {
+                summary_data[fld].p.mp = (summary_data[fld].p.mn / summary_data.n08) * 100;
                 summary_data[fld].p.up = (summary_data[fld].p.un / summary_data.n08) * 100;
             }
         }
         else
         {
-            if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+            if (summary_data[fld].s.tn > 0 )
             {
                 summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
             }
 
-            if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+            if (summary_data[fld].p.tn > 0 )
             {
                 summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
             }
