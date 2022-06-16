@@ -1646,6 +1646,7 @@ int bfdcpfodddod_year = -1;
                                 )
                                 {
                                     is_pass = is_pass && true;
+                                    dqr_detail.n49.p += 1;
                                 }
                                 else
                                 {
@@ -1655,7 +1656,7 @@ int bfdcpfodddod_year = -1;
 
                             if(is_pass)
                             {
-                                dqr_detail.n49.p = 1;
+                                //dqr_detail.n49.p = 1;
                             }
                         }
                     }

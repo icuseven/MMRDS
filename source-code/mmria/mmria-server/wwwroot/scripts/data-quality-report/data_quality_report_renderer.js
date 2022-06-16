@@ -389,18 +389,18 @@ async function download_data_quality_report_button_click()
                     case "7":
                         if(item.n07 == 1) g_internal_set.add(new_id);
                     break;
-                    case "14":
+                    case "49":
                         
                         if(item.cmp_quarter_number == quarter_number)
                         {
                             if
                             (
-                                item.n14.m == 1 || 
-                                item.n14.u == 1 
+                                item.n49.t == 1 //|| 
+                                //item.n49.u == 1 
                             ) 
                             {
                                 g_internal_set.add(new_id)
-                                if(item.n14.m == 1)
+                                if(item.n49.p == 1)
                                 {
                                     g_current_set.add(new_id);
                                 }
@@ -418,12 +418,12 @@ async function download_data_quality_report_button_click()
                         {
                             if
                             (
-                                item.n14.m == 1 || 
-                                item.n14.u == 1 
+                                item.n49.t == 1 //|| 
+                                //item.n49.u == 1 
                             ) 
                             {
                                 g_internal_set.add(new_id)
-                                if(item.n14.m == 1)
+                                if(item.n49.p == 1)
                                 {
                                     g_previous_set.add(new_id);
                                 }
@@ -577,21 +577,37 @@ async function download_data_quality_report_button_click()
     }
 
     // calculate summary percentages
-    let startLoop = 44;
+    let startLoop = 10;
     let endLoop = 49;
     for ( let i = startLoop; i <= endLoop; i++ )
     {
 
         let fld = 'n' + i;
 
-        if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+        if(i < 44)
         {
-            summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
-        }
 
-        if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+            if ( summary_data.n06 > 0 && summary_data[fld].s.mn > 0 )
+            {
+                summary_data[fld].s.mp = (summary_data[fld].s.mn / summary_data.n06) * 100;
+            }
+
+            if ( summary_data.n08 > 0 && summary_data[fld].p.un > 0 )
+            {
+                summary_data[fld].p.up = (summary_data[fld].p.un / summary_data.n08) * 100;
+            }
+        }
+        else
         {
-            summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
+            if ( summary_data[fld].s.pn > 0 && summary_data[fld].s.tn > 0 )
+            {
+                summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data[fld].s.tn) * 100;
+            }
+
+            if ( summary_data[fld].p.pn > 0 && summary_data[fld].p.tn > 0 )
+            {
+                summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data[fld].p.tn) * 100;
+            }
         }
     }
 
