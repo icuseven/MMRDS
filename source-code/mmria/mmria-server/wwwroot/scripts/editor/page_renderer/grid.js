@@ -17,12 +17,19 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         var is_grid_context = true;
 
+        var visibility_html = ';display:block;';
+        if(p_metadata.is_hidden == true)
+        {
+            visibility_html = ';display:none;';
+        }
+
         //p_result.push("<table style='grid-column:1/-1'  id='");
         p_result.push("<fieldset id='");
         
             p_result.push(p_metadata_path);
             p_result.push("' ");
 
+            
             
             p_result.push(" mpath='" + p_metadata_path + "'");
             p_result.push(" class='grid2 grid-control' style='");
@@ -32,6 +39,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push(get_only_size_and_position_string(style_object.control.style));
                 is_grid_context = style_object;
             }
+            p_result.push(visibility_html);
+
             p_result.push("' >"); // close opening div
 
             p_result.push("<legend class='grid-control-legend' style='");
