@@ -44,6 +44,8 @@ var g_case_narrative_original_value = null;
 
 let save_start_time, save_end_time;
 
+const g_cvs_api_request_data = new Map();
+
 
 
 async function g_set_data_object_from_path

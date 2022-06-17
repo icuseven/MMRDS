@@ -32,7 +32,27 @@ home_record/record_id
             //const data = eval("(" + p_result + ")"); 
             console.log(p_result);
             //console.log(data);
-
+            console.log(p_result);
+            if
+            (
+                g_cvs_api_request_data.has("_id") &&
+                g_cvs_api_request_data.get("_id") == g_data._id
+            )
+            {
+                if(p_result.tract == null)
+                {
+                    g_cvs_api_request_data.set("cvs_api_request_result_message", p_result); 
+                    g_cvs_api_request_data.set
+                    (
+                        "cvs_api_request_result_message",
+                        `status code: ${p_result.status} message: ${p_result.message}`
+                    ); 
+                }
+                else
+                {
+                    g_cvs_api_request_data.set("cvs_api_request_result_message", "Data request successful."); 
+                }
+            }
 /*
 {
     "tract": {
@@ -94,6 +114,18 @@ home_record/record_id
         callback_cvs_data_error: function (p_result)
         {
             console.log(p_result);
+            if
+            (
+                g_cvs_api_request_data.has("_id") &&
+                g_cvs_api_request_data.get("_id") == g_data._id
+            )
+            {
+                g_cvs_api_request_data.set
+                (
+                    "cvs_api_request_result_message",
+                    `status code: ${p_result.status} message: ${p_result.message}`
+                ); 
+            }
         },
         get_cvs_api_data_info: async function
         (
@@ -106,6 +138,17 @@ home_record/record_id
         {
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
 
+
+
+            g_cvs_api_request_data.set("_id", g_data._id);
+            g_cvs_api_request_data.set("cvs_api_request_url", base_url);
+            g_cvs_api_request_data.set("cvs_api_request_date_time", new Date());
+            g_cvs_api_request_data.set("cvs_api_request_c_geoid", c_geoid);
+            g_cvs_api_request_data.set("cvs_api_request_t_geoid", t_geoid);
+            g_cvs_api_request_data.set("cvs_api_request_year", year);
+
+
+            //g_cvs_api_request_data.set("cvs_api_request_result_message", 
            /* 
             await fetch
             (
