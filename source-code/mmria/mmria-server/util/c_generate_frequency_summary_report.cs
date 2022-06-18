@@ -6,7 +6,21 @@ namespace mmria.server.utils;
 
 public class c_generate_frequency_summary_report
 {
+/*
 
+
+FREQ (N)
+
+STAT_N (N,MIN,MEAN,MEDIAN,SD)
+
+STAT_D (N,MIN,MAX)
+
+
+FREQ STAT_N STAT_D
+
+
+
+*/
 
     string source_json;
 

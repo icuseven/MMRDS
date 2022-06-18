@@ -185,78 +185,62 @@ public class v2_9_Migration
 
 /*
 
-DC
+06_PCR_05_PrgHis (3)
+pphdg_b_weigh_uom
+pphdg_b_weigh <- already existing grams was old
+pphdg_b_weigh_oz
 
-Time of Death
-dcci_to_death
-/death_certificate/certificate_identification/time_of_death 
+pphdg_b_weigh_uom prenatal/pregnancy_history/details_grid/birth_weight_uom
+pphdg_b_weigh prenatal/pregnancy_history/details_grid/birth_weight
+pphdg_b_weigh_oz prenatal/pregnancy_history/details_grid/birth_weight_oz
 
-2
+if weight then
+	set to grams
+else
+	set to blank
 
-DC
 
-Time of Injury
-dciai_to_injur
-/death_certificate/injury_associated_information/time_of_injury 
 
-3
+If foreign born 3 fields only MMRDS-1853 remove US or Any US Territories
+Data migration if US or US Territory set to (blank)
 
-BCDC-Infant
+death_certificate/demographics/country_of_birth
+death_certificate/demographics/state_of_birth
 
-Time of Delivery
-bcifsri_to_deliv
-/birth_certificate_infant_fetal_section/record_identification/time_of_delivery
+birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
+birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
 
-4
+birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
+birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
 
-ER
 
-Time of Arrival
-evahmrbaadidoa_to_arriv
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival
+Move US territories to state list MMRDS-1851
+Data migration - any country where US territories
 
-5
+Country --> State
 
-ER
+RQ -->PR
+AQ --> AS
+GQ --> GU
+VQ --> VI
+RM --> MH
+CQ --> MP
+PS --> PW
 
-Time of Admission
-evahmrbaadidoha_to_admis
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission
-
-6
-
-ER
-
-Time of Discharge
-evahmrbaadidohd_to_disch
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge
-
-7
-
-ER
-
-Time of Onset of Labor
-evahmrooldoool_tooo_labor
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor 
-
-8
-
-ER
-
-Time of Rupture
-evahmrooldor_to_ruptu
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture
-
-9
-
-OMOV
-
-Arrival Time
-omovvdomov_a_time
-/other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time
 
 */
 
+
+var Country_to_State_map = new Dictionary<string,string>()
+{
+	{ "RQ", "PR"},
+	{ "AQ", "AS"},
+	{ "GQ", "GU"},
+	{ "VQ", "VI"},
+	{ "RM", "MH"},
+	{ "CQ", "MP"},
+	{ "PS", "PW"},
+};
 
 {
 var dcci_to_death_path = "death_certificate/certificate_identification/time_of_death";
