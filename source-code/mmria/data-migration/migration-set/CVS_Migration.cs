@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace migrate.set;
@@ -15,6 +17,8 @@ public class CVS_Migration
 	public string config_timer_value;
 
 	public bool is_report_only_mode;
+
+	mmria.common.couchdb.ConfigurationSet ConfigDB;
 
 	public System.Text.StringBuilder output_builder;
 	private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
@@ -44,7 +48,8 @@ public class CVS_Migration
 		string p_config_timer_value,
 		System.Text.StringBuilder p_output_builder,
 		Dictionary<string, HashSet<string>> p_summary_value_dictionary,
-		bool p_is_report_only_mode
+		bool p_is_report_only_mode,
+		mmria.common.couchdb.ConfigurationSet p_configuration_set
 	) 
 	{
 
@@ -55,6 +60,7 @@ public class CVS_Migration
 		output_builder = p_output_builder;
 		summary_value_dictionary = p_summary_value_dictionary;
 		is_report_only_mode = p_is_report_only_mode;
+		ConfigDB = p_configuration_set;
 	}
 
 
@@ -572,4 +578,160 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 	}
 
 
+	public async Task<mmria.common.texas_am.geocode_response> Get
+        (
+			string street_address,
+			string city,
+			string state,
+			string zip
+        ) 
+		{ 
+
+                var result = new mmria.common.texas_am.geocode_response();
+
+                string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
+                //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+
+                string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={street_address}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
+
+                var curl = new cURL("GET", null, request_string, null);
+                try
+                {
+                    string responseFromServer = await curl.executeAsync();
+
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
+                
+                }
+                catch(Exception ex)
+                {
+                    // do nothing for now
+                }
+
+                return result;
+		}
+
+	public async Task<string> Post
+    (
+        mmria.common.cvs.post_payload post_payload
+    ) 
+    { 
+
+        string result = null;
+        var response_string = string.Empty;
+        System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
+
+        var base_url = ConfigDB.name_value["cvs_api_url"];
+
+        try
+        {
+            
+
+            switch(post_payload.action)
+            {
+                case "server":
+                    var sever_status_body = new mmria.common.cvs.server_status_post_body()
+                    {
+                        id = ConfigDB.name_value["cvs_api_id"],
+                        secret = ConfigDB.name_value["cvs_api_key"],
+
+                    };
+
+                    var body_text = JsonSerializer.Serialize(sever_status_body);
+                    var server_statu_curl = new cURL("POST", null, base_url, body_text);
+
+                    response_string = await server_statu_curl.executeAsync();
+                    System.Console.WriteLine(response_string);
+
+    
+                break;
+                case "data":
+
+                        var get_all_data_body = new mmria.common.cvs.get_all_data_post_body()
+                        {
+                            id = ConfigDB.name_value["cvs_api_id"],
+                            secret = ConfigDB.name_value["cvs_api_key"],
+                            payload = new()
+                            {
+                                
+                                c_geoid = post_payload.c_geoid,
+                                t_geoid = post_payload.t_geoid,
+                                year = post_payload.year
+                                /*
+                                c_geoid = "13089",
+                                t_geoid = "13089021204",
+                                year = "2012"*/
+                            }
+                        };
+
+                        body_text = JsonSerializer.Serialize(get_all_data_body);
+                        var get_all_data_curl = new cURL("POST", null, base_url, body_text);
+
+                        response_string = await get_all_data_curl.executeAsync();
+                        System.Console.WriteLine(response_string);
+                    
+
+                    break;
+
+                case "dashboard":
+                    var get_dashboard_body = new mmria.common.cvs.get_dashboard_post_body()
+                    {
+                        id = ConfigDB.name_value["cvs_api_id"],
+                        secret = ConfigDB.name_value["cvs_api_key"],
+                        payload = new()
+                        {
+                            lat = post_payload.lat,
+                            lon = post_payload.lon, 
+                            year= post_payload.year,
+                            id = post_payload.id
+                        }
+                    };
+
+                    body_text = JsonSerializer.Serialize(get_dashboard_body);
+                    var get_dashboard_curl = new cURL("POST", null, base_url, body_text);
+
+                    response_string = await get_dashboard_curl.executeAsync();
+                    System.Console.WriteLine(response_string);
+
+                    responseDictionary = JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string) as IDictionary<string,object>;
+
+
+/*
+"body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
+"body": "\"PDF is being created!\""
+"body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
+"isBase64Encoded": true
+*/
+
+                    break;
+            }
+        }
+        catch(System.Net.WebException ex)
+        {
+            System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
+            
+            /*return Problem(
+                type: "/docs/errors/forbidden",
+                title: "CVS API Error",
+                detail: ex.Message,
+                statusCode: (int) ex.Status,
+                instance: HttpContext.Request.Path
+            );*/
+        }
+
+
+        if(result == null)
+        {
+            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
+            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
+        }
+        else
+        {
+            return null;
+            //return result;
+        }
+
+        return response_string;
     }
+
+
+}
