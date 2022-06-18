@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace migrate.set;
 
-public class v2_9_Migration
+public class CVS_Migration
 {
 
 	public string host_db_url;
@@ -36,7 +36,7 @@ public class v2_9_Migration
 	public bool is_data_correction = false;
 
 
-	public v2_9_Migration
+	public CVS_Migration
 	(
 		string p_host_db_url, 
 		string p_db_name, 
@@ -60,10 +60,10 @@ public class v2_9_Migration
 
 	public async Task execute()
 	{
-		this.output_builder.AppendLine($"v2.9 Data Migration started at: {DateTime.Now.ToString("o")}");
+		this.output_builder.AppendLine($"CVS_Migration Data Migration started at: {DateTime.Now.ToString("o")}");
 		DateTime begin_time = System.DateTime.Now;
 		
-		this.output_builder.AppendLine($"v2_9_Migration started at: {begin_time.ToString("o")}");
+		this.output_builder.AppendLine($"CVS_Migration started at: {begin_time.ToString("o")}");
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
@@ -185,75 +185,12 @@ public class v2_9_Migration
 
 /*
 
-DC
-
-Time of Death
-dcci_to_death
-/death_certificate/certificate_identification/time_of_death 
-
-2
-
-DC
-
-Time of Injury
-dciai_to_injur
-/death_certificate/injury_associated_information/time_of_injury 
-
-3
-
-BCDC-Infant
-
-Time of Delivery
-bcifsri_to_deliv
-/birth_certificate_infant_fetal_section/record_identification/time_of_delivery
-
-4
-
-ER
-
-Time of Arrival
-evahmrbaadidoa_to_arriv
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival
-
-5
-
-ER
-
-Time of Admission
-evahmrbaadidoha_to_admis
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission
-
-6
-
-ER
-
-Time of Discharge
-evahmrbaadidohd_to_disch
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge
-
-7
-
-ER
-
-Time of Onset of Labor
-evahmrooldoool_tooo_labor
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor 
-
-8
-
-ER
-
-Time of Rupture
-evahmrooldor_to_ruptu
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture
-
-9
-
-OMOV
-
-Arrival Time
-omovvdomov_a_time
-/other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time
+cvs_api_request_url
+cvs_api_request_date_time
+cvs_api_request_c_geoid
+cvs_api_request_t_geoid
+cvs_api_request_year
+cvs_api_request_result_message
 
 */
 
@@ -343,7 +280,7 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.9");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"CVS_Migration", true);
 				}
 
 			}
@@ -356,7 +293,7 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 		Console.WriteLine(ex);
 	}
 
-	Console.WriteLine($"v2_9_Migration Finished {DateTime.Now}");
+	Console.WriteLine($"CVS_Migration Finished {DateTime.Now}");
 }
 
 	bool isInNeedOfConversion(string p_value)
