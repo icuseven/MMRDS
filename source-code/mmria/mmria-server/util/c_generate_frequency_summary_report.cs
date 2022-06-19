@@ -18,6 +18,8 @@ public class c_generate_frequency_summary_report
 		public string sass_export_name {get;set;}
 		public mmria.common.metadata.node Node { get; set; }
 
+        public string[] tags {get;set;}
+
 		public Dictionary<string,string> display_to_value { get; set; }
 		public Dictionary<string,string> value_to_display { get; set; }
 	}
@@ -85,7 +87,21 @@ FREQ STAT_N STAT_D
             Get_List_Look_Up(List_Look_Up, metadata.lookup, child, "/" + child.name);
         }
 
+        this.lookup = get_look_up(metadata);
+
 		all_list_set = get_metadata_node_by_type(metadata, "list");
+
+
+        var with_tags = all_list_set.Where
+        (
+            o=> o.tags != null && 
+            (
+                o.tags.Contains("FREQ", StringComparer.OrdinalIgnoreCase) || 
+                o.tags.Contains("STAT_N", StringComparer.OrdinalIgnoreCase) ||
+                o.tags.Contains("STAT_D", StringComparer.OrdinalIgnoreCase) 
+                
+            )
+        ).ToList();
 
 		single_form_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == false && o.Node.is_multiselect == null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
 		single_form_multi_value_set = all_list_set.Where(o=> o.is_multiform == false && o.is_grid == false && o.Node.is_multiselect != null && (o.Node.control_style == null || !o.Node.control_style.Equals("editable",StringComparison.OrdinalIgnoreCase))).ToList();
@@ -314,7 +330,8 @@ FREQ STAT_N STAT_D
 				Node = p_node,
 				value_to_display = value_to_display,
 				display_to_value = display_to_value,
-				sass_export_name = p_node.sass_export_name
+				sass_export_name = p_node.sass_export_name,
+                tags = p_node.tags
 			});
 		}
 		else if(p_node.children != null)
@@ -331,6 +348,17 @@ FREQ STAT_N STAT_D
 				}
 			}
 		}
+	}
+
+    private Dictionary<string,mmria.common.metadata.value_node[]> get_look_up(mmria.common.metadata.app p_metadata)
+	{
+		var result = new Dictionary<string,mmria.common.metadata.value_node[]>(StringComparer.OrdinalIgnoreCase);
+
+		foreach(var node in p_metadata.lookup)
+		{
+			result.Add("lookup/" + node.name, node.values);
+		}
+		return result;
 	}
 
 
