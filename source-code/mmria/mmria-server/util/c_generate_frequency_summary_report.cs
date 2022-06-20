@@ -133,6 +133,10 @@ prenatal/routine_monitoring/date_and_time
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
+		System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
+
+
+
 
         List_Look_Up = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
 
@@ -181,54 +185,6 @@ prenatal/routine_monitoring/date_and_time
 
         var FrequencySummaryDocument = new mmria.server.model.SummaryReport.FrequencySummaryDocument();
 
-        HashSet<string> Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-
-        try
-        {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
-
-            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            string case_view_responseFromServer = case_view_curl.execute();
-
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
-
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
-            {
-                Custom_Case_Id_List.Add(cvi.id);
-
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-
-        foreach(string case_id in Custom_Case_Id_List)
-        {
-
-            string URL = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-            cURL document_curl = new cURL("GET", null, URL, null, Program.config_timer_user_name, Program.config_timer_value);
-            System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
-
-            IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-
-            if
-            (
-                case_doc == null ||
-                !case_doc.ContainsKey("_id") ||
-                case_doc["_id"] == null ||
-                case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
-            )
-            {
-                continue;
-            }
-
-
-
-            
-        }
 
 
 
