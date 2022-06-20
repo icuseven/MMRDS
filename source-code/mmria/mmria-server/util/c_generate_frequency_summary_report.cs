@@ -186,6 +186,19 @@ prenatal/routine_monitoring/date_and_time
         var FrequencySummaryDocument = new mmria.server.model.SummaryReport.FrequencySummaryDocument();
 
 
+        value_result = gs.get_value(source_object, "_id");
+    
+        FrequencySummaryDocument._id  = ((object)value_result.result).ToString();
+
+        value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
+        FrequencySummaryDocument.case_folder = ((object)value_result.result).ToString();
+
+        value_result = gs.get_value(source_object, "home_record/record_id");
+        FrequencySummaryDocument.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
+    
+        FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
+
+
 
 
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();

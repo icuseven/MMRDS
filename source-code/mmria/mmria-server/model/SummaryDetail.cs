@@ -21,6 +21,10 @@ public class FrequencySummaryDocument
          path_to_detail = new ();
     }
     public string _id { get; set; }
+
+    public string case_folder { get; set; }
+
+    public string record_id { get; set; }
     public string _rev { get; set; }
 
     public Dictionary<string, Detail> path_to_detail { get; set; }
