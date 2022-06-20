@@ -199,6 +199,7 @@ prenatal/routine_monitoring/date_and_time
         FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
 
+        FrequencySummaryDocument.date_created = DateTime.Now;
 
 
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();

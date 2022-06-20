@@ -369,16 +369,16 @@ namespace mmria.server.utils
 
 				if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
 				{
-					var dqr_id = "freq-" + this.document_id;
-					string current_detail_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + dqr_id);
+					var freq_id = "freq-" + this.document_id;
+					string current_detail_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + freq_id);
 
 
 					var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (freq_detail_report_json);
 					var byName = (IDictionary<string,object>)dqr_report_expando_object;
-					byName["_id"] = dqr_id;
+					byName["_id"] = freq_id;
 					freq_detail_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(dqr_report_expando_object);
                     
-					System.Text.StringBuilder dqr_detail_url = new System.Text.StringBuilder();
+					System.Text.StringBuilder freq_detail_url = new System.Text.StringBuilder();
 
 					if(!string.IsNullOrEmpty(current_detail_revision))
 					{
@@ -391,21 +391,21 @@ namespace mmria.server.utils
                     }
 
 
-					dqr_detail_url.Append(Program.config_couchdb_url);
-					dqr_detail_url.Append($"/{Program.db_prefix}report/");
-					dqr_detail_url.Append(dqr_id);
+					freq_detail_url.Append(Program.config_couchdb_url);
+					freq_detail_url.Append($"/{Program.db_prefix}report/");
+					freq_detail_url.Append(freq_id);
 		
 					if(this.method == "DELETE")
 					{
-						dqr_detail_url.Append("?rev=");
-						dqr_detail_url.Append(current_detail_revision);	
+						freq_detail_url.Append("?rev=");
+						freq_detail_url.Append(current_detail_revision);	
 					}
 
-					var dqr_detail_curl = new cURL(this.method, null, dqr_detail_url.ToString(), freq_detail_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+					var freq_detail_curl = new cURL(this.method, null, freq_detail_url.ToString(), freq_detail_report_json,  Program.config_timer_user_name, Program.config_timer_value);
 
-					string dqr_detail_result = await dqr_detail_curl.executeAsync();
-					System.Console.WriteLine("c_sync_document dqr detail");
-					System.Console.WriteLine(dqr_detail_result);
+					string freq_detail_result = await freq_detail_curl.executeAsync();
+					System.Console.WriteLine("c_sync_document freq detail");
+					System.Console.WriteLine(freq_detail_result);
 				}
 
 			}

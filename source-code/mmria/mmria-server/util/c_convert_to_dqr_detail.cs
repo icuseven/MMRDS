@@ -288,6 +288,7 @@ namespace mmria.server.utils
             value_result = gs.get_value(source_object, "addquarter");
             var obj = (object)value_result.result;
 
+
             if(obj != null)
             {
                 dqr_detail.add_quarter_name  = ((object)value_result.result).ToString();
