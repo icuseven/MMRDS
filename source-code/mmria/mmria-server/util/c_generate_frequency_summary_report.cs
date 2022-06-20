@@ -37,6 +37,60 @@ STAT_D (N,MIN,MAX)
 FREQ STAT_N STAT_D
 
 
+FREQ
+app/home_record/how_was_this_death_identified
+app/home_record/case_status/overall_case_status
+app/home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
+app/home_record/overall_assessment_of_timing_of_death/hr_prg_outcome
+er_visit_and_hospital_medical_records/physical_exam_and_evaluations/body_system
+er_visit_and_hospital_medical_records/onset_of_labor/final_delivery_route
+er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome
+er_visit_and_hospital_medical_records/were_there_complications_of_anesthesia
+er_visit_and_hospital_medical_records/any_adverse_reactions
+er_visit_and_hospital_medical_records/any_surgical_procedures
+er_visit_and_hospital_medical_records/any_blood_transfusions
+prenatal/pregnancy_history/details_grid/outcome
+prenatal/pregnancy_history/details_grid/is_now_living
+prenatal/routine_monitoring/urine_protein
+prenatal/routine_monitoring/urine_ketones
+prenatal/routine_monitoring/urine_glucose
+
+STAT_N
+app/home_record/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey
+er_visit_and_hospital_medical_records/highest_bp/systolic_bp
+er_visit_and_hospital_medical_records/highest_bp/diastolic_bp
+er_visit_and_hospital_medical_records/vital_signs/pulse
+er_visit_and_hospital_medical_records/vital_signs/bp_systolic
+er_visit_and_hospital_medical_records/vital_signs/bp_diastolic
+er_visit_and_hospital_medical_records/vital_signs/respiration
+er_visit_and_hospital_medical_records/vital_signs/temperature
+er_visit_and_hospital_medical_records/vital_signs/oxygen_saturation
+er_visit_and_hospital_medical_records/maternal_biometrics/height/bmi
+er_visit_and_hospital_medical_records/maternal_biometrics/admission_weight
+prenatal/pregnancy_history/details_grid/gestational_age
+prenatal/routine_monitoring/gestational_age_weeks
+prenatal/routine_monitoring/systolic_bp
+prenatal/routine_monitoring/diastolic
+prenatal/routine_monitoring/heart_rate
+prenatal/routine_monitoring/oxygen_saturation
+prenatal/routine_monitoring/blood_hematocrit
+prenatal/routine_monitoring/weight
+
+STAT_D
+birth_certificate_infant_fetal_section/record_identification/date_of_delivery
+app/home_record/case_status/abstraction_begin_date
+app/home_record/case_status/abstraction_complete_date
+app/home_record/case_status/committee_review_date
+app/home_record/case_status/case_locked_date
+er_visit_and_hospital_medical_records/vital_signs/date_and_time
+prenatal/pregnancy_history/details_grid/date_ended
+prenatal/routine_monitoring/date_and_time
+
+
+
+
+
+
 
 */
 
@@ -95,6 +149,7 @@ FREQ STAT_N STAT_D
         var with_tags = all_list_set.Where
         (
             o=> o.tags != null && 
+            o.tags.Length > 0 && 
             (
                 o.tags.Contains("FREQ", StringComparer.OrdinalIgnoreCase) || 
                 o.tags.Contains("STAT_N", StringComparer.OrdinalIgnoreCase) ||
@@ -248,18 +303,20 @@ FREQ STAT_N STAT_D
 		foreach(var node in p_metadata.children)
 		{
 			var current_type = node.type.ToLowerInvariant();
-			if(current_type == p_type)
-			{
+			//if(current_type == p_type)
+			//{
 				result.Add(new Metadata_Node()
 				{
 					is_multiform = false,
 					is_grid = false,
 					path = node.name,
 					Node = node,
-					sass_export_name = node.sass_export_name
+					sass_export_name = node.sass_export_name,
+                    tags = node.tags
 				});
-			}
-			else if(current_type == "form")
+			//}
+			//else 
+            if(current_type == "form")
 			{
 				if
 				(
@@ -282,59 +339,62 @@ FREQ STAT_N STAT_D
 	private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
 	{
 		var current_type = p_node.type.ToLowerInvariant();
-		if(current_type == p_type)
-		{
-			var value_to_display = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-			var display_to_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-			if
-			(
-				current_type == "list"
-			)
-			{
 
-				if(!string.IsNullOrWhiteSpace(p_node.path_reference))
-				{
-					//var key = "lookup/" + p_node.name;
-					var key = p_node.path_reference;
-					if(this.lookup.ContainsKey(key))
-					{
-						var values = this.lookup[key];
 
-						p_node.values = values;
-					}
-				}
+        var value_to_display = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var display_to_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-				foreach(var value_item in p_node.values)
-				{
-					var value = value_item.value;
-					var display = value_item.display;
+        if
+        (
+            current_type == "list"
+        )
+        {
 
-					if(!value_to_display.ContainsKey(value))
-					{
-						value_to_display.Add(value, display);
-					}
+            if(!string.IsNullOrWhiteSpace(p_node.path_reference))
+            {
+                //var key = "lookup/" + p_node.name;
+                var key = p_node.path_reference;
+                if(this.lookup.ContainsKey(key))
+                {
+                    var values = this.lookup[key];
 
-					if(!display_to_value.ContainsKey(display))
-					{
-						display_to_value.Add(display, value);
-					}
-				}
-			}
+                    p_node.values = values;
+                }
+            }
 
-			p_result.Add(new Metadata_Node()
-			{
-				is_multiform = p_is_multiform,
-				is_grid = p_is_grid,
-				path = p_path,
-				Node = p_node,
-				value_to_display = value_to_display,
-				display_to_value = display_to_value,
-				sass_export_name = p_node.sass_export_name,
-                tags = p_node.tags
-			});
-		}
-		else if(p_node.children != null)
+            foreach(var value_item in p_node.values)
+            {
+                var value = value_item.value;
+                var display = value_item.display;
+
+                if(!value_to_display.ContainsKey(value))
+                {
+                    value_to_display.Add(value, display);
+                }
+
+                if(!display_to_value.ContainsKey(display))
+                {
+                    display_to_value.Add(display, value);
+                }
+            }
+        }
+
+
+        p_result.Add(new Metadata_Node()
+        {
+            is_multiform = p_is_multiform,
+            is_grid = p_is_grid,
+            path = p_path,
+            Node = p_node,
+            value_to_display = value_to_display,
+            display_to_value = display_to_value,
+            sass_export_name = p_node.sass_export_name,
+            tags = p_node.tags
+        });
+    
+        
+        if(p_node.children != null)
 		{
 			foreach(var node in p_node.children)
 			{
