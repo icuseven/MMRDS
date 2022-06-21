@@ -6,15 +6,16 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "abstractor")]
+    [Route("community-vital-signs")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public class CaseController : Controller
+    public class CvsController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         IConfiguration configuration;
 
-        public CaseController(IAuthorizationService authorizationService, IConfiguration p_configuration)
+        public CvsController(IAuthorizationService authorizationService, IConfiguration p_configuration)
         {
             _authorizationService = authorizationService;
             configuration = p_configuration;
@@ -25,6 +26,7 @@ namespace mmria.server.Controllers
             TempData["metadata_version"] = configuration["mmria_settings:metadata_version"];
             return View();
         }
+
 
     }
 }
