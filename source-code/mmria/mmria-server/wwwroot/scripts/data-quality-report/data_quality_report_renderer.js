@@ -1013,7 +1013,7 @@ async function download_data_quality_report_button_click()
 
 function getCaseFolder()
 {
-    const top_folder_name = sanitize_encodeHTML(window.location.host.split("-")[0]);
+    const top_folder_name = sanitize_encodeHTML(window.location.host.toUpperCase().split("-")[0]);
 
     var case_folder_display = top_folder_name;
     var case_folder_exclude = ' - Exclude: ';
