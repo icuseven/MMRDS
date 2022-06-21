@@ -369,7 +369,18 @@ function fmtPercent( val ) {
 	if ( val == null || val == '' ) {
 		return '';
 	}
-	return val.toFixed(1) + '%';
+
+    const result = val.toFixed(1);
+
+    if(result == 100)
+    {
+        return '100%';
+    }
+    else
+    {
+        return result + '%';
+    }
+	
 }
 
 // ************************************************************************
