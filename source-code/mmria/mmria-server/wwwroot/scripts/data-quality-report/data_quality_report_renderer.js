@@ -82,22 +82,22 @@ function render_case_folder_include_list()
 		//  Add title
 		html_array.push("<div class='mb-0 font-weight-bold mr-2' >Select Cases From:</div>");
 
-    for(var i = 0; i < g_case_folder_list.length; i++)
-    {
-        var child = g_case_folder_list[i];
-				html_array.push("<div>")
-				html_array.push("<input value='");
-				html_array.push(child.replace(/'/g, "&#39;"));
-				html_array.push("' ");
-				html_array.push("type='checkbox' ");
-				html_array.push("name='case_folder_checkbox' ");
-				html_array.push("onchange='updatecase_folder(event)' ");
-				html_array.push("checked> ");
-				html_array.push(`${ (child == "/") ? "Top Folder" : child}`);
-				html_array.push("</div>")        
-    }
+        for(var i = 0; i < g_case_folder_list.length; i++)
+        {
+            var child = g_case_folder_list[i];
+                    html_array.push("<div>")
+                    html_array.push("<input value='");
+                    html_array.push(child.replace(/'/g, "&#39;"));
+                    html_array.push("' ");
+                    html_array.push("type='checkbox' ");
+                    html_array.push("name='case_folder_checkbox' ");
+                    html_array.push("onchange='updatecase_folder(event)' ");
+                    html_array.push("checked> ");
+                    html_array.push(`${ (child == "/") ? "Top Folder" : child}`);
+                    html_array.push("</div>")        
+        }
 
-    el.innerHTML = html_array.join("");
+        el.innerHTML = html_array.join("");
 	}
 	else
 	{
@@ -1013,27 +1013,29 @@ async function download_data_quality_report_button_click()
 
 function getCaseFolder()
 {
-    var case_folder_display = '/';
+    const top_folder_name = sanitize_encodeHTML(window.location.host.split("-")[0]);
+
+    var case_folder_display = top_folder_name;
     var case_folder_exclude = ' - Exclude: ';
 
 
     if ( g_case_folder_list.length == 1 )
     {
-        case_folder_display = '/';
+        case_folder_display = top_folder_name;
         return case_folder_display;
     }
 
     
     if ( g_case_folder_list.length == g_model.includedCaseFolder.length )
     {
-        case_folder_display = '/';
+        case_folder_display = top_folder_name;
         return case_folder_display;
     }
 
     if ( g_model.includedCaseFolder[0] == '/' )
     {
 
-        case_folder_display = '/';
+        case_folder_display = top_folder_name;
 
 
         g_case_folder_list.map( (j, i) => {
