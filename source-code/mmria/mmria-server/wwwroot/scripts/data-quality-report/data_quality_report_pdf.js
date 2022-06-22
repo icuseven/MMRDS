@@ -359,7 +359,7 @@ function fmtStrDate(dt) {
 // Format number
 function fmtNumber( val ) {
 	if ( val == null || val == '' ) {
-		return '';
+		return '0';
 	}
 	return val;
 }
@@ -367,7 +367,7 @@ function fmtNumber( val ) {
 // Format percentage
 function fmtPercent( val ) {
 	if ( val == null || val == '' ) {
-		return '';
+		return '0.0%';
 	}
 
     const result = val.toFixed(1);
