@@ -7,6 +7,8 @@
 
     var row_number = 0;
 
+    var display_blank = "(blank)";
+
     DateTime? previous_date = null;
 
     HashSet<string> user_list = new();
@@ -320,6 +322,33 @@ Updated By
                     @change.old_value
                 }
             }
+            else if(change.metadata_type == "list")
+            {
+                if
+                (
+                    !string.IsNullOrWhiteSpace(change.old_value) && 
+                    change.old_value?.Length> 30
+                )
+                {
+                    @change.old_value.Substring(0, 30)
+                }
+                else
+                {
+                    if
+                    (
+                        change.old_value == "9999"
+                    )
+                    {
+                        @display_blank
+                    }
+                    else
+                    {
+                        @change.old_value
+                    }
+                    
+                }
+            }
+            
             else if(change.old_value.Length> 30)
             {
                 @change.old_value.Substring(0, 30);
@@ -367,6 +396,32 @@ Updated By
                 else
                 {
                     @change.new_value
+                }
+            }
+            else if(change.metadata_type == "list")
+            {
+                if
+                (
+                    !string.IsNullOrWhiteSpace(change.new_value) && 
+                    change.new_value?.Length> 30
+                )
+                {
+                    @change.new_value.Substring(0, 30)
+                }
+                else
+                {
+                    if
+                    (
+                        change.new_value == "9999"
+                    )
+                    {
+                        @display_blank
+                    }
+                    else
+                    {
+                        @change.new_value
+                    }
+                    
                 }
             }
             else if(!string.IsNullOrWhiteSpace(change.new_value) && change.new_value?.Length> 30)

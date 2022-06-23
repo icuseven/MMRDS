@@ -155,7 +155,21 @@ else if
         <tr><td>
             @if(!string.IsNullOrWhiteSpace(change_item.old_value))
             {
-                if(DateTime.TryParse (change_item.old_value, out DateTime date))
+
+                
+
+                if(Model.change_item > 1)
+                {
+                    if(DateTime.TryParse (Model.cs.items[Model.change_item -2].old_value, out DateTime date))
+                    {
+                        @date.ToString()
+                    }
+                    else
+                    {
+                        @Model.cs.items[Model.change_item -2].old_value
+                    }
+                }
+                else if(DateTime.TryParse (change_item.old_value, out DateTime date))
                 {
                     @date.ToString()
                 }
