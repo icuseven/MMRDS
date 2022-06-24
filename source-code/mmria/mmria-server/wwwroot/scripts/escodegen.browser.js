@@ -2197,7 +2197,33 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.FunctionDeclaration:
-            result = [(stmt.generator && !extra.moz.starlessGenerator ? 'function* ' : 'function ') + stmt.id.name, generateFunctionBody(stmt)];
+
+            if(stmt.generator && !extra.moz.starlessGenerator)
+            {
+                if(stmt.async != null && stmt.async == true)
+                {
+                    result = ['async function* ' + stmt.id.name, generateFunctionBody(stmt)];
+                }
+                else
+                {
+                    result = ['function* ' + stmt.id.name, generateFunctionBody(stmt)];
+                }
+                
+            }
+            else
+            {
+                if(stmt.async != null && stmt.async == true)
+                {
+                    result = ['async function ' + stmt.id.name, generateFunctionBody(stmt)];
+                }
+                else
+                {
+                    result = ['function ' + stmt.id.name, generateFunctionBody(stmt)];
+                }
+            }
+
+
+            
             break;
 
         case Syntax.ReturnStatement:

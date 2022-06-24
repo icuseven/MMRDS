@@ -357,16 +357,20 @@ function fmtStrDate(dt) {
 }
 
 // Format number
-function fmtNumber( val ) {
-	if ( val == null || val == '' ) {
+function fmtNumber( val ) 
+{
+	if ( val == null || val == '' ) 
+    {
 		return '0';
 	}
 	return val;
 }
 
 // Format percentage
-function fmtPercent( val ) {
-	if ( val == null || val == '' ) {
+function fmtPercent( val ) 
+{
+	if ( val == null || val == '' ) 
+    {
 		return '0.0%';
 	}
 
