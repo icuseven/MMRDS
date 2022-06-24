@@ -23,6 +23,77 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public class cvsAPIController: ControllerBase 
 { 
+
+
+	public class tract
+    {
+        public tract(){}
+
+		public string GEOID { get;set;}
+		public int YEAR { get;set;}
+		public string state { get;set;}
+		public string stfips { get;set;}
+		public string NAME { get;set;}
+		public double pctNOIns_Fem { get;set;}
+		public double pctNoVehicle { get;set;}
+		public double pctMOVE { get;set;}
+		public double pctSPHH { get;set;}
+		public double pctOVERCROWDHH { get;set;}
+		public double pctOWNER_OCC { get;set;}
+		public double pct_less_well { get;set;}
+		public double NDI_raw { get;set;}
+		public double pctPOV { get;set;}
+		public double ICE_INCOME_all { get;set;}
+		public double MEDHHINC { get;set;}
+	}
+    public class county
+    {
+        public county(){}
+
+		public string GEOID { get;set;}
+		public int YEAR { get;set;}
+		public string state { get;set;}
+		public string NAME { get;set;}
+		public double pctNOIns_Fem { get;set;}
+		public double pctNoVehicle { get;set;}
+		public double pctMOVE { get;set;}
+		public double pctSPHH { get;set;}
+		public double pctOVERCROWDHH { get;set;}
+		public double pctOWNER_OCC { get;set;}
+		public double pct_less_well { get;set;}
+		public double NDI_raw { get;set;}
+		public double pctPOV { get;set;}
+		public double ICE_INCOME_all { get;set;}
+		public double MEDHHINC { get;set;}
+		public double MDrate { get;set;}
+		public double pctOBESE { get;set;}
+		public double FI { get;set;}
+		public double CNMrate { get;set;}
+		public double OBGYNrate { get;set;}
+		public double rtTEENBIRTH { get;set;}
+		public double rtSTD { get;set;}
+		public double rtMHPRACT { get;set;}
+		public double rtDRUGODMORTALITY { get;set;}
+		public double rtOPIOIDPRESCRIPT { get;set;}
+		public double SocCap { get;set;}
+		public double rtSocASSOC { get;set;}
+		public double pctHOUSE_DISTRESS { get;set;}
+		public double rtVIOLENTCR_ICPSR { get;set;}
+		public double isolation { get;set;}
+	}
+
+    public class tract_county_result
+    {
+        public tract_county_result()
+        {
+
+        }
+
+        public tract tract { get;set;}
+
+        public county county { get;set;}
+    }
+
     mmria.common.couchdb.ConfigurationSet ConfigDB;
     private readonly IAuthorizationService _authorizationService;
     public cvsAPIController(mmria.common.couchdb.ConfigurationSet p_config_db, IAuthorizationService authorizationService)
@@ -34,7 +105,7 @@ public class cvsAPIController: ControllerBase
     
     [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [HttpPost]
-    public async Task<string> Post
+    public async Task<IActionResult> Post
     (
         [FromBody] post_payload post_payload
     ) 
@@ -113,6 +184,12 @@ public class cvsAPIController: ControllerBase
 
                         response_string = await get_all_data_curl.executeAsync();
                         System.Console.WriteLine(response_string);
+
+                        var tc = JsonSerializer.Deserialize<tract_county_result>(response_string);
+
+                        result =  Ok(tc);
+
+        
                     }
 
                     break;
@@ -168,28 +245,28 @@ public class cvsAPIController: ControllerBase
         {
             System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
             
-            /*return Problem(
+            return Problem(
                 type: "/docs/errors/forbidden",
                 title: "CVS API Error",
                 detail: ex.Message,
                 statusCode: (int) ex.Status,
                 instance: HttpContext.Request.Path
-            );*/
+            );
         }
 
 
         if(result == null)
         {
             //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
-            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
+            return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
         }
         else
         {
-            return null;
-            //return result;
+            //return null;
+            return result;
         }
 
-        return response_string;
+        return result;
     }
 
 

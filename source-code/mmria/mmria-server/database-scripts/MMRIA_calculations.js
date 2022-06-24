@@ -876,7 +876,7 @@ function birth_2_death(p_control) {
 path=death_certificate/place_of_last_residence/get_coordinates
 event=onclick
 */
-function geocode_dc_last_res(p_control) 
+async function geocode_dc_last_res(p_control) 
 {
     var street = this.street;
     var city = this.city;

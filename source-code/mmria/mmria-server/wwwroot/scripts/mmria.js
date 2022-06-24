@@ -46,69 +46,113 @@ home_record/record_id
                     (
                         "cvs_api_request_result_message",
                         `status code: ${p_result.status} message: ${p_result.message}`
-                    ); 
+                    );
+                    
+                    
+                    const new_grid_item = {
+
+                        cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                        cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                        cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                        cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                        cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                        cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                        cvs_mdrate_county: "",
+                        cvs_pctnoins_fem_county: "",
+                        cvs_pctnoins_fem_tract: "",
+                        cvs_pctnovehicle_county: "",                                   
+                        cvs_pctnovehicle_tract: "",
+                        cvs_pctmove_county: "",
+                        cvs_pctmove_tract: "",
+                        cvs_pctsphh_county: "",
+                        cvs_pctsphh_tract: "",
+                        cvs_pctovercrowdhh_county: "",
+                        cvs_pctovercrowdhh_tract: "",
+                        cvs_pctowner_occ_county: "",
+                        cvs_pctowner_occ_tract: "",
+                        cvs_pct_less_well_county: "",
+                        cvs_pct_less_well_tract: "",
+                        cvs_ndi_raw_county: "",
+                        cvs_ndi_raw_tract: "",
+                        cvs_pctpov_county: "",
+                        cvs_pctpov_tract: "",
+                        cvs_ice_income_all_county: "",
+                        cvs_ice_income_all_tract: "",
+                        cvs_medhhinc_county: "",
+                        cvs_medhhinc_tract: "",
+                        cvs_pctobese_county: "",
+                        cvs_fi_county: "",
+                        cvs_cnmrate_county: "",
+                        cvs_obgynrate_county: "",
+                        cvs_rtteenbirth_county: "",
+                        cvs_rtstd_county: "",
+                        cvs_rtmhpract_county: "",
+                        cvs_rtdrugodmortality_county: "",
+                        cvs_rtopioidprescript_county: "",
+                        cvs_soccap_county: "",
+                        cvs_rtsocassoc_county: "",
+                        cvs_pcthouse_distress_county: "",
+                        cvs_rtviolentcr_icpsr_county: "",
+                        cvs_isolation_county: ""
+                        
+                        };
+    
+                        g_data.cvs.cvs_grid = [ new_grid_item ];
                 }
                 else
                 {
                     g_cvs_api_request_data.set("cvs_api_request_result_message", "Data request successful."); 
+
+                    const new_grid_item = {
+
+                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                    cvs_mdrate_county: p_result.county.mDrate,
+                    cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
+                    cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
+                    cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
+                    cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
+                    cvs_pctmove_county: p_result.county.pctMOVE,
+                    cvs_pctmove_tract: p_result.tract.pctMOVE,
+                    cvs_pctsphh_county: p_result.county.pctSPHH,
+                    cvs_pctsphh_tract: p_result.tract.pctSPHH,
+                    cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
+                    cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
+                    cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
+                    cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
+                    cvs_pct_less_well_county: p_result.county.pct_less_well,
+                    cvs_pct_less_well_tract: p_result.tract.pct_less_well,
+                    cvs_ndi_raw_county: p_result.county.ndI_raw,
+                    cvs_ndi_raw_tract: p_result.tract.ndI_raw,
+                    cvs_pctpov_county: p_result.county.pctPOV,
+                    cvs_pctpov_tract: p_result.tract.pctPOV,
+                    cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
+                    cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
+                    cvs_medhhinc_county: p_result.county.medhhinc,
+                    cvs_medhhinc_tract: p_result.tract.medhhinc,
+                    cvs_pctobese_county: p_result.county.pctOBESE,
+                    cvs_fi_county: p_result.county.fi,
+                    cvs_cnmrate_county: p_result.county.cnMrate,
+                    cvs_obgynrate_county: p_result.county.obgyNrate,
+                    cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
+                    cvs_rtstd_county: p_result.county.rtSTD,
+                    cvs_rtmhpract_county: p_result.county.rtMHPRACT,
+                    cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
+                    cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
+                    cvs_soccap_county: p_result.county.socCap,
+                    cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
+                    cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
+                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
+                    cvs_isolation_county: p_result.county.isolation
+                    }
+
+                    g_data.cvs.cvs_grid = [ new_grid_item ];
                 }
             }
-/*
-{
-    "tract": {
-        "GEOID": "13089021204",
-        "YEAR": 2012,
-        "state": "GA",
-        "stfips": "13",
-        "NAME": "Census Tract 212.04, DeKalb County, Georgia",
-        "pctNOIns_Fem": 0.634703196347032,
-        "pctNoVehicle": 0.398314014752371,
-        "pctMOVE": 0.122659960882928,
-        "pctSPHH": 0.498920086393089,
-        "pctOVERCROWDHH": 0.23709167544784,
-        "pctOWNER_OCC": 0.0969441517386723,
-        "pct_less_well": 0.763715710723192,
-        "NDI_raw": 0.907978292667599,
-        "pctPOV": 0.464707497940126,
-        "ICE_INCOME_all": -0.287671232876712,
-        "MEDHHINC": 29154
-    },
-    "county": {
-        "GEOID": "13089",
-        "YEAR": 2012,
-        "state": "13",
-        "NAME": "DeKalb County, Georgia",
-        "pctNOIns_Fem": 0.194079130988133,
-        "pctNoVehicle": 0.0951164691458929,
-        "pctMOVE": 0.19548739309249,
-        "pctSPHH": 0.453825381455576,
-        "pctOVERCROWDHH": 0.0267523346804099,
-        "pctOWNER_OCC": 0.577101212368887,
-        "pct_less_well": 0.0926513501166921,
-        "NDI_raw": 0.418629060182515,
-        "pctPOV": 0.18592785864285,
-        "ICE_INCOME_all": -0.0421150615265858,
-        "MEDHHINC": 51252,
-        "MDrate": 503.048413990318,
-        "pctOBESE": 26.3,
-        "FI": 0.206,
-        "CNMrate": 1.27282421307643,
-        "OBGYNrate": 65.8484388432624,
-        "rtTEENBIRTH": 33.69108,
-        "rtSTD": 559.6,
-        "rtMHPRACT": 27.063170911122,
-        "rtDRUGODMORTALITY": 7.37393,
-        "rtOPIOIDPRESCRIPT": 49.4,
-        "SocCap": -0.470602722262832,
-        "rtSocASSOC": 7.22644244541661,
-        "pctHOUSE_DISTRESS": 0,
-        "rtVIOLENTCR_ICPSR": 598.146171086774,
-        "isolation": 0.784223001253116
-    }
-}
-*/
-
-
 
         },
         callback_cvs_data_error: function (p_result)
@@ -125,6 +169,57 @@ home_record/record_id
                     "cvs_api_request_result_message",
                     `status code: ${p_result.status} message: ${p_result.message}`
                 ); 
+
+                                        
+                    
+                const new_grid_item = {
+
+                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                    cvs_mdrate_county: "",
+                    cvs_pctnoins_fem_county: "",
+                    cvs_pctnoins_fem_tract: "",
+                    cvs_pctnovehicle_county: "",                                   
+                    cvs_pctnovehicle_tract: "",
+                    cvs_pctmove_county: "",
+                    cvs_pctmove_tract: "",
+                    cvs_pctsphh_county: "",
+                    cvs_pctsphh_tract: "",
+                    cvs_pctovercrowdhh_county: "",
+                    cvs_pctovercrowdhh_tract: "",
+                    cvs_pctowner_occ_county: "",
+                    cvs_pctowner_occ_tract: "",
+                    cvs_pct_less_well_county: "",
+                    cvs_pct_less_well_tract: "",
+                    cvs_ndi_raw_county: "",
+                    cvs_ndi_raw_tract: "",
+                    cvs_pctpov_county: "",
+                    cvs_pctpov_tract: "",
+                    cvs_ice_income_all_county: "",
+                    cvs_ice_income_all_tract: "",
+                    cvs_medhhinc_county: "",
+                    cvs_medhhinc_tract: "",
+                    cvs_pctobese_county: "",
+                    cvs_fi_county: "",
+                    cvs_cnmrate_county: "",
+                    cvs_obgynrate_county: "",
+                    cvs_rtteenbirth_county: "",
+                    cvs_rtstd_county: "",
+                    cvs_rtmhpract_county: "",
+                    cvs_rtdrugodmortality_county: "",
+                    cvs_rtopioidprescript_county: "",
+                    cvs_soccap_county: "",
+                    cvs_rtsocassoc_county: "",
+                    cvs_pcthouse_distress_county: "",
+                    cvs_rtviolentcr_icpsr_county: "",
+                    cvs_isolation_county: ""
+                };
+
+                g_data.cvs.cvs_grid = [ new_grid_item ];
             }
         },
         get_cvs_api_data_info: async function

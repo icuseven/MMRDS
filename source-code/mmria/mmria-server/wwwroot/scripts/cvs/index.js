@@ -34,6 +34,8 @@ async function main()
     g_record_id = "GA-2012-1234"
 }
 
+window.onload = main;
+
 async function get_cvs_api_dashboard_info 
 (
     lat,
