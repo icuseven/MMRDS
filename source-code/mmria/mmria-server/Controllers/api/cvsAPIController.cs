@@ -157,6 +157,8 @@ public class cvsAPIController: ControllerBase
                     response_string = await server_statu_curl.executeAsync();
                     System.Console.WriteLine(response_string);
 
+                    result = Ok(response_string);
+
     
                 break;
                 case "data":

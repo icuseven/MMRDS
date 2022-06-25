@@ -264,25 +264,32 @@ home_record/record_id
             .catch(err => p_error_call_back(err));
             */
 
-            await $.ajax(
-                {
-                    url: base_url,
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: p_success_call_back,
-                    error: p_error_call_back,
-                    data: JSON.stringify({
-                        action: "data",                        
-                        c_geoid: c_geoid,
-                        t_geoid: t_geoid,
-                        year: year
+            try
+            {
+                await $.ajax(
+                    {
+                        url: base_url,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: p_success_call_back,
+                        error: p_error_call_back,
+                        data: JSON.stringify({
+                            action: "data",                        
+                            c_geoid: c_geoid,
+                            t_geoid: t_geoid,
+                            year: year
 
-                    })
-                }
-            );
+                        })
+                    }
+                );
+            }
+            catch(ex)
+            {
+                // do nothing 
+            }
         },
-        get_cvs_api_dashboard_info: function
+        get_cvs_api_dashboard_info: async function
         (
             lat,
             lon, 
@@ -293,7 +300,7 @@ home_record/record_id
         )
         {            
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
-
+/*
             fetch
             (
                 base_url,
@@ -311,17 +318,44 @@ home_record/record_id
             )
             .then(response => p_success_call_back(response)) 
             .catch(err => p_error_call_back(err));
+*/
+
+            try
+            {
+                await $.ajax(
+                    {
+                        url: base_url,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: p_success_call_back,
+                        error: p_error_call_back,
+                        data: JSON.stringify({
+                            action: "dashboard",
+                            lat: lat,
+                            lon: lon, 
+                            year: year,
+                            id: id
+
+                        })
+                    }
+                );
+            }
+            catch(ex)
+            {
+                // do nothing 
+            }
 
         },
 
-        get_cvs_api_server_info: function
+        get_cvs_api_server_info: async function
         (
             p_success_call_back,
             p_error_call_back
         )
         {
             var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
-
+/*
             fetch
             (
                 base_url,
@@ -335,6 +369,27 @@ home_record/record_id
             )
             .then(response => p_success_call_back(response)) 
             .catch(err => p_error_call_back(err));
+*/
+            try
+            {
+                await $.ajax(
+                    {
+                        url: base_url,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: p_success_call_back,
+                        error: p_error_call_back,
+                        data: JSON.stringify({
+                            action: "server"
+                        })
+                    }
+                );
+            }
+            catch(ex)
+            {
+                // do nothing 
+            }
 
 
 
