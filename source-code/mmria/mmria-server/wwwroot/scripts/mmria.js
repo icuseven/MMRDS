@@ -167,7 +167,7 @@ home_record/record_id
                 g_cvs_api_request_data.set
                 (
                     "cvs_api_request_result_message",
-                    `status code: ${p_result.status} message: ${p_result.message}`
+                    `status code: ${p_result.status} message: ${p_result.responseText}`
                 ); 
 
                                         
