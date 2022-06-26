@@ -38,21 +38,15 @@ public class BackupProcessor : ReceiveActor
             Process_Message(message);
         });
     }
-    public BackupProcessor(string p_id):base()
-    {
-        _id = p_id;
-        //IConfiguration p_configuration
-        //configuration = p_configuration;
-        //logger = p_logger;
-    }
-
-    const string root_folder = "/home/net_core_user/app/workdir/backup";
 
     async Task Process_Message(string[] args)
     {
         Console.WriteLine("Beginning Backup.");
 
         mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
+
+        string root_folder = db_config_set.name_value["backup_storage_root_folder"];
+
 
         var db_list = new List<string>()
         {

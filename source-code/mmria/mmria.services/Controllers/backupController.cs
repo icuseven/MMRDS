@@ -17,7 +17,7 @@ using System.Net;
 namespace mmria.services.vitalsimport.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class backupController : Controller
     {
@@ -30,32 +30,38 @@ namespace mmria.services.vitalsimport.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-        public async Task<List<mmria.common.ije.Batch>> Get()
+        public async Task<IActionResult> PerformHotBackup()
         {
-            var  result = new List<mmria.common.ije.Batch>();
-
-            string url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/_all_docs?include_docs=true";
-            var document_curl = new mmria.getset.cURL ("GET", null, url, null, mmria.services.vitalsimport.Program.timer_user_name, mmria.services.vitalsimport.Program.timer_value);
-            try
+            var  message = new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
             {
-                var responseFromServer = await document_curl.executeAsync();
-                var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
-    
-                foreach(var item in alldocs.rows)
-                {
-                    result.Add(item.doc);
-                }
-                
-            }
-            catch(Exception ex)
+                type = "hot",
+                DateStarted = DateTime.Now
+            };
+
+
+            var bsr = _actorSystem.ActorSelection("user/backup-supervisor");
+            bsr.Tell(message); 
+
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "BasicAuthentication")]
+        public async Task<IActionResult> PerformColdBackup()
+        {
+            var  message = new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
             {
-                //Console.Write("auth_session_token: {0}", auth_session_token);
-                Console.WriteLine(ex);
-            }
+                type = "cold",
+                DateStarted = DateTime.Now
+            };
 
- 
 
-            return result;
+            var bsr = _actorSystem.ActorSelection("user/backup-supervisor");
+            bsr.Tell(message); 
+
+
+            return Ok();
         }
 
 
@@ -65,6 +71,7 @@ namespace mmria.services.vitalsimport.Controllers
         {
             var  result = true;
 
+/*
             var  batch_list = new List<mmria.common.ije.Batch>();
 
             string url = $"{mmria.services.vitalsimport.Program.couchdb_url}/vital_import/_all_docs?include_docs=true";
@@ -98,7 +105,7 @@ namespace mmria.services.vitalsimport.Controllers
                 bsr.Tell(message);
             }
 
-
+*/
             return result;
         }
 

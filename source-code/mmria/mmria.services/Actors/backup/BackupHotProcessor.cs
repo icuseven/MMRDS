@@ -39,13 +39,7 @@ public class BackupHotProcessor : ReceiveActor
             Process_Message(message);
         });
     }
-    public BackupHotProcessor(string p_id):base()
-    {
-        _id = p_id;
-        //IConfiguration p_configuration
-        //configuration = p_configuration;
-        //logger = p_logger;
-    }
+
     private async Task Process_Message(List<string> message)
     {   
         mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;

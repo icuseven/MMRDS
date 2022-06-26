@@ -142,6 +142,7 @@ namespace mmria.services.vitalsimport
 
                     var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
                     actorSystem.ActorOf<RecordsProcessor_Worker.Actors.BatchSupervisor>("batch-supervisor");
+                    actorSystem.ActorOf<mmria.services.backup.BackupSupervisor>("backup-supervisor");
                     
                     services.AddHostedService<Worker>();
                     services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
