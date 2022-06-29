@@ -25,22 +25,22 @@ public class BackupHotProcessor : ReceiveActor
 
     mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
-    protected override void PreStart() => Console.WriteLine("Process_Message started");
-    protected override void PostStop() => Console.WriteLine("Process_Message stopped");
+    protected override void PreStart() => Console.WriteLine("PerformBackupMessage Process_Message started");
+    protected override void PostStop() => Console.WriteLine("PerformBackupMessage Process_Message stopped");
 
     private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
 
     private mmria.common.ije.Batch batch;
     public BackupHotProcessor()
     {
-        Receive<List<string>>(message =>
+        Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
 
             Process_Message(message);
         });
     }
 
-    private async Task Process_Message(List<string> message)
+    private async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {   
         mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
 
@@ -125,7 +125,7 @@ public class BackupHotProcessor : ReceiveActor
                     }
                     else
                     {
-                        replicate_struct.target.url = $"backup_db_url/{data_connection.prefix}_{replication_db}";
+                        replicate_struct.target.url = $"{backup_db_url}/{data_connection.prefix}_{replication_db}";
                     }
                     
                     replicate_struct.target.headers.Authorization = "Basic " + Base64Encode($"{backup_db_user}:{backup_db_user_value}");
@@ -154,6 +154,8 @@ public class BackupHotProcessor : ReceiveActor
 
         
         Console.WriteLine($"Processing Message : {message}");
+
+        Context.Stop(this.Self);
 
     }
 

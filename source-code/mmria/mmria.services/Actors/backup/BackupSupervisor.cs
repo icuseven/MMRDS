@@ -37,12 +37,12 @@ public class BackupSupervisor : ReceiveActor
             switch(message.type.ToLower())
             {
 
-                case "hot":
-                    var backup_processor = Context.ActorOf<mmria.services.backup.BackupProcessor>();
-                    backup_processor.Tell(message);
+                case "cold":
+                    var cold_backup_processor = Context.ActorOf<mmria.services.backup.BackupColdProcessor>();
+                    cold_backup_processor.Tell(message);
                     break;
 
-                case "cold":
+                case "hot":
                     var hot_backup_processor = Context.ActorOf<mmria.services.backup.BackupHotProcessor>();
                     hot_backup_processor.Tell(message);
                     break;

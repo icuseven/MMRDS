@@ -9,7 +9,7 @@ using Akka.Actor;
 
 namespace mmria.services.backup;
 
-public class BackupProcessor : ReceiveActor
+public class BackupColdProcessor : ReceiveActor
 {
     string _id;
     private int my_count = -1;
@@ -30,16 +30,16 @@ public class BackupProcessor : ReceiveActor
     private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
 
     private mmria.common.ije.Batch batch;
-    public BackupProcessor()
+    public BackupColdProcessor()
     {
-        Receive<string[]>(message =>
+        Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
 
             Process_Message(message);
         });
     }
 
-    async Task Process_Message(string[] args)
+    async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
         Console.WriteLine("Beginning Backup.");
 
@@ -129,6 +129,8 @@ public class BackupProcessor : ReceiveActor
     
 
         Console.WriteLine("fin.");
+
+        Context.Stop(this.Self);
     }
 
 }
