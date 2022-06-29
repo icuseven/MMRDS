@@ -61,6 +61,8 @@ namespace mmria.server.utils
 							ia_id: 'd1632b47-4950-a4d1-fa17-e7368eaeefe',
 */
 
+            dqr_detail.hrcpr_bcp_secti_is_2 = 0;
+
             dqr_detail.n01 = 0;
             dqr_detail.n02 = 0;
             dqr_detail.n03[0] = 0;
@@ -480,6 +482,7 @@ namespace mmria.server.utils
                     dqr_detail.n07 = 1;
                     dqr_detail.n09 = 1;
                     hrcpr_bcp_secti_is_2 = true;
+                    dqr_detail.hrcpr_bcp_secti_is_2 = 1;
                 }
             }
 
@@ -836,7 +839,7 @@ int bfdcpfodddod_year = -1;
                 }
             }
 
-            var saepsoes_eosoe_stres = get_list_value_by_path("social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+            var saepsoes_eosoe_stres = get_mutilist_value_by_path("social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
             if
             (
                 cr_do_revie_is_date &&
@@ -845,8 +848,8 @@ int bfdcpfodddod_year = -1;
             {
                 if
                 (
-                    saepsoes_eosoe_stres == -1 ||
-                    saepsoes_eosoe_stres == 9999                
+                    saepsoes_eosoe_stres.Count == 0 ||
+                    saepsoes_eosoe_stres.IndexOf(9999) > -1               
                 )
                 {
                     dqr_detail.n19.m = 1;
@@ -854,14 +857,14 @@ int bfdcpfodddod_year = -1;
 
                 if
                 (
-                    saepsoes_eosoe_stres == 7777 
+                    saepsoes_eosoe_stres.IndexOf(7777) > -1 
                 )
                 {
                     dqr_detail.n19.u = 1;
                 }
             }
 
-            var saepsec_cl_arran = get_list_value_by_path("social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            var saepsec_cl_arran = get_mutilist_value_by_path("social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
             if
             (
                 cr_do_revie_is_date &&
@@ -870,8 +873,8 @@ int bfdcpfodddod_year = -1;
             {
                 if
                 (
-                    saepsec_cl_arran == -1 ||
-                    saepsec_cl_arran == 9999                
+                    saepsec_cl_arran.Count == 0 ||
+                    saepsec_cl_arran.IndexOf(9999) > -1
                 )
                 {
                     dqr_detail.n20.m = 1;
@@ -879,8 +882,8 @@ int bfdcpfodddod_year = -1;
 
                 if
                 (
-                    saepsec_cl_arran == 7777 ||
-                    saepsec_cl_arran == 8888
+                    saepsec_cl_arran.IndexOf(7777) > -1 ||
+                    saepsec_cl_arran.IndexOf(8888) > -1
                 )
                 {
                     dqr_detail.n20.u = 1;

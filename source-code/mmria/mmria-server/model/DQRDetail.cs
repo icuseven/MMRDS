@@ -52,6 +52,8 @@ public class DQRDetail
     public string cmp_quarter_name { get; set; }
 
     public double? cmp_quarter_number { get; set; }
+
+    public int? hrcpr_bcp_secti_is_2 {get; set; }
     public int? n01 { get; set; }
 	public int? n02  { get; set; }
 	public int[] n03 { get; set; }

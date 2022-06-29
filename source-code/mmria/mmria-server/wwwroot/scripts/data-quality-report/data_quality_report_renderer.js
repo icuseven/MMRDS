@@ -478,6 +478,7 @@ async function download_data_quality_report_button_click()
             {
                 summary_data.n06 += item.n06;
                 summary_data.n07 += item.n07;
+                summary_data.current_hrcpr_bcp_secti_is_2 += item.hrcpr_bcp_secti_is_2
             }
             else if
             (
@@ -485,6 +486,7 @@ async function download_data_quality_report_button_click()
                 item.cmp_quarter_number >= quarter_number - 1.0
             )
             {
+                summary_data.previous_hrcpr_bcp_secti_is_2 += item.hrcpr_bcp_secti_is_2
                 summary_data.previous4QuarterReview += item.n06;
 
                 summary_data.n08 += item.n08;
@@ -586,17 +588,43 @@ async function download_data_quality_report_button_click()
 
         if(i < 44)
         {
+            // 12 14 17 22 25 26 
 
-            if ( summary_data.n06 > 0)
+            if
+            (
+                i == 12 ||
+                i == 14 ||
+                i == 17 ||
+                i == 22 ||
+                i == 25 ||
+                i == 26
+            )
             {
-                summary_data[fld].s.mp = (summary_data[fld].s.mn / summary_data.n06) * 100;
-                summary_data[fld].s.up = (summary_data[fld].s.un / summary_data.n06) * 100;
+                if ( summary_data.current_hrcpr_bcp_secti_is_2 > 0)
+                {
+                    summary_data[fld].s.mp = (summary_data[fld].s.mn / summary_data.current_hrcpr_bcp_secti_is_2) * 100;
+                    summary_data[fld].s.up = (summary_data[fld].s.un / summary_data.current_hrcpr_bcp_secti_is_2) * 100;
+                }
+
+                if ( summary_data.previous_hrcpr_bcp_secti_is_2 > 0)
+                {
+                    summary_data[fld].p.mp = (summary_data[fld].p.mn / summary_data.previous_hrcpr_bcp_secti_is_2) * 100;
+                    summary_data[fld].p.up = (summary_data[fld].p.un / summary_data.previous_hrcpr_bcp_secti_is_2) * 100;
+                }
             }
-
-            if ( summary_data.n08 > 0)
+            else
             {
-                summary_data[fld].p.mp = (summary_data[fld].p.mn / summary_data.n08) * 100;
-                summary_data[fld].p.up = (summary_data[fld].p.un / summary_data.n08) * 100;
+                if ( summary_data.n06 > 0)
+                {
+                    summary_data[fld].s.mp = (summary_data[fld].s.mn / summary_data.n06) * 100;
+                    summary_data[fld].s.up = (summary_data[fld].s.un / summary_data.n06) * 100;
+                }
+
+                if ( summary_data.n08 > 0)
+                {
+                    summary_data[fld].p.mp = (summary_data[fld].p.mn / summary_data.n08) * 100;
+                    summary_data[fld].p.up = (summary_data[fld].p.un / summary_data.n08) * 100;
+                }
             }
         }
         else

@@ -170,6 +170,8 @@ function has_multiple_case_folder()
 function get_new_summary_data()
 {
     return {
+        current_hrcpr_bcp_secti_is_2: 0,
+        previous_hrcpr_bcp_secti_is_2: 0,
         previous4QuarterReview: 0,
         n01:  0,
         n02 : 0,
