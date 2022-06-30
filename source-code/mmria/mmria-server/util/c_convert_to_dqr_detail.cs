@@ -864,7 +864,7 @@ int bfdcpfodddod_year = -1;
                 }
             }
 
-            var saepsec_cl_arran = get_mutilist_value_by_path("social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            var saepsec_cl_arran = get_list_value_by_path("social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
             if
             (
                 cr_do_revie_is_date &&
@@ -873,8 +873,8 @@ int bfdcpfodddod_year = -1;
             {
                 if
                 (
-                    saepsec_cl_arran.Count == 0 ||
-                    saepsec_cl_arran.IndexOf(9999) > -1
+                    saepsec_cl_arran == -1 ||
+                    saepsec_cl_arran == 9999
                 )
                 {
                     dqr_detail.n20.m = 1;
@@ -882,8 +882,8 @@ int bfdcpfodddod_year = -1;
 
                 if
                 (
-                    saepsec_cl_arran.IndexOf(7777) > -1 ||
-                    saepsec_cl_arran.IndexOf(8888) > -1
+                    saepsec_cl_arran == 7777 ||
+                    saepsec_cl_arran == 8888
                 )
                 {
                     dqr_detail.n20.u = 1;
@@ -1122,7 +1122,7 @@ int bfdcpfodddod_year = -1;
             }
 
 
-            var saephca_bthc_acces = get_list_value_by_path("social_and_environmental_profile/health_care_access/barriers_to_health_care_access");
+            var saephca_bthc_acces = get_mutilist_value_by_path("social_and_environmental_profile/health_care_access/barriers_to_health_care_access");
             if
             (
                 cr_do_revie_is_date &&
@@ -1131,8 +1131,8 @@ int bfdcpfodddod_year = -1;
             {
                 if
                 (
-                    saephca_bthc_acces == -1 ||
-                    saephca_bthc_acces == 9999                
+                    saephca_bthc_acces.Count == 0 ||
+                    saephca_bthc_acces.IndexOf(9999) > -1
                 )
                 {
                     dqr_detail.n32.m = 1;
@@ -1140,7 +1140,7 @@ int bfdcpfodddod_year = -1;
 
                 if
                 (
-                    saephca_bthc_acces == 7777 
+                    saephca_bthc_acces.IndexOf(7777) > -1
                 )
                 {
                     dqr_detail.n32.u = 1;
