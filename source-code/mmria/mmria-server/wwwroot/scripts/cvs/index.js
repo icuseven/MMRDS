@@ -80,3 +80,30 @@ async function pre_render(p_data)
     const output_element = document.getElementById('output');
     const report_output_element = document.getElementById('report_output_id');
 }
+
+
+function show_loading_modal()
+{
+    const el = document.getElementById("loading-modal");    
+    el.innerHTML = `
+    <div style="padding:50px;" class="display-6">
+    <div id="form_content_id" >
+    <span class="spinner-container spinner-content spinner-active">
+        <span class="spinner-body text-primary">
+        <span class="spinner"></span>
+        <span class="spinner-info">Loading...</span>
+        </span>
+    </span>
+    </div>
+    </div>
+`;
+
+    el.showModal();
+}
+
+function close_loading_modal()
+{
+    const el = document.getElementById("loading-modal");
+    el.close();    
+
+}

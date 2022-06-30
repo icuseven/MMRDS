@@ -632,19 +632,7 @@ async function download_data_quality_report_button_click()
                 }
             }
         }
-        /*else if(i >= 46)
-        {
-            if (summary_data.current_is_preventable_death > 0 )
-            {
-                summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data.current_is_preventable_death) * 100;
-            }
-
-            if (summary_data.previous_is_preventable_death > 0 )
-            {
-                summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data.previous_is_preventable_death) * 100;
-            }
-        }
-        else*/
+        else
         {
             if (summary_data[fld].s.tn > 0 )
             {

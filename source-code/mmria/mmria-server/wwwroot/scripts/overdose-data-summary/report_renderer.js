@@ -424,7 +424,7 @@ function show_filter_dialog()
 
 function close_filter()
 {
-    let el = document.getElementById("filter-dialog");
+    const el = document.getElementById("filter-dialog");
     el.close();
     
     //render_filter_summary();
@@ -433,43 +433,18 @@ function close_filter()
 
 function render_loading_modal()
 {
-    let ei;
-    // try
-    // {
-        ei = document.getElementById("loading-modal");
-        ei.close();   
-    // }
-    // catch
-    // {
-    //     var tag = document.createElement("div");
-    //     var element = document.getElementById("loading-modal");
-    //     element.appendChild(tag);
+    const el = document.getElementById("loading-modal");
+    el.close();   
 
-    //     ei = document.getElementById("loading-modal");
-    // }
-
-    ei.innerHTML = ``;
+    el.innerHTML = ``;
 }
 
 function show_loading_modal()
 {
-    let ei;
+    const el = document.getElementById("loading-modal");
+    el.close();   
 
-    // try
-    // {
-        ei = document.getElementById("loading-modal");
-        ei.close();   
-    // }
-    // catch
-    // {
-    //     var tag = document.createElement("div");
-    //     var element = document.getElementById("loading-modal");
-    //     element.appendChild(tag);
-
-    //     ei = document.getElementById("loading-modal");
-    // }
-    
-    ei.innerHTML = `
+    el.innerHTML = `
     <div style="padding:50px;" class="display-6">
     <div id="form_content_id" >
     <span class="spinner-container spinner-content spinner-active">
@@ -482,29 +457,14 @@ function show_loading_modal()
     </div>
 `;
 
-    ei.showModal();
+    el.showModal();
 }
 
 function close_loading_modal()
 {
-    let ei;
-    // try
-    // {
-        ei = document.getElementById("loading-modal");
-        ei.close();    
-    // }
-    // catch
-    // {
-    //     var tag = document.createElement("loading-modal");
-    //     var element = document.getElementById("");
-    //     element.appendChild(tag);
+    const el = document.getElementById("loading-modal");
+    el.close();    
 
-    //     ei = document.getElementById("loading-modal");
-    // }
-
-    //render_filter_summary();
-    //render_loading_modal();
-    //render();
 }
 
 
