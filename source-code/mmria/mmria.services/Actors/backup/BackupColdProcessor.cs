@@ -43,90 +43,95 @@ public class BackupColdProcessor : ReceiveActor
     {
         Console.WriteLine("Beginning Backup.");
 
-        mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
-
-        string root_folder = db_config_set.name_value["backup_storage_root_folder"];
-
-
-        var db_list = new List<string>()
+        try
         {
-            "configuration",
-            "audit",
-            "mmrds",
-            "_users",
-            "metadata",
-            "jurisdiction",
-            "session"
-        };
-        
+            mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
 
-        var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd");
-        var target_folder = System.IO.Path.Combine(root_folder, date_string);
+            string root_folder = db_config_set.name_value["backup_storage_root_folder"];
 
-        System.IO.Directory.CreateDirectory(target_folder);
-
-        var b = new Backup();
-
-        List<(string, int)> document_counts = new List<(string, int)>();
-
-        foreach(var kvp in db_config_set.detail_list)
-        {
-
-            var number_of_vital_import_docs = await b.Execute
-            (
-                new[]
-                {
-                    "backup",
-                    "user_name:" + mmria.services.vitalsimport.Program.timer_user_name,
-                    "password:" + mmria.services.vitalsimport.Program.timer_value,
-                    $"database_url: {mmria.services.vitalsimport.Program.couchdb_url}/vital_import",
-                    $"backup_file_path:{target_folder}/mmria-vital_import-db.json"
-                }
-            );
-
-            document_counts.Add(($"database vital_import: {number_of_vital_import_docs}", number_of_vital_import_docs));
-
-
-            var prefix = kvp.Key.ToLower();
-            var data_connection = kvp.Value;
-
-            foreach(var db in db_list)
-            {   
-                try
-                {
-
-                    var number_of_docs = await b.Execute
-                    (
-                        new[]
-                        {
-                            "backup",
-                            "user_name:" + data_connection.user_name,
-                            "password:" + data_connection.user_value,
-                            $"database_url:{data_connection.url}/{db}",
-                            $"backup_file_path:{target_folder}/{prefix}-mmria-{db}-db.json"
-                        }
-                    );
-
-                    document_counts.Add(($"database {prefix} {db} : {number_of_docs}", number_of_docs));
-
-                }
-                catch(Exception)
-                {
-
-                }
+            var db_list = new List<string>()
+            {
+                "configuration",
+                "audit",
+                "mmrds",
+                "_users",
+                "metadata",
+                "jurisdiction",
+                "session"
+            };
             
-            }
-        }
 
-        document_counts.Sort(Comparer<(string,int)>.Create((i1, i2) => i1.Item2.CompareTo(i2.Item2)));
-        List<string> document_text = new List<string>();
-        foreach(var i in document_counts)
-        {
-            document_text.Add(i.Item1);
+            var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            var target_folder = System.IO.Path.Combine(root_folder, date_string);
+
+            System.IO.Directory.CreateDirectory(target_folder);
+
+            var b = new Backup();
+
+            List<(string, int)> document_counts = new List<(string, int)>();
+
+            foreach(var kvp in db_config_set.detail_list)
+            {
+
+                var number_of_vital_import_docs = await b.Execute
+                (
+                    new[]
+                    {
+                        "backup",
+                        "user_name:" + mmria.services.vitalsimport.Program.timer_user_name,
+                        "password:" + mmria.services.vitalsimport.Program.timer_value,
+                        $"database_url: {mmria.services.vitalsimport.Program.couchdb_url}/vital_import",
+                        $"backup_file_path:{target_folder}/mmria-vital_import-db.json"
+                    }
+                );
+
+                document_counts.Add(($"database vital_import: {number_of_vital_import_docs}", number_of_vital_import_docs));
+
+
+                var prefix = kvp.Key.ToLower();
+                var data_connection = kvp.Value;
+
+                foreach(var db in db_list)
+                {   
+                    try
+                    {
+
+                        var number_of_docs = await b.Execute
+                        (
+                            new[]
+                            {
+                                "backup",
+                                "user_name:" + data_connection.user_name,
+                                "password:" + data_connection.user_value,
+                                $"database_url:{data_connection.url}/{db}",
+                                $"backup_file_path:{target_folder}/{prefix}-mmria-{db}-db.json"
+                            }
+                        );
+
+                        document_counts.Add(($"database {prefix} {db} : {number_of_docs}", number_of_docs));
+
+                    }
+                    catch(Exception)
+                    {
+
+                    }
+                
+                }
+            }
+
+            document_counts.Sort(Comparer<(string,int)>.Create((i1, i2) => i1.Item2.CompareTo(i2.Item2)));
+            List<string> document_text = new List<string>();
+            foreach(var i in document_counts)
+            {
+                document_text.Add(i.Item1);
+            }
+            var count_file_path = System.IO.Path.Combine(target_folder, "db_record_count.txt");
+            System.IO.File.WriteAllText (count_file_path, string.Join('\n',document_text));
         }
-        var count_file_path = System.IO.Path.Combine(target_folder, "db_record_count.txt");
-        System.IO.File.WriteAllText (count_file_path, string.Join('\n',document_text));
-    
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Cold backup\n{ex}");
+        }
 
         Console.WriteLine("fin.");
 
