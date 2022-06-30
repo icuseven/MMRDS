@@ -54,6 +54,7 @@ public class DQRDetail
     public double? cmp_quarter_number { get; set; }
 
     public int? hrcpr_bcp_secti_is_2 {get; set; }
+    public int? is_preventable_death {get; set; }
     public int? n01 { get; set; }
 	public int? n02  { get; set; }
 	public int[] n03 { get; set; }

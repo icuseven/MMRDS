@@ -269,6 +269,9 @@ async function create_debug()
 
 async function download_data_quality_report_button_click()
 {
+
+    show_loading_modal();
+
     g_debug_report_question = document.getElementById("debug-report-question").value;
     g_debug_report_external_list = document.getElementById("debug-report-external-list").value;
     g_internal_set = new Set();
@@ -479,6 +482,7 @@ async function download_data_quality_report_button_click()
                 summary_data.n06 += item.n06;
                 summary_data.n07 += item.n07;
                 summary_data.current_hrcpr_bcp_secti_is_2 += item.hrcpr_bcp_secti_is_2
+                summary_data.current_is_preventable_death += item.is_preventable_death
             }
             else if
             (
@@ -487,6 +491,7 @@ async function download_data_quality_report_button_click()
             )
             {
                 summary_data.previous_hrcpr_bcp_secti_is_2 += item.hrcpr_bcp_secti_is_2
+                summary_data.previous_is_preventable_death += item.is_preventable_death
                 summary_data.previous4QuarterReview += item.n06;
 
                 summary_data.n08 += item.n08;
@@ -627,7 +632,19 @@ async function download_data_quality_report_button_click()
                 }
             }
         }
-        else
+        /*else if(i >= 46)
+        {
+            if (summary_data.current_is_preventable_death > 0 )
+            {
+                summary_data[fld].s.pp = (summary_data[fld].s.pn / summary_data.current_is_preventable_death) * 100;
+            }
+
+            if (summary_data.previous_is_preventable_death > 0 )
+            {
+                summary_data[fld].p.pp = (summary_data[fld].p.pn / summary_data.previous_is_preventable_death) * 100;
+            }
+        }
+        else*/
         {
             if (summary_data[fld].s.tn > 0 )
             {
@@ -1035,6 +1052,8 @@ async function download_data_quality_report_button_click()
 
         await create_pdf( 'Detail', detail_data, g_model.selectedQuarter, headers );
     }
+
+    close_loading_modal();
 }
 
 

@@ -63,6 +63,8 @@ namespace mmria.server.utils
 
             dqr_detail.hrcpr_bcp_secti_is_2 = 0;
 
+            dqr_detail.is_preventable_death = 0;
+
             dqr_detail.n01 = 0;
             dqr_detail.n02 = 0;
             dqr_detail.n03[0] = 0;
@@ -1519,6 +1521,8 @@ int bfdcpfodddod_year = -1;
                 && cr_p_relat_is_1
             )
             {
+
+                dqr_detail.is_preventable_death = 1;
 
                 //n46
                 //cr_ddctt_death IN ('1', '2')

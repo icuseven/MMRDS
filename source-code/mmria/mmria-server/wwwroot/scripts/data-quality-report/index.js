@@ -170,6 +170,8 @@ function has_multiple_case_folder()
 function get_new_summary_data()
 {
     return {
+        current_is_preventable_death: 0,
+        previous_is_preventable_death: 0,
         current_hrcpr_bcp_secti_is_2: 0,
         previous_hrcpr_bcp_secti_is_2: 0,
         previous4QuarterReview: 0,
@@ -343,4 +345,60 @@ function get_new_summary_data()
 					p: { tn: 0, pn: 0, pp: 0.0 },
 				},
     }
+}
+
+function show_loading_modal()
+{
+    let ei;
+
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();   
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("div");
+    //     var element = document.getElementById("loading-modal");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+    
+    ei.innerHTML = `
+    <div style="padding:50px;" class="display-6">
+    <div id="form_content_id" >
+    <span class="spinner-container spinner-content spinner-active">
+        <span class="spinner-body text-primary">
+        <span class="spinner"></span>
+        <span class="spinner-info">Loading...</span>
+        </span>
+    </span>
+    </div>
+    </div>
+`;
+
+    ei.showModal();
+}
+
+function close_loading_modal()
+{
+    let ei;
+    // try
+    // {
+        ei = document.getElementById("loading-modal");
+        ei.close();    
+    // }
+    // catch
+    // {
+    //     var tag = document.createElement("loading-modal");
+    //     var element = document.getElementById("");
+    //     element.appendChild(tag);
+
+    //     ei = document.getElementById("loading-modal");
+    // }
+
+    //render_filter_summary();
+    //render_loading_modal();
+    //render();
 }

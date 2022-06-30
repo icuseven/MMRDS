@@ -1543,13 +1543,13 @@ function format_summary_pages(ctx) {
 			border: [true, false, true, false],
 		},
 		{
-			text: `${ctx.quarter}, N = ${ctx.data.n06}`,
+			text: `${ctx.quarter}, N = ${ctx.data.current_is_preventable_death}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
 		},
 		{
-			text: `Previous 4 Qtrs, N = ${ctx.data.n08}`,
+			text: `Previous 4 Qtrs, N = ${ctx.data.previous_is_preventable_death}`,
 			style: ['tableLabel', 'blueFill'],
 			alignment: 'center',
 			border: [true, false, true, false],
