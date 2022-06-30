@@ -1591,7 +1591,7 @@ int bfdcpfodddod_year = -1;
                                 )
                                 &&
                                 (
-                                    test_int == 1 ||
+                                    test_int == 26 ||
                                     test_int == 27 ||
                                     test_int == 28
                                 )
