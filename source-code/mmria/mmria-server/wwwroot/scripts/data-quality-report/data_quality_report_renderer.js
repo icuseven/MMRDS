@@ -602,7 +602,8 @@ async function download_data_quality_report_button_click()
                 i == 17 ||
                 i == 22 ||
                 i == 25 ||
-                i == 26
+                i == 26 ||
+                i == 30
             )
             {
                 if ( summary_data.current_hrcpr_bcp_secti_is_2 > 0)
