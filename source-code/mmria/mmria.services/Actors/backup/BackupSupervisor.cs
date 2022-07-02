@@ -49,7 +49,7 @@ public class BackupSupervisor : ReceiveActor
 
                 case "cold":
 
-                    if(ColdBackupStarted.HasValue)
+                    if(ColdBackupStarted.HasValue && DateTime.Now < ColdBackupStarted.Value.AddHours(1))
                     {
                         return;
                     }
@@ -61,7 +61,7 @@ public class BackupSupervisor : ReceiveActor
 
                 case "hot":
 
-                    if(HotBackupStarted.HasValue)
+                    if(HotBackupStarted.HasValue && DateTime.Now < HotBackupStarted.Value.AddHours(1))
                     {
                         return;
                     }

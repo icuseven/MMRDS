@@ -137,6 +137,13 @@ public class BackupColdProcessor : ReceiveActor
             Console.WriteLine($"Cold backup\n{ex}");
         }
 
+        this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+        {
+            type = "cold",
+            DateEnded = DateTime.Now
+
+        });
+
         Console.WriteLine("fin.");
 
         Context.Stop(this.Self);
