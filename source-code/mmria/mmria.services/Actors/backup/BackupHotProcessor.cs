@@ -162,6 +162,13 @@ public class BackupHotProcessor : ReceiveActor
             Console.WriteLine("Replication: End");
             
 
+        this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+        {
+            type = "hot",
+            DateEnded = DateTime.Now
+
+        });
+
         
         Console.WriteLine($"Processing Message : {message}");
 

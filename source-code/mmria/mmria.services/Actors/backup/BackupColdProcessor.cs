@@ -43,12 +43,7 @@ public class BackupColdProcessor : ReceiveActor
 
     async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
-        if(start_date != null)
-        {
-            return;
-        }
 
-        start_date = DateTime.Now;
 
         Console.WriteLine("Beginning Backup.");
 

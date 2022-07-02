@@ -20,6 +20,16 @@ public class BackupSupervisor : ReceiveActor
         public DateTime DateStarted {get; set; }
     }
 
+    public class BackupFinishedMessage
+    {
+        public BackupFinishedMessage(){}
+        public string type  { get; set; }
+        public DateTime DateEnded {get; set; }
+    }
+
+    DateTime? HotBackupStarted = null;
+    DateTime? ColdBackupStarted = null;
+
     IConfiguration configuration;
     ILogger logger;
     protected override void PreStart() => Console.WriteLine("Process_Message started");
@@ -38,13 +48,48 @@ public class BackupSupervisor : ReceiveActor
             {
 
                 case "cold":
+
+                    if(ColdBackupStarted.HasValue)
+                    {
+                        return;
+                    }
+
+                    ColdBackupStarted = DateTime.Now;
                     var cold_backup_processor = Context.ActorOf<mmria.services.backup.BackupColdProcessor>();
                     cold_backup_processor.Tell(message);
                     break;
 
                 case "hot":
+
+                    if(HotBackupStarted.HasValue)
+                    {
+                        return;
+                    }
+
+                    HotBackupStarted = DateTime.Now;
+
                     var hot_backup_processor = Context.ActorOf<mmria.services.backup.BackupHotProcessor>();
                     hot_backup_processor.Tell(message);
+                    break;
+            }
+
+            //Console.WriteLine(JsonConvert.SerializeObject(message));
+            //Sender.Tell("Message Recieved");
+            
+        });
+
+        Receive<BackupFinishedMessage>(message =>
+        {   
+
+            switch(message.type.ToLower())
+            {
+
+                case "cold":
+                    ColdBackupStarted = null;
+                    break;
+
+                case "hot":
+                    HotBackupStarted = null;
                     break;
             }
 
