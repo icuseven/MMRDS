@@ -17,6 +17,8 @@ public class BackupColdProcessor : ReceiveActor
     const int nat_max_length = 4001;
     const int fet_max_length = 6001;
 
+    DateTime? start_date = null;
+
     HashSet<string> g_cdc_identifier_set = new();
 
     IConfiguration configuration;
@@ -41,6 +43,13 @@ public class BackupColdProcessor : ReceiveActor
 
     async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
+        if(start_date != null)
+        {
+            return;
+        }
+
+        start_date = DateTime.Now;
+
         Console.WriteLine("Beginning Backup.");
 
         try
