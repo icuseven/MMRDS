@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Akka.Quartz.Actor;
+using Quartz;
+using Quartz.Impl;
 
 namespace System.Runtime.CompilerServices
 {
@@ -146,6 +149,36 @@ namespace mmria.services.vitalsimport
                     
                     services.AddHostedService<Worker>();
                     services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
+
+
+                    ISchedulerFactory schedFact = new StdSchedulerFactory();
+                    Quartz.IScheduler sched = schedFact.GetScheduler().Result;
+
+                    // compute a time that is on the next round minute
+                    DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
+
+                    // define the job and tie it to our HelloJob class
+                    IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
+                        .WithIdentity("job1", "group1")
+                        .Build();
+
+                    // Trigger the job to run on the next round minute
+                    ITrigger trigger = TriggerBuilder.Create()
+                        .WithIdentity("trigger1", "group1")
+                        .StartAt(runTime.AddMinutes(3))
+                        .WithCronSchedule(DbConfigSet.name_value["cron_schedule"])
+                        .Build();
+
+                    sched.ScheduleJob(job, trigger);
+
+
+                    ///sched.Start();
+
+                    var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+
+                    quartzSupervisor.Tell("init");
+
+
                 });
     }
 }

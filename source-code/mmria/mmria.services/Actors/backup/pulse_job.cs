@@ -15,6 +15,14 @@ namespace mmria.server.model
     /// <author>Marko Lahma (.NET)</author>
     public class Pulse_job : IJob
     {
+
+
+        private ActorSystem _actorSystem;
+
+        public Pulse_job(ActorSystem actorSystem)
+        {
+            _actorSystem = actorSystem;
+        }
         //private static readonly ILog log = LogProvider.GetLogger(typeof (HelloJob));
 
         //private static readonly ActorSystem actorSystem = LogProvider.GetLogger(typeof (ActorSystem));;
@@ -28,7 +36,7 @@ namespace mmria.server.model
             // Say Hello to the World and display the date/time
             //System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 
-            var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
+            var quartzSupervisor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
             quartzSupervisor.Tell("pulse");
 
             return Task.CompletedTask;
