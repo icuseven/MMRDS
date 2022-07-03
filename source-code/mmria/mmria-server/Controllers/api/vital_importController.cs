@@ -23,10 +23,18 @@ namespace mmria.server
  		private readonly IAuthorizationService _authorizationService;
         private readonly IConfiguration _configuration;
 
-		public vital_importController(ActorSystem actorSystem, IConfiguration configuration)
+        mmria.common.couchdb.ConfigurationSet ConfigDB;
+
+		public vital_importController
+        (
+            ActorSystem actorSystem, 
+            IConfiguration configuration, 
+            mmria.common.couchdb.ConfigurationSet p_config_db
+        )
 		{
 		    _actorSystem = actorSystem;
 			_configuration = configuration;
+            ConfigDB = p_config_db;
     	}
 
         private bool is_authorized()
@@ -36,9 +44,9 @@ namespace mmria.server
             (
                 (
                     !this.Request.Headers.ContainsKey("vitals_service_key") ||
-                    string.IsNullOrWhiteSpace(_configuration["mmria_settings:vitals_service_key"])
+                    string.IsNullOrWhiteSpace(ConfigDB.name_value["vital_service_key"])
                 ) &&
-                this.Request.Headers["vitals_service_key"] != _configuration["mmria_settings:vitals_service_key"]
+                this.Request.Headers["vitals_service_key"] != ConfigDB.name_value["vital_service_key"]
             )
             {
                 result = false;

@@ -17,12 +17,6 @@ namespace mmria.server.model
     {
 
 
-        private ActorSystem _actorSystem;
-
-        public Pulse_job(ActorSystem actorSystem)
-        {
-            _actorSystem = actorSystem;
-        }
         //private static readonly ILog log = LogProvider.GetLogger(typeof (HelloJob));
 
         //private static readonly ActorSystem actorSystem = LogProvider.GetLogger(typeof (ActorSystem));;
@@ -37,7 +31,6 @@ namespace mmria.server.model
 
 
             var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
-            //var quartzSupervisor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
             quartzSupervisor.Tell("pulse");
 
             return Task.CompletedTask;
