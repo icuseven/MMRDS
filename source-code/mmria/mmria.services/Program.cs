@@ -151,32 +151,21 @@ namespace mmria.services.vitalsimport
                     services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
 
-                    ISchedulerFactory schedFact = new StdSchedulerFactory();
-                    Quartz.IScheduler sched = schedFact.GetScheduler().Result;
-
-                    // compute a time that is on the next round minute
-                    DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
-
-                    // define the job and tie it to our HelloJob class
-                    IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
-                        .WithIdentity("job1", "group1")
-                        .Build();
-
-                    // Trigger the job to run on the next round minute
-                    ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity("trigger1", "group1")
-                        .StartAt(runTime.AddMinutes(3))
-                        .WithCronSchedule(DbConfigSet.name_value["cron_schedule"])
-                        .Build();
-
-                    sched.ScheduleJob(job, trigger);
-
-
-                    ///sched.Start();
+                    void TimerTask(object timerState)
+                    {
+                        //Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff}: starting a new callback.");
+                        var quartzSupervisor = actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
+                        quartzSupervisor.Tell("pulse");
+                    }
 
                     var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
-
                     quartzSupervisor.Tell("init");
+
+                    var timer = new System.Threading.Timer(
+                        callback: new System.Threading.TimerCallback(TimerTask),
+                        state: null,
+                        dueTime: 1000 * 6,
+                        period: 1000 * 60);
 
 
                 });

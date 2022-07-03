@@ -36,8 +36,8 @@ namespace mmria.server.model
             System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 
 
-            var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
-            //var quartzSupervisor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
+            //var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
+            var quartzSupervisor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
             quartzSupervisor.Tell("pulse");
 
             return Task.CompletedTask;
