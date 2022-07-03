@@ -117,6 +117,11 @@ public class BackupHotProcessor : ReceiveActor
 
                 var data_connection = kvp.Value;
 
+                if(kvp.Key.Equals("vital_import", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
                 foreach(var replication_db in db_replication_list)
                 {
                     var replication_url = $"{backup_db_url}/_replicator";

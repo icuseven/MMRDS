@@ -74,26 +74,31 @@ public class BackupColdProcessor : ReceiveActor
 
             List<(string, int)> document_counts = new List<(string, int)>();
 
+
+            var number_of_vital_import_docs = await b.Execute
+            (
+                new[]
+                {
+                    "backup",
+                    "user_name:" + mmria.services.vitalsimport.Program.timer_user_name,
+                    "password:" + mmria.services.vitalsimport.Program.timer_value,
+                    $"database_url: {mmria.services.vitalsimport.Program.couchdb_url}/vital_import",
+                    $"backup_file_path:{target_folder}/mmria-vital_import-db.json"
+                }
+            );
+
+            document_counts.Add(($"database vital_import: {number_of_vital_import_docs}", number_of_vital_import_docs));
+
+
             foreach(var kvp in db_config_set.detail_list)
             {
-
-                var number_of_vital_import_docs = await b.Execute
-                (
-                    new[]
-                    {
-                        "backup",
-                        "user_name:" + mmria.services.vitalsimport.Program.timer_user_name,
-                        "password:" + mmria.services.vitalsimport.Program.timer_value,
-                        $"database_url: {mmria.services.vitalsimport.Program.couchdb_url}/vital_import",
-                        $"backup_file_path:{target_folder}/mmria-vital_import-db.json"
-                    }
-                );
-
-                document_counts.Add(($"database vital_import: {number_of_vital_import_docs}", number_of_vital_import_docs));
-
-
                 var prefix = kvp.Key.ToLower();
                 var data_connection = kvp.Value;
+
+                if(kvp.Key.Equals("vital_import", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
 
                 foreach(var db in db_list)
                 {   
