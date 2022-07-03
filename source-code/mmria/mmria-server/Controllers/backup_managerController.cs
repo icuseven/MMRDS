@@ -38,13 +38,13 @@ public class backupManagerController : Controller
         ConfigDB = p_config_db;
     }
 
-    [Route("backup-manager")]    
+    //[Route("backupManager")]    
     public IActionResult Index()
     {
         return View();
     }
 
-    [Route("backup-manager/PerformHotBackup")]
+    //[Route("backup-manager/PerformHotBackup")]
     public async Task<IActionResult>  PerformHotBackup()
     {
         var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
@@ -61,7 +61,7 @@ public class backupManagerController : Controller
         return Ok(responseContent);
     }
 
-    [Route("backup-manager/PerformColdBackup")]
+    //[Route("backup-manager/PerformColdBackup")]
     public async Task<IActionResult>  PerformColdBackup()
     {
 
