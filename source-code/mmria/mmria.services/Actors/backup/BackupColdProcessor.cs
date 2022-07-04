@@ -65,8 +65,9 @@ public class BackupColdProcessor : ReceiveActor
             };
             
 
-            var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            var date_string = DateTime.UtcNow.ToString("yyyy-MM-HH-mm-ss-ff");
             var target_folder = System.IO.Path.Combine(root_folder, date_string);
+            var zip_file_name = $"{date_string}.zip";
 
             System.IO.Directory.CreateDirectory(target_folder);
 
@@ -136,6 +137,20 @@ public class BackupColdProcessor : ReceiveActor
             }
             var count_file_path = System.IO.Path.Combine(target_folder, "db_record_count.txt");
             System.IO.File.WriteAllText (count_file_path, string.Join('\n',document_text));
+
+            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+
+
+            string encryption_key = null;
+
+            folder_compressor.Compress
+            (
+                System.IO.Path.Combine(root_folder, zip_file_name),
+                encryption_key,
+                target_folder
+            );
+
+
         }
         catch(Exception ex)
         {
