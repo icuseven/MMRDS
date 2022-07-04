@@ -65,7 +65,7 @@ public class BackupColdProcessor : ReceiveActor
             };
             
 
-            var date_string = DateTime.UtcNow.ToString("yyyy-MM-HH-mm-ss-ff");
+            var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss-ddd");
             var target_folder = System.IO.Path.Combine(root_folder, date_string);
             var zip_file_name = $"{date_string}.zip";
 
