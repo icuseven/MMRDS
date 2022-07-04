@@ -10,6 +10,7 @@ namespace mmria.services.backup
 {
 	public class Backup
 	{
+		private HashSet<string> id_list = null;
 		private string auth_token = null;
 		private string user_name = null;
 		private string password = null;
@@ -112,6 +113,10 @@ namespace mmria.services.backup
 			try 
 			{
 				number_count = 0;
+
+				id_list = await GetIdList();
+
+
 				cBulkDocument bulk_document = await GetDocumentList ();
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -137,23 +142,43 @@ namespace mmria.services.backup
 		}
 
 
+		private async Task<HashSet<string>> GetIdList ()
+		{
+
+			var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+			string URL = string.Format("{0}/_all_docs", this.database_url);
+			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
+			var curl_result = await document_curl.executeAsync();
+
+			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			dynamic all_cases_rows = all_cases.rows;
+
+			foreach (var row in all_cases_rows) 
+			{
+				result.Add(row.id);
+			}
+
+			return result;
+		}
+
+		
+
 
 		private async Task<cBulkDocument> GetDocumentList ()
 		{
 
 			cBulkDocument result = new cBulkDocument ();
 
-			string URL = string.Format("{0}/_all_docs?include_docs=true", this.database_url);
-			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
-			var curl_result = await document_curl.executeAsync();
-
-			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
-			dynamic all_cases_rows = all_cases.rows;
-
-			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows) 
+			foreach(var id in id_list)
 			{
-				number_count += 1;
-				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row) ["doc"] as IDictionary<string, object>;
+				string URL = $"{this.database_url}/{id}";
+				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
+				var curl_result = await document_curl.executeAsync();
+
+				dynamic case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+
+				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				case_doc.Remove("_rev");
 				result.docs.Add (case_doc);
 			}

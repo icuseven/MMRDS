@@ -22,16 +22,14 @@ namespace mmria.services.vitalsimport.Controllers
     public class backupController : Controller
     {
         private ActorSystem _actorSystem;
-        mmria.common.couchdb.ConfigurationSet ConfigDB;
 
         public backupController
         (
-            ActorSystem actorSystem, 
-            mmria.common.couchdb.ConfigurationSet p_config_db
+            ActorSystem actorSystem
         )
         {
             _actorSystem = actorSystem;
-            ConfigDB = p_config_db;
+
         }
 
         [HttpGet]
@@ -76,7 +74,7 @@ namespace mmria.services.vitalsimport.Controllers
         [Authorize(AuthenticationSchemes = "BasicAuthentication")]
         public async Task<IActionResult> GetFileList()
         {
-            string root_folder = ConfigDB.name_value["backup_storage_root_folder"];
+            string root_folder = Program.DbConfigSet.name_value["backup_storage_root_folder"];
 
 
             var result = new List<string>();
