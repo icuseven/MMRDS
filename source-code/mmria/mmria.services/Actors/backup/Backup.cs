@@ -158,10 +158,12 @@ namespace mmria.services.backup
 		
 
 
-		private async Task<cBulkDocument> GetDocumentList ()
+		private async Task<bool> GetDocumentList ()
 		{
+			var result = true;
 
-			cBulkDocument result = new cBulkDocument ();
+			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 
 			foreach(var id in id_list)
 			{
@@ -174,14 +176,62 @@ namespace mmria.services.backup
 				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				case_doc.Remove("_rev");
 
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				var case_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_doc, settings);
 
-				var file_path = System.IO.Path.Combine(this.backup_file_path, $"{id}.json");
-				if (!System.IO.File.Exists (file_path)) 
+				var backup_file_path = this.backup_file_path;
+
+				
+
+				if(this.database_url.EndsWith("/metadata"))
 				{
-					await System.IO.File.WriteAllTextAsync (file_path, case_json);
+					
+					var new_id = id.Replace(":","-").Replace(".","-");
+					var file_path = System.IO.Path.Combine(backup_file_path, new_id);
+					System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
+
+					file_path = System.IO.Path.Combine(file_path, $"{id.Replace(":","-").Replace(".","-")}.json");
+					if (!System.IO.File.Exists (file_path)) 
+					{
+						await System.IO.File.WriteAllTextAsync (file_path, case_json);
+					}
+				}
+				else
+				{
+
+					var file_path = System.IO.Path.Combine(backup_file_path, $"{id}.json");
+					if (!System.IO.File.Exists (file_path)) 
+					{
+						await System.IO.File.WriteAllTextAsync (file_path, case_json);
+					}
+				}
+
+				if(this.database_url.EndsWith("/metadata"))
+				{
+					if(case_doc.ContainsKey("_attachments"))
+					{
+						var attachment_set = case_doc["_attachments"] as IDictionary<string,object>;
+						if(attachment_set != null)
+						{
+							var new_id = id.Replace(":","-").Replace(".","-");
+							var attachment_path = System.IO.Path.Combine(backup_file_path, new_id, "_attachments");
+							
+
+							foreach(var kvp in attachment_set)
+							{
+								var attachment_url = $"{URL}/{kvp.Key}";
+								var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
+								var attachment_doc_json = await attachment_curl.executeAsync();
+
+
+
+								var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
+								if (!System.IO.File.Exists (attachment_file_path)) 
+								{
+									await System.IO.File.WriteAllTextAsync (attachment_file_path, attachment_doc_json);
+								}
+							}
+						}
+					}
 				}
 
 

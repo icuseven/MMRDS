@@ -77,7 +77,8 @@ public class BackupColdProcessor : ReceiveActor
 
 
             var db_folder = System.IO.Path.Combine(target_folder, "vital_import");
-            System.IO.Directory.CreateDirectory(db_folder);
+            System.IO.Directory.CreateDirectory($"{db_folder}/_design");
+            
 
             var number_of_vital_import_docs = await b.Execute
             (
@@ -114,7 +115,7 @@ public class BackupColdProcessor : ReceiveActor
                     {
 
                         db_folder = System.IO.Path.Combine(prefix_folder, db);
-                        System.IO.Directory.CreateDirectory(db_folder);
+                        System.IO.Directory.CreateDirectory($"{db_folder}/_design");
 
                         var number_of_docs = await b.Execute
                         (
