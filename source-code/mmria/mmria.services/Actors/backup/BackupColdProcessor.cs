@@ -76,6 +76,9 @@ public class BackupColdProcessor : ReceiveActor
             List<(string, int)> document_counts = new List<(string, int)>();
 
 
+            var db_folder = System.IO.Path.Combine(target_folder, "vital_import");
+            System.IO.Directory.CreateDirectory(db_folder);
+
             var number_of_vital_import_docs = await b.Execute
             (
                 new[]
@@ -84,7 +87,7 @@ public class BackupColdProcessor : ReceiveActor
                     "user_name:" + mmria.services.vitalsimport.Program.timer_user_name,
                     "password:" + mmria.services.vitalsimport.Program.timer_value,
                     $"database_url: {mmria.services.vitalsimport.Program.couchdb_url}/vital_import",
-                    $"backup_file_path:{target_folder}/mmria-vital_import-db.json"
+                    $"backup_file_path:{db_folder}"
                 }
             );
 
@@ -101,10 +104,17 @@ public class BackupColdProcessor : ReceiveActor
                     continue;
                 }
 
+                var prefix_folder = System.IO.Path.Combine(target_folder, prefix);
+                System.IO.Directory.CreateDirectory(prefix_folder);
+
+
                 foreach(var db in db_list)
                 {   
                     try
                     {
+
+                        db_folder = System.IO.Path.Combine(prefix_folder, db);
+                        System.IO.Directory.CreateDirectory(db_folder);
 
                         var number_of_docs = await b.Execute
                         (
@@ -114,7 +124,7 @@ public class BackupColdProcessor : ReceiveActor
                                 "user_name:" + data_connection.user_name,
                                 "password:" + data_connection.user_value,
                                 $"database_url:{data_connection.url}/{db}",
-                                $"backup_file_path:{target_folder}/{prefix}-mmria-{db}-db.json"
+                                $"backup_file_path:{db_folder}"
                             }
                         );
 

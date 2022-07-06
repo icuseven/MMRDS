@@ -117,15 +117,8 @@ namespace mmria.services.backup
 				id_list = await GetIdList();
 
 
-				cBulkDocument bulk_document = await GetDocumentList ();
+				await GetDocumentList ();
 
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject (bulk_document, settings);
-				if (!System.IO.File.Exists (this.backup_file_path)) 
-				{
-					System.IO.File.WriteAllText (this.backup_file_path, bulk_document_string);
-				}
 
 				Console.WriteLine ("Backup Finished.");
 			}
@@ -180,7 +173,19 @@ namespace mmria.services.backup
 
 				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				case_doc.Remove("_rev");
-				result.docs.Add (case_doc);
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				var case_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_doc, settings);
+
+				var file_path = System.IO.Path.Combine(this.backup_file_path, $"{id}.json");
+				if (!System.IO.File.Exists (file_path)) 
+				{
+					System.IO.File.WriteAllText (file_path, case_json);
+				}
+
+
+				
 			}
 
 			return result;
