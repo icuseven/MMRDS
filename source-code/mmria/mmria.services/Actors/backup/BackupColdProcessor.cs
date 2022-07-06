@@ -146,7 +146,7 @@ public class BackupColdProcessor : ReceiveActor
                 document_text.Add(i.Item1);
             }
             var count_file_path = System.IO.Path.Combine(target_folder, "db_record_count.txt");
-            System.IO.File.WriteAllText (count_file_path, string.Join('\n',document_text));
+            await System.IO.File.WriteAllTextAsync (count_file_path, string.Join('\n',document_text));
 
             mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
 

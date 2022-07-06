@@ -56,8 +56,8 @@ namespace mmria.server.model.actor
                 case "pulse":                
                     bool is_perform_backup = false;
 
-                    var midnight_timespan = new TimeSpan(0, 0, 0);
-                    var difference = DateTime.Now - midnight_timespan;
+                    var one_am_timespan = new TimeSpan(1, 0, 0);
+                    var difference = DateTime.Now - one_am_timespan;
                     if(difference.Hour == 0 && difference.Minute == 0)
                     {
                         is_perform_backup = true;

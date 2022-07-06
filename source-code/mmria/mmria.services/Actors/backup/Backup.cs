@@ -181,7 +181,7 @@ namespace mmria.services.backup
 				var file_path = System.IO.Path.Combine(this.backup_file_path, $"{id}.json");
 				if (!System.IO.File.Exists (file_path)) 
 				{
-					System.IO.File.WriteAllText (file_path, case_json);
+					await System.IO.File.WriteAllTextAsync (file_path, case_json);
 				}
 
 
