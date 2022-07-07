@@ -303,39 +303,51 @@ async function download_data_quality_report_button_click()
     {
         let item = dqr_detail_data.docs[i];
 
+        if(selected_case_folder_list.length == 0)
+        {
+            //console.log("I should not be happeninghere")
+            continue;
+        }
+
+        const has_not_selected_root_folder = selected_case_folder_list.indexOf("/") < 0;
+
         if
         (
-            selected_case_folder_list.length > 0 &&
-            selected_case_folder_list.indexOf("/") < 0 &&
+            has_not_selected_root_folder &&
             selected_case_folder_list.indexOf(item.case_folder) < 0
         )
         {
             continue;
         }
 
+        const has_selected_root_folder = selected_case_folder_list.indexOf("/") > -1; 
 
         if
         (
-            selected_case_folder_list.indexOf("/") > -1 &&
+            has_selected_root_folder &&
             item.case_folder != "/"
         )
         {
             if
             (           
-                g_case_folder_list.indexOf(item.case_folder) < 0 &&
+                
                 selected_case_folder_list.indexOf(item.case_folder) < 0
             )
             {
-
+            
+                if(g_case_folder_list.indexOf(item.case_folder) < 0)
+                {
+                    
+                }
+                else
+                {
+                    continue;
+                }
             }
-            else
-            {
-                continue;
-            }
+            
         }
         else if
         (
-            selected_case_folder_list.length == 0 &&
             g_case_folder_list.indexOf("/") > -1
         )
         {
@@ -343,7 +355,7 @@ async function download_data_quality_report_button_click()
         }
         else if
         (
-            selected_case_folder_list.length == 0 &&
+
             g_case_folder_list.indexOf(item.case_folder) < 0
         )
         {
