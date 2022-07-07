@@ -130,6 +130,161 @@ public class v2_9_Migration
 					}
 
 
+
+					/*
+					06_PCR_05_PrgHis (3)
+					pphdg_b_weigh_uom
+					pphdg_b_weigh <- already existing grams was old
+					pphdg_b_weigh_oz
+
+					pphdg_b_weigh_uom prenatal/pregnancy_history/details_grid/birth_weight_uom
+					pphdg_b_weigh prenatal/pregnancy_history/details_grid/birth_weight
+					pphdg_b_weigh_oz prenatal/pregnancy_history/details_grid/birth_weight_oz
+
+					if weight then
+						set to grams
+					else
+						set to blank
+
+					*/
+
+					C_Get_Set_Value.get_grid_value_result grid_value_result = null;
+					var pphdg_b_weigh_uom_path = "prenatal/pregnancy_history/details_grid/birth_weight_uom";
+					var pphdg_b_weigh_path = "prenatal/pregnancy_history/details_grid/birth_weight";
+					var pphdg_b_weigh_oz_path = "prenatal/pregnancy_history/details_grid/birth_weight_oz";
+
+
+					grid_value_result = gs.get_grid_value(doc, pphdg_b_weigh_path);
+
+					if
+					(
+						!grid_value_result.is_error &&
+						grid_value_result.result == null
+					)
+					{
+
+						var new_list = new List<(int, object)>();
+						var has_changed = false;
+
+
+						foreach((int index, dynamic dynamic_value) in grid_value_result.result)
+						{
+							/*
+								9999	(blank)	
+								0	Grams	
+								1	Pounds/Ounces
+							*/
+
+							var gram_value = "0";
+							var blank_value = "9999";
+
+							if
+							(
+								dynamic_value != null ||
+								!string.IsNullOrWhiteSpace(dynamic_value.ToString())
+							)
+							{
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								new_list.Add((index, gram_value));
+
+							}
+							else
+							{
+
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+								
+								new_list.Add((index, blank_value));
+					}
+						}
+
+						if(new_list.Count > 0)
+						{
+
+							case_has_changed = case_has_changed && gs.set_grid_value(doc, pphdg_b_weigh_uom_path, new_list);
+							var output_text = $"item record_id: {mmria_id} path:{pphdg_b_weigh_uom_path} set from {string.Join(",",grid_value_result.result)} => {string.Join(",",new_list)}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+						}
+
+					}
+
+
+					/*
+							MMRIA Form - Death Certificate (DC)
+							1.1 dcd_so_birth		death_certificate/demographics/state_of_birth
+							1.2 dcd_country_birth	death_certificate/demographics/country_of_birth
+
+							8.1 dcpolr_state	death_certificate/place_of_last_residence/state
+							8.2 dcpolr_col_resid	death_certificate/place_of_last_residence/country_of_last_residence
+							2.1 bfdcpdof_so_birth	birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
+							2.2 bfdcpdof_fco_birth	birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
+
+							3.1 bfdcpdom_so_birth	birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
+							3.2 bfdcpdom_country_birth	birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
+
+
+If foreign born 3 fields only MMRDS-1853 remove US or Any US Territories
+Data migration if US or US Territory set to (blank)
+
+death_certificate/demographics/country_of_birth
+death_certificate/demographics/state_of_birth
+
+birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
+birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
+
+birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
+birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
+
+
+Move US territories to state list MMRDS-1851
+Data migration - any country where US territories
+
+Country --> State
+
+RQ -->PR
+AQ --> AS
+GQ --> GU
+VQ --> VI
+RM --> MH
+CQ --> MP
+PS --> PW
+
+					*/
+
+
+					var dcd_so_birth_path = "death_certificate/demographics/state_of_birth";
+					var dcd_country_birth_path = "death_certificate/demographics/country_of_birth";
+					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
+					var dcpolr_col_resid_path = "death_certificate/place_of_last_residence/country_of_last_residence";
+					var bfdcpdof_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth";
+					var bfdcpdof_fco_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth";
+					var bfdcpdom_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth";
+					var bfdcpdom_country_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth";
+
+
+					var Country_to_State_map = new Dictionary<string,string>()
+					{
+						{ "RQ", "PR"},
+						{ "AQ", "AS"},
+						{ "GQ", "GU"},
+						{ "VQ", "VI"},
+						{ "RM", "MH"},
+						{ "CQ", "MP"},
+						{ "PS", "PW"},
+					};
+
+
+
 					void check_and_update_muilti_value(string p_path)
 					{
 
@@ -231,16 +386,7 @@ PS --> PW
 */
 
 
-var Country_to_State_map = new Dictionary<string,string>()
-{
-	{ "RQ", "PR"},
-	{ "AQ", "AS"},
-	{ "GQ", "GU"},
-	{ "VQ", "VI"},
-	{ "RM", "MH"},
-	{ "CQ", "MP"},
-	{ "PS", "PW"},
-};
+
 
 {
 var dcci_to_death_path = "death_certificate/certificate_identification/time_of_death";
