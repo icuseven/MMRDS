@@ -249,6 +249,28 @@ birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
 Move US territories to state list MMRDS-1851
 Data migration - any country where US territories
 
+
+Marshall Island is a valid country and is NOT a US Territory
+Death Certifice 3 places
+	place of last residence - with associated state
+	demographics - with associated state
+
+
+	Citizen of What country - Guam to US
+	
+BCDC Parent 2 places
+	father's demographics - with associated state	
+	mother's demographics - with associated state
+	
+SEP
+	Country of Birth
+	
+Medical Transport
+	Origin Information - with associated state
+	Destination Information - with associated state
+
+
+
 Country --> State
 
 RQ -->PR
@@ -261,16 +283,31 @@ PS --> PW
 
 					*/
 
-
-					var dcd_so_birth_path = "death_certificate/demographics/state_of_birth";
-					var dcd_country_birth_path = "death_certificate/demographics/country_of_birth";
-					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
 					var dcpolr_col_resid_path = "death_certificate/place_of_last_residence/country_of_last_residence";
+					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
+					
+					var dcd_so_birth_path = 	"death_certificate/demographics/state_of_birth";
+					var dcd_country_birth_path ="death_certificate/demographics/country_of_birth";
+					
+					var dc_cow_count_path = "death_certificate/citizen_of_what_country";
+
+
+
 					var bfdcpdof_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth";
 					var bfdcpdof_fco_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth";
+					
 					var bfdcpdom_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth";
 					var bfdcpdom_country_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth";
 
+
+					var saepsec_co_birth_path = "social_and_environmental_profile/socio_economic_characteristics/country_of_birth";
+
+					var mt_org_country_path = "medical_transport/origin_information/address/country";
+					var mt_org_state_path = "medical_transport/origin_information/address/state";
+					
+					
+					var mt_dst_country_path = "medical_transport/destination_information/address/country_of_last_residence";
+					var mt_dst_state_path = "medical_transport/destination_information/address/state";
 
 					var Country_to_State_map = new Dictionary<string,string>()
 					{

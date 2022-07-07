@@ -732,6 +732,187 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 
         return response_string;
     }
+	/*
+
+ 		async Task get_cvs_api_data_info
+        (
+            string c_geoid,
+            string t_geoid,
+            string year
+        )
+        {
+            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
+
+
+
+            g_cvs_api_request_data.set("_id", g_data._id);
+            g_cvs_api_request_data.set("cvs_api_request_url", base_url);
+            g_cvs_api_request_data.set("cvs_api_request_date_time", new Date());
+            g_cvs_api_request_data.set("cvs_api_request_c_geoid", c_geoid);
+            g_cvs_api_request_data.set("cvs_api_request_t_geoid", t_geoid);
+            g_cvs_api_request_data.set("cvs_api_request_year", year);
+
+
+
+
+            try
+            {
+                await $.ajax(
+                    {
+                        url: base_url,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: p_success_call_back,
+                        error: p_error_call_back,
+                        data: JSON.stringify({
+                            action: "data",                        
+                            c_geoid: c_geoid,
+                            t_geoid: t_geoid,
+                            year: year
+
+                        })
+                    }
+                );
+            }
+            catch(ex)
+            {
+                // do nothing 
+            }
+        }
+
+
+
+	void callback_cvs_data_success (p_result)
+        {
+
+            //const data = eval("(" + p_result + ")"); 
+            console.log(p_result);
+            //console.log(data);
+            console.log(p_result);
+            if
+            (
+                g_cvs_api_request_data.has("_id") &&
+                g_cvs_api_request_data.get("_id") == g_data._id
+            )
+            {
+                if(p_result.tract == null)
+                {
+                    g_cvs_api_request_data.set("cvs_api_request_result_message", p_result); 
+                    g_cvs_api_request_data.set
+                    (
+                        "cvs_api_request_result_message",
+                        `status code: ${p_result.status} message: ${p_result.message}`
+                    );
+                    
+                    
+                    const new_grid_item = {
+
+                        cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                        cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                        cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                        cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                        cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                        cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                        cvs_mdrate_county: "",
+                        cvs_pctnoins_fem_county: "",
+                        cvs_pctnoins_fem_tract: "",
+                        cvs_pctnovehicle_county: "",                                   
+                        cvs_pctnovehicle_tract: "",
+                        cvs_pctmove_county: "",
+                        cvs_pctmove_tract: "",
+                        cvs_pctsphh_county: "",
+                        cvs_pctsphh_tract: "",
+                        cvs_pctovercrowdhh_county: "",
+                        cvs_pctovercrowdhh_tract: "",
+                        cvs_pctowner_occ_county: "",
+                        cvs_pctowner_occ_tract: "",
+                        cvs_pct_less_well_county: "",
+                        cvs_pct_less_well_tract: "",
+                        cvs_ndi_raw_county: "",
+                        cvs_ndi_raw_tract: "",
+                        cvs_pctpov_county: "",
+                        cvs_pctpov_tract: "",
+                        cvs_ice_income_all_county: "",
+                        cvs_ice_income_all_tract: "",
+                        cvs_medhhinc_county: "",
+                        cvs_medhhinc_tract: "",
+                        cvs_pctobese_county: "",
+                        cvs_fi_county: "",
+                        cvs_cnmrate_county: "",
+                        cvs_obgynrate_county: "",
+                        cvs_rtteenbirth_county: "",
+                        cvs_rtstd_county: "",
+                        cvs_rtmhpract_county: "",
+                        cvs_rtdrugodmortality_county: "",
+                        cvs_rtopioidprescript_county: "",
+                        cvs_soccap_county: "",
+                        cvs_rtsocassoc_county: "",
+                        cvs_pcthouse_distress_county: "",
+                        cvs_rtviolentcr_icpsr_county: "",
+                        cvs_isolation_county: ""
+                        
+                        };
+    
+                        g_data.cvs.cvs_grid = [ new_grid_item ];
+                }
+                else
+                {
+                    g_cvs_api_request_data.set("cvs_api_request_result_message", "Data request successful."); 
+
+                    const new_grid_item = {
+
+                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                    cvs_mdrate_county: p_result.county.mDrate,
+                    cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
+                    cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
+                    cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
+                    cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
+                    cvs_pctmove_county: p_result.county.pctMOVE,
+                    cvs_pctmove_tract: p_result.tract.pctMOVE,
+                    cvs_pctsphh_county: p_result.county.pctSPHH,
+                    cvs_pctsphh_tract: p_result.tract.pctSPHH,
+                    cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
+                    cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
+                    cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
+                    cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
+                    cvs_pct_less_well_county: p_result.county.pct_less_well,
+                    cvs_pct_less_well_tract: p_result.tract.pct_less_well,
+                    cvs_ndi_raw_county: p_result.county.ndI_raw,
+                    cvs_ndi_raw_tract: p_result.tract.ndI_raw,
+                    cvs_pctpov_county: p_result.county.pctPOV,
+                    cvs_pctpov_tract: p_result.tract.pctPOV,
+                    cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
+                    cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
+                    cvs_medhhinc_county: p_result.county.medhhinc,
+                    cvs_medhhinc_tract: p_result.tract.medhhinc,
+                    cvs_pctobese_county: p_result.county.pctOBESE,
+                    cvs_fi_county: p_result.county.fi,
+                    cvs_cnmrate_county: p_result.county.cnMrate,
+                    cvs_obgynrate_county: p_result.county.obgyNrate,
+                    cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
+                    cvs_rtstd_county: p_result.county.rtSTD,
+                    cvs_rtmhpract_county: p_result.county.rtMHPRACT,
+                    cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
+                    cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
+                    cvs_soccap_county: p_result.county.socCap,
+                    cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
+                    cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
+                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
+                    cvs_isolation_county: p_result.county.isolation
+                    }
+
+                    g_data.cvs.cvs_grid = [ new_grid_item ];
+                }
+            }
+
+        }
+		*/
 
 
 }
