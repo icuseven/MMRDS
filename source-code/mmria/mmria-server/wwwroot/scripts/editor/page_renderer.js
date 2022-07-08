@@ -367,7 +367,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		disabled_html = " ";
 	}
 
-	p_result.push("<input ");
+	p_result.push("<input autocomplete=off ");
 	p_result.push(` id="${convert_object_path_to_jquery_id(p_object_path)}_control" `);
 	p_result.push(disabled_html);
 		if
