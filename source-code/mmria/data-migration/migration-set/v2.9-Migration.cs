@@ -283,42 +283,230 @@ PS --> PW
 
 					*/
 
-					var dcpolr_col_resid_path = "death_certificate/place_of_last_residence/country_of_last_residence";
-					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
-					
-					var dcd_so_birth_path = 	"death_certificate/demographics/state_of_birth";
-					var dcd_country_birth_path ="death_certificate/demographics/country_of_birth";
-					
-					var dc_cow_count_path = "death_certificate/citizen_of_what_country";
-
-
-
-					var bfdcpdof_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth";
-					var bfdcpdof_fco_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth";
-					
-					var bfdcpdom_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth";
-					var bfdcpdom_country_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth";
-
-
-					var saepsec_co_birth_path = "social_and_environmental_profile/socio_economic_characteristics/country_of_birth";
-
-					var mt_org_country_path = "medical_transport/origin_information/address/country";
-					var mt_org_state_path = "medical_transport/origin_information/address/state";
-					
-					
-					var mt_dst_country_path = "medical_transport/destination_information/address/country_of_last_residence";
-					var mt_dst_state_path = "medical_transport/destination_information/address/state";
-
-					var Country_to_State_map = new Dictionary<string,string>()
+					var Country_to_State_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
 					{
 						{ "RQ", "PR"},
 						{ "AQ", "AS"},
 						{ "GQ", "GU"},
 						{ "VQ", "VI"},
-						{ "RM", "MH"},
+						//{ "RM", "MH"},
 						{ "CQ", "MP"},
-						{ "PS", "PW"},
+						//{ "PS", "PW"},
 					};
+
+					bool check_and_update_country_single_value
+					(
+						string p_country_path,
+						string p_state_path = null
+					)
+					{
+						var result = false;
+					
+						value_result = gs.get_value(doc, p_country_path);
+						if(!value_result.is_error)
+						{
+
+							if
+							(
+								value_result.result != null &&
+								Country_to_State_map.ContainsKey(value_result.result.ToString())
+							)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								var us_country_value = "US";
+								
+								case_has_changed = case_has_changed && gs.set_value(p_country_path, us_country_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {us_country_value}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+
+								if(p_state_path != null)
+								{
+									var new_state_value = Country_to_State_map[value_result.result.ToString()];
+									case_has_changed = case_has_changed && gs.set_value(p_state_path, new_state_value, doc);
+									output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {new_state_value}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+							}
+						}
+
+						return result;
+					}
+
+
+					bool check_and_update_country_multiform_value
+					(
+						string p_country_path,
+						string p_state_path
+					)
+					{
+						var result = false;
+
+						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
+
+						multiform_value_result = gs.get_multiform_value(doc, p_country_path);
+
+						if(!multiform_value_result.is_error)
+						{
+
+							if
+							(
+								multiform_value_result.result is not null &&
+								multiform_value_result.result is List<(int, object)> result_list && 
+								result_list.Count > 0
+							)
+							{
+								var new_country_list = new List<(int, object)>();
+								var new_state_list = new List<(int, object)>();
+
+								var has_changed = false;
+
+								foreach(var (index, value) in result_list)
+								{
+									if
+									(
+										value_result.result != null &&
+										Country_to_State_map.ContainsKey(value_result.result.ToString())
+									)
+									{
+										if(case_change_count == 0)
+										{
+											case_change_count += 1;
+											case_has_changed = true;
+										}
+
+										var us_country_value = "US";
+
+										new_country_list.Add((index, us_country_value));
+										/*
+										case_has_changed = case_has_changed && gs.set_value(p_country_path, us_country_value, doc);
+										var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {us_country_value}";
+										this.output_builder.AppendLine(output_text);
+										Console.WriteLine(output_text);*/
+
+										if(p_state_path != null)
+										{
+											var new_state_value = Country_to_State_map[value_result.result.ToString()];
+
+											new_state_list.Add((index, new_state_value));
+											/*
+											case_has_changed = case_has_changed && gs.set_value(p_state_path, new_state_value, doc);
+											output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {new_state_value}";
+											this.output_builder.AppendLine(output_text);
+											Console.WriteLine(output_text);*/
+										}
+									}
+								}
+
+								if(new_country_list.Count > 0)
+								{
+
+									case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_country_path, new_country_list);
+									var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",result_list)} => {string.Join(",",new_country_list)}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+
+								if(new_state_list.Count > 0)
+								{
+
+									case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_state_path, new_state_list);
+									var output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {string.Join(",",new_state_list)}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+							}
+						}
+
+						return result;
+					}
+
+
+
+
+					var dcpolr_col_resid_path = "death_certificate/place_of_last_residence/country_of_last_residence";
+					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
+				
+
+					check_and_update_country_single_value
+					(
+						dcpolr_col_resid_path,
+						dcpolr_state_path
+					);
+
+
+						
+					var dcd_so_birth_path = 	"death_certificate/demographics/state_of_birth";
+					var dcd_country_birth_path ="death_certificate/demographics/country_of_birth";
+					
+					check_and_update_country_single_value
+					(
+						dcd_country_birth_path,
+						dcd_so_birth_path
+					);
+
+
+					var dc_cow_count_path = "death_certificate/citizen_of_what_country";
+					check_and_update_country_single_value
+					(
+						dc_cow_count_path
+					);
+
+					var bfdcpdof_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth";
+					var bfdcpdof_fco_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth";
+					check_and_update_country_single_value
+					(
+						bfdcpdof_fco_birth_path,
+						bfdcpdof_so_birth_path
+					);
+
+					var bfdcpdom_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth";
+					var bfdcpdom_country_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth";
+
+					check_and_update_country_single_value
+					(
+						bfdcpdom_country_birth_path,
+						bfdcpdom_so_birth_path
+					);
+
+					var saepsec_co_birth_path = "social_and_environmental_profile/socio_economic_characteristics/country_of_birth";
+
+					check_and_update_country_single_value
+					(
+						saepsec_co_birth_path
+						
+					);
+
+					var mt_org_country_path = "medical_transport/origin_information/address/country";
+					var mt_org_state_path = "medical_transport/origin_information/address/state";
+					check_and_update_country_multiform_value
+					(
+						mt_org_country_path,
+						mt_org_state_path
+
+					);
+					
+					
+					var mt_dst_country_path = "medical_transport/destination_information/address/country_of_last_residence";
+					var mt_dst_state_path = "medical_transport/destination_information/address/state";
+					check_and_update_country_multiform_value
+					(
+						mt_dst_country_path,
+						mt_dst_state_path
+					);
+
+
+/*
+dcd_country_birth Mothers - death_certificate/demographics/country_of_birth
+bfdcpdof_fco_birth Fathers birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
+bfdcpdom_country_birth birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
+*/
 
 
 
@@ -418,6 +606,10 @@ VQ --> VI
 RM --> MH
 CQ --> MP
 PS --> PW
+
+
+
+
 
 
 */
