@@ -340,6 +340,46 @@ PS --> PW
 					}
 
 
+					bool check_foreign_only_country_single_value
+					(
+						string p_country_path
+					)
+					{
+						var result = false;
+					
+						value_result = gs.get_value(doc, p_country_path);
+						if(!value_result.is_error)
+						{
+							var us_country_value = "US";
+							var blank_value = "9999";
+
+							if
+							(
+								value_result.result != null &&
+								value_result.result.ToString() == us_country_value
+							)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								
+								
+								case_has_changed = case_has_changed && gs.set_value(p_country_path, blank_value, doc);
+								var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {blank_value}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+
+
+							}
+						}
+
+						return result;
+					}
+
+
 					bool check_and_update_country_multiform_value
 					(
 						string p_country_path,
@@ -501,67 +541,11 @@ PS --> PW
 						mt_dst_state_path
 					);
 
-
-/*
-dcd_country_birth Mothers - death_certificate/demographics/country_of_birth
-bfdcpdof_fco_birth Fathers birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
-bfdcpdom_country_birth birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
-*/
+					check_foreign_only_country_single_value(dcd_country_birth_path);
+					check_foreign_only_country_single_value(bfdcpdof_fco_birth_path);
+					check_foreign_only_country_single_value(bfdcpdom_country_birth_path);
 
 
-
-					void check_and_update_muilti_value(string p_path)
-					{
-
-						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
-
-						multiform_value_result = gs.get_multiform_value(doc, p_path);
-
-						if
-						(
-							multiform_value_result.result is not null &&
-							multiform_value_result.result is List<(int, object)> result_list && 
-							result_list.Count > 0
-						)
-						{
-
-							var new_list = new List<(int, object)>();
-							var has_changed = false;
-
-							foreach(var (index, value) in result_list)
-							{
-								if(value != null)
-								{
-									var time_value_string = value.ToString();
-
-									if( !isInNeedOfConversion(time_value_string))
-									{
-
-										var new_time = ConvertToStandardTime(time_value_string);
-
-
-										if(case_change_count == 0)
-										{
-											case_change_count += 1;
-											case_has_changed = true;
-										}
-										
-										new_list.Add((index, new_time));
-
-									}
-								}
-							}
-
-							if(new_list.Count > 0)
-							{
-
-								case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{p_path} set from {string.Join(",",result_list)} => {string.Join(",",new_list)}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-						}
-					}
 
 /*
 
@@ -607,98 +591,7 @@ RM --> MH
 CQ --> MP
 PS --> PW
 
-
-
-
-
-
 */
-
-
-
-
-{
-var dcci_to_death_path = "death_certificate/certificate_identification/time_of_death";
-value_result = gs.get_value(doc, dcci_to_death_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dcci_to_death_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dcci_to_death_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-
-
-{
-	var dciai_to_injur_path = "death_certificate/injury_associated_information/time_of_injury";
-	value_result = gs.get_value(doc, dciai_to_injur_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-
-
-
-
-			check_and_update_muilti_value("birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor ");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture");
-			check_and_update_muilti_value("other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time");
-
-
-
 
 				if(!is_report_only_mode && case_has_changed)
 				{
