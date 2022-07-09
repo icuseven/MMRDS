@@ -109,13 +109,10 @@ public class CVS_Migration
 
 			var ExistingRecordIds = await GetExistingRecordIds();
 
-
 			string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
 			var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 			string responseFromServer = await case_curl.executeAsync();
 			
-
-
 			var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 			
 			foreach(var case_item in case_response.rows)
@@ -135,59 +132,84 @@ public class CVS_Migration
 						continue;
 					}
 
-
-					void check_and_update_muilti_value(string p_path)
+					string get_value(System.Dynamic.ExpandoObject p_doc, string p_path)
 					{
+						var result = String.Empty;
 
-						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
-
-						multiform_value_result = gs.get_multiform_value(doc, p_path);
-
+						value_result = gs.get_value(p_doc, p_path);
 						if
 						(
-							multiform_value_result.result is not null &&
-							multiform_value_result.result is List<(int, object)> result_list && 
-							result_list.Count > 0
+							! value_result.is_error &&
+							value_result.result != null
 						)
 						{
-
-							var new_list = new List<(int, object)>();
-							var has_changed = false;
-
-							foreach(var (index, value) in result_list)
-							{
-								if(value != null)
-								{
-									var time_value_string = value.ToString();
-
-									if( !isInNeedOfConversion(time_value_string))
-									{
-
-										var new_time = ConvertToStandardTime(time_value_string);
-
-
-										if(case_change_count == 0)
-										{
-											case_change_count += 1;
-											case_has_changed = true;
-										}
-										
-										new_list.Add((index, new_time));
-
-									}
-								}
-							}
-
-							if(new_list.Count > 0)
-							{
-
-								case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{p_path} set from {string.Join(",",result_list)} => {string.Join(",",new_list)}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
+							result = value_result.result.ToString();
 						}
+
+						return result;
 					}
+
+
+					var state_county_fips = get_value(doc, "death_certificate/place_of_last_residence/state_county_fips");
+					var  census_tract_fips = get_value(doc, "death_certificate/place_of_last_residence/census_tract_fips");
+					var  year = get_value(doc, "home_record/date_of_death/year");
+
+					if
+					(
+						!string.IsNullOrEmpty(state_county_fips) &&
+						!string.IsNullOrEmpty(census_tract_fips) &&
+						!string.IsNullOrEmpty(year)
+					)
+					{
+						var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
+
+
+						if(case_change_count == 0)
+						{
+							case_change_count += 1;
+							case_has_changed = true;
+						}
+						/*
+						
+						case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
+						var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
+
+
+						g_data.cvs.cvs_grid = [ new_grid_item ];
+
+						*/
+
+
+
+					}
+/*
+
+
+g_data.death_certificate.place_of_last_residence.state_county_fips
+g_data.death_certificate.place_of_last_residence.census_tract_fips
+
+            const t_geoid = state_county_fips + g_data.death_certificate.place_of_last_residence.census_tract_fips.replace(".","").padStart(6, "0");
+            //$mmria.get_cvs_api_data_info
+            //(
+                g_data.death_certificate.place_of_last_residence.state_county_fips,  //c_geoid, // = "13089",
+                t_geoid, // = "13089021204",
+                g_data.home_record.date_of_death.year, //year = "2012"
+
+
+					var new_grid_item = new mmria.common.cvs.CVS_Grid_Item()
+					{
+
+						//cvs_api_request_data._ =("_id", g_data._id),
+						cvs_api_request_url = base_url,
+						cvs_api_request_date_time =("cvs_api_request_date_time", new Date()),
+						cvs_api_request_c_geoid =("cvs_api_request_c_geoid", c_geoid),
+						cvs_api_request_t_geoid =("cvs_api_request_t_geoid", t_geoid),
+						cvs_api_request_year =("cvs_api_request_year", year),
+					}
+*/
+
 
 /*
 
@@ -199,91 +221,6 @@ cvs_api_request_year
 cvs_api_request_result_message
 
 */
-
-
-{
-var dcci_to_death_path = "death_certificate/certificate_identification/time_of_death";
-value_result = gs.get_value(doc, dcci_to_death_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dcci_to_death_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dcci_to_death_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-
-
-{
-	var dciai_to_injur_path = "death_certificate/injury_associated_information/time_of_injury";
-	value_result = gs.get_value(doc, dciai_to_injur_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-
-
-
-
-			check_and_update_muilti_value("birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor ");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture");
-			check_and_update_muilti_value("other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time");
-
-
-
-
 				if(!is_report_only_mode && case_has_changed)
 				{
 					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"CVS_Migration", true);
@@ -302,57 +239,6 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 	Console.WriteLine($"CVS_Migration Finished {DateTime.Now}");
 }
 
-	bool isInNeedOfConversion(string p_value)
-	{
-		var result = true;
-
-		if(p_value != null)
-		{
-			if
-			(
-				p_value.Trim().StartsWith("12:") ||
-				p_value.Trim().StartsWith("24:")
-			)
-			{
-				result = false;
-			}
-		}
-
-
-		return result;
-	}
-
-
-
-	string ConvertToStandardTime(string p_value)
-	{
-		var result = p_value;
-
-		if(p_value != null)
-		{
-			if
-			(
-				p_value.Trim().StartsWith("12:")
-			)
-			{
-				var data = p_value.Split(":");
-				data[0] = "00";
-				result =string.Join(':',data);
-			}
-			else if
-			(
-				p_value.Trim().StartsWith("24:")
-			)
-			{
-				var data = p_value.Split(":");
-				data[0] = "12";
-				result =string.Join(':',data);
-			}
-		}
-
-
-		return result;
-	}
 
 	public class Metadata_Node
 	{
