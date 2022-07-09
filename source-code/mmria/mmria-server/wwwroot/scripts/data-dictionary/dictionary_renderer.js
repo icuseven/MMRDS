@@ -450,7 +450,8 @@ function convert_form_name(p_value)
 		'mental_health_profile': 'Mental Health Profile',
 		'informant_interviews': 'Informant Interviews',
 		'case_narrative': 'Case Narrative',
-		'committee_review': 'Committee Decisions'
+		'committee_review': 'Committee Decisions',
+        'cvs':'Community Vital Signs'
 	}
 
 	return lookup[p_value.toLowerCase()];
