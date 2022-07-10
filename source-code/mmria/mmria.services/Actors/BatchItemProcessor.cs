@@ -1190,56 +1190,90 @@ public class BatchItemProcessor : ReceiveActor
                 new_case
             );
 
+            var new_case_dictionary = new_case as IDictionary<string, object>;
 
-            string get_value(System.Dynamic.ExpandoObject p_doc, string p_path)
             {
-                var result = String.Empty;
-
-
-                migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(p_doc, p_path);
-                if
-                (
-                    ! value_result.is_error &&
-                    value_result.result != null
-                )
+                string get_value(System.Dynamic.ExpandoObject p_doc, string p_path)
                 {
-                    result = value_result.result.ToString();
+                    var result = String.Empty;
+
+
+                    migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(p_doc, p_path);
+                    if
+                    (
+                        ! value_result.is_error &&
+                        value_result.result != null
+                    )
+                    {
+                        result = value_result.result.ToString();
+                    }
+
+                    return result;
                 }
 
-                return result;
-            }
-
-            var state_county_fips = get_value(new_case, "death_certificate/place_of_last_residence/state_county_fips");
-            var  census_tract_fips = get_value(new_case, "death_certificate/place_of_last_residence/census_tract_fips");
-            var  year = get_value(new_case, "home_record/date_of_death/year");
-
-            if
-            (
-                !string.IsNullOrEmpty(state_county_fips) &&
-                !string.IsNullOrEmpty(census_tract_fips) &&
-                !string.IsNullOrEmpty(year)
-            )
-            {
-                var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
+                var state_county_fips = get_value(new_case, "death_certificate/place_of_last_residence/state_county_fips");
+                var  census_tract_fips = get_value(new_case, "death_certificate/place_of_last_residence/census_tract_fips");
+                var  year = get_value(new_case, "home_record/date_of_death/year");
 
 
+                var cvs_list = new List<object>();
 
-                /*
+                var cvs_form_metadata = new mmria.common.metadata.node();
+
+                foreach(var child in metadata.children)
+                {
+                    if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cvs_form_metadata = child;
+                    }
+                }
+
+                var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
+                mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
+                var list = new_cvs_form["cvs"] as IList<object>;
+
+
+                if
+                (
+                    !string.IsNullOrEmpty(state_county_fips) &&
+                    !string.IsNullOrEmpty(census_tract_fips) &&
+                    !string.IsNullOrEmpty(year)
+                )
+                {
+                    var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
+
+
+
+                    /*
+                    
+                    case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
+                    var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
+                    this.output_builder.AppendLine(output_text);
+                    Console.WriteLine(output_text);
+
+
+                    g_data.cvs.cvs_grid = [ new_grid_item ];
+
+                    */
+
+
+
+                }
+                else
+                {
+                    
+                }
+
+                cvs_list.Add(list[0]);
+
                 
-                case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-                var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
-                this.output_builder.AppendLine(output_text);
-                Console.WriteLine(output_text);
 
+                if(new_case_dictionary != null)
+                {
 
-                g_data.cvs.cvs_grid = [ new_grid_item ];
-
-                */
-
-
-
+                    new_case_dictionary["cvs"] = cvs_list;
+                }
             }
-
 
             gs.set_value(IJE_to_MMRIA_Path["DMIDDLE"], mor_field_set["DMIDDLE"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["POILITRL"], mor_field_set["POILITRL"], new_case);
@@ -1310,8 +1344,7 @@ public class BatchItemProcessor : ReceiveActor
                 }
             }
 
-            var new_case_dictionary = new_case as IDictionary<string, object>;
-
+        
             if(new_case_dictionary != null)
             {
                 var natal_fetal_list = new List<object>();
