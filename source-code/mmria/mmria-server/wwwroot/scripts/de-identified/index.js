@@ -26,8 +26,8 @@ var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 var g_value_to_index_number_lookup = {};
 var g_other_specify_lookup = {};
-var g_charts = {};
-var g_chart_data = {};
+var g_charts = new Map();
+var g_chart_data = new Map();
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
 {
