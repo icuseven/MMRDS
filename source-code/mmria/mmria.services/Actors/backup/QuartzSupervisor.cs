@@ -49,7 +49,6 @@ public class QuartzSupervisor : UntypedActor
         switch (message)
         {
             case "init":
-
                 Console.WriteLine("Quartz Supervisor initialized");
                 break;
 
@@ -77,18 +76,10 @@ public class QuartzSupervisor : UntypedActor
                         DateStarted = DateTime.Now
                     };
 
-
-
                     var bsr = Context.ActorSelection("user/backup-supervisor");
                     bsr.Tell(hot_backup_message); 
                     bsr.Tell(cold_backup_message); 
                 }
-
-
-
-                
-
-                
 
             break;
         }
