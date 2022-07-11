@@ -158,7 +158,9 @@ public class cvsAPIController: ControllerBase
                     if
                     (
                         responseDictionary != null &&
-                        (bool) responseDictionary["isBase64Encoded"] == true
+                        responseDictionary.ContainsKey("isBase64Encoded") &&
+                        responseDictionary["isBase64Encoded"] != null &&
+                        responseDictionary["isBase64Encoded"].ToString() == "True"
                     )
                     {
                         var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());

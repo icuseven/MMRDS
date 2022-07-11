@@ -15,9 +15,12 @@ namespace mmria.server.Controllers
         public class CVS_View_Model
         {
             public CVS_View_Model(){}
-            public string c_geoid {get;set;}
-            public string t_geoid {get;set;}
-            public string year {get;set;}
+
+            public string lat {get;set;}
+            public string lon {get;set;}
+            public string year{get;set;}
+            public string id {get;set;}
+
         }
         private readonly IAuthorizationService _authorizationService;
         IConfiguration configuration;
@@ -31,17 +34,19 @@ namespace mmria.server.Controllers
         [HttpGet]
         public IActionResult Index
         (
-            string c_geoid = null,
-            string t_geoid = null,
-            string year = null
+            string lat = null,
+            string lon = null,
+            string year = null,
+            string id = null
         )
         {
 
             var model = new CVS_View_Model()
             {
-                c_geoid = c_geoid,
-                t_geoid = t_geoid,
-                year = year
+                lat = lat,
+                lon = lon,
+                year = year,
+                id = id
             };
 
             return View(model);
