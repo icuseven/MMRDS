@@ -12,6 +12,13 @@ namespace mmria.server.Controllers
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
     public class CvsController : Controller
     {
+        public class CVS_View_Model
+        {
+            public CVS_View_Model(){}
+            public string c_geoid {get;set;}
+            public string t_geoid {get;set;}
+            public string year {get;set;}
+        }
         private readonly IAuthorizationService _authorizationService;
         IConfiguration configuration;
 
@@ -20,11 +27,24 @@ namespace mmria.server.Controllers
             _authorizationService = authorizationService;
             configuration = p_configuration;
         }
-        public IActionResult Index()
+
+        [HttpGet]
+        public IActionResult Index
+        (
+            string c_geoid = null,
+            string t_geoid = null,
+            string year = null
+        )
         {
 
-            TempData["metadata_version"] = configuration["mmria_settings:metadata_version"];
-            return View();
+            var model = new CVS_View_Model()
+            {
+                c_geoid = c_geoid,
+                t_geoid = t_geoid,
+                year = year
+            };
+
+            return View(model);
         }
 
 

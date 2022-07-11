@@ -45,6 +45,9 @@ window.onload = function()
     {
         el.onclick = clear_all_data_click;
     }
+
+    window.setTimeout(()=> { $mmria.get_cvs_api_server_info(()=>{},()=>{}); }, 0);
+
 } 
 
 function get_batch_set()

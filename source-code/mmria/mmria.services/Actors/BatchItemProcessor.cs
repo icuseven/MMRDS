@@ -1270,7 +1270,6 @@ public class BatchItemProcessor : ReceiveActor
 
                 if(new_case_dictionary != null)
                 {
-
                     new_case_dictionary["cvs"] = cvs_list;
                 }
             }

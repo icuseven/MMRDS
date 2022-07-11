@@ -1,3 +1,4 @@
+@model mmria.server.Controllers.CvsController.CVS_View_Model
 @using System.Security.Claims;
 @{
   //Layout = "_LayoutBase";
@@ -45,6 +46,11 @@
             </span>
 <dialog  id="loading-modal" style="top:15%;width:320px;" class="p-0 set-radius"></dialog>
 <div id="output"> </div>
+
+
+<input id="c_geoid" name="c_geoid" value="@Model.c_geoid" />
+<input id="t_geoid" name="t_geoid" value="@Model.t_geoid" />
+<input id="year" name="year" value="@Model.year" />
 
 <div id="report_output_id"></div>
 </body>
