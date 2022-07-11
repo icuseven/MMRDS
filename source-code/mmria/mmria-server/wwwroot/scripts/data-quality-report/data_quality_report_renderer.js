@@ -303,63 +303,79 @@ async function download_data_quality_report_button_click()
     {
         let item = dqr_detail_data.docs[i];
 
-        if(selected_case_folder_list.length == 0)
-        {
-            //console.log("I should not be happeninghere")
-            continue;
-        }
+        const is_only_one_folder = selected_case_folder_list.length == 0;
 
-        const has_not_selected_root_folder = selected_case_folder_list.indexOf("/") < 0;
-
-        if
-        (
-            has_not_selected_root_folder &&
-            selected_case_folder_list.indexOf(item.case_folder) < 0
-        )
-        {
-            continue;
-        }
-
-        const has_selected_root_folder = selected_case_folder_list.indexOf("/") > -1; 
-
-        if
-        (
-            has_selected_root_folder &&
-            item.case_folder != "/"
-        )
+        if(is_only_one_folder)
         {
             if
-            (           
-                
+            (
+                g_case_folder_list.indexOf("/") > -1
+            )
+            {
+                // do nothing console.log("here");
+            }
+            else if
+            (
+                g_case_folder_list.indexOf(item.case_folder) < 0
+            )
+            {
+                continue;
+            }
+        }
+        else
+        {
+            const has_not_selected_root_folder = selected_case_folder_list.indexOf("/") < 0;
+
+            if
+            (
+                has_not_selected_root_folder &&
                 selected_case_folder_list.indexOf(item.case_folder) < 0
             )
             {
-            
-                if(g_case_folder_list.indexOf(item.case_folder) < 0)
-                {
-                    
-                }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-            
-        }
-        else if
-        (
-            g_case_folder_list.indexOf("/") > -1
-        )
-        {
-            // do nothing console.log("here");
-        }
-        else if
-        (
 
-            g_case_folder_list.indexOf(item.case_folder) < 0
-        )
-        {
-            continue;
+            const has_selected_root_folder = selected_case_folder_list.indexOf("/") > -1; 
+
+            if
+            (
+                has_selected_root_folder &&
+                item.case_folder != "/"
+            )
+            {
+                if
+                (           
+                    
+                    selected_case_folder_list.indexOf(item.case_folder) < 0
+                )
+                {
+                
+                    if(g_case_folder_list.indexOf(item.case_folder) < 0)
+                    {
+                        
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                
+            }
+            else if
+            (
+                g_case_folder_list.indexOf("/") > -1
+            )
+            {
+                // do nothing console.log("here");
+            }
+            else if
+            (
+
+                g_case_folder_list.indexOf(item.case_folder) < 0
+            )
+            {
+                continue;
+            }
         }
 
         set_case_header(item);
