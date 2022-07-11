@@ -1076,10 +1076,12 @@ namespace mmria.server.utils
 
           foreach (System.Data.DataColumn table_column in kvp.Value.Table.Columns)
           {
+            
+            var metadata_node_kvp = MetaDataNode_Dictionary.Where(x => x.Value.sass_export_name == table_column.ColumnName).FirstOrDefault();
+
             System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
             mapping_row["file_name"] = kvp.Key;
 
-            var metadata_node_kvp = MetaDataNode_Dictionary.Where(x => x.Value.sass_export_name == table_column.ColumnName).FirstOrDefault();
 
             if (! metadata_node_kvp.Equals(default(KeyValuePair<string, Metadata_Node>)))
             {
@@ -1182,15 +1184,20 @@ namespace mmria.server.utils
 
         foreach (KeyValuePair<string, mmria.common.metadata.node> kvp in path_to_node_map)
         {
-          var node = kvp.Value;
+          
 
+          if(export_report.IndexOf(kvp.Key) < 0)
+          {
+             continue;
+          }
+
+            var node = kvp.Value;
 
           if (node.type.ToLower() == "list")
           {
 
             try
             {
-
               var value_list = node.values;
 
               if (!string.IsNullOrWhiteSpace(node.path_reference))
