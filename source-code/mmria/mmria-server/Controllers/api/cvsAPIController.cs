@@ -24,13 +24,45 @@ namespace mmria.server;
 public class cvsAPIController: ControllerBase 
 { 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
-    private readonly IAuthorizationService _authorizationService;
-    public cvsAPIController(mmria.common.couchdb.ConfigurationSet p_config_db, IAuthorizationService authorizationService)
-    {
 
+    string folder_name = null;
+
+    private IConfiguration Configuration;
+    private readonly IAuthorizationService _authorizationService;
+    public cvsAPIController
+    (
+        IConfiguration configuration,
+        mmria.common.couchdb.ConfigurationSet p_config_db, 
+        IAuthorizationService authorizationService
+    )
+    {
+        Configuration = configuration;
         ConfigDB = p_config_db;
         _authorizationService = authorizationService;
+
+        this.folder_name = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], "csv");
+
+        System.IO.Directory.CreateDirectory(this.folder_name);
+
     }
+
+
+    [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
+    [HttpGet("{id}")]
+    public async System.Threading.Tasks.Task<FileResult> Get (string id)
+    {
+
+
+        var file_name = $"CVS-{id}.pdf";
+        var file_path = System.IO.Path.Combine(folder_name, file_name);
+
+        byte[] fileBytes = await GetFile(file_path);
+        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+
+
+    }
+
+
     
     [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [HttpPost]
@@ -166,11 +198,13 @@ public class cvsAPIController: ControllerBase
                         var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
                         var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
 
-                        result = Ok(contents);
+                        var file_path = System.IO.Path.Combine(folder_name, $"CVS-{post_payload.id}.pdf");
+
+                        System.IO.File.WriteAllBytes(file_path, bytes);
+
+                        result = Ok("{ \"file_status\": \"ready\" }");
+
                     }
-
-
-
                     break;
             }
         }
@@ -202,6 +236,22 @@ public class cvsAPIController: ControllerBase
         return result;
     }
 
+    async Task<byte[]> GetFile(string s)
+    {
+        byte[] data;
+        int br;
+        int fs_length;
+
+        using(FileStream fs = new FileStream (s, FileMode.Open, FileAccess.Read))
+        {
+            fs_length = (int) fs.Length;
+            data = new byte[fs.Length];
+            br = await fs.ReadAsync(data, 0, data.Length);
+        }
+        if (br != (int) fs_length)
+            throw new System.IO.IOException(s);
+        return data;
+    }
 
 
 } 
