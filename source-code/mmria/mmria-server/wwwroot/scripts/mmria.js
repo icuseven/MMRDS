@@ -3,28 +3,65 @@ var $mmria = function()
     return {
         dc_plc_cvs_button_click: function (p_control)
         {
-/*
-
-death_certificate/place_of_last_residence/latitude
-death_certificate/place_of_last_residence/longitude
-home_record/date_of_death/year
-home_record/record_id
-
-"body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
-"body": "\"PDF is being created!\""
-"body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
-    "isBase64Encoded": true
-
-
-*/
-
-
-
-            $mmria.info_dialog_show("CVS PDF","Validation: Census track certainty code is 3 or 4 or 9", "PDF click");
+            const lat = g_data.death_certificate.place_of_last_residence.latitude;
+            const lon = g_data.death_certificate.place_of_last_residence.longitude;
+            const year = g_data.home_record.date_of_death.year;
+            const record_id = g_data.home_record.record_id;
+            
+            if
+            (
+                lat == null ||
+                lon == null ||
+                year == null ||
+                lat == "" ||
+                lon == "" ||
+                year == null
+            )
+            {
+                $mmria.info_dialog_show("CVS PDF","Validation: be sure latitude, longitue and year of death are entered.", "CVS PDF click");
+            }
+            else
+            {
+                $mmria.get_cvs_api_dashboard_info
+                (
+                    lat,
+                    lon,
+                    year,
+                    record_id
+                );
+            }
         },
         cvs_view_community_vital_signs_button_click: function (p_control)
         {
-            $mmria.info_dialog_show("CVS PDF","Validation: Census track certainty code is 3 or 4 or 9", "PDF click");
+
+            const lat = g_data.death_certificate.place_of_last_residence.latitude;
+            const lon = g_data.death_certificate.place_of_last_residence.longitude;
+            const year = g_data.home_record.date_of_death.year;
+            const record_id = g_data.home_record.record_id;
+
+            if
+            (
+                lat == null ||
+                lon == null ||
+                year == null ||
+                lat == "" ||
+                lon == "" ||
+                year == null
+            )
+            {
+            
+                $mmria.info_dialog_show("CVS PDF","Validation: be sure latitude, longitue and year of death are entered.", "CVS PDF click");
+            }
+            else
+            {
+                $mmria.get_cvs_api_dashboard_info
+                (
+                    lat,
+                    lon,
+                    year,
+                    record_id
+                );
+            }
         },
         callback_cvs_data_success: function (p_result)
         {
@@ -298,8 +335,15 @@ home_record/record_id
             p_success_call_back,
             p_error_call_back
         )
-        {            
-            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
+        {           
+            
+            http://localhost:12345/community-vital-signs?lat=33.880577&lon=-84.29106&year=2012&id=GA-2012-1234
+
+
+
+            var base_url = `${location.protocol}//${location.host}/community-vital-signs?lat=${lat}&lon=${lon}&year=${year}&id=${id}`
+
+            window.open(base_url, target=id)
 /*
             fetch
             (
@@ -318,7 +362,7 @@ home_record/record_id
             )
             .then(response => p_success_call_back(response)) 
             .catch(err => p_error_call_back(err));
-*/
+
 
             try
             {
@@ -344,7 +388,7 @@ home_record/record_id
             catch(ex)
             {
                 // do nothing 
-            }
+            }*/
 
         },
 
