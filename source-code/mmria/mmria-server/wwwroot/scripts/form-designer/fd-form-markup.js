@@ -53,6 +53,18 @@ function fd_markup_build_textarea(data) {
 }
 
 /**
+ * Implements method to build a html_area
+ * @param {object} data
+ */
+ function fd_markup_build_html_area(data) {
+    let stringfield = `
+    <div class="resize-drag drag-drop yes-drop" id="${data.name}"><label for="${data.name}">${data.prompt}</label></div>
+    <div class="resize-drag drag-drop yes-drop" id="${data.name}-control"><textarea rows="7" cols="80"></textarea></div>`;
+    return stringfield;
+}
+
+
+/**
  * Implements method to build a date field
  * @param {object} data
  */
@@ -148,6 +160,9 @@ function fd_markup_build_fieldtypes(caseForm, group=false) {
             case 'textarea':
                 markup = fd_markup_build_textarea(value)
                 break;
+            case 'html_area':
+                markup = fd_markup_build_html_area(value)
+                break;
             case 'date':
                 markup = fd_markup_build_date(value)
                 break;
@@ -183,6 +198,9 @@ function fd_markup_build_fieldtypes(caseForm, group=false) {
                     break;
                 case 'textarea':
                     inHTML += fd_markup_build_textarea(value);
+                    break;
+                case 'html_area':
+                    inHTML += fd_markup_build_html_area(value);
                     break;
                 case 'date':
                     inHTML += fd_markup_build_date(value);

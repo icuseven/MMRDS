@@ -489,6 +489,10 @@ formDesigner = {
                 tpl.push(fdTemplates.formFields.prompt(formName, value));
                 tpl.push(fdTemplates.formFields.controls.textarea(formName, value));
                 break;
+            case 'html_area': 
+                tpl.push(fdTemplates.formFields.prompt(formName, value));
+                tpl.push(fdTemplates.formFields.controls.html_area(formName, value));
+                break;
               case 'button':
                 tpl.push(fdTemplates.formFields.prompt(formName, value));
                 tpl.push(fdTemplates.formFields.controls.button(formName, value));
@@ -933,6 +937,7 @@ function select_all_canvas_child_nodes()
         case "input":
         case "select":
         case "textarea":
+        case "html_area":
         case "fieldset":
           rect = item.getBoundingClientRect();
           result += "\n\t" + item.localName;
@@ -1376,6 +1381,7 @@ function prompt_and_control_compare(a, b)
         break;
       case "input":
       case "textarea":
+        case "html_area":
       case "select":
         a_value = a.getAttribute("id").toLowerCase() + "__2";
         break;
@@ -1388,6 +1394,7 @@ function prompt_and_control_compare(a, b)
         break;
       case "input":
       case "textarea":
+        case "html_area":
       case "select":        
         b_value = b.getAttribute("id").toLowerCase() + "__2";
         break;
@@ -1439,6 +1446,7 @@ function stack_selected_fields(p_pixels)
         (
           current_item.localName == "input" ||
           current_item.localName == "textarea" ||
+          current_item.localName == "html_area" ||
           current_item.localName == "select"
         )
       )
@@ -1493,6 +1501,7 @@ function make_row_of_selected_fields()
         (
           current_item.localName == "input" ||
           current_item.localName == "textarea" ||
+          current_item.localName == "html_area" ||
           current_item.localName == "select"
         )
       )

@@ -57,6 +57,7 @@ function groupFormElementsByType(caseForm) {
         'date': $.grep(caseForm.children, function (e) { return e.type == 'date'; }),
         'number': $.grep(caseForm.children, function (e) { return e.type == 'number'; }),
         'textareas': $.grep(caseForm.children, function (e) { return e.type == 'textarea'; }),
+        'html_areas': $.grep(caseForm.children, function (e) { return e.type == 'html_area'; }),
     }
     return elements;
 }
@@ -72,6 +73,7 @@ function groupFormGroupElements(group) {
         'date': $.grep(group.children, function (e) { return e.type == 'date'; }),
         'number': $.grep(group.children, function (e) { return e.type == 'number'; }),
         'textareas': $.grep(group.children, function (e) { return e.type == 'textarea'; }),
+        'html_areas': $.grep(group.children, function (e) { return e.type == 'html_area'; }),
     }
 
     return elements;
