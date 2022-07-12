@@ -76,7 +76,7 @@ public class QuartzSupervisor : UntypedActor
                         DateStarted = DateTime.Now
                     };
 
-                    var bsr = Context.ActorSelection("user/backup-supervisor");
+                    var bsr = Context.ActorSelection("akka://mmria-actor-system/user/backup-supervisor");
                     bsr.Tell(hot_backup_message); 
                     bsr.Tell(cold_backup_message); 
                 }
