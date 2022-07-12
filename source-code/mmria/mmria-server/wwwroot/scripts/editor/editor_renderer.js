@@ -201,6 +201,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		case 'time':
 		case 'address':
 		case 'textarea':
+        case 'html_area':
 		case 'hidden':
 		case 'jurisdiction':
 
@@ -466,6 +467,7 @@ var valid_types = [
 "group",
 "time",
 "textarea",
+"html_area",
 "boolean",
 "label",
 "button",
@@ -495,7 +497,8 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
         case "date":
         case "list":
         case "time":
-        case "textarea":     
+        case "textarea":
+        case "html_area":     
         case "boolean":
         case "jurisdiction":
             if(p_metadata.sass_export_name == null)
@@ -1076,6 +1079,7 @@ function render_attribute_add_control(p_path, node_type)
 			break;
 		case "address":
 		case "textarea":
+        case "html_area":
 			is_pre_fillable = true;
 			break;
 		default:
@@ -1117,7 +1121,8 @@ function render_attribute_add_control(p_path, node_type)
 		if
 		(
 			node_type.toLowerCase()== "string" ||
-			node_type.toLowerCase()== "textarea"
+			node_type.toLowerCase()== "textarea" ||
+            node_type.toLowerCase() == "html_area"
 		)
 		{
 			result.push('<option>max_length</option>');
@@ -1648,6 +1653,7 @@ function editor_add_to_children(e, p_ui)
 			case "time":
 			case "address":
 			case "textarea":
+            case "html_area":
 			case "boolean":
 			case "label":
 			case "button":
