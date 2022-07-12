@@ -41,8 +41,8 @@
     <p class="mb-4"><strong>Report Generated:</strong> <span id="report_datetime">@DateTime.Now.ToString("MMM d, yyyy hh:mm:ss tt")</span> by <span id=uid>@userName</span><br/>
     <span id="reporting_state" class="mb-4"></span>
     </p>
-                <h2>Please wait...</h2>
-                            <h2>Your request is being processed. This might take several minutes.</h2>
+                <h2 id="header">Please wait...</h2>
+                <h2 id="output">Your request is being processed. This might take several minutes.</h2>
                 <span class="spinner-container spinner-content" style="display: none;">
                     <span class="spinner-body text-primary">
                         <span class="spinner"></span>
@@ -50,7 +50,6 @@
                     </span>
                 </span>
     <dialog  id="loading-modal" style="top:15%;width:320px;" class="p-0 set-radius"></dialog>
-    <div id="output"> </div>
 
 
     <input id="lat" name="lat" value="@Model.lat" />

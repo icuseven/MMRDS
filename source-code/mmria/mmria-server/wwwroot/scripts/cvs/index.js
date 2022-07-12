@@ -91,9 +91,13 @@ async function main()
             else if(response.file_status == "error")
             {
                 //console.log(response);
+                const header = document.getElementById("header");
+                const el = document.getElementById("output");
+                header.innerHTML = "Community Vital Sign PDF";
+                el.innerHTML = " An error occured  when calling the Community Vital Signs. Please try again later.";
 
                 is_finished = true;
-                $mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
+                //$mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
             }
             else if(response.file_status == "generating")
             {
