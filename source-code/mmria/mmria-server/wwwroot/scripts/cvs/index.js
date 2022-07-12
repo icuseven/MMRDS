@@ -72,20 +72,43 @@ async function main()
             g_record_id
         )
 
-        if(response.status == 200)
+
+        if(response.file_status != null)
         {
-            console.log(response.body);
+            if(response.file_status == "file ready")
+            {
+                //console.log(response.body);
+                var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`
+
+                document.body.innerHTML = `<embed src="${pdf_url}" type="application/pdf"
+                frameBorder="0"
+                scrolling="auto"
+                height="300px"
+                width="100%" />`
+
+                is_finished = true;
+            }
+            else if(response.file_status == "error")
+            {
+                //console.log(response);
+
+                is_finished = true;
+                $mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
+            }
+            else if(response.file_status == "generating")
+            {
+                //console.log(response);
+            }
+            else
+            {
+                is_finished = true;
+            }
         }
         else
         {
-            console.log(response);
+            is_finished = true;
         }
-
-        is_finished = true;
     }
-    
-
-
 }
 
 window.onload = main;
@@ -127,16 +150,47 @@ async function get_cvs_api_dashboard_info
 
         //console.log(response);
 
+        return response.json();
+    }
+    catch(ex)
+    {
+        return { statusCode: 500, body: ex };
+    }
+}
+
+
+async function get_file(p_id)
+{
+    http://localhost:12345/api/cvsAPI/GA-2012-1234
+
+    var base_url = `${location.protocol}//${location.host}/api/cvsAPI/${p_id}`
+
+    try
+    {
+
+    
+        const response = await fetch
+        (
+            base_url,
+            {
+                method: "GET",
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json, application/xml, text/plain, text/html, *.*'
+                },
+            }
+        )
+
+        //console.log(response);
+
         return response;
     }
     catch(ex)
     {
         return { statusCode: 500, body: ex };
     }
-
-
 }
-
 
 async function pre_render(p_data)
 {

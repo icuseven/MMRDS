@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [Route("community-vital-signs")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]

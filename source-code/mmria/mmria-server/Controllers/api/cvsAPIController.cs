@@ -23,6 +23,14 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public class cvsAPIController: ControllerBase 
 { 
+
+    public class CVS_File_Status
+    {
+        public CVS_File_Status () {}
+
+        public string file_status { get;set; }
+
+    }
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
     string folder_name = null;
@@ -49,15 +57,22 @@ public class cvsAPIController: ControllerBase
 
     [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
     [HttpGet("{id}")]
-    public async System.Threading.Tasks.Task<FileResult> Get (string id)
+    public async System.Threading.Tasks.Task<ActionResult> Get (string id)
     {
 
 
         var file_name = $"CVS-{id}.pdf";
         var file_path = System.IO.Path.Combine(folder_name, file_name);
 
-        byte[] fileBytes = await GetFile(file_path);
-        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+        if(System.IO.File.Exists(file_path))
+        {
+            byte[] fileBytes = await GetFile(file_path);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+        }
+        else
+        {
+            return NotFound();
+        }
 
 
     }
@@ -186,25 +201,55 @@ public class cvsAPIController: ControllerBase
 "body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
 "isBase64Encoded": true
 */
+                    var file_status_result = new CVS_File_Status();
 
                     if
                     (
-                        responseDictionary != null &&
-                        responseDictionary.ContainsKey("isBase64Encoded") &&
-                        responseDictionary["isBase64Encoded"] != null &&
-                        responseDictionary["isBase64Encoded"].ToString() == "True"
+                        responseDictionary != null 
                     )
                     {
-                        var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
-                        var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
+                        
 
-                        var file_path = System.IO.Path.Combine(folder_name, $"CVS-{post_payload.id}.pdf");
+                        if
+                        (
+                            responseDictionary.ContainsKey("isBase64Encoded") &&
+                            responseDictionary["isBase64Encoded"] != null &&
+                            responseDictionary["isBase64Encoded"].ToString() == "True"
+                        )
+                        {
+                            var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
+                            var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
 
-                        System.IO.File.WriteAllBytes(file_path, bytes);
+                            var file_path = System.IO.Path.Combine(folder_name, $"CVS-{post_payload.id}.pdf");
 
-                        result = Ok("{ \"file_status\": \"ready\" }");
+                            System.IO.File.WriteAllBytes(file_path, bytes);
+
+                            file_status_result.file_status = "file ready";
+
+                        }
+                        else if
+                        (
+                            responseDictionary.ContainsKey("body") &&
+                            responseDictionary["body"].ToString().StartsWith("PDF ")
+                        )
+                        {
+                            file_status_result.file_status = "generating";
+                        }
+                        else
+                        {
+                            file_status_result.file_status = "error";
+                        }
+
+
+       
 
                     }
+                    else
+                    {
+                        file_status_result.file_status = "error";
+                    }
+                    result = Ok(file_status_result);
+                    
                     break;
             }
         }
