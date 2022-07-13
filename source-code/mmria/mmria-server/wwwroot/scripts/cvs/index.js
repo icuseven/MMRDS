@@ -3,7 +3,7 @@ var g_lon  = null;
 var g_year = null;
 var g_record_id = null;
 var output_element = null;
-var report_output_element = null;
+var report_log = [];
 
 const bc = new BroadcastChannel('cvs_channel');
 bc.onmessage = (message_data) => {
@@ -58,12 +58,18 @@ async function main()
     g_lat = document.getElementById("lat").value;
     g_lon = document.getElementById("lon").value;
     g_year = document.getElementById("year").value;
-    g_record_id = document.getElementById("id").value
+    g_record_id = document.getElementById("id").value;
+
+    const report_output_element = document.getElementById("report_output_id");
+
+    
 
     let is_finished = false;
 
     while(! is_finished)
     {
+        report_log.push(`calling community vital signs service @ ${new Date()}`)
+        report_output_element.innerHTML = `<hr/><br/><pre>${report_log.join("\n\n")}</pre>`;
         const response = await get_cvs_api_dashboard_info
         (
             g_lat,
@@ -75,6 +81,7 @@ async function main()
 
         if(response.file_status != null)
         {
+            report_log.push(`file_status: ${response.file_status} @ ${new Date()}`);
             if(response.file_status == "file ready")
             {
                 //console.log(response.body);
@@ -93,8 +100,8 @@ async function main()
                 //console.log(response);
                 const header = document.getElementById("header");
                 const el = document.getElementById("output");
-                header.innerHTML = "Community Vital Sign PDF";
-                el.innerHTML = " An error occured  when calling the Community Vital Signs. Please try again later.";
+                header.innerHTML = "Error: Community Vital Sign PDF";
+                el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
 
                 is_finished = true;
                 //$mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
@@ -105,13 +112,22 @@ async function main()
             }
             else
             {
+                header.innerHTML = "Error: Community Vital Sign PDF";
+                el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
+
                 is_finished = true;
             }
         }
         else
         {
+            header.innerHTML = "Error: Community Vital Sign PDF";
+            el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
+
+            report_log.push(`CVS reponse Status Code: ${response.status} @ ${new Date()}`);
             is_finished = true;
         }
+
+        report_output_element.innerHTML = `<hr/><br/><pre>${report_log.join("\n\n")}</pre>`;
     }
 }
 

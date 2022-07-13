@@ -51,11 +51,25 @@
                 </span>
     <dialog  id="loading-modal" style="top:15%;width:320px;" class="p-0 set-radius"></dialog>
 
+    <table border=1>
+        <tr>
+            <th>lat</th>
+            <th>lon</th>
+            <th>year</th>
+            <th>record id</th>
+        </tr>
+        <tr>
+            <td>@Model.lat</td>
+            <td>@Model.lon</td>
+            <td>@Model.year</td>
+            <td>@Model.id</td>
+        </tr>
+    </table>
 
-    <input id="lat" name="lat" value="@Model.lat" />
-    <input id="lon" name="lon" value="@Model.lon" />
-    <input id="year" name="year" value="@Model.year" />
-    <input id="id" name="year" value="@Model.id" />
+    <input type="hidden" id="lat" name="lat" value="@Model.lat"  />
+    <input type="hidden"  id="lon" name="lon" value="@Model.lon"  />
+    <input type="hidden"  id="year" name="year" value="@Model.year"  />
+    <input type="hidden"  id="id" name="year" value="@Model.id"  />
 
     <div id="report_output_id"></div>
 </main>
