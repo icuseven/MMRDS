@@ -83,7 +83,6 @@ public class BackupSupervisor : ReceiveActor
 
             switch(message.type.ToLower())
             {
-
                 case "cold":
                     ColdBackupStarted = null;
                     break;

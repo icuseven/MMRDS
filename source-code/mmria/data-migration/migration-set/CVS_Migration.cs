@@ -149,6 +149,33 @@ public class CVS_Migration
 						return result;
 					}
 
+					List<(int, string)> get_grid_value(System.Dynamic.ExpandoObject p_doc, string p_path)
+					{
+						var result = new List<(int, string)>();
+
+						var value_result = gs.get_grid_value(p_doc, p_path);
+						if
+						(
+							! value_result.is_error &&
+							value_result.result != null
+						)
+						{
+							foreach(var (index, value) in value_result.result )
+							{
+								if(value != null)
+								{
+									result.Add((index, value.ToString()));
+								}
+								else
+								{
+									result.Add((index, null));
+								}
+							}
+						}
+
+						return result;
+					}
+
 
 					var state_county_fips = get_value(doc, "death_certificate/place_of_last_residence/state_county_fips");
 					var  census_tract_fips = get_value(doc, "death_certificate/place_of_last_residence/census_tract_fips");
@@ -164,6 +191,20 @@ public class CVS_Migration
 						var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
 
 
+						// check if record already populated
+						///cvs/cvs_grid/cvs_api_request_result_message
+
+						var api_result_message = get_grid_value(doc, "cvs/cvs_grid/cvs_api_request_result_message");
+
+						if(api_result_message.Count > 0)
+						{
+							var api_result_text = api_result_message[0].Item2;
+							if(api_result_text.IndexOf("success") > -1)
+							{
+								break;
+							}
+						}
+
 						if(case_change_count == 0)
 						{
 							case_change_count += 1;
@@ -171,6 +212,11 @@ public class CVS_Migration
 						}
 						/*
 						
+
+						                var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
+                mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
+                var list = new_cvs_form["cvs"] as IList<object>;
+
 						case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
 						var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
 						this.output_builder.AppendLine(output_text);
