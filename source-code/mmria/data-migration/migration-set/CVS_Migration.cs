@@ -718,13 +718,14 @@ cvs_api_request_result_message
 
 	public async Task<string> GetCVSData
     (
-        mmria.common.cvs.post_payload post_payload
+		string c_geoid,
+		string t_geoid,
+		string year
     ) 
     { 
 
         string result = null;
         var response_string = string.Empty;
-        System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
 
@@ -738,13 +739,9 @@ cvs_api_request_result_message
 				payload = new()
 				{
 					
-					c_geoid = post_payload.c_geoid,
-					t_geoid = post_payload.t_geoid,
-					year = post_payload.year
-					/*
-					c_geoid = "13089",
-					t_geoid = "13089021204",
-					year = "2012"*/
+					c_geoid = c_geoid,
+					t_geoid = t_geoid,
+					year = year
 				}
 			};
 
