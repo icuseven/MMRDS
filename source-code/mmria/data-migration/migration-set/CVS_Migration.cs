@@ -132,11 +132,11 @@ public class CVS_Migration
 						continue;
 					}
 
-					string get_value(System.Dynamic.ExpandoObject p_doc, string p_path)
+					string get_value(string p_path)
 					{
 						var result = String.Empty;
 
-						value_result = gs.get_value(p_doc, p_path);
+						value_result = gs.get_value(doc, p_path);
 						if
 						(
 							! value_result.is_error &&
@@ -149,11 +149,11 @@ public class CVS_Migration
 						return result;
 					}
 
-					List<(int, string)> get_grid_value(System.Dynamic.ExpandoObject p_doc, string p_path)
+					List<(int, string)> get_grid_value(string p_path)
 					{
 						var result = new List<(int, string)>();
 
-						var value_result = gs.get_grid_value(p_doc, p_path);
+						var value_result = gs.get_grid_value(doc, p_path);
 						if
 						(
 							! value_result.is_error &&
@@ -177,9 +177,16 @@ public class CVS_Migration
 					}
 
 
-					var state_county_fips = get_value(doc, "death_certificate/place_of_last_residence/state_county_fips");
-					var  census_tract_fips = get_value(doc, "death_certificate/place_of_last_residence/census_tract_fips");
-					var  year = get_value(doc, "home_record/date_of_death/year");
+					
+					void set_grid_value(string p_path, List<(int, dynamic)> p_value_list)
+					{
+						case_has_changed = case_has_changed &&  gs.set_grid_value(doc, p_path, p_value_list);
+					}
+
+
+					var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
+					var  census_tract_fips = get_value("death_certificate/place_of_last_residence/census_tract_fips");
+					var  year = get_value("home_record/date_of_death/year");
 
 					if
 					(
@@ -194,7 +201,7 @@ public class CVS_Migration
 						// check if record already populated
 						///cvs/cvs_grid/cvs_api_request_result_message
 
-						var api_result_message = get_grid_value(doc, "cvs/cvs_grid/cvs_api_request_result_message");
+						var api_result_message = get_grid_value("cvs/cvs_grid/cvs_api_request_result_message");
 
 						if(api_result_message.Count > 0)
 						{
@@ -210,26 +217,88 @@ public class CVS_Migration
 							case_change_count += 1;
 							case_has_changed = true;
 						}
-						/*
 						
+						
+						var cvs_list = new List<object>();
 
-						                var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
-                mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
-                var list = new_cvs_form["cvs"] as IList<object>;
+						var cvs_form_metadata = new mmria.common.metadata.node();
 
+						foreach(var child in metadata.children)
+						{
+							if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
+							{
+								cvs_form_metadata = child;
+							}
+						}
+
+						var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
+						mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
+						var list = new_cvs_form["cvs"] as IList<object>;
+
+/*
 						case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
+
+                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
+                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
+                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
+                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
+                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
+                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
+                    cvs_mdrate_county: p_result.county.mDrate,
+                    cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
+                    cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
+                    cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
+                    cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
+                    cvs_pctmove_county: p_result.county.pctMOVE,
+                    cvs_pctmove_tract: p_result.tract.pctMOVE,
+                    cvs_pctsphh_county: p_result.county.pctSPHH,
+                    cvs_pctsphh_tract: p_result.tract.pctSPHH,
+                    cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
+                    cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
+                    cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
+                    cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
+                    cvs_pct_less_well_county: p_result.county.pct_less_well,
+                    cvs_pct_less_well_tract: p_result.tract.pct_less_well,
+                    cvs_ndi_raw_county: p_result.county.ndI_raw,
+                    cvs_ndi_raw_tract: p_result.tract.ndI_raw,
+                    cvs_pctpov_county: p_result.county.pctPOV,
+                    cvs_pctpov_tract: p_result.tract.pctPOV,
+                    cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
+                    cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
+                    cvs_medhhinc_county: p_result.county.medhhinc,
+                    cvs_medhhinc_tract: p_result.tract.medhhinc,
+                    cvs_pctobese_county: p_result.county.pctOBESE,
+                    cvs_fi_county: p_result.county.fi,
+                    cvs_cnmrate_county: p_result.county.cnMrate,
+                    cvs_obgynrate_county: p_result.county.obgyNrate,
+                    cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
+                    cvs_rtstd_county: p_result.county.rtSTD,
+                    cvs_rtmhpract_county: p_result.county.rtMHPRACT,
+                    cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
+                    cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
+                    cvs_soccap_county: p_result.county.socCap,
+                    cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
+                    cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
+                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
+                    cvs_isolation_county: p_result.county.isolation
+*/
+						cvs_list.Add(list[0]);
+
+ 						var new_case_dictionary = doc as IDictionary<string, object>;
+						if(new_case_dictionary != null)
+						{
+							new_case_dictionary["cvs"] = cvs_list;
+						}
+
+/*
+
 						var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
 						this.output_builder.AppendLine(output_text);
 						Console.WriteLine(output_text);
-
-
-						g_data.cvs.cvs_grid = [ new_grid_item ];
-
 						*/
-
-
-
 					}
+
+
 /*
 
 
