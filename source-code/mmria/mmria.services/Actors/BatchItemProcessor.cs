@@ -1212,11 +1212,13 @@ public class BatchItemProcessor : ReceiveActor
                 }
 
 
-                bool set_grid_value(string p_path, List<(int, dynamic)> p_value_list)
+                //bool set_grid_value(string p_path, List<(int, dynamic)> p_value_list)
+                bool set_grid_value(string p_path, dynamic p_value_list)
+
                 {
                     var result = true;
 
-                    result = result && gs.set_grid_value(new_case, p_path, p_value_list);
+                    result = result &&  gs.set_grid_value(new_case, p_path, new List<(int, dynamic)>() { ( 0, p_value_list) });
 
                     return result;
                 }
@@ -11831,6 +11833,9 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
     }
 
 
+
+
+
 	public async Task<string> GetCVSData
     (
         mmria.common.cvs.post_payload post_payload,
@@ -11847,85 +11852,29 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
         try
         {
             
-
-            switch(post_payload.action)
+            var get_all_data_body = new mmria.common.cvs.get_all_data_post_body()
             {
-                case "server":
-                    var sever_status_body = new mmria.common.cvs.server_status_post_body()
-                    {
-                        id = ConfigDB.name_value["cvs_api_id"],
-                        secret = ConfigDB.name_value["cvs_api_key"],
-
-                    };
-
-                    var body_text =  System.Text.Json.JsonSerializer.Serialize(sever_status_body);
-                    var server_statu_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
-
-                    response_string = await server_statu_curl.executeAsync();
-                    System.Console.WriteLine(response_string);
-
-    
-                break;
-                case "data":
-
-                        var get_all_data_body = new mmria.common.cvs.get_all_data_post_body()
-                        {
-                            id = ConfigDB.name_value["cvs_api_id"],
-                            secret = ConfigDB.name_value["cvs_api_key"],
-                            payload = new()
-                            {
-                                
-                                c_geoid = post_payload.c_geoid,
-                                t_geoid = post_payload.t_geoid,
-                                year = post_payload.year
-                                /*
-                                c_geoid = "13089",
-                                t_geoid = "13089021204",
-                                year = "2012"*/
-                            }
-                        };
-
-                        body_text =  System.Text.Json.JsonSerializer.Serialize(get_all_data_body);
-                        var get_all_data_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
-
-                        response_string = await get_all_data_curl.executeAsync();
-                        System.Console.WriteLine(response_string);
+                id = ConfigDB.name_value["cvs_api_id"],
+                secret = ConfigDB.name_value["cvs_api_key"],
+                payload = new()
+                {
                     
+                    c_geoid = post_payload.c_geoid,
+                    t_geoid = post_payload.t_geoid,
+                    year = post_payload.year
+                    /*
+                    c_geoid = "13089",
+                    t_geoid = "13089021204",
+                    year = "2012"*/
+                }
+            };
 
-                    break;
+            var body_text =  System.Text.Json.JsonSerializer.Serialize(get_all_data_body);
+            var get_all_data_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
 
-                case "dashboard":
-                    var get_dashboard_body = new mmria.common.cvs.get_dashboard_post_body()
-                    {
-                        id = ConfigDB.name_value["cvs_api_id"],
-                        secret = ConfigDB.name_value["cvs_api_key"],
-                        payload = new()
-                        {
-                            lat = post_payload.lat,
-                            lon = post_payload.lon, 
-                            year= post_payload.year,
-                            id = post_payload.id
-                        }
-                    };
-
-                    body_text = System.Text.Json.JsonSerializer.Serialize(get_dashboard_body);
-                    var get_dashboard_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
-
-                    response_string = await get_dashboard_curl.executeAsync();
-                    System.Console.WriteLine(response_string);
-
-                    responseDictionary = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string) as IDictionary<string,object>;
-
-
-/*
-"body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
-"body": "\"PDF is being created!\""
-"body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
-"isBase64Encoded": true
-*/
-
-                    break;
-            }
+            response_string = await get_all_data_curl.executeAsync();
+            System.Console.WriteLine(response_string);
+        
         }
         catch(System.Net.WebException ex)
         {
