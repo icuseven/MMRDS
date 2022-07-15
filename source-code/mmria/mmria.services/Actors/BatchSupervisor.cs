@@ -35,6 +35,25 @@ public class BatchSupervisor : ReceiveActor
 
         Receive<mmria.common.ije.NewIJESet_Message>(message =>
         {
+
+                string ping_result = null;
+                int ping_count = 0;
+                
+                while
+                (
+                    (
+                        ping_result == null ||
+                        ping_result != "Server is up!"
+                    ) && 
+                    ping_count < 5
+                )   
+                {
+                    ping_result = PingCVSServer(mmria.services.vitalsimport.Program.DbConfigSet);
+                    ping_count +=1;
+
+                }
+
+
             batch_id_list.Add(message.batch_id, mmria.common.ije.Batch.StatusEnum.InProcess);
             var batch_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchProcessor>(message.batch_id);
             batch_processor.Tell(message);
@@ -94,13 +113,12 @@ public class BatchSupervisor : ReceiveActor
     }
 
 
-    public async Task<string> PingCVSServer
+    public string PingCVSServer
     (
         mmria.common.couchdb.ConfigurationSet ConfigDB
     ) 
     { 
 
-        string result = null;
         var response_string = string.Empty;
         System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
 
@@ -119,7 +137,7 @@ public class BatchSupervisor : ReceiveActor
             var body_text =  System.Text.Json.JsonSerializer.Serialize(sever_status_body);
             var server_statu_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
 
-            response_string = await server_statu_curl.executeAsync();
+            response_string = server_statu_curl.execute();
             System.Console.WriteLine(response_string);
 
         }
@@ -135,18 +153,8 @@ public class BatchSupervisor : ReceiveActor
                 instance: HttpContext.Request.Path
             );*/
         }
+//"Server is up!"
 
-
-        if(result == null)
-        {
-            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
-            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
-        }
-        else
-        {
-            return null;
-            //return result;
-        }
 
         return response_string;
     }

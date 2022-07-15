@@ -77,6 +77,26 @@ public class CVS_Migration
 
 		try
 		{
+
+                string ping_result = null;
+                int ping_count = 0;
+                
+                while
+                (
+                    (
+                        ping_result == null ||
+                        ping_result != "Server is up!"
+                    ) && 
+                    ping_count < 5
+                )
+                {
+                    ping_result = await PingCVSServer();
+
+                    ping_count +=1;
+
+                }
+
+
 			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
 			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
 
@@ -258,7 +278,7 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
 							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
 							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
-							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle,                                  );
+							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle);
 							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", tract_county_result.tract.pctNoVehicle);
 							set_grid_value("cvs/cvs_grid/cvs_pctmove_county", tract_county_result.county.pctMOVE);
 							set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", tract_county_result.tract.pctMOVE);
@@ -680,15 +700,11 @@ cvs_api_request_result_message
 		}
 
 
-	public async Task<string> PingCVSServer
-    (
-        mmria.common.cvs.post_payload post_payload
-    ) 
+	public async Task<string> PingCVSServer() 
     { 
 
         string result = null;
         var response_string = string.Empty;
-        System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
 
@@ -722,17 +738,6 @@ cvs_api_request_result_message
             );*/
         }
 
-
-        if(result == null)
-        {
-            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
-            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
-        }
-        else
-        {
-            return null;
-            //return result;
-        }
 
         return response_string;
     }	
