@@ -702,9 +702,7 @@ cvs_api_request_result_message
 
 	public async Task<string> PingCVSServer() 
     { 
-
-        string result = null;
-        var response_string = string.Empty;
+        var response_string = "";
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
 
@@ -739,7 +737,7 @@ cvs_api_request_result_message
         }
 
 
-        return response_string;
+        return response_string.Trim('"');
     }	
 
 	public async Task<(string, mmria.common.cvs.tract_county_result)> GetCVSData

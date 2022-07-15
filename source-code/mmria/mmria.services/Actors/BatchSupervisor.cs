@@ -118,11 +118,7 @@ public class BatchSupervisor : ReceiveActor
         mmria.common.couchdb.ConfigurationSet ConfigDB
     ) 
     { 
-
-        var response_string = string.Empty;
-        System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
-
-
+        var response_string = "";
         try
         {
             var base_url = ConfigDB.name_value["cvs_api_url"];
@@ -156,6 +152,6 @@ public class BatchSupervisor : ReceiveActor
 //"Server is up!"
 
 
-        return response_string;
+        return response_string.Trim('"');
     }
 }

@@ -131,6 +131,76 @@ public class v2_9_Migration
 
 
 
+/*							4 - How was this Death Identified? (Select All That Apply)*
+								hr_hwtd_ident
+								
+								[ 9999, 1 ]
+								[ 1, 7777 ]
+
+								*/
+
+
+					var hr_hwtd_ident_path = "home_record/how_was_this_death_identified";
+
+					value_result = gs.get_value(doc, hr_hwtd_ident_path);
+
+					if
+					(
+						!value_result.is_error &&
+						value_result.result != null &&
+						value_result.result is List<object>
+					)
+					{
+						var ListOfObject =  value_result.result as List<object>;
+						if
+						(
+							ListOfObject.Count > 1 &&
+							(
+								ListOfObject.Contains(9999) ||
+								ListOfObject.Contains("9999") ||
+								ListOfObject.Contains(7777) ||
+								ListOfObject.Contains("7777")
+							)
+
+
+						)
+						{
+
+								int index = ListOfObject.IndexOf(9999);
+								if(index < 0)
+									index = ListOfObject.IndexOf("9999");
+								if(index < 0)
+									index = ListOfObject.IndexOf(7777);
+								if(index < 0)
+									index = ListOfObject.IndexOf("7777");
+							
+
+								if(index > -1)
+								{
+									if(case_change_count == 0)
+									{
+										case_change_count += 1;
+										case_has_changed = true;
+									}
+
+									ListOfObject.Remove(ListOfObject[index]);
+
+
+									case_has_changed = case_has_changed && gs.set_multi_value(hr_hwtd_ident_path, ListOfObject, doc);
+									var output_text = $"item record_id: {mmria_id} path:{hr_hwtd_ident_path} set from {string.Join(",",value_result.result)} => {string.Join(",",ListOfObject)}";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+								else
+								{
+									System.Console.WriteLine("This should not happen");
+								}
+
+						}
+					}
+
+
+
 					/*
 					06_PCR_05_PrgHis (3)
 					pphdg_b_weigh_uom
