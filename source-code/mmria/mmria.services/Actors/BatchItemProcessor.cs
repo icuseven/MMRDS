@@ -1254,7 +1254,21 @@ public class BatchItemProcessor : ReceiveActor
                 {
                     var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
 
-                    /*
+/*
+                    var tract_county_result = await GetCVSData
+                    (
+                        state_county_fips,
+                        t_geoid,
+                        year
+                    );
+
+
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_url", ConfigDB.name_value["cvs_api_url"]);
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", DateTime.Now.ToString("o"));
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_year", year);
+                    
 
 
                     cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
@@ -11836,7 +11850,7 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
 
 
 
-	public async Task<string> GetCVSData
+	public async Task<mmria.common.cvs.tract_county_result> GetCVSData
     (
         string c_geoid,
 		string t_geoid,
@@ -11845,7 +11859,7 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
     ) 
     { 
 
-        string result = null;
+        mmria.common.cvs.tract_county_result result = null;
         var response_string = string.Empty;
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
@@ -11871,6 +11885,8 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
 
             response_string = await get_all_data_curl.executeAsync();
             System.Console.WriteLine(response_string);
+
+            result = System.Text.Json.JsonSerializer.Deserialize<mmria.common.cvs.tract_county_result>(response_string);
         
         }
         catch(System.Net.WebException ex)
@@ -11886,19 +11902,7 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
             );*/
         }
 
-
-        if(result == null)
-        {
-            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
-            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
-        }
-        else
-        {
-            return null;
-            //return result;
-        }
-
-        return response_string;
+        return result;
     }
 
 }

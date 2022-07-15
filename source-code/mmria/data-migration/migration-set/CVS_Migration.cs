@@ -236,6 +236,21 @@ public class CVS_Migration
 						var list = new_cvs_form["cvs"] as IList<object>;
 
 						var value_list = new List<List<(int, dynamic)>>();
+
+						var tract_county_result = await GetCVSData
+						(
+							state_county_fips,
+							t_geoid,
+							year
+						);
+
+						set_grid_value("cvs/cvs_grid/cvs_api_request_url", ConfigDB.name_value["cvs_api_url"]);
+						set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", DateTime.Now.ToString("o"));
+						set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
+						set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
+						set_grid_value("cvs/cvs_grid/cvs_api_request_year", year);
+
+
 						//value_list.Add((0, null));
 
 						//set_grid_value("/cvs/cvs_grid/", value_list);
@@ -716,7 +731,7 @@ cvs_api_request_result_message
         return response_string;
     }	
 
-	public async Task<string> GetCVSData
+	public async Task<mmria.common.cvs.tract_county_result> GetCVSData
     (
 		string c_geoid,
 		string t_geoid,
@@ -724,7 +739,7 @@ cvs_api_request_result_message
     ) 
     { 
 
-        string result = null;
+        mmria.common.cvs.tract_county_result result = null;
         var response_string = string.Empty;
 
         var base_url = ConfigDB.name_value["cvs_api_url"];
@@ -750,13 +765,16 @@ cvs_api_request_result_message
 
 			response_string = await get_all_data_curl.executeAsync();
 			System.Console.WriteLine(response_string);
+
+			result = JsonSerializer.Deserialize<mmria.common.cvs.tract_county_result>(response_string);
+
 		
 
              
         }
         catch(System.Net.WebException ex)
         {
-            System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
+            System.Console.WriteLine($"CVS MIGRATIO GetCVSDATA\n{ex}");
             
             /*return Problem(
                 type: "/docs/errors/forbidden",
@@ -767,19 +785,7 @@ cvs_api_request_result_message
             );*/
         }
 
-
-        if(result == null)
-        {
-            //return JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string);
-            //return Ok(JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(response_string));
-        }
-        else
-        {
-            return null;
-            //return result;
-        }
-
-        return response_string;
+        return result;
     }
 	/*
 
