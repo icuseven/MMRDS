@@ -149,6 +149,10 @@ public class BackupColdProcessor : ReceiveActor
             var count_file_path = System.IO.Path.Combine(target_folder, "db_record_count.txt");
             await System.IO.File.WriteAllTextAsync (count_file_path, string.Join('\n',document_text));
 
+
+            count_file_path = System.IO.Path.Combine(root_folder, $"{date_string}-db_record_count.txt");
+            await System.IO.File.WriteAllTextAsync (count_file_path, string.Join('\n',document_text));
+
             mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
 
 
@@ -160,6 +164,8 @@ public class BackupColdProcessor : ReceiveActor
                 encryption_key,
                 target_folder
             );
+
+            System.IO.File.Delete(target_folder);
 
 
         }
