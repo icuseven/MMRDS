@@ -237,7 +237,7 @@ public class CVS_Migration
 
 						var value_list = new List<List<(int, dynamic)>>();
 
-						var tract_county_result = await GetCVSData
+						var (cvs_response_status, tract_county_result) = await GetCVSData
 						(
 							state_county_fips,
 							t_geoid,
@@ -249,8 +249,51 @@ public class CVS_Migration
 						set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
 						set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
 						set_grid_value("cvs/cvs_grid/cvs_api_request_year", year);
+						set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
 
 
+
+						if(cvs_response_status == "success")
+						{
+							set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
+							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
+							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
+							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle,                                  );
+							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", tract_county_result.tract.pctNoVehicle);
+							set_grid_value("cvs/cvs_grid/cvs_pctmove_county", tract_county_result.county.pctMOVE);
+							set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", tract_county_result.tract.pctMOVE);
+							set_grid_value("cvs/cvs_grid/cvs_pctsphh_county", tract_county_result.county.pctSPHH);
+							set_grid_value("cvs/cvs_grid/cvs_pctsphh_tract", tract_county_result.tract.pctSPHH);
+							set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_county", tract_county_result.county.pctOVERCROWDHH);
+							set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_tract", tract_county_result.tract.pctOVERCROWDHH);
+							set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_county", tract_county_result.county.pctOWNER_OCC);
+							set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract", tract_county_result.tract.pctOWNER_OCC);
+							set_grid_value("cvs/cvs_grid/cvs_pct_less_well_county", tract_county_result.county.pct_less_well);
+							set_grid_value("cvs/cvs_grid/cvs_pct_less_well_tract", tract_county_result.tract.pct_less_well);
+							set_grid_value("cvs/cvs_grid/cvs_ndi_raw_county", tract_county_result.county.NDI_raw);
+							set_grid_value("cvs/cvs_grid/cvs_ndi_raw_tract", tract_county_result.tract.NDI_raw);
+							set_grid_value("cvs/cvs_grid/cvs_pctpov_county", tract_county_result.county.pctPOV);
+							set_grid_value("cvs/cvs_grid/cvs_pctpov_tract", tract_county_result.tract.pctPOV);
+							set_grid_value("cvs/cvs_grid/cvs_ice_income_all_county", tract_county_result.county.ICE_INCOME_all);
+							set_grid_value("cvs/cvs_grid/cvs_ice_income_all_tract", tract_county_result.tract.ICE_INCOME_all);
+							set_grid_value("cvs/cvs_grid/cvs_medhhinc_county", tract_county_result.county.MEDHHINC);
+							set_grid_value("cvs/cvs_grid/cvs_medhhinc_tract", tract_county_result.tract.MEDHHINC);
+							set_grid_value("cvs/cvs_grid/cvs_pctobese_county", tract_county_result.county.pctOBESE);
+							set_grid_value("cvs/cvs_grid/cvs_fi_county", tract_county_result.county.FI);
+							set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.CNMrate);
+							set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", tract_county_result.county.OBGYNrate);
+							set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", tract_county_result.county.rtTEENBIRTH);
+							set_grid_value("cvs/cvs_grid/cvs_rtstd_county", tract_county_result.county.rtSTD);
+							set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.rtMHPRACT);
+							set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", tract_county_result.county.rtDRUGODMORTALITY);
+							set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", tract_county_result.county.rtOPIOIDPRESCRIPT);
+							set_grid_value("cvs/cvs_grid/cvs_soccap_county", tract_county_result.county.SocCap);
+							set_grid_value("cvs/cvs_grid/cvs_rtsocassoc_county", tract_county_result.county.rtSocASSOC);
+							set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
+							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
+							set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
+
+						}
 						//value_list.Add((0, null));
 
 						//set_grid_value("/cvs/cvs_grid/", value_list);
@@ -262,44 +305,7 @@ public class CVS_Migration
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    set_grid_value("/cvs/cvs_grid/cvs_mdrate_county: p_result.county.mDrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctmove_county: p_result.county.pctMOVE,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctmove_tract: p_result.tract.pctMOVE,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctsphh_county: p_result.county.pctSPHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctsphh_tract: p_result.tract.pctSPHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pct_less_well_county: p_result.county.pct_less_well,
-                    set_grid_value("/cvs/cvs_grid/cvs_pct_less_well_tract: p_result.tract.pct_less_well,
-                    set_grid_value("/cvs/cvs_grid/cvs_ndi_raw_county: p_result.county.ndI_raw,
-                    set_grid_value("/cvs/cvs_grid/cvs_ndi_raw_tract: p_result.tract.ndI_raw,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctpov_county: p_result.county.pctPOV,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctpov_tract: p_result.tract.pctPOV,
-                    set_grid_value("/cvs/cvs_grid/cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
-                    set_grid_value("/cvs/cvs_grid/cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
-                    set_grid_value("/cvs/cvs_grid/cvs_medhhinc_county: p_result.county.medhhinc,
-                    set_grid_value("/cvs/cvs_grid/cvs_medhhinc_tract: p_result.tract.medhhinc,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctobese_county: p_result.county.pctOBESE,
-                    set_grid_value("/cvs/cvs_grid/cvs_fi_county: p_result.county.fi,
-                    set_grid_value("/cvs/cvs_grid/cvs_cnmrate_county: p_result.county.cnMrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_obgynrate_county: p_result.county.obgyNrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtstd_county: p_result.county.rtSTD,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtmhpract_county: p_result.county.rtMHPRACT,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
-                    set_grid_value("/cvs/cvs_grid/cvs_soccap_county: p_result.county.socCap,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
-                    set_gri/cvs/cvs_grid/cvs_isolation_county: p_result.county.isolation
-
+                    
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_url", value_list);
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
                     set_grid_value("/cvs/cvs_grid/cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
@@ -731,7 +737,7 @@ cvs_api_request_result_message
         return response_string;
     }	
 
-	public async Task<mmria.common.cvs.tract_county_result> GetCVSData
+	public async Task<(string, mmria.common.cvs.tract_county_result)> GetCVSData
     (
 		string c_geoid,
 		string t_geoid,
@@ -774,7 +780,7 @@ cvs_api_request_result_message
         }
         catch(System.Net.WebException ex)
         {
-            System.Console.WriteLine($"CVS MIGRATIO GetCVSDATA\n{ex}");
+            System.Console.WriteLine($"CVS MIGRATION GetCVSDATA\n{ex}");
             
             /*return Problem(
                 type: "/docs/errors/forbidden",
@@ -783,9 +789,11 @@ cvs_api_request_result_message
                 statusCode: (int) ex.Status,
                 instance: HttpContext.Request.Path
             );*/
+
+			return (response_string, null);
         }
 
-        return result;
+        return ("success", result);
     }
 	/*
 
