@@ -35,7 +35,6 @@ public class Backup
 	public async Task<BackupResultMessage> Execute (string [] args)
 	{
 		var result = new BackupResultMessage();
-
 		string export_directory = null;
 
 
@@ -90,6 +89,7 @@ public class Backup
 			System.Console.WriteLine (" example database:http://localhost:5984/metadata");
 			System.Console.WriteLine (" mmria.exe backup user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984/database_name");
 
+
 			result.Status = "Validation Error";
 			result.Detail = "missing database_url";
 			return result;
@@ -101,6 +101,7 @@ public class Backup
 			System.Console.WriteLine (" form user_name:[user_name]");
 			System.Console.WriteLine (" example user_name:user1");
 			System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+
 			result.Status = "Validation Error";
 			result.Detail = "missing user_name";
 			return result;
@@ -112,6 +113,7 @@ public class Backup
 			System.Console.WriteLine (" form password:[password]");
 			System.Console.WriteLine (" example password:secret");
 			System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+
 			result.Status = "Validation Error";
 			result.Detail = "missing password";
 			return result;
@@ -121,7 +123,6 @@ public class Backup
 		try 
 		{
 	
-
 			id_list = await GetIdList();
 
 			result.Doc_ID_Count = id_list.Count;
@@ -134,7 +135,7 @@ public class Backup
 
 			result.Status = "Success";
 			result.SuccessCount = SuccessCount;
-			result.SuccessCount = ErrorCount;
+			result.ErrorCount = ErrorCount;
 			return result;
 
 		}
@@ -142,6 +143,8 @@ public class Backup
 		{
 			Console.WriteLine ("Error in backing up: " + this.database_url);
 			Console.WriteLine (ex);
+
+
 
 			result.Status = $"Error";
 			result.Detail = $"{ex}";
