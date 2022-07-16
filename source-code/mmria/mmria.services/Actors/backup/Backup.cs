@@ -76,12 +76,7 @@ public class Backup
 				}
 			}
 		}
-/*
-		if (!System.IO.Directory.Exists (export_directory)) 
-		{
-			System.IO.Directory.CreateDirectory (export_directory);
-		}
-*/
+
 		if (string.IsNullOrWhiteSpace (this.database_url)) 
 		{
 			System.Console.WriteLine ("missing database_url");
