@@ -185,7 +185,7 @@ public class BackupColdProcessor : ReceiveActor
                 target_folder
             );
 
-            System.IO.Directory.Delete(target_folder);
+            System.IO.Directory.Delete(target_folder, true);
 
 
         }
