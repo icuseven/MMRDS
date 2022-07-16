@@ -80,7 +80,7 @@ public class BackupColdProcessor : ReceiveActor
             System.IO.Directory.CreateDirectory($"{db_folder}/_design");
             
 
-            var number_of_vital_import_docs = await b.Execute
+            var vital_import_backup_result_message = await b.Execute
             (
                 new[]
                 {
@@ -92,7 +92,15 @@ public class BackupColdProcessor : ReceiveActor
                 }
             );
 
-            document_counts.Add(($"database vital_import: {number_of_vital_import_docs}", number_of_vital_import_docs));
+            string detail = "";
+
+            if(vital_import_backup_result_message.Detail!= null)
+            {
+                detail = vital_import_backup_result_message.Detail.Replace("\n", " ");
+            }
+
+            document_counts.Add(($"database vital import: BackupStatus:{vital_import_backup_result_message.Status} SuccessCount:{vital_import_backup_result_message.SuccessCount} ErrorCount:{vital_import_backup_result_message.ErrorCount}  Detail:{detail}", vital_import_backup_result_message.Doc_ID_Count));
+
 
 
             foreach(var kvp in db_config_set.detail_list)
@@ -117,7 +125,7 @@ public class BackupColdProcessor : ReceiveActor
                         db_folder = System.IO.Path.Combine(prefix_folder, db);
                         System.IO.Directory.CreateDirectory($"{db_folder}/_design");
 
-                        var number_of_docs = await b.Execute
+                        var Backup_Result_Message = await b.Execute
                         (
                             new[]
                             {
@@ -129,7 +137,19 @@ public class BackupColdProcessor : ReceiveActor
                             }
                         );
 
-                        document_counts.Add(($"database {prefix} {db} : {number_of_docs}", number_of_docs));
+                        
+                        
+
+                        if(Backup_Result_Message.Detail!= null)
+                        {
+                            detail = Backup_Result_Message.Detail.Replace("\n", " ");
+                        }
+                        else
+                        {
+                            detail = "";
+                        }
+
+                        document_counts.Add(($"database {prefix} {db} BackupStatus:{Backup_Result_Message.Status} SuccessCount:{Backup_Result_Message.SuccessCount} ErrorCount:{Backup_Result_Message.ErrorCount}  Detail:{detail}", Backup_Result_Message.Doc_ID_Count));
 
                     }
                     catch(Exception)
