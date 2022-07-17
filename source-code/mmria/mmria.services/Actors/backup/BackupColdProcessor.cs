@@ -99,7 +99,7 @@ public class BackupColdProcessor : ReceiveActor
                 detail = vital_import_backup_result_message.Detail.Replace("\n", " ");
             }
 
-            document_counts.Add(($"database vital import: BackupStatus:{vital_import_backup_result_message.Status} SuccessCount:{vital_import_backup_result_message.SuccessCount} ErrorCount:{vital_import_backup_result_message.ErrorCount}  Detail:{detail}", vital_import_backup_result_message.Doc_ID_Count));
+            document_counts.Add(($"vital import BackupStatus: {vital_import_backup_result_message.Status} SuccessCount: {vital_import_backup_result_message.SuccessCount} ErrorCount: {vital_import_backup_result_message.ErrorCount}  Detail: {detail}", vital_import_backup_result_message.Doc_ID_Count));
 
 
 
@@ -149,7 +149,7 @@ public class BackupColdProcessor : ReceiveActor
                             detail = "";
                         }
 
-                        document_counts.Add(($"database {prefix} {db} BackupStatus:{Backup_Result_Message.Status} SuccessCount:{Backup_Result_Message.SuccessCount} ErrorCount:{Backup_Result_Message.ErrorCount}  Detail:{detail}", Backup_Result_Message.Doc_ID_Count));
+                        document_counts.Add(($"{prefix} {db} BackupStatus: {Backup_Result_Message.Status} SuccessCount: {Backup_Result_Message.SuccessCount} ErrorCount: {Backup_Result_Message.ErrorCount}  Detail: {detail}", Backup_Result_Message.Doc_ID_Count));
 
                     }
                     catch(Exception)
