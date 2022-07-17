@@ -71,10 +71,9 @@ public class v2_9_Migration
 
 		try
 		{
-			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
+			string MetadataVersion = "22.06.08";
 
-			//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
+			string metadata_url = $"{host_db_url}/metadata/version_specification-{MetadataVersion}/metadata";
 			
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());

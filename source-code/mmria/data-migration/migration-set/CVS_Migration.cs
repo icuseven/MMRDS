@@ -97,10 +97,9 @@ public class CVS_Migration
                 }
 
 
-			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
+			string MetadataVersion = "22.06.08";
 
-			//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
+			string metadata_url = $"{host_db_url}/metadata/version_specification-{MetadataVersion}/metadata";
 			
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
@@ -239,7 +238,7 @@ public class CVS_Migration
 						}
 						
 						
-						var cvs_list = new List<object>();
+						var cvs_list = new List<IDictionary<string,object>>();
 
 						var cvs_form_metadata = new mmria.common.metadata.node();
 
@@ -253,7 +252,7 @@ public class CVS_Migration
 
 						var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
 						mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
-						var list = new_cvs_form["cvs"] as IList<object>;
+						var list = new_cvs_form["cvs"] as IDictionary<string,object>;
 
 						var value_list = new List<List<(int, dynamic)>>();
 
@@ -370,7 +369,7 @@ public class CVS_Migration
                     set_grid_value("/cvs/cvs_grid/cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
                     set_grid_value("/cvs/cvs_grid/cvs_isolation_county: p_result.county.isolation
 */
-						cvs_list.Add(list[0]);
+						cvs_list.Add(list);
 
  						var new_case_dictionary = doc as IDictionary<string, object>;
 						if(new_case_dictionary != null)
