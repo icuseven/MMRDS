@@ -320,70 +320,48 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
 
 						}
-						//value_list.Add((0, null));
+						else
+						{
+							set_grid_value("cvs/cvs_grid/cvs_mdrate_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctmove_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctsphh_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctsphh_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pct_less_well_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pct_less_well_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_ndi_raw_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_ndi_raw_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctpov_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctpov_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_ice_income_all_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_ice_income_all_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_medhhinc_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_medhhinc_tract", "");
+							set_grid_value("cvs/cvs_grid/cvs_pctobese_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_fi_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtstd_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_soccap_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtsocassoc_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", "");
+							set_grid_value("cvs/cvs_grid/cvs_isolation_county", "");
 
-						//set_grid_value("/cvs/cvs_grid/", value_list);
+						}
 
-/*
-						                    set_grid_value("/cvs/cvs_grid/cvs_api_request_url", value_list);
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_url", value_list);
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
-                    set_grid_value("/cvs/cvs_grid/cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    set_grid_value("/cvs/cvs_grid/cvs_mdrate_county: p_result.county.mDrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
-                    set_grid_value("/cvs/cvs_grid/cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctmove_county: p_result.county.pctMOVE,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctmove_tract: p_result.tract.pctMOVE,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctsphh_county: p_result.county.pctSPHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctsphh_tract: p_result.tract.pctSPHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pct_less_well_county: p_result.county.pct_less_well,
-                    set_grid_value("/cvs/cvs_grid/cvs_pct_less_well_tract: p_result.tract.pct_less_well,
-                    set_grid_value("/cvs/cvs_grid/cvs_ndi_raw_county: p_result.county.ndI_raw,
-                    set_grid_value("/cvs/cvs_grid/cvs_ndi_raw_tract: p_result.tract.ndI_raw,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctpov_county: p_result.county.pctPOV,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctpov_tract: p_result.tract.pctPOV,
-                    set_grid_value("/cvs/cvs_grid/cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
-                    set_grid_value("/cvs/cvs_grid/cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
-                    set_grid_value("/cvs/cvs_grid/cvs_medhhinc_county: p_result.county.medhhinc,
-                    set_grid_value("/cvs/cvs_grid/cvs_medhhinc_tract: p_result.tract.medhhinc,
-                    set_grid_value("/cvs/cvs_grid/cvs_pctobese_county: p_result.county.pctOBESE,
-                    set_grid_value("/cvs/cvs_grid/cvs_fi_county: p_result.county.fi,
-                    set_grid_value("/cvs/cvs_grid/cvs_cnmrate_county: p_result.county.cnMrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_obgynrate_county: p_result.county.obgyNrate,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtstd_county: p_result.county.rtSTD,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtmhpract_county: p_result.county.rtMHPRACT,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
-                    set_grid_value("/cvs/cvs_grid/cvs_soccap_county: p_result.county.socCap,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
-                    set_grid_value("/cvs/cvs_grid/cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    set_grid_value("/cvs/cvs_grid/cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
-                    set_grid_value("/cvs/cvs_grid/cvs_isolation_county: p_result.county.isolation
-*/
-
-
-/*
-
-						var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
-						this.output_builder.AppendLine(output_text);
-						Console.WriteLine(output_text);
-						*/
 					}
 
 
