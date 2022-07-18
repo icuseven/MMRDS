@@ -218,6 +218,31 @@ public class CVS_Migration
 
 
 						// check if record already populated
+						var new_case_dictionary = doc as IDictionary<string, object>;
+						if(!new_case_dictionary.ContainsKey("cvs"))
+						{
+
+							var cvs_form_metadata = new mmria.common.metadata.node();
+
+							foreach(var child in metadata.children)
+							{
+								if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
+								{
+									cvs_form_metadata = child;
+								}
+							}
+
+							var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
+							mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
+							var list = new_cvs_form["cvs"] as IDictionary<string,object>;
+
+							if(new_case_dictionary != null)
+							{
+								new_case_dictionary["cvs"] = list;
+							}
+
+						}
+
 						///cvs/cvs_grid/cvs_api_request_result_message
 
 						var api_result_message = get_grid_value("cvs/cvs_grid/cvs_api_request_result_message");
@@ -237,24 +262,6 @@ public class CVS_Migration
 							case_has_changed = true;
 						}
 						
-						
-						var cvs_list = new List<IDictionary<string,object>>();
-
-						var cvs_form_metadata = new mmria.common.metadata.node();
-
-						foreach(var child in metadata.children)
-						{
-							if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
-							{
-								cvs_form_metadata = child;
-							}
-						}
-
-						var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
-						mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
-						var list = new_cvs_form["cvs"] as IDictionary<string,object>;
-
-						var value_list = new List<List<(int, dynamic)>>();
 
 						var (cvs_response_status, tract_county_result) = await GetCVSData
 						(
@@ -369,13 +376,7 @@ public class CVS_Migration
                     set_grid_value("/cvs/cvs_grid/cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
                     set_grid_value("/cvs/cvs_grid/cvs_isolation_county: p_result.county.isolation
 */
-						cvs_list.Add(list);
 
- 						var new_case_dictionary = doc as IDictionary<string, object>;
-						if(new_case_dictionary != null)
-						{
-							new_case_dictionary["cvs"] = cvs_list;
-						}
 
 /*
 

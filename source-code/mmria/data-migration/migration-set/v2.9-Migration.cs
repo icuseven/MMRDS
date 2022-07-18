@@ -71,9 +71,10 @@ public class v2_9_Migration
 
 		try
 		{
-			string MetadataVersion = "22.06.08";
+			string FromMetadataVersion = "22.03.31";
+			string ToMetadataVersion = "22.06.08";
 
-			string metadata_url = $"{host_db_url}/metadata/version_specification-{MetadataVersion}/metadata";
+			string metadata_url = $"{host_db_url}/metadata/version_specification-{FromMetadataVersion}/metadata";
 			
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
@@ -122,7 +123,7 @@ public class v2_9_Migration
 				{
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-					var mmria_id = value_result.result;
+					string mmria_id = value_result.result.ToString();
 					if(mmria_id.IndexOf("_design") > -1)
 					{
 						continue;
@@ -137,6 +138,11 @@ public class v2_9_Migration
 								[ 1, 7777 ]
 
 								*/
+
+					if(mmria_id == "0472264f-d3aa-44c7-b9ca-8d715479cf15")
+					{
+						System.Console.WriteLine("here");
+					}
 
 
 					var hr_hwtd_ident_path = "home_record/how_was_this_death_identified";
@@ -153,18 +159,21 @@ public class v2_9_Migration
 						var ListOfObject =  value_result.result as List<object>;
 						if
 						(
-							ListOfObject.Count > 1 &&
+							ListOfObject.Count > 1 
+
+
+						)
+						{
+
+
+							if
 							(
 								ListOfObject.Contains(9999) ||
 								ListOfObject.Contains("9999") ||
 								ListOfObject.Contains(7777) ||
 								ListOfObject.Contains("7777")
 							)
-
-
-						)
-						{
-
+							{
 								int index = ListOfObject.IndexOf(9999);
 								if(index < 0)
 									index = ListOfObject.IndexOf("9999");
@@ -194,6 +203,7 @@ public class v2_9_Migration
 								{
 									System.Console.WriteLine("This should not happen");
 								}
+							}
 
 						}
 					}

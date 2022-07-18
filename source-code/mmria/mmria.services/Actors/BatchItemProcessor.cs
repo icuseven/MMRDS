@@ -1228,7 +1228,7 @@ public class BatchItemProcessor : ReceiveActor
                 var  year = get_value(new_case, "home_record/date_of_death/year");
 
 
-                var cvs_list = new List<object>();
+
 
                 var cvs_form_metadata = new mmria.common.metadata.node();
 
@@ -1243,6 +1243,11 @@ public class BatchItemProcessor : ReceiveActor
                 var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                 mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
                 var list = new_cvs_form["cvs"] as IList<object>;
+
+                if(new_case_dictionary != null)
+                {
+                    new_case_dictionary["cvs"] = list;
+                }
 
 
                 if
@@ -1375,12 +1380,7 @@ public class BatchItemProcessor : ReceiveActor
                     
                 }
 
-                cvs_list.Add(list[0]);
 
-                if(new_case_dictionary != null)
-                {
-                    new_case_dictionary["cvs"] = cvs_list;
-                }
             }
 
             gs.set_value(IJE_to_MMRIA_Path["DMIDDLE"], mor_field_set["DMIDDLE"], new_case);
