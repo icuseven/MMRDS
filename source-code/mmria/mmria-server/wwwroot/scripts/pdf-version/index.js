@@ -1360,6 +1360,11 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 			let row;
 			let colWidths;
 			let colspan = 0;
+            if(p_metadata.is_hidden && !g_show_hidden)
+            {
+                break;
+            }
+
 			if (p_metadata.is_core_summary && p_metadata.is_core_summary == true) {
 				// Get the number of columns
 				colspan = p_metadata.children.length;
@@ -1782,6 +1787,11 @@ function print_pdf_render_content(ctx) {
 			let colWidths;
 			let colspan = 0;
 
+            if(p_metadata.is_hidden && !g_show_hidden)
+            {
+                break;
+            }
+
 			// Check to see if Committee Decisions / Recommendations of the Committee is blank
 			if (ctx.metadata.name == 'recommendations_of_committee' && ctx.data.length == 0) {
 				break;
@@ -1794,7 +1804,8 @@ function print_pdf_render_content(ctx) {
 			if (ctx.metadata.name == 'transport_vital_signs' ||
 				ctx.metadata.name == 'vital_signs' ||
 				ctx.metadata.name == 'laboratory_tests' ||
-				ctx.metadata.name == 'routine_monitoring'
+				ctx.metadata.name == 'routine_monitoring' ||
+                ctx.metadata.name == 'cvs' 
 			) {
 				colWidths = new Array();
 				colWidths = [30, 100, 200, '*'];
