@@ -157,6 +157,8 @@ public class v2_9_Migration
 					)
 					{
 						var ListOfObject =  value_result.result as List<object>;
+						var answer_set = new HashSet<string>();
+						var item_changed = false;
 						if
 						(
 							ListOfObject.Count > 1 
@@ -164,47 +166,50 @@ public class v2_9_Migration
 
 						)
 						{
-
-
-							if
-							(
-								ListOfObject.Contains(9999) ||
-								ListOfObject.Contains("9999") ||
-								ListOfObject.Contains(7777) ||
-								ListOfObject.Contains("7777")
-							)
+							foreach(var item in ListOfObject)
 							{
-								int index = ListOfObject.IndexOf(9999);
-								if(index < 0)
-									index = ListOfObject.IndexOf("9999");
-								if(index < 0)
-									index = ListOfObject.IndexOf(7777);
-								if(index < 0)
-									index = ListOfObject.IndexOf("7777");
-							
-
-								if(index > -1)
+								if(item.GetType() != typeof(string))
 								{
-									if(case_change_count == 0)
+									if(item != null)
 									{
-										case_change_count += 1;
-										case_has_changed = true;
+										answer_set.Add(item.ToString());
+										item_changed = true;
 									}
-
-									ListOfObject.Remove(ListOfObject[index]);
-
-
-									case_has_changed = case_has_changed && gs.set_multi_value(hr_hwtd_ident_path, ListOfObject, doc);
-									var output_text = $"item record_id: {mmria_id} path:{hr_hwtd_ident_path} set from {string.Join(",",value_result.result)} => {string.Join(",",ListOfObject)}";
-									this.output_builder.AppendLine(output_text);
-									Console.WriteLine(output_text);
 								}
 								else
 								{
-									System.Console.WriteLine("This should not happen");
+									answer_set.Add(item.ToString());
 								}
 							}
 
+							if
+							(
+								answer_set.Contains("9999") ||
+								answer_set.Contains("7777")
+							)
+							{
+								answer_set.Remove("9999");
+								answer_set.Remove("7777");
+
+								item_changed = true;
+							}
+
+							if(item_changed)
+							{
+								if(case_change_count == 0)
+								{
+									case_change_count += 1;
+									case_has_changed = true;
+								}
+
+								var new_list = answer_set.ToList();
+
+
+								case_has_changed = case_has_changed && gs.set_multi_value(hr_hwtd_ident_path, new_list, doc);
+								var output_text = $"item record_id: {mmria_id} path:{hr_hwtd_ident_path} set from {string.Join(",",value_result.result)} => {string.Join(",",new_list)}";
+								this.output_builder.AppendLine(output_text);
+								Console.WriteLine(output_text);
+							}
 						}
 					}
 
