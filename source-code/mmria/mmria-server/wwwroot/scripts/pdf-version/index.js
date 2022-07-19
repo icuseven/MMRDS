@@ -1787,7 +1787,7 @@ function print_pdf_render_content(ctx) {
 			let colWidths;
 			let colspan = 0;
 
-            if(p_metadata.is_hidden && !g_show_hidden)
+            if(ctx.metadata.is_hidden && !g_show_hidden)
             {
                 break;
             }
