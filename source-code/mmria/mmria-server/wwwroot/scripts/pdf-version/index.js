@@ -1805,7 +1805,7 @@ function print_pdf_render_content(ctx) {
 				ctx.metadata.name == 'vital_signs' ||
 				ctx.metadata.name == 'laboratory_tests' ||
 				ctx.metadata.name == 'routine_monitoring' ||
-                ctx.metadata.name == 'cvs' 
+                ctx.metadata.name == 'cvs_grid' 
 			) {
 				colWidths = new Array();
 				colWidths = [30, 100, 200, '*'];
