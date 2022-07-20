@@ -13,43 +13,6 @@ g_lon  = message_data.data.lon;
 g_year = message_data.data.year;
 g_record_id = message_data.data.record_id
 
-/*
-
-"lat":"33.880577",
-      "lon":"-84.29106", 
-      "year":"2012",
-      "id":"GA-2012-1234"
-
-{
-    "statusCode": 200,
-    "headers": {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    },
-    "body": "\"PDF creation has been initiated and should be ready shortly. Please retry API call\""
-}
-
-
-{
-    "statusCode": 200,
-    "body": "\"PDF is being created!\""
-}
-
-
-{
-    "statusCode": 200,
-    "headers": {
-        "Content-type": "application/pdf"
-    },
-    "body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
-    "isBase64Encoded": true
-}
-
-
-
-*/
-
-
     pre_render(message_data.data);
 }
 
@@ -61,8 +24,9 @@ async function main()
     g_record_id = document.getElementById("id").value;
 
     const report_output_element = document.getElementById("report_output_id");
-
-    
+    const spinner = document.getElementById("spinner-id");
+    const header = document.getElementById("header");
+    const el = document.getElementById("output");
 
     let is_finished = false;
 
@@ -84,25 +48,17 @@ async function main()
             report_log.push(`file_status: ${response.file_status} @ ${new Date()}`);
             if(response.file_status == "file ready")
             {
-                //console.log(response.body);
-                var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`
-
-                document.body.innerHTML = `<embed src="${pdf_url}" type="application/pdf"
-                frameBorder="0"
-                scrolling="auto"
-                height="300px"
-                width="100%" />`
+                spinner.innerHTML = `${render_close_button_html()}&nbsp;${render_download_button_html()}`;
 
                 is_finished = true;
             }
             else if(response.file_status == "error")
             {
                 //console.log(response);
-                const header = document.getElementById("header");
-                const el = document.getElementById("output");
+
                 header.innerHTML = "Error: Community Vital Sign PDF";
                 el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
-
+                spinner.innerHTML = render_close_button_html();
                 is_finished = true;
                 //$mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
             }
@@ -114,7 +70,7 @@ async function main()
             {
                 header.innerHTML = "Error: Community Vital Sign PDF";
                 el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
-
+                spinner.innerHTML = render_close_button_html();
                 is_finished = true;
             }
         }
@@ -123,6 +79,7 @@ async function main()
             header.innerHTML = "Error: Community Vital Sign PDF";
             el.innerHTML = "PDF cannot be generated. External Community Vital Signs Server is unavailable. Please try again later.";
 
+            spinner.innerHTML = render_close_button_html();
             report_log.push(`CVS reponse Status Code: ${response.status} @ ${new Date()}`);
             is_finished = true;
         }
@@ -181,7 +138,7 @@ async function get_cvs_api_dashboard_info
 
 async function get_file(p_id)
 {
-    http://localhost:12345/api/cvsAPI/GA-2012-1234
+    //http://localhost:12345/api/cvsAPI/GA-2012-1234
 
     var base_url = `${location.protocol}//${location.host}/api/cvsAPI/${p_id}`
 
@@ -219,28 +176,24 @@ async function pre_render(p_data)
 }
 
 
-function show_loading_modal()
+function render_close_button_html()
 {
-    const el = document.getElementById("loading-modal");    
-    el.innerHTML = `
-    <div style="padding:50px;" class="display-6">
-    <div id="form_content_id" >
-    <span class="spinner-container spinner-content spinner-active">
-        <span class="spinner-body text-primary">
-        <span class="spinner"></span>
-        <span class="spinner-info">Loading...</span>
-        </span>
-    </span>
-    </div>
-    </div>
-`;
-
-    el.showModal();
+    return `<input id="close_button" type="button" value="Close this tab" onclick="window.close();" />`
 }
 
-function close_loading_modal()
+function render_download_button_html()
 {
-    const el = document.getElementById("loading-modal");
-    el.close();    
+    return `<input id="download_button" type="button" value="Close" onclick="download_button_click()" />`
+}
 
+
+function download_button_click()
+{
+    var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`
+
+    document.body.innerHTML = `<embed src="${pdf_url}" type="application/pdf"
+    frameBorder="0"
+    scrolling="auto"
+    height="300px"
+    width="100%" />`
 }

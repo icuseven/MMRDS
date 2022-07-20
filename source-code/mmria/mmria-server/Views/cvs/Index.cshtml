@@ -34,23 +34,35 @@
     <script src="../scripts/cvs/index.js" type="text/javascript"></script>
 
 </head>
+<style>
+    @@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+    .spin {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+    }
+</style>
 <body>
 
 <main id="content">
     <h1 class="h2" tabindex="-1">Community Vital Signs</h1>
     <p class="mb-4"><strong>Report Generated:</strong> <span id="report_datetime">@DateTime.Now.ToString("MMM d, yyyy hh:mm:ss tt")</span> by <span id=uid>@userName</span><br/>
     <span id="reporting_state" class="mb-4"></span>
-    </p>
-                <h2 id="header">Please wait...</h2>
-                <h2 id="output">Your request is being processed. This might take several minutes.</h2>
-                <span class="spinner-container spinner-content" style="display: none;">
-                    <span class="spinner-body text-primary">
-                        <span class="spinner"></span>
-                        <span class="spinner-info">Loading...</span>
-                    </span>
-                </span>
-    <dialog  id="loading-modal" style="top:15%;width:320px;" class="p-0 set-radius"></dialog>
 
+
+
+    </p>
     <table border=1>
         <tr>
             <th>lat</th>
@@ -66,11 +78,18 @@
         </tr>
     </table>
 
+<div class="spinner-border text-muted"></div>
+    
+    <h2 id="header"></h2>
+    <h2 id="output">Generating PDF... This might take several minutes.</h2>
+    <h2 id="spinner-id"><div class="spin"></div></h2>
+
     <input type="hidden" id="lat" name="lat" value="@Model.lat"  />
     <input type="hidden"  id="lon" name="lon" value="@Model.lon"  />
     <input type="hidden"  id="year" name="year" value="@Model.year"  />
     <input type="hidden"  id="id" name="year" value="@Model.id"  />
 
+    
     <div id="report_output_id"></div>
 </main>
 </body>
