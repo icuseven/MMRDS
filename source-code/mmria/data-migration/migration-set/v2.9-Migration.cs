@@ -508,22 +508,14 @@ PS --> PW
 										var us_country_value = "US";
 
 										new_country_list.Add((index, us_country_value));
-										/*
-										case_has_changed = case_has_changed && gs.set_value(p_country_path, us_country_value, doc);
-										var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {us_country_value}";
-										this.output_builder.AppendLine(output_text);
-										Console.WriteLine(output_text);*/
+
 
 										if(p_state_path != null)
 										{
 											var new_state_value = Country_to_State_map[value_result.result.ToString()];
 
 											new_state_list.Add((index, new_state_value));
-											/*
-											case_has_changed = case_has_changed && gs.set_value(p_state_path, new_state_value, doc);
-											output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {new_state_value}";
-											this.output_builder.AppendLine(output_text);
-											Console.WriteLine(output_text);*/
+						
 										}
 									}
 								}
