@@ -84,7 +84,7 @@ async function main()
             is_finished = true;
         }
 
-        report_output_element.innerHTML = `<hr/><br/><pre>${report_log.join("\n\n")}</pre>`;
+        report_output_element.innerHTML = `<ul><li>${report_log.join("</li><li>")}</li></ul>`;
     }
 }
 

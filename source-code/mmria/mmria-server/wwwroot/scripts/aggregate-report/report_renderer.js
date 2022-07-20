@@ -484,7 +484,7 @@ function show_loading_modal()
     </div>
 `;
 
-    ei.showModal();
+    el.showModal();
 }
 
 function close_loading_modal()
