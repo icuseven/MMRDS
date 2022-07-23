@@ -61,6 +61,7 @@ let fdTemplates = {
             (
                 value.type.toLowerCase() === 'hidden' || 
                 value.type.toLowerCase() === 'button' ||
+                value.type.toLowerCase() === 'always_enabled_button' ||
                 (value.is_hidden != null && value.is_hidden == true)
             ) 
             {
@@ -306,7 +307,11 @@ let fdTemplates = {
                             {
                                 groupFields += fdTemplates.formFields.controls.list(newGroupName, value, index);
                             }
-                            else if (value.type.toLowerCase() === 'button') 
+                            else if 
+                            (
+                                value.type.toLowerCase() === 'button' ||
+                                value.type.toLowerCase() === 'always_enabled_button'
+                            ) 
                             {
                                 groupFields += fdTemplates.formFields.controls.button(newGroupName, value, index)
                             } 

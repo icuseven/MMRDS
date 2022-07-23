@@ -493,10 +493,13 @@ formDesigner = {
                 tpl.push(fdTemplates.formFields.prompt(formName, value));
                 tpl.push(fdTemplates.formFields.controls.html_area(formName, value));
                 break;
+            case 'always_enabled_button':
               case 'button':
                 tpl.push(fdTemplates.formFields.prompt(formName, value));
                 tpl.push(fdTemplates.formFields.controls.button(formName, value));
                 break;
+              
+
               case 'chart':
                 tpl.push(fdTemplates.formFields.controls.chart(formName, value));
                 break;

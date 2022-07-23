@@ -193,6 +193,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
        break;
 	    case 'label':
 		case 'button':
+        case 'always_enabled_button':
 		case 'boolean':
 		case 'date':
 		case 'datetime':
@@ -471,6 +472,7 @@ var valid_types = [
 "boolean",
 "label",
 "button",
+"always_enabled_button",
 "address",
 "chart",
 "jurisdiction"
@@ -1657,6 +1659,7 @@ function editor_add_to_children(e, p_ui)
 			case "boolean":
 			case "label":
 			case "button":
+            case "always_enabled_button":
 					eval(item_path).push(md.create_value("new_" + element_value, "new " + element_value + " prompt", element_value));
 
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
