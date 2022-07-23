@@ -31,6 +31,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
 
 		case 'button':
+        case 'always_enabled_button':
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 			break;
 
@@ -352,7 +353,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	// Buttons will have an outer div container with styles assigned to it
 	// and not on the actual input control like everything else
-	if (p_metadata.type === 'button') 
+	if 
+    (
+        p_metadata.type == 'button' ||
+        p_metadata.type == 'always_enabled_button' 
+    ) 
     {
 		p_result.push
         (`
@@ -389,7 +394,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(" style='");
       // Apply styles only to non button types
       // Buttons have their styles applied to a outer wrapper container
-      if(style_object && p_metadata.type !== 'button')
+      if
+      (
+        style_object && 
+        (
+            p_metadata.type != 'button' ||
+            p_metadata.type != 'always_enabled_button'
+        )
+      )
       {
         p_result.push(get_style_string(style_object.control.style));
       }
@@ -416,7 +428,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
     if (p_metadata.type === 'date' && p_metadata.name === 'case_locked_date') p_result.push(` plain-date-control`);
 		
-		if(p_metadata.type=="button") p_result.push(` btn btn-secondary`);
+		if
+        (
+            p_metadata.type=="button" ||
+            p_metadata.type=="always_enabled_button"
+        )
+        { 
+            p_result.push(` btn btn-secondary`); 
+        }
 		
 		p_result.push("' dpath='");
 		p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
@@ -436,7 +455,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			}
 		}
 
-		if(p_metadata.type=="button")
+		if
+        (
+            p_metadata.type=="button" ||
+            p_metadata.type=="always_enabled_button"
+        )
 		{
 			p_result.push("' type='button' name='");
 			p_result.push(p_metadata.name);
@@ -582,7 +605,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	p_result.push("/>");
 	
-	if (p_metadata.type === "button")
+	if 
+    (
+        p_metadata.type == "button" ||
+        p_metadata.type== "always_enabled_button"
+    )
 	{
 		p_result.push(`<span class="spinner-container spinner-small mt-2"><span class="spinner-body text-primary"><span class="spinner"></span><span class="spinnerinfo">Loading...</span></span></span>`);
 		p_result.push("</div>");
