@@ -134,6 +134,7 @@ switch(p_metadata.type.toLowerCase())
 			result.hidden = 1;
 			break;
 		case "button":
+        case "always_enabled_button":
 			result.buttons = 1;
 			break;
 		case "chart":

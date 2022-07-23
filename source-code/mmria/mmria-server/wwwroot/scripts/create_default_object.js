@@ -148,6 +148,7 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
           break;           
     case 'label':
     case 'button':
+    case 'always_enabled_button':
     case 'chart':
             break;
      default:
