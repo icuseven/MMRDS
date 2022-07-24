@@ -42,6 +42,8 @@ var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
 
+var g_is_committee_member_view = false;
+
 let save_start_time, save_end_time;
 
 const g_cvs_api_request_data = new Map();
