@@ -86,7 +86,7 @@ async function main_continue()
             el.innerHTML = "PDF cannot be generated.<br/><span style='color:FF0000;'>External Community Vital Signs Server is unavailable.</span> Please try again later.";
 
             spinner.innerHTML = render_close_button_html();
-            report_log.push(`CVS reponse Status Code: ${response.status} @ ${new Date()}`);
+            report_log.push(`CVS reponse Status Code: ${response.status} @ ${new Date()} ${response.detail}`);
             is_finished = true;
         }
 

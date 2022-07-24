@@ -32,6 +32,8 @@ public class cvsAPIController: ControllerBase
         public string lat { get;set; }
         public string lon { get;set; }
 
+        public bool is_valid_address { get;set; }
+
     }
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
