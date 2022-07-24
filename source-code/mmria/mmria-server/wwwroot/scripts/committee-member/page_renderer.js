@@ -472,24 +472,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
         case 'button':
         case'always_enabled_button':
 	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
-			/*
-			result.push("<input class='button' type='button' id='");
-			result.push(p_object_path);
-			result.push("' ");
-			if(p_metadata.description && p_metadata.description.length > 0)
-			{
-				result.push("rel='tooltip'  data-original-title='");
-				result.push(p_metadata.description.replace(/'/g, "\\'"));
-				result.push("' value='");
-			}
-			else
-			{
-				result.push(" value='");
-			}
 
-			result.push(p_metadata.prompt);
-			result.push("' />");
-			*/
 			break;
 		case 'string':
 			result.push("<div class='string' id='");
@@ -959,20 +942,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			
 			result.push(p_metadata.prompt);
 
-			/*
-			result.push("</span><br/> <input  class='date' type='");
-			//result.push(p_metadata.type.toLowerCase());
-			result.push("text");
-			result.push("' name='");
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data.toISOString().split("T")[0]);
-			result.push("'  onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)'  /></div>");
-			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
 
@@ -992,11 +961,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
 
 	case 'datetime':
-	/*
-			if(typeof(p_data) == "string")
-			{
-				p_data = new Date(p_data);
-			}*/
+
 			result.push("<div class='date' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
 			result.push("'> ");
@@ -1013,20 +978,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			
 			result.push(p_metadata.prompt);
-			/*
-			result.push("</span><br/> <input  class='datetime' type='");
-			//result.push(p_metap_datadata.type.toLowerCase());
-			result.push("text");
-			result.push("'  name='");
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data.toISOString().split("T")[0]);
-			result.push("'  onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)'  /></div>");
-			*/
+
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
 			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
@@ -1065,17 +1017,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			} 
 			
 			result.push(p_metadata.prompt);
-			/*
-			result.push("</span><br/> <input  class='time' type='text' name='");
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data.toISOString().split("T")[1].replace("Z",""));
-			result.push("' onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)'   /></div>");
-			*/
+
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
 			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
@@ -1173,12 +1115,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		
 		//page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
 	}
-/*
-	p_result.push("' onblur='g_set_data_object_from_path(\"");
-	p_result.push(p_object_path);
-	p_result.push("\",\"");
-	p_result.push(p_metadata_path);
-	p_result.push("\",this.value)' /></div>");*/
+
 
 	p_result.push("/>");
 	
@@ -1188,17 +1125,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
 	var post_fix = null;
-
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
 
 	switch(p_event_name)
 	{
@@ -1237,17 +1163,6 @@ var path_to_validation_description = [];
 
 function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
 {
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
-
 	if(p_metadata.onblur && p_metadata.onblur != "")
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
@@ -1295,17 +1210,6 @@ var path_to_validation_description = [];
 
 function page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path, p_ctx)
 {
-/*
-var path_to_int_map = [];
-var path_to_onblur_map = [];
-var path_to_onclick_map = [];
-var path_to_onfocus_map = [];
-var path_to_onchange_map = [];
-var path_to_source_validation = [];
-var path_to_derived_validation = [];
-var path_to_validation_description = [];
-*/
-
 	if(p_metadata.onchange && p_metadata.onchange != "")
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
