@@ -26,6 +26,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			label_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
 			break;
 		case 'button':
+            page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+            break;            
+        case 'always_enabled_button':
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			break;
 		case 'string':
@@ -196,7 +199,14 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<input  disabled='disabled' ");
+    if(p_metadata.type == 'always_enabled_button')
+    {
+	    p_result.push("<input  ");
+    }
+    else
+    {
+        p_result.push("<input  disabled='disabled' ");
+    }
 
     p_result.push(" style='");
     
@@ -219,7 +229,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
     p_result.push("' ");
 
 
-	p_result.push("class='form-control disabled ");
+    if(p_metadata.type == 'always_enabled_button')
+    {
+	    p_result.push("class='form-control ");
+    }
+    else
+    {
+        p_result.push("class='form-control disabled ");
+    }
 	p_result.push(p_metadata.type.toLowerCase());
 	
 	if
@@ -233,7 +250,12 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 	
 	
-	if(p_metadata.type=="button")
+	if
+    (
+        p_metadata.type=="button" ||
+        p_metadata.type=="always_enabled_button"
+
+    )
 	{
 		p_result.push(" btn btn-primary");
 	}
@@ -241,7 +263,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	p_result.push("' dpath='");
 	p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
 	
-	if(p_metadata.type=="button")
+	if
+    (
+        p_metadata.type=="button" ||
+        p_metadata.type=="always_enabled_button"
+    )
 	{
 		p_result.push("' type='button' name='");
 		p_result.push(p_metadata.name);
@@ -295,9 +321,81 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	
 	}
 
+    if(p_metadata.type == "always_enabled_button")
+    {
+        let f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+
+        if(path_to_onclick_map[p_metadata_path])
+        {
+            page_render_create_always_enabled_click_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path);//, p_ctx);
+        }
+    }
+
 	p_result.push("/>");
 
 	
+}
+
+function page_render_create_always_enabled_click_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+{
+	var post_fix = null;
+
+  /*
+  var path_to_int_map = [];
+  var path_to_onblur_map = [];
+  var path_to_onclick_map = [];
+  var path_to_onfocus_map = [];
+  var path_to_onchange_map = [];
+  var path_to_source_validation = [];
+  var path_to_derived_validation = [];
+  var path_to_validation_description = [];
+  */
+
+	switch(p_event_name)
+	{
+		case "onfocus":
+			post_fix = "_of";
+			break;
+		case "onchange":
+			post_fix = "_och";
+			break;
+		case "onclick":
+			post_fix = "_ocl";
+			break;
+		default:
+			console.log("page_render_create_event - missing case: " + p_event_name);
+			break;
+	}
+
+	//var source_code = escodegen.generate(p_metadata.onfocus);
+	var code_array = [];
+	
+	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
+	code_array.push(".call(");
+	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+	code_array.push(", this")
+	if(p_ctx!=null)
+	{
+		if(p_ctx.form_index != null)
+		{
+			code_array.push(", ");
+			code_array.push(p_ctx.form_index);
+		}
+
+		if(p_ctx.grid_index != null)
+		{
+			code_array.push(", ");
+			code_array.push(p_ctx.grid_index);
+		}
+	}
+	
+	code_array.push(");")
+
+	p_result.push(" ");
+	p_result.push(p_event_name);
+	p_result.push("='");
+	p_result.push(code_array.join('').replace(/'/g,"\""));
+	p_result.push("'");
 }
 
 

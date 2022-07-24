@@ -469,7 +469,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata.prompt);
 			result.push("</div>");
 			break;
-     case 'button':
+        case 'button':
+        case'always_enabled_button':
 	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
 			/*
 			result.push("<input class='button' type='button' id='");
@@ -1105,7 +1106,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
-	if(p_metadata.type=="button")
+	if
+    (
+        p_metadata.type=="button" ||
+        p_metadata.type=="always_enabled_button"
+    )
 	{
 		p_result.push("' type='button' name='");
 		p_result.push(p_metadata.name);
