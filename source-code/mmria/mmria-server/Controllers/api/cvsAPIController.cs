@@ -29,8 +29,10 @@ public class cvsAPIController: ControllerBase
         public CVS_File_Status () {}
 
         public string file_status { get;set; }
-        public string lat { get;set; }
-        public string lon { get;set; }
+        public string updated_lat { get;set; }
+        public string updated_lon { get;set; }
+
+        public string updated_year { get;set; }
 
         public bool is_valid_address { get;set; }
 
@@ -177,6 +179,9 @@ public class cvsAPIController: ControllerBase
                     break;
 
                 case "dashboard":
+
+                    var file_status_result = new CVS_File_Status();
+
                     var get_dashboard_body = new get_dashboard_post_body()
                     {
                         id = ConfigDB.name_value["cvs_api_id"],
@@ -244,6 +249,9 @@ public class cvsAPIController: ControllerBase
 
                                         get_dashboard_body.payload.lat = place_of_last_residence["latitude"].ToString();
                                         get_dashboard_body.payload.lon = place_of_last_residence["longitude"].ToString();
+
+                                        file_status_result.updated_lat = get_dashboard_body.payload.lat;
+                                        file_status_result.updated_lon = get_dashboard_body.payload.lon;
                                     }
                                 }
                             }
@@ -271,7 +279,7 @@ public class cvsAPIController: ControllerBase
 "body": "JVBERi0xLjQKJazcIKu6CjEgMCBvYmoKPDwgL1BhZ2VzIDIgMCBSIC9UeXBlIC9DYXRhbG9nID4YXRlRGVjb2RlIC9MZW5 [TRUNCATED]",
 "isBase64Encoded": true
 */
-                    var file_status_result = new CVS_File_Status();
+                    
 
                     if
                     (
