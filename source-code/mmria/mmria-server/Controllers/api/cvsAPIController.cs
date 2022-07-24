@@ -29,6 +29,8 @@ public class cvsAPIController: ControllerBase
         public CVS_File_Status () {}
 
         public string file_status { get;set; }
+        public string lat { get;set; }
+        public string lon { get;set; }
 
     }
     mmria.common.couchdb.ConfigurationSet ConfigDB;
@@ -185,6 +187,72 @@ public class cvsAPIController: ControllerBase
                             id = post_payload.id
                         }
                     };
+
+                    if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.lat))
+                    {
+                        try
+                        {
+                            
+                            string view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=30000&descending=true";
+                            var case_view_curl = new cURL("GET", null, view_request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                            string responseFromServer = await case_view_curl.executeAsync();
+
+
+
+                            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                            
+                            var data = case_view_response.rows
+                                .Where
+                                (
+                                    cvi => cvi.value.record_id.Equals(post_payload.id, StringComparison.OrdinalIgnoreCase)
+                                ).FirstOrDefault();
+
+                            string case_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{data.id}";
+
+
+                            var case_curl = new cURL("GET", null, case_request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                            string case_response = await case_curl.executeAsync();
+
+                            var case_dictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (case_response) as IDictionary<string,object>;
+                            if
+                            (
+                                case_dictionary != null &&
+                                case_dictionary.ContainsKey("death_certificate")
+                            )
+                            {
+                                var death_certificate = case_dictionary["death_certificate"] as IDictionary<string,object>;
+
+                                if
+                                (
+                                    death_certificate != null &&
+                                    death_certificate.ContainsKey("place_of_last_residence")
+                                )
+                                {
+                                    var place_of_last_residence =  death_certificate["place_of_last_residence"] as IDictionary<string,object>;
+                                    if
+                                    (
+                                        place_of_last_residence != null &&
+                                        place_of_last_residence.ContainsKey("latitude") &&
+                                        place_of_last_residence.ContainsKey("longitude") &&
+                                        place_of_last_residence["latitude"] != null &&
+                                        place_of_last_residence["longitude"] != null 
+                                    )
+                                    {
+
+                                        get_dashboard_body.payload.lat = place_of_last_residence["latitude"].ToString();
+                                        get_dashboard_body.payload.lon = place_of_last_residence["longitude"].ToString();
+                                    }
+                                }
+                            }
+
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine (ex);
+                        } 
+            
+                    }
 
                     body_text = JsonSerializer.Serialize(get_dashboard_body);
                     var get_dashboard_curl = new mmria.server.cURL("POST", null, base_url, body_text);
