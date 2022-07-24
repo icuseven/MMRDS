@@ -39,9 +39,22 @@ public class backupManagerController : Controller
     }
 
     //[Route("backupManager")]    
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+
+        var base_url = $"{config_url}/api/backup/GetFileList";
+
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+
+        List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+
+        return View(file_list);
     }
 
     //[Route("backup-manager/PerformHotBackup")]
@@ -73,6 +86,32 @@ public class backupManagerController : Controller
 
         var responseContent = await server_statu_curl.executeAsync();
         //System.Console.WriteLine(responseContent);
+
+        return Ok(responseContent);
+    }
+
+    [Route("backupManager/GetFile/{id}")]
+    public async Task<IActionResult>  GetFile(string id)
+    {
+
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var base_url = $"{config_url}/api/backup/GetFile/{id}";
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+        //System.Console.WriteLine(responseContent);
+        /*
+                            var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
+                            var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
+
+                            var file_path = System.IO.Path.Combine(folder_name, $"CVS-{post_payload.id}.pdf");
+
+                            System.IO.File.WriteAllBytes(file_path, bytes);
+                            */
+
+
 
         return Ok(responseContent);
     }

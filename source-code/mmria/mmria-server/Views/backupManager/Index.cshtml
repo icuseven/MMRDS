@@ -1,3 +1,4 @@
+@model List<string>; 
 @using System.Security.Claims;
 @{
     Layout = "_LayoutBase";
@@ -38,7 +39,24 @@
 }
 
 
-<a href="/backupManager/PerformHotBackup" target="_blank">Perform Hot Backup</a>;
-<br/><br/>
-<a href="/backupManager/PerformColdBackup" target="_blank">Perform Cold Backup</a>
+ [ <a href="/backupManager/PerformHotBackup" target="_blank">Perform Hot Backup</a>;
+ |
+<a href="/backupManager/PerformColdBackup" target="_blank">Perform Cold Backup</a> ]
+
+<h4>Directory Listing</h4>
+<ul>
+    @foreach (var item in Model)
+    {
+        @if(@item.StartsWith("---"))
+        {
+            <li><a href="/backupManager/GetFile/@item.Substring(4)" target="_blank">@item</a></li>
+        }
+        else
+        {
+            <li>@item</li>
+        }
+
+        
+    }
+</ul>
 

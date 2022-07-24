@@ -1,5 +1,6 @@
 'use strict';
 
+var g_is_committee_member_view = true;
 var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
