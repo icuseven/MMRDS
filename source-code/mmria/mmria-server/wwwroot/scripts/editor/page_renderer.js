@@ -373,7 +373,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	let disabled_html = " disabled = 'disabled' ";
 
-	if(g_data_is_checked_out)
+	if(g_data_is_checked_out || p_metadata.type == 'always_enabled_button')
 	{
 		disabled_html = " ";
 	}
