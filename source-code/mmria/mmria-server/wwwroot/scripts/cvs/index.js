@@ -16,7 +16,13 @@ g_record_id = message_data.data.record_id
     pre_render(message_data.data);
 }
 
+
+
 async function main()
+{
+    window.setTimeout(async ()=> await main_continue(), 5000);
+}
+async function main_continue()
 {
     g_lat = document.getElementById("lat").value;
     g_lon = document.getElementById("lon").value;

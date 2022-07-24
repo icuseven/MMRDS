@@ -7,62 +7,77 @@ var $mmria = function()
             const lon = g_data.death_certificate.place_of_last_residence.longitude;
             const year = g_data.home_record.date_of_death.year;
             const record_id = g_data.home_record.record_id;
-            
 
-            //Error: Community Vital Signs PDF
-            //Validation: Address is not validated.
-            // Please verify address and validate before clicking button to View Community Vital Signs PDF.
-
-
-            const census_set = new Set();
-            census_set.add(1);
-            census_set.add(2);
-            census_set.add(3);
-            census_set.add(4);
-            census_set.add(5);
-            census_set.add(6);
-   
-
-
-
-            ///Error: Community Vital Signs PDF
-            //Validation: Census tract certainty code NOT 1,2,3,4,5 or 6.
-            //There might be a potential error in the address. Please verify address and validate before clicking the button to View Community Vital Signs PDF.
-
-
-            let census_track_certainty_code = g_data.death_certificate.address_of_injury.urban_status;
-            if
-            (
-                census_track_certainty_code == 'Undetermined'
-            )
+            if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {
 
-                $mmria.info_dialog_show("Error: Community Vital Signs PDF","Census tract certainty code NOT 1,2,3,4,5 or 6.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+                $mmria.get_cvs_api_dashboard_info
+                (
+                    lat,
+                    lon,
+                    year,
+                    record_id
+                );
+
             }
             else
             {
+            
+                //Error: Community Vital Signs PDF
+                //Validation: Address is not validated.
+                // Please verify address and validate before clicking button to View Community Vital Signs PDF.
 
+
+                const census_set = new Set();
+                census_set.add(1);
+                census_set.add(2);
+                census_set.add(3);
+                census_set.add(4);
+                census_set.add(5);
+                census_set.add(6);
+    
+
+
+
+                ///Error: Community Vital Signs PDF
+                //Validation: Census tract certainty code NOT 1,2,3,4,5 or 6.
+                //There might be a potential error in the address. Please verify address and validate before clicking the button to View Community Vital Signs PDF.
+
+
+                let census_track_certainty_code = g_data.death_certificate.address_of_injury.urban_status;
                 if
                 (
-                    lat == null ||
-                    lon == null ||
-                    year == null ||
-                    lat == "" ||
-                    lon == "" ||
-                    year == null
+                    census_track_certainty_code == 'Undetermined'
                 )
                 {
-                    $mmria.info_dialog_show("Error: Community Vital Signs PDF","Address is not validated.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+
+                    $mmria.info_dialog_show("Error: Community Vital Signs PDF","Census tract certainty code NOT 1,2,3,4,5 or 6.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
                 }
                 else
                 {
-                    $mmria.get_cvs_api_dashboard_info
+
+                    if
                     (
-                        lat,
-                        lon,
-                        year,
-                        record_id
-                    );
+                        lat == null ||
+                        lon == null ||
+                        year == null ||
+                        lat == "" ||
+                        lon == "" ||
+                        year == null
+                    )
+                    {
+                        $mmria.info_dialog_show("Error: Community Vital Signs PDF","Address is not validated.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+                    }
+                    else
+                    {
+                        $mmria.get_cvs_api_dashboard_info
+                        (
+                            lat,
+                            lon,
+                            year,
+                            record_id
+                        );
+                    }
                 }
             }
         },
@@ -74,39 +89,54 @@ var $mmria = function()
             const year = g_data.home_record.date_of_death.year;
             const record_id = g_data.home_record.record_id;
 
-            let census_track_certainty_code = g_data.death_certificate.address_of_injury.urban_status;
-            if
-            (
-                census_track_certainty_code == 'Undetermined'
-            )
+            if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {
-                $mmria.info_dialog_show("Error: Community Vital Signs PDF","Census tract certainty code NOT 1,2,3,4,5 or 6.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+
+                $mmria.get_cvs_api_dashboard_info
+                (
+                    lat,
+                    lon,
+                    year,
+                    record_id
+                );
+
             }
             else
             {
-
+                let census_track_certainty_code = g_data.death_certificate.address_of_injury.urban_status;
                 if
                 (
-                    lat == null ||
-                    lon == null ||
-                    year == null ||
-                    lat == "" ||
-                    lon == "" ||
-                    year == null
+                    census_track_certainty_code == 'Undetermined'
                 )
                 {
-                
-                    $mmria.info_dialog_show("Error: Community Vital Signs PDF","Address is not validated.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+                    $mmria.info_dialog_show("Error: Community Vital Signs PDF","Census tract certainty code NOT 1,2,3,4,5 or 6.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
                 }
                 else
                 {
-                    $mmria.get_cvs_api_dashboard_info
+
+                    if
                     (
-                        lat,
-                        lon,
-                        year,
-                        record_id
-                    );
+                        lat == null ||
+                        lon == null ||
+                        year == null ||
+                        lat == "" ||
+                        lon == "" ||
+                        year == null
+                    )
+                    {
+                    
+                        $mmria.info_dialog_show("Error: Community Vital Signs PDF","Address is not validated.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+                    }
+                    else
+                    {
+                        $mmria.get_cvs_api_dashboard_info
+                        (
+                            lat,
+                            lon,
+                            year,
+                            record_id
+                        );
+                    }
                 }
             }
         },

@@ -1,8 +1,13 @@
 @model mmria.server.Controllers.CvsController.CVS_View_Model
 @using System.Security.Claims;
 @{
-  //Layout = "_LayoutBase";
-  //ViewBag.BreadCrumbs = true;
+
+
+    var lat = Model.lat == null || Model.lat == "null" ? "": Model.lat;
+    var lon = Model.lon == null || Model.lon == "null" ? "" : Model.lon;
+    var year = Model.year == null || Model.year == "null" ? "" : Model.year;
+    var id = Model.id == null || Model.id == "null" ? "" : Model.id;
+
   var userName = "";
   
   if (User.Identities.Any(u => u.IsAuthenticated))
@@ -71,10 +76,10 @@
             <th>record id</th>
         </tr>
         <tr>
-            <td>@Model.lat</td>
-            <td>@Model.lon</td>
-            <td>@Model.year</td>
-            <td>@Model.id</td>
+            <td>@lat</td>
+            <td>@lon</td>
+            <td>@year</td>
+            <td>@id</td>
         </tr>
     </table>
 
@@ -84,10 +89,10 @@
     <h2 id="output">Generating PDF... This might take several minutes.</h2>
     <h2 id="spinner-id"><div class="spin"></div></h2>
 
-    <input type="hidden" id="lat" name="lat" value="@Model.lat"  />
-    <input type="hidden" id="lon" name="lon" value="@Model.lon"  />
-    <input type="hidden" id="year" name="year" value="@Model.year"  />
-    <input type="hidden" id="id" name="id" value="@Model.id"  />
+    <input type="hidden" id="lat" name="lat" value="@lat"  />
+    <input type="hidden" id="lon" name="lon" value="@lon"  />
+    <input type="hidden" id="year" name="year" value="@year"  />
+    <input type="hidden" id="id" name="id" value="@id"  />
 
     <hr/>
     Comunity Vital Signs call log details:
