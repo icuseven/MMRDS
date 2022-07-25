@@ -23,12 +23,12 @@ function data_quality_report_render(p_quarters)
                             <input type="radio" id="summary-detail-report" name="report-type" value="Summary & Detail" onclick="updateReportType(event)">
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
                         </div>
-                        <!--div>
+                        <div style="display:none;">
                             <input type="radio" id="summary-detail-report" name="report-type" value="Debug" onclick="updateReportType(event)">
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Debug</label>
                             <input type="text" id="debug-report-question" name="report-type" value=""/><br/>
                             <textarea id="debug-report-external-list" rows=7 cols=40></textarea>
-                        </div-->
+                        </div>
                     </div>
              </div>
 
