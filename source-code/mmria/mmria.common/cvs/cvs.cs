@@ -49,7 +49,7 @@ public class get_year_payload
 {
     public get_year_payload(){}
 
-    public string table { get;set;}
+    public string table { get;set;} = "acs-county";
 }
 
 public class server_status_post_body

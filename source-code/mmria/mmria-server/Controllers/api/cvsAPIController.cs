@@ -195,6 +195,9 @@ public class cvsAPIController: ControllerBase
                         }
                     };
 
+
+
+
                     if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.lat))
                     {
                         try
@@ -222,6 +225,34 @@ public class cvsAPIController: ControllerBase
                             string case_response = await case_curl.executeAsync();
 
                             var case_dictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (case_response) as IDictionary<string,object>;
+
+                            if
+                            (
+                                case_dictionary != null &&
+                                case_dictionary.ContainsKey("home_record")
+                            )
+                            {
+                                var home_record = case_dictionary["home_record"] as IDictionary<string,object>;
+                                if
+                                (
+                                    home_record != null &&
+                                    home_record.ContainsKey("date_of_death")
+                                )
+                                {
+                                     var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
+                                     if
+                                    (
+                                        date_of_death != null &&
+                                        date_of_death.ContainsKey("year") &&
+                                        date_of_death["year"] != null
+                                    )
+                                    {
+                                        get_dashboard_body.payload.year = date_of_death["year"].ToString();
+                                    }
+
+                                }
+                            }
+
                             if
                             (
                                 case_dictionary != null &&
@@ -250,8 +281,8 @@ public class cvsAPIController: ControllerBase
                                         get_dashboard_body.payload.lat = place_of_last_residence["latitude"].ToString();
                                         get_dashboard_body.payload.lon = place_of_last_residence["longitude"].ToString();
 
-                                        file_status_result.updated_lat = get_dashboard_body.payload.lat;
-                                        file_status_result.updated_lon = get_dashboard_body.payload.lon;
+                                        //file_status_result.updated_lat = get_dashboard_body.payload.lat;
+                                        //file_status_result.updated_lon = get_dashboard_body.payload.lon;
                                     }
                                 }
                             }
@@ -263,6 +294,57 @@ public class cvsAPIController: ControllerBase
                         } 
             
                     }
+
+
+                    if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.year))
+                    {
+                        get_dashboard_body.payload.year = System.DateTime.Now.Year.ToString();
+                    }
+
+
+                    int test_year = -1;
+                    int selected_year = -1;
+                    
+                    if(int.TryParse(get_dashboard_body.payload.year, out test_year))
+                    {
+                        selected_year = test_year;
+                    }
+                    else
+                    {
+                        selected_year = System.DateTime.Now.Year;
+                    }
+
+                    var get_year_body = new get_year_post_body()
+                    {
+                        id = ConfigDB.name_value["cvs_api_id"],
+                        secret = ConfigDB.name_value["cvs_api_key"],
+                        payload = new()
+                    };
+                    body_text = JsonSerializer.Serialize(get_year_body);
+                    var get_year_curl = new cURL("POST", null, base_url, body_text, Program.config_timer_user_name, Program.config_timer_value);
+                    string get_year_response = await get_year_curl.executeAsync();
+                    var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
+                    if
+                    (
+                        valid_year_list != null &&
+                        valid_year_list.Count > 0 &&
+                        ! valid_year_list.Contains(selected_year)
+                    )
+                    {
+                        var lower_diff = System.Math.Abs(valid_year_list[0] - selected_year);
+                        var upper_diff = System.Math.Abs(valid_year_list[valid_year_list.Count -1] - selected_year);
+
+                        if(lower_diff < upper_diff)
+                        {
+                            get_dashboard_body.payload.year = valid_year_list[0].ToString();
+                        }
+                        else
+                        {
+                            get_dashboard_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
+                        }
+                    }
+
+
 
                     body_text = JsonSerializer.Serialize(get_dashboard_body);
                     var get_dashboard_curl = new mmria.server.cURL("POST", null, base_url, body_text);
