@@ -32,6 +32,7 @@ public class all_data_payload
     public string year { get;set;}
 }
 
+
 public class get_dashboard_payload
 {
     public get_dashboard_payload(){}
@@ -41,6 +42,14 @@ public class get_dashboard_payload
     public string lon { get;set;}
 
     public string id { get;set;}
+}
+
+
+public class get_year_payload
+{
+    public get_year_payload(){}
+
+    public string table { get;set;}
 }
 
 public class server_status_post_body
@@ -73,4 +82,16 @@ public class get_dashboard_post_body
     public string operation {get;set;}  = "get-dashboard";
 
     public get_dashboard_payload payload {get;set;}
+}
+
+
+public class get_year_post_body
+{
+    public get_year_post_body(){}
+
+    public string id {get;set;}
+    public string secret {get;set;}
+    public string operation {get;set;}  = "get-years";
+
+    public get_year_payload payload {get;set;}
 }
