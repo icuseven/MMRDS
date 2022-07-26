@@ -605,8 +605,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	
 	if 
     (
-        p_metadata.type === "button" ||
-        p_metadata.type === "always_enabled_button" 
+        p_metadata.type == "button" ||
+        p_metadata.type == "always_enabled_button" 
 
     )
 	{

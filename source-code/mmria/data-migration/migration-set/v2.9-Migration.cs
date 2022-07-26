@@ -243,7 +243,7 @@ public class v2_9_Migration
 					if
 					(
 						!grid_value_result.is_error &&
-						grid_value_result.result == null
+						grid_value_result.result != null
 					)
 					{
 
@@ -264,7 +264,7 @@ public class v2_9_Migration
 
 							if
 							(
-								dynamic_value != null ||
+								dynamic_value != null &&
 								!string.IsNullOrWhiteSpace(dynamic_value.ToString())
 							)
 							{
