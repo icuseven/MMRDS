@@ -21,13 +21,13 @@ namespace mmria.server.Controllers
         }
         
         [Route("overdose-data-summary")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
     
         [Route("overdose-data-summary/pdf")]
-        public async Task<IActionResult> pdf()
+        public IActionResult pdf()
         {
             return View();
         }

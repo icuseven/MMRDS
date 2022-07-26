@@ -735,7 +735,7 @@ namespace mmria.server.utils
 
               }
             }
-            catch (Exception ex)
+            catch (Exception)// ex)
             {
               System.Console.Write("bad export value: {0} - {1} - {2}", mmria_case_id, val, path);
             }

@@ -327,7 +327,7 @@ namespace mmria.server
 		[Authorize(Roles  = "form_designer")]
 		[HttpPost]
 		[HttpPut]
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> SetValue
+		public mmria.common.model.couchdb.document_put_response SetValue
 		(
 			[FromBody] string id, string name, string value
 		) 

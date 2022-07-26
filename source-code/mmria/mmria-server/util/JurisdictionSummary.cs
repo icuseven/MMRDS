@@ -216,7 +216,7 @@ namespace mmria.server.utils
 
         public async Task GetJurisdictions(System.Threading.CancellationToken cancellationToken,  string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result, HashSet<string> p_user_id_set) 
 		{
-            string sort = "by_date_created";
+            //string sort = "by_date_created";
             string search_key = null;
             bool descending = false;
             int skip = 0;

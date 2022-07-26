@@ -121,7 +121,7 @@ namespace mmria.server.Controllers
            return View(model);
         }
 
-        public async Task<IActionResult> ConfirmClearCaseStatusRequest(mmria.server.model.casestatus.CaseStatusDetail Model)
+        public IActionResult ConfirmClearCaseStatusRequest(mmria.server.model.casestatus.CaseStatusDetail Model)
         {
             if (!ModelState.IsValid)
             {
