@@ -17,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 //using Microsoft.IdentityModel.Tokens;
 using System.Net;
@@ -304,7 +303,7 @@ namespace mmria.common.Controllers
                 session_data["refresh_token"] = refresh_token;
                 session_data["expires_at"] = unix_time.ToString();
 
-                await create_user_principal(this.HttpContext, user.name, new List<string>(), unix_time.DateTime);
+                create_user_principal(this.HttpContext, user.name, new List<string>(), unix_time.DateTime);
 
 
                 var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
@@ -441,7 +440,7 @@ namespace mmria.common.Controllers
             return default(T);
         }
 
-        public async Task create_user_principal(HttpContext p_context, string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
+        public void create_user_principal(HttpContext p_context, string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
         {
             const string Issuer = "https://contoso.com";
             var claims = new List<Claim>();

@@ -56,7 +56,7 @@ namespace mmria.server
                     result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
                 
                 }
-                catch(Exception ex)
+                catch(Exception)// ex)
                 {
                     // do nothing for now
                 }
@@ -92,7 +92,7 @@ namespace mmria.server
                     result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
                 
                 }
-                catch(Exception ex)
+                catch(Exception)// ex)
                 {
                     // do nothing for now
                 }

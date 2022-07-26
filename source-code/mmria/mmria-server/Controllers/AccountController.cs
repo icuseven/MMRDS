@@ -59,7 +59,7 @@ namespace mmria.server.Controllers
         }
 
         [AllowAnonymous] 
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
             TempData["returnUrl"] = returnUrl;
 
@@ -459,7 +459,7 @@ namespace mmria.server.Controllers
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Logout() 
+        public IActionResult Logout() 
         {
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];

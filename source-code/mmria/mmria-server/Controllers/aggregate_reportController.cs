@@ -22,13 +22,13 @@ namespace mmria.server.Controllers
         }
         
         [Route("aggregate-report")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
     
         [Route("aggregate-report/pdf")]
-        public async Task<IActionResult> pdf()
+        public IActionResult pdf()
         {
             return View();
         }

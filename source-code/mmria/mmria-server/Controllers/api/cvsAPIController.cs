@@ -93,8 +93,6 @@ public class cvsAPIController: ControllerBase
     ) 
     { 
         var is_abstractor = false;
-        var is_data_analyst = false;
-        var is_committee_member = false;
 
         foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
         {
@@ -103,12 +101,7 @@ public class cvsAPIController: ControllerBase
                 case "abstractor":
                     is_abstractor = true;
                 break;
-                case "data_analyst":
-                    is_data_analyst = true;
-                break;
-                case "committee_member":
-                    is_committee_member = true;
-                break;
+
             }
         }
   
