@@ -603,7 +603,12 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	p_result.push("/>");
 	
-	if (p_metadata.type === "button")
+	if 
+    (
+        p_metadata.type === "button" ||
+        p_metadata.type === "always_enabled_button" 
+
+    )
 	{
 		p_result.push(`<span class="spinner-container spinner-small mt-2"><span class="spinner-body text-primary"><span class="spinner"></span><span class="spinnerinfo">Loading...</span></span></span>`);
 		p_result.push("</div>");
