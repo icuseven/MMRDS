@@ -319,6 +319,10 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
 							set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
 
+							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid success";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+
 						}
 						else
 						{
@@ -359,6 +363,10 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", "");
 							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", "");
 							set_grid_value("cvs/cvs_grid/cvs_isolation_county", "");
+
+							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid fail: {cvs_response_status.Replace("\n"," ").Substring(0, 40)}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
 
 						}
 
