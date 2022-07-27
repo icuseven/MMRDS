@@ -147,7 +147,8 @@ async function print_pdf(ctx) {
 			if ( ctx.report_type == 'Summary' )
 			{
 				tbl_footer = '*The denominator for this indicator is limited to pregnancy-related deaths with a completed ';
-				tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].';
+				tbl_footer += 'Birth/Fetal Death Certificate - Parent Section according to the Form Status on the Home Record [hrcpr_bcp_secti = 2].'
+                tbl_footer += ' DQR report automatically summarizes cases accessible to the logged in user: ' + g_user_name;
 			}
 			else
 			{

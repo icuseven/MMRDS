@@ -63,11 +63,6 @@ const g_dqr_questions = {
 function get_dqr_notes_list()
 { 
     return [
-    {
-		num: '00)',
-		title: 'DQR report :',
-		desc: 'DQR report automatically summarizes cases accessible to the logged in user: ' + g_user_name,
-	},
 	{
 		num: '01)',
 		title: 'Deaths Entered into MMRIA:',
