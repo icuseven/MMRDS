@@ -60,12 +60,13 @@ const g_dqr_questions = {
 };
 
 // DQR static notes to be displayed on pages 2-5
-var g_dqr_notes_list =
-[
+function get_dqr_notes_list()
+{ 
+    return [
     {
 		num: '00)',
 		title: 'DQR report :',
-		desc: 'DQR report automatically summarizes cases accessible to the logged in user.',
+		desc: 'DQR report automatically summarizes cases accessible to the logged in user: ' + g_user_name,
 	},
 	{
 		num: '01)',
@@ -316,4 +317,4 @@ var g_dqr_notes_list =
 
     
 ];
-
+}

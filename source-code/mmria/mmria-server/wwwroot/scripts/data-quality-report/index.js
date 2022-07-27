@@ -3,6 +3,8 @@ var g_quarters = new Array();
 var g_case_folder_list = [];
 var g_user_role_case_folder_list = [];
 var g_case_folder_tree = [];
+var g_user_name = null;
+var g_dqr_notes_list = null;
 
 var g_model = {
     reportType: "Summary",
@@ -48,6 +50,8 @@ async function main()
     
     g_user_name = my_user_response.name;
 
+
+    g_dqr_notes_list = get_dqr_notes_list();
 
     const my_role_list_response = await $.ajax
     ({
