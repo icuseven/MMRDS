@@ -62,6 +62,11 @@ const g_dqr_questions = {
 // DQR static notes to be displayed on pages 2-5
 var g_dqr_notes_list =
 [
+    {
+		num: '00)',
+		title: 'DQR report :',
+		desc: 'DQR report automatically summarizes cases accessible to the logged in user.',
+	},
 	{
 		num: '01)',
 		title: 'Deaths Entered into MMRIA:',
@@ -307,5 +312,8 @@ var g_dqr_notes_list =
 		title: 'Contributing Factor, Description of Issue, and Recommendation all completed (denominator is the # of CF-recommended action rows across all reviewed preventable pregnancy-related deaths):',
 		desc: 'Indicator populated using the Contributing Factor Class [crcfw_class], Description of Issue [crcfw_descr], and Recommendation of Committee [crcfw_c_recom] fields on the Committee Decisions Form. Limited to deaths determined to be preventable (cr_wtd_preve = 1 or cr_cta_outco = 0 or cr_cta_outco = 1).',
 	},
+
+
+    
 ];
 
