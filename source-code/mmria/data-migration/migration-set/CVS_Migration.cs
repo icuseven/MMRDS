@@ -364,7 +364,20 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", "");
 							set_grid_value("cvs/cvs_grid/cvs_isolation_county", "");
 
-							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid fail: {cvs_response_status.Replace("\n"," ").Substring(0, 40)}";
+							var response_status = "";
+							if(cvs_response_status != null)
+							{
+								if(cvs_response_status.Length > 40)
+								{
+									response_status = cvs_response_status.Replace("\n"," ").Substring(0, 40);
+								}
+								else
+								{
+									response_status = cvs_response_status;
+								}
+							}
+
+							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid fail: {response_status}";
 							this.output_builder.AppendLine(output_text);
 							Console.WriteLine(output_text);
 

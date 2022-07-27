@@ -495,8 +495,8 @@ PS --> PW
 								{
 									if
 									(
-										value_result.result != null &&
-										Country_to_State_map.ContainsKey(value_result.result.ToString())
+										value != null &&
+										Country_to_State_map.ContainsKey(value.ToString())
 									)
 									{
 										if(case_change_count == 0)
@@ -512,7 +512,7 @@ PS --> PW
 
 										if(p_state_path != null)
 										{
-											var new_state_value = Country_to_State_map[value_result.result.ToString()];
+											var new_state_value = Country_to_State_map[value.ToString()];
 
 											new_state_list.Add((index, new_state_value));
 						
@@ -598,6 +598,13 @@ PS --> PW
 						saepsec_co_birth_path
 						
 					);
+
+
+
+					if(mmria_id.Equals("799a846d-931d-478f-ab2c-71a8bf3cda14", StringComparison.OrdinalIgnoreCase))
+					{
+						System.Console.WriteLine("here");
+					}
 
 					var mt_org_country_path = "medical_transport/origin_information/address/country";
 					var mt_org_state_path = "medical_transport/origin_information/address/state";
