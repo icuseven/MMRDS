@@ -165,6 +165,7 @@ namespace mmria.services.vitalsimport
                     break;           
                 case "label":
                 case "button":
+                case "always_enabled_button":
                 case "chart":
                         break;
                 default:
