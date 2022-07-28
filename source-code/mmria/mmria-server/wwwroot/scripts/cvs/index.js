@@ -189,7 +189,7 @@ function render_close_button_html()
 
 function render_download_button_html()
 {
-    return `<input id="download_button" type="button" value="Close" onclick="download_button_click()" />`
+    return `<input id="download_button" type="button" value="Download ${g_record_id} PDF" onclick="download_button_click()" />`
 }
 
 
