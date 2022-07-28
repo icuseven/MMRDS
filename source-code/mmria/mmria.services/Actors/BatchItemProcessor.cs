@@ -1242,11 +1242,11 @@ public class BatchItemProcessor : ReceiveActor
 
                 var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
                 mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
-                var list = new_cvs_form["cvs"] as IList<object>;
+                var list = new_cvs_form["cvs"] as  IDictionary<string,object>;
 
                 if(new_case_dictionary != null)
                 {
-                    new_case_dictionary["cvs"] = list;
+                    new_case_dictionary["cvs"] = list;               
                 }
 
 
