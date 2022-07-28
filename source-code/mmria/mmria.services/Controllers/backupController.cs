@@ -116,7 +116,10 @@ public class backupController : Controller
         if(System.IO.File.Exists(file_path))
         {
             byte[] fileBytes = await ReadFile(file_path);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
+
+            
+            //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
+            return Ok(Base64EncodeBytes(fileBytes));
         }
         else
         {
@@ -187,6 +190,24 @@ public class backupController : Controller
         if (br != (int) fs_length)
             throw new System.IO.IOException(s);
         return data;
+    }
+
+    public static string Base64EncodeBytes(byte[] inputBytes) 
+    {
+        // Each 3-byte sequence in inputBytes must be converted to a 4-byte 
+        // sequence 
+        long arrLength = (long)(4.0d * inputBytes.Length / 3.0d);
+        if ((arrLength  % 4) != 0) 
+        {
+            // increment the array length to the next multiple of 4 
+            //    if it is not already divisible by 4
+            arrLength += 4 - (arrLength % 4);
+        }
+
+        char[] encodedCharArray = new char[arrLength];
+        Convert.ToBase64CharArray(inputBytes, 0, inputBytes.Length, encodedCharArray, 0);
+
+        return (new string(encodedCharArray));
     }
 
 }
