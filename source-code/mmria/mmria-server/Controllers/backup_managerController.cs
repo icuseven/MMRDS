@@ -102,18 +102,45 @@ public class backupManagerController : Controller
 
         var responseContent = await server_statu_curl.executeAsync();
         //System.Console.WriteLine(responseContent);
-        /*
-                            var bytes = Convert.FromBase64String(responseDictionary["body"].ToString());
-                            var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
+       
+        var bytes = Convert.FromBase64String(responseContent);
+        var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
 
-                            var file_path = System.IO.Path.Combine(folder_name, $"CVS-{post_payload.id}.pdf");
+        var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
 
-                            System.IO.File.WriteAllBytes(file_path, bytes);
-                            */
+        System.IO.File.WriteAllBytes(file_path, bytes);
+                 
 
+
+        if(System.IO.File.Exists(file_path))
+        {
+            byte[] fileBytes = await ReadFile(file_path);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
+        }
+        else
+        {
+            return NotFound();
+        }
 
 
         return Ok(responseContent);
+    }
+
+    async Task<byte[]> ReadFile(string s)
+    {
+        byte[] data;
+        int br;
+        int fs_length;
+
+        using(FileStream fs = new FileStream (s, FileMode.Open, FileAccess.Read))
+        {
+            fs_length = (int) fs.Length;
+            data = new byte[fs.Length];
+            br = await fs.ReadAsync(data, 0, data.Length);
+        }
+        if (br != (int) fs_length)
+            throw new System.IO.IOException(s);
+        return data;
     }
 
 }
