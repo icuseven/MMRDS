@@ -115,15 +115,14 @@ public class backupManagerController : Controller
         if(System.IO.File.Exists(file_path))
         {
             byte[] fileBytes = await ReadFile(file_path);
+
+            System.IO.File.Delete(file_path);
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
         }
         else
         {
             return NotFound();
         }
-
-
-        return Ok(responseContent);
     }
 
     async Task<byte[]> ReadFile(string s)
