@@ -136,11 +136,11 @@ public class BackupHotProcessor : ReceiveActor
 
                     if(replication_db.IndexOf("_") == 0)
                     {
-                        replicate_struct.target.url = $"{backup_db_url}/{data_connection.prefix}{replication_db}";
+                        replicate_struct.target.url = $"{backup_db_url}/{prefix}{replication_db}";
                     }
                     else
                     {
-                        replicate_struct.target.url = $"{backup_db_url}/{data_connection.prefix}_{replication_db}";
+                        replicate_struct.target.url = $"{backup_db_url}/{prefix}_{replication_db}";
                     }
                     
                     replicate_struct.target.headers.Authorization = "Basic " + Base64Encode($"{backup_db_user}:{backup_db_user_value}");
