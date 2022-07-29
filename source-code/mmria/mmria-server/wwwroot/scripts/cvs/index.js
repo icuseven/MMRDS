@@ -52,7 +52,18 @@ async function main_continue()
         if(response.file_status != null)
         {
             report_log.push(`file_status: ${response.file_status} @ ${new Date()}`);
-            if(response.file_status == "file ready")
+            if
+            (
+                response.file_status.is_valid_address &&
+                response.file_status.is_valid_address == false
+            )
+            {
+                header.innerHTML = "Error: Community Vital Sign PDF";
+                el.innerHTML = "Decedent Resident Address is not available.<br/>Please contact your jurisdiction abstractor to resolve this issue.<br/>Community Vital Signs PDF cannot be generated.";
+                spinner.innerHTML = render_close_button_html();
+                is_finished = true;
+            }
+            else if(response.file_status == "file ready")
             {
                 spinner.innerHTML = `${render_close_button_html()}&nbsp;${render_download_button_html()}`;
 

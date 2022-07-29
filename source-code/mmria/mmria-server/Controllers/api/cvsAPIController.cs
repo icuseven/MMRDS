@@ -34,7 +34,7 @@ public class cvsAPIController: ControllerBase
 
         public string updated_year { get;set; }
 
-        public bool is_valid_address { get;set; }
+        public bool is_valid_address { get;set; } = true;
 
     }
     mmria.common.couchdb.ConfigurationSet ConfigDB;
@@ -242,8 +242,20 @@ public class cvsAPIController: ControllerBase
                                     {
                                         get_dashboard_body.payload.year = date_of_death["year"].ToString();
                                     }
+                                    else
+                                    {
+                                        file_status_result.is_valid_address = false;
+                                    }
 
                                 }
+                                else
+                                {
+                                    file_status_result.is_valid_address = false;
+                                }
+                            }
+                            else
+                            {
+                                file_status_result.is_valid_address = false;
                             }
 
                             if
@@ -277,7 +289,15 @@ public class cvsAPIController: ControllerBase
                                         //file_status_result.updated_lat = get_dashboard_body.payload.lat;
                                         //file_status_result.updated_lon = get_dashboard_body.payload.lon;
                                     }
+                                    else
+                                    {
+                                        file_status_result.is_valid_address = false;
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                file_status_result.is_valid_address = false;
                             }
 
                         }
