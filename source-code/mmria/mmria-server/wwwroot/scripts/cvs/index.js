@@ -189,17 +189,17 @@ function render_close_button_html()
 
 function render_download_button_html()
 {
-    return `<input id="download_button" type="button" value="Download ${g_record_id} PDF" onclick="download_button_click()" />`
+    var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`;
+    return `
+    <a id="a_download" href="${pdf_url}">
+    <input id="download_button" type="button" value="Download ${g_record_id} PDF" onclick="download_button_click()" />
+    `;
 }
 
 
 function download_button_click()
 {
-    var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`
+    const el = document.getElementById("a_download");
+    el.click();
 
-    document.body.innerHTML = `<embed src="${pdf_url}" type="application/pdf"
-    frameBorder="0"
-    scrolling="auto"
-    height="300px"
-    width="100%" />`
 }
