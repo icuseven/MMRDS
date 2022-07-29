@@ -11463,13 +11463,13 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         string search_key
     )
     {
+        string request_string  = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_last_name?skip=0&limit=100000&startkey=\"{search_key.ToLower()}\"&endkey=\"{search_key.ToUpper()}\"";
+
         try
         {
-            System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
-            request_builder.Append($"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_last_name?skip=0&limit=100000");
 
-            string request_string = request_builder.ToString();
             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+            case_view_curl.SetTimeout(300 * 1000);
             string responseFromServer = case_view_curl.execute();
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
@@ -11506,7 +11506,7 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"BatchItemProcessor 11048 GetCaseView\n{ex}");
+            Console.WriteLine($"BatchItemProcessor GetCaseView\nurl: {request_string}\n\nerror:\n{ex}");
 
         }
 

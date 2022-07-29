@@ -18,6 +18,8 @@ namespace mmria.getset
 		string name;
 		string value;
 
+		int timeout = 100 * 1000;
+
 		string content_type;
 
 		public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_name = null,
@@ -75,6 +77,16 @@ namespace mmria.getset
 			return this;
 		}
 
+		public cURL SetTimeout(int p_timeout)
+		{
+			if(p_timeout >= 100 * 1000)
+			{
+				this.timeout = p_timeout;
+			}
+			
+			return this;
+		}
+
 		public string execute ()
 		{
 			string result = null;
@@ -86,6 +98,7 @@ namespace mmria.getset
 			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
 			httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
+			httpWebRequest.Timeout = this.timeout;
 
 			if (!string.IsNullOrWhiteSpace(this.name) && !string.IsNullOrWhiteSpace(this.value))
 			{
@@ -139,6 +152,7 @@ namespace mmria.getset
             httpWebRequest.Accept = "*/*";
             httpWebRequest.Method = this.method;
             httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
+			httpWebRequest.Timeout = this.timeout;
 
             if (!string.IsNullOrWhiteSpace (this.name) && !string.IsNullOrWhiteSpace (this.value))
 			{
