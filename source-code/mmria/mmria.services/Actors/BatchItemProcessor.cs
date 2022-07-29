@@ -11890,7 +11890,7 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
                 instance: HttpContext.Request.Path
             );*/
 
-            return (response_string, null);
+            return ($"{response_string}  {ex.Message}", null);
         }
 
         return ("success", result);

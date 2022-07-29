@@ -792,7 +792,7 @@ cvs_api_request_result_message
                 instance: HttpContext.Request.Path
             );*/
 
-			return (response_string, null);
+			return ($"{response_string}  {ex.Message}", null);
         }
 
         return ("success", result);
