@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -80,27 +81,70 @@ public class backupController : Controller
         var result = new List<string>();
         var file_list = new List<string>();
         var dir_list = new List<string>();
+        var file_info_List = new List<FileInfo>();
+        var dir_info_List = new List<DirectoryInfo>();
+
+/*
+
+        var freeBytes = new DriveInfo(root_folder).AvailableFreeSpace; 
+        var rootInfo = new DirectoryInfo(root_folder);
+
+        rootInfo.
+        */
 
         foreach(var file_path in System.IO.Directory.GetFiles(root_folder))
         {
             var fileInfo = new FileInfo(file_path);
-            file_list.Add($"--- {fileInfo.Name}");
+
         }
 
         foreach(var dir_path in System.IO.Directory.GetDirectories(root_folder))
         {
              var dirInfo = new DirectoryInfo(dir_path);
+        }
+
+        file_info_List = file_info_List.OrderByDescending( x => x.CreationTime ).ToList();
+        dir_info_List = dir_info_List.OrderByDescending( x => x.CreationTime ).ToList();
+
+
+        foreach(var fileInfo in file_info_List)
+        {
+            file_list.Add($"--- {fileInfo.Name}");
+        }
+
+        foreach(var dirInfo in dir_info_List)
+        {
             dir_list.Add($"d-- {dirInfo.Name}");
         }
 
-        file_list.Reverse();
-        result.AddRange(file_list);
 
-        dir_list.Reverse();
+
+
+        result.AddRange(file_list);
         result.AddRange(dir_list);
 
 
         return Ok(result);
+    }
+
+
+    private string GetDriveSize()
+    {
+        var process = new System.Diagnostics.Process()
+        {
+            StartInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"df\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            }
+        };
+        process.Start();
+        string result = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+        return result;
     }
 
 
