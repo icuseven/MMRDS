@@ -63,6 +63,17 @@ async function main_continue()
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
             }
+            else if
+            (
+                response.is_valid_year != undefined &&
+                response.is_valid_year == false
+            )
+            {
+                header.innerHTML = "<span style='color:990000;'>Decedent year of death is out of range.</span>";
+                el.innerHTML = "<span style='color:007700;'>Decedent year of death is outside of the range that is provided by the Erase MM CVS API.</span><br/>Community Vital Signs PDF cannot be generated.";
+                spinner.innerHTML = render_close_button_html();
+                is_finished = true;
+            }
             else if(response.file_status == "file ready")
             {
                 spinner.innerHTML = `${render_close_button_html()}&nbsp;${render_download_button_html()}`;

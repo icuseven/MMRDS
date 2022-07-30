@@ -35,6 +35,7 @@ public class cvsAPIController: ControllerBase
         public string updated_year { get;set; }
 
         public bool is_valid_address { get;set; } = true;
+        public bool is_valid_year { get;set; } = true;
 
     }
     mmria.common.couchdb.ConfigurationSet ConfigDB;
@@ -312,57 +313,60 @@ public class cvsAPIController: ControllerBase
                     }
 
 
-                    if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.year))
+                    if(!string.IsNullOrWhiteSpace(get_dashboard_body.payload.year))
                     {
-                        get_dashboard_body.payload.year = System.DateTime.Now.Year.ToString();
-                    }
 
-
-                    int test_year = -1;
-                    int selected_year = -1;
-                    
-                    if(int.TryParse(get_dashboard_body.payload.year, out test_year))
-                    {
-                        selected_year = test_year;
-                    }
-                    else
-                    {
-                        selected_year = System.DateTime.Now.Year;
-                    }
-
-                    var get_year_body = new get_year_post_body()
-                    {
-                        id = ConfigDB.name_value["cvs_api_id"],
-                        secret = ConfigDB.name_value["cvs_api_key"],
-                        payload = new()
-                    };
-                    body_text = JsonSerializer.Serialize(get_year_body);
-                    var get_year_curl = new cURL("POST", null, base_url, body_text, Program.config_timer_user_name, Program.config_timer_value);
-                    string get_year_response = await get_year_curl.executeAsync();
-                    var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
-                    if
-                    (
-                        valid_year_list != null &&
-                        valid_year_list.Count > 0 &&
-                        ! valid_year_list.Contains(selected_year)
-                    )
-                    {
-                        var lower_diff = System.Math.Abs(valid_year_list[0] - selected_year);
-                        var upper_diff = System.Math.Abs(valid_year_list[valid_year_list.Count -1] - selected_year);
-
-                        if(lower_diff < upper_diff)
+                        int test_year = -1;
+                        int selected_year = -1;
+                        
+                        if(int.TryParse(get_dashboard_body.payload.year, out test_year))
                         {
-                            get_dashboard_body.payload.year = valid_year_list[0].ToString();
+                            selected_year = test_year;
+
+                            var get_year_body = new get_year_post_body()
+                            {
+                                id = ConfigDB.name_value["cvs_api_id"],
+                                secret = ConfigDB.name_value["cvs_api_key"],
+                                payload = new()
+                            };
+
+                            body_text = JsonSerializer.Serialize(get_year_body);
+                            var get_year_curl = new cURL("POST", null, base_url, body_text, Program.config_timer_user_name, Program.config_timer_value);
+                            string get_year_response = await get_year_curl.executeAsync();
+                            var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
+                            if
+                            (
+                                valid_year_list != null &&
+                                valid_year_list.Count > 0 &&
+                                ! valid_year_list.Contains(selected_year)
+                            )
+                            {
+                                file_status_result.is_valid_year = false;
+                            }
                         }
                         else
                         {
-                            get_dashboard_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
+                            file_status_result.is_valid_year = false;
                         }
+
+ 
+                    }
+
+
+                    if
+                    (
+                        ! file_status_result.is_valid_address ||
+                        ! file_status_result.is_valid_year
+                    )
+                    {
+                        file_status_result.file_status = "Validation Error";
+                        return Ok(file_status_result);
                     }
 
                     
                     if
                     (
+                        string.IsNullOrWhiteSpace(get_dashboard_body.payload.year) ||
                         string.IsNullOrWhiteSpace(get_dashboard_body.payload.lat) ||
                         string.IsNullOrWhiteSpace(get_dashboard_body.payload.lon)
                     )
@@ -371,11 +375,7 @@ public class cvsAPIController: ControllerBase
                     }
 
 
-                    if(! file_status_result.is_valid_address)
-                    {
-                        file_status_result.file_status = "Validation Error";
-                        return Ok(file_status_result);
-                    }
+
 
 
                     body_text = JsonSerializer.Serialize(get_dashboard_body);
