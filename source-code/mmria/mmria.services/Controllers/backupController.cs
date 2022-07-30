@@ -114,10 +114,30 @@ public class backupController : Controller
             dir_list.Add($"d-- {dirInfo.Name}");
         }
 
-        var total_size = total_length / 1000000.0;
+        var total_size =  0.0;
+        if(total_length > 1_000_000_000)
+        {
+            total_size = total_length / 1_000_000_000.0;
+            result.Add($"total file size: {total_size:00.00} Gb");
+        }
+        else if(total_length > 1_000_000)
+        {
+            total_size = total_length / 1_000_000.0;
+            result.Add($"total file size: {total_size:00.00} Mb");
+        }
+        else if(total_length > 1_000)
+        {
+            total_size = total_length / 1_000.0;
+            result.Add($"total file size: {total_size:00.00} Kb");
+        }
+        else 
+        {
+            total_size = total_length;
+            result.Add($"total file size: {total_size:00.00} bytes");
+        }
 
 
-        result.Add($"total file size: {total_size:00.00} mb");
+        
         result.AddRange(file_list);
         result.AddRange(dir_list);
 
