@@ -84,14 +84,6 @@ public class backupController : Controller
         var file_info_List = new List<FileInfo>();
         var dir_info_List = new List<DirectoryInfo>();
 
-/*
-
-        var freeBytes = new DriveInfo(root_folder).AvailableFreeSpace; 
-        var rootInfo = new DirectoryInfo(root_folder);
-
-        rootInfo.
-        */
-
         foreach(var file_path in System.IO.Directory.GetFiles(root_folder))
         {
             var fileInfo = new FileInfo(file_path);
@@ -108,10 +100,13 @@ public class backupController : Controller
         file_info_List = file_info_List.OrderByDescending( x => x.CreationTime ).ToList();
         dir_info_List = dir_info_List.OrderByDescending( x => x.CreationTime ).ToList();
 
+        long total_length = 0;
 
         foreach(var fileInfo in file_info_List)
         {
-            file_list.Add($"--- {fileInfo.Name}");
+            total_length += fileInfo.Length;
+            var size = fileInfo.Length / 1000000.0;
+            file_list.Add($"--- {fileInfo.Name} : {size:00.00} mb");
         }
 
         foreach(var dirInfo in dir_info_List)
@@ -119,34 +114,15 @@ public class backupController : Controller
             dir_list.Add($"d-- {dirInfo.Name}");
         }
 
+        var total_size = total_length / 1000000.0;
 
 
-
+        result.Add($"total file size: {total_size:00.00} mb");
         result.AddRange(file_list);
         result.AddRange(dir_list);
 
 
         return Ok(result);
-    }
-
-
-    private string GetDriveSize()
-    {
-        var process = new System.Diagnostics.Process()
-        {
-            StartInfo = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "/bin/bash",
-                Arguments = $"-c \"df\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            }
-        };
-        process.Start();
-        string result = process.StandardOutput.ReadToEnd();
-        process.WaitForExit();
-        return result;
     }
 
 
