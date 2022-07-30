@@ -221,6 +221,7 @@ public class cvsAPIController: ControllerBase
 
                             if
                             (
+                                string.IsNullOrWhiteSpace(get_dashboard_body.payload.year) &&
                                 case_dictionary != null &&
                                 case_dictionary.ContainsKey("home_record")
                             )
@@ -250,16 +251,20 @@ public class cvsAPIController: ControllerBase
                                 }
                                 else
                                 {
-                                    file_status_result.is_valid_address = false;
+                                    if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.year))
+                                        file_status_result.is_valid_address = false;
                                 }
                             }
                             else
                             {
-                                file_status_result.is_valid_address = false;
+                                if(string.IsNullOrWhiteSpace(get_dashboard_body.payload.year))
+                                    file_status_result.is_valid_address = false;
+
                             }
 
                             if
                             (
+                                string.IsNullOrWhiteSpace(get_dashboard_body.payload.lat) &&
                                 case_dictionary != null &&
                                 case_dictionary.ContainsKey("death_certificate")
                             )
@@ -286,8 +291,6 @@ public class cvsAPIController: ControllerBase
                                         get_dashboard_body.payload.lat = place_of_last_residence["latitude"].ToString();
                                         get_dashboard_body.payload.lon = place_of_last_residence["longitude"].ToString();
 
-                                        //file_status_result.updated_lat = get_dashboard_body.payload.lat;
-                                        //file_status_result.updated_lon = get_dashboard_body.payload.lon;
                                     }
                                     else
                                     {
@@ -357,6 +360,22 @@ public class cvsAPIController: ControllerBase
                         }
                     }
 
+                    
+                    if
+                    (
+                        string.IsNullOrWhiteSpace(get_dashboard_body.payload.lat) ||
+                        string.IsNullOrWhiteSpace(get_dashboard_body.payload.lon)
+                    )
+                    {
+                        file_status_result.is_valid_address = false;
+                    }
+
+
+                    if(! file_status_result.is_valid_address)
+                    {
+                        file_status_result.file_status = "Validation Error";
+                        return Ok(file_status_result);
+                    }
 
 
                     body_text = JsonSerializer.Serialize(get_dashboard_body);

@@ -54,12 +54,12 @@ async function main_continue()
             report_log.push(`file_status: ${response.file_status} @ ${new Date()}`);
             if
             (
-                response.file_status.is_valid_address &&
-                response.file_status.is_valid_address == false
+                response.is_valid_address != undefined &&
+                response.is_valid_address == false
             )
             {
-                header.innerHTML = "Error: Community Vital Sign PDF";
-                el.innerHTML = "Decedent Resident Address is not available.<br/>Please contact your jurisdiction abstractor to resolve this issue.<br/>Community Vital Signs PDF cannot be generated.";
+                header.innerHTML = "<span style='color:990000;'>Decedent Resident Address is not available.</span>";
+                el.innerHTML = "<span style='color:007700;'>Please contact your jurisdiction abstractor to resolve this issue.</span><br/>Community Vital Signs PDF cannot be generated.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
             }
