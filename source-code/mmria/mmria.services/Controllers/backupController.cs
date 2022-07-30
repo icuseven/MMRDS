@@ -95,12 +95,14 @@ public class backupController : Controller
         foreach(var file_path in System.IO.Directory.GetFiles(root_folder))
         {
             var fileInfo = new FileInfo(file_path);
+            file_info_List.Add(fileInfo);
 
         }
 
         foreach(var dir_path in System.IO.Directory.GetDirectories(root_folder))
         {
              var dirInfo = new DirectoryInfo(dir_path);
+             dir_info_List.Add(dirInfo);
         }
 
         file_info_List = file_info_List.OrderByDescending( x => x.CreationTime ).ToList();
