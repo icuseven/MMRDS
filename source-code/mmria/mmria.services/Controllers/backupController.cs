@@ -105,8 +105,23 @@ public class backupController : Controller
         foreach(var fileInfo in file_info_List)
         {
             total_length += fileInfo.Length;
-            var size = fileInfo.Length / 1000000.0;
-            file_list.Add($"--- {fileInfo.Name} : {size:00.00} mb");
+            var size = 0.0;
+            
+            if(fileInfo.Length > 1_000_000)
+            {
+                size = fileInfo.Length / 1_000_000.0;
+                file_list.Add($"--- {fileInfo.Name} : {size:#0.00} Mb");
+            }
+            else if(fileInfo.Length > 1_000)
+            {
+                size = fileInfo.Length / 1_000.0;;
+                file_list.Add($"--- {fileInfo.Name} : {size:#0.00} Kb");
+            }
+            else
+            {
+                size = fileInfo.Length;
+                file_list.Add($"--- {fileInfo.Name} : {size:#0.00} bytes");
+            }
         }
 
         foreach(var dirInfo in dir_info_List)
@@ -118,22 +133,22 @@ public class backupController : Controller
         if(total_length > 1_000_000_000)
         {
             total_size = total_length / 1_000_000_000.0;
-            result.Add($"total file size: {total_size:00.00} Gb");
+            result.Add($"total file size: {total_size:##0.00} Gb");
         }
         else if(total_length > 1_000_000)
         {
             total_size = total_length / 1_000_000.0;
-            result.Add($"total file size: {total_size:00.00} Mb");
+            result.Add($"total file size: {total_size:##0.00} Mb");
         }
         else if(total_length > 1_000)
         {
             total_size = total_length / 1_000.0;
-            result.Add($"total file size: {total_size:00.00} Kb");
+            result.Add($"total file size: {total_size:##0.00} Kb");
         }
         else 
         {
             total_size = total_length;
-            result.Add($"total file size: {total_size:00.00} bytes");
+            result.Add($"total file size: {total_size:##0.00} bytes");
         }
 
 

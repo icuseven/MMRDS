@@ -49,7 +49,18 @@
     {
         @if(@item.StartsWith("---"))
         {
-            <li><a href="/backupManager/GetFile/@item.Substring(4)" target="_blank">@item</a></li>
+            var array = item.Split(":");
+            var file_name = "";
+
+            if(array.Length > 1)
+            {
+                file_name = array[0].Substring(4);
+            }
+            else
+            {
+                file_name = item.Substring(4);
+            }
+            <li><a href="/backupManager/GetFile/@file_name" target="_blank">@item</a></li>
         }
         else
         {
