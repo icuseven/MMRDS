@@ -100,29 +100,42 @@ public class backupManagerController : Controller
         var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
 
-        var responseContent = await server_statu_curl.executeAsync();
-        //System.Console.WriteLine(responseContent);
+        using (var client = new HttpClient())
+        {
+            using (var response = await client.GetAsync(base_url))
+            {
+                using (var content = response.Content)
+                {
+
+                    var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
+
+
+                    //var fileName = content.Headers.ContentDisposition.FileName;
+                    using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        await response.Content.CopyToAsync(fs);
+                        
+                    }
+                            
+                    if(System.IO.File.Exists(file_path))
+                    {
+                        byte[] fileBytes = await ReadFile(file_path);
+
+                        System.IO.File.Delete(file_path);
+                        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+
+                }
+            }
+        }
+
+/*
        
-        var bytes = Convert.FromBase64String(responseContent);
-        var contents = new System.Net.Http.StreamContent(new MemoryStream(bytes));
-
-        var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
-
-        System.IO.File.WriteAllBytes(file_path, bytes);
-                 
-
-
-        if(System.IO.File.Exists(file_path))
-        {
-            byte[] fileBytes = await ReadFile(file_path);
-
-            System.IO.File.Delete(file_path);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
-        }
-        else
-        {
-            return NotFound();
-        }
+        */
     }
 
     async Task<byte[]> ReadFile(string s)

@@ -172,11 +172,32 @@ public class backupController : Controller
 
         if(System.IO.File.Exists(file_path))
         {
-            byte[] fileBytes = await ReadFile(file_path);
+
+            return new PhysicalFileResult
+            (
+                file_path, 
+                "application/octet-stream"
+            ) 
+            { 
+                FileDownloadName = id 
+            };
+
+
+           //byte[] fileBytes = await ReadFile(file_path);
 
             
             //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
-            return Ok(Base64EncodeBytes(fileBytes));
+            //return Ok(new FileStreamResult(Base64EncodeBytes(fileBytes));
+/*
+            using(FileStream fs = new FileStream (file_path, FileMode.Open, FileAccess.Read))
+            {
+                var fsr = new FileStreamResult(fs, System.Net.Mime.MediaTypeNames.Application.Octet);
+                fsr.FileDownloadName = id;
+
+                 return Ok(fsr);
+            }
+*/
+            
         }
         else
         {
@@ -232,7 +253,7 @@ public class backupController : Controller
         return result;
     }
 
-        async Task<byte[]> ReadFile(string s)
+    async Task<byte[]> ReadFile(string s)
     {
         byte[] data;
         int br;
@@ -249,7 +270,7 @@ public class backupController : Controller
         return data;
     }
 
-    public static string Base64EncodeBytes(byte[] inputBytes) 
+    char[] Base64EncodeBytes(byte[] inputBytes) 
     {
         // Each 3-byte sequence in inputBytes must be converted to a 4-byte 
         // sequence 
@@ -264,7 +285,7 @@ public class backupController : Controller
         char[] encodedCharArray = new char[arrLength];
         Convert.ToBase64CharArray(inputBytes, 0, inputBytes.Length, encodedCharArray, 0);
 
-        return (new string(encodedCharArray));
+        return encodedCharArray;
     }
 
 }
