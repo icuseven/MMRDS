@@ -102,18 +102,17 @@ public class backupManagerController : Controller
 
         using (var client = new HttpClient())
         {
+            client.DefaultRequestHeaders.Add("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
             using (var response = await client.GetAsync(base_url))
             {
                 using (var content = response.Content)
                 {
-
                     var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
 
-
-                    //var fileName = content.Headers.ContentDisposition.FileName;
                     using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
                         await response.Content.CopyToAsync(fs);
+                        //await fs.FlushAsync();
                         
                     }
                             
@@ -121,7 +120,7 @@ public class backupManagerController : Controller
                     {
                         byte[] fileBytes = await ReadFile(file_path);
 
-                        System.IO.File.Delete(file_path);
+                        //System.IO.File.Delete(file_path);
                         return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
                     }
                     else
@@ -133,9 +132,6 @@ public class backupManagerController : Controller
             }
         }
 
-/*
-       
-        */
     }
 
     async Task<byte[]> ReadFile(string s)

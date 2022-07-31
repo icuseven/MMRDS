@@ -166,13 +166,10 @@ public class backupController : Controller
     public async Task<IActionResult> GetFile(string id)
     {
         string root_folder = Program.DbConfigSet.name_value["backup_storage_root_folder"];
-
-
         var file_path = System.IO.Path.Combine(root_folder, id);
 
         if(System.IO.File.Exists(file_path))
         {
-
             return new PhysicalFileResult
             (
                 file_path, 
@@ -181,23 +178,6 @@ public class backupController : Controller
             { 
                 FileDownloadName = id 
             };
-
-
-           //byte[] fileBytes = await ReadFile(file_path);
-
-            
-            //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
-            //return Ok(new FileStreamResult(Base64EncodeBytes(fileBytes));
-/*
-            using(FileStream fs = new FileStream (file_path, FileMode.Open, FileAccess.Read))
-            {
-                var fsr = new FileStreamResult(fs, System.Net.Mime.MediaTypeNames.Application.Octet);
-                fsr.FileDownloadName = id;
-
-                 return Ok(fsr);
-            }
-*/
-            
         }
         else
         {
