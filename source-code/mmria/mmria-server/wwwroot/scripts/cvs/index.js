@@ -76,6 +76,8 @@ async function main_continue()
             }
             else if(response.file_status == "file ready")
             {
+                header.innerHTML = "<span style='color:007700;'>PDF Generated.</span>";
+                el.innerHTML = "Press the download button to save the report.";
                 spinner.innerHTML = `${render_close_button_html()}&nbsp;${render_download_button_html()}`;
 
                 is_finished = true;
