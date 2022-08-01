@@ -120,7 +120,7 @@ public class backupManagerController : Controller
                     {
                         byte[] fileBytes = await ReadFile(file_path);
 
-                        //System.IO.File.Delete(file_path);
+                        System.IO.File.Delete(file_path);
                         return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, id);
                     }
                     else
