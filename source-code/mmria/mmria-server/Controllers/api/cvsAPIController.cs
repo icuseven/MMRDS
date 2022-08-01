@@ -341,7 +341,35 @@ public class cvsAPIController: ControllerBase
                                 ! valid_year_list.Contains(selected_year)
                             )
                             {
-                                file_status_result.is_valid_year = false;
+
+                                var lower_diff = System.Math.Abs(valid_year_list[0] - selected_year);
+                                var upper_diff = System.Math.Abs(valid_year_list[valid_year_list.Count -1] - selected_year);
+
+                                if(lower_diff < upper_diff)
+                                {
+                                    if(lower_diff <= 3)
+                                    {
+                                        get_dashboard_body.payload.year = valid_year_list[0].ToString();
+                                    }
+                                    else
+                                    {
+                                        file_status_result.is_valid_year = false;
+                                    }
+                                }
+                                else
+                                {
+                                    if(upper_diff <= 3)
+                                    {
+                                        get_dashboard_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
+                                    }
+                                    else
+                                    {
+                                        file_status_result.is_valid_year = false;
+                                    }
+                                }
+
+
+                                
                             }
                         }
                         else
