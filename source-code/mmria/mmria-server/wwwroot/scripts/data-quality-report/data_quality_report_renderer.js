@@ -756,7 +756,7 @@ async function download_data_quality_report_button_click()
     {
         let headers = {
             title: `Data Quality Report for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter }    Previous 4 Periods: ${ getPreviousFourQuarters()}`,
         };
 
         await create_pdf(
@@ -772,7 +772,7 @@ async function download_data_quality_report_button_click()
     {
         let headers = {
             title: `Data Quality Report Details for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter } - Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+            subtitle: `Reporting Period: ${ g_model.selectedQuarter }   Previous 4 Periods: ${ getPreviousFourQuarters()}`,
         };
         
 
