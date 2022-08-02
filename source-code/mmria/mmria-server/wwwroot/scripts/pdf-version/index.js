@@ -329,8 +329,8 @@ async function print_pdf(ctx) {
 	{
 		window.setTimeout
 		(
-			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			// async function () { await pdfMake.createPdf(doc).open(window); },
+			async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 	}
@@ -1801,12 +1801,86 @@ function print_pdf_render_content(ctx) {
 			colspan = ctx.metadata.children.length;
 
 			// If grid is over a certain size, then do something different
-			if (ctx.metadata.name == 'transport_vital_signs' ||
+            if 
+            (
+                ctx.metadata.name == 'cvs_grid' 
+			) 
+            {
+				colWidths = new Array();
+				colWidths = [30, 450];
+				row = new Array();
+				row.push
+                (
+					{ text: ctx.metadata.prompt, style: ['gridHeader', 'blueFill'], colSpan: '2', },
+					{}
+                );
+				gridBody.push(row);
+				row = new Array();
+				row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
+				//row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], },);
+				row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+				//row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
+				gridBody.push(row);
+
+				// Are there any records?
+				if (ctx.data.length == 0) 
+                {
+					row = new Array();
+					row.push
+                    (
+                        { text: 'No records entered', style: ['tableDetail'], colSpan: '2', },
+						{}
+                    );
+					gridBody.push(row);
+				} 
+                else 
+                {
+					// Build the table detail
+					let metaChild = ctx.metadata.children;
+					ctx.data.forEach((dataChild, dataIndex) => {
+						row = new Array();
+						row.push({ text: `${dataIndex + 1}`, style: ['tableDetail', 'isItalics', 'isBold'], alignment: 'center', },);
+						
+						// Create a two column table for the Medical Info column - exclude the first (datetime) and last (comments)  
+						let colPrompt = new Array();
+						let colData = new Array();
+						for (let i = 1; i < metaChild.length - 1; i++) 
+                        {
+							switch (metaChild[i].type.toLowerCase()) 
+                            {
+								case 'list':
+									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
+									colData.push({ text: getLookupField(ctx.lookup, dataChild[metaChild[i].name], metaChild[i]), style: ['tableDetail'], },);
+									break;
+								case 'string':
+								case 'number':
+								case 'time':
+								case 'hidden':
+									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
+									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
+									break;
+								default:
+									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
+									colData.push({ text: ' DEFAULT', style: ['tableDetail'], },);
+									break;
+							}
+						}
+
+						// Put it into a table
+						row.push({ columns: [colPrompt, colData], },);
+						
+						gridBody.push(row)
+					});
+				}
+			} 
+            else if 
+            (
+                ctx.metadata.name == 'transport_vital_signs' ||
 				ctx.metadata.name == 'vital_signs' ||
 				ctx.metadata.name == 'laboratory_tests' ||
-				ctx.metadata.name == 'routine_monitoring' ||
-                ctx.metadata.name == 'cvs_grid' 
-			) {
+				ctx.metadata.name == 'routine_monitoring' 
+			) 
+            {
 				colWidths = new Array();
 				colWidths = [30, 100, 200, '*'];
 				row = new Array();
@@ -1822,12 +1896,15 @@ function print_pdf_render_content(ctx) {
 				gridBody.push(row);
 
 				// Are there any records?
-				if (ctx.data.length == 0) {
+				if (ctx.data.length == 0) 
+                {
 					row = new Array();
 					row.push({ text: 'No records entered', style: ['tableDetail'], colSpan: '4', },
 						{}, {}, {});
 					gridBody.push(row);
-				} else {
+				} 
+                else 
+                {
 					// Build the table detail
 					let metaChild = ctx.metadata.children;
 					ctx.data.forEach((dataChild, dataIndex) => {
@@ -1863,7 +1940,8 @@ function print_pdf_render_content(ctx) {
 						gridBody.push(row)
 					});
 				}
-			} else if (ctx.metadata.children[ctx.metadata.children.length - 1].name == 'comments' ||
+			} 
+            else if (ctx.metadata.children[ctx.metadata.children.length - 1].name == 'comments' ||
 				ctx.metadata.children[ctx.metadata.children.length - 1].name == 'comment' ||
 				ctx.metadata.children[ctx.metadata.children.length - 1].name == 'pregrid_comments') {
 				// Save the comment field name
