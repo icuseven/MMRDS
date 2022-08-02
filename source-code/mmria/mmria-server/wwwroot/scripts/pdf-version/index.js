@@ -329,8 +329,8 @@ async function print_pdf(ctx) {
 	{
 		window.setTimeout
 		(
-			// async function () { await pdfMake.createPdf(doc).open(window); },
-			async function () { await pdfMake.createPdf(doc).open(); },
+			async function () { await pdfMake.createPdf(doc).open(window); },
+			// async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 	}
@@ -1806,6 +1806,9 @@ function print_pdf_render_content(ctx) {
                 ctx.metadata.name == 'cvs_grid' 
 			) 
             {
+
+                ctx.content.push([{ text: '', margin: [0, 10, 0, 0], colSpan: '2', }, {},],);
+
 				colWidths = new Array();
 				colWidths = [30, 450];
 				row = new Array();
