@@ -208,7 +208,7 @@ async function pre_render(p_data)
 
 function render_close_button_html()
 {
-    return `<input id="close_button" type="button" value="Close this tab" onclick="window.close();" />`
+    return `<input id="close_button" type="button" alt="Close this tab." value="Close this tab" onclick="window.close();" />`
 }
 
 function render_download_button_html()
@@ -216,7 +216,7 @@ function render_download_button_html()
     var pdf_url = `${location.protocol}//${location.host}/api/cvsAPI/${g_record_id}`;
     return `
     <a id="a_download" href="${pdf_url}">
-    <input id="download_button" type="button" value="Download ${g_record_id} PDF" onclick="download_button_click()" />
+    <input id="download_button" type="button" alt="Download ${g_record_id} PDF" value="Download ${g_record_id} PDF" onclick="download_button_click()" />
     `;
 }
 
