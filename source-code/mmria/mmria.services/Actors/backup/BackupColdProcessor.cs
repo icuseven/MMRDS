@@ -169,9 +169,9 @@ public class BackupColdProcessor : ReceiveActor
 
                 folder_compressor.Compress
                 (
-                    System.IO.Path.Combine(prefix_folder, zip_file_name),
+                    System.IO.Path.Combine(target_folder, zip_file_name),
                     encryption_key,
-                    target_folder
+                    prefix_folder
                 );
 
                 System.IO.Directory.Delete(prefix_folder, true);
