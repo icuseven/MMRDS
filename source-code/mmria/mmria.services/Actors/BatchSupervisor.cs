@@ -36,20 +36,26 @@ public class BatchSupervisor : ReceiveActor
         Receive<mmria.common.ije.NewIJESet_Message>(message =>
         {
 
-                string ping_result = null;
-                int ping_count = 0;
+                string ping_result = PingCVSServer(mmria.services.vitalsimport.Program.DbConfigSet);
+                int ping_count = 1;
                 
                 while
                 (
                     (
                         ping_result == null ||
-                        ping_result != "Server is up!"
+                        ping_result.ToLower() != "Server is up!".ToLower()
                     ) && 
                     ping_count < 5
                 )   
                 {
+
+                    const int Milliseconds_In_Second = 1000;
+                    System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
+
                     ping_result = PingCVSServer(mmria.services.vitalsimport.Program.DbConfigSet);
                     ping_count +=1;
+
+                    
 
                 }
 

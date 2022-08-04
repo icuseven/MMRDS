@@ -78,8 +78,8 @@ public class CVS_Migration
 		try
 		{
 
-                string ping_result = null;
-                int ping_count = 0;
+                string ping_result = await PingCVSServer();
+                int ping_count = 1;
                 
                 while
                 (
@@ -90,8 +90,11 @@ public class CVS_Migration
                     ping_count < 5
                 )
                 {
-                    ping_result = await PingCVSServer();
 
+					const int Milliseconds_In_Second = 1000;
+                    System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
+                    
+					ping_result = await PingCVSServer();
                     ping_count +=1;
 
                 }
