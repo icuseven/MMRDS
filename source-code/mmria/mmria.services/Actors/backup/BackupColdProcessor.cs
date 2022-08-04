@@ -101,7 +101,19 @@ public class BackupColdProcessor : ReceiveActor
 
             document_counts.Add(($"vital import BackupStatus: {vital_import_backup_result_message.Status} SuccessCount: {vital_import_backup_result_message.SuccessCount} ErrorCount: {vital_import_backup_result_message.ErrorCount}  Detail: {detail}", vital_import_backup_result_message.Doc_ID_Count));
 
+            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+            string encryption_key = null;
 
+            var zip_file_name = $"{date_string}-vital-import.zip";
+
+            folder_compressor.Compress
+            (
+                System.IO.Path.Combine(target_folder, zip_file_name),
+                encryption_key,
+                db_folder
+            );
+
+            System.IO.Directory.Delete(db_folder, true);
 
             foreach(var kvp in db_config_set.detail_list)
             {
@@ -159,13 +171,7 @@ public class BackupColdProcessor : ReceiveActor
                 
                 }
 
-
-
-                mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
-
-                string encryption_key = null;
-
-                var zip_file_name = $"{date_string}-{prefix}.zip";
+                zip_file_name = $"{date_string}-{prefix}.zip";
 
                 folder_compressor.Compress
                 (
