@@ -195,22 +195,6 @@ public class BackupColdProcessor : ReceiveActor
 
             count_file_path = System.IO.Path.Combine(root_folder, $"{date_string}-db_record_count.txt");
             await System.IO.File.WriteAllTextAsync (count_file_path, string.Join('\n',document_text));
-/*
-            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
-
-
-            string encryption_key = null;
-
-            folder_compressor.Compress
-            (
-                System.IO.Path.Combine(root_folder, zip_file_name),
-                encryption_key,
-                target_folder
-            );
-
-            System.IO.Directory.Delete(target_folder, true);
-            */
-
 
         }
         catch(Exception ex)

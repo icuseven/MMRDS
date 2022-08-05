@@ -18,7 +18,6 @@ $(function () {//http://www.w3schools.com/html/html_layout.asp
 });
 
 
-//: MMRIA#:<RecordID>/<Form Name
 let TitleMap = {
 	"home_record": "Home",
 	"death_certificate": "DC",
@@ -337,15 +336,6 @@ async function print_pdf(ctx) {
 
 }
 
-// ************************************************************************
-// ************************************************************************
-//
-// Begin - Generic Functions
-//
-// ************************************************************************
-// ************************************************************************
-
-// getBase64ImageFromURL
 function getBase64ImageFromURL(url) {
 	return new Promise((resolve, reject) => {
 		let img = new Image();
@@ -636,28 +626,8 @@ function lookupFieldMultiChoiceArr(val, arr) {
 	return strChoice;
 }
 
-// getLookupField - either global or field - single or multi
 function getLookupField(lookup, data, metadata) {
-	// **************************************************************************
-	// *** See what kind of lookup will be used
-	// ***
-	// *** The 1st if will see if is_multiselect exists and set to true
-	// ***		Then check to see if  path_reference exist and if it exists
-	// ***		then call lookupGlobalMultiChoiceArr else call
-	// ***		lookupFieldMultiChoiceArr - both will return a list of
-	// ***		display values or just return what is in the field in case
-	// ***		there is a problem
-	// ***
-	// *** The 2nd if will check to see if path_reference exists and then call
-	// *** lookupGlobalArr and return the display value
-	// ***
-	// *** The 3rd if will check to see if the values array has length and then
-	// *** call lookupFieldArr and return the display value
-	// ***
-	// *** Else just return the data value - just in case there is a problem
-	// **************************************************************************
 
-	// return string
 	let retStr = '';
 
 	if (metadata.hasOwnProperty('is_multiselect') && metadata.is_multiselect == true) {
@@ -758,22 +728,6 @@ function doChart2(p_id_prefix, chartData, chartTitle) {
 	return myImgChart.toBase64Image();
 	// return canvas.toDataURL();
 }
-
-// ************************************************************************
-// ************************************************************************
-//
-// End - Generic Functions
-//
-// ************************************************************************
-// ************************************************************************
-
-// ************************************************************************
-// ************************************************************************
-//
-// Start - Build the record based on what kind it is
-//
-// ************************************************************************
-// ************************************************************************
 async function formatContent(p_ctx, arrMap) {
 	let retContent = [];
 	let body = [];
@@ -1821,7 +1775,7 @@ function print_pdf_render_content(ctx) {
 				row = new Array();
 				row.push({ text: 'Rec #', style: ['tableLabel', 'blueFill'], alignment: 'center', },);
 				//row.push({ text: 'Date', style: ['tableLabel', 'blueFill'], },);
-				row.push({ text: 'Medical Information', style: ['tableLabel', 'blueFill'], },);
+				row.push({ text: 'Community Vital Signs Data', style: ['tableLabel', 'blueFill'], },);
 				//row.push({ text: 'Comment(s)', style: ['tableLabel', 'blueFill'], },);
 				gridBody.push(row);
 

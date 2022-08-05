@@ -1,4 +1,4 @@
-@model List<string>; 
+@model (string folder_name, List<string> file_list); 
 @using System.Security.Claims;
 @{
     Layout = "_LayoutBase";
@@ -45,7 +45,8 @@
 
 <h4>Directory Listing</h4>
 <ul>
-    @foreach (var item in Model)
+    <li><a href="/backupManager">../TopFolder</a></li>
+    @foreach (var item in Model.file_list)
     {
         @if(@item.StartsWith("---"))
         {
@@ -60,14 +61,14 @@
             {
                 file_name = item.Substring(4);
             }
-            <li><a href="/backupManager/GetFile/@file_name" target="_blank">@item</a></li>
+            <li><a href="/backupManager/GetSubFolderFile/@Model.folder_name/@file_name" target="_blank">@item</a></li>
         }
         else if(@item.StartsWith("d--"))
         {
 
             var file_name = item.Substring(4);
             
-            <li><a href="/backupManager/SubFolderFileList/@file_name">@item</a></li>
+            <li>@item</li>
         }
         else
         {
