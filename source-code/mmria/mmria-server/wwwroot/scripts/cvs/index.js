@@ -59,7 +59,7 @@ async function main_continue()
             )
             {
                 header.innerHTML = "Community Vital Signs PDF cannot be generated.";
-                el.innerHTML = "<span style='color:990000;'>Decedent Resident Address is not available.</span><br/><span style='color:007700;'>Please contact your jurisdiction abstractor to resolve this issue.</span>";
+                el.innerHTML = "Decedent Resident Address is not available.<br/>Please contact your jurisdiction abstractor to resolve this issue.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
             }
@@ -70,7 +70,7 @@ async function main_continue()
             )
             {
                 header.innerHTML = "Community Vital Signs PDF cannot be generated.";
-                el.innerHTML = "<span style='color:990000;'>Decedent year of death is out of range.</span><br/><span style='color:007700;'>Decedent year of death is outside of the range that is provided by the Erase MM CVS API.</span>";
+                el.innerHTML = "Decedent year of death is out of range.<br/>Decedent year of death is outside of the range that is provided by the Erase MM CVS API.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
             }
