@@ -125,7 +125,12 @@ var $mmria = function()
                     )
                     {
                     
-                        $mmria.info_dialog_show("Error: Community Vital Signs PDF","Address is not validated.", "Please verify address and validate before clicking button to View Community Vital Signs PDF.");
+                        $mmria.info_dialog_show
+                        (
+                            "Error: Community Vital Signs PDF",
+                            "Address is not validated.", 
+                            "Please verify <strong>Place of Last Residence</strong> address on the <strong>Death Certificate</strong> form and validate before clicking button to View Community Vital Signs PDF."
+                        );
                     }
                     else
                     {
