@@ -76,6 +76,8 @@ _ "whitespace"
 <p/>
 <div/>
 <span/>
+<sup />
+<sub />
 
 <br/>
 <hr/>
