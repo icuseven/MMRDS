@@ -1,0 +1,62 @@
+{
+  function makeInteger(o) {
+    return parseInt(o.join(""), 10);
+  }
+}
+/*
+ / = or
+
+ <name> ["<human_readable>"] = <variable> | <rule>
+
+ <variable> = <label>":"<rule>
+
+An expression matching a literal string produces a JavaScript string containing matched text.
+An expression matching repeated occurrence of some subexpression produces a JavaScript array with all the matches.
+
+
+
+
+"literal"
+[characters]
+rule
+( expression )
+expression *
+expression +
+expression ?
+& expression // return undefined and do not consume any input, otherwise consider the match failed.
+! expression // return undefined and do not consume any input, otherwise consider the match failed.
+& { predicate }
+
+
+
+$ expression
+label : expression
+
+expression1 expression2 ... expressionn
+Match a sequence of expressions and return their match results in an array.
+expression { action }
+
+
+built-in functions
+
+expected(err_message):throws error
+location(): {
+  start: { offset: 23, line: 5, column: 6 },
+  end:   { offset: 23, line: 5, column: 6 }
+}
+
+
+
+
+*/
+
+
+
+
+wordCount = '<html>' w:(left_bracket word space?)* '</html>' {return w.length;} 
+word = letter+
+letter = [\[a-zA-Z0-9]
+space = " "
+left_bracket = '<'
+right_bracket = [>]
+end_right_bracket = '</'
