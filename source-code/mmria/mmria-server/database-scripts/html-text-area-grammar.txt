@@ -13,9 +13,6 @@
 An expression matching a literal string produces a JavaScript string containing matched text.
 An expression matching repeated occurrence of some subexpression produces a JavaScript array with all the matches.
 
-
-
-
 "literal"
 [characters]
 rule
@@ -45,15 +42,80 @@ location(): {
   end:   { offset: 23, line: 5, column: 6 }
 }
 
+Expression
+  = head:Term tail:(_ ("+" / "-") _ Term)* {
+      return tail.reduce(function(result, element) {
+        if (element[1] === "+") { return result + element[3]; }
+        if (element[1] === "-") { return result - element[3]; }
+      }, head);
+    }
+
+Term
+  = head:Factor tail:(_ ("*" / "/") _ Factor)* {
+      return tail.reduce(function(result, element) {
+        if (element[1] === "*") { return result * element[3]; }
+        if (element[1] === "/") { return result / element[3]; }
+      }, head);
+    }
+
+Factor
+  = "(" _ expr:Expression _ ")" { return expr; }
+  / Integer
+
+Integer "integer"
+  = _ [0-9]+ { return parseInt(text(), 10); }
+
+_ "whitespace"
+  = [ \t\n\r]*
+
+
+<< tags >>
+<html/>
+
+<h1 - h6>
+<p/>
+<div/>
+<span/>
+
+<br/>
+<hr/>
+
+<ul/>
+<ol/>
+<li/>
+
+
+<u/>
+<i/>
+<b/>
+<s> -> strike through
+
+<table />
+<tr />
+<th span=""/>
+<td span=""/>
+
+
+<< attributes >>
+
+style="" 
+    font-family, 
+    font-size, 
+    color, 
+    background-color, 
+    vertical-align, 
+    align, 
+    width, 
+    height
+
+span=""
 
 
 
 */
 
 
-
-
-wordCount = '<html>' w:(left_bracket word space?)* '</html>' {return w.length;} 
+start = '<html>' w:(left_bracket word space?)* '</html>' {return w.length;} 
 word = letter+
 letter = [\[a-zA-Z0-9]
 space = " "
