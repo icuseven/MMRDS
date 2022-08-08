@@ -98,7 +98,11 @@ public class CVS_Migration
 					
 
 					const int Milliseconds_In_Second = 1000;
-                    System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
+					var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
+                    while(DateTime.Now < next_date)
+					{
+						// do nothing
+					}
                     
 					ping_result = await PingCVSServer();
                     ping_count +=1;

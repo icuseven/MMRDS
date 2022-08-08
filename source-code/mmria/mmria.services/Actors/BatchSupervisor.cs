@@ -49,11 +49,15 @@ public class BatchSupervisor : ReceiveActor
                 )   
                 {
 
-                    Console.WriteLine($"CVS Server Not running: Waiting 40 seconds to try again: {ping_result}");
+                    Console.WriteLine($"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}");
 
-                    const int Milliseconds_In_Second = 1000;
-                    System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
-
+					const int Milliseconds_In_Second = 1000;
+					var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
+                    while(DateTime.Now < next_date)
+					{
+						// do nothing
+					}
+                    
                     ping_result = PingCVSServer(mmria.services.vitalsimport.Program.DbConfigSet);
                     ping_count +=1;
 
