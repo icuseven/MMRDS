@@ -45,7 +45,7 @@ public class BatchSupervisor : ReceiveActor
                         ping_result == null ||
                         ping_result.ToLower() != "Server is up!".ToLower()
                     ) && 
-                    ping_count < 5
+                    ping_count < 2
                 )   
                 {
 

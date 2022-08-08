@@ -87,7 +87,7 @@ public class CVS_Migration
                         ping_result == null ||
                         ping_result != "Server is up!"
                     ) && 
-                    ping_count < 5
+                    ping_count < 2
                 )
                 {
 
