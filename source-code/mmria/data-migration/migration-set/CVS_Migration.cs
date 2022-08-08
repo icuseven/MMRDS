@@ -91,6 +91,12 @@ public class CVS_Migration
                 )
                 {
 
+
+					var output_text = $"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}";
+					this.output_builder.AppendLine(output_text);
+					Console.WriteLine(output_text);
+					
+
 					const int Milliseconds_In_Second = 1000;
                     System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
                     

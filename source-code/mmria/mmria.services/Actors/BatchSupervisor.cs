@@ -49,6 +49,8 @@ public class BatchSupervisor : ReceiveActor
                 )   
                 {
 
+                    Console.WriteLine($"CVS Server Not running: Waiting 40 seconds to try again: {ping_result}");
+
                     const int Milliseconds_In_Second = 1000;
                     System.Threading.Thread.Sleep(40 * Milliseconds_In_Second);
 
