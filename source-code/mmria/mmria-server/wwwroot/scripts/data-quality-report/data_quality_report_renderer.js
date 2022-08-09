@@ -87,9 +87,10 @@ function render_case_folder_include_list()
             const child = g_case_folder_list[i];
             const element_id = child == "/" ? "topfolder": child.replace("/","_");
             
+            
                     html_array.push("<div>")
                     html_array.push(`<label for='${element_id}'>`)
-                    html_array.push(`<input id='${element_id} value='`);
+                    html_array.push(`<input id='${element_id}' value='`);
                     html_array.push(child.replace(/'/g, "&#39;"));
                     html_array.push("' ");
                     html_array.push("type='checkbox' ");
