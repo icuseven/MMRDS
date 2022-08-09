@@ -24,7 +24,7 @@ function data_quality_report_render(p_quarters)
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Summary & Detail Report</label>
                         </div>
                         <div style="display:none;">
-                            <input type="radio" id="summary-detail-report" name="report-type" value="Debug" onclick="updateReportType(event)">
+                            <input type="radio" id="summary-detail-report-debug" name="report-type" value="Debug" onclick="updateReportType(event)">
                             <label for="summary-detail-report" class="mb-0 font-weight-normal mr-2">Debug</label>
                             <input type="text" id="debug-report-question" name="report-type" value=""/><br/>
                             <textarea id="debug-report-external-list" rows=7 cols=40></textarea>
@@ -84,17 +84,20 @@ function render_case_folder_include_list()
 
         for(var i = 0; i < g_case_folder_list.length; i++)
         {
-            var child = g_case_folder_list[i];
+            const child = g_case_folder_list[i];
+            const element_id = child == "/" ? "topfolder": child;
+            
                     html_array.push("<div>")
-                    html_array.push("<input value='");
+                    html_array.push(`<label for='${element_id}'>`)
+                    html_array.push(`<input ='${element_id} value='`);
                     html_array.push(child.replace(/'/g, "&#39;"));
                     html_array.push("' ");
                     html_array.push("type='checkbox' ");
                     html_array.push("name='case_folder_checkbox' ");
                     html_array.push("onchange='updatecase_folder(event)' ");
-                    html_array.push("checked> ");
+                    html_array.push("checked>");
                     html_array.push(`${ (child == "/") ? "Top Folder" : child}`);
-                    html_array.push("</div>")        
+                    html_array.push("</label></div>")        
         }
 
         el.innerHTML = html_array.join("");

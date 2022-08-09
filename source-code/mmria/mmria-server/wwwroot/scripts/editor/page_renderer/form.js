@@ -1703,7 +1703,7 @@ function quick_edit_header_render(
 
 function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 	if (parseInt(p_ui.url_state.path_array[0]) >= 0) {
-		p_result.push('<label for="print_case" class="sr-only">Print version</label>');
+		p_result.push('<label for="print_case_id" class="sr-only">Print version</label>');
 		p_result.push('<select id="print_case_id" onchange="enable_print_button(event)" class="form-control" style="width:280px">');
 		p_result.push('<option value="">Select a form to print</option>');
 		p_result.push('<optgroup label="Current form">');
