@@ -258,12 +258,40 @@ public class CVS_Migration
 
 						///cvs/cvs_grid/cvs_api_request_result_message
 
-						var api_result_message = get_grid_value("cvs/cvs_grid/cvs_api_request_result_message");
+                        var api_result_message = get_grid_value("cvs/cvs_grid/cvs_api_request_result_message");
+                        var cvs_pctmove_tract = get_grid_value("cvs/cvs_grid/cvs_pctmove_tract");
+                        var cvs_pctnoins_fem_tract	= get_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract");
+                        var cvs_pctnovehicle_county = get_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county");
+                        var cvs_pctnovehicle_tract = get_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract");
+                        var cvs_pctowner_occ_tract	 = get_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract");
 
-						if(api_result_message.Count > 0)
+
+
+						if
+                        (
+                            api_result_message.Count > 0 &&
+                            cvs_pctmove_tract.Count > 0 &&
+                            cvs_pctnoins_fem_tract.Count > 0 &&
+                            cvs_pctnovehicle_county.Count > 0 &&
+                            cvs_pctnovehicle_tract.Count > 0 &&
+                            cvs_pctowner_occ_tract.Count > 0
+                        )
 						{
 							var api_result_text = api_result_message[0].Item2;
-							if(api_result_text.IndexOf("success") > -1)
+							if
+                            (
+                                api_result_text.IndexOf("success") > -1 &&
+                                !string.IsNullOrWhiteSpace(cvs_pctmove_tract[0].Item2) &&
+                                !string.IsNullOrWhiteSpace(cvs_pctnoins_fem_tract[0].Item2) &&
+                                !string.IsNullOrWhiteSpace(cvs_pctnovehicle_county[0].Item2) &&
+                                !string.IsNullOrWhiteSpace(cvs_pctnovehicle_tract[0].Item2) &&
+                                !string.IsNullOrWhiteSpace(cvs_pctowner_occ_tract[0].Item2) &&
+                                cvs_pctmove_tract[0].Item2 != "0" &&
+                                cvs_pctnoins_fem_tract[0].Item2 != "0" &&
+                                cvs_pctnovehicle_county[0].Item2 != "0" &&
+                                cvs_pctnovehicle_tract[0].Item2 != "0" &&
+                                cvs_pctowner_occ_tract[0].Item2 != "0"
+                            )
 							{
 								break;
 							}
@@ -294,6 +322,19 @@ public class CVS_Migration
 
 						if(cvs_response_status == "success")
 						{
+
+							if
+							(
+								tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
+								tract_county_result.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
+								tract_county_result.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
+								tract_county_result.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
+								tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+							)
+							{
+								cvs_response_status = "success check quality";
+							}
+
 							set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
 							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
 							set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);

@@ -1276,10 +1276,29 @@ public class BatchItemProcessor : ReceiveActor
                     set_grid_value("cvs/cvs_grid/cvs_api_request_year", year);
                     set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
 
-
+/*
+cvs_pctmove_tract
+cvs_pctnoins_fem_tract		
+cvs_pctnovehicle_county
+cvs_pctnovehicle_tract
+cvs_pctowner_occ_tract
+*/
 
                     if(cvs_response_status == "success")
                     {
+
+                        if
+                        (
+                            tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
+                            tract_county_result.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
+                            tract_county_result.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
+                            tract_county_result.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
+                            tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+                        )
+                        {
+                            cvs_response_status = "success check quality";
+                        }
+
                         set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
                         set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
                         set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
@@ -1317,6 +1336,7 @@ public class BatchItemProcessor : ReceiveActor
                         set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
                         set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
                         set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
+                        
 
                     }
                 }
