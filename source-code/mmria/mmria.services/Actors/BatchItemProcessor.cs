@@ -1250,6 +1250,46 @@ public class BatchItemProcessor : ReceiveActor
                 }
 
 
+                var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
+
+                var int_year_of_death = -1;
+                int test_int_year = -1;
+
+                if(int.TryParse(year, out test_int_year))
+                {
+                    int_year_of_death = test_int_year;
+                }
+
+                var calculated_year_of_death = int_year_of_death;
+
+                if
+                (
+                    Valid_CVS_Years != null &&
+                    Valid_CVS_Years.Count > 0 &&
+                    ! Valid_CVS_Years.Contains(int_year_of_death)
+                )
+                {
+
+                    var lower_diff = System.Math.Abs(Valid_CVS_Years[0] - int_year_of_death);
+                    var upper_diff = System.Math.Abs(Valid_CVS_Years[Valid_CVS_Years.Count -1] - int_year_of_death);
+
+                    if(lower_diff < upper_diff)
+                    {
+                        if(lower_diff <= 3)
+                        {
+                            calculated_year_of_death = Valid_CVS_Years[0];
+                        }
+                    }
+                    else
+                    {
+                        if(upper_diff <= 3)
+                        {
+                            calculated_year_of_death = Valid_CVS_Years[Valid_CVS_Years.Count -1];
+                        }
+                    }
+                }
+
+
                 if
                 (
                     !string.IsNullOrEmpty(state_county_fips) &&
@@ -1264,7 +1304,7 @@ public class BatchItemProcessor : ReceiveActor
                     (
                         state_county_fips,
                         t_geoid,
-                        year,
+                        calculated_year_of_death.ToString(),
                        db_config_set
                     );
 
@@ -1287,6 +1327,11 @@ cvs_pctowner_occ_tract
                     if(cvs_response_status == "success")
                     {
 
+                        if(calculated_year_of_death != int_year_of_death)
+                        {
+                            cvs_response_status += " year_of_death adjusted";
+                        }
+
                         if
                         (
                             tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
@@ -1296,7 +1341,7 @@ cvs_pctowner_occ_tract
                             tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
                         )
                         {
-                            cvs_response_status = "success check quality";
+                            cvs_response_status += " check quality";
                         }
 
                         set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
@@ -11915,6 +11960,63 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
 
         return ("success", result);
     }
+
+
+    public List<int> CVS_Get_Valid_Years(mmria.common.couchdb.ConfigurationSet ConfigDB) 
+    { 
+        var result = new List<int>()
+		{
+			2010,
+			2011,
+			2012,
+			2013,
+			2014,
+			2015,
+			2016,
+			2017,
+			2018,
+			2019,
+			2020
+		};
+
+        var base_url = ConfigDB.name_value["cvs_api_url"];
+
+        try
+        {
+
+
+			var get_year_body = new mmria.common.cvs.get_year_post_body()
+			{
+				id = ConfigDB.name_value["cvs_api_id"],
+				secret = ConfigDB.name_value["cvs_api_key"],
+				payload = new()
+			};
+
+			var body_text =  System.Text.Json.JsonSerializer.Serialize(get_year_body);
+			var get_year_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
+			string get_year_response = get_year_curl.execute();
+			result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
+
+			System.Console.WriteLine(get_year_response);
+
+    
+        }
+        catch(System.Net.WebException ex)
+        {
+            System.Console.WriteLine($"cvsAPIController Get Year POST\n{ex}");
+            
+            /*return Problem(
+                type: "/docs/errors/forbidden",
+                title: "CVS API Error",
+                detail: ex.Message,
+                statusCode: (int) ex.Status,
+                instance: HttpContext.Request.Path
+            );*/
+        }
+
+
+        return result;
+    }	
 
 }
 

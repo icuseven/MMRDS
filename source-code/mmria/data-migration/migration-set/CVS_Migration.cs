@@ -78,36 +78,39 @@ public class CVS_Migration
 		try
 		{
 
-                string ping_result = await PingCVSServer();
-                int ping_count = 1;
-                
-                while
-                (
-                    (
-                        ping_result == null ||
-                        ping_result != "Server is up!"
-                    ) && 
-                    ping_count < 2
-                )
-                {
+			string ping_result = await PingCVSServer();
+			int ping_count = 1;
+			
+			while
+			(
+				(
+					ping_result == null ||
+					ping_result != "Server is up!"
+				) && 
+				ping_count < 2
+			)
+			{
 
 
-					var output_text = $"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}";
-					this.output_builder.AppendLine(output_text);
-					Console.WriteLine(output_text);
-					
+				var output_text = $"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}";
+				this.output_builder.AppendLine(output_text);
+				Console.WriteLine(output_text);
+				
 
-					const int Milliseconds_In_Second = 1000;
-					var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
-                    while(DateTime.Now < next_date)
-					{
-						// do nothing
-					}
-                    
-					ping_result = await PingCVSServer();
-                    ping_count +=1;
+				const int Milliseconds_In_Second = 1000;
+				var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
+				while(DateTime.Now < next_date)
+				{
+					// do nothing
+				}
+				
+				ping_result = await PingCVSServer();
+				ping_count +=1;
 
-                }
+			}
+
+
+			var Valid_CVS_Years = await CVS_Get_Valid_Years();
 
 
 			string MetadataVersion = "22.06.08";
@@ -220,6 +223,7 @@ public class CVS_Migration
 					var  census_tract_fips = get_value("death_certificate/place_of_last_residence/census_tract_fips");
 					var  year = get_value("home_record/date_of_death/year");
 
+
 					if
 					(
 						!string.IsNullOrEmpty(state_county_fips) &&
@@ -304,11 +308,50 @@ public class CVS_Migration
 						}
 						
 
+
+						var int_year_of_death = -1;
+						int test_int_year = -1;
+
+						if(int.TryParse(year, out test_int_year))
+						{
+							int_year_of_death = test_int_year;
+						}
+
+						var calculated_year_of_death = int_year_of_death;
+
+						if
+						(
+							Valid_CVS_Years != null &&
+							Valid_CVS_Years.Count > 0 &&
+							! Valid_CVS_Years.Contains(int_year_of_death)
+						)
+						{
+
+							var lower_diff = System.Math.Abs(Valid_CVS_Years[0] - int_year_of_death);
+							var upper_diff = System.Math.Abs(Valid_CVS_Years[Valid_CVS_Years.Count -1] - int_year_of_death);
+
+							if(lower_diff < upper_diff)
+							{
+								if(lower_diff <= 3)
+								{
+									calculated_year_of_death = Valid_CVS_Years[0];
+								}
+							}
+							else
+							{
+								if(upper_diff <= 3)
+								{
+									calculated_year_of_death = Valid_CVS_Years[Valid_CVS_Years.Count -1];
+								}
+							}
+						}
+					
+
 						var (cvs_response_status, tract_county_result) = await GetCVSData
 						(
 							state_county_fips,
 							t_geoid,
-							year
+							calculated_year_of_death.ToString()
 						);
 
 						set_grid_value("cvs/cvs_grid/cvs_api_request_url", ConfigDB.name_value["cvs_api_url"]);
@@ -323,6 +366,11 @@ public class CVS_Migration
 						if(cvs_response_status == "success")
 						{
 
+							if(calculated_year_of_death != int_year_of_death)
+							{
+								cvs_response_status += " year_of_death adjusted";
+							}
+
 							if
 							(
 								tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
@@ -332,7 +380,8 @@ public class CVS_Migration
 								tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
 							)
 							{
-								cvs_response_status = "success check quality";
+								cvs_response_status += " check quality";
+								set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
 							}
 
 							set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
@@ -373,7 +422,7 @@ public class CVS_Migration
 							set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
 							set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
 
-							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid success";
+							var output_text = $"item record_id: {mmria_id} path: cvs/cvs_grid {cvs_response_status}";
 							this.output_builder.AppendLine(output_text);
 							Console.WriteLine(output_text);
 
@@ -791,6 +840,63 @@ cvs_api_request_result_message
 
 
         return response_string.Trim('"');
+    }	
+
+
+	public async Task<List<int>> CVS_Get_Valid_Years() 
+    { 
+        var result = new List<int>()
+		{
+			2010,
+			2011,
+			2012,
+			2013,
+			2014,
+			2015,
+			2016,
+			2017,
+			2018,
+			2019,
+			2020
+		};
+
+        var base_url = ConfigDB.name_value["cvs_api_url"];
+
+        try
+        {
+
+
+			var get_year_body = new mmria.common.cvs.get_year_post_body()
+			{
+				id = ConfigDB.name_value["cvs_api_id"],
+				secret = ConfigDB.name_value["cvs_api_key"],
+				payload = new()
+			};
+
+			var body_text = JsonSerializer.Serialize(get_year_body);
+			var get_year_curl = new cURL("POST", null, base_url, body_text);
+			string get_year_response = await get_year_curl.executeAsync();
+			result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
+
+			System.Console.WriteLine(get_year_response);
+
+    
+        }
+        catch(System.Net.WebException ex)
+        {
+            System.Console.WriteLine($"cvsAPIController Get Year POST\n{ex}");
+            
+            /*return Problem(
+                type: "/docs/errors/forbidden",
+                title: "CVS API Error",
+                detail: ex.Message,
+                statusCode: (int) ex.Status,
+                instance: HttpContext.Request.Path
+            );*/
+        }
+
+
+        return result;
     }	
 
 	public async Task<(string, mmria.common.cvs.tract_county_result)> GetCVSData
