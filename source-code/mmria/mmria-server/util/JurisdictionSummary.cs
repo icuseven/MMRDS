@@ -15,6 +15,8 @@ namespace mmria.server.utils
         public ItemCount(){}
 
         public string host_name {get; set; }
+
+        public string folder_name {get; set; } = "/";
         
         public int total{get; set; }
     }
@@ -22,6 +24,8 @@ namespace mmria.server.utils
     {
         public JurisdictionSummaryItem(){}
         public string host_name {get; set; }
+
+        public string folder_name {get; set; } = "/";
         public string rpt_date{get; set; }
         public int num_recs{get; set; }
         public int num_users_unq{get; set; }
@@ -47,7 +51,15 @@ namespace mmria.server.utils
             }
             
             // "CompareTo()" method
-            return x.host_name.CompareTo(y.host_name);
+
+            if(x.host_name != y.host_name)
+            {
+                return x.host_name.CompareTo(y.host_name);
+            }
+            else
+            {
+                return x.folder_name.CompareTo(y.folder_name);
+            }
             
         }
     }
@@ -64,7 +76,10 @@ namespace mmria.server.utils
             ConfigDB = p_config_db;
         }
 
-        public async Task<List<JurisdictionSummaryItem>> execute(System.Threading.CancellationToken cancellationToken)
+        public async Task<List<JurisdictionSummaryItem>> execute
+        (
+            System.Threading.CancellationToken cancellationToken
+        )
         {
 
             var result = new Dictionary<string, JurisdictionSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
@@ -82,26 +97,109 @@ namespace mmria.server.utils
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var prefix = config.Key.ToUpper();
+                string exclude_jurisdiction = "";
+
+
 
                 if(prefix == "VITAL_IMPORT") continue;
 
-                var jsi = new JurisdictionSummaryItem();
-                jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
-                jsi.host_name = prefix;
+                if(prefix == "NY"|| prefix == "PA")
+                {
+                    {
+                        
+                         
+                        if(prefix == "NY")
+                        {
+                            exclude_jurisdiction = "/NYC";
+                            
+                        }
 
-                result.Add(prefix, jsi);
+                        if(prefix == "PA")
+                        {
+                            exclude_jurisdiction = "/PHILADELPHIA";
+                            
+                        }
+                        
+                        var jsi = new JurisdictionSummaryItem();
+                        jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
+                        jsi.host_name = prefix;
 
-                var usr_count = new ItemCount();
-                usr_count.host_name = prefix;
-                user_count_result.Add(prefix, usr_count);
+                        result.Add(prefix, jsi);
 
-                var record_count = new ItemCount();
-                record_count.host_name = prefix;
-                record_count_result.Add(prefix, record_count);
+                        var usr_count = new ItemCount();
+                        usr_count.host_name = prefix;
+                        
+                        user_count_result.Add(prefix, usr_count);
 
-                user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi));
-                record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count));
-                //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
+                        var record_count = new ItemCount();
+                        record_count.host_name = prefix;
+                        
+                        record_count_result.Add(prefix, record_count);
+
+                        user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
+                        record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
+                    }
+                    
+                    {
+                        var key_name = prefix;
+                        var folder_name = "/";
+                        if(prefix == "NY")
+                        {
+                             exclude_jurisdiction = "/";
+                             key_name = "NYC";
+                             folder_name = "/NYC";
+                        }
+
+                        if(prefix == "PA")
+                        {
+                             exclude_jurisdiction = "/";
+                             key_name = "PHILADELPHIA";
+                             folder_name = "/PHILADELPHIA";
+                        }
+
+                        var jsi = new JurisdictionSummaryItem();
+                        jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
+                        jsi.host_name = prefix;
+
+                        result.Add(key_name, jsi);
+
+                        var usr_count = new ItemCount();
+                        usr_count.host_name = key_name;
+                        usr_count.folder_name = folder_name;
+                        user_count_result.Add(key_name, usr_count);
+
+                        var record_count = new ItemCount();
+                        record_count.host_name = key_name;
+                        record_count.folder_name = folder_name;
+                        record_count_result.Add(key_name, record_count);
+
+                        user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
+                        record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
+                        //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
+                    }
+
+                }
+                else
+                {
+
+                    var jsi = new JurisdictionSummaryItem();
+                    jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
+                    jsi.host_name = prefix;
+
+                    result.Add(prefix, jsi);
+
+                    var usr_count = new ItemCount();
+                    usr_count.host_name = prefix;
+                    user_count_result.Add(prefix, usr_count);
+
+                    var record_count = new ItemCount();
+                    record_count.host_name = prefix;
+                    record_count_result.Add(prefix, record_count);
+
+                    user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
+                    record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
+                    //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
+                }
             }
 
 
@@ -137,7 +235,15 @@ namespace mmria.server.utils
             return view_data;
         }
 
-        public async System.Threading.Tasks.Task GetUserCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result, JurisdictionSummaryItem p_SummaryItem) 
+        public async System.Threading.Tasks.Task GetUserCount
+        (
+            System.Threading.CancellationToken cancellationToken, 
+            string p_id, 
+            mmria.common.couchdb.DBConfigurationDetail p_config_detail, 
+            ItemCount p_result, 
+            JurisdictionSummaryItem p_SummaryItem,
+            string exclude_jurisdiction
+        ) 
 		{ 
 			try
 			{
@@ -179,7 +285,15 @@ namespace mmria.server.utils
                     }
                 }
 
-                await GetJurisdictions(cancellationToken,  p_id, p_config_detail, p_SummaryItem, user_id_set);
+                await GetJurisdictions
+                (
+                    cancellationToken,  
+                    p_id, 
+                    p_config_detail, 
+                    p_SummaryItem, 
+                    user_id_set,
+                    exclude_jurisdiction
+                );
 
             }
             catch(System.Exception)
@@ -188,7 +302,14 @@ namespace mmria.server.utils
             }
         }
 
-        public async System.Threading.Tasks.Task GetCaseCount(System.Threading.CancellationToken cancellationToken, string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, ItemCount p_result) 
+        public async System.Threading.Tasks.Task GetCaseCount
+        (
+            System.Threading.CancellationToken cancellationToken, 
+            string p_id, 
+            mmria.common.couchdb.DBConfigurationDetail p_config_detail, 
+            ItemCount p_result,
+            string exclude_jurisdiction
+        ) 
 		{ 
 			try
 			{
@@ -214,7 +335,15 @@ namespace mmria.server.utils
 
         }
 
-        public async Task GetJurisdictions(System.Threading.CancellationToken cancellationToken,  string p_id, mmria.common.couchdb.DBConfigurationDetail p_config_detail, JurisdictionSummaryItem p_result, HashSet<string> p_user_id_set) 
+        public async Task GetJurisdictions
+        (
+            System.Threading.CancellationToken cancellationToken,  
+            string p_id, 
+            mmria.common.couchdb.DBConfigurationDetail p_config_detail, 
+            JurisdictionSummaryItem p_result, 
+            HashSet<string> p_user_id_set,
+            string exclude_jurisdiction
+        ) 
 		{
             //string sort = "by_date_created";
             string search_key = null;
@@ -287,6 +416,18 @@ namespace mmria.server.utils
                     var user_id = cvi.value.user_id;
 
                     if(!p_user_id_set.Contains(user_id)) continue;
+
+                    if(!string.IsNullOrWhiteSpace(exclude_jurisdiction))
+                    {
+                        if
+                        (
+                            exclude_jurisdiction ==
+                            cvi.value.jurisdiction_id.ToUpper()
+                        )
+                        {
+                            continue;
+                        }
+                    }
 
                     switch(cvi.value.role_name.ToLower())
                     {
