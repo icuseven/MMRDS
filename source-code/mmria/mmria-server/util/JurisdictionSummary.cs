@@ -227,6 +227,7 @@ namespace mmria.server.utils
 
             foreach(var item in result)
             {
+                item.Value.host_name = item.Key;
                 view_data.Add(item.Value);
             }
 
@@ -313,7 +314,7 @@ namespace mmria.server.utils
 		{ 
 			try
 			{
-				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=100000";
+				string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}mmrds/_design/sortable/_view/by_jurisdiction_id?skip=0&take=100000";
 
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -322,9 +323,59 @@ namespace mmria.server.utils
 
                 cancellationToken.ThrowIfCancellationRequested();
 
-				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.case_view_response>>(responseFromServer);
+				var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                if
+                (
+                    p_result.host_name.ToUpper() == "NY" ||
+                    p_result.host_name.ToUpper() == "NYC" ||
+                    p_result.host_name.ToUpper() == "PA" ||
+                    p_result.host_name.ToUpper() == "PHILADELPHIA"
+
+                )
+                {
 	
-                p_result.total = case_view_response.total_rows;
+                    var count = 0;
+                    foreach(var cvr in case_view_response.rows)
+                    {
+
+                        if(p_result.folder_name == "/")
+                        {
+                            if
+                            (
+                                !cvr.value.jurisdiction_id.StartsWith("/PHILADELPHIA", StringComparison.OrdinalIgnoreCase) &&
+                                !cvr.value.jurisdiction_id.StartsWith("/NYC", StringComparison.OrdinalIgnoreCase)
+                            )
+                            {
+                                count += 1;
+                            }
+                        }
+                        else if(p_result.folder_name == "/NYC")
+                        {
+                            if(cvr.value.jurisdiction_id.StartsWith("/NYC", StringComparison.OrdinalIgnoreCase))
+                            {
+                                count += 1;
+                            }
+                        }
+                        else if(p_result.folder_name == "/PHILADELPHIA")
+                        {
+                            if(cvr.value.jurisdiction_id.StartsWith("/PHILADELPHIA", StringComparison.OrdinalIgnoreCase))
+                            {
+                                count += 1;
+                            }
+                            
+                        }
+                    }
+
+                    p_result.total = count;
+                }
+                else
+                {
+                    p_result.total = case_view_response.total_rows;
+                }
+
+
+                
 
             }
             catch(System.Exception)
