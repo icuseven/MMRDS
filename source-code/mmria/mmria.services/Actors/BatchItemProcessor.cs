@@ -1313,7 +1313,7 @@ public class BatchItemProcessor : ReceiveActor
                     set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", DateTime.Now.ToString("o"));
                     set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
                     set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
-                    set_grid_value("cvs/cvs_grid/cvs_api_request_year", year);
+                    set_grid_value("cvs/cvs_grid/cvs_api_request_year", calculated_year_of_death.ToString());
                     set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
 
 /*
