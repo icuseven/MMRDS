@@ -37,6 +37,19 @@ let TitleMap = {
 	"core-summary": "Core",
 };
 
+function clone(obj) 
+{
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) 
+    {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
+
+
+
 async function create_print_version
 (
     p_metadata,
@@ -48,6 +61,7 @@ async function create_print_version
     p_show_hidden
 ) 
 {
+    p_data = clone(p_data);
 
     g_apply_sort(p_metadata, p_data, "","", "");
 

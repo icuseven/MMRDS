@@ -80,6 +80,8 @@ public class CVS_Migration
 
 			string ping_result = await PingCVSServer();
 			int ping_count = 1;
+
+			System.Console.WriteLine($"CVS for: {host_db_url}");
 			
 			while
 			(
