@@ -38,15 +38,18 @@ let TitleMap = {
 };
 
 async function create_print_version
-	(
-		p_metadata,
-		p_data,
-		p_section,
-		p_type_output,
-		p_number,
-		p_metadata_summary,
-		p_show_hidden
-	) {
+(
+    p_metadata,
+    p_data,
+    p_section,
+    p_type_output,
+    p_number,
+    p_metadata_summary,
+    p_show_hidden
+) 
+{
+
+    g_apply_sort(p_metadata, p_data, "","", "");
 
 	g_md = null;
 	g_metadata = null;
