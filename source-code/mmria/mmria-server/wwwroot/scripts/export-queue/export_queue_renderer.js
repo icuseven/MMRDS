@@ -281,6 +281,11 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                             </div>
 
                             <div class="form-inline mb-2">
+                                  ${render_pregnancy_filter(g_case_view_request)}
+                                
+                            </div>
+
+                            <div class="form-inline mb-2">
                                 <label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
                                 <select id="filter_sort_by" class="custom-select" >
                                     ${render_sort_by_include_in_export(g_case_view_request)}
@@ -1897,4 +1902,101 @@ function render_export_report_type(p_value)
 
 
     return result.join("");
+}
+
+
+function render_pregnancy_filter(p_case_view)
+{
+
+    let all_is_checked_html = "";
+    let is_checked_1_html = "";
+    let is_checked_0_html = "";
+    let is_checked_2_html = "";
+    let is_checked_99_html = "";
+
+
+    if(g_filter.pregnancy_relatedness.length == 4)
+    {
+        all_is_checked_html = "checked";
+    }
+
+    if(g_filter.pregnancy_relatedness.indexOf(1) > -1)
+    {
+        is_checked_1_html = "checked";
+    }
+
+    if(g_filter.pregnancy_relatedness.indexOf(0) > -1)
+    {
+        is_checked_0_html = "checked";
+    }
+
+    if(g_filter.pregnancy_relatedness.indexOf(2) > -1)
+    {
+        is_checked_2_html = "checked";
+    }
+
+    if(g_filter.pregnancy_relatedness.indexOf(99) > -1)
+    {
+        is_checked_99_html = "checked";
+    }
+
+    
+    
+    return `
+    <div style="margin:15px;width:580px;">
+        <p>
+            
+            <table>
+                <tr>
+                    <th><strong>Review Dates:</strong></th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="review_begin_date">Begin</label>
+                        <input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
+                    </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <td>
+                        <label for="review_end_date">End</label>
+                        <input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <p>
+            
+            <table>
+                <tr>
+                    <th><strong>Dates of Death:</strong></th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="death_begin_date">Begin</label>
+                        <input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <label for="death_end_date">End</label>
+                        <input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
+                    </td>
+                </tr>
+            </table>
+        </p>
+    </div>
+`;
+
+   
+
 }

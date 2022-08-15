@@ -31,6 +31,15 @@ var g_filter = {
   pregnancy_relatedness: ['all'],
   selected_form: '',
   search_text: '',
+  reporting_state: sanitize_encodeHTML(window.location.host.split("-")[0]),
+    pregnancy_relatedness: [
+        1,
+        0,
+        2,
+        99
+    ],
+    date_of_review: { begin: new Date(1900,01,01), end: new Date() },
+    date_of_death: { begin: new Date(1900,01,01), end: new Date() }
 };
 
 var selected_dictionary = {};
@@ -559,6 +568,27 @@ function get_host_state_name()
     {
         result = location.host.split(":")[0];
     }
+
+    return result;
+}
+
+
+function pad_number(n) 
+{
+    n = n + '';
+    return n.length >= 2 ? n : new Array(2 - n.length + 1).join("0") + n;
+}
+
+function formatDate(p_value)
+{
+    const result= pad_number(p_value.getMonth() + 1) + '/' + pad_number(p_value.getDate()) + '/' +  p_value.getFullYear();
+
+    return result;
+}
+
+function ControlFormatDate(p_value)
+{
+    const result= p_value.getFullYear() + '-' + pad_number(p_value.getMonth() + 1) + '-' + pad_number(p_value.getDate());
 
     return result;
 }
