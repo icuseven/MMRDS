@@ -31,13 +31,7 @@ var g_filter = {
   pregnancy_relatedness: ['all'],
   selected_form: '',
   search_text: '',
-  reporting_state: sanitize_encodeHTML(window.location.host.split("-")[0]),
-    pregnancy_relatedness: [
-        1,
-        0,
-        2,
-        99
-    ],
+  //reporting_state: sanitize_encodeHTML(window.location.host.split("-")[0]),
     date_of_review: { begin: new Date(1900,01,01), end: new Date() },
     date_of_death: { begin: new Date(1900,01,01), end: new Date() }
 };
@@ -56,6 +50,7 @@ var answer_summary = {
   is_de_identify_standard_fields: false,
   case_filter_type: 'all',
   case_set: [],
+
 };
 
 ['all', 'csv', 'none', location.host];
@@ -633,6 +628,7 @@ function review_end_date_change(p_value)
         el.value = ControlFormatDate(g_filter.date_of_review.end);
     }
 }
+
 function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
@@ -653,6 +649,7 @@ function death_begin_date_change(p_value)
         el.value = ControlFormatDate(g_filter.date_of_death.begin);
     }
 }
+
 function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");

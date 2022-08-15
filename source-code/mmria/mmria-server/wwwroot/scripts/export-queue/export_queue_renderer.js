@@ -1943,8 +1943,13 @@ function render_pregnancy_filter(p_case_view)
     
     
     return `
-    <div style="margin:15px;width:580px;">
-        <p>
+    <div style="margin:15px;width:580px;background-color:#DDDDDD;">
+        <p style="margin:15px;">
+            <label for="include_blank_dates" style="justify-content:left">
+            <input type="checkbox" id="include_blank_dates" checked />
+            Include (blank) date of review and date of death</label>
+        </p>
+        <p style="margin:15px;">
             
             <table>
                 <tr>
@@ -1969,7 +1974,7 @@ function render_pregnancy_filter(p_case_view)
                 </tr>
             </table>
         </p>
-        <p>
+        <p style="margin:15px;">
             
             <table>
                 <tr>
