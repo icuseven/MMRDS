@@ -296,6 +296,8 @@ namespace mmria.server.utils
                     exclude_jurisdiction
                 );
 
+                p_result.total = user_id_set.Count;
+
             }
             catch(System.Exception)
             {
@@ -386,6 +388,7 @@ namespace mmria.server.utils
 
         }
 
+        
         public async Task GetJurisdictions
         (
             System.Threading.CancellationToken cancellationToken,  
@@ -453,6 +456,8 @@ namespace mmria.server.utils
 
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
+                HashSet<string> Jurisdictin_User_Set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
                 foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                 {
                     if(string.IsNullOrWhiteSpace(cvi.value.role_name)) continue;
@@ -484,18 +489,24 @@ namespace mmria.server.utils
                     {
                         case "jurisdiction_admin":
                                 p_result.num_users_ja++;
+                                Jurisdictin_User_Set.Add(cvi.value.user_id);
                         break;
                         case "abstractor":
                             p_result.num_users_abs++;
+                            Jurisdictin_User_Set.Add(cvi.value.user_id);
                         break;
                         case "data_analyst":
                             p_result.num_user_anl++;
+                            Jurisdictin_User_Set.Add(cvi.value.user_id);
                         break;
                         case "committee_member":
                             p_result.num_user_cm++;
+                            Jurisdictin_User_Set.Add(cvi.value.user_id);
                         break;
                     }
                 }
+
+                p_user_id_set.RemoveWhere( x=> !Jurisdictin_User_Set.Contains(x));
                
 			}
 			catch(System.Exception)
@@ -510,6 +521,5 @@ namespace mmria.server.utils
 
 
 		}
-
     }
 }
