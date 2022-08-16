@@ -45,6 +45,16 @@ namespace mmria.server
         public ExportTypeEnum ExportType { get; set; } = ExportTypeEnum.csv;
         public string[] field_set {get; set;}
 
+        public int[] pregnancy_relatedness {get; set;}
+
+        public bool? include_blank_date_of_reviews {get; set;}
+
+        public bool? include_blank_date_of_deaths {get; set;}
+        public DateTime? date_of_review_begin {get; set;}
+        public DateTime? date_of_review_end {get; set;}
+        public DateTime?  date_of_death_begin {get; set;}
+        public DateTime?  date_of_death_end {get; set;}
+
 	}
 }
 
