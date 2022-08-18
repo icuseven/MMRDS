@@ -223,7 +223,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>
 
 					<li class="mb-4">
-						<p class="mb-3">Please select which cases you want to include in the export?</p>
+						<p class="mb-3">Please select which cases you want to include in the export.</p>
 						<label for="case_filter_type_all" class="font-weight-normal mr-2">
 							<input id="case_filter_type_all"
 										 type="radio"
@@ -1905,80 +1905,96 @@ function render_export_report_type(p_value)
 }
 
 
+function date_of_review_panel_select(p_value)
+{
+    const el = document.getElementById("date_of_review_panel");
+    if(p_value=="all")
+    {
+        g_filter.include_blank_date_of_reviews = true;
+        el.style["display"] = "none";
+    }
+    else
+    {
+        g_filter.include_blank_date_of_reviews = false;
+        el.style["display"] = "block";
+    }
+}
+
+
+function date_of_death_panel_select(p_value)
+{
+    const el = document.getElementById("date_of_death_panel");
+    if(p_value=="all")
+    {
+        g_filter.include_blank_date_of_deaths = true;
+        el.style["display"] = "none";
+    }
+    else
+    {
+        g_filter.include_blank_date_of_deaths = false;
+        el.style["display"] = "block";
+    }
+
+
+}
+
 function render_pregnancy_filter(p_case_view)
 {
 
-    let all_is_checked_html = "";
-    let is_checked_1_html = "";
-    let is_checked_0_html = "";
-    let is_checked_2_html = "";
-    let is_checked_99_html = "";
+    let display_date_of_reviews_html = "display:none;";
+    let display_date_of_deaths_html = "display:none;";
 
 
-    if(g_filter.pregnancy_relatedness.length == 4)
+    if(g_filter.include_blank_date_of_reviews == false)
     {
-        all_is_checked_html = "checked";
+        display_date_of_reviews_html = "display:block;";
     }
-
-    if(g_filter.pregnancy_relatedness.indexOf(1) > -1)
-    {
-        is_checked_1_html = "checked";
-    }
-
-    if(g_filter.pregnancy_relatedness.indexOf(0) > -1)
-    {
-        is_checked_0_html = "checked";
-    }
-
-    if(g_filter.pregnancy_relatedness.indexOf(2) > -1)
-    {
-        is_checked_2_html = "checked";
-    }
-
-    if(g_filter.pregnancy_relatedness.indexOf(99) > -1)
-    {
-        is_checked_99_html = "checked";
-    }
-
     
+    if(g_filter.include_blank_date_of_deaths == false)
+    {
+        display_date_of_deaths_html = "display:block;";
+    }
     
     return `
 
-        <div class="form-inline mb-2" style="margin:15px;">
+        <div class="form-inline p-3 mt-3" style="margin:15px;">
             <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" selected="true" />
+            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
             &nbsp;All Dates of Review</label>
 
             <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="checkbox"  name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
+            &nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
             &nbsp;Select Date of Review</label>
 
-            <label for="review_begin_date" class="font-weight-normal mr-2">Begin
-                &nbsp;<input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
-            </label>
+            <div id="date_of_review_panel" style="${display_date_of_reviews_html}">
+                <label for="review_begin_date" class="font-weight-normal mr-2">Begin
+                    &nbsp;<input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
+                </label>
 
-            <label for="review_end_date" class="font-weight-normal mr-2">End
-                &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
-            </label>
+                <label for="review_end_date" class="font-weight-normal mr-2">End
+                    &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                </label>
+            </div>
         </div>
-
-        <div class="form-inline mb-2" style="margin:15px;">
+        <br/>
+        <div class="form-inline p-3 mt-3" style="margin:15px;">
 
             <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"  selected />
+            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
             &nbsp;All Dates of Death</label>
 
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio"  name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
+            &nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
             &nbsp;Select Date of Death</label>            
 
-
-            <label for="death_begin_date" class="font-weight-normal mr-2">Begin
-                &nbsp;<input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
-            </label>
-            <label for="death_end_date" class="font-weight-normal mr-2">End
-                &nbsp;<input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
-            </label>
+            <span id="date_of_death_panel" style="${display_date_of_deaths_html}">
+                <label for="death_begin_date" class="font-weight-normal mr-2">Begin
+                    &nbsp;<input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
+                </label>
+                <label for="death_end_date" class="font-weight-normal mr-2">End
+                    &nbsp;<input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
+                </label>
+            </span>
         </div>
 
 `;

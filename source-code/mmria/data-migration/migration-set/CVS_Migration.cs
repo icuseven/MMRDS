@@ -284,9 +284,19 @@ public class CVS_Migration
                         )
 						{
 							var api_result_text = api_result_message[0].Item2;
-							if
+
+							if(mmria_id.Equals("44e19c19-d020-45e6-8316-bd15c1334c46", StringComparison.OrdinalIgnoreCase))
+							{
+								System.Console.WriteLine("here");
+							}
+
+							if(api_result_text.IndexOf("check quality") >  -1)
+							{
+								// do nothing continue
+							}
+							else if
                             (
-                                api_result_text.IndexOf("success") > -1 &&
+                                api_result_text.StartsWith("success") &&
                                 !string.IsNullOrWhiteSpace(cvs_pctmove_tract[0].Item2) &&
                                 !string.IsNullOrWhiteSpace(cvs_pctnoins_fem_tract[0].Item2) &&
                                 !string.IsNullOrWhiteSpace(cvs_pctnovehicle_county[0].Item2) &&
@@ -299,7 +309,7 @@ public class CVS_Migration
                                 cvs_pctowner_occ_tract[0].Item2 != "0"
                             )
 							{
-								break;
+								continue;
 							}
 						}
 
@@ -368,18 +378,21 @@ public class CVS_Migration
 						if(cvs_response_status == "success")
 						{
 
-							if(calculated_year_of_death != int_year_of_death)
+							if
+							(
+								calculated_year_of_death != int_year_of_death ||
+								(
+									Valid_CVS_Years != null &&
+									!Valid_CVS_Years.Contains(int_year_of_death)
+								)
+							)
 							{
 								cvs_response_status += " year_of_death adjusted";
 							}
 
 							if
 							(
-								tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
-								tract_county_result.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
-								tract_county_result.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
-								tract_county_result.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
-								tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+								is_result_quality_in_need_of_checking(tract_county_result)
 							)
 							{
 								cvs_response_status += " check quality";
@@ -901,6 +914,83 @@ cvs_api_request_result_message
         return result;
     }	
 
+
+
+	bool is_result_quality_in_need_of_checking(mmria.common.cvs.tract_county_result val)
+	{
+
+		var over_all_result = false;
+		var tract_result = false;
+		var county_result = false;
+
+		const float tract_total = 11F;
+		const float county_total = 26F;
+
+		float tract_zero_count = 0F;
+		float county_zero_count = 0F;
+
+		if
+		(
+			val.tract.pctMOVE == 0  && //cvs_pctmove_tract
+			val.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
+			val.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
+			val.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
+			val.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+		)
+		{
+			over_all_result = true;
+		}
+
+
+		if(val.tract.pctNOIns_Fem == 0) tract_zero_count += 1;
+		if(val.tract.MEDHHINC == 0) tract_zero_count += 1;
+		if(val.tract.pctNoVehicle == 0) tract_zero_count += 1;
+		if(val.tract.pctMOVE == 0) tract_zero_count += 1;
+		if(val.tract.pctSPHH == 0) tract_zero_count += 1;
+		if(val.tract.pctOVERCROWDHH == 0) tract_zero_count += 1;
+		if(val.tract.pctOWNER_OCC == 0) tract_zero_count += 1;
+		if(val.tract.pct_less_well == 0) tract_zero_count += 1;
+		if(val.tract.NDI_raw == 0) tract_zero_count += 1;
+		if(val.tract.pctPOV == 0) tract_zero_count += 1;
+		if(val.tract.ICE_INCOME_all == 0) tract_zero_count += 1;
+
+
+
+		if(val.county.MDrate == 0) county_zero_count += 1;
+		if(val.county.pctNOIns_Fem == 0) county_zero_count += 1;
+		if(val.county.pctNoVehicle == 0) county_zero_count += 1;
+		if(val.county.pctMOVE == 0) county_zero_count += 1;
+		if(val.county.pctSPHH == 0) county_zero_count += 1;
+		if(val.county.pctOVERCROWDHH == 0) county_zero_count += 1;
+		if(val.county.pctOWNER_OCC == 0) county_zero_count += 1;
+		if(val.county.pct_less_well == 0) county_zero_count += 1;
+		if(val.county.NDI_raw == 0) county_zero_count += 1;
+		if(val.county.pctPOV == 0) county_zero_count += 1;
+		if(val.county.ICE_INCOME_all == 0) county_zero_count += 1;
+		if(val.county.MEDHHINC == 0) county_zero_count += 1;
+		if(val.county.pctOBESE == 0) county_zero_count += 1;
+		if(val.county.FI == 0) county_zero_count += 1;
+		if(val.county.CNMrate == 0) county_zero_count += 1;
+		if(val.county.OBGYNrate == 0) county_zero_count += 1;
+		if(val.county.rtTEENBIRTH == 0) county_zero_count += 1;
+		if(val.county.rtSTD == 0) county_zero_count += 1;
+		if(val.county.rtMHPRACT == 0) county_zero_count += 1;
+		if(val.county.rtDRUGODMORTALITY == 0) county_zero_count += 1;
+		if(val.county.rtOPIOIDPRESCRIPT == 0) county_zero_count += 1;
+		if(val.county.SocCap == 0) county_zero_count += 1;
+		if(val.county.rtSocASSOC == 0) county_zero_count += 1;
+		if(val.county.pctHOUSE_DISTRESS == 0) county_zero_count += 1;
+		if(val.county.rtVIOLENTCR_ICPSR == 0) county_zero_count += 1;
+		if(val.county.isolation == 0) county_zero_count += 1;
+
+
+		if(tract_zero_count / tract_total > .5F) tract_result = true;
+
+		if(county_zero_count / county_total > .5F) county_result = true;
+
+
+		return over_all_result || tract_result || county_result;
+	}
 	public async Task<(string, mmria.common.cvs.tract_county_result)> GetCVSData
     (
 		string c_geoid,
@@ -959,187 +1049,7 @@ cvs_api_request_result_message
 
         return ("success", result);
     }
-	/*
-
- 		async Task get_cvs_api_data_info
-        (
-            string c_geoid,
-            string t_geoid,
-            string year
-        )
-        {
-            var base_url = `${location.protocol}//${location.host}/api/cvsAPI`
-
-
-
-            g_cvs_api_request_data.set("_id", g_data._id);
-            g_cvs_api_request_data.set("cvs_api_request_url", base_url);
-            g_cvs_api_request_data.set("cvs_api_request_date_time", new Date());
-            g_cvs_api_request_data.set("cvs_api_request_c_geoid", c_geoid);
-            g_cvs_api_request_data.set("cvs_api_request_t_geoid", t_geoid);
-            g_cvs_api_request_data.set("cvs_api_request_year", year);
-
-
-
-
-            try
-            {
-                await $.ajax(
-                    {
-                        url: base_url,
-                        type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        success: p_success_call_back,
-                        error: p_error_call_back,
-                        data: JSON.stringify({
-                            action: "data",                        
-                            c_geoid: c_geoid,
-                            t_geoid: t_geoid,
-                            year: year
-
-                        })
-                    }
-                );
-            }
-            catch(ex)
-            {
-                // do nothing 
-            }
-        }
-
-
-
-	void callback_cvs_data_success (p_result)
-        {
-
-            //const data = eval("(" + p_result + ")"); 
-            console.log(p_result);
-            //console.log(data);
-            console.log(p_result);
-            if
-            (
-                g_cvs_api_request_data.has("_id") &&
-                g_cvs_api_request_data.get("_id") == g_data._id
-            )
-            {
-                if(p_result.tract == null)
-                {
-                    g_cvs_api_request_data.set("cvs_api_request_result_message", p_result); 
-                    g_cvs_api_request_data.set
-                    (
-                        "cvs_api_request_result_message",
-                        `status code: ${p_result.status} message: ${p_result.message}`
-                    );
-                    
-                    
-                    const new_grid_item = {
-
-                        cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
-                        cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
-                        cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
-                        cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
-                        cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
-                        cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                        cvs_mdrate_county: "",
-                        cvs_pctnoins_fem_county: "",
-                        cvs_pctnoins_fem_tract: "",
-                        cvs_pctnovehicle_county: "",                                   
-                        cvs_pctnovehicle_tract: "",
-                        cvs_pctmove_county: "",
-                        cvs_pctmove_tract: "",
-                        cvs_pctsphh_county: "",
-                        cvs_pctsphh_tract: "",
-                        cvs_pctovercrowdhh_county: "",
-                        cvs_pctovercrowdhh_tract: "",
-                        cvs_pctowner_occ_county: "",
-                        cvs_pctowner_occ_tract: "",
-                        cvs_pct_less_well_county: "",
-                        cvs_pct_less_well_tract: "",
-                        cvs_ndi_raw_county: "",
-                        cvs_ndi_raw_tract: "",
-                        cvs_pctpov_county: "",
-                        cvs_pctpov_tract: "",
-                        cvs_ice_income_all_county: "",
-                        cvs_ice_income_all_tract: "",
-                        cvs_medhhinc_county: "",
-                        cvs_medhhinc_tract: "",
-                        cvs_pctobese_county: "",
-                        cvs_fi_county: "",
-                        cvs_cnmrate_county: "",
-                        cvs_obgynrate_county: "",
-                        cvs_rtteenbirth_county: "",
-                        cvs_rtstd_county: "",
-                        cvs_rtmhpract_county: "",
-                        cvs_rtdrugodmortality_county: "",
-                        cvs_rtopioidprescript_county: "",
-                        cvs_soccap_county: "",
-                        cvs_rtsocassoc_county: "",
-                        cvs_pcthouse_distress_county: "",
-                        cvs_rtviolentcr_icpsr_county: "",
-                        cvs_isolation_county: ""
-                        
-                        };
-    
-                        g_data.cvs.cvs_grid = [ new_grid_item ];
-                }
-                else
-                {
-                    g_cvs_api_request_data.set("cvs_api_request_result_message", "Data request successful."); 
-
-                    const new_grid_item = {
-
-                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
-                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
-                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
-                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
-                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
-                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    cvs_mdrate_county: p_result.county.mDrate,
-                    cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
-                    cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
-                    cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
-                    cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
-                    cvs_pctmove_county: p_result.county.pctMOVE,
-                    cvs_pctmove_tract: p_result.tract.pctMOVE,
-                    cvs_pctsphh_county: p_result.county.pctSPHH,
-                    cvs_pctsphh_tract: p_result.tract.pctSPHH,
-                    cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
-                    cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
-                    cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
-                    cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
-                    cvs_pct_less_well_county: p_result.county.pct_less_well,
-                    cvs_pct_less_well_tract: p_result.tract.pct_less_well,
-                    cvs_ndi_raw_county: p_result.county.ndI_raw,
-                    cvs_ndi_raw_tract: p_result.tract.ndI_raw,
-                    cvs_pctpov_county: p_result.county.pctPOV,
-                    cvs_pctpov_tract: p_result.tract.pctPOV,
-                    cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
-                    cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
-                    cvs_medhhinc_county: p_result.county.medhhinc,
-                    cvs_medhhinc_tract: p_result.tract.medhhinc,
-                    cvs_pctobese_county: p_result.county.pctOBESE,
-                    cvs_fi_county: p_result.county.fi,
-                    cvs_cnmrate_county: p_result.county.cnMrate,
-                    cvs_obgynrate_county: p_result.county.obgyNrate,
-                    cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
-                    cvs_rtstd_county: p_result.county.rtSTD,
-                    cvs_rtmhpract_county: p_result.county.rtMHPRACT,
-                    cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
-                    cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
-                    cvs_soccap_county: p_result.county.socCap,
-                    cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
-                    cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
-                    cvs_isolation_county: p_result.county.isolation
-                    }
-
-                    g_data.cvs.cvs_grid = [ new_grid_item ];
-                }
-            }
-
-        }
-		*/
+	
 
 
 }
