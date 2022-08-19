@@ -282,6 +282,10 @@ async function download_data_quality_report_button_click()
     g_external_set = new Set();
     g_current_set = new Set();
     g_previous_set = new Set();
+
+    question_detail_map.clear();
+    case_detail_map.clear();
+    case_header_map.clear();
     
 
     let selected_quarter = document.getElementById('quarters-list').value;
@@ -790,11 +794,9 @@ async function download_data_quality_report_button_click()
         // 	total: 0,
         // };
 
-        /*
-        const question_detail_map = new Map();
-        const case_detail_map = new Map();
-        const case_header_map = new Map();
-        */
+        
+
+        
        let detail_data = {
 			questions: [
 				/*{
