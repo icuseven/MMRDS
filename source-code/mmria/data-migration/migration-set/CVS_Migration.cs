@@ -285,11 +285,12 @@ public class CVS_Migration
 						{
 							var api_result_text = api_result_message[0].Item2;
 
-							if(mmria_id.Equals("44e19c19-d020-45e6-8316-bd15c1334c46", StringComparison.OrdinalIgnoreCase))
+/*
+							if(mmria_id.Equals("", StringComparison.OrdinalIgnoreCase))
 							{
 								System.Console.WriteLine("here");
 							}
-
+*/
 							if(api_result_text.IndexOf("check quality") >  -1)
 							{
 								// do nothing continue
@@ -297,18 +298,25 @@ public class CVS_Migration
 							else if
                             (
                                 api_result_text.StartsWith("success") &&
-                                !string.IsNullOrWhiteSpace(cvs_pctmove_tract[0].Item2) &&
-                                !string.IsNullOrWhiteSpace(cvs_pctnoins_fem_tract[0].Item2) &&
-                                !string.IsNullOrWhiteSpace(cvs_pctnovehicle_county[0].Item2) &&
-                                !string.IsNullOrWhiteSpace(cvs_pctnovehicle_tract[0].Item2) &&
-                                !string.IsNullOrWhiteSpace(cvs_pctowner_occ_tract[0].Item2) &&
-                                cvs_pctmove_tract[0].Item2 != "0" &&
-                                cvs_pctnoins_fem_tract[0].Item2 != "0" &&
-                                cvs_pctnovehicle_county[0].Item2 != "0" &&
-                                cvs_pctnovehicle_tract[0].Item2 != "0" &&
-                                cvs_pctowner_occ_tract[0].Item2 != "0"
+                                (
+									!string.IsNullOrWhiteSpace(cvs_pctmove_tract[0].Item2) &&
+									!string.IsNullOrWhiteSpace(cvs_pctnoins_fem_tract[0].Item2) &&
+									!string.IsNullOrWhiteSpace(cvs_pctnovehicle_county[0].Item2) &&
+									!string.IsNullOrWhiteSpace(cvs_pctnovehicle_tract[0].Item2) &&
+									!string.IsNullOrWhiteSpace(cvs_pctowner_occ_tract[0].Item2)
+								) 
+	
                             )
 							{
+								if
+
+								(
+                                	cvs_pctmove_tract[0].Item2 != "0" &&
+                                	cvs_pctnoins_fem_tract[0].Item2 != "0" &&
+                                	cvs_pctnovehicle_county[0].Item2 != "0" &&
+                                	cvs_pctnovehicle_tract[0].Item2 != "0" &&
+                                	cvs_pctowner_occ_tract[0].Item2 != "0"
+								)
 								continue;
 							}
 						}
@@ -929,6 +937,8 @@ cvs_api_request_result_message
 		float tract_zero_count = 0F;
 		float county_zero_count = 0F;
 
+		const float _30_percent_correct = .3F;
+
 		if
 		(
 			val.tract.pctMOVE == 0  && //cvs_pctmove_tract
@@ -984,9 +994,9 @@ cvs_api_request_result_message
 		if(val.county.isolation == 0) county_zero_count += 1;
 
 
-		if(tract_zero_count / tract_total > .5F) tract_result = true;
+		if(tract_zero_count / tract_total < _30_percent_correct) tract_result = true;
 
-		if(county_zero_count / county_total > .5F) county_result = true;
+		if(county_zero_count / county_total < _30_percent_correct) county_result = true;
 
 
 		return over_all_result || tract_result || county_result;
