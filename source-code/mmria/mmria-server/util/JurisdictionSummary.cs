@@ -497,21 +497,7 @@ namespace mmria.server.utils
                     if(Jurisdictin_Role_Dictionary.ContainsKey(cvi.value.role_name))
                     {
                         Jurisdictin_Role_Dictionary[cvi.value.role_name].Add(cvi.value.user_id);
-                                Jurisdictin_User_Set.Add(cvi.value.user_id);
-                            /*
-                        break;
-                        case "abstractor":
-                            p_result.num_users_abs++;
-                            Jurisdictin_User_Set.Add(cvi.value.user_id);
-                        break;
-                        case "data_analyst":
-                            p_result.num_user_anl++;
-                            Jurisdictin_User_Set.Add(cvi.value.user_id);
-                        break;
-                        case "committee_member":
-                            p_result.num_user_cm++;
-                            Jurisdictin_User_Set.Add(cvi.value.user_id);
-                        break;*/
+                        Jurisdictin_User_Set.Add(cvi.value.user_id);
                     }
                 }
 
@@ -532,8 +518,6 @@ namespace mmria.server.utils
                 p_result.num_user_cm = -1;
 
 			} 
-
-
 		}
     }
 }
