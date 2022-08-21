@@ -171,3 +171,69 @@ function open_blank_version(p_section)
 		blank_window.create_print_version(g_metadata, default_object, p_section)
 	}, 1000);	
 }
+
+/*
+
+confirm-dialog-id
+
+confirm_dialog_show
+(
+    p_title, 
+    p_header, 
+    p_inner_html, 
+    p_confirm_dialog_confirm_callback, 
+    p_confirm_dialog_cancel_callback
+)
+
+
+http://www.erase-mm-cvsproject.org/
+https://reviewtoaction.org/tools/resource-center
+https://cdcpartners.sharepoint.com/sites/NCCDPHP/MMRIA
+
+
+Exit Notification / Disclaimer Policy
+
+
+Links with this icon  indicate that you are leaving the CDC website.
+
+
+The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.
+Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.
+You will be subject to the destination website's privacy policy when you follow the link.
+CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.
+
+For more information on CDC's web notification policies, see Website Disclaimers.
+
+
+*/
+
+
+async function erase_mm_link_click()
+{
+    function cancel()
+    {
+        $mmria.confirm_dialog_confirm_close();
+    }
+
+    function confirm()
+    {
+        $mmria.confirm_dialog_confirm_close();
+    }
+
+    $mmria.confirm_dialog_show
+    (
+        "Exit Notification / Disclaimer Policy", //p_title, 
+        "Links with this icon  indicate that you are leaving the CDC website.", // p_header, 
+        `
+        <ul>
+        <li>The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.</li>
+        <li>Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.</li>
+        <li>You will be subject to the destination website's privacy policy when you follow the link.</li>
+        <li>CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.</li>
+        </ul>`, //p_inner_html, 
+        confirm, 
+        cancel
+    )
+
+
+}
