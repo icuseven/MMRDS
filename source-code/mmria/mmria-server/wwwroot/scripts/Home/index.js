@@ -212,28 +212,70 @@ async function erase_mm_link_click()
 {
     function cancel()
     {
-        $mmria.confirm_dialog_confirm_close();
+        $mmria.confirm_external_nav_dialog_confirm_close();
     }
 
     function confirm()
     {
-        $mmria.confirm_dialog_confirm_close();
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            "http://www.erase-mm-cvsproject.org", 
+            "_blank"
+        );
     }
 
-    $mmria.confirm_dialog_show
+    $mmria.confirm_external_nav_dialog_show
     (
-        "Exit Notification / Disclaimer Policy", //p_title, 
-        "Links with this icon  indicate that you are leaving the CDC website.", // p_header, 
-        `
-        <ul>
-        <li>The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.</li>
-        <li>Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.</li>
-        <li>You will be subject to the destination website's privacy policy when you follow the link.</li>
-        <li>CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.</li>
-        </ul>`, //p_inner_html, 
         confirm, 
         cancel
     )
+}
 
+async function review_to_action_link_click()
+{
+    function cancel()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+    }
 
+    function confirm()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            "https://reviewtoaction.org/tools/resource-center", 
+            "_blank"
+        );
+    }
+
+    $mmria.confirm_external_nav_dialog_show
+    (
+        confirm, 
+        cancel
+    )
+}
+
+async function system_documentation_link_click()
+{
+    function cancel()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+    }
+
+    function confirm()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            "https://cdcpartners.sharepoint.com/sites/NCCDPHP/MMRIA", 
+            "_blank"
+        );
+    }
+
+    $mmria.confirm_external_nav_dialog_show
+    (
+        confirm, 
+        cancel
+    )
 }

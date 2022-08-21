@@ -1013,6 +1013,70 @@ var $mmria = function()
             let el = document.getElementById("confirm-dialog-id");
             el.close();
         },
+
+        confirm_external_nav_dialog_show: function 
+        (
+            p_confirm_dialog_confirm_callback, 
+            p_confirm_dialog_cancel_callback
+        )
+        {
+            let element = document.getElementById("confirm-dialog-id");
+            if(element == null)
+            {
+                element = document.createElement("dialog");
+                element.classList.add('p-0');
+                element.classList.add('set-radius');
+                element.setAttribute("id", "confirm-dialog-id");
+
+                document.firstElementChild.appendChild(element);
+            }
+
+
+            let html = [];
+            html.push(`
+                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                    <span id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</span>
+                    <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                </div>
+                <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                    <div class="modal-body">
+                        <p><strong>Links with this icon  indicate that you are leaving the CDC website.</strong></p>
+                        <ul>
+                            <li>The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.</li>
+                            <li>Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.</li>
+                            <li>You will be subject to the destination website's privacy policy when you follow the link.</li>
+                            <li>CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.</li>
+                        </ul>
+                    </div>
+                    <footer class="modal-footer">
+                        <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
+                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Confirm</button> 
+                    </footer>
+                </div>
+            `);
+            
+            element.innerHTML = html.join("");
+
+            element.style.top = ((window.innerHeight/2) - (element.offsetHeight/2))+'px';
+            //element.style.left = ((window.innerWidth/2) - (element.offsetWidth/2))+'px';
+            
+
+            let confirm_button = document.getElementById("confirm-dialog-id-confirm-button");
+            let canel_button = document.getElementById("confirm-dialog-id-cancel-button");
+            let modal_confirm_cancel_icon = document.getElementById("modal_confirm_cancel_icon");
+
+            
+            confirm_button.onclick =  p_confirm_dialog_confirm_callback;
+            canel_button.onclick = p_confirm_dialog_cancel_callback;
+            modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
+
+            element.showModal();
+        },
+        confirm_external_nav_dialog_confirm_close: function ()
+        {
+            let el = document.getElementById("confirm-dialog-id");
+            el.close();
+        },
         get_year_and_quarter: function (p_value)
         {
             let result = null;
