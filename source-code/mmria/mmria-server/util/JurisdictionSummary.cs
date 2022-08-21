@@ -457,6 +457,15 @@ namespace mmria.server.utils
                 var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
                 HashSet<string> Jurisdictin_User_Set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var Jurisdictin_Role_Dictionary = new Dictionary<string,HashSet<string>>(StringComparer.OrdinalIgnoreCase)
+                {
+                    {  "jurisdiction_admin", new HashSet<string>(StringComparer.OrdinalIgnoreCase)},
+                    { "abstractor", new HashSet<string>(StringComparer.OrdinalIgnoreCase)},
+                    { "data_analyst", new HashSet<string>(StringComparer.OrdinalIgnoreCase)},
+                    { "committee_member", new HashSet<string>(StringComparer.OrdinalIgnoreCase)},
+                };
+
+
 
                 foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                 {
@@ -485,11 +494,11 @@ namespace mmria.server.utils
                         }
                     }
 
-                    switch(cvi.value.role_name.ToLower())
+                    if(Jurisdictin_Role_Dictionary.ContainsKey(cvi.value.role_name))
                     {
-                        case "jurisdiction_admin":
-                                p_result.num_users_ja++;
+                        Jurisdictin_Role_Dictionary[cvi.value.role_name].Add(cvi.value.user_id);
                                 Jurisdictin_User_Set.Add(cvi.value.user_id);
+                            /*
                         break;
                         case "abstractor":
                             p_result.num_users_abs++;
@@ -502,9 +511,14 @@ namespace mmria.server.utils
                         case "committee_member":
                             p_result.num_user_cm++;
                             Jurisdictin_User_Set.Add(cvi.value.user_id);
-                        break;
+                        break;*/
                     }
                 }
+
+                p_result.num_users_ja = Jurisdictin_Role_Dictionary["jurisdiction_admin"].Count;
+                p_result.num_users_abs = Jurisdictin_Role_Dictionary["abstractor"].Count;
+                p_result.num_user_anl = Jurisdictin_Role_Dictionary["data_analyst"].Count;
+                p_result.num_user_cm = Jurisdictin_Role_Dictionary["committee_member"].Count;
 
                 p_user_id_set.RemoveWhere( x=> !Jurisdictin_User_Set.Contains(x));
                
