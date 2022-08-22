@@ -1052,7 +1052,7 @@ var $mmria = function()
                     </div>
                     <footer class="modal-footer">
                         <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
-                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Confirm</button> 
+                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Continue</button> 
                     </footer>
                 </div>
             `);
