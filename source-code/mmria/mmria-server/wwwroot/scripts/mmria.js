@@ -1040,13 +1040,15 @@ var $mmria = function()
                 </div>
                 <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
-                        <p><strong>Links with this icon  indicate that you are leaving the CDC website.</strong></p>
+                        <p><strong>Links with this icon<span class="sr-only">external icon</span>
+                        <span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span> indicate that you are leaving the CDC website.</strong></p>
                         <ul>
                             <li>The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.</li>
                             <li>Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.</li>
                             <li>You will be subject to the destination website's privacy policy when you follow the link.</li>
                             <li>CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.</li>
                         </ul>
+                        <p>For more information on CDC's web notification policies, see <a href="https://www.cdc.gov/Other/disclaimer.html" target="_blank">Website Disclaimers</a>.</p>
                     </div>
                     <footer class="modal-footer">
                         <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
