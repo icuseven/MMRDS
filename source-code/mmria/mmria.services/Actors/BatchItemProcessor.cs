@@ -1334,11 +1334,7 @@ cvs_pctowner_occ_tract
 
                         if
                         (
-                            tract_county_result.tract.pctMOVE == 0  && //cvs_pctmove_tract
-                            tract_county_result.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
-                            tract_county_result.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
-                            tract_county_result.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
-                            tract_county_result.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+                          is_result_quality_in_need_of_checking(tract_county_result)
                         )
                         {
                             cvs_response_status += " check quality";
@@ -12017,6 +12013,84 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
 
         return result;
     }	
+
+    	bool is_result_quality_in_need_of_checking(mmria.common.cvs.tract_county_result val)
+	{
+
+		var over_all_result = false;
+		var tract_result = false;
+		var county_result = false;
+
+		const float tract_total = 11F;
+		const float county_total = 26F;
+
+		float tract_zero_count = 0F;
+		float county_zero_count = 0F;
+
+		const float _30_percent_correct = .3F;
+
+		if
+		(
+			val.tract.pctMOVE == 0  && //cvs_pctmove_tract
+			val.tract.pctNOIns_Fem == 0 && //cvs_pctnoins_fem_tract		
+			val.county.pctNoVehicle == 0 && //cvs_pctnovehicle_county
+			val.tract.pctNoVehicle == 0 && //cvs_pctnovehicle_tract
+			val.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
+		)
+		{
+			over_all_result = true;
+		}
+
+
+		if(val.tract.pctNOIns_Fem == 0) tract_zero_count += 1;
+		if(val.tract.MEDHHINC == 0) tract_zero_count += 1;
+		if(val.tract.pctNoVehicle == 0) tract_zero_count += 1;
+		if(val.tract.pctMOVE == 0) tract_zero_count += 1;
+		if(val.tract.pctSPHH == 0) tract_zero_count += 1;
+		if(val.tract.pctOVERCROWDHH == 0) tract_zero_count += 1;
+		if(val.tract.pctOWNER_OCC == 0) tract_zero_count += 1;
+		if(val.tract.pct_less_well == 0) tract_zero_count += 1;
+		if(val.tract.NDI_raw == 0) tract_zero_count += 1;
+		if(val.tract.pctPOV == 0) tract_zero_count += 1;
+		if(val.tract.ICE_INCOME_all == 0) tract_zero_count += 1;
+
+
+
+		if(val.county.MDrate == 0) county_zero_count += 1;
+		if(val.county.pctNOIns_Fem == 0) county_zero_count += 1;
+		if(val.county.pctNoVehicle == 0) county_zero_count += 1;
+		if(val.county.pctMOVE == 0) county_zero_count += 1;
+		if(val.county.pctSPHH == 0) county_zero_count += 1;
+		if(val.county.pctOVERCROWDHH == 0) county_zero_count += 1;
+		if(val.county.pctOWNER_OCC == 0) county_zero_count += 1;
+		if(val.county.pct_less_well == 0) county_zero_count += 1;
+		if(val.county.NDI_raw == 0) county_zero_count += 1;
+		if(val.county.pctPOV == 0) county_zero_count += 1;
+		if(val.county.ICE_INCOME_all == 0) county_zero_count += 1;
+		if(val.county.MEDHHINC == 0) county_zero_count += 1;
+		if(val.county.pctOBESE == 0) county_zero_count += 1;
+		if(val.county.FI == 0) county_zero_count += 1;
+		if(val.county.CNMrate == 0) county_zero_count += 1;
+		if(val.county.OBGYNrate == 0) county_zero_count += 1;
+		if(val.county.rtTEENBIRTH == 0) county_zero_count += 1;
+		if(val.county.rtSTD == 0) county_zero_count += 1;
+		if(val.county.rtMHPRACT == 0) county_zero_count += 1;
+		if(val.county.rtDRUGODMORTALITY == 0) county_zero_count += 1;
+		if(val.county.rtOPIOIDPRESCRIPT == 0) county_zero_count += 1;
+		if(val.county.SocCap == 0) county_zero_count += 1;
+		if(val.county.rtSocASSOC == 0) county_zero_count += 1;
+		if(val.county.pctHOUSE_DISTRESS == 0) county_zero_count += 1;
+		if(val.county.rtVIOLENTCR_ICPSR == 0) county_zero_count += 1;
+		if(val.county.isolation == 0) county_zero_count += 1;
+
+
+		if(tract_zero_count / tract_total < _30_percent_correct) tract_result = true;
+
+		if(county_zero_count / county_total < _30_percent_correct) county_result = true;
+
+
+		return over_all_result || tract_result || county_result;
+	}
 
 }
 
