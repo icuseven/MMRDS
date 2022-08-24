@@ -67,6 +67,11 @@ public class BackupColdProcessor : ReceiveActor
 
             var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss-ddd");
             var target_folder = System.IO.Path.Combine(root_folder, date_string);
+
+
+            DateTime TimerStart = DateTime.Now;
+            DateTime TimerEnd = DateTime.Now;
+
             
 
             System.IO.Directory.CreateDirectory(target_folder);
@@ -92,6 +97,13 @@ public class BackupColdProcessor : ReceiveActor
                 }
             );
 
+            TimerEnd = DateTime.Now;
+
+            TimeSpan  TimerDuration = TimerEnd - TimerStart;
+
+
+            document_counts.Add(($"vital-import file-write duration {TimerDuration.Minutes:0#.##}", 0));
+
             string detail = "";
 
             if(vital_import_backup_result_message.Detail!= null)
@@ -106,6 +118,8 @@ public class BackupColdProcessor : ReceiveActor
 
             var zip_file_name = $"{date_string}-vital-import.zip";
 
+            TimerStart = DateTime.Now;
+
             folder_compressor.Compress
             (
                 System.IO.Path.Combine(target_folder, zip_file_name),
@@ -113,7 +127,22 @@ public class BackupColdProcessor : ReceiveActor
                 db_folder
             );
 
+
+            TimerEnd = DateTime.Now;
+            TimerDuration = TimerEnd - TimerStart;
+            document_counts.Add(($"vital-import compress duration {TimerDuration.Minutes:0#.##}", 0));
+
+
+
+            TimerStart = DateTime.Now;
             System.IO.Directory.Delete(db_folder, true);
+
+            
+            TimerEnd = DateTime.Now;
+            TimerDuration = TimerEnd - TimerStart;
+            document_counts.Add(($"vital-import delete duration {TimerDuration.Minutes:0#.##}", 0));
+
+
 
             foreach(var kvp in db_config_set.detail_list)
             {
@@ -125,6 +154,7 @@ public class BackupColdProcessor : ReceiveActor
                     continue;
                 }
 
+                TimerStart = DateTime.Now;
                 var prefix_folder = System.IO.Path.Combine(target_folder, prefix);
                 System.IO.Directory.CreateDirectory(prefix_folder);
 
@@ -171,8 +201,15 @@ public class BackupColdProcessor : ReceiveActor
                 
                 }
 
+
+                TimerEnd = DateTime.Now;
+                TimerDuration = TimerEnd - TimerStart;
+                document_counts.Add(($"{prefix}-folder file-write duration {TimerDuration.Minutes:0#.##}", 0));
+
+
                 zip_file_name = $"{date_string}-{prefix}.zip";
 
+                TimerStart = DateTime.Now;
                 folder_compressor.Compress
                 (
                     System.IO.Path.Combine(target_folder, zip_file_name),
@@ -180,7 +217,16 @@ public class BackupColdProcessor : ReceiveActor
                     prefix_folder
                 );
 
+                TimerEnd = DateTime.Now;
+                TimerDuration = TimerEnd - TimerStart;
+                document_counts.Add(($"{prefix}-folder compress duration {TimerDuration.Minutes:0#.##}", 0));
+
+                TimerStart = DateTime.Now;
                 System.IO.Directory.Delete(prefix_folder, true);
+                TimerEnd = DateTime.Now;
+                TimerDuration = TimerEnd - TimerStart;
+                document_counts.Add(($"{prefix}-folder delete duration {TimerDuration.Minutes:0#.##}", 0));
+
             }
 
             document_counts.Sort(Comparer<(string,int)>.Create((i1, i2) => i1.Item2.CompareTo(i2.Item2)));

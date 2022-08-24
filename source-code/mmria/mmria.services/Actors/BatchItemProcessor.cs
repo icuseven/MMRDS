@@ -1316,14 +1316,6 @@ public class BatchItemProcessor : ReceiveActor
                     set_grid_value("cvs/cvs_grid/cvs_api_request_year", calculated_year_of_death.ToString());
 
 
-/*
-cvs_pctmove_tract
-cvs_pctnoins_fem_tract		
-cvs_pctnovehicle_county
-cvs_pctnovehicle_tract
-cvs_pctowner_occ_tract
-*/
-
                     if(cvs_response_status == "success")
                     {
 
@@ -1378,7 +1370,6 @@ cvs_pctowner_occ_tract
                         set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
                         set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
                         
-
                     }
 
                     set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
