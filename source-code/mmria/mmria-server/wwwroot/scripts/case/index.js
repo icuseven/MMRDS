@@ -1058,6 +1058,20 @@ var $$ = {
 
 $(function () 
 {
+    
+    if (window.IsDuplicate()) 
+    {
+
+      //alert("This is duplicate window\n\n Closing...");
+
+      document.getElementById('form_content_id').innerHTML = "It looks like you may have opened the view/edit case data in another browser tab.<br/> To ensure proper handling please use one broswer tab for editing a case.";
+
+      window.close();
+ 
+      return;
+    }
+  
+
   $(document).keydown(function (evt) 
   {
     if (evt.keyCode == 90 && evt.ctrlKey) 
@@ -2376,7 +2390,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2393,7 +2407,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+				unique_tab_name = '_pdf_tab_' // + Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2423,7 +2437,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
-	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
+	unique_tab_name = '_print_tab_' // + Math.random().toString(36).substring(2, 9);
   
 	if (section_name) 
 	{
