@@ -23,6 +23,8 @@ public class Backup
 		public int ErrorCount { get; set; }
 	}
 
+	List<(string, int)> document_counts = null;
+
 	private HashSet<string> id_list = null;
 	private string auth_token = null;
 	private string user_name = null;
@@ -31,7 +33,10 @@ public class Backup
 	private string database_url = null;
 	private string mmria_url = null;
 
-	public Backup(){}
+	public Backup(List<(string, int)> p_document_counts)
+	{
+		document_counts = p_document_counts;
+	}
 	public async Task<BackupResultMessage> Execute (string [] args)
 	{
 		var result = new BackupResultMessage();
@@ -117,13 +122,33 @@ public class Backup
 
 		try 
 		{
-	
+	        
+
+			DateTime TimerStart = DateTime.Now;
+            DateTime TimerEnd = DateTime.Now;
+
+
+
 			id_list = await GetIdList();
+
+
+			TimerEnd = DateTime.Now;
+
+            TimeSpan  TimerDuration = TimerEnd - TimerStart;
+            document_counts.Add(($"{database_url} GetIdList duration {TimerDuration.TotalMinutes:0#.##}", 0));
+
 
 			result.Doc_ID_Count = id_list.Count;
 
+			TimerStart = DateTime.Now;
+
 
 			var (SuccessCount, ErrorCount) = await GetDocumentList ();
+
+			TimerEnd = DateTime.Now;
+
+            TimerDuration = TimerEnd - TimerStart;
+            document_counts.Add(($"{database_url} GetDocumentList duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
 
 			Console.WriteLine ("Backup Finished.");
