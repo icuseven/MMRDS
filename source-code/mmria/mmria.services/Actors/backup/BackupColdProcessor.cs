@@ -102,7 +102,7 @@ public class BackupColdProcessor : ReceiveActor
             TimeSpan  TimerDuration = TimerEnd - TimerStart;
 
 
-            document_counts.Add(($"vital-import file-write duration {TimerDuration.Minutes:0#.##}", 0));
+            document_counts.Add(($"vital-import file-write duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
             string detail = "";
 
@@ -130,7 +130,7 @@ public class BackupColdProcessor : ReceiveActor
 
             TimerEnd = DateTime.Now;
             TimerDuration = TimerEnd - TimerStart;
-            document_counts.Add(($"vital-import compress duration {TimerDuration.Minutes:0#.##}", 0));
+            document_counts.Add(($"vital-import compress duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
 
 
@@ -140,7 +140,7 @@ public class BackupColdProcessor : ReceiveActor
             
             TimerEnd = DateTime.Now;
             TimerDuration = TimerEnd - TimerStart;
-            document_counts.Add(($"vital-import delete duration {TimerDuration.Minutes:0#.##}", 0));
+            document_counts.Add(($"vital-import delete duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
 
 
@@ -204,7 +204,7 @@ public class BackupColdProcessor : ReceiveActor
 
                 TimerEnd = DateTime.Now;
                 TimerDuration = TimerEnd - TimerStart;
-                document_counts.Add(($"{prefix}-folder file-write duration {TimerDuration.Minutes:0#.##}", 0));
+                document_counts.Add(($"{prefix}-folder file-write duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
 
                 zip_file_name = $"{date_string}-{prefix}.zip";
@@ -219,13 +219,13 @@ public class BackupColdProcessor : ReceiveActor
 
                 TimerEnd = DateTime.Now;
                 TimerDuration = TimerEnd - TimerStart;
-                document_counts.Add(($"{prefix}-folder compress duration {TimerDuration.Minutes:0#.##}", 0));
+                document_counts.Add(($"{prefix}-folder compress duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
                 TimerStart = DateTime.Now;
                 System.IO.Directory.Delete(prefix_folder, true);
                 TimerEnd = DateTime.Now;
                 TimerDuration = TimerEnd - TimerStart;
-                document_counts.Add(($"{prefix}-folder delete duration {TimerDuration.Minutes:0#.##}", 0));
+                document_counts.Add(($"{prefix}-folder delete duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
             }
 
