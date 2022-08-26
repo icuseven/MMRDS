@@ -33,6 +33,8 @@ public class Backup
 	private string database_url = null;
 	private string mmria_url = null;
 
+	int Total_Rows = 0;
+
 	public Backup(List<(string, int)> p_document_counts)
 	{
 		document_counts = p_document_counts;
@@ -189,8 +191,10 @@ public class Backup
 			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 			var curl_result = await document_curl.executeAsync();
 
-			dynamic all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
-			dynamic all_cases_rows = all_cases.rows;
+			var all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			var all_cases_rows = all_cases.rows;
+
+			Total_Rows = all_cases.total_rows;
 
 			foreach (var row in all_cases_rows) 
 			{
@@ -220,115 +224,135 @@ public class Backup
 
 		Dictionary<double,int> frequency = new();
 
-		foreach(var id in id_list)
+		var page_size = 100;
+
+		if(Total_Rows> 100)
+		{
+			page_size = Total_Rows / 200;
+		}
+
+		var current_page = 0;
+
+		while(current_page < Total_Rows)
 		{
 			DateTime TimerStart = DateTime.Now;
             DateTime TimerEnd = DateTime.Now;
-			number_of_observations +=1;
+			
 			try
 			{
-				string URL = $"{this.database_url}/{id}";
+				string URL = $"{this.database_url}/_all_docs?include_docs=true&skip={current_page}&limit={page_size}";
 				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 				var curl_result = await document_curl.executeAsync();
 
-				dynamic case_row = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject> (curl_result);
+				var case_batch = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
 
-				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-				case_doc.Remove("_rev");
-
-				var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
-
-				var backup_file_path = this.backup_file_path;
-
-				
-
-				if(this.database_url.EndsWith("/metadata"))
+				foreach (var row in case_batch.rows) 
 				{
+
+
+					number_of_observations +=case_batch.rows.Length;
+					var id = row.id;
+					var case_row = row.doc;
+
+					IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+					case_doc.Remove("_rev");
+
+					var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
+
+					var backup_file_path = this.backup_file_path;
+
 					
-					var new_id = id.Replace(":","-").Replace(".","-");
-					var file_path = System.IO.Path.Combine(backup_file_path, new_id);
-					System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
 
-					file_path = System.IO.Path.Combine(file_path, $"{id.Replace(":","-").Replace(".","-")}.json");
-					if (!System.IO.File.Exists (file_path)) 
+					if(this.database_url.EndsWith("/metadata"))
 					{
-						await System.IO.File.WriteAllTextAsync (file_path, case_json);
-					}
-				}
-				else
-				{
+						
+						var new_id = id.Replace(":","-").Replace(".","-");
+						var file_path = System.IO.Path.Combine(backup_file_path, new_id);
+						System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
 
-					var file_path = System.IO.Path.Combine(backup_file_path, $"{id}.json");
-					if (!System.IO.File.Exists (file_path)) 
-					{
-						await System.IO.File.WriteAllTextAsync (file_path, case_json);
-					}
-				}
-
-				if(this.database_url.EndsWith("/metadata"))
-				{
-					if(case_doc.ContainsKey("_attachments"))
-					{
-						var attachment_set = case_doc["_attachments"] as IDictionary<string,object>;
-						if(attachment_set != null)
+						file_path = System.IO.Path.Combine(file_path, $"{id.Replace(":","-").Replace(".","-")}.json");
+						if (!System.IO.File.Exists (file_path)) 
 						{
-							var new_id = id.Replace(":","-").Replace(".","-");
-							var attachment_path = System.IO.Path.Combine(backup_file_path, new_id, "_attachments");
-							
+							await System.IO.File.WriteAllTextAsync (file_path, case_json);
+						}
+					}
+					else
+					{
 
-							foreach(var kvp in attachment_set)
+						var file_path = System.IO.Path.Combine(backup_file_path, $"{id}.json");
+						if (!System.IO.File.Exists (file_path)) 
+						{
+							await System.IO.File.WriteAllTextAsync (file_path, case_json);
+						}
+					}
+
+					if(this.database_url.EndsWith("/metadata"))
+					{
+						if(case_doc.ContainsKey("_attachments"))
+						{
+							var attachment_set = case_doc["_attachments"] as IDictionary<string,object>;
+							if(attachment_set != null)
 							{
-								var attachment_url = $"{URL}/{kvp.Key}";
-								var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
-								var attachment_doc_json = await attachment_curl.executeAsync();
+								var new_id = id.Replace(":","-").Replace(".","-");
+								var attachment_path = System.IO.Path.Combine(backup_file_path, new_id, "_attachments");
+								
 
-
-
-								var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
-								if (!System.IO.File.Exists (attachment_file_path)) 
+								foreach(var kvp in attachment_set)
 								{
-									await System.IO.File.WriteAllTextAsync (attachment_file_path, attachment_doc_json);
+									var attachment_url = $"{URL}/{kvp.Key}";
+									var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
+									var attachment_doc_json = await attachment_curl.executeAsync();
+
+
+
+									var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
+									if (!System.IO.File.Exists (attachment_file_path)) 
+									{
+										await System.IO.File.WriteAllTextAsync (attachment_file_path, attachment_doc_json);
+									}
 								}
 							}
 						}
 					}
+
+					TimerEnd = DateTime.Now;
+
+					TimeSpan  TimerDuration = TimerEnd - TimerStart;
+
+					if(TimerDuration.TotalSeconds > max)
+					{
+						max = TimerDuration.TotalSeconds;
+					}
+
+					if(TimerDuration.TotalSeconds < min)
+					{
+						min = TimerDuration.TotalSeconds;
+					}
+
+					if(frequency.ContainsKey(TimerDuration.TotalSeconds))
+					{
+						frequency[TimerDuration.TotalSeconds] += 1;
+					}
+					else
+					{
+						frequency.Add(TimerDuration.TotalSeconds, 1);
+					}
+
+					total_duration += TimerDuration.TotalSeconds;
+					total_seconds += TimerDuration.TotalSeconds;
+					
+					//document_counts.Add(($"{database_url} GetIdList duration {TimerDuration.TotalMinutes:0#.##}", 0));
+
+					SuccessCount+= 1;
 				}
 
-				TimerEnd = DateTime.Now;
-
-				TimeSpan  TimerDuration = TimerEnd - TimerStart;
-
-				if(TimerDuration.TotalSeconds > max)
-				{
-					max = TimerDuration.TotalSeconds;
-				}
-
-				if(TimerDuration.TotalSeconds < min)
-				{
-					min = TimerDuration.TotalSeconds;
-				}
-
-				if(frequency.ContainsKey(TimerDuration.TotalSeconds))
-				{
-					frequency[TimerDuration.TotalSeconds] += 1;
-				}
-				else
-				{
-					frequency.Add(TimerDuration.TotalSeconds, 1);
-				}
-
-				total_duration += TimerDuration.TotalSeconds;
-				total_seconds += TimerDuration.TotalSeconds;
-				
-				//document_counts.Add(($"{database_url} GetIdList duration {TimerDuration.TotalMinutes:0#.##}", 0));
-
-
-				SuccessCount+= 1;
 			}
 			catch(Exception)
 			{
 				ErrorCount += 1;
 			}
+
+			current_page += page_size;
 		}
 
 		var sb = new System.Text.StringBuilder();
