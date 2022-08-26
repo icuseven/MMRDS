@@ -316,11 +316,9 @@ public class Backup
 			{
 				ErrorCount += 1;
 			}
-
-			document_counts.Add(($"{database_url} min: {min:0#.##} max: {max:0#.##} avg:{total_duration / number_of_observations:0#.##}", 0));
-
-			
 		}
+
+		document_counts.Add(($"{database_url} min: {min:0#.##} max: {max:0#.##} avg:{total_duration / number_of_observations:0#.##}", 0));
 
 		return (SuccessCount, ErrorCount);
 	}
