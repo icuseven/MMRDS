@@ -76,10 +76,11 @@ public class BackupColdProcessor : ReceiveActor
 
             System.IO.Directory.CreateDirectory(target_folder);
 
-            var b = new Backup();
+            
 
             List<(string, int)> document_counts = new List<(string, int)>();
 
+            var b = new Backup(document_counts);
 
             var db_folder = System.IO.Path.Combine(target_folder, "vital_import");
             System.IO.Directory.CreateDirectory($"{db_folder}/_design");
