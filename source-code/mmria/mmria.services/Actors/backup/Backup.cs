@@ -189,7 +189,7 @@ public class Backup
 			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 			var curl_result = await document_curl.executeAsync();
 
-			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			dynamic all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
 			dynamic all_cases_rows = all_cases.rows;
 
 			foreach (var row in all_cases_rows) 
@@ -212,23 +212,28 @@ public class Backup
 		int SuccessCount = 0;
 		int ErrorCount = 0;
 
-		Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-		settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+		double number_of_observations = 0.0F;
+		double total_duration = 0.0;
+		double max = double.MinValue;
+		double min = double.MaxValue;
 
 		foreach(var id in id_list)
 		{
+			DateTime TimerStart = DateTime.Now;
+            DateTime TimerEnd = DateTime.Now;
+			number_of_observations +=1;
 			try
 			{
 				string URL = $"{this.database_url}/{id}";
 				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 				var curl_result = await document_curl.executeAsync();
 
-				dynamic case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+				dynamic case_row = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject> (curl_result);
 
 				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				case_doc.Remove("_rev");
 
-				var case_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_doc, settings);
+				var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
 
 				var backup_file_path = this.backup_file_path;
 
@@ -286,6 +291,25 @@ public class Backup
 					}
 				}
 
+				TimerEnd = DateTime.Now;
+
+				TimeSpan  TimerDuration = TimerEnd - TimerStart;
+
+				if(TimerDuration.TotalMinutes > max)
+				{
+					max = TimerDuration.TotalMinutes;
+				}
+
+				if(TimerDuration.TotalMinutes < min)
+				{
+					min = TimerDuration.TotalMinutes;
+				}
+
+				total_duration += TimerDuration.TotalMinutes;
+				
+				//document_counts.Add(($"{database_url} GetIdList duration {TimerDuration.TotalMinutes:0#.##}", 0));
+
+
 				SuccessCount+= 1;
 			}
 			catch(Exception)
@@ -293,6 +317,7 @@ public class Backup
 				ErrorCount += 1;
 			}
 
+			document_counts.Add(($"{database_url} min: {min:0#.##} max: {max:0#.##} avg:{total_duration / number_of_observations:0#.##}", 0));
 
 			
 		}
