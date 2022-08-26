@@ -124,3 +124,64 @@ space = " "
 left_bracket = '<'
 right_bracket = [>]
 end_right_bracket = '</'
+
+
+
+
+start = html_start_tag paragraph html_end_tag
+html_start_tag = '<html>'
+html_end_tag = '</html>'
+
+paragraph = paragraph_start_tag basic_text paragraph_end_tag
+
+paragraph_start_tag = '<p>'
+paragraph_end_tag = '</p>'
+basic_text = [ a-zA-Z0-9\[\]+*//()]*
+
+
+
+html_start_tag = '<html>'
+html_end_tag = '</html>'
+
+any = [ a-z0-9.*()+]*
+
+bold_start_tag = '<b>'
+bold_end_tag = '</b>'
+underline_start_tag = '<u>'
+underline_end_tag = '</u>'
+italic_start_tag = '<i>'
+italic_end_tag = '</i>'
+
+
+
+unordered_list_start_tag = '<ul>'
+unordered_list_end_tag = '</ul>'
+ordered_list_start_tag = '<ol>'
+ordered_list_end_tag = '</ol>'
+
+list_item_start_tag = '<li>'
+list_item_end_tag = '</li>'
+
+
+
+paragraph_start_tag = '<p>'
+paragraph_end_tag = '</p>'
+
+horizontal_line_tag = '<hr/>'
+new_line_tag = '<br/>'
+
+table_start_tag = '<table>'
+table_end_tag = '</table>'
+
+table_row_start_tag = '<tr>'
+table_row_end_tag = '</tr>'
+
+
+table_header_start_tag = '<th>'
+table_header_end_tag = '</th>'
+
+table_detail_start_tag = '<td>'
+table_detail_end_tag = '</td>'
+
+
+
