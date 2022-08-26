@@ -214,8 +214,11 @@ public class Backup
 
 		double number_of_observations = 0.0F;
 		double total_duration = 0.0;
+		double total_seconds = 0.0;
 		double max = double.MinValue;
 		double min = double.MaxValue;
+
+		Dictionary<double,int> frequency = new();
 
 		foreach(var id in id_list)
 		{
@@ -295,17 +298,27 @@ public class Backup
 
 				TimeSpan  TimerDuration = TimerEnd - TimerStart;
 
-				if(TimerDuration.TotalMinutes > max)
+				if(TimerDuration.TotalSeconds > max)
 				{
-					max = TimerDuration.TotalMinutes;
+					max = TimerDuration.TotalSeconds;
 				}
 
-				if(TimerDuration.TotalMinutes < min)
+				if(TimerDuration.TotalSeconds < min)
 				{
-					min = TimerDuration.TotalMinutes;
+					min = TimerDuration.TotalSeconds;
 				}
 
-				total_duration += TimerDuration.TotalMinutes;
+				if(frequency.ContainsKey(TimerDuration.TotalSeconds))
+				{
+					frequency[TimerDuration.TotalSeconds] += 1;
+				}
+				else
+				{
+					frequency.Add(TimerDuration.TotalSeconds, 1);
+				}
+
+				total_duration += TimerDuration.TotalSeconds;
+				total_seconds += TimerDuration.TotalSeconds;
 				
 				//document_counts.Add(($"{database_url} GetIdList duration {TimerDuration.TotalMinutes:0#.##}", 0));
 
@@ -318,7 +331,16 @@ public class Backup
 			}
 		}
 
-		document_counts.Add(($"{database_url} min: {min:0#.##} max: {max:0#.##} avg:{total_duration / number_of_observations:0#.##}", 0));
+		var sb = new System.Text.StringBuilder();
+		var mode = frequency.OrderByDescending( x=> x.Value).FirstOrDefault();
+
+		sb.Append($" mode: {mode.Key} [");
+		foreach(var kvp in frequency.OrderByDescending( x=> x.Value))
+		{
+			sb.Append($"{kvp.Key}: {kvp.Value}, ");
+		}
+
+		document_counts.Add(($"{database_url} count: {number_of_observations} seconds:{total_seconds:0#.##} minutes:{total_duration / 60} min: {min:0#.##} max: {max:0#.##} avg:{total_duration / number_of_observations:0#.##} {sb.ToString()} ]", 0));
 
 		return (SuccessCount, ErrorCount);
 	}
