@@ -153,7 +153,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     <th class='th' scope='col'>Created</th>
                     <th class='th' scope='col'>Last Updated</th>
                     <th class='th' scope='col'>Currently Edited By</th>
-                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col' width='1'>Actions</th>` : ''}
+                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col'>Actions</th>` : ''}
                 </tr>
             </thead>
             <tbody class="tbody">
