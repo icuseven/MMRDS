@@ -101,6 +101,12 @@ public class BackupColdProcessor : ReceiveActor
 
             document_counts.Add(($"vital import BackupStatus: {vital_import_backup_result_message.Status} SuccessCount: {vital_import_backup_result_message.SuccessCount} ErrorCount: {vital_import_backup_result_message.ErrorCount}  Detail: {detail}", vital_import_backup_result_message.Doc_ID_Count));
 
+
+            var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-finished.txt");
+            System.IO.File.WriteAllText (db_folder_finished, "");
+
+            /*
+
             mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
             string encryption_key = null;
 
@@ -114,6 +120,7 @@ public class BackupColdProcessor : ReceiveActor
             );
 
             System.IO.Directory.Delete(db_folder, true);
+            */
 
             foreach(var kvp in db_config_set.detail_list)
             {
@@ -171,8 +178,10 @@ public class BackupColdProcessor : ReceiveActor
                 
                 }
 
-                var db_folder_finished = System.IO.Path.Combine(target_folder, $"{prefix}-finished.txt");
+                db_folder_finished = System.IO.Path.Combine(target_folder, $"{prefix}-finished.txt");
                 System.IO.File.WriteAllText (db_folder_finished, "");
+
+                /*
 
                 zip_file_name = $"{date_string}-{prefix}.zip";
 
@@ -184,6 +193,7 @@ public class BackupColdProcessor : ReceiveActor
                 );
 
                 System.IO.Directory.Delete(prefix_folder, true);
+                */
             }
 
             document_counts.Sort(Comparer<(string,int)>.Create((i1, i2) => i1.Item2.CompareTo(i2.Item2)));
