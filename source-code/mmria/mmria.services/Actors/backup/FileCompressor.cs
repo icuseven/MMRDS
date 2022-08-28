@@ -94,7 +94,7 @@ public class FileCompressor : ReceiveActor
 
         this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
         {
-            type = "compressor",
+            type = "compress",
             DateEnded = DateTime.Now
 
         });
