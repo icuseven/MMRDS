@@ -102,7 +102,7 @@ public class BackupColdProcessor : ReceiveActor
             document_counts.Add(($"vital import BackupStatus: {vital_import_backup_result_message.Status} SuccessCount: {vital_import_backup_result_message.SuccessCount} ErrorCount: {vital_import_backup_result_message.ErrorCount}  Detail: {detail}", vital_import_backup_result_message.Doc_ID_Count));
 
 
-            var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-finished.txt");
+            var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-ready-for-compression.txt");
             System.IO.File.WriteAllText (db_folder_finished, "");
 
             /*
@@ -178,7 +178,7 @@ public class BackupColdProcessor : ReceiveActor
                 
                 }
 
-                db_folder_finished = System.IO.Path.Combine(target_folder, $"{prefix}-finished.txt");
+                db_folder_finished = System.IO.Path.Combine(target_folder, $"{prefix}-ready-for-compression.txt");
                 System.IO.File.WriteAllText (db_folder_finished, "");
 
                 /*
@@ -222,7 +222,7 @@ public class BackupColdProcessor : ReceiveActor
 
         });
 
-        Console.WriteLine("fin.");
+        Console.WriteLine("cold backup fin.");
 
         Context.Stop(this.Self);
     }

@@ -30,6 +30,8 @@ public class BackupSupervisor : ReceiveActor
     DateTime? HotBackupStarted = null;
     DateTime? ColdBackupStarted = null;
 
+    DateTime? CompressionStarted = null;
+
     IConfiguration configuration;
     ILogger logger;
     protected override void PreStart() => Console.WriteLine("Process_Message started");
@@ -71,6 +73,19 @@ public class BackupSupervisor : ReceiveActor
                     var hot_backup_processor = Context.ActorOf<mmria.services.backup.BackupHotProcessor>();
                     hot_backup_processor.Tell(message);
                     break;
+
+                case "compress":
+
+                    if(CompressionStarted.HasValue && CompressionStarted.Value.AddHours(1) > DateTime.Now)
+                    {
+                        return;
+                    }
+
+                    CompressionStarted = DateTime.Now;
+
+                    var file_compressor = Context.ActorOf<mmria.services.backup.FileCompressor>();
+                    file_compressor.Tell(message);
+                    break;
             }
 
             //Console.WriteLine(JsonConvert.SerializeObject(message));
@@ -89,6 +104,10 @@ public class BackupSupervisor : ReceiveActor
 
                 case "hot":
                     HotBackupStarted = null;
+                    break;
+
+                case "compress":
+                    CompressionStarted = null;
                     break;
             }
 

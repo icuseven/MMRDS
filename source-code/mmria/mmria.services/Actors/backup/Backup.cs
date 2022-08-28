@@ -159,7 +159,7 @@ public class Backup
 			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 			var curl_result = document_curl.execute();
 
-			var all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			var all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
 			var all_cases_rows = all_cases.rows;
 
 			foreach (var row in all_cases_rows) 
@@ -193,12 +193,12 @@ public class Backup
 				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 				var curl_result = document_curl.execute();
 
-				dynamic case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+				dynamic case_row = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject> (curl_result);
 
 				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				case_doc.Remove("_rev");
 
-				var case_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_doc, settings);
+				var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
 
 				var backup_file_path = this.backup_file_path;
 

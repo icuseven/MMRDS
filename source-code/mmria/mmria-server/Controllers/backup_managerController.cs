@@ -111,6 +111,21 @@ public class backupManagerController : Controller
         return Ok(responseContent);
     }
 
+    public async Task<IActionResult>  PerformCompression()
+    {
+
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var base_url = $"{config_url}/api/backup/PerformCompression";
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+        //System.Console.WriteLine(responseContent);
+
+        return Ok(responseContent);
+    }
+
     [Route("backupManager/GetFile/{id}")]
     public async Task<IActionResult>  GetFile(string id)
     {

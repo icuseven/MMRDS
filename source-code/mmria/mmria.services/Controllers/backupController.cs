@@ -70,6 +70,24 @@ public class backupController : Controller
     }
 
 
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public async Task<IActionResult> PerformCompression()
+    {
+        var  message = new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
+        {
+            type = "compress",
+            DateStarted = DateTime.Now
+        };
+
+
+        var bsr = _actorSystem.ActorSelection("user/backup-supervisor");
+        bsr.Tell(message); 
+
+
+        return Ok();
+    }
+
 
     [HttpGet]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
