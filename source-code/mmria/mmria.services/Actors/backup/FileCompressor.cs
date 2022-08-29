@@ -68,20 +68,27 @@ public class FileCompressor : ReceiveActor
                 {
                     if (f.Name.EndsWith(suffix))
                     {
-                        var prefix = f.Name.Replace(suffix, "");
-                        var zip_file_name = $"{date_string}-{prefix}.zip";
-                        var db_folder = System.IO.Path.Combine(target_folder, prefix);
+                        try
+                        {
+                            var prefix = f.Name.Replace(suffix, "");
+                            var zip_file_name = $"{date_string}-{prefix}.zip";
+                            var db_folder = System.IO.Path.Combine(target_folder, prefix);
 
-                        folder_compressor.Compress
-                        (
-                            System.IO.Path.Combine(target_folder, zip_file_name),
-                            encryption_key,
-                            db_folder
-                        );
+                            folder_compressor.Compress
+                            (
+                                System.IO.Path.Combine(target_folder, zip_file_name),
+                                encryption_key,
+                                db_folder
+                            );
 
-                        System.IO.Directory.Delete(db_folder, true);
+                            System.IO.Directory.Delete(db_folder, true);
 
-                        f.Delete();
+                            f.Delete();
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine($"File Compressor \n{ex}");
+                        }
                     }
                 }
 

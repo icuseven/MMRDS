@@ -1043,7 +1043,11 @@ async function download_data_quality_report_button_click()
             }
         );
 
+        detail_data.questions.sort((a, b) => {
+            return a.qid - b.qid;
+        });
         detail_data.total = detail_data.questions.length;
+
 
         case_detail_map.forEach
         (
