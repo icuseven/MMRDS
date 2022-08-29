@@ -80,6 +80,8 @@ public class FileCompressor : ReceiveActor
                         );
 
                         System.IO.Directory.Delete(db_folder, true);
+
+                        f.Delete();
                     }
                 }
 

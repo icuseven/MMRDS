@@ -47,6 +47,10 @@ public class BackupColdProcessor : ReceiveActor
 
         Console.WriteLine("Beginning Backup.");
 
+        DateTime Timer_Start = DateTime.Now;
+        DateTime Timer_End = DateTime.Now;
+        TimeSpan Timer_Duration = default;
+
         try
         {
             mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
