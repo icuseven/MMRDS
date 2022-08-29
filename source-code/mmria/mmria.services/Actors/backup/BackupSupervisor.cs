@@ -51,7 +51,7 @@ public class BackupSupervisor : ReceiveActor
 
                 case "cold":
 
-                    if(ColdBackupStarted.HasValue && ColdBackupStarted.Value.AddHours(1) > DateTime.Now)
+                    if(ColdBackupStarted.HasValue)
                     {
                         return;
                     }
@@ -76,7 +76,7 @@ public class BackupSupervisor : ReceiveActor
 
                 case "compress":
 
-                    if(CompressionStarted.HasValue && CompressionStarted.Value.AddHours(1) > DateTime.Now)
+                    if(CompressionStarted.HasValue)
                     {
                         return;
                     }

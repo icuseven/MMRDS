@@ -45,7 +45,7 @@ public class FileCompressor : ReceiveActor
     {
 
 
-        Console.WriteLine("Beginning Backup.");
+        Console.WriteLine("Beginning File Compressor.");
 
         try
         {
