@@ -112,6 +112,8 @@ async function render(p_index)
             break;
         case -1:
         default:
+            g_reportType = "Summary";
+            g_report_index = 0;
             document.getElementById('output').innerHTML = render0();
     }
 
