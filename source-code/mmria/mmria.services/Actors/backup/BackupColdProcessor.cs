@@ -26,8 +26,8 @@ public class BackupColdProcessor : ReceiveActor
 
     mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
-    protected override void PreStart() => Console.WriteLine("Process_Message started");
-    protected override void PostStop() => Console.WriteLine("Process_Message stopped");
+    protected override void PreStart() => Console.WriteLine("BackupColdProcessor started");
+    protected override void PostStop() => Console.WriteLine("BackupColdProcessor stopped");
 
     private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
 

@@ -27,8 +27,8 @@ public class BackupHotProcessor : ReceiveActor
 
     mmria.common.couchdb.DBConfigurationDetail item_db_info;
 
-    protected override void PreStart() => Console.WriteLine("PerformBackupMessage Process_Message started");
-    protected override void PostStop() => Console.WriteLine("PerformBackupMessage Process_Message stopped");
+    protected override void PreStart() => Console.WriteLine("BackupHotProcessor Process_Message started");
+    protected override void PostStop() => Console.WriteLine("BackupHotProcessor Process_Message stopped");
 
     private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
 
