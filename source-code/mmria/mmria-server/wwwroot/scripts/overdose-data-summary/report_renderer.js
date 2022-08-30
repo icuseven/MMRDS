@@ -118,6 +118,18 @@ async function render(p_index)
             document.getElementById('output').innerHTML = render0();
     }
 
+    const summary_type_element = document.getElementById("summary-report")
+    const detail_type_element = document.getElementById("detail-report")
+
+    if(g_reportType == "Summary")
+    {
+        summary_type_element.checked = true;
+    }
+    else
+    {
+        detail_type_element.checked = true;
+    }
+
     return;
 }
 
