@@ -74,14 +74,17 @@ public class FileCompressor : ReceiveActor
                             var zip_file_name = $"{date_string}-{prefix}.zip";
                             var db_folder = System.IO.Path.Combine(target_folder, prefix);
 
-                            folder_compressor.Compress
-                            (
-                                System.IO.Path.Combine(target_folder, zip_file_name),
-                                encryption_key,
-                                db_folder
-                            );
+                            if(System.IO.Directory.Exists(db_folder))
+                            {
+                                folder_compressor.Compress
+                                (
+                                    System.IO.Path.Combine(target_folder, zip_file_name),
+                                    encryption_key,
+                                    db_folder
+                                );
 
-                            System.IO.Directory.Delete(db_folder, true);
+                                System.IO.Directory.Delete(db_folder, true);
+                            }
 
                             f.Delete();
                         }
