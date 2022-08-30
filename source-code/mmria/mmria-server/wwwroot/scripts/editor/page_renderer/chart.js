@@ -41,7 +41,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_post_html_render.push("axis: {");
         p_post_html_render.push("x: {");
         p_post_html_render.push("type: 'timeseries',");
-		p_post_html_render.push("localtime: false,");
+		p_post_html_render.push("localtime: true,");
 		p_post_html_render.push("label: {");
 		p_post_html_render.push(" position: 'outer-right',");
 		p_post_html_render.push("},");
