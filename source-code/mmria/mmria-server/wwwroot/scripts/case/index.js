@@ -1066,7 +1066,7 @@ $(function ()
 
       document.getElementById('form_content_id').innerHTML = "It looks like you may have opened the view/edit case data in another browser tab.<br/> To ensure proper handling please use one broswer tab for editing a case.";
 
-      window.close();
+      //window.close();
  
       return;
     }
