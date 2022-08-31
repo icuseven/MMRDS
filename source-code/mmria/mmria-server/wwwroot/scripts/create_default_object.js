@@ -79,6 +79,7 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
        break;
     case 'string':
     case 'textarea':
+    case 'html_area':
     case 'address':
           if(p_metadata.default_value && p_metadata.default_value != "")
           {

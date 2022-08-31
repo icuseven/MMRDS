@@ -107,6 +107,7 @@ switch(p_metadata.type.toLowerCase())
 			result.right = result.left + 1;
 			break;
 		case "textarea":
+        case "html_area":
 			result.textareas = 1;
 			result.right = result.left + 1;
 			break;

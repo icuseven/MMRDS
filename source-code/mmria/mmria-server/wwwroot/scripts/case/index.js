@@ -49,6 +49,14 @@ let save_start_time, save_end_time;
 const g_cvs_api_request_data = new Map();
 
 
+const peg_parser = peg.generate(`
+start = html_start_tag basic_text html_end_tag
+html_start_tag = '<html>'
+html_end_tag = '</html>'
+basic_text = [ a-zA-Z0-9\[\]+////*()]*
+`);
+
+
 
 async function g_set_data_object_from_path
 (
@@ -99,13 +107,12 @@ async function g_set_data_object_from_path
           p_result.push(p_metadata.max_length);
       }
 */
-
-      if (metadata.type.toLowerCase() == 'boolean') 
-      {
+    if (metadata.type.toLowerCase() == 'boolean') 
+    {
         eval(p_object_path + ' = ' + value);
-      } 
-      else 
-      {
+    } 
+    else 
+    {
         eval(
           p_object_path +
             ' = "' +
@@ -183,7 +190,20 @@ async function g_set_data_object_from_path
     var valid_date_or_datetime = true;
     var entered_date_or_datetime_value = value;
 
-    if 
+    if(metadata.type.toLowerCase() == 'html_area')
+    {
+        try
+        {
+            peg_parser.parse(value);
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+
+        return;
+    }
+    else if 
     (
       metadata.type.toLowerCase() == 'list' &&
       metadata['is_multiselect'] &&
@@ -2390,7 +2410,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2407,7 +2427,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				unique_tab_name = '_pdf_tab_' // + Math.random().toString(36).substring(2, 9);
+				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2437,7 +2457,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
-	unique_tab_name = '_print_tab_' // + Math.random().toString(36).substring(2, 9);
+	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
   
 	if (section_name) 
 	{
