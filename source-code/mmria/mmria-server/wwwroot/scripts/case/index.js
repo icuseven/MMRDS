@@ -195,6 +195,7 @@ async function g_set_data_object_from_path
         try
         {
             peg_parser.parse(value);
+            console.log("passed html validation");
         }
         catch(e)
         {
