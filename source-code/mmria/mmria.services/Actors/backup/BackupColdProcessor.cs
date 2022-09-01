@@ -36,7 +36,6 @@ public class BackupColdProcessor : ReceiveActor
     {
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
-
             Process_Message(message);
         });
     }

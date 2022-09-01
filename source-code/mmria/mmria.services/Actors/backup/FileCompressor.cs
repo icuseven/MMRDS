@@ -36,7 +36,6 @@ public class FileCompressor : ReceiveActor
     {
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
-
             Process_Message(message);
         });
     }
@@ -73,12 +72,20 @@ public class FileCompressor : ReceiveActor
                             var prefix = f.Name.Replace(suffix, "");
                             var zip_file_name = $"{date_string}-{prefix}.zip";
                             var db_folder = System.IO.Path.Combine(target_folder, prefix);
+                             
+
+                            var target_zip_file = System.IO.Path.Combine(target_folder, zip_file_name);
+
+                            if(System.IO.File.Exists(target_zip_file))
+                            {
+                                System.IO.File.Delete(target_zip_file);
+                            }
 
                             if(System.IO.Directory.Exists(db_folder))
                             {
                                 folder_compressor.Compress
                                 (
-                                    System.IO.Path.Combine(target_folder, zip_file_name),
+                                    target_zip_file,
                                     encryption_key,
                                     db_folder
                                 );
