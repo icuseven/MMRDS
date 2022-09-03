@@ -28,11 +28,11 @@ public class caseRevisionController: ControllerBase
     
     [Authorize(Roles  = "jurisdiction_admin,cdc_admin,installation_admin")]
     [HttpGet]
-    public async Task<All_Revs> Get(string case_id) 
+    public async Task<System.Dynamic.ExpandoObject> Get(string case_id, string revision_id) 
     { 
         try
         {
-            string all_revs_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}?revs=true&open_revs=all";
+            string all_revs_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}?rev={revision_id}";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
@@ -40,9 +40,9 @@ public class caseRevisionController: ControllerBase
                 var case_curl = new cURL("GET", null, all_revs_url, null, Program.config_timer_user_name, Program.config_timer_value);
                 string responseFromServer = case_curl.execute();
 
-                var response_split = responseFromServer.Split("\r\n");
+               
                 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<All_Revs>(response_split[3]);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 
                 return result;
 
