@@ -202,11 +202,8 @@ public class Backup
 
 				var backup_file_path = this.backup_file_path;
 
-				
-
 				if(this.database_url.EndsWith("/metadata"))
 				{
-					
 					var new_id = id.Replace(":","-").Replace(".","-");
 					var file_path = System.IO.Path.Combine(backup_file_path, new_id);
 					System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
@@ -243,8 +240,6 @@ public class Backup
 								var attachment_url = $"{URL}/{kvp.Key}";
 								var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
 								var attachment_doc_json = attachment_curl.execute();
-
-
 
 								var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
 								if (!System.IO.File.Exists (attachment_file_path)) 

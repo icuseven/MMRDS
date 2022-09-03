@@ -108,23 +108,6 @@ public class BackupColdProcessor : ReceiveActor
             var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-ready-for-compression.txt");
             System.IO.File.WriteAllText (db_folder_finished, "");
 
-            /*
-
-            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
-            string encryption_key = null;
-
-            var zip_file_name = $"{date_string}-vital-import.zip";
-
-            folder_compressor.Compress
-            (
-                System.IO.Path.Combine(target_folder, zip_file_name),
-                encryption_key,
-                db_folder
-            );
-
-            System.IO.Directory.Delete(db_folder, true);
-            */
-
             foreach(var kvp in db_config_set.detail_list)
             {
                 var prefix = kvp.Key.ToLower();
@@ -184,19 +167,6 @@ public class BackupColdProcessor : ReceiveActor
                 db_folder_finished = System.IO.Path.Combine(target_folder, $"{prefix}-ready-for-compression.txt");
                 System.IO.File.WriteAllText (db_folder_finished, "");
 
-                /*
-
-                zip_file_name = $"{date_string}-{prefix}.zip";
-
-                folder_compressor.Compress
-                (
-                    System.IO.Path.Combine(target_folder, zip_file_name),
-                    encryption_key,
-                    prefix_folder
-                );
-
-                System.IO.Directory.Delete(prefix_folder, true);
-                */
             }
 
             document_counts.Sort(Comparer<(string,int)>.Create((i1, i2) => i1.Item2.CompareTo(i2.Item2)));
