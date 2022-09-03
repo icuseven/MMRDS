@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Dynamic;
+using mmria.common;
+using Microsoft.Extensions.Configuration;
+using Akka.Actor;
+using Microsoft.AspNetCore.Authorization;
+using mmria.common.model.couchdb.recover_doc;
+
+namespace mmria.server;
+
+	
+[Route("api/[controller]")]
+public class caseRevisionListController: ControllerBase 
+{ 
+    private ActorSystem _actorSystem;
+
+
+    private readonly IAuthorizationService _authorizationService;
+    //private readonly IDocumentRepository _documentRepository;
+
+    public caseRevisionListController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+    {
+        _actorSystem = actorSystem;
+        _authorizationService = authorizationService;
+    }
+    
+    [Authorize(Roles  = "jurisdiction_admin,cdc_admin,installation_admin")]
+    [HttpGet]
+    public async Task<All_Revs> Get(string case_id) 
+    { 
+        try
+        {
+            string all_revs_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}?revs=true&open_revs=all";
+
+            if (!string.IsNullOrWhiteSpace (case_id)) 
+            {
+                var case_curl = new cURL("GET", null, all_revs_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                string responseFromServer = case_curl.execute();
+
+                var response_split = responseFromServer.Split("\r\n");
+                
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<All_Revs>(response_split[3]);
+
+                return result;
+            } 
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return null;
+    } 
+
+
+
+
+} 
+
+

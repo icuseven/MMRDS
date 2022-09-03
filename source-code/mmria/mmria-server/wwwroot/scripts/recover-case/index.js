@@ -3,7 +3,9 @@ const view_model = {
 
     search_text: "",
     search_results: [],
-    selected_id: ""
+    selected_id: "",
+    selected_revision_result: null,
+    selected_revision_result_index: -1
 };
 
 
@@ -20,7 +22,7 @@ async function main()
 async function render()
 {
     const el = document.getElementById("output")
-    el.innerHTML = render_search_ui();
+    
 
     if
     (
@@ -28,7 +30,12 @@ async function render()
         view_model.selected_id != ""
     )
     {
+        el.innerHTML = render_search_ui() +
         render_versions_for_selected_id();
+    }
+    else
+    {
+        el.innerHTML = render_search_ui();
     }
 }
 
@@ -105,13 +112,47 @@ async function get_case_view(p_search_text)
     return result;
 }
 
+async function get_case_revision_list(p_case_id)
+{
+    const result = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/caseRevisionList?case_id=${p_case_id}`
+    });
+
+    return result;
+}
+
+
+
 async function show_versions_for_id_click(p_id)
 {
     view_model.selected_id = p_id;
+
+    view_model.selected_revision_result = await get_case_revision_list(p_id);
+
     render();
 }
 
-async function render_versions_for_selected_id()
+function render_versions_for_selected_id()
 {
+    const result = [];
 
+    result.push("<ol>");
+    if
+    (
+        view_model.selected_revision_result != null &&
+        view_model.selected_revision_result._revisions != null &&
+        view_model.selected_revision_result._revisions.ids.length > 0
+    )
+    {
+        const array = view_model.selected_revision_result._revisions.ids;
+        for(var i in array)
+        {
+            result.push(`<li>${array[i]}</li>`);
+        }
+
+    }
+    result.push("</ol>");
+
+    return result.join("");
 }
