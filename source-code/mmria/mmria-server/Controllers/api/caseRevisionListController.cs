@@ -36,17 +36,19 @@ public class caseRevisionListController: ControllerBase
         ConfigDB = p_config_db;
     }
     
-    [Authorize(Roles  = "jurisdiction_admin,cdc_admin,installation_admin")]
+    [Authorize(Roles  = "installation_admin")]
     [HttpGet]
-    public async Task<All_Revs> Get(string case_id) 
+    public async Task<All_Revs> Get(string jurisdiction_id, string case_id) 
     { 
         try
         {
-            string all_revs_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}?revs=true&open_revs=all";
+            var config = ConfigDB.detail_list[jurisdiction_id];
+
+            string all_revs_url = $"{config.url}/{config.prefix}mmrds/{case_id}?revs=true&open_revs=all";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
-                var case_curl = new cURL("GET", null, all_revs_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var case_curl = new cURL("GET", null, all_revs_url, null, config.user_name, config.user_value);
                 string responseFromServer = case_curl.execute();
 
                 var response_split = responseFromServer.Split("\r\n");

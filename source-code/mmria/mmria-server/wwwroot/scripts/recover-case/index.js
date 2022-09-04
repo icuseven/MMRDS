@@ -138,7 +138,7 @@ async function get_case_view(p_search_text)
 {
     const result = await $.ajax
     ({
-        url: `${location.protocol}//${location.host}/api/case_view?skip=0&take=100&field_selection=by_record_id&search_key=${encodeURIComponent(p_search_text)}`
+        url: `${location.protocol}//${location.host}/api/caseRevisionList_case_view?jurisdiction_id=${view_model.selected_jurisdiction}&search_key=${encodeURIComponent(p_search_text)}`
     });
 
 
@@ -150,7 +150,7 @@ async function get_case_revision_list(p_case_id)
 {
     const result = await $.ajax
     ({
-        url: `${location.protocol}//${location.host}/api/caseRevisionList?case_id=${p_case_id}`
+        url: `${location.protocol}//${location.host}/api/caseRevisionList?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${p_case_id}`
     });
 
     return result;
@@ -160,7 +160,7 @@ async function get_case_revision(p_case_id, p_revision_id)
 {
     const result = await $.ajax
     ({
-        url: `${location.protocol}//${location.host}/api/caseRevision?case_id=${p_case_id}&revision_id=${p_revision_id}`
+        url: `${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${p_case_id}&revision_id=${p_revision_id}`
     });
 
     return result;
@@ -196,7 +196,7 @@ function render_versions_for_selected_id()
         {
             result.push(`
                 <li>
-                    ${array[i]} [ <a href="${location.protocol}//${location.host}/api/caseRevision?case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> ]
+                    ${array[i]} [ <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> ]
                 </li>
             `);
 
