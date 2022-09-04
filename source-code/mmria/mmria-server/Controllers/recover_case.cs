@@ -11,16 +11,20 @@ namespace mmria.server.Controllers
     public class recover_caseController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
-        //private readonly IDocumentRepository _documentRepository;
+        mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-        public recover_caseController(IAuthorizationService authorizationService)
+        public recover_caseController
+        (
+            IAuthorizationService authorizationService, 
+            mmria.common.couchdb.ConfigurationSet p_config_db
+        )
         {
             _authorizationService = authorizationService;
-            //_documentRepository = documentRepository;
+            ConfigDB = p_config_db;
         }
         public IActionResult Index()
         {
-            return View();
+            return View(ConfigDB);
         }
     }
 }

@@ -1,3 +1,4 @@
+@model mmria.common.couchdb.ConfigurationSet
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,30 +11,14 @@
 <script src="./scripts/mmria.js"></script>
 <script src="./scripts/recover-case/index.js"></script>
 <script>
- 
 
-
-function main()
+const g_jurisdiction_list = [];
+@foreach (var item in Model.detail_list)
 {
-
-  //print_node(metadata);
-}
-
-function print_node(p_node)
-{
-  console.log(p_node.name);
-  console.log(p_node.prompt);
-  console.log(p_node.type);
-
-  if(p_node.children)
-  {
-    for(var i in p_node.children)
+    @if(item.Key != "vital_import")
     {
-      var child = p_node.children[i];
-      print_node(child);
+        @Html.Raw($"\ng_jurisdiction_list.push(\"{item.Key}\");");
     }
-  }
-
 }
 
 </script>

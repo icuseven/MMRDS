@@ -4,6 +4,7 @@ const view_model = {
     search_text: "",
     search_results: [],
     selected_id: "",
+    selected_jurisdiction: "",
     selected_revision_result: null,
     selected_revision_result_index: -1
 };
@@ -42,6 +43,28 @@ async function render()
 function render_search_ui()
 {
 
+    const jurisdiction_html_builder = [];
+    jurisdiction_html_builder.push("<p>Select Jurisdition</p>\n<select onchange=\"juridiction_changed(this.value)\">");
+
+    jurisdiction_html_builder.push(`<option value="" selected>Select a Jurisdition</option>`);
+    for(const i in g_jurisdiction_list)
+    {
+        const item = g_jurisdiction_list[i];
+        if(item == view_model.selected_jurisdiction)
+        {
+            jurisdiction_html_builder.push(`
+            <option value="${item}" selected>${item}</option>
+            `);
+        }
+        else
+        {
+            jurisdiction_html_builder.push(`
+            <option value="${item}">${item}</option>
+            `);
+        }
+    }
+    jurisdiction_html_builder.push("</select>");
+
     let result = [];
     if
     (
@@ -75,6 +98,7 @@ function render_search_ui()
     }
 
     return `
+    ${jurisdiction_html_builder.join("")}
     <p>Enter Record Id:
     <input id="search_text"
         value="${view_model.search_text}" />
@@ -85,6 +109,11 @@ function render_search_ui()
     </ul>
 
     `;
+}
+
+async function juridiction_changed(p_value)
+{
+    view_model.selected_jurisdiction = p_value;
 }
 
 async function search_text_click()

@@ -18,14 +18,22 @@ public class caseRevisionListController: ControllerBase
 { 
     private ActorSystem _actorSystem;
 
+    mmria.common.couchdb.ConfigurationSet ConfigDB;
+
 
     private readonly IAuthorizationService _authorizationService;
     //private readonly IDocumentRepository _documentRepository;
 
-    public caseRevisionListController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+    public caseRevisionListController
+    (
+        ActorSystem actorSystem, 
+        IAuthorizationService authorizationService,
+        mmria.common.couchdb.ConfigurationSet p_config_db
+    )
     {
         _actorSystem = actorSystem;
         _authorizationService = authorizationService;
+        ConfigDB = p_config_db;
     }
     
     [Authorize(Roles  = "jurisdiction_admin,cdc_admin,installation_admin")]
