@@ -9,13 +9,61 @@ const view_model = {
     selected_revision_result_index: -1
 };
 
+var g_release_version = null;
+var g_metadata = null;
 
+var g_look_up = {};
+var g_value_to_display_lookup = {};
+var g_name_to_value_lookup = {};
+var g_display_to_value_lookup = {};
+var g_value_to_index_number_lookup = {};
+var g_name_to_value_lookup = {};
+var g_is_confirm_for_case_lock = false;
+var g_target_case_status = null;
+var g_previous_case_status = null;
+var g_other_specify_lookup = {};
+var g_record_id_list = {};
 
 window.onload = main;
 
 
 async function main()
 {
+    const release_version = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/release-version`,
+    });
+    
+    
+    g_release_version = release_version;
+    
+    const metadata_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/metadata`,
+    });
+
+    g_metadata = metadata_response;
+/*
+    build_other_specify_lookup(g_other_specify_lookup, g_metadata);
+
+    set_list_lookup
+    (
+      g_display_to_value_lookup,
+      g_value_to_display_lookup,
+      g_value_to_index_number_lookup,
+      g_metadata,
+      ''
+    );
+
+    for (let i in g_metadata.lookup) 
+    {
+      const child = g_metadata.lookup[i];
+
+      g_look_up['lookup/' + child.name] = child.values;
+    }*/
+
+
+
     await render();
 }
 
@@ -196,7 +244,13 @@ function render_versions_for_selected_id()
         {
             result.push(`
                 <li>
-                    ${array[i]} [ <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> ]
+                    ${array[i]} 
+                    [ 
+                        <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> 
+                    |
+                        <a href="javascript:pdf_case_onclick('${view_model.selected_jurisdiction}','${view_model.selected_id}','${rev_start}-${array[i]}')">View PDF</a> 
+                        
+                    ]
                 </li>
             `);
 
@@ -209,3 +263,57 @@ function render_versions_for_selected_id()
 
     return result.join("");
 }
+
+
+
+async function pdf_case_onclick(jurisdiction_id, case_id, revision_id) 
+{
+    const dropdown = "view";
+    const unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+    const section_name = 'all';
+
+    const g_data = await get_case_revision(case_id, revision_id);
+
+    window.setTimeout(function()
+    {
+        openTab('./pdf-version',  unique_tab_name, section_name, g_metadata, g_data, true);
+    }, 1000);	
+
+}
+
+function openTab(pageRoute, tabName, p_section, p_metadata, p_data, p_show_hidden) 
+{
+
+    if (!window[tabName] || window[tabName].closed) 
+    {
+      window[tabName] = window.open(pageRoute, tabName, null, false);
+      window[tabName].addEventListener('load', () => {
+        window[tabName].create_print_version2(
+            p_metadata,
+            p_data,
+            p_section,
+            null,
+            1,
+            null,
+            true
+        );
+      });
+    } 
+    else 
+    {
+       window[tabName] = window.open(pageRoute, tabName, null, false);
+       window[tabName].addEventListener('load', () => {
+        window[tabName].create_print_version2(
+            p_metadata,
+            p_data,
+            p_section,
+            null,
+            1,
+            null,
+            true
+        );
+        });
+    }
+}
+
+

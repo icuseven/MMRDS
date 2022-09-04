@@ -82,7 +82,12 @@ async function create_print_version
 	g_metadata_summary = p_metadata_summary;
 	g_record_number = p_number;
 
-	if (p_show_hidden != null && p_show_hidden) {
+	if 
+    (
+        p_show_hidden != null && 
+        p_show_hidden
+    ) 
+    {
 		g_show_hidden = true;
 	}
 
@@ -126,6 +131,88 @@ Stack: ${ex.stack}
 
 	}
 }
+
+
+async function create_print_version2
+(
+    p_metadata,
+    p_data,
+    p_section,
+    p_type_output,
+    p_number,
+    p_metadata_summary,
+    p_show_hidden
+) 
+{
+    p_data = clone(p_data);
+	g_md = null;
+	g_metadata = null;
+	g_d = null;
+	g_section_name = null;
+	g_current = null;
+	g_writeText = null;
+	g_metadata_summary = {};
+	g_record_number = null;
+  g_type_output = p_type_output;
+
+	g_md = p_metadata;
+	g_metadata = p_metadata;
+	g_d = p_data;
+	g_section_name = p_section;
+	g_metadata_summary = p_metadata_summary;
+	g_record_number = p_number;
+
+	if 
+    (
+        p_show_hidden != null && 
+        p_show_hidden
+    ) 
+    {
+		g_show_hidden = true;
+	}
+
+	let p_ctx = {
+		metadata: p_metadata,
+		data: p_data,
+		lookup: p_metadata.lookup,
+		mmria_path: "",
+		content: [],
+		section_name: g_section_name,
+		record_number: p_number,
+		is_grid_item: false,
+		createdBy: p_data.created_by,
+		groupLevel: 0,
+		p_data: p_data
+	};
+
+	// console.log(' let p_ctx = ', p_ctx);
+	
+	try {
+		// initialize_print_pdf(ctx);
+		document.title = getHeaderName();
+		await print_pdf(p_ctx);
+	}
+	catch (ex) {
+		let profile_content_id = document.getElementById("profile_content_id");
+		{
+			profile_content_id.innerText = `
+An error has occurred generating PDF for ${getHeaderName()}.
+ 
+Please email mmriasupport@cdc.gov the ERROR DETAILS regarding this Print-PDF issue.
+
+Error Details (Print PDF):
+
+Summary: ${ex}
+
+Stack: ${ex.stack}
+
+            `;
+		}
+
+	}
+}
+
+
 
 async function print_pdf(ctx) {
 	g_writeText = '';
@@ -1470,8 +1557,10 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 			}
 			break;
 		case 'app':
-			if (
-				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+			if 
+            (
+				(
+                    p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
 				is_core_summary == true
 			) {
 				result.push([
@@ -1480,8 +1569,10 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 				]);
 			}
 
-			if (p_metadata.children) {
-				for (let i = 0; i < p_metadata.children.length; i++) {
+			if (p_metadata.children) 
+            {
+				for (let i = 0; i < p_metadata.children.length; i++) 
+                {
 					let child = p_metadata.children[i];
 					if (child.type.toLowerCase() == "form" && p_data[child.name] != null)
 						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, is_core_summary, "g_metadata.children[" + i + "]"));
@@ -1489,8 +1580,12 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 			}
 			break;
 		case 'list':
-			if (
-				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+			if 
+            (
+				(
+                    p_metadata.is_core_summary || 
+                    p_metadata.is_core_summary == true
+                ) ||
 				is_core_summary == true
 			) {
 
@@ -1539,18 +1634,25 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 			}
 			break;
 		default:
-			if (
-				(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
+			if 
+            (
+				(
+                    p_metadata.is_core_summary || 
+                    p_metadata.is_core_summary == true
+                ) ||
 				is_core_summary == true
-			) {
+			) 
+            {
 				result.push([
 					{ text: `${p_metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
 					{ text: p_data, style: ['tableDetail'], },
 				]);
 			}
 
-			if (p_metadata.children) {
-				for (let i = 0; i < p_metadata.children.length; i++) {
+			if (p_metadata.children) 
+            {
+				for (let i = 0; i < p_metadata.children.length; i++) 
+                {
 					let child = p_metadata.children[i];
 					if (p_data[child.name] != null)
 						Array.prototype.push.apply(result, core_pdf_summary(child, p_data[child.name], p_path + "." + child.name, is_core_summary));
