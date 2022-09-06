@@ -1955,6 +1955,9 @@ function render_pregnancy_filter(p_case_view)
         display_date_of_deaths_html = "display:block;";
     }
     
+    return '';
+
+    /*
     return `
 
         <div class="form-inline p-3 mt-3" style="margin:15px;">
@@ -1997,7 +2000,7 @@ function render_pregnancy_filter(p_case_view)
             </span>
         </div>
 
-`;
+`;*/
 
    
 
