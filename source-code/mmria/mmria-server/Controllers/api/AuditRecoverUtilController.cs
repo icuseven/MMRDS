@@ -8,21 +8,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server.util;
+namespace mmria.server;
 
 [Route("api/[controller]")]
-[Authorize(Roles  = "installation_admin")]
-public class AuditRecoverUtilController
+
+public class AuditRecoverUtilController: ControllerBase 
 {
 
-    mmria.common.couchdb.DBConfigurationDetail configuration;
+    mmria.common.couchdb.ConfigurationSet configuration_set;
+    
     private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
-    public AuditRecoverUtilController(mmria.common.couchdb.DBConfigurationDetail p_configuration)
+    public AuditRecoverUtilController(mmria.common.couchdb.ConfigurationSet p_configuration)
     {
-        configuration = p_configuration;
+        configuration_set = p_configuration;
     }
 
-    (string url, string post) get_find_url(string p_id)
+    (string url, string post) get_find_url
+    (
+        mmria.common.couchdb.DBConfigurationDetail configuration,
+        string p_id
+    )
     {
         var selector_struc = new Selector_Struc();
         selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
@@ -39,10 +44,13 @@ public class AuditRecoverUtilController
         return (result, selector_struc_string);
     }
 
-
-    public async Task<Audit_View> GetAuditView
+    [Authorize(Roles  = "installation_admin")]
+    [HttpGet]
+    public async Task<Audit_View> Get
     (
-        string p_id, 
+        System.Threading.CancellationToken cancellationToken, 
+        string jurisdiction_id,
+        string case_id, 
         int page = -1, 
         string user = "all", 
         string search_text = "all", 
@@ -53,7 +61,10 @@ public class AuditRecoverUtilController
 
         try
         {
-            var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
+
+            var configuration = configuration_set.detail_list[jurisdiction_id];
+
+            var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
 
             var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, configuration.user_name, configuration.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
@@ -64,11 +75,11 @@ public class AuditRecoverUtilController
 
 
             mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
-                case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
+                case_view_response.rows.Where(i=> i.id == case_id).FirstOrDefault().value;
 
 
             //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
-            var (request_string, post_data) = get_find_url(p_id);
+            var (request_string, post_data) = get_find_url(configuration, case_id);
             var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, configuration.user_name, configuration.user_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
@@ -100,7 +111,7 @@ public class AuditRecoverUtilController
                 {
                     result.Add(DebounceDateTimeField(item));
                 }
-                else if(item.items.Count > 0 && item.case_id == p_id)
+                else if(item.items.Count > 0 && item.case_id == case_id)
                 {
                     
                     result.Add(DebounceDateTimeField(item));
@@ -113,7 +124,7 @@ public class AuditRecoverUtilController
             return 
                 new Audit_View()
                 {
-                    id = p_id,
+                    id = case_id,
                     user = user,
                     search_text = search_text,
                     showAll = showAll,
@@ -131,18 +142,22 @@ public class AuditRecoverUtilController
 
         return null;
     }
-
-
+/*
+    [Authorize(Roles  = "installation_admin")]
+    [HttpGet]
     public async Task<Audit_Detail_View> MoreDetail
     (
         System.Threading.CancellationToken cancellationToken, 
-        string p_id, 
+        string juristiction_id,
+        string case_id, 
         string change_id, 
         int change_item
     )
     {
 
-        var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
+        var configuration = configuration_set.detail_list[juristiction_id];
+
+        var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
 
         var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, configuration.user_name, configuration.user_value);
         string responseFromServer = await case_view_curl.executeAsync();
@@ -153,7 +168,7 @@ public class AuditRecoverUtilController
 
 
         mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
-            case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
+            case_view_response.rows.Where(i=> i.id == case_id).FirstOrDefault().value;
 
 
         //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
@@ -183,7 +198,7 @@ public class AuditRecoverUtilController
         {
             return new Audit_Detail_View()
             {
-                id = p_id,
+                id = case_id,
                 change_id = change_id,
                 cv = case_view_item,
                 cs = cs,
@@ -199,7 +214,7 @@ public class AuditRecoverUtilController
 
             return new Audit_Detail_View()
             {
-                id = p_id,
+                id = case_id,
                 change_id = change_id,
                 cv = case_view_item,
                 cs = cs,
@@ -212,7 +227,7 @@ public class AuditRecoverUtilController
         }
     }
 
-
+*/
 
     
 

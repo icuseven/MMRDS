@@ -6,7 +6,8 @@ const view_model = {
     selected_id: "",
     selected_jurisdiction: "",
     selected_revision_result: null,
-    selected_revision_result_index: -1
+    selected_revision_result_index: -1,
+    audit_change_set_list: null
 };
 
 var g_release_version = null;
@@ -215,12 +216,31 @@ async function get_case_revision(p_case_id, p_revision_id)
 }
 
 
+async function get_audit_change_set_list(p_case_id)
+{
+    try
+    {
+        const result = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/AuditRecoverUtil?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${p_case_id}`
+        });
+
+        return result;
+    }
+    catch(e)
+    {
+        return null;
+    }
+}
+
 
 async function show_versions_for_id_click(p_id)
 {
     view_model.selected_id = p_id;
 
     view_model.selected_revision_result = await get_case_revision_list(p_id);
+
+    //view_model.audit_change_set_list = await get_audit_change_set_list(p_id);
 
     render();
 }
@@ -242,9 +262,10 @@ function render_versions_for_selected_id()
         let rev_start = view_model.selected_revision_result._revisions.start;
         for(var i in array)
         {
+            let rev_id = `${rev_start}-${array[i]}`;
             result.push(`
                 <li>
-                    ${array[i]} 
+                    ${array[i]} ${render_audit_for(rev_id)}
                     [ 
                         <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> 
                     |
@@ -264,7 +285,21 @@ function render_versions_for_selected_id()
     return result.join("");
 }
 
+function render_audit_for(p_revision_id)
+{
+    if(view_model.audit_change_set_list == null)
+    {
+        return "";
+    }
 
+    const index = view_model.audit_change_set_list.ls.indexOf(p_revision_id);
+    if(index < 0)
+    {
+        return "";
+    }
+
+    return view_model.audit_change_set_list.ls[index].note;
+}
 
 async function pdf_case_onclick(jurisdiction_id, case_id, revision_id) 
 {
