@@ -76,7 +76,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!="")
     {
-        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
+        p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -85,18 +85,18 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         if(p_metadata.values.length > 6)
         {
-            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size="6" name='`);
+            p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size="6" name='`);
         }
         else
         {
-            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
+            p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
     }
     else
     {
-        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
+        p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control" size=`);
         p_result.push(1);
         p_result.push(" name='");
       }
@@ -320,7 +320,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
     {
-        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class='form-control list-control-select 1' size=`);
+        p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class='form-control list-control-select 1' size=`);
         p_result.push(p_metadata.list_display_size);
         p_result.push(" name='");
     }
@@ -328,18 +328,18 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     {
         if(p_metadata.values.length > 6)
         {
-            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 2" size="6" name='`);
+            p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 2" size="6" name='`);
         }
         else
         {
-            p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" size=`);
+            p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" size=`);
             p_result.push(p_metadata.values.length);
             p_result.push(" name='");
         }
     }
     else
     {
-        p_result.push(`<select id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 3" size=`);
+        p_result.push(`<select  autocomplete=off id="${convert_object_path_to_jquery_id(p_object_path)}_control" class="form-control list-control-select 3" size=`);
         p_result.push(1);
         p_result.push(" name='");
     }

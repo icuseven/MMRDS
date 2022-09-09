@@ -7,7 +7,7 @@ BASED ON https://stackoverflow.com/a/45717724/223752
     $.fn.DuplicateWindow = function () {
         var localStorageTimeout = (5) * 1000; // 15,000 milliseconds = 15 seconds.
         var localStorageResetInterval = (1/2) * 1000; // 10,000 milliseconds = 10 seconds.
-        var localStorageTabKey = 'my-application-browser-tab';
+        var localStorageTabKey = 'mmria-application-browser-tab';
         var sessionStorageGuidKey = 'browser-tab-guid';
 
         var ItemType = {
@@ -93,9 +93,9 @@ BASED ON https://stackoverflow.com/a/45717724/223752
 
             var val = GetItem(ItemType.Local);
             var tabObj = (val == "" ? null : JSON.parse(val)) || null;
-            console.log(val);
-            console.log(sessionGuid);
-            console.log(tabObj);
+            //console.log(val);
+            //console.log(sessionGuid);
+            //console.log(tabObj);
 
             // If no or stale tab object, our session is the winner.  If the guid matches, ours is still the winner
             if (tabObj === null || (tabObj.timestamp < (new Date().getTime() - localStorageTimeout)) || tabObj.guid === sessionGuid) {
