@@ -30,7 +30,7 @@ namespace mmria.server
             ConfigDB = p_config_db;
         }
 		
-        [Authorize(Roles  = "abstractor,cdc_admin")]
+        [Authorize(Roles  = "abstractor,vital_importer")]
 		[HttpGet]
 		public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
 		{ 
@@ -59,7 +59,7 @@ namespace mmria.server
 			return result;
 		}
 
-        [Authorize(Roles  = "cdc_admin")]
+        [Authorize(Roles  = "vital_importer")]
 		[HttpDelete]
 		public async Task<bool> Delete() 
 		{ 
@@ -83,7 +83,7 @@ namespace mmria.server
 			return result;
 		}
 
-		[Authorize(Roles  = "cdc_admin")]
+		[Authorize(Roles  = "vital_importer")]
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
 		{ 
