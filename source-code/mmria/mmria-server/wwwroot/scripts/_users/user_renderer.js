@@ -219,7 +219,7 @@ function get_role_list()
 	}
 	else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
     {
-        result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams'];
+        result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
     }
     else
 	{
