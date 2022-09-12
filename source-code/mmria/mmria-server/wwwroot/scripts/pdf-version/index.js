@@ -61,9 +61,6 @@ async function create_print_version
     p_show_hidden
 ) 
 {
-    p_data = clone(p_data);
-
-    g_apply_sort(p_metadata, p_data, "","", "");
 
 	g_md = null;
 	g_metadata = null;

@@ -1079,7 +1079,7 @@ var $$ = {
 
 $(function () 
 {
-    
+    /*
     if (window.IsDuplicate()) 
     {
 
@@ -1090,7 +1090,7 @@ $(function ()
       //window.close();
  
       //return;
-    }
+    }*/
   
 
   $(document).keydown(function (evt) 
@@ -2515,13 +2515,19 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
 
    // g_data.case_narrative.case_opening_overview = textarea_control_strip_html_attributes(g_data.case_narrative.case_opening_overview);
 
+
+   let sorted_data = clone(g_data);
+
+   g_apply_sort(p_metadata, sorted_data, "","", "");
+
+
   if (!window[tabName] || window[tabName].closed) 
   {
     window[tabName] = window.open(pageRoute, tabName, null, false);
     window[tabName].addEventListener('load', () => {
       window[tabName].create_print_version(
         g_metadata,
-        g_data,
+        sorted_data,
         p_section,
 		p_type_output,
         p_number,
@@ -2535,7 +2541,7 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
     // if the WindowProxy Object already exists then just call the function on it
     window[tabName].create_print_version(
       g_metadata,
-      g_data,
+      sorted_data,
       p_section,
 	p_type_output,
       p_number,
