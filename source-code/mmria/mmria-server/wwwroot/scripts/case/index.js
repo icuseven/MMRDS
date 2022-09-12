@@ -2503,6 +2503,19 @@ function print_case_onclick(event)
 
 function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_hidden) 
 {
+
+    function clone(obj) 
+    {
+        if (null == obj || "object" != typeof obj) return obj;
+        let copy = obj.constructor();
+        for (var attr in obj) 
+        {
+            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+
+
 	// console.log('in openTab');
 	// console.log('pageRoute: ', pageRoute);
 	// console.log('tabName case: ', tabName);
@@ -2518,7 +2531,7 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
 
    let sorted_data = clone(g_data);
 
-   g_apply_sort(p_metadata, sorted_data, "","", "");
+   g_apply_sort(g_metadata, sorted_data, "","", "");
 
 
   if (!window[tabName] || window[tabName].closed) 
