@@ -195,14 +195,21 @@ async function g_set_data_object_from_path
         try
         {
             peg_parser.parse(value);
-            console.log("passed html validation");
+            document.getElementById("ii-validation").value  = "passed html validation";
+            eval(
+                p_object_path +
+                  ' = "' +
+                  value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+                  '"'
+              );
         }
         catch(e)
         {
-            console.log(e);
+            document.getElementById("ii-validation").value  = e.toString();
+            return;
         }
 
-        return;
+        
     }
     else if 
     (

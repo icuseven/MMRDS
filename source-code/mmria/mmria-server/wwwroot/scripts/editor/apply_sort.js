@@ -91,6 +91,7 @@ function g_apply_sort(p_metadata, p_data, p_metadata_path, p_object_path, p_dict
 		case 'string':
 		case 'address':
 		case 'textarea':
+        case 'html_area':
 		case 'number':
 		case 'boolean':
 		case 'list':

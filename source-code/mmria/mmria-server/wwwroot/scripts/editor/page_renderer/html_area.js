@@ -19,7 +19,7 @@ function html_area_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-    if(style_object && p_metadata.name != "case_opening_overview")
+    if(style_object)
     {
         p_result.push(" style='");
         p_result.push(get_style_string(style_object.prompt.style));
@@ -32,8 +32,22 @@ function html_area_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p
 
     page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
     
+    const control_style = JSON.parse(style_object.control.style);
 
-    p_result.push("</div>");
+    control_style.top = control_style.top + control_style.height + 5;
+    const validation_style = `position:absolute;top:${control_style.top}px;left:${control_style.left}px;height:${control_style.height}px;width:${control_style.width}px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)`;
+    p_result.push(`
+    <textarea id="ii-validation" style="${validation_style}" cols=40 rows=7 readonly>
+
+    </textarea>
+    
+    
+    
+    
+    </div>
+    
+    
+    `);
     
 }
 
