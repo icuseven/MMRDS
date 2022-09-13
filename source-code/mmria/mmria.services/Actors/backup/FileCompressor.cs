@@ -34,15 +34,30 @@ public class FileCompressor : ReceiveActor
     private mmria.common.ije.Batch batch;
     public FileCompressor()
     {
+        Become(Waiting);
+
+    }
+
+    void Processing()
+    {
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
+            // discard message;
+        });
+    }
+
+    void Waiting()
+    {
+        Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
+        {
+            Become(Processing);
             Process_Message(message);
         });
     }
 
     void Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
-
+        
 
         Console.WriteLine("Beginning File Compressor.");
 
