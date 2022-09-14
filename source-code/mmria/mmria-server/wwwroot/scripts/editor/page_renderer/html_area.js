@@ -30,7 +30,7 @@ function html_area_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p
     p_result.push("</label>");
 
 
-    page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+    page_render_create_html_area(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
     
     const control_style = JSON.parse(style_object.control.style);
 
@@ -49,6 +49,91 @@ function html_area_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p
     
     `);
     
+}
+
+
+
+function page_render_create_html_area(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+{
+	let disabled_html = " disabled ";
+
+	if(g_data_is_checked_out)
+	{
+		disabled_html = " ";
+	}
+
+	if(p_metadata.name == "case_opening_overview")
+	{
+		p_result.push(`<p class="mb-2">CTRL+B to bold, CTRL+I to italicize, CTRL+U to underline</p>`);
+		p_result.push(`<textarea id='case_narrative_editor' ${disabled_html} name='`);
+	}
+	else
+	{
+		p_result.push(`<textarea id="${convert_object_path_to_jquery_id(p_object_path)}_control" ${disabled_html} name='`);
+	}
+    p_result.push(p_metadata.name);
+    p_result.push("' ");
+
+    p_result.push(" class='form-control ");
+    p_result.push(p_metadata.type.toLowerCase());
+    p_result.push("' ");
+
+    if
+    (
+      p_metadata.is_read_only && 	
+      (
+        p_metadata.is_read_only == true ||
+        p_metadata.is_read_only == "true"
+      )
+    )
+    {
+        p_result.push(" readonly='true' ");
+    }
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    
+    if(style_object && p_metadata.name != "case_opening_overview")
+    {
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.control.style));
+        p_result.push("'");
+    }
+
+    var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+    
+    if(path_to_onfocus_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+    }
+
+    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ochs";
+    if(path_to_onchange_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+    }
+/*
+    p_result.push(" oninput='g_textarea_oninput(\"");
+    p_result.push(p_object_path);
+    p_result.push("\",\"");
+    p_result.push(p_metadata_path);
+    p_result.push("\",\"");
+    p_result.push(p_dictionary_path);
+    p_result.push("\",this.value)' ");
+    */
+    
+    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    
+    if(path_to_onclick_map[p_metadata_path])
+    {
+      page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+    }
+    
+    page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
+    p_result.push(" >");
+    p_result.push(p_data);
+
+	p_result.push("</textarea>");
 }
 
 
