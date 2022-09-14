@@ -62,7 +62,8 @@ soft_return_tag = '<br>'
 balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
 
 paragraph_tag = paragraph_start_tag basic_text paragraph_end_tag
-paragraph_start_tag = '<p>'
+//paragraph_start_tag = '<p>'
+paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
 
 bold_tag = bold_start_tag basic_text bold_end_tag
@@ -100,8 +101,35 @@ table_header_end_tag = '</th>'
 table_detail_start_tag = '<td>'
 table_detail_end_tag = '</td>'
 
-basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
 
+style_attribute =  'style="' + attribute_list + '"'
+
+attribute_list = attribute / (attribute + ';')+
+attribute = attribute_name + ':' + attribute_value
+
+
+attribute_name = font_family_attribute 
+/ font_size_attribute
+/ color_attribute 
+/ backgroud_color_attribute
+/ vertical_align_attribute
+/ align_attribute
+/ width_attribute
+/ height_attribute
+
+
+font_family_attribute = 'font-family'
+font_size_attribute = 'font-size'
+color_attribute = 'color'
+backgroud_color_attribute = 'background-color'
+vertical_align_attribute = 'vertical-align'
+align_attribute = 'align'
+width_attribute = 'width' 
+height_attribute = 'height'
+
+
+attribute_value = [ a-zA-Z0-9,]*
+basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
 blank_space = [ \\t\\n\\r]*
 
 `);
