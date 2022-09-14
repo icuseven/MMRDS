@@ -50,13 +50,63 @@ const g_cvs_api_request_data = new Map();
 
 
 const peg_parser = peg.generate(`
-start = html_start_tag basic_text html_end_tag
+start = html_start_tag  blank_space balanced_tag blank_space  html_end_tag
 html_start_tag = '<html>'
 html_end_tag = '</html>'
-basic_text = [ a-zA-Z0-9\[\]+////*()]*
+
+
+single_tag = horizontal_line_tag / soft_return_tag
+horizontal_line_tag = '<hr/>'
+soft_return_tag = '<br/>'
+
+balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
+
+paragraph_tag = paragraph_start_tag basic_text paragraph_end_tag
+paragraph_start_tag = '<p>'
+paragraph_end_tag = '</p>'
+
+bold_tag = bold_start_tag basic_text bold_end_tag
+bold_start_tag = '<b>'
+bold_end_tag = '</b>'
+
+underline_tag = underline_start_tag basic_text underline_end_tag
+underline_start_tag = '<u>'
+underline_end_tag = '</u>'
+
+italic_tag = italic_start_tag basic_text italic_end_tag
+italic_start_tag = '<i>'
+italic_end_tag = '</i>'
+
+unordered_list_start_tag = '<ul>'
+unordered_list_end_tag = '</ul>'
+
+ordered_list_start_tag = '<ol>'
+ordered_list_end_tag = '</ol>'
+
+list_item_start_tag = '<li>'
+list_item_end_tag = '</li>'
+
+
+table_start_tag = '<table>'
+table_end_tag = '</table>'
+
+table_row_start_tag = '<tr>'
+table_row_end_tag = '</tr>'
+
+
+table_header_start_tag = '<th>'
+table_header_end_tag = '</th>'
+
+table_detail_start_tag = '<td>'
+table_detail_end_tag = '</td>'
+
+basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
+
+blank_space = [ \\t\\n\\r]*
+
 `);
 
-
+//blank_space = [ \t\n\r]*
 
 async function g_set_data_object_from_path
 (
