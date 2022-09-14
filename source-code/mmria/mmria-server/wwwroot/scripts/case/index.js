@@ -50,14 +50,14 @@ const g_cvs_api_request_data = new Map();
 
 
 const peg_parser = peg.generate(`
-start = html_start_tag  blank_space balanced_tag blank_space  html_end_tag
+start = html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)*  html_end_tag
 html_start_tag = '<html>'
 html_end_tag = '</html>'
 
 
 single_tag = horizontal_line_tag / soft_return_tag
-horizontal_line_tag = '<hr/>'
-soft_return_tag = '<br/>'
+horizontal_line_tag = '<hr>'
+soft_return_tag = '<br>'
 
 balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
 
