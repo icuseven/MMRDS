@@ -61,8 +61,9 @@ soft_return_tag = '<br>'
 
 balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
 
+in_line_able_tag = bold_tag / underline_tag / italic_tag
+
 paragraph_tag = paragraph_start_tag basic_text paragraph_end_tag
-//paragraph_start_tag = '<p>'
 paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
 
@@ -102,35 +103,71 @@ table_detail_start_tag = '<td>'
 table_detail_end_tag = '</td>'
 
 
-style_attribute =  'style="' + attribute_list + '"'
+style_attribute =  'style="' + name_value_list + '"'
 
-attribute_list = attribute / (attribute + ';')+
-attribute = attribute_name + ':' + attribute_value
-
-
-attribute_name = font_family_attribute 
-/ font_size_attribute
-/ color_attribute 
-/ backgroud_color_attribute
-/ vertical_align_attribute
-/ align_attribute
-/ width_attribute
-/ height_attribute
+name_value_list = name_value_pair / (name_value_pair + ';')+
+name_value_pair = name_value_name + ':' + name_value_value
 
 
-font_family_attribute = 'font-family'
-font_size_attribute = 'font-size'
-color_attribute = 'color'
-backgroud_color_attribute = 'background-color'
-vertical_align_attribute = 'vertical-align'
-align_attribute = 'align'
-width_attribute = 'width' 
-height_attribute = 'height'
+name_value_name = font_family_name 
+/ font_size_name
+/ color_name
+/ backgroud_color_name
+/ vertical_align_name
+/ align_name
+/ width_name
+/ height_name
 
 
-attribute_value = [ a-zA-Z0-9,]*
+font_family_name = 'font-family'
+font_size_name = 'font-size'
+color_name = 'color'
+backgroud_color_name = 'background-color'
+vertical_align_name = 'vertical-align'
+align_name = 'align'
+width_name = 'width' 
+height_name = 'height'
+
+name_value_value = [ a-zA-Z0-9,]*
+
+
+table_attribue_list = table_attribue / (table_attribue + one_or_more_blank_space)* 
+
+table_attribue = valign_attribute_name + '=' + valign_attribute_value
+/ align_attribute_name + '=' + align_attribute_value
+/ width_attribute_name + '=' + width_attribute_value
+/ height_attribute_name + '=' + height_attribute_value
+/ col_span_attribute_name + '=' + col_span_attribute_value
+/ row_span_attribute_name + '=' + row_span_attribute_value
+/ border_attribute_name + '=' + border_attribute_value
+
+valign_attribute_name = 'valign'
+valign_attribute_value = 'top' / 'middle' / 'bottom' / 'baseline'
+
+align_attribute_name = 'align'
+align_attribute_value = 'left' / 'center' / 'right' / 'justify' / 'char'
+
+width_attribute_name = 'width' 
+width_attribute_value = one_or_more_digits + 'px'
+
+height_attribute_name = 'height'
+height_attribute_value = one_or_more_digits + 'px'
+
+col_span_attribute_name = 'colspan'
+col_span_attribute_value = one_or_more_digits
+
+row_span_attribute_name = 'rowspan'
+row_span_attribute_value = one_or_more_digits
+
+border_attribute_name = 'border'
+border_attribute_value = one_or_more_digits
+
+
+one_or_more_digits = [0-9]+
+
 basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
 blank_space = [ \\t\\n\\r]*
+one_or_more_blank_space = [ \\t\\n\\r]+
 
 `);
 
