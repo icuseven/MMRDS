@@ -63,7 +63,7 @@ balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
 
 in_line_able_tag = bold_tag / underline_tag / italic_tag
 
-paragraph_tag = paragraph_start_tag basic_text paragraph_end_tag
+paragraph_tag = paragraph_start_tag (basic_text / in_line_able_tag)+ paragraph_end_tag
 paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
 
