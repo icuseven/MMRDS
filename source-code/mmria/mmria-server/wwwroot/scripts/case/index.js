@@ -107,12 +107,13 @@ style_attribute =  'style="' + name_value_list + '"'
 
 name_value_list = name_value_pair / (name_value_pair + ';')+
 name_value_pair = name_value_name + ':' + name_value_value
-
+/ color_name + ': #' + hex_value
+/ color_name + ':#' + hex_value
+/ backgroud_color_name + ': #' + hex_value 
+/ backgroud_color_name + ':#' + hex_value
 
 name_value_name = font_family_name 
 / font_size_name
-/ color_name
-/ backgroud_color_name
 / vertical_align_name
 / align_name
 / width_name
@@ -129,6 +130,9 @@ width_name = 'width'
 height_name = 'height'
 
 name_value_value = [ a-zA-Z0-9,]*
+
+
+hex_value = [a-fA-F0-9]+
 
 
 table_attribue_list = table_attribue / (table_attribue + one_or_more_blank_space)* 
@@ -162,7 +166,7 @@ row_span_attribute_value = one_or_more_digits
 border_attribute_name = 'border'
 border_attribute_value = one_or_more_digits
 
-
+one_or_more_spaces = [ ]+
 one_or_more_digits = [0-9]+
 
 basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
