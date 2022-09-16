@@ -59,13 +59,18 @@ single_tag = horizontal_line_tag / soft_return_tag
 horizontal_line_tag = '<hr>'
 soft_return_tag = '<br>'
 
-balanced_tag = paragraph_tag / bold_tag / underline_tag / italic_tag
+balanced_tag = paragraph_tag 
 
-in_line_able_tag = bold_tag / underline_tag / italic_tag
+in_line_able_tag = span_tag / bold_tag / underline_tag / italic_tag
 
 paragraph_tag = paragraph_start_tag (basic_text / in_line_able_tag)+ paragraph_end_tag
 paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
+
+
+span_tag = span_start_tag (basic_text / in_line_able_tag)+ span_end_tag
+span_start_tag = '<span>' / '<span ' + style_attribute + '>'
+span_end_tag = '</span>'
 
 bold_tag = bold_start_tag basic_text bold_end_tag
 bold_start_tag = '<b>'
@@ -107,15 +112,17 @@ style_attribute =  'style="' + name_value_list + '"'
 
 name_value_list = name_value_pair / (name_value_pair + ';')+
 name_value_pair = name_value_name + ':' + name_value_value
-/ color_name + ': #' + hex_value
 / color_name + ':#' + hex_value
-/ backgroud_color_name + ': #' + hex_value 
-/ backgroud_color_name + ':#' + hex_value
+/ color_name + ': #' + hex_value
+/ backgroud_color_name + ':#' + hex_value 
+/ backgroud_color_name + ': #' + hex_value
+/ text_align_name + ':' + align_attribute_value
+/ text_align_name + ': ' + align_attribute_value
+/ vertical_align_name + ':' + vertical_align_value
+/ vertical_align_name + ': ' + vertical_align_value
 
 name_value_name = font_family_name 
 / font_size_name
-/ vertical_align_name
-/ align_name
 / width_name
 / height_name
 
@@ -125,9 +132,16 @@ font_size_name = 'font-size'
 color_name = 'color'
 backgroud_color_name = 'background-color'
 vertical_align_name = 'vertical-align'
+vertical_align_value = 'baseline' /'text-top' / 'text-bottom' / 'super' / 'sub'
+
+
+text_align_name = 'text-align'
 align_name = 'align'
 width_name = 'width' 
 height_name = 'height'
+
+
+
 
 name_value_value = [ a-zA-Z0-9,]*
 
