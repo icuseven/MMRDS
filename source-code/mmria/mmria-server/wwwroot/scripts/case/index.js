@@ -63,12 +63,15 @@ balanced_tag = paragraph_tag
 
 in_line_able_tag = span_tag / bold_tag / underline_tag / italic_tag
 
+
+span_in_line_able_tag =  bold_tag / underline_tag / italic_tag
+
 paragraph_tag = paragraph_start_tag (basic_text / in_line_able_tag)+ paragraph_end_tag
 paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
 
 
-span_tag = span_start_tag (basic_text / in_line_able_tag)+ span_end_tag
+span_tag = span_start_tag (basic_text / span_in_line_able_tag)+ span_end_tag
 span_start_tag = '<span>' / '<span ' + style_attribute + '>'
 span_end_tag = '</span>'
 
@@ -111,42 +114,38 @@ table_detail_end_tag = '</td>'
 style_attribute =  'style="' + name_value_list + '"'
 
 name_value_list = name_value_pair / (name_value_pair + ';')+
-name_value_pair = name_value_name + ':' + name_value_value
-/ color_name + ':#' + hex_value
-/ color_name + ': #' + hex_value
-/ backgroud_color_name + ':#' + hex_value 
-/ backgroud_color_name + ': #' + hex_value
+name_value_pair = color_name + ':#' + color_hex_value
+/ color_name + ': #' + color_hex_value
+/ backgroud_color_name + ':#' + color_hex_value 
+/ backgroud_color_name + ': #' + color_hex_value
 / text_align_name + ':' + align_attribute_value
 / text_align_name + ': ' + align_attribute_value
 / vertical_align_name + ':' + vertical_align_value
 / vertical_align_name + ': ' + vertical_align_value
-
-name_value_name = font_family_name 
-/ font_size_name
-/ width_name
-/ height_name
+/ font_family_name + ':' + font_family_value
+/ font_family_name + ': ' + font_family_value
+/ font_size_name + ':' + font_size_value
+/ font_size_name + ': ' + font_size_value
+/ width_attribute_name + ':' + width_attribute_value
+/ width_attribute_name + ': ' + width_attribute_value
+/ height_attribute_name + ':' + height_attribute_value
+/ height_attribute_name + ': ' + height_attribute_value
 
 
 font_family_name = 'font-family'
+font_family_value = [ a-zA-Z0-9,]*
+
 font_size_name = 'font-size'
+font_size_value = '9pt' / '11pt' / '12pt' / '14pt' / '16pt' / '18pt'
+
 color_name = 'color'
 backgroud_color_name = 'background-color'
+color_hex_value = [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+
+
 vertical_align_name = 'vertical-align'
 vertical_align_value = 'baseline' /'text-top' / 'text-bottom' / 'super' / 'sub'
-
-
 text_align_name = 'text-align'
-align_name = 'align'
-width_name = 'width' 
-height_name = 'height'
-
-
-
-
-name_value_value = [ a-zA-Z0-9,]*
-
-
-hex_value = [a-fA-F0-9]+
 
 
 table_attribue_list = table_attribue / (table_attribue + one_or_more_blank_space)* 
@@ -180,7 +179,8 @@ row_span_attribute_value = one_or_more_digits
 border_attribute_name = 'border'
 border_attribute_value = one_or_more_digits
 
-one_or_more_spaces = [ ]+
+
+//one_or_more_spaces = [ ]+
 one_or_more_digits = [0-9]+
 
 basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
