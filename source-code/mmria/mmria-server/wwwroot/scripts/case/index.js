@@ -183,7 +183,7 @@ border_attribute_value = one_or_more_digits
 //one_or_more_spaces = [ ]+
 one_or_more_digits = [0-9]+
 
-basic_text = [ a-zA-Z0-9\\n\[\]+////*()]*
+basic_text = [\\] a-zA-Z0-9\\.\\n\\[\\+\\*\\(\\)"'!@#$%^,>:;\\?]+
 blank_space = [ \\t\\n\\r]*
 one_or_more_blank_space = [ \\t\\n\\r]+
 
@@ -338,7 +338,7 @@ async function g_set_data_object_from_path
         }
         catch(e)
         {
-            document.getElementById("ii-validation").value  = e.toString();
+            document.getElementById("ii-validation").innerHTML  = "<p>" + e.toString() + "</p>";
             return;
         }
 
