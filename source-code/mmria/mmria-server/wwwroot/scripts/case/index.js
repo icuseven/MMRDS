@@ -59,7 +59,7 @@ single_tag = horizontal_line_tag / soft_return_tag
 horizontal_line_tag = '<hr>'
 soft_return_tag = '<br>'
 
-balanced_tag = paragraph_tag 
+balanced_tag = paragraph_tag / table_tag / unordered_list_tag / ordered_list_tag
 
 in_line_able_tag = span_tag / bold_tag / underline_tag / italic_tag
 
@@ -87,26 +87,34 @@ italic_tag = italic_start_tag basic_text italic_end_tag
 italic_start_tag = '<i>'
 italic_end_tag = '</i>'
 
+
+unordered_list_tag = unordered_list_start_tag blank_space list_item_tag* blank_space unordered_list_end_tag
 unordered_list_start_tag = '<ul>'
 unordered_list_end_tag = '</ul>'
 
+
+ordered_list_tag = ordered_list_start_tag  blank_space list_item_tag* blank_space ordered_list_end_tag
 ordered_list_start_tag = '<ol>'
 ordered_list_end_tag = '</ol>'
 
+list_item_tag = list_item_start_tag (basic_text)* list_item_end_tag
 list_item_start_tag = '<li>'
 list_item_end_tag = '</li>'
 
-
+table_tag = table_start_tag blank_space (table_row_tag)* blank_space table_end_tag
 table_start_tag = '<table>'
 table_end_tag = '</table>'
 
+
+table_row_tag = table_row_start_tag blank_space (table_header_tag / table_detail_tag)* blank_space table_row_end_tag
 table_row_start_tag = '<tr>'
 table_row_end_tag = '</tr>'
 
-
+table_header_tag = table_header_start_tag (basic_text)* table_header_end_tag
 table_header_start_tag = '<th>'
 table_header_end_tag = '</th>'
 
+table_detail_tag = table_detail_start_tag (basic_text)* table_detail_end_tag
 table_detail_start_tag = '<td>'
 table_detail_end_tag = '</td>'
 
