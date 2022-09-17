@@ -36,10 +36,13 @@ function html_area_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p
 
     control_style.top = control_style.top + control_style.height + 5;
     const validation_style = `position:absolute;top:${control_style.top}px;left:${control_style.left}px;height:${control_style.height}px;width:${control_style.width}px;font-weight:400;font-size:16px;font-style:normal;color:rgb(0, 0, 0)`;
+    
+    const html_value = p_data.replace("<html>", "").replace("</html>", "");
+    
     p_result.push(`
-    <textarea id="ii-validation" style="${validation_style}" cols=40 rows=7 readonly>
-
-    </textarea>
+    <div id="ii-validation" style="${validation_style};border:1px solid black;margin:5px;padding:10px;overflow-y:scroll">
+        ${html_value}
+    </div>
     
     
     
@@ -62,15 +65,9 @@ function page_render_create_html_area(p_result, p_metadata, p_data, p_metadata_p
 		disabled_html = " ";
 	}
 
-	if(p_metadata.name == "case_opening_overview")
-	{
-		p_result.push(`<p class="mb-2">CTRL+B to bold, CTRL+I to italicize, CTRL+U to underline</p>`);
-		p_result.push(`<textarea id='case_narrative_editor' ${disabled_html} name='`);
-	}
-	else
-	{
-		p_result.push(`<textarea id="${convert_object_path_to_jquery_id(p_object_path)}_control" ${disabled_html} name='`);
-	}
+
+	p_result.push(`<textarea id="${convert_object_path_to_jquery_id(p_object_path)}_control" ${disabled_html} name='`);
+	
     p_result.push(p_metadata.name);
     p_result.push("' ");
 
