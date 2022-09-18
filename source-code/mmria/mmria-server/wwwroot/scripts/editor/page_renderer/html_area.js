@@ -89,7 +89,7 @@ function page_render_create_html_area(p_result, p_metadata, p_data, p_metadata_p
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     
-    if(style_object && p_metadata.name != "case_opening_overview")
+    if(style_object)
     {
         p_result.push(" style='");
         p_result.push(get_style_string(style_object.control.style));
@@ -128,7 +128,7 @@ function page_render_create_html_area(p_result, p_metadata, p_data, p_metadata_p
     page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
     p_result.push(" >");
-    p_result.push(p_data);
+    p_result.push(p_data.replace(/&/g, "&amp;"));
 
 	p_result.push("</textarea>");
 }

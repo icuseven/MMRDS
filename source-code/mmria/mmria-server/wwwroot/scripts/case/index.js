@@ -66,24 +66,24 @@ in_line_able_tag = span_tag / bold_tag / underline_tag / italic_tag
 
 span_in_line_able_tag =  bold_tag / underline_tag / italic_tag
 
-paragraph_tag = paragraph_start_tag (basic_text / in_line_able_tag)+ paragraph_end_tag
+paragraph_tag = paragraph_start_tag (inner_text / in_line_able_tag)+ paragraph_end_tag
 paragraph_start_tag = '<p>' / '<p ' + style_attribute + '>'
 paragraph_end_tag = '</p>'
 
 
-span_tag = span_start_tag (basic_text / span_in_line_able_tag)+ span_end_tag
+span_tag = span_start_tag (inner_text / span_in_line_able_tag)+ span_end_tag
 span_start_tag = '<span>' / '<span ' + style_attribute + '>'
 span_end_tag = '</span>'
 
-bold_tag = bold_start_tag basic_text bold_end_tag
+bold_tag = bold_start_tag inner_text bold_end_tag
 bold_start_tag = '<b>'
 bold_end_tag = '</b>'
 
-underline_tag = underline_start_tag basic_text underline_end_tag
+underline_tag = underline_start_tag inner_text underline_end_tag
 underline_start_tag = '<u>'
 underline_end_tag = '</u>'
 
-italic_tag = italic_start_tag basic_text italic_end_tag
+italic_tag = italic_start_tag inner_text italic_end_tag
 italic_start_tag = '<i>'
 italic_end_tag = '</i>'
 
@@ -97,7 +97,7 @@ ordered_list_tag = ordered_list_start_tag  blank_space list_item_tag* blank_spac
 ordered_list_start_tag = '<ol>'
 ordered_list_end_tag = '</ol>'
 
-list_item_tag = list_item_start_tag (basic_text)* list_item_end_tag
+list_item_tag = list_item_start_tag (inner_text)* list_item_end_tag
 list_item_start_tag = '<li>'
 list_item_end_tag = '</li>'
 
@@ -110,11 +110,11 @@ table_row_tag = table_row_start_tag blank_space (table_header_tag / table_detail
 table_row_start_tag = '<tr>' / '<tr ' + table_attribue_list + '>' 
 table_row_end_tag = '</tr>'
 
-table_header_tag = table_header_start_tag (basic_text)* table_header_end_tag
+table_header_tag = table_header_start_tag (inner_text)* table_header_end_tag
 table_header_start_tag = '<th>' / '<th ' + table_attribue_list + '>' 
 table_header_end_tag = '</th>'
 
-table_detail_tag = table_detail_start_tag (basic_text)* table_detail_end_tag
+table_detail_tag = table_detail_start_tag (inner_text)* table_detail_end_tag
 table_detail_start_tag = '<td>' / '<td ' + table_attribue_list + '>' 
 table_detail_end_tag = '</td>'
 
@@ -192,7 +192,10 @@ border_attribute_value = one_or_more_digits
 //one_or_more_spaces = [ ]+
 one_or_more_digits = [0-9]+
 
-basic_text = [\\] a-zA-Z0-9\\.\\n\\[\\+\\*\\(\\)"'!@#$%^,>:;\\?]+
+inner_text = basic_text / entity_text
+
+entity_text = '&amp;' / '&lt;'
+basic_text = [\\] a-zA-Z0-9\\.\\n\\[\\+\\*\\(\\)"'!@#$%^,>:;\\?=_-]+
 blank_space "Blank space" = [ \\t\\n\\r]*
 one_or_more_blank_space "One or more blank space" = [ \\t\\n\\r]+
 
@@ -351,18 +354,15 @@ async function g_set_data_object_from_path
 
 
             const el = document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '_control');
-
-
             let from = e.location.start.offset-5;
             
-
             if(from < 0)
             {
                 from = 0;
             }
 
             let end = 10;
-            if(end > el.value.length)
+            if(from + end > el.value.length)
             {
                 end = el.value.length - from;
             }
@@ -373,7 +373,6 @@ async function g_set_data_object_from_path
             <p>Line: ${e.location.start.line} Column: ${e.location.start.column} expected: ${e.expected[0].type} ${e.expected[0].text}</p>
             <p style="color:#990000"> -> ${el_value}</p>
             <p>${e.message}</p>
-            
             
             `;
 
