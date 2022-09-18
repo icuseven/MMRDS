@@ -346,7 +346,39 @@ async function g_set_data_object_from_path
         }
         catch(e)
         {
-            document.getElementById("ii-validation").innerHTML  = "<p>" + e.toString() + "</p>";
+
+
+
+            const el = document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '_control');
+
+
+            let from = e.location.start.offset-5;
+            
+
+            if(from < 0)
+            {
+                from = 0;
+            }
+
+            let end = 10;
+            if(end > el.value.length)
+            {
+                end = el.value.length - from;
+            }
+
+            const el_value = el.value.substr(from, end).replace(/</g, "&lt;");
+
+            document.getElementById("ii-validation").innerHTML = `
+            <p>Line: ${e.location.start.line} Column: ${e.location.start.column} expected: ${e.expected[0].type} ${e.expected[0].text}</p>
+            <p style="color:#990000"> -> ${el_value}</p>
+            <p>${e.message}</p>
+            
+            
+            `;
+
+            el.setSelectionRange(from, from + end);
+            el.focus();
+
             return;
         }
 
