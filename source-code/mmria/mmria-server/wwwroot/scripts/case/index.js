@@ -102,20 +102,20 @@ list_item_start_tag = '<li>'
 list_item_end_tag = '</li>'
 
 table_tag = table_start_tag blank_space (table_row_tag)* blank_space table_end_tag
-table_start_tag = '<table>'
+table_start_tag = '<table>'  / '<table ' + table_attribue_list + '>' 
 table_end_tag = '</table>'
 
 
 table_row_tag = table_row_start_tag blank_space (table_header_tag / table_detail_tag)* blank_space table_row_end_tag
-table_row_start_tag = '<tr>'
+table_row_start_tag = '<tr>' / '<tr ' + table_attribue_list + '>' 
 table_row_end_tag = '</tr>'
 
 table_header_tag = table_header_start_tag (basic_text)* table_header_end_tag
-table_header_start_tag = '<th>'
+table_header_start_tag = '<th>' / '<th ' + table_attribue_list + '>' 
 table_header_end_tag = '</th>'
 
 table_detail_tag = table_detail_start_tag (basic_text)* table_detail_end_tag
-table_detail_start_tag = '<td>'
+table_detail_start_tag = '<td>' / '<td ' + table_attribue_list + '>' 
 table_detail_end_tag = '</td>'
 
 
@@ -156,7 +156,7 @@ vertical_align_value = 'baseline' /'text-top' / 'text-bottom' / 'super' / 'sub'
 text_align_name = 'text-align'
 
 
-table_attribue_list = table_attribue / (table_attribue + one_or_more_blank_space)* 
+table_attribue_list = table_attribue / (table_attribue + one_or_more_blank_space)+ 
 
 table_attribue = valign_attribute_name + '=' + valign_attribute_value
 / align_attribute_name + '=' + align_attribute_value
@@ -165,6 +165,7 @@ table_attribue = valign_attribute_name + '=' + valign_attribute_value
 / col_span_attribute_name + '=' + col_span_attribute_value
 / row_span_attribute_name + '=' + row_span_attribute_value
 / border_attribute_name + '=' + border_attribute_value
+/ style_attribute
 
 valign_attribute_name = 'valign'
 valign_attribute_value = 'top' / 'middle' / 'bottom' / 'baseline'
@@ -192,8 +193,8 @@ border_attribute_value = one_or_more_digits
 one_or_more_digits = [0-9]+
 
 basic_text = [\\] a-zA-Z0-9\\.\\n\\[\\+\\*\\(\\)"'!@#$%^,>:;\\?]+
-blank_space = [ \\t\\n\\r]*
-one_or_more_blank_space = [ \\t\\n\\r]+
+blank_space "Blank space" = [ \\t\\n\\r]*
+one_or_more_blank_space "One or more blank space" = [ \\t\\n\\r]+
 
 `);
 
