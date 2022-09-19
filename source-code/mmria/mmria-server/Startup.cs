@@ -36,21 +36,60 @@ namespace mmria.server;
 
 public static class StartupExtension
 {
-    public static void SetIfIsNotNullOrEmpty(this string @this, ref bool that)
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref bool that)
     {
-        if (!string.IsNullOrEmpty(@this))
+        if (!string.IsNullOrWhiteSpace(@this))
         {
             bool.TryParse(@this, out that);
         }
+    }
+
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref bool that, bool defaultValue)
+    {
+        if (!string.IsNullOrWhiteSpace(@this))
+        {
+            if(!bool.TryParse(@this, out that))
+                that = defaultValue;
+        }
+        else that = defaultValue;
+
 
     }
-    public static void SetIfIsNotNullOrEmpty(this string @this, ref string that)
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref string that)
     {
-        if (!string.IsNullOrEmpty(@this))
+        if (!string.IsNullOrWhiteSpace(@this))
         {
             that = @this;
         }
+    }
 
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref string that, string defaultValue)
+    {
+        if (!string.IsNullOrWhiteSpace(@this))
+        {
+            that = @this;
+        }
+        else that = defaultValue;
+    }
+
+
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref int that)
+    {
+        if (!string.IsNullOrWhiteSpace(@this))
+        {
+            int.TryParse(@this, out that);
+        }
+    }
+
+    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref int that, int defaultValue)
+    {
+        if (!string.IsNullOrWhiteSpace(@this))
+        {
+            if(!int.TryParse(@this, out that))
+                that = defaultValue;
+        
+        }
+        else that = defaultValue;
     }
 }
 public class Startup
@@ -59,7 +98,7 @@ public class Startup
 
     public Startup(IConfiguration configuration)
     {
-    Configuration = configuration;
+        Configuration = configuration;
     }
 
 
@@ -72,18 +111,18 @@ public class Startup
         Program.config_geocode_api_key = "";
         Program.config_geocode_api_url = "";
 
-        Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrEmpty(ref Program.is_schedule_enabled);
-        Configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrEmpty(ref Program.is_db_check_enabled);
-        Configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrEmpty(ref Program.app_instance_name);
-        Configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrEmpty(ref Program.metadata_release_version_name);
-        Configuration["mmria_settings:power_bi_link"].SetIfIsNotNullOrEmpty(ref Program.power_bi_link);
-        Configuration["mmria_settings:power_bi_aggregate"].SetIfIsNotNullOrEmpty(ref Program.power_bi_aggregate);
-        Configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrEmpty(ref Program.db_prefix);
-        Configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrEmpty(ref Program.config_cdc_instance_pull_list);
-        Configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrEmpty(ref Program.config_cdc_instance_pull_db_url);
-        Configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrEmpty(ref Program.config_vitals_url);
-        Configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrEmpty(ref Program.vitals_service_key);
-        Configuration["mmria_settings:config_id"].SetIfIsNotNullOrEmpty(ref Program.config_id );
+        Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
+        Configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
+        Configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref Program.app_instance_name);
+        Configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrWhiteSpace(ref Program.metadata_release_version_name);
+        Configuration["mmria_settings:power_bi_link"].SetIfIsNotNullOrWhiteSpace(ref Program.power_bi_link);
+        Configuration["mmria_settings:power_bi_aggregate"].SetIfIsNotNullOrWhiteSpace(ref Program.power_bi_aggregate);
+        Configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrWhiteSpace(ref Program.db_prefix);
+        Configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
+        Configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
+        Configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
+        Configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrWhiteSpace(ref Program.vitals_service_key);
+        Configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref Program.config_id );
 
         var test_int = 0;
         //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
@@ -123,13 +162,14 @@ public class Startup
 
             //Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
             //Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
-            Program.config_couchdb_url = System.Environment.GetEnvironmentVariable("couchdb_url");
-            Program.config_web_site_url = System.Environment.GetEnvironmentVariable("web_site_url");
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_couchdb_url);
+            System.Environment.GetEnvironmentVariable("web_site_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_web_site_url);
+
             //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-            Program.config_timer_user_name = System.Environment.GetEnvironmentVariable("timer_user_name");
-            Program.config_timer_value = System.Environment.GetEnvironmentVariable("timer_password");
-            Program.config_cron_schedule = System.Environment.GetEnvironmentVariable("cron_schedule");
-            Program.config_export_directory = System.Environment.GetEnvironmentVariable("export_directory") != null ? System.Environment.GetEnvironmentVariable("export_directory") : "/workspace/export";
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_value);
+            System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
+            System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
 
             Configuration["mmria_settings:couchdb_url"]  = Program.config_couchdb_url;
             Configuration["mmria_settings:web_site_url"] = Program.config_web_site_url;
@@ -142,20 +182,24 @@ public class Startup
 
             Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
 
-            Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes") != null && int.TryParse(System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes"), out test_int) ? test_int : 30;
+            System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes")
+                .SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes, 30);
             Configuration["mmria_settings:session_idle_timeout_minutes"] = Program.config_session_idle_timeout_minutes.ToString();
 
 
-            Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_minimum_length")) ? 8 : int.Parse(System.Environment.GetEnvironmentVariable("password_minimum_length"));
-            Program.config_pass_word_days_before_expires = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_days_before_expires")) ? 0 : int.Parse(System.Environment.GetEnvironmentVariable("password_days_before_expires"));
-            Program.config_pass_word_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration")) ? 0 : int.Parse(System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration"));
+            System.Environment.GetEnvironmentVariable("password_minimum_length")
+                .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_minimum_length, 8);
+      
+            System.Environment.GetEnvironmentVariable("password_days_before_expires")
+                .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_days_before_expires, 0);
+
+            System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration")
+                .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_days_before_user_is_notified_of_expiration, 0);
 
             
-            if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("vitals_url")))
-            {
-                Configuration["mmria_settings:vitals_url"] = System.Environment.GetEnvironmentVariable("vitals_url");
-                Program.config_vitals_url = System.Environment.GetEnvironmentVariable("vitals_url");
-            }
+            System.Environment.GetEnvironmentVariable("vitals_url")
+                .SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
+            Configuration["mmria_settings:vitals_url"] = Program.config_vitals_url;
 
 
             if (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("sams_endpoint_authorization")))
