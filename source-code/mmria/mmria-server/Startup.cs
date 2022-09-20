@@ -39,9 +39,6 @@ public class Startup
         Program.config_geocode_api_key = "";
         Program.config_geocode_api_url = "";
 
-        //Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
-
-
         Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
 
         Configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
@@ -67,7 +64,6 @@ public class Startup
 
         Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout_minutes"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout_minutes"], out test_int) ? test_int : 30;
 
-
         Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, Configuration["password_settings:minimum_length"], 8);
         Program.config_pass_word_days_before_expires = SetFromIfHasValue(Program.config_pass_word_days_before_expires, Configuration["password_settings:days_before_expires"], 0);
         Program.config_pass_word_days_before_user_is_notified_of_expiration = SetFromIfHasValue(Program.config_pass_word_days_before_user_is_notified_of_expiration, Configuration["password_settings:days_before_user_is_notified_of_expiration"], 0);
@@ -77,12 +73,9 @@ public class Startup
         Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
         Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
 
-
-
         if (bool.Parse(Configuration["mmria_settings:is_environment_based"]))
         {
             Log.Information("using Environment");
-
 
             //Log.Information ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
             //Log.Information ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
@@ -108,14 +101,11 @@ public class Startup
             Configuration["mmria_settings:timer_password"] = Program.config_timer_value;
             Configuration["mmria_settings:cron_schedule"] = Program.config_cron_schedule;
 
-
-
             Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
 
             System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes")
                 .SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes, 30);
             Configuration["mmria_settings:session_idle_timeout_minutes"] = Program.config_session_idle_timeout_minutes.ToString();
-
 
             System.Environment.GetEnvironmentVariable("password_minimum_length")
                 .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_minimum_length, 8);
@@ -126,11 +116,9 @@ public class Startup
             System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration")
                 .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_days_before_user_is_notified_of_expiration, 0);
 
-            
             System.Environment.GetEnvironmentVariable("vitals_url")
                 .SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
             Configuration["mmria_settings:vitals_url"] = SetFromIfHasValue(Configuration["mmria_settings:vitals_url"], Program.config_vitals_url);
-
 
             Configuration["sams:endpoint_authorization"] = SetFromIfHasValue(Configuration["sams:endpoint_authorization"], System.Environment.GetEnvironmentVariable("sams_endpoint_authorization"));
             
@@ -144,50 +132,38 @@ public class Startup
             Configuration["sams:token_validation"] = SetFromIfHasValue(Configuration["sams:token_validation"], System.Environment.GetEnvironmentVariable("sams_endpoint_token_validation"));
             Configuration["sams:user_info_sys"] = SetFromIfHasValue(Configuration["sams:user_info_sys"], System.Environment.GetEnvironmentVariable("sams_endpoint_user_info_sys"));
             
-
-
             Configuration["sams:client_id"] = SetFromIfHasValue(Configuration["sams:client_id"], System.Environment.GetEnvironmentVariable("sams_client_id"));
             Configuration["sams:client_secret"] = SetFromIfHasValue(Configuration["sams:client_secret"], System.Environment.GetEnvironmentVariable("sams_client_secret"));
             Configuration["sams:callback_url"] = SetFromIfHasValue(Configuration["sams:callback_url"], System.Environment.GetEnvironmentVariable("sams_callback_url"));
             Configuration["sams:logout_url"] = SetFromIfHasValue(Configuration["sams:logout_url"], System.Environment.GetEnvironmentVariable("sams_logout_url"));
             Configuration["sams:is_enabled"] = SetFromIfHasValue(Configuration["sams:is_enabled"], System.Environment.GetEnvironmentVariable("sams_is_enabled"));
         
-
             Configuration["is_schedule_enabled"] = SetFromIfHasValue(Configuration["is_schedule_enabled"], System.Environment.GetEnvironmentVariable("is_schedule_enabled"));
             Configuration["is_db_check_enabled"] = SetFromIfHasValue(Configuration["is_db_check_enabled"], System.Environment.GetEnvironmentVariable("is_db_check_enabled"));
-
 
             Configuration["mmria_settings:app_instance_name"] = SetFromIfHasValue(Configuration["mmria_settings:app_instance_name"], System.Environment.GetEnvironmentVariable("app_instance_name"));
             Program.app_instance_name = SetFromIfHasValue(Program.app_instance_name, Configuration["mmria_settings:app_instance_name"]);
         
-
             Configuration["mmria_settings:db_prefix"] = SetFromIfHasValue(Configuration["mmria_settings:db_prefix"], System.Environment.GetEnvironmentVariable("db_prefix"));
             Program.db_prefix = SetFromIfHasValue(Program.db_prefix, Configuration["mmria_settings:db_prefix"]);
         
-
             Configuration["mmria_settings:cdc_instance_pull_list"] = SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_list"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_list"));
             Program.config_cdc_instance_pull_list = SetFromIfHasValue(Program.config_cdc_instance_pull_list, Configuration["mmria_settings:cdc_instance_pull_list"]);
         
             Configuration["mmria_settings:cdc_instance_pull_db_url"] = SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_db_url"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url"));
             Program.config_cdc_instance_pull_db_url = SetFromIfHasValue(Program.config_cdc_instance_pull_db_url, Configuration["mmria_settings:cdc_instance_pull_db_url"]);
         
-
             Configuration["mmria_settings:vitals_service_key"] = SetFromIfHasValue(Configuration["mmria_settings:vitals_service_key"], System.Environment.GetEnvironmentVariable("vitals_service_key"));
             Program.vitals_service_key = SetFromIfHasValue(Program.vitals_service_key, Configuration["mmria_settings:vitals_service_key"]);
         
-
             Configuration["mmria_settings:config_id"] = SetFromIfHasValue(Configuration["mmria_settings:config_id"], System.Environment.GetEnvironmentVariable("config_id"));
             Program.config_id = SetFromIfHasValue(Program.config_id, Configuration["mmria_settings:config_id"]);
             
-
             Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"), 90);
             Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"), 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_lockout_number_of_minutes"), 15);
-
         }
-
-
 
         Log.Information($"Program.config_timer_user_name = {Program.config_timer_user_name}");
         Log.Information($"Program.config_couchdb_url = {Program.config_couchdb_url}");
@@ -210,13 +186,11 @@ public class Startup
             Log.Information("Program.config_vitals_service_key is present");
         }
 
-
         var DbConfigSet = GetConfiguration();
         services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
         Program.configuration_set = DbConfigSet;
                     
-
         Program.actorSystem = ActorSystem.Create("mmria-actor-system");
         services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
@@ -249,17 +223,13 @@ public class Startup
 
         quartzSupervisor.Tell("init");
 
-        var use_sams = false;
+        bool use_sams = false;
 
-        if (!string.IsNullOrWhiteSpace(Configuration["sams:is_enabled"]))
-        {
-            bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
-        }
+        Configuration["sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref use_sams);
 
         if (use_sams)
         {
             Log.Information("using sams");
-
 
             services.AddAuthentication(options =>
             {
@@ -272,8 +242,6 @@ public class Startup
                 options.AuthKey = "custom auth key";
                 options.Is_SAMS = true;
             });
-
-
         }
         else
         {
@@ -292,8 +260,6 @@ public class Startup
             });
         }
 
-
-
         services.AddAuthorization(options =>
         {
             //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
@@ -307,10 +273,7 @@ public class Startup
             options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
             options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));
             options.AddPolicy("guest", policy => policy.RequireRole("guest"));
-
         });
-
-
 
         services.AddMvc(config =>
         {
@@ -334,7 +297,6 @@ public class Startup
 
         this.Start();
     }
-
 
     private CookieAuthenticationEvents get_sams_authentication_events()
     {
@@ -417,9 +379,7 @@ public class Startup
 
                                 context.Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions { HttpOnly = true });
 
-
                                 session.date_last_updated = DateTime.UtcNow;
-
 
                                 var Session_Message = new mmria.server.model.actor.Session_Message
                                 (
@@ -443,7 +403,6 @@ public class Startup
                                 context.ShouldRenew = true;
                                 return Task.CompletedTask;
                             }
-
                         }
                         catch (Exception ex)
                         {
@@ -473,7 +432,6 @@ public class Startup
             {
                 switch (context.Request.Method.ToLower())
                 {
-
                     case "get":
                     case "put":
                     case "post":
@@ -482,10 +440,15 @@ public class Startup
 
                     if
                     (
-                        (context.Request.Headers.ContainsKey("Content-Length") &&
-                        context.Request.Headers["Content-Length"].Count > 1) ||
-                        (context.Request.Headers.ContainsKey("Transfer-Encoding") &&
-                        context.Request.Headers["Transfer-Encoding"].Count > 1)
+                        (
+                            context.Request.Headers.ContainsKey("Content-Length") &&
+                            context.Request.Headers["Content-Length"].Count > 1
+                        ) 
+                        ||
+                        (
+                            context.Request.Headers.ContainsKey("Transfer-Encoding") &&
+                            context.Request.Headers["Transfer-Encoding"].Count > 1
+                        )
                     )
                     {
                         context.Response.StatusCode = 400;
@@ -495,7 +458,6 @@ public class Startup
                     }
                     else if
                     (
-
                         context.Request.Headers.ContainsKey("Content-Length") &&
                         context.Request.Headers.ContainsKey("Transfer-Encoding")
                     )
@@ -512,26 +474,18 @@ public class Startup
                     )
                     {
                         context.Response.Headers.Add("X-Frame-Options", "DENY");
-                        context.Response.Headers.Add("Content-Security-Policy",
-                            "" +
-                            "frame-ancestors  'none'");
+                        context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none'");
                         context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                         context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
                         context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                         context.Response.Headers.Add("Connection", "close");
                         context.Response.StatusCode = 400;
                         //context.Abort();
-
                     }
                     else
                     {
                         context.Response.Headers.Add("X-Frame-Options", "DENY");
-                        context.Response.Headers.Add
-                        (
-                            "Content-Security-Policy",
-                            "" +
-                            "frame-ancestors  'none'"
-                        );
+                        context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
                         context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                         context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
                         context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
@@ -548,13 +502,6 @@ public class Startup
                 }
             }
         );
-
-
-        var use_sams = false;
-        if (!string.IsNullOrWhiteSpace(Configuration["sams:is_enabled"]))
-        {
-            bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
-        }
 
         app.UseDefaultFiles();
         app.UseStaticFiles();
@@ -642,7 +589,6 @@ public class Startup
         var result = @this;
         if (!string.IsNullOrWhiteSpace(that))
         {
-
             if(int.TryParse(that, out var test_int))
             {
                 @this = test_int;
@@ -663,7 +609,6 @@ public class Startup
         var result = @this;
         if (!string.IsNullOrWhiteSpace(that))
         {
-
             if(bool.TryParse(that, out var test_int))
             {
                 @this = test_int;
