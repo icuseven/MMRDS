@@ -39,7 +39,11 @@ public class Startup
         Program.config_geocode_api_key = "";
         Program.config_geocode_api_url = "";
 
+        //Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
+
+
         Configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
+
         Configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
         Configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref Program.app_instance_name);
         Configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrWhiteSpace(ref Program.metadata_release_version_name);
@@ -64,14 +68,14 @@ public class Startup
         Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout_minutes"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout_minutes"], out test_int) ? test_int : 30;
 
 
-        Program.config_pass_word_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"]) ? 8 : int.Parse(Configuration["password_settings:minimum_length"]);
-        Program.config_pass_word_days_before_expires = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_expires"]) ? 0 : int.Parse(Configuration["password_settings:days_before_expires"]);
-        Program.config_pass_word_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_user_is_notified_of_expiration"]) ? 0 : int.Parse(Configuration["password_settings:days_before_user_is_notified_of_expiration"]);
+        Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, Configuration["password_settings:minimum_length"], 8);
+        Program.config_pass_word_days_before_expires = SetFromIfHasValue(Program.config_pass_word_days_before_expires, Configuration["password_settings:days_before_expires"], 0);
+        Program.config_pass_word_days_before_user_is_notified_of_expiration = SetFromIfHasValue(Program.config_pass_word_days_before_user_is_notified_of_expiration, Configuration["password_settings:days_before_user_is_notified_of_expiration"], 0);
 
-        Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["authentication_settings:default_days_in_effective_date_interval"]) ? 0 : int.Parse(Configuration["authentication_settings:default_days_in_effective_date_interval"]);
-        Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]) ? 5 : int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
-        Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]) ? 120 : int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
-        Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]) ? 15 : int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
+        Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, Configuration["authentication_settings:default_days_in_effective_date_interval"], 0);
+        Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
+        Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
+        Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
 
 
 
@@ -125,61 +129,61 @@ public class Startup
             
             System.Environment.GetEnvironmentVariable("vitals_url")
                 .SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
-            Configuration["mmria_settings:vitals_url"].SetFromIfHasValue(Program.config_vitals_url);
+            Configuration["mmria_settings:vitals_url"] = SetFromIfHasValue(Configuration["mmria_settings:vitals_url"], Program.config_vitals_url);
 
 
-            Configuration["sams:endpoint_authorization"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_endpoint_authorization"));
+            Configuration["sams:endpoint_authorization"] = SetFromIfHasValue(Configuration["sams:endpoint_authorization"], System.Environment.GetEnvironmentVariable("sams_endpoint_authorization"));
             
-            Configuration["mmria_settings:is_development"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("use_development_settings"));
+            Configuration["mmria_settings:is_development"] = SetFromIfHasValue(Configuration["mmria_settings:is_development"], System.Environment.GetEnvironmentVariable("use_development_settings"));
             
-            Configuration["mmria_settings:metadata_version"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("metadata_version"));
-            Program.metadata_release_version_name.SetFromIfHasValue(System.Environment.GetEnvironmentVariable("metadata_version"));
+            Configuration["mmria_settings:metadata_version"] = SetFromIfHasValue(Configuration["mmria_settings:metadata_version"], System.Environment.GetEnvironmentVariable("metadata_version"));
+            Program.metadata_release_version_name = SetFromIfHasValue(Program.metadata_release_version_name, System.Environment.GetEnvironmentVariable("metadata_version"));
             
-            Configuration["sams:endpoint_token"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_endpoint_token"));
-            Configuration["sams:endpoint_user_info"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_endpoint_user_info"));
-            Configuration["sams:token_validation"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_endpoint_token_validation"));
-            Configuration["sams:user_info_sys"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_endpoint_user_info_sys"));
-            
-
-
-            Configuration["sams:client_id"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_client_id"));
-            Configuration["sams:client_secret"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_client_secret"));
-            Configuration["sams:callback_url"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_callback_url"));
-            Configuration["sams:logout_url"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_logout_url"));
-            Configuration["sams:is_enabled"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("sams_is_enabled"));
-        
-
-            Configuration["is_schedule_enabled"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("is_schedule_enabled"));
-            Configuration["is_db_check_enabled"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("is_db_check_enabled"));
-
-
-            Configuration["mmria_settings:app_instance_name"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("app_instance_name"));
-            Program.app_instance_name.SetFromIfHasValue(Configuration["mmria_settings:app_instance_name"]);
-        
-
-            Configuration["mmria_settings:db_prefix"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("db_prefix"));
-            Program.db_prefix.SetFromIfHasValue(Configuration["mmria_settings:db_prefix"]);
-        
-
-            Configuration["mmria_settings:cdc_instance_pull_list"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("cdc_instance_pull_list"));
-            Program.config_cdc_instance_pull_list.SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_list"]);
-        
-            Configuration["mmria_settings:cdc_instance_pull_db_url"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url"));
-            Program.config_cdc_instance_pull_db_url.SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_db_url"]);
-        
-
-            Configuration["mmria_settings:vitals_service_key"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("vitals_service_key"));
-            Program.vitals_service_key.SetFromIfHasValue(Configuration["mmria_settings:vitals_service_key"]);
-        
-
-            Configuration["mmria_settings:config_id"].SetFromIfHasValue(System.Environment.GetEnvironmentVariable("config_id"));
-            Program.config_id.SetFromIfHasValue(Configuration["mmria_settings:config_id"]);
+            Configuration["sams:endpoint_token"] = SetFromIfHasValue(Configuration["sams:endpoint_token"], System.Environment.GetEnvironmentVariable("sams_endpoint_token"));
+            Configuration["sams:endpoint_user_info"] = SetFromIfHasValue(Configuration["sams:endpoint_user_info"] , System.Environment.GetEnvironmentVariable("sams_endpoint_user_info"));
+            Configuration["sams:token_validation"] = SetFromIfHasValue(Configuration["sams:token_validation"], System.Environment.GetEnvironmentVariable("sams_endpoint_token_validation"));
+            Configuration["sams:user_info_sys"] = SetFromIfHasValue(Configuration["sams:user_info_sys"], System.Environment.GetEnvironmentVariable("sams_endpoint_user_info_sys"));
             
 
-            Program.config_default_days_in_effective_date_interval.SetFromIfHasValue(System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"), 90);
-            Program.config_unsuccessful_login_attempts_number_before_lockout.SetFromIfHasValue(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
-            Program.config_unsuccessful_login_attempts_within_number_of_minutes.SetFromIfHasValue(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"), 120);
-            Program.config_unsuccessful_login_attempts_lockout_number_of_minutes.SetFromIfHasValue(System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_lockout_number_of_minutes"), 15);
+
+            Configuration["sams:client_id"] = SetFromIfHasValue(Configuration["sams:client_id"], System.Environment.GetEnvironmentVariable("sams_client_id"));
+            Configuration["sams:client_secret"] = SetFromIfHasValue(Configuration["sams:client_secret"], System.Environment.GetEnvironmentVariable("sams_client_secret"));
+            Configuration["sams:callback_url"] = SetFromIfHasValue(Configuration["sams:callback_url"], System.Environment.GetEnvironmentVariable("sams_callback_url"));
+            Configuration["sams:logout_url"] = SetFromIfHasValue(Configuration["sams:logout_url"], System.Environment.GetEnvironmentVariable("sams_logout_url"));
+            Configuration["sams:is_enabled"] = SetFromIfHasValue(Configuration["sams:is_enabled"], System.Environment.GetEnvironmentVariable("sams_is_enabled"));
+        
+
+            Configuration["is_schedule_enabled"] = SetFromIfHasValue(Configuration["is_schedule_enabled"], System.Environment.GetEnvironmentVariable("is_schedule_enabled"));
+            Configuration["is_db_check_enabled"] = SetFromIfHasValue(Configuration["is_db_check_enabled"], System.Environment.GetEnvironmentVariable("is_db_check_enabled"));
+
+
+            Configuration["mmria_settings:app_instance_name"] = SetFromIfHasValue(Configuration["mmria_settings:app_instance_name"], System.Environment.GetEnvironmentVariable("app_instance_name"));
+            Program.app_instance_name = SetFromIfHasValue(Program.app_instance_name, Configuration["mmria_settings:app_instance_name"]);
+        
+
+            Configuration["mmria_settings:db_prefix"] = SetFromIfHasValue(Configuration["mmria_settings:db_prefix"], System.Environment.GetEnvironmentVariable("db_prefix"));
+            Program.db_prefix = SetFromIfHasValue(Program.db_prefix, Configuration["mmria_settings:db_prefix"]);
+        
+
+            Configuration["mmria_settings:cdc_instance_pull_list"] = SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_list"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_list"));
+            Program.config_cdc_instance_pull_list = SetFromIfHasValue(Program.config_cdc_instance_pull_list, Configuration["mmria_settings:cdc_instance_pull_list"]);
+        
+            Configuration["mmria_settings:cdc_instance_pull_db_url"] = SetFromIfHasValue(Configuration["mmria_settings:cdc_instance_pull_db_url"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url"));
+            Program.config_cdc_instance_pull_db_url = SetFromIfHasValue(Program.config_cdc_instance_pull_db_url, Configuration["mmria_settings:cdc_instance_pull_db_url"]);
+        
+
+            Configuration["mmria_settings:vitals_service_key"] = SetFromIfHasValue(Configuration["mmria_settings:vitals_service_key"], System.Environment.GetEnvironmentVariable("vitals_service_key"));
+            Program.vitals_service_key = SetFromIfHasValue(Program.vitals_service_key, Configuration["mmria_settings:vitals_service_key"]);
+        
+
+            Configuration["mmria_settings:config_id"] = SetFromIfHasValue(Configuration["mmria_settings:config_id"], System.Environment.GetEnvironmentVariable("config_id"));
+            Program.config_id = SetFromIfHasValue(Program.config_id, Configuration["mmria_settings:config_id"]);
+            
+
+            Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"), 90);
+            Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
+            Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"), 120);
+            Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_lockout_number_of_minutes"), 15);
 
         }
 
@@ -604,6 +608,76 @@ public class Startup
 
         return result;
     }
+
+
+    public static string SetFromIfHasValue(string @this, string that)
+    {
+        var result = @this;
+
+        if (!string.IsNullOrWhiteSpace(that))
+        {
+            @this = that;
+        }
+
+        return result;
+    }
+
+    public static bool SetFromIfHasValue(bool @this, string that)
+    {
+        var result = @this;
+        if (!string.IsNullOrWhiteSpace(that))
+        {
+            if(bool.TryParse(that, out var test_bool))
+            {
+                @this = test_bool;
+            }
+        }
+
+        return result;
+    }
+
+
+    public static int SetFromIfHasValue(int @this, string that, int defaultValue)
+    {
+        var result = @this;
+        if (!string.IsNullOrWhiteSpace(that))
+        {
+
+            if(int.TryParse(that, out var test_int))
+            {
+                @this = test_int;
+            }
+            else @this = defaultValue;
+        }
+        else
+        {
+            @this = defaultValue;
+        }
+
+        return result;
+    }
+
+
+    public static bool SetFromIfHasValue(bool @this, string that, bool defaultValue)
+    {
+        var result = @this;
+        if (!string.IsNullOrWhiteSpace(that))
+        {
+
+            if(bool.TryParse(that, out var test_int))
+            {
+                @this = test_int;
+            }
+            else @this = defaultValue;
+        }
+        else
+        {
+            @this = defaultValue;
+        }
+
+        return result;
+    }
+
 }
 
 
