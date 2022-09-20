@@ -88,12 +88,12 @@ italic_start_tag = '<i>'
 italic_end_tag = '</i>'
 
 
-unordered_list_tag = unordered_list_start_tag blank_space list_item_tag* blank_space unordered_list_end_tag
+unordered_list_tag = unordered_list_start_tag (blank_space list_item_tag)* blank_space unordered_list_end_tag
 unordered_list_start_tag = '<ul>'
 unordered_list_end_tag = '</ul>'
 
 
-ordered_list_tag = ordered_list_start_tag  blank_space list_item_tag* blank_space ordered_list_end_tag
+ordered_list_tag = ordered_list_start_tag  (blank_space list_item_tag)* blank_space ordered_list_end_tag
 ordered_list_start_tag = '<ol>'
 ordered_list_end_tag = '</ol>'
 
@@ -101,12 +101,12 @@ list_item_tag = list_item_start_tag (inner_text)* list_item_end_tag
 list_item_start_tag = '<li>'
 list_item_end_tag = '</li>'
 
-table_tag = table_start_tag blank_space (table_row_tag)* blank_space table_end_tag
+table_tag = table_start_tag (blank_space table_row_tag)* blank_space table_end_tag
 table_start_tag = '<table>'  / '<table ' + table_attribue_list + '>' 
 table_end_tag = '</table>'
 
 
-table_row_tag = table_row_start_tag blank_space (table_header_tag / table_detail_tag)* blank_space table_row_end_tag
+table_row_tag = table_row_start_tag (blank_space table_header_tag / blank_space table_detail_tag)* blank_space table_row_end_tag
 table_row_start_tag = '<tr>' / '<tr ' + table_attribue_list + '>' 
 table_row_end_tag = '</tr>'
 
