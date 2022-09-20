@@ -19,9 +19,7 @@ using System.Security.Claims;
 using mmria.server.authentication;
 using mmria.server.extension;
 
-
 namespace mmria.server;
-
 
 public class Startup
 {
@@ -31,7 +29,6 @@ public class Startup
     {
         Configuration = configuration;
     }
-
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -313,22 +310,22 @@ public class Startup
 
         services.AddMvc(config =>
         {
-        var policy = new AuthorizationPolicyBuilder()
-                                .RequireAuthenticatedUser()
-                                .Build();
-        config.Filters.Add(new AuthorizeFilter(policy));
+            var policy = new AuthorizationPolicyBuilder()
+                            .RequireAuthenticatedUser()
+                            .Build();
+            config.Filters.Add(new AuthorizeFilter(policy));
 
-        config.CacheProfiles.Add("NoStore",
+            config.CacheProfiles.Add
+            (
+                "NoStore",
                 new Microsoft.AspNetCore.Mvc.CacheProfile()
                 {
-                NoStore = true
-                });
+                    NoStore = true
+                }
+            );
         });
 
         services.AddControllers().AddNewtonsoftJson();
-
-
-
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         this.Start();
@@ -350,110 +347,109 @@ public class Startup
 
         var result = new CookieAuthenticationEvents
         {
-        OnValidatePrincipal = context =>
-        {
-            //check to see if user is authenticated first
-            if (context.Principal.Identity.IsAuthenticated)
+            OnValidatePrincipal = context =>
             {
-
-
-            var expires_at = context.Request.Cookies["expires_at"];
-
-            var expires_at_time = DateTimeOffset.Parse(expires_at);
-
-            if (expires_at_time.DateTime < DateTime.Now)
-            {
-                try
+                //check to see if user is authenticated first
+                if (context.Principal.Identity.IsAuthenticated)
                 {
-                var sid = context.Request.Cookies["sid"];
+                    var expires_at = context.Request.Cookies["expires_at"];
+                    var expires_at_time = DateTimeOffset.Parse(expires_at);
 
-                string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{sid}";
-                var curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-                string session_json = curl.execute();
-                var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(session_json);
-
-                var userName = context.Principal.Identities.First(
-                                u => u.IsAuthenticated &&
-                                u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
-
-                if (!userName.Equals(session.user_id, StringComparison.OrdinalIgnoreCase))
-                {
-                    context.RejectPrincipal();
-                    return Task.CompletedTask;
-                }
-
-                var accessToken = session.data["access_token"];
-                var refreshToken = session.data["refresh_token"];
-                var exp = session.data["expires_at"];
-                expires_at_time = DateTimeOffset.Parse(exp);
-
-                // server-side check for expiration
-                if (expires_at_time.DateTime < DateTime.Now)
-                {
-                    //token is expired, let's attempt to renew
-                    var tokenEndpoint = sams_endpoint_token;
-                    var tokenClient = new mmria.server.utils.TokenClient(Configuration);
-
-                    //var name = HttpContext.Session.GetString(SessionKeyName);
-                    //var name = HttpContext.Session.GetString(SessionKeyName);
-
-                    var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
-                    //check for error while renewing - any error will trigger a new login.
-                    if (tokenResponse.is_error)
+                    if (expires_at_time.DateTime < DateTime.Now)
                     {
-                    //reject Principal
-                    context.RejectPrincipal();
-                    return Task.CompletedTask;
-                    }
-                    //set new token values
-                    refreshToken = tokenResponse.refresh_token;
-                    accessToken = tokenResponse.access_token;
-                    var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
+                        try
+                        {
+                            var sid = context.Request.Cookies["sid"];
 
-                    session.data["access_token"] = accessToken;
-                    session.data["refresh_token"] = refreshToken;
-                    session.data["expires_at"] = unix_time.ToString();
+                            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{sid}";
+                            var curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                            string session_json = curl.execute();
+                            var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(session_json);
 
-                    context.Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions { HttpOnly = true });
-
-
-                    session.date_last_updated = DateTime.UtcNow;
-
-
-                    var Session_Message = new mmria.server.model.actor.Session_Message
+                            var userName = context.Principal.Identities.First
                             (
-                                session._id, //_id = 
-                                session._rev, //_rev = 
-                                session.date_created, //date_created = 
-                                session.date_last_updated, //date_last_updated = 
-                                session.date_expired, //date_expired = 
+                                u => u.IsAuthenticated &&
+                                u.HasClaim(c => c.Type == ClaimTypes.Name)
+                            ).FindFirst(ClaimTypes.Name).Value;
 
-                                session.is_active, //is_active = 
-                                session.user_id, //user_id = 
-                                session.ip, //ip = 
-                                session.session_event_id, // session_event_id = 
-                                session.role_list,
-                                session.data
-                            );
 
-                    Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                            if (!userName.Equals(session.user_id, StringComparison.OrdinalIgnoreCase))
+                            {
+                                context.RejectPrincipal();
+                                return Task.CompletedTask;
+                            }
 
-                    //trigger context to renew cookie with new token values
-                    context.ShouldRenew = true;
-                    return Task.CompletedTask;
+                            var accessToken = session.data["access_token"];
+                            var refreshToken = session.data["refresh_token"];
+                            var exp = session.data["expires_at"];
+                            expires_at_time = DateTimeOffset.Parse(exp);
+
+                            // server-side check for expiration
+                            if (expires_at_time.DateTime < DateTime.Now)
+                            {
+                                //token is expired, let's attempt to renew
+                                var tokenEndpoint = sams_endpoint_token;
+                                var tokenClient = new mmria.server.utils.TokenClient(Configuration);
+
+                                //var name = HttpContext.Session.GetString(SessionKeyName);
+                                //var name = HttpContext.Session.GetString(SessionKeyName);
+
+                                var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
+                                //check for error while renewing - any error will trigger a new login.
+                                if (tokenResponse.is_error)
+                                {
+                                    //reject Principal
+                                    context.RejectPrincipal();
+                                    return Task.CompletedTask;
+                                }
+                                //set new token values
+                                refreshToken = tokenResponse.refresh_token;
+                                accessToken = tokenResponse.access_token;
+                                var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
+
+                                session.data["access_token"] = accessToken;
+                                session.data["refresh_token"] = refreshToken;
+                                session.data["expires_at"] = unix_time.ToString();
+
+                                context.Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions { HttpOnly = true });
+
+
+                                session.date_last_updated = DateTime.UtcNow;
+
+
+                                var Session_Message = new mmria.server.model.actor.Session_Message
+                                (
+                                    session._id, //_id = 
+                                    session._rev, //_rev = 
+                                    session.date_created, //date_created = 
+                                    session.date_last_updated, //date_last_updated = 
+                                    session.date_expired, //date_expired = 
+
+                                    session.is_active, //is_active = 
+                                    session.user_id, //user_id = 
+                                    session.ip, //ip = 
+                                    session.session_event_id, // session_event_id = 
+                                    session.role_list,
+                                    session.data
+                                );
+
+                                Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+
+                                //trigger context to renew cookie with new token values
+                                context.ShouldRenew = true;
+                                return Task.CompletedTask;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            // do nothing for now document doesn't exsist.
+                            System.Console.WriteLine($"err caseController.Post\n{ex}");
+                        }
+                    }
                 }
-
-                }
-                catch (Exception ex)
-                {
-                // do nothing for now document doesn't exsist.
-                System.Console.WriteLine($"err caseController.Post\n{ex}");
-                }
+                return Task.CompletedTask;
             }
-            }
-            return Task.CompletedTask;
-        }
         };
 
         return result;
@@ -462,8 +458,6 @@ public class Startup
     [Obsolete]
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-
-
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -473,100 +467,99 @@ public class Startup
         (
             async (context, next) =>
             {
-            switch (context.Request.Method.ToLower())
-            {
-
-                case "get":
-                case "put":
-                case "post":
-                case "head":
-                case "delete":
-
-                if
-                        (
-                            (context.Request.Headers.ContainsKey("Content-Length") &&
-                            context.Request.Headers["Content-Length"].Count > 1) ||
-                            (context.Request.Headers.ContainsKey("Transfer-Encoding") &&
-                            context.Request.Headers["Transfer-Encoding"].Count > 1)
-                        )
+                switch (context.Request.Method.ToLower())
                 {
+
+                    case "get":
+                    case "put":
+                    case "post":
+                    case "head":
+                    case "delete":
+
+                    if
+                    (
+                        (context.Request.Headers.ContainsKey("Content-Length") &&
+                        context.Request.Headers["Content-Length"].Count > 1) ||
+                        (context.Request.Headers.ContainsKey("Transfer-Encoding") &&
+                        context.Request.Headers["Transfer-Encoding"].Count > 1)
+                    )
+                    {
+                        context.Response.StatusCode = 400;
+                        context.Response.Headers.Add("Connection", "close");
+                        //context.Abort();
+                        //context.RequestAborted.Session
+                    }
+                    else if
+                    (
+
+                        context.Request.Headers.ContainsKey("Content-Length") &&
+                        context.Request.Headers.ContainsKey("Transfer-Encoding")
+                    )
+                    {
+                        context.Response.StatusCode = 400;
+                        context.Response.Headers.Add("Connection", "close");
+                        // context.Abort();
+                    }
+                    else if
+                    (
+                        context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                        context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                        context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+                    )
+                    {
+                        context.Response.Headers.Add("X-Frame-Options", "DENY");
+                        context.Response.Headers.Add("Content-Security-Policy",
+                            "" +
+                            "frame-ancestors  'none'");
+                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                        context.Response.Headers.Add("Connection", "close");
+                        context.Response.StatusCode = 400;
+                        //context.Abort();
+
+                    }
+                    else
+                    {
+                        context.Response.Headers.Add("X-Frame-Options", "DENY");
+                        context.Response.Headers.Add
+                        (
+                            "Content-Security-Policy",
+                            "" +
+                            "frame-ancestors  'none'"
+                        );
+                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+
+                        await next();
+                    }
+
+                    break;
+                    default:
                     context.Response.StatusCode = 400;
                     context.Response.Headers.Add("Connection", "close");
                     //context.Abort();
-                    //context.RequestAborted.Session
+                    break;
                 }
-                else if
-                        (
-
-                            context.Request.Headers.ContainsKey("Content-Length") &&
-                            context.Request.Headers.ContainsKey("Transfer-Encoding")
-                        )
-                {
-                    context.Response.StatusCode = 400;
-                    context.Response.Headers.Add("Connection", "close");
-                    // context.Abort();
-                }
-                else if
-                        (
-                            context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
-                            context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
-                            context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
-                        )
-                {
-                    context.Response.Headers.Add("X-Frame-Options", "DENY");
-                    context.Response.Headers.Add("Content-Security-Policy",
-                        "" +
-                        "frame-ancestors  'none'");
-                    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                    context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-                    context.Response.Headers.Add("Connection", "close");
-                    context.Response.StatusCode = 400;
-                    //context.Abort();
-
-                }
-                else
-                {
-                    context.Response.Headers.Add("X-Frame-Options", "DENY");
-                    context.Response.Headers.Add("Content-Security-Policy",
-                        "" +
-                        "frame-ancestors  'none'");
-                    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                    context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-
-                    await next();
-                }
-
-                break;
-                default:
-                context.Response.StatusCode = 400;
-                context.Response.Headers.Add("Connection", "close");
-                //context.Abort();
-                break;
-            }
             }
         );
 
 
         var use_sams = false;
-
         if (!string.IsNullOrWhiteSpace(Configuration["sams:is_enabled"]))
         {
-        bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
+            bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
         }
 
         app.UseDefaultFiles();
-
         app.UseStaticFiles();
-
-
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
-        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+            endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
         });
 
 
