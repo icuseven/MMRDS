@@ -51,7 +51,7 @@ public class Startup
         Configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrWhiteSpace(ref Program.vitals_service_key);
         Configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref Program.config_id );
 
-        var test_int = 0;
+
         //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
         //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
         Program.config_couchdb_url = Configuration["mmria_settings:couchdb_url"];
@@ -62,7 +62,7 @@ public class Startup
         Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
         Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
-        Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout_minutes"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout_minutes"], out test_int) ? test_int : 30;
+        Configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
 
         Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, Configuration["password_settings:minimum_length"], 8);
         Program.config_pass_word_days_before_expires = SetFromIfHasValue(Program.config_pass_word_days_before_expires, Configuration["password_settings:days_before_expires"], 0);
