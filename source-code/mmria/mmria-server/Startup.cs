@@ -1,97 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Akka.Actor;
-using Akka.Quartz.Actor;
 
 using Quartz;
 using Quartz.Impl;
 using Serilog;
-using Serilog.Configuration;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Security.Claims;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Http;
 using mmria.server.authentication;
+using mmria.server.extension;
 
 
 namespace mmria.server;
 
-public static class StartupExtension
-{
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref bool that)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            bool.TryParse(@this, out that);
-        }
-    }
 
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref bool that, bool defaultValue)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            if(!bool.TryParse(@this, out that))
-                that = defaultValue;
-        }
-        else that = defaultValue;
-
-
-    }
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref string that)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            that = @this;
-        }
-    }
-
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref string that, string defaultValue)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            that = @this;
-        }
-        else that = defaultValue;
-    }
-
-
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref int that)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            int.TryParse(@this, out that);
-        }
-    }
-
-    public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref int that, int defaultValue)
-    {
-        if (!string.IsNullOrWhiteSpace(@this))
-        {
-            if(!int.TryParse(@this, out that))
-                that = defaultValue;
-        
-        }
-        else that = defaultValue;
-    }
-}
 public class Startup
 {
     public IConfiguration Configuration { get; }
@@ -635,9 +566,8 @@ private CookieAuthenticationEvents get_sams_authentication_events()
     return result;
 }
 
-
-
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    [Obsolete]
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
 
 
