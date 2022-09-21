@@ -4,7 +4,7 @@ using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
+
 using mmria.services.vitalsimport.Actors.VitalsImport;
 using mmria.services.vitalsimport.Messages;
 using System;

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
+
 using mmria.services.vitalsimport.Actors.VitalsImport;
 using mmria.services.vitalsimport.Messages;
 using System;
@@ -38,36 +38,12 @@ namespace mmria.services.vitalsimport.Controllers
             object status = new
             {
                 alive = true,
-                RabbitMQ_Alive = IsRabbitMQConnectionAlive()
+                //RabbitMQ_Alive = IsRabbitMQConnectionAlive()
             };
 
             health = JsonConvert.SerializeObject(status);
 
             return Ok(health);
-        }
-
-        private bool IsRabbitMQConnectionAlive()
-        {
-            bool isAlive = false;
-
-            try
-            {
-                string rabbitMQHostName = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME");
-                Console.WriteLine($"RabbitMQ Host = {rabbitMQHostName}");
-
-                var factory = new ConnectionFactory() { HostName = rabbitMQHostName };
-
-                using (var connection = factory.CreateConnection())
-                {
-                    isAlive = true;
-                }
-            }
-            catch (Exception)
-            {
-                //This is for monitoring, eat the error
-            }
-
-            return isAlive;
         }
 
         [HttpPost("Read")]
