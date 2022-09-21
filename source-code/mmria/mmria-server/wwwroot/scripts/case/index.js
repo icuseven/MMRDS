@@ -97,7 +97,7 @@ ordered_list_tag = ordered_list_start_tag  (blank_space list_item_tag)* blank_sp
 ordered_list_start_tag = '<ol>'
 ordered_list_end_tag = '</ol>'
 
-list_item_tag = list_item_start_tag (inner_text)* list_item_end_tag
+list_item_tag = list_item_start_tag (inner_text / in_line_able_tag)* list_item_end_tag
 list_item_start_tag = '<li>'
 list_item_end_tag = '</li>'
 
@@ -110,11 +110,11 @@ table_row_tag = table_row_start_tag (blank_space table_header_tag / blank_space 
 table_row_start_tag = '<tr>' / '<tr ' + table_attribue_list + '>' 
 table_row_end_tag = '</tr>'
 
-table_header_tag = table_header_start_tag (inner_text)* table_header_end_tag
+table_header_tag = table_header_start_tag (blank_space inner_text / blank_space in_line_able_tag)* blank_space table_header_end_tag
 table_header_start_tag = '<th>' / '<th ' + table_attribue_list + '>' 
 table_header_end_tag = '</th>'
 
-table_detail_tag = table_detail_start_tag (inner_text)* table_detail_end_tag
+table_detail_tag = table_detail_start_tag (blank_space inner_text / blank_space in_line_able_tag)* blank_space table_detail_end_tag
 table_detail_start_tag = '<td>' / '<td ' + table_attribue_list + '>' 
 table_detail_end_tag = '</td>'
 
@@ -141,7 +141,9 @@ name_value_pair = color_name + ':#' + color_hex_value
 
 
 font_family_name = 'font-family'
-font_family_value = [ a-zA-Z0-9,]*
+font_family_value = 'Times New Roman' /  'Calibri' / 'Ariel' / 'Helvetica' / 'Times' / 'serif' / 'sans-serif' / 'monospace'
+
+/* font_family_value = [ a-zA-Z0-9,]* */
 
 font_size_name = 'font-size'
 font_size_value = '9pt' / '11pt' / '12pt' / '14pt' / '16pt' / '18pt'
