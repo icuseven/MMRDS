@@ -563,7 +563,7 @@ public class Startup
 
         if (!string.IsNullOrWhiteSpace(that))
         {
-            @this = that;
+            result = that;
         }
 
         return result;
@@ -576,7 +576,7 @@ public class Startup
         {
             if(bool.TryParse(that, out var test_bool))
             {
-                @this = test_bool;
+                result = test_bool;
             }
         }
 
@@ -591,13 +591,13 @@ public class Startup
         {
             if(int.TryParse(that, out var test_int))
             {
-                @this = test_int;
+                result = test_int;
             }
-            else @this = defaultValue;
+            else result = defaultValue;
         }
         else
         {
-            @this = defaultValue;
+            result = defaultValue;
         }
 
         return result;
@@ -611,13 +611,13 @@ public class Startup
         {
             if(bool.TryParse(that, out var test_int))
             {
-                @this = test_int;
+                result = test_int;
             }
-            else @this = defaultValue;
+            else result = defaultValue;
         }
         else
         {
-            @this = defaultValue;
+            result = defaultValue;
         }
 
         return result;
