@@ -71,6 +71,8 @@ public class FileCompressor : ReceiveActor
             string root_folder = db_config_set.name_value["backup_storage_root_folder"];
 
             var suffix = "-ready-for-compression.txt";
+
+            var directory_info_list = new List<System.IO.DirectoryInfo>();
             foreach(var directory_path in System.IO.Directory.GetDirectories(root_folder))
             {
 
@@ -78,7 +80,23 @@ public class FileCompressor : ReceiveActor
                 var target_folder = directory.FullName;
                 var date_string = directory.Name;
 
-                foreach(var f in directory.GetFiles())
+                foreach(var f in directory.GetFiles().OrderBy(x=> x.LastWriteTime))
+                {
+                    if (f.Name.EndsWith(suffix))
+                    {
+                        directory_info_list.Add(directory);
+                        break;
+                    }
+                }
+
+            }
+
+            foreach(var directory in directory_info_list.OrderBy(x=> x.LastWriteTime))
+            {
+                var target_folder = directory.FullName;
+                var date_string = directory.Name;
+
+                foreach(var f in directory.GetFiles().OrderBy(x=> x.LastWriteTime))
                 {
                     if (f.Name.EndsWith(suffix))
                     {
