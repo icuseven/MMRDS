@@ -122,10 +122,10 @@ table_detail_end_tag = '</td>'
 style_attribute =  'style="' + name_value_list + '"'
 
 name_value_list = name_value_pair / (name_value_pair + ';')+
-name_value_pair = color_name + ':#' + color_hex_value
-/ color_name + ': #' + color_hex_value
-/ backgroud_color_name + ':#' + color_hex_value 
-/ backgroud_color_name + ': #' + color_hex_value
+name_value_pair = color_name + ':' + color_value
+/ color_name + ': ' + color_value
+/ backgroud_color_name + ':' + color_value 
+/ backgroud_color_name + ': ' + color_value
 / text_align_name + ':' + align_attribute_value
 / text_align_name + ': ' + align_attribute_value
 / vertical_align_name + ':' + vertical_align_value
@@ -150,7 +150,10 @@ font_size_value = '9pt' / '11pt' / '12pt' / '14pt' / '16pt' / '18pt'
 
 color_name = 'color'
 backgroud_color_name = 'background-color'
-color_hex_value = [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+
+color_value = color_hex_value / color_name_value
+color_hex_value = '#' + [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+color_name_value = 'black' / 'red' / 'yellow' / 'green' / 'purple' / 'orange'
 
 
 vertical_align_name = 'vertical-align'
