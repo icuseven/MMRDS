@@ -307,8 +307,25 @@ function render_audit_for(p_revision_id)
     else
     {
         const change = results[0];
-        result.push(`number of changes: ${change.items.length} `);
-        result.push(change.note);
+        result.push(`
+        
+        <ul>
+        <li>results.length: ${results.length}</li>
+        <li>date_created: ${change.date_created}</li>
+        <li>user_name: ${change.user_name}</li>
+        <li>number of changes: ${change.items.length} </li>
+        <li>note: ${change.note}</li>
+        `);
+
+        for(const c in change.items)
+        {
+            result.push(`<li>dictionary_value: ${change.items[c].dictionary_path}</li>`);
+        }
+
+        
+
+        result.push('</ul>');
+        
     }
 
     return result.join("");
