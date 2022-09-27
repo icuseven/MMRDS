@@ -50,7 +50,7 @@ const g_cvs_api_request_data = new Map();
 
 
 const peg_parser = peg.generate(`
-start = html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)* blank_space html_end_tag
+start = blank_space html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)* blank_space html_end_tag blank_space
 html_start_tag = '<html>'
 html_end_tag = '</html>'
 
