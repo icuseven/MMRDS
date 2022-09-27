@@ -240,7 +240,7 @@ async function show_versions_for_id_click(p_id)
 
     view_model.selected_revision_result = await get_case_revision_list(p_id);
 
-    //view_model.audit_change_set_list = await get_audit_change_set_list(p_id);
+    view_model.audit_change_set_list = await get_audit_change_set_list(p_id);
 
     render();
 }
@@ -287,18 +287,31 @@ function render_versions_for_selected_id()
 
 function render_audit_for(p_revision_id)
 {
+    const result = [];
+
+    function is_rev(x) 
+    {
+        return x.case_rev == p_revision_id; 
+    } 
+
     if(view_model.audit_change_set_list == null)
     {
         return "";
     }
 
-    const index = view_model.audit_change_set_list.ls.indexOf(p_revision_id);
-    if(index < 0)
+    const results = view_model.audit_change_set_list.ls.filter(is_rev);
+    if(results.length < 1)
     {
         return "";
     }
+    else
+    {
+        const change = results[0];
+        result.push(`number of changes: ${change.items.length} `);
+        result.push(change.note);
+    }
 
-    return view_model.audit_change_set_list.ls[index].note;
+    return result.join("");
 }
 
 async function pdf_case_onclick(jurisdiction_id, case_id, revision_id) 
