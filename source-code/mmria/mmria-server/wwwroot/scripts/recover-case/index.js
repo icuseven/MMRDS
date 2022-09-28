@@ -262,10 +262,17 @@ function render_versions_for_selected_id()
         let rev_start = view_model.selected_revision_result._revisions.start;
         for(var i in array)
         {
-            let rev_id = `${rev_start}-${array[i]}`;
+            //let rev_id = `${rev_start}-${array[i]}`;
+            let next_rev_id = ``;
+            const j = parseInt(i)+1;
+            if(j < array.length - 1)
+            {
+                
+                next_rev_id = `${rev_start -1}-${array[j]}`;
+            }
             result.push(`
                 <li>
-                    ${array[i]} ${render_audit_for(rev_id)}
+                    ${array[i]} ${render_audit_for(next_rev_id)}
                     [ 
                         <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${rev_start}-${array[i]}" target="_blank">View</a> 
                     |
@@ -319,7 +326,12 @@ function render_audit_for(p_revision_id)
 
         for(const c in change.items)
         {
-            result.push(`<li>dictionary_value: ${change.items[c].dictionary_path}</li>`);
+            let new_value = change.items[c].new_value;
+            if(new_value != null && new_value.length > 20)
+            {
+                new_value = new_value.substring(0, 20);
+            }
+            result.push(`<li>${change.items[c].dictionary_path} -> ${new_value}</li>`);
         }
 
         
