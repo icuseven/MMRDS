@@ -330,11 +330,11 @@ function render_audit_for(p_revision_id)
             {
                 const max_number_of_characters = 100;
 
+                const ci = change.items[c];
 
-
-                let new_value = change.items[c].new_value;
+                let new_value = ci.new_value;
                 
-                const value_lookup = g_value_to_display_lookup[change.items[c].dictionary_path];
+                const value_lookup = g_value_to_display_lookup[ci.dictionary_path];
                 if(value_lookup != null)
                 {
                     new_value = `${new_value} : ${value_lookup[new_value]}`;
@@ -343,7 +343,20 @@ function render_audit_for(p_revision_id)
                 {
                     new_value = new_value.substring(0, max_number_of_characters).replace(/</g,"&lt;");
                 }
-                result.push(`<li>${change.items[c].dictionary_path} -> ${new_value}</li>`);
+
+                let form_index = '';
+                let grid_index = '';
+
+                if(ci.form_index != null)
+                {
+                    form_index = 'f: ' + ci.form_index;
+                }
+
+                if(ci.grid_index != null)
+                {
+                	grid_index = 'g: ' + ci.grid_index;
+                }
+                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value}</li>`);
             }
 
             
