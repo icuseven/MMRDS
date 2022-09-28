@@ -319,7 +319,7 @@ function render_audit_for(p_revision_id)
             result.push(`
             
             <ul>
-            <li>results.length: ${results.length}</li>
+            <li>stack ${parseInt(result_index) + 1} of ${results.length}</li>
             <li>date_created: ${change.date_created}</li>
             <li>user_name: ${change.user_name}</li>
             <li>number of changes: ${change.items.length} </li>
