@@ -44,8 +44,8 @@ async function main()
     });
 
     g_metadata = metadata_response;
-/*
-    build_other_specify_lookup(g_other_specify_lookup, g_metadata);
+
+    //build_other_specify_lookup(g_other_specify_lookup, g_metadata);
 
     set_list_lookup
     (
@@ -61,7 +61,7 @@ async function main()
       const child = g_metadata.lookup[i];
 
       g_look_up['lookup/' + child.name] = child.values;
-    }*/
+    }/**/
 
 
 
@@ -313,30 +313,43 @@ function render_audit_for(p_revision_id)
     }
     else
     {
-        const change = results[0];
-        result.push(`
-        
-        <ul>
-        <li>results.length: ${results.length}</li>
-        <li>date_created: ${change.date_created}</li>
-        <li>user_name: ${change.user_name}</li>
-        <li>number of changes: ${change.items.length} </li>
-        <li>note: ${change.note}</li>
-        `);
-
-        for(const c in change.items)
+        for(const result_index in results)
         {
-            let new_value = change.items[c].new_value;
-            if(new_value != null && new_value.length > 20)
+            const change = results[result_index];
+            result.push(`
+            
+            <ul>
+            <li>results.length: ${results.length}</li>
+            <li>date_created: ${change.date_created}</li>
+            <li>user_name: ${change.user_name}</li>
+            <li>number of changes: ${change.items.length} </li>
+            <li>note: ${change.note}</li>
+            `);
+
+            for(const c in change.items)
             {
-                new_value = new_value.substring(0, 20);
+                const max_number_of_characters = 100;
+
+
+
+                let new_value = change.items[c].new_value;
+                
+                const value_lookup = g_value_to_display_lookup[change.items[c].dictionary_path];
+                if(value_lookup != null)
+                {
+                    new_value = `${new_value} : ${value_lookup[new_value]}`;
+                }
+                else if(new_value != null && new_value.length > max_number_of_characters)
+                {
+                    new_value = new_value.substring(0, max_number_of_characters).replace(/</g,"&lt;");
+                }
+                result.push(`<li>${change.items[c].dictionary_path} -> ${new_value}</li>`);
             }
-            result.push(`<li>${change.items[c].dictionary_path} -> ${new_value}</li>`);
+
+            
+
+            result.push('</ul>');
         }
-
-        
-
-        result.push('</ul>');
         
     }
 
@@ -393,4 +406,78 @@ function openTab(pageRoute, tabName, p_section, p_metadata, p_data, p_show_hidde
     }
 }
 
+function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
+{
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, child, p_path + "/" + child.name);
+            }
+
+            break;
+
+        default:
+            if(p_metadata.type.toLowerCase() == "list")
+            {
+                let data_value_list = p_metadata.values;
+
+                if(p_metadata.path_reference && p_metadata.path_reference != "")
+                {
+                    data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+            
+                    if(data_value_list == null)	
+                    {
+                        data_value_list = p_metadata.values;
+                    }
+                }
+    
+                p_list_lookup[p_path] = {};
+                p_name_to_value_lookup[p_path] = {};
+                p_value_to_index_number_lookup[p_path] = {};
+
+                for(let i = 0; i < data_value_list.length; i++)
+                {
+                    let item = data_value_list[i];
+                    p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
+                    p_name_to_value_lookup[p_path][item.value] = item.display.toLowerCase();
+                    p_value_to_index_number_lookup[p_path][item.value] = i;
+                }
+            }
+            break;
+    }
+}
+
+
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	let result = null;
+	let temp_result = []
+	let temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	let index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	let lookup_list = eval(temp_result[0]);
+
+	for(let i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
+}
 
