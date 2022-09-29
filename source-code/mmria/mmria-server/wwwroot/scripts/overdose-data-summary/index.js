@@ -133,6 +133,8 @@ function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
 
+    let date_changed = arr[0] > 1900 ? false :true;
+
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
 
@@ -142,6 +144,14 @@ function review_begin_date_change(p_value)
         g_filter.date_of_review.begin = test_date;
         const el = document.getElementById("review_end_date");
         el.setAttribute("min", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+            
+            const el2 = document.getElementById("review_begin_date");
+            el2.value = ControlFormatDate(g_filter.date_of_review.begin);
+        }
     }
     else
     {
@@ -153,6 +163,7 @@ function review_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     
+    let date_changed = arr[0] > 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -162,6 +173,14 @@ function review_end_date_change(p_value)
         g_filter.date_of_review.end = test_date;
         const el = document.getElementById("review_begin_date");
         el.setAttribute("max", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("review_end_date");
+            el2.value = ControlFormatDate(g_filter.date_of_review.end);
+        }
     }
     else
     {
@@ -173,6 +192,7 @@ function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
     
+    let date_changed = arr[0] > 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -182,6 +202,14 @@ function death_begin_date_change(p_value)
         g_filter.date_of_death.begin = test_date;
         const el = document.getElementById("death_end_date");
         el.setAttribute("min", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("death_begin_date");
+            el2.value = ControlFormatDate(g_filter.date_of_death.begin);
+        }
     }
     else
     {
@@ -193,6 +221,7 @@ function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     
+    let date_changed = arr[0] > 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -200,12 +229,21 @@ function death_end_date_change(p_value)
     if(test_date <= current_date && g_filter.date_of_death.begin <=  test_date)
     {
         g_filter.date_of_death.end = test_date;
-        const el = document.getElementById("death_end_date");
+        const el = document.getElementById("death_begin_date");
         el.setAttribute("max", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("death_end_date");
+            el2.value = ControlFormatDate(g_filter.date_of_death.end);
+
+        }
     }
     else
     {
-        const el = document.getElementById("");
+        const el = document.getElementById("death_end_date");
         el.value = ControlFormatDate(g_filter.date_of_death.end);
     }
 }
