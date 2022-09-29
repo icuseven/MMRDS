@@ -18,8 +18,8 @@ const g_filter = {
         2,
         99
     ],
-    date_of_review: { begin: new Date(1900,01,01), end: new Date() },
-    date_of_death: { begin: new Date(1900,01,01), end: new Date() }
+    date_of_review: { begin: new Date(1900,00,01), end: new Date() },
+    date_of_death: { begin: new Date(1900,00,01), end: new Date() }
 }
 
 
@@ -136,7 +136,7 @@ function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
 
 
@@ -157,7 +157,7 @@ function review_end_date_change(p_value)
     const arr = p_value.split("-");
     
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
 
     if(test_date <= current_date && g_filter.date_of_review.begin <= test_date)
@@ -177,7 +177,7 @@ function death_begin_date_change(p_value)
     const arr = p_value.split("-");
     
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
 
     if(test_date <= current_date && test_date <= g_filter.date_of_death.end)
@@ -197,7 +197,7 @@ function death_end_date_change(p_value)
     const arr = p_value.split("-");
     
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1899, arr[1] - 1, arr[2]);
+    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
 
     if(test_date <= current_date && g_filter.date_of_death.begin <=  test_date)
