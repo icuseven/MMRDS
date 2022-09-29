@@ -663,6 +663,140 @@ namespace mmria.server.utils
             return (mmria.common.model.couchdb.case_view_item item) => false;
         }
 
+
+        is_valid_predicate create_predicate_by_date_of_review
+        (
+            string field_selection,
+            string date_of_review_range
+        )
+        {
+            bool result(mmria.common.model.couchdb.case_view_item item) => false;
+            if
+            (
+                !string.IsNullOrWhiteSpace(date_of_review_range) &&
+                date_of_review_range.ToLower() != "all" 
+            )
+            {
+                var dates = date_of_review_range.Split("T");
+                DateTime start_date;
+                DateTime end_date;
+
+                if
+                (
+                    dates.Length < 2 ||
+                    string.IsNullOrWhiteSpace(dates[0]) ||
+                    string.IsNullOrWhiteSpace(dates[1]) ||
+                    ! DateTime.TryParse(dates[0], out start_date) ||
+                    ! DateTime.TryParse(dates[1], out end_date)
+                )
+                    return result;
+
+                
+
+
+
+
+                is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+                {
+                    bool result = false;
+
+                    if
+                    (
+
+                        item.value.date_of_committee_review.HasValue &&
+                        item.value.date_of_committee_review.Value  >= start_date &&
+                        item.value.date_of_committee_review.Value  <= end_date
+
+                    )
+                    {
+                        result = true;
+                    }
+
+                    return result;
+                };
+
+                all_predicate_list.Add(f);
+
+                
+                return f;
+            }
+
+            return result;
+        }
+
+
+        is_valid_predicate create_predicate_by_date_of_death
+        (
+            string field_selection,
+            string date_of_death_range
+        )
+        {
+            bool result(mmria.common.model.couchdb.case_view_item item) => false;
+            if
+            (
+                !string.IsNullOrWhiteSpace(date_of_death_range) &&
+                date_of_death_range.ToLower() != "all" 
+            )
+            {
+                var dates = date_of_death_range.Split("T");
+                DateTime start_date;
+                DateTime end_date;
+
+                if
+                (
+                    dates.Length < 2 ||
+                    string.IsNullOrWhiteSpace(dates[0]) ||
+                    string.IsNullOrWhiteSpace(dates[1]) ||
+                    ! DateTime.TryParse(dates[0], out start_date) ||
+                    ! DateTime.TryParse(dates[1], out end_date)
+                )
+                    return result;
+
+                
+
+
+
+
+                is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+                {
+                    bool result = false;
+
+                    if
+                    (
+
+                        item.value.date_of_death_year.HasValue &&
+                        item.value.date_of_death_month.HasValue
+                        
+
+                    )
+                    {
+                        DateTime compare_date = new DateTime
+                        (
+                            item.value.date_of_death_year.Value,
+                            item.value.date_of_death_month.Value,
+                            01
+                        );
+
+                        if
+                        (
+                            compare_date >= start_date &&
+                            compare_date  <= end_date
+                        )
+                            result = true;
+                    }
+
+                    return result;
+                };
+
+                all_predicate_list.Add(f);
+                
+                return f;
+            }
+
+            return result;
+        }
+        
+
         is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.server.utils.ResourceRightEnum ResourceRight)> ctx)
         {
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item cvi) => {
@@ -714,6 +848,10 @@ namespace mmria.server.utils
 
         is_valid_predicate is_valid_record_id;
 
+        is_valid_predicate is_valid_date_of_review;
+
+        is_valid_predicate is_valid_date_of_death;
+
         HashSet<string> sort_list = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "by_date_created",
@@ -744,7 +882,9 @@ namespace mmria.server.utils
             bool descending = false,
             string case_status = "all",
             string field_selection = "all",
-            string pregnancy_relatedness ="all"
+            string pregnancy_relatedness ="all",
+            string date_of_death_range = "all",
+            string date_of_review_range = "all"
         ) 
 		{
 
@@ -814,7 +954,9 @@ namespace mmria.server.utils
                     search_key?.ToLower ().Trim (new char [] { '"' }),
                     case_status,
                     field_selection,
-                    pregnancy_relatedness
+                    pregnancy_relatedness,
+                    date_of_review_range,
+                    date_of_death_range
                 );
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
@@ -883,7 +1025,9 @@ namespace mmria.server.utils
             string search_key,
             string case_status,
             string field_selection,
-            string pregnancy_relatedness
+            string pregnancy_relatedness,
+            string date_of_review_range,
+            string date_of_death_range
         )
         {
             is_valid_jurisdition = create_predicate_by_jurisdiction(ctx);
@@ -905,6 +1049,8 @@ namespace mmria.server.utils
             is_valid_pregnancy_relatedness = create_predicate_by_pregnancy_relatedness(search_key, case_status, field_selection, pregnancy_relatedness);
             is_valid_host_state = create_predicate_by_host_state(search_key, case_status, field_selection, pregnancy_relatedness);
             is_valid_record_id = create_predicate_by_record_id(search_key, case_status, field_selection, pregnancy_relatedness);
+            is_valid_date_of_review = create_predicate_by_date_of_review(field_selection, date_of_review_range);
+            is_valid_date_of_death = create_predicate_by_date_of_death(field_selection, date_of_review_range);
         }
     }
 

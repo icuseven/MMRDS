@@ -147,7 +147,7 @@ function review_begin_date_change(p_value)
 
         if(date_changed)
         {
-            el.setAttribute("max", ControlFormatDate(test_date));
+            el.setAttribute("min", ControlFormatDate(test_date));
             
             const el2 = document.getElementById("review_begin_date");
             el2.value = ControlFormatDate(g_filter.date_of_review.begin);
@@ -205,7 +205,7 @@ function death_begin_date_change(p_value)
 
         if(date_changed)
         {
-            el.setAttribute("max", ControlFormatDate(test_date));
+            el.setAttribute("min", ControlFormatDate(test_date));
 
             const el2 = document.getElementById("death_begin_date");
             el2.value = ControlFormatDate(g_filter.date_of_death.begin);

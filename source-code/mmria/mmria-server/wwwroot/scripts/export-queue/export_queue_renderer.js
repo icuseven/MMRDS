@@ -673,12 +673,11 @@ class NumericDropdown {
   }
 }
 
-function apply_filter_button_click() {
+function apply_filter_button_click() 
+{
   var filter_search_text = document.getElementById('filter_search_text');
   var filter_sort_by = document.getElementById('filter_sort_by');
-  var filter_records_perPage = document.getElementById(
-    'filter_records_perPage'
-  );
+  var filter_records_perPage = document.getElementById('filter_records_perPage');
   var filter_decending = document.getElementById('filter_decending');
   //g_case_view_request.take = filter_records_perPage.value;
   g_case_view_request.sort = filter_sort_by.value;
@@ -753,6 +752,27 @@ var g_case_view_request = {
     result.push('case_status=' + this.case_status);
       result.push('field_selection=' + this.field_selection);
       result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+
+      
+      if(g_filter.include_blank_date_of_reviews == false)
+      {
+        result.push(`date_of_review_range=${ControlFormatDate(g_filter.date_of_review.begin)}T${ControlFormatDate(g_filter.date_of_review.end)}`);
+      }
+      else
+      {
+        result.push('date_of_review_range=All');
+      }
+
+
+      
+      if(g_filter.include_blank_date_of_deaths == false)
+      {
+        result.push(`date_of_death_range=${ControlFormatDate(g_filter.date_of_death.begin)}T${ControlFormatDate(g_filter.date_of_death.end)}`);
+      }
+      else
+      {
+        result.push('date_of_death_range=All');
+      }
 
     if (this.search_key) {
       result.push(

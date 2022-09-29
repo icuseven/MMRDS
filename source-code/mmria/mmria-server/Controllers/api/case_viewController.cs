@@ -39,7 +39,10 @@ namespace mmria.server
             bool descending = false,
             string case_status = "all",
             string field_selection = "all",
-            string pregnancy_relatedness ="all"
+            string pregnancy_relatedness ="all",
+            string date_of_death_range = "all",
+            string date_of_review_range = "all"
+
         ) 
 		{
 
@@ -61,7 +64,9 @@ namespace mmria.server
                 descending,
                 case_status,
                 field_selection,
-                pregnancy_relatedness
+                pregnancy_relatedness,
+                date_of_death_range,
+                date_of_review_range
             );
 
 
