@@ -1976,7 +1976,7 @@ function render_pregnancy_filter(p_case_view)
                 </label>
             </div>
         </div>
-        <div class="form-inline mt-3" style="margin-left:15px;margin-top:0px;">
+        <div class="form-inline mt-3" style="margin-left:15px;margin-top:0px;margin-bottom:15px;">
 
             <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
             <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />

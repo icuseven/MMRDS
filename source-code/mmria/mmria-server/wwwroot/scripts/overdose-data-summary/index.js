@@ -133,7 +133,7 @@ function review_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
 
-    let date_changed = arr[0] > 1900 ? false :true;
+    let date_changed = arr[0] >= 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -163,7 +163,7 @@ function review_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     
-    let date_changed = arr[0] > 1900 ? false :true;
+    let date_changed = arr[0] >= 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -192,7 +192,7 @@ function death_begin_date_change(p_value)
 {
     const arr = p_value.split("-");
     
-    let date_changed = arr[0] > 1900 ? false :true;
+    let date_changed = arr[0] >= 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
@@ -221,7 +221,7 @@ function death_end_date_change(p_value)
 {
     const arr = p_value.split("-");
     
-    let date_changed = arr[0] > 1900 ? false :true;
+    let date_changed = arr[0] >= 1900 ? false :true;
 
     const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
     const current_date = new Date();
