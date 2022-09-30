@@ -19,6 +19,8 @@ namespace mmria.server.utils
     private string item_id = null;
     private bool is_offline_mode;
 
+    private bool is_excel_file_type = false;
+
 
     private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
     private int[] qualitativeStreamCount = new int[] { 0, 0, 0 };
@@ -58,6 +60,8 @@ namespace mmria.server.utils
       this.item_file_name = queue_item.file_name;
       this.item_directory_name = queue_item.file_name.Substring(0, queue_item.file_name.IndexOf("."));
       this.item_id = queue_item._id;
+
+      this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
 
       string core_file_name = "core_mmria_export.csv";
@@ -192,7 +196,7 @@ namespace mmria.server.utils
 				}
 			}*/
 
-      path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name, this.item_directory_name, Configuration.export_directory));
+      path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name, this.item_directory_name, Configuration.export_directory, is_excel_file_type));
 
       //int stream_file_count = 0;
       /*
@@ -578,7 +582,7 @@ namespace mmria.server.utils
       }
 
 
-      WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory);
+      WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory, is_excel_file_type);
       System.Data.DataColumn column = null;
 
       column = new System.Data.DataColumn("metadata_version", typeof(string));
@@ -665,7 +669,7 @@ namespace mmria.server.utils
         this.qualitativeStreamWriter[i_index] = null;
       }
 
-      WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
+      WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory, is_excel_file_type);
       column = null;
 
 

@@ -37,6 +37,8 @@ namespace mmria.server.utils
 
     private bool is_offline_mode;
 
+    private bool is_excel_file_type = false;
+
     private HashSet<string> de_identified_set;
 
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
@@ -72,6 +74,8 @@ namespace mmria.server.utils
         this.item_file_name = queue_item.file_name;
         this.item_directory_name = queue_item.file_name.Substring(0, queue_item.file_name.IndexOf("."));
         this.item_id = queue_item._id;
+
+        this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
 
         if (string.IsNullOrWhiteSpace(this.database_url))
@@ -223,7 +227,7 @@ namespace mmria.server.utils
 
         int stream_file_count = 0;
 
-        path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory));
+        path_to_csv_writer.Add(mmria_custom_export_file_name, new WriteCSV(mmria_custom_export_file_name, this.item_directory_name, Configuration.export_directory, is_excel_file_type));
         stream_file_count++;
 
     var flat_field_list = new List<string>();
@@ -1043,7 +1047,7 @@ namespace mmria.server.utils
         }
 
 
-        WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory);
+        WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory, is_excel_file_type);
         System.Data.DataColumn column = null;
 
 
@@ -1146,7 +1150,7 @@ namespace mmria.server.utils
         }
 
 
-        WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
+        WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory, is_excel_file_type);
         column = null;
 
 
