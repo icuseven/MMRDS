@@ -40,6 +40,8 @@ namespace mmria.server
         public string[] de_identified_field_set {get; set;}
 
 		public string case_filter_type {get; set;}
+
+        public string case_file_type {get; set;}
         public string[] case_set {get; set;}
 
         public ExportTypeEnum ExportType { get; set; } = ExportTypeEnum.csv;

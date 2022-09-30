@@ -50,6 +50,7 @@ var answer_summary = {
   de_identified_field_set: [],
   is_de_identify_standard_fields: false,
   case_filter_type: 'all',
+  case_file_type: 'csv',
   case_set: [],
 
 };
@@ -131,6 +132,7 @@ function create_queue_item
   p_de_identified_selection_type,
   p_de_identified_field_set,
   p_case_filter_type,
+  p_case_file_type,
   p_case_set,
   p_de_identify_standard_fields
 ) {
@@ -152,21 +154,45 @@ function create_queue_item
     de_identified_selection_type: p_de_identified_selection_type,
     de_identified_field_set: p_de_identified_field_set,
     case_filter_type: p_case_filter_type,
+    case_file_type: p_case_file_type,
     case_set: p_case_set,
   };
 
 
   if (result.all_or_core == 'all') 
   {
-    result.export_type = 'ALL CSV';
+    if(result.case_file_type == 'xlsx')
+    {
+        result.export_type = 'ALL XLSX';
+    }
+    else
+    {
+        result.export_type = 'ALL CSV';
+    }
   }
   else if (result.all_or_core == 'core') 
   {
-    result.export_type = 'Core CSV';
+    //result.export_type = 'Core CSV';
+    if(result.case_file_type == 'xlsx')
+    {
+        result.export_type = result.export_type + ' XLXS';
+    }
+    else
+    {
+        result.export_type =  result.export_type + ' CSV';
+    }
   }
   else
   {
-    result.export_type = result.all_or_core + ' CSV';
+    //result.export_type = result.all_or_core + ' CSV';
+    if(result.case_file_type == 'xlsx')
+    {
+        result.export_type = 'ALL XLXS';
+    }
+    else
+    {
+        result.export_type = 'ALL CSV';
+    }
   }
 
   if 
@@ -203,6 +229,7 @@ function add_new_all_export_item() {
     answer_summary.de_identified_selection_type,
     answer_summary.de_identified_field_set,
     answer_summary.case_filter_type,
+    answer_summary.case_file_type,
     answer_summary.case_set,
     answer_summary.is_de_identify_standard_fields
   );

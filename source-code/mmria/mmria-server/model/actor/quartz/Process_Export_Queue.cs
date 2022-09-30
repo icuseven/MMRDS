@@ -101,6 +101,8 @@ namespace mmria.server.model.actor.quartz
 					
 					item.case_filter_type = doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
 
+                    item.case_file_type = doc_item ["case_file_type"] != null ? doc_item ["case_file_type"].ToString () : null;
+
 
 					if(doc_item ["de_identified_field_set"] != null)
 					{
@@ -165,7 +167,11 @@ namespace mmria.server.model.actor.quartz
 				args.Add ("juris_user_name:" + scheduleInfoMessage.jurisdiction_user_name);
 
 
-				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
+				if 
+                (
+                    item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase) ||
+                    item_to_process.export_type.StartsWith ("core xlsx", StringComparison.OrdinalIgnoreCase)
+                )
 				{
 
 					item_to_process.status = "Creating Export...";
@@ -192,7 +198,11 @@ namespace mmria.server.model.actor.quartz
 
 				
 				}
-				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
+				else if
+                (
+                    item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase) ||
+                    item_to_process.export_type.StartsWith ("all xlsx", StringComparison.OrdinalIgnoreCase)
+                )
 				{
 					item_to_process.status = "Creating Export...";
 					item_to_process.last_updated_by = "mmria-server";

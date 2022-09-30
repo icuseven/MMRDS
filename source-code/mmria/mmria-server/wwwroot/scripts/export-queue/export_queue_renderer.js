@@ -374,6 +374,28 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 							</li>
 						</ul>
 					</li>
+
+                    <li class="mb-4">
+						<p class="mb-3">Please select which file format you want.</p>
+						<label for="case_filter_type_all" class="font-weight-normal mr-2">
+							<input id="case_file_type_csv"
+										 type="radio"
+										 name="case_file_type"
+										 value="csv"
+										 data-prop="case_file_type"
+										 ${p_answer_summary['case_file_type'] == 'csv' ? 'checked=true' : ''}
+										 onclick="case_file_type_click(this)" /> csv
+						</label>
+						<label for="case_filter_type_custom" class="font-weight-normal">
+							<input id="case_file_type_csv"
+										 type="radio"
+										 name="case_file_type"
+										 value="xlsx"
+										 data-prop="case_file_type"
+										 ${p_answer_summary['case_file_type'] == 'xlsx' ? 'checked=true' : ''}
+										 onclick="case_file_type_click(this)" /> xlsx
+						</label>
+                          </li>
 				</ol>
 			</div>
 		</div>
@@ -1531,6 +1553,14 @@ function case_filter_type_click(p_value)
   {
     custom_case_filter.style.display = 'none';
   }
+
+  renderSummarySection(p_value);
+}
+
+
+function case_file_type_click(p_value) 
+{
+  answer_summary.case_file_type = p_value.value.toLowerCase();
 
   renderSummarySection(p_value);
 }
