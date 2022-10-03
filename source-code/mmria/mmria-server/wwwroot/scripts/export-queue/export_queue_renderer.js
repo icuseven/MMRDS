@@ -384,7 +384,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										 value="csv"
 										 data-prop="case_file_type"
 										 ${p_answer_summary['case_file_type'] == 'csv' ? 'checked=true' : ''}
-										 onclick="case_file_type_click(this)" /> csv
+										 onclick="case_file_type_click(this)" /> CSV
 						</label>
 						<label for="case_filter_type_custom" class="font-weight-normal">
 							<input id="case_file_type_csv"
@@ -393,7 +393,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										 value="xlsx"
 										 data-prop="case_file_type"
 										 ${p_answer_summary['case_file_type'] == 'xlsx' ? 'checked=true' : ''}
-										 onclick="case_file_type_click(this)" /> xlsx
+										 onclick="case_file_type_click(this)" /> Excel (.xlsx)
 						</label>
                           </li>
 				</ol>
@@ -1957,32 +1957,38 @@ function render_export_report_type(p_value)
 
 function date_of_review_panel_select(p_value)
 {
-    const el = document.getElementById("date_of_review_panel");
+    const begin = document.getElementById("date_of_review_panel_begin");
+    const end= document.getElementById("date_of_review_panel_end");
     if(p_value=="all")
     {
         g_filter.include_blank_date_of_reviews = true;
-        el.style["display"] = "none";
+        begin.style["display"] = "none";
+        end.style["display"] = "none";
     }
     else
     {
         g_filter.include_blank_date_of_reviews = false;
-        el.style["display"] = "";
+        begin.style["display"] = "";
+        end.style["display"] = "";
     }
 }
 
 
 function date_of_death_panel_select(p_value)
 {
-    const el = document.getElementById("date_of_death_panel");
+    const begin = document.getElementById("date_of_death_panel_begin");
+    const end = document.getElementById("date_of_death_panel_end");
     if(p_value=="all")
     {
         g_filter.include_blank_date_of_deaths = true;
-        el.style["display"] = "none";
+        begin.style["display"] = "none";
+        end.style["display"] = "none";
     }
     else
     {
         g_filter.include_blank_date_of_deaths = false;
-        el.style["display"] = "";
+        begin.style["display"] = "";
+        end.style["display"] = "";
     }
 
 
@@ -2007,43 +2013,71 @@ function render_pregnancy_filter(p_case_view)
     
     return `
 
-        <div class="form-inline mt-3" style="margin-left:15px;margin-bottom:0px;padding-bottom:0px;">
-            <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            Review Dates:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
-            &nbsp;All cases</label>
-
+        <div class="form-inline mt-3" style="margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
+        <table>
+        <tr>
+            <td class="font-weight-normal mr-2">
+                Review Dates:
+            </td>
+            <td>
+                <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
+                <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
+                &nbsp;All cases</label>
+            </td>
+            <td>
             <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            &nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
-            &nbsp;Select dates</label>&nbsp;&nbsp;&nbsp;&nbsp;
-
-            <div id="date_of_review_panel" class="form-inline" style="${display_date_of_reviews_html}">
+            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
+            &nbsp;Select dates</label>
+            </td>
+            
+            <td>
+                <span id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
                 <label for="review_begin_date" class="font-weight-normal mr-2">Begin
                     &nbsp;<input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
                 </label>
-
-                <label for="review_end_date" class="font-weight-normal mr-2">End
-                    &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
-                </label>
-            </div>
-        </div>
-        <div class="form-inline mt-3" style="margin-left:15px;margin-top:0px;margin-bottom:15px;">
-
-            <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            Dates of Death:&nbsp;&nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
-            &nbsp;All cases</label>
-
+                </span>
+            </td>
+            <td>
+                <span id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
+                    <label for="review_end_date" class="font-weight-normal mr-2">End
+                        &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                    </label>
+                </span>
+            </td>
+            
+            </td>
+        </tr>
+        </tr>
+            <td class="font-weight-normal mr-2">
+                Dates of Death:
+            </td>
+            <td>
+                <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
+                <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
+                &nbsp;All cases</label>
+            </td>
+            <td>
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
             &nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
-            &nbsp;Select dates</label>&nbsp;&nbsp;&nbsp;&nbsp;       
-
-            <div id="date_of_death_panel" class="form-inline" style="${display_date_of_deaths_html}">
+            &nbsp;Select dates</label>      
+            </td>
+            <td>
+                <span id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
                 <label for="death_begin_date" class="font-weight-normal mr-2">Begin
                     &nbsp;<input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
                 </label>
+                </span>
+            </td>
+            <td>
+                <span id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
                 <label for="death_end_date" class="font-weight-normal mr-2">End
                     &nbsp;<input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
                 </label>
-            </div>
+                </span>
+            </td>
+            
+        </tr>
+        </table>
         </div>
 
 `;
