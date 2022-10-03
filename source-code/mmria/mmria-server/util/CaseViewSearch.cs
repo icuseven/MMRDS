@@ -765,24 +765,31 @@ namespace mmria.server.utils
                     (
 
                         item.value.date_of_death_year.HasValue &&
-                        item.value.date_of_death_month.HasValue
-                        
-
+                        item.value.date_of_death_month.HasValue &&
+                        item.value.date_of_death_year.Value != 9999 &&
+                        item.value.date_of_death_month.Value != 9999
                     )
                     {
-                        DateTime compare_date = new DateTime
-                        (
-                            item.value.date_of_death_year.Value,
-                            item.value.date_of_death_month.Value,
-                            01
-                        );
+                        try
+                        {
+                            DateTime compare_date = new DateTime
+                            (
+                                item.value.date_of_death_year.Value,
+                                item.value.date_of_death_month.Value,
+                                01
+                            );
 
-                        if
-                        (
-                            compare_date >= start_date &&
-                            compare_date  <= end_date
-                        )
-                            result = true;
+                            if
+                            (
+                                compare_date >= start_date &&
+                                compare_date  <= end_date
+                            )
+                                result = true;
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                     }
 
                     return result;
