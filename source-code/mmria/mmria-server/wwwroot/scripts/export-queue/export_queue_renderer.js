@@ -2009,12 +2009,12 @@ function render_pregnancy_filter(p_case_view)
 
         <div class="form-inline mt-3" style="margin-left:15px;margin-bottom:0px;padding-bottom:0px;">
             <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
-            &nbsp;All Dates of Review</label>
+            Review Dates:&nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
+            &nbsp;All cases</label>
 
             <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
             &nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
-            &nbsp;Select Date of Review</label>
+            &nbsp;Select dates</label>
 
             <div id="date_of_review_panel" class="form-inline" style="${display_date_of_reviews_html}">
                 <label for="review_begin_date" class="font-weight-normal mr-2">Begin
@@ -2029,12 +2029,12 @@ function render_pregnancy_filter(p_case_view)
         <div class="form-inline mt-3" style="margin-left:15px;margin-top:0px;margin-bottom:15px;">
 
             <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
-            &nbsp;All Dates of Death</label>
+            Dates of Death:&nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
+            &nbsp;All cases</label>
 
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
             &nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
-            &nbsp;Select Date of Death</label>            
+            &nbsp;Select dates</label>            
 
             <div id="date_of_death_panel" class="form-inline" style="${display_date_of_deaths_html}">
                 <label for="death_begin_date" class="font-weight-normal mr-2">Begin
