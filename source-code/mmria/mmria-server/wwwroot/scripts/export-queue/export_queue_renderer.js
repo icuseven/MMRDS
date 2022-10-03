@@ -2014,12 +2014,12 @@ function render_pregnancy_filter(p_case_view)
     return `
 
         <div class="form-inline mt-3" style="margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
-        <table>
-        <tr>
+        <table style="margin-top:15px;margin-bottom:15px;">
+        <tr style="margin-top:25px;margin-bottom:25px;">
             <td class="font-weight-normal mr-2">
                 Review Dates:
             </td>
-            <td>
+            <td style="padding-left:15px">
                 <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
                 <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
                 &nbsp;All cases</label>
@@ -2047,18 +2047,18 @@ function render_pregnancy_filter(p_case_view)
             
             </td>
         </tr>
-        </tr>
+        <tr style="margin-top:25px;margin-bottom:25px;">
             <td class="font-weight-normal mr-2">
                 Dates of Death:
             </td>
-            <td>
+            <td style="padding-left:15px">
                 <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
                 <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
                 &nbsp;All cases</label>
             </td>
             <td>
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            &nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
+            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
             &nbsp;Select dates</label>      
             </td>
             <td>
@@ -2078,6 +2078,7 @@ function render_pregnancy_filter(p_case_view)
             
         </tr>
         </table>
+        <br/>
         </div>
 
 `;
