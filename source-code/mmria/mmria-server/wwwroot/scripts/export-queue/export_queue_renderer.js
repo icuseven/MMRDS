@@ -2014,7 +2014,7 @@ function render_pregnancy_filter(p_case_view)
 
             <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
             &nbsp;<input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
-            &nbsp;Select dates</label>
+            &nbsp;Select dates</label>&nbsp;&nbsp;&nbsp;
 
             <div id="date_of_review_panel" class="form-inline" style="${display_date_of_reviews_html}">
                 <label for="review_begin_date" class="font-weight-normal mr-2">Begin
@@ -2034,7 +2034,7 @@ function render_pregnancy_filter(p_case_view)
 
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
             &nbsp;<input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
-            &nbsp;Select dates</label>            
+            &nbsp;Select dates</label>&nbsp;&nbsp;&nbsp;       
 
             <div id="date_of_death_panel" class="form-inline" style="${display_date_of_deaths_html}">
                 <label for="death_begin_date" class="font-weight-normal mr-2">Begin
