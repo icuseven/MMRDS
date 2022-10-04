@@ -376,7 +376,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>
 
                     <li class="mb-4">
-						<p class="mb-3">Please select which file format you want.</p>
+						<p class="mb-3">Select export file type:</p>
 						<label for="case_filter_type_all" class="font-weight-normal mr-2">
 							<input id="case_file_type_csv"
 										 type="radio"
