@@ -2014,8 +2014,8 @@ function render_pregnancy_filter(p_case_view)
     return `
 
         <div class="form-inline mt-3" style="margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
-        <table style="margin-top:15px;margin-bottom:15px;">
-        <tr style="margin-top:25px;margin-bottom:25px;">
+        <table style="margin-top:-15px;border-colapse: inherit;margin-bottom:10px;">
+        <tr style="margin-bottom:20px;height:50px;">
             <td class="font-weight-normal mr-2">
                 Review Dates:
             </td>
@@ -2047,7 +2047,7 @@ function render_pregnancy_filter(p_case_view)
             
             </td>
         </tr>
-        <tr style="margin-top:25px;margin-bottom:25px;">
+        <tr style="margin-top:20px;">
             <td class="font-weight-normal mr-2">
                 Dates of Death:
             </td>
