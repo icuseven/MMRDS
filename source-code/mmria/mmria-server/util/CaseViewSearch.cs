@@ -766,8 +766,8 @@ namespace mmria.server.utils
                         item.value.date_of_death_month.Value >= 1
                     )
                     {
-                        try
-                        {
+                       /* try
+                        {*/
                             DateTime compare_date = new DateTime
                             (
                                 item.value.date_of_death_year.Value,
@@ -781,11 +781,11 @@ namespace mmria.server.utils
                                 compare_date  <= end_date
                             )
                                 result = true;
-                        }
+                        /*}
                         catch(Exception ex)
                         {
                             System.Console.WriteLine(ex);
-                        }
+                        }*/
                     }
 
                     return result;
