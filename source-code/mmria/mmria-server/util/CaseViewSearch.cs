@@ -752,44 +752,33 @@ namespace mmria.server.utils
                 )
                     return result;
 
-                
-
-
-
-
                 is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
                 {
                     bool result = false;
 
                     if
                     (
-
                         item.value.date_of_death_year.HasValue &&
                         item.value.date_of_death_month.HasValue &&
-                        item.value.date_of_death_year.Value != 9999 &&
-                        item.value.date_of_death_month.Value != 9999
+                        item.value.date_of_death_year.Value <=2100 &&
+                        item.value.date_of_death_year.Value >= 1900 &&
+                        item.value.date_of_death_month.Value <= 2100 &&
+                        item.value.date_of_death_month.Value >= 1900
                     )
                     {
-                        try
-                        {
-                            DateTime compare_date = new DateTime
-                            (
-                                item.value.date_of_death_year.Value,
-                                item.value.date_of_death_month.Value,
-                                01
-                            );
+                        DateTime compare_date = new DateTime
+                        (
+                            item.value.date_of_death_year.Value,
+                            item.value.date_of_death_month.Value,
+                            01
+                        );
 
-                            if
-                            (
-                                compare_date >= start_date &&
-                                compare_date  <= end_date
-                            )
-                                result = true;
-                        }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
+                        if
+                        (
+                            compare_date >= start_date &&
+                            compare_date  <= end_date
+                        )
+                            result = true;
                     }
 
                     return result;
