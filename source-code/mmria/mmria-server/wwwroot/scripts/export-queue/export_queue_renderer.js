@@ -28,7 +28,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 			<div class="col">
 				<ol class="font-weight-bold pl-3">
 					<li class="mb-4">
-						<label for="grantee-name" class="mb-3">The Jurisdiction name that will be added to each exported case is:</label>
+						<label for="grantee-name" class="mb-3">Confirm Jurisdiction name (added to each exported case):</label>
 						<input id="grantee-name"
 							 class="form-control w-auto"
 							 type="text"
@@ -37,7 +37,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 							 readonly="true" />
 					</li>				
 					<li class="mb-4">
-						<p class="mb-3">Do you want to export <u>all data</u>, only <u>core data</u>, or <u>custom data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
+						<p class="mb-3">Select data to export (all data, core data, custom data):</p>
                         <label for="all-data" class="mb-0 font-weight-normal mr-2">Select Export Type</label>
 						<select name="export-type"
 											 id="all-data"
@@ -50,7 +50,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>
 
 					<li class="mb-4">
-						<p class="mb-3">Would you like to password protect the file?</p>
+						<p class="mb-3">Select password setting:</p>
 						<input name="password-protect"
 											 id="password-protect-no"
 											 type="radio"
@@ -79,7 +79,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>
 
 					<li class="mb-4">
-						<p class="mb-3">What fields do you want to de-identify?</p>
+						<p class="mb-3">Select de-identified fields:</p>
 						<input name="de-identify"
 											 id="de-identify-none"
 											 type="radio"
@@ -223,7 +223,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 					</li>
 
 					<li class="mb-4">
-						<p class="mb-3">Please select which cases you want to include in the export.</p>
+						<p class="mb-3">Select cases to include in export:</p>
 						<label for="case_filter_type_all" class="font-weight-normal mr-2">
 							<input id="case_filter_type_all"
 										 type="radio"
