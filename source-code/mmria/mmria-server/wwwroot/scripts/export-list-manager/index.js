@@ -104,22 +104,10 @@ function render_de_identified_list()
 {
 
 	var result = [];
-	result.push("<br/>");
+	result.push("<br/><table><tr><th>List Name(s)</th><th>Sort Order</th><th>Action</th></tr><tr><td>");
 
+    
     result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)' size=7 >");
-    /*
-    for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
-    {
-        if(key == g_selected_list)
-        {
-            result.push(`<option value='${key}' selected>${key}</option>`);
-        }
-        else
-        {
-            result.push(`<option value='${key}'>${key}</option>`);
-        }
-        
-    }*/
 
     for(const sort_index in g_de_identified_list.sort_order)
     {
@@ -137,15 +125,29 @@ function render_de_identified_list()
     result.push("</select>")
     
     result.push(`
-    
+    </td>
+    <td>
     <input type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' />
+    </td>
+    <td valign='bottom'>
     <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
-    
+    </td>
+    </tr>
+<tr>
+<td colspan=3>
+<input type='text' id='new_list_name' value='' style='width:200px;' placeholder='Enter new list name' />
+<input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
+
+</td>
+</tr>
+
+
+    </table>
     `);
     
     
     
-    result.push("<br/><br/>");
+    result.push("<hr/><br/>");
 
     result.push("<select id='clone-source'  onchange='on_clone_source_change(this.value)'>");
     
@@ -160,7 +162,6 @@ function render_de_identified_list()
         {
             result.push(`<option value='${key}'>${key}</option>`);
         }
-        
     }
     result.push(`<option value='9999' disabled=''>form</option>`);
 
@@ -181,10 +182,8 @@ function render_de_identified_list()
     
 
     result.push(`
-    <br/><br/>
-    <input type='text' id='new_list_name' value='&nbsp;'/>
-    <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
     <br/>
+ <br/>
     `);
 
     let selected_list = g_de_identified_list.name_path_list[g_selected_list];
