@@ -126,10 +126,10 @@ function render_de_identified_list()
     
     result.push(`
     </td>
-    <td>
-    <input type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' />
+    <td valign='top'>
+    <input type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' style='text-align:center;' />
     </td>
-    <td valign='bottom'>
+    <td valign='top'>
     <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
     </td>
     </tr>
@@ -178,7 +178,10 @@ function render_de_identified_list()
         
     });
     result.push("</select>")
-    result.push(`<input type='button' value='clone fields ...' onclick='clone_list_click()'/>`);
+    result.push(`
+        <input type='button' value='clone fields ...' onclick='clone_list_click()'/> | <input type='button' value='save lists' onclick='server_save()' />
+        
+        `);
     
 
     result.push(`
