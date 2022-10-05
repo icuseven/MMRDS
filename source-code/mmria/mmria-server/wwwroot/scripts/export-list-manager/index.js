@@ -106,7 +106,8 @@ function render_de_identified_list()
 	var result = [];
 	result.push("<br/>");
 
-    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
+    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)' size=7 >");
+    /*
     for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
     {
         if(key == g_selected_list)
@@ -118,12 +119,26 @@ function render_de_identified_list()
             result.push(`<option value='${key}'>${key}</option>`);
         }
         
+    }*/
+
+    for(const sort_index in g_de_identified_list.sort_order)
+    {
+        const list_name =  g_de_identified_list.sort_order[sort_index];
+        if(list_name == g_selected_list)
+        {
+            result.push(`<option value='${list_name}' selected>${list_name}</option>`);
+        }
+        else
+        {
+            result.push(`<option value='${list_name}'>${list_name}</option>`);
+        }
     }
+
     result.push("</select>")
     
     result.push(`
     
-    <input type='text' value='${g_de_identified_list.sort_order.indexOf(g_selected_list)}' placeholder='Sort Order' />
+    <input type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' />
     <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
     
     `);
@@ -277,6 +292,9 @@ function remove_name_path_list_click(p_id)
         g_de_identified_list.name_path_list[g_selected_list] = [];
         delete g_de_identified_list.name_path_list[g_selected_list];
 
+        const current_index = g_de_identified_list.sort_order.indexOf(g_selected_list);
+        g_de_identified_list.sort_order.splice(current_index, 1);
+
         if( Object.keys( g_de_identified_list.name_path_list).length > 0)
         {
             g_selected_list =  Object.keys( g_de_identified_list.name_path_list)[0];
@@ -342,6 +360,8 @@ function add_name_path_list_click(p_id)
 			g_de_identified_list.name_path_list[new_name] = [];
 
             g_selected_list = new_name;
+
+            g_de_identified_list.sort_order.push(new_name);
 
             document.getElementById('output').innerHTML = render_de_identified_list().join("");
 		}
@@ -824,4 +844,28 @@ function create_metadata_map(p_result, p_metadata, p_path, p_current_key)
     {
         p_result.get(p_current_key).push(next_path);
     }
+}
+
+async function update_sort_order(p_list_name, p_desired_index)
+{
+    let sort_index = p_desired_index - 1;
+    if(sort_index < 0)
+    {
+        sort_index = 0;
+    }
+    else if (sort_index > g_de_identified_list.sort_order.length - 1)
+    {
+        sort_index = g_de_identified_list.sort_order.length - 1;
+    }
+
+    const current_index = g_de_identified_list.sort_order.indexOf(p_list_name);
+
+    g_de_identified_list.sort_order.splice(current_index, 1);
+    g_de_identified_list.sort_order.splice(sort_index, 0, p_list_name);
+
+
+    //console.log(`${p_list_name} ${p_desired_index} ${p_desired_index -1}`)
+    
+
+    document.getElementById('output').innerHTML = render_de_identified_list().join("");
 }
