@@ -1933,20 +1933,19 @@ function render_export_report_type(p_value)
         result.push(`<option value='core'>Core</option>`)
     }
 
-    Object.keys(g_standard_export_report_set.name_path_list).map
-    (
-        (value, index) =>
+    for(const sort_index in g_standard_export_report_set.sort_order)
+    {
+        const list_name =  g_standard_export_report_set.sort_order[sort_index];
+        if(list_name == p_value)
         {
-            if(value == p_value)
-            {
-                result.push(`<option value='${value}' selected>${value}</option>`)
-            }
-            else
-            {
-                result.push(`<option value='${value}'>${value}</option>`)
-            }
+            result.push(`<option value='${list_name}' selected>${list_name}</option>`);
         }
-    )
+        else
+        {
+            result.push(`<option value='${list_name}'>${list_name}</option>`);
+        }
+    }
+
     
     //result.push(`<option value=''></option>`)
 
