@@ -2000,6 +2000,8 @@ function render_pregnancy_filter(p_case_view)
     let display_date_of_deaths_html = "display:none;";
 
 
+
+
     if(g_filter.include_blank_date_of_reviews == false)
     {
         display_date_of_reviews_html = "display:inline;";
@@ -2020,12 +2022,12 @@ function render_pregnancy_filter(p_case_view)
             </td>
             <td style="padding-left:15px">
                 <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-                <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" checked="true" />
+                <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" ${g_filter.include_blank_date_of_reviews == true ? 'checked="true"' : '' } />
                 &nbsp;All cases</label>
             </td>
             <td>
             <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select" />
+            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select"  ${g_filter.include_blank_date_of_reviews == false ? 'checked="true"' : '' }/>
             &nbsp;Select dates</label>
             </td>
             
@@ -2052,12 +2054,12 @@ function render_pregnancy_filter(p_case_view)
             </td>
             <td style="padding-left:15px">
                 <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-                <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all"   checked="true" />
+                <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all" ${g_filter.include_blank_date_of_deaths == true ? 'checked="true"' : '' } />
                 &nbsp;All cases</label>
             </td>
             <td>
             <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select" />
+            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select"  ${g_filter.include_blank_date_of_deaths == false ? 'checked="true"' : '' }/>
             &nbsp;Select dates</label>      
             </td>
             <td>
