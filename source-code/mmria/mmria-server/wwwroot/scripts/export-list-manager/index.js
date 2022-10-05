@@ -68,6 +68,15 @@ async function load_report_set()
     g_de_identified_list = g_de_identified_list_response;
 
     g_selected_list = Object.keys( g_de_identified_list.name_path_list)[0];
+
+    if
+    (
+        g_de_identified_list.sort_order == null ||
+        g_de_identified_list.sort_order.length == 0
+    )
+    {
+        g_de_identified_list.sort_order = Object.keys( g_de_identified_list.name_path_list);
+    }
     
     document.getElementById('output').innerHTML = render_de_identified_list().join("");
 
@@ -112,7 +121,12 @@ function render_de_identified_list()
     }
     result.push("</select>")
     
-    result.push(` <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>`);
+    result.push(`
+    
+    <input type='text' value='${g_de_identified_list.sort_order.indexOf(g_selected_list)}' placeholder='Sort Order' />
+    <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
+    
+    `);
     
     
     
@@ -236,12 +250,7 @@ function server_save()
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
 				data: JSON.stringify(g_de_identified_list),
-				type: "POST"/*,
-				beforeSend: function (request)
-				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
-					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-				},*/
+				type: "POST"
 		}).done(function(response) 
 		{
 
