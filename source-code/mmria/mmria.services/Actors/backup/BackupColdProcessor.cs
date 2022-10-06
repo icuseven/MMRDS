@@ -34,8 +34,23 @@ public class BackupColdProcessor : ReceiveActor
     private mmria.common.ije.Batch batch;
     public BackupColdProcessor()
     {
+        Become(Waiting);
+
+    }
+
+    void Processing()
+    {
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
+            // discard message;
+        });
+    }
+
+    void Waiting()
+    {
+        Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
+        {
+            Become(Processing);
             Process_Message(message);
         });
     }
@@ -183,13 +198,11 @@ public class BackupColdProcessor : ReceiveActor
             System.IO.File.WriteAllText(count_file_path, string.Join('\n',document_text));
 
             var file_compressor = Context.ActorOf<mmria.services.backup.FileCompressor>();
-            var file_compressor_message = new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
+            file_compressor.Tell(new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
             {
                 type = "compress",
                 ReturnToSender = false
-            };
-
-            file_compressor.Tell(message);
+            });
 
         }
         catch(Exception ex)

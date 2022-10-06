@@ -35,11 +35,27 @@ public class BackupHotProcessor : ReceiveActor
     private mmria.common.ije.Batch batch;
     public BackupHotProcessor()
     {
+        Become(Waiting);
+
+    }
+
+    void Processing()
+    {
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
+            // discard message;
+        });
+    }
+
+    void Waiting()
+    {
+        Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
+        {
+            Become(Processing);
             Process_Message(message);
         });
     }
+
 
     private async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {   
@@ -165,13 +181,15 @@ public class BackupHotProcessor : ReceiveActor
             }
             Console.WriteLine("Replication: End");
             
-
-        this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+        if(message.ReturnToSender)
         {
-            type = "hot",
-            DateEnded = DateTime.Now
+            this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+            {
+                type = "hot",
+                DateEnded = DateTime.Now
 
-        });
+            });
+        }
 
         
         Console.WriteLine($"Processing Message : {message}");
