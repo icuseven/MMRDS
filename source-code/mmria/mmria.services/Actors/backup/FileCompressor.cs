@@ -144,12 +144,15 @@ public class FileCompressor : ReceiveActor
             Console.WriteLine($"File Compressor\n{ex}");
         }
 
-        this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+        if(message.ReturnToSender)
         {
-            type = "compress",
-            DateEnded = DateTime.Now
+            this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+            {
+                type = "compress",
+                DateEnded = DateTime.Now
 
-        });
+            });
+        }
 
         Console.WriteLine("FileCompressor fin.");
 

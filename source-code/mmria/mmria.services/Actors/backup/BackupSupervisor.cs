@@ -17,7 +17,9 @@ public class BackupSupervisor : ReceiveActor
         public PerformBackupMessage(){}
 
         public string type  { get; set; }
-        public DateTime DateStarted {get; set; }
+        public DateTime DateStarted {get; set; } = DateTime.UtcNow;
+
+        public bool ReturnToSender { get; set; } = true;
     }
 
     public class BackupFinishedMessage

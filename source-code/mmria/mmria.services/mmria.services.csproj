@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>mmria-record-processor</UserSecretsId>
-    <!--LangVersion>9.0</LangVersion-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +11,6 @@
     <PackageReference Include="Akka.DI.Core" Version="1.4.41" />
     <PackageReference Include="Akka.DI.Extensions.DependencyInjection" Version="1.4.22" />
     
-    <!--PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
-
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.9" /-->
-    <!--PackageReference Include="RabbitMQ.Client" Version="6.2.1" /-->
     <PackageReference Include="SharpZipLib" Version="1.3.3"/>
   </ItemGroup>
 

@@ -29,8 +29,6 @@ namespace mmria.services.vitalsimport
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             stoppingToken.ThrowIfCancellationRequested();
-            //We have no access to the queue on local
-
 
             return Task.CompletedTask;
         }

@@ -182,19 +182,30 @@ public class BackupColdProcessor : ReceiveActor
             count_file_path = System.IO.Path.Combine(root_folder, $"{date_string}-db_record_count.txt");
             System.IO.File.WriteAllText(count_file_path, string.Join('\n',document_text));
 
+            var file_compressor = Context.ActorOf<mmria.services.backup.FileCompressor>();
+            var file_compressor_message = new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
+            {
+                type = "compress",
+                ReturnToSender = false
+            };
+
+            file_compressor.Tell(message);
+
         }
         catch(Exception ex)
         {
             Console.WriteLine($"Cold backup\n{ex}");
         }
-
-        this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+        
+        if(message.ReturnToSender)
         {
-            type = "cold",
-            DateEnded = DateTime.Now
+            this.Sender.Tell(new mmria.services.backup.BackupSupervisor.BackupFinishedMessage()
+            {
+                type = "cold",
+                DateEnded = DateTime.Now
 
-        });
-
+            });
+        }
         Console.WriteLine("cold backup fin.");
 
         Context.Stop(this.Self);
