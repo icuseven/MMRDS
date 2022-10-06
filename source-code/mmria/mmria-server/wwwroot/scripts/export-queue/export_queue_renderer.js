@@ -37,7 +37,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 							 readonly="true" />
 					</li>				
 					<li class="mb-4">
-						<p class="mb-3">Select data to export (all data, core data, custom data):</p>
+						<p class="mb-3">Select data to export (all data, core data, custom data):<small class="d-block mt-1">A zip file of the selected data will be downloaded directly to your computer's local "Downloads" folder.</small></p>
                         <label for="all-data" class="mb-0 font-weight-normal mr-2">Select Export Type</label>
 						<select name="export-type"
 											 id="all-data"
@@ -58,7 +58,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											 data-prop="is_encrypted"
 											 ${p_answer_summary['is_encrypted'] == 'no' ? 'checked=true' : ''}
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none')).then(renderSummarySection(this))" />
-						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
+						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No password</label>
 						<input name="password-protect"
 											 id="password-protect-yes"
 											 type="radio"
@@ -66,7 +66,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											 data-prop="is_encrypted"
 											 ${p_answer_summary['is_encrypted'] == 'yes' ? 'checked' : ''}
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block')).then(renderSummarySection(this))" />
-						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
+						<label for="password-protect-yes" class="mb-0 font-weight-normal">Set password</label>
 						<div class="mt-2" data-show="is_encrypted"  style="display: ${
               p_answer_summary['is_encrypted'] == 'yes' ? 'block' : 'none'
             };">
