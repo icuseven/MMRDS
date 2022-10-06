@@ -624,7 +624,12 @@ function review_begin_date_change(p_value)
 
 
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
     const current_date = new Date();
 
 
@@ -654,7 +659,13 @@ function review_end_date_change(p_value)
     
     let date_changed = arr[0] >= 1900 ? false :true;
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
     const current_date = new Date();
 
     if(test_date <= current_date && g_filter.date_of_review.begin <= test_date)
@@ -684,7 +695,13 @@ function death_begin_date_change(p_value)
     
     let date_changed = arr[0] >= 1900 ? false :true;
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
     const current_date = new Date();
 
     if(test_date <= current_date && test_date <= g_filter.date_of_death.end)
@@ -714,7 +731,13 @@ function death_end_date_change(p_value)
     
     let date_changed = arr[0] >= 1900 ? false :true;
 
-    const test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
     const current_date = new Date();
 
     if(test_date <= current_date && g_filter.date_of_death.begin <=  test_date)
