@@ -755,6 +755,48 @@ function result_checkbox_click(p_checkbox)
   check_if_all_filtered_cases_selected();
 }
 
+
+function cart_checkbox_click(p_checkbox) 
+{
+    let value = p_checkbox.value;
+
+
+    let index = answer_summary.case_set.indexOf(value);
+
+    if (index > -1) 
+    {
+        answer_summary.case_set.splice(index, 1);
+    }
+  
+    const search_result_input = document.getElementById(escape(value));
+    search_result_input.checked = false;
+
+    let el = document.getElementById('selected_case_list');
+    let result = [];
+
+    render_selected_case_list(result, answer_summary);
+    el.innerHTML = result.join('');
+
+    el = document.getElementById('exported_cases_count');
+    el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+
+    el = document.getElementById('case_result_pagination');
+    result = [];
+    render_pagination(result, g_case_view_request);
+    el.innerHTML = result.join('');
+
+    var summary_of_selected_cases = document.getElementById
+    (
+    'summary_of_selected_cases'
+    );
+    summary_of_selected_cases.innerHTML = render_summary_of_selected_cases
+    (
+    answer_summary
+    );
+
+    check_if_all_filtered_cases_selected();
+}
+
 var g_case_view_request = {
   total_rows: 0,
   page: 1,
@@ -916,7 +958,7 @@ function render_search_result_list()
 						</td>
 					</tr>
 				`);
-      // html.push(`<li class="foo"><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
+      
     }
 
     el.innerHTML = html.join('');
@@ -938,7 +980,7 @@ function render_selected_case_list(p_result, p_answer_summary)
 								 type="checkbox"
 								 value=${escape(item_id)}
 								 type="checkbox"
-								 onclick="result_checkbox_click(this)" ${checked} />
+								 onclick="cart_checkbox_click(this)" ${checked} />
 					<label for="" class="sr-only">${escape(item_id)}</label>
 				</td>
 				<td class="td" data-type="date_last_updated">
