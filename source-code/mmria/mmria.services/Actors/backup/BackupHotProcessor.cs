@@ -11,32 +11,12 @@ namespace mmria.services.backup;
 
 public class BackupHotProcessor : ReceiveActor
 {
-
-    string _id;
-    private int my_count = -1;
-    const int mor_max_length = 5001;
-    const int nat_max_length = 4001;
-    const int fet_max_length = 6001;
-
-    DateTime? start_date = null;
-
-    HashSet<string> g_cdc_identifier_set = new();
-
-    IConfiguration configuration;
-    ILogger logger;
-
-    mmria.common.couchdb.DBConfigurationDetail item_db_info;
-
     protected override void PreStart() => Console.WriteLine("BackupHotProcessor Process_Message started");
     protected override void PostStop() => Console.WriteLine("BackupHotProcessor Process_Message stopped");
 
-    private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
-
-    private mmria.common.ije.Batch batch;
     public BackupHotProcessor()
     {
         Become(Waiting);
-
     }
 
     void Processing()
@@ -59,14 +39,6 @@ public class BackupHotProcessor : ReceiveActor
 
     private async Task Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {   
-
-        if(start_date != null)
-        {
-            return;
-        }
-
-        start_date = DateTime.Now;
-
         mmria.common.couchdb.ConfigurationSet db_config_set = mmria.services.vitalsimport.Program.DbConfigSet;
 
         var backup_db_url = db_config_set.name_value["backup_db_url"];

@@ -17,7 +17,7 @@ public class BackupSupervisor : ReceiveActor
         public PerformBackupMessage(){}
 
         public string type  { get; set; }
-        public DateTime DateStarted {get; set; } = DateTime.UtcNow;
+        public DateTime DateStarted {get; set; } = DateTime.Now;
 
         public bool ReturnToSender { get; set; } = true;
     }
@@ -52,39 +52,19 @@ public class BackupSupervisor : ReceiveActor
             {
 
                 case "cold":
-
-                    if(ColdBackupStarted.HasValue)
-                    {
-                        return;
-                    }
-
                     ColdBackupStarted = DateTime.Now;
                     var cold_backup_processor = Context.ActorOf<mmria.services.backup.BackupColdProcessor>();
                     cold_backup_processor.Tell(message);
                     break;
 
                 case "hot":
-
-                    if(HotBackupStarted.HasValue && HotBackupStarted.Value.AddHours(1) > DateTime.Now)
-                    {
-                        return;
-                    }
-
                     HotBackupStarted = DateTime.Now;
-
                     var hot_backup_processor = Context.ActorOf<mmria.services.backup.BackupHotProcessor>();
                     hot_backup_processor.Tell(message);
                     break;
 
                 case "compress":
-
-                    if(CompressionStarted.HasValue)
-                    {
-                        return;
-                    }
-
                     CompressionStarted = DateTime.Now;
-
                     var file_compressor = Context.ActorOf<mmria.services.backup.FileCompressor>();
                     file_compressor.Tell(message);
                     break;

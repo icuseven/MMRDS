@@ -11,31 +11,13 @@ namespace mmria.services.backup;
 
 public class BackupColdProcessor : ReceiveActor
 {
-    string _id;
-    private int my_count = -1;
-    const int mor_max_length = 5001;
-    const int nat_max_length = 4001;
-    const int fet_max_length = 6001;
-
-    DateTime? start_date = null;
-
-    HashSet<string> g_cdc_identifier_set = new();
-
-    IConfiguration configuration;
-    ILogger logger;
-
-    mmria.common.couchdb.DBConfigurationDetail item_db_info;
-
     protected override void PreStart() => Console.WriteLine("BackupColdProcessor started");
     protected override void PostStop() => Console.WriteLine("BackupColdProcessor stopped");
-
-    private Dictionary<string, (string, mmria.common.ije.BatchItem)> batch_item_set = new (StringComparer.OrdinalIgnoreCase);
 
     private mmria.common.ije.Batch batch;
     public BackupColdProcessor()
     {
         Become(Waiting);
-
     }
 
     void Processing()
@@ -57,8 +39,6 @@ public class BackupColdProcessor : ReceiveActor
 
     void Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
-
-
         Console.WriteLine("Beginning Backup.");
 
         DateTime Timer_Start = DateTime.Now;
@@ -82,22 +62,18 @@ public class BackupColdProcessor : ReceiveActor
                 "session"
             };
             
-
             var date_string = DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss-ddd");
             var target_folder = System.IO.Path.Combine(root_folder, date_string);
             
-
             System.IO.Directory.CreateDirectory(target_folder);
 
             var b = new Backup();
 
             List<(string, int)> document_counts = new List<(string, int)>();
 
-
             var db_folder = System.IO.Path.Combine(target_folder, "vital_import");
             System.IO.Directory.CreateDirectory($"{db_folder}/_design");
             
-
             var vital_import_backup_result_message = b.Execute
             (
                 new[]
@@ -119,7 +95,6 @@ public class BackupColdProcessor : ReceiveActor
 
             document_counts.Add(($"vital import BackupStatus: {vital_import_backup_result_message.Status} SuccessCount: {vital_import_backup_result_message.SuccessCount} ErrorCount: {vital_import_backup_result_message.ErrorCount}  Detail: {detail}", vital_import_backup_result_message.Doc_ID_Count));
 
-
             var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-ready-for-compression.txt");
             System.IO.File.WriteAllText (db_folder_finished, "");
 
@@ -136,12 +111,10 @@ public class BackupColdProcessor : ReceiveActor
                 var prefix_folder = System.IO.Path.Combine(target_folder, prefix);
                 System.IO.Directory.CreateDirectory(prefix_folder);
 
-
                 foreach(var db in db_list)
                 {   
                     try
                     {
-
                         db_folder = System.IO.Path.Combine(prefix_folder, db);
                         System.IO.Directory.CreateDirectory($"{db_folder}/_design");
 
@@ -156,9 +129,6 @@ public class BackupColdProcessor : ReceiveActor
                                 $"backup_file_path:{db_folder}"
                             }
                         );
-
-                        
-                        
 
                         if(Backup_Result_Message.Detail!= null)
                         {
@@ -197,7 +167,8 @@ public class BackupColdProcessor : ReceiveActor
             count_file_path = System.IO.Path.Combine(root_folder, $"{date_string}-db_record_count.txt");
             System.IO.File.WriteAllText(count_file_path, string.Join('\n',document_text));
 
-            var file_compressor = Context.ActorOf<mmria.services.backup.FileCompressor>();
+
+            var file_compressor = Context.ActorSelection("user/backup-supervisor");
             file_compressor.Tell(new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
             {
                 type = "compress",
