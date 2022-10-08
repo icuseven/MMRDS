@@ -43,6 +43,7 @@ public class FileCompressor : ReceiveActor
         Receive<mmria.services.backup.BackupSupervisor.PerformBackupMessage>(message =>
         {
             // discard message;
+            Console.WriteLine("File Compressor discarded message.");
         });
     }
 
