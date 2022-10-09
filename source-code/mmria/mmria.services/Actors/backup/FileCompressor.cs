@@ -39,8 +39,6 @@ public class FileCompressor : ReceiveActor
 
     void Process_Message(mmria.services.backup.BackupSupervisor.PerformBackupMessage message)
     {
-        
-
         Console.WriteLine("Beginning File Compressor.");
 
         try

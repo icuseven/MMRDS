@@ -168,7 +168,7 @@ public class BackupColdProcessor : ReceiveActor
             System.IO.File.WriteAllText(count_file_path, string.Join('\n',document_text));
 
 
-            var file_compressor = Context.ActorSelection("user/backup-supervisor");
+            var file_compressor = Context.ActorSelection("akka://mmria-actor-system/user/backup-supervisor");
             file_compressor.Tell(new mmria.services.backup.BackupSupervisor.PerformBackupMessage()
             {
                 type = "compress",
