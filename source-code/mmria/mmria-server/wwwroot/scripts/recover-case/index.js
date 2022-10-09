@@ -13,6 +13,8 @@ const view_model = {
 var g_release_version = null;
 var g_metadata = null;
 
+var g_data = null;
+
 var g_look_up = {};
 var g_value_to_display_lookup = {};
 var g_name_to_value_lookup = {};
@@ -242,12 +244,24 @@ async function show_versions_for_id_click(p_id)
 
     view_model.audit_change_set_list = await get_audit_change_set_list(p_id);
 
+    g_data = await get_case_revision(p_id, view_model.selected_revision_result._rev);
+
     render();
 }
 
 function render_versions_for_selected_id()
 {
     const result = [];
+
+    result.push(`<p>g_data
+    
+    [ 
+        <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${view_model.selected_revision_result._rev}" target="_blank">View</a> 
+    |
+        <a href="javascript:pdf_case_onclick('${view_model.selected_jurisdiction}','${view_model.selected_id}','${view_model.selected_revision_result._rev}')">View PDF</a> 
+        
+    ]
+    </p>`);
 
     result.push("<ol>");
     if
