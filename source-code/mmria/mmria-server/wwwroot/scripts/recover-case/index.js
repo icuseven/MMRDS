@@ -370,7 +370,7 @@ function render_audit_for(p_revision_id)
                 {
                 	grid_index = 'g: ' + ci.grid_index;
                 }
-                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value}</li>`);
+                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value} [ <a href="javascript:on_apply_change_click('${p_revision_id}',${result_index},${c})">apply change</a> ]</li>`);
             }
 
             
@@ -381,6 +381,49 @@ function render_audit_for(p_revision_id)
     }
 
     return result.join("");
+}
+
+
+function on_apply_change_click
+(
+    p_revision_id,
+    p_result_index,
+    p_change_index
+)
+{
+    const result = [];
+
+    function is_rev(x) 
+    {
+        return x.case_rev == p_revision_id; 
+    } 
+
+    if(view_model.audit_change_set_list == null)
+    {
+        return "";
+    }
+
+    const results = view_model.audit_change_set_list.ls.filter(is_rev);
+    if(results.length < 1)
+    {
+        return "";
+    }
+    else
+    {
+
+        const change = results[p_result_index];
+        const ci = change.items[p_change_index];
+
+        
+        eval(`${ci.object_path} = '${ci.new_value}'`);
+
+        //console.log("here");
+
+
+    }
+
+    //console.log("here");
+
 }
 
 async function pdf_case_onclick(jurisdiction_id, case_id, revision_id) 
