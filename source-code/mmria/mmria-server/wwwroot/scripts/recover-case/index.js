@@ -258,10 +258,15 @@ function render_versions_for_selected_id()
     [ 
         <a href="${location.protocol}//${location.host}/api/caseRevision?jurisdiction_id=${view_model.selected_jurisdiction}&case_id=${view_model.selected_id}&revision_id=${view_model.selected_revision_result._rev}" target="_blank">View</a> 
     |
-        <a href="javascript:pdf_case_onclick('${view_model.selected_jurisdiction}','${view_model.selected_id}','${view_model.selected_revision_result._rev}')">View PDF</a> 
+        <a href="javascript:g_data_pdf_case_onclick('${view_model.selected_jurisdiction}','${view_model.selected_id}','${view_model.selected_revision_result._rev}')">View PDF</a> 
         
     ]
-    </p>`);
+    </p>
+    <textarea id="g_data_json" cols=120 rows=7 style="white-space: pre-wrap;">
+    ${JSON.stringify(g_data, null, 2)}
+    </textarea>
+    
+    `);
 
     result.push("<ol>");
     if
@@ -414,13 +419,27 @@ function on_apply_change_click
         const change = results[p_result_index];
         const ci = change.items[p_change_index];
 
+        if
+        ( 
+            ci.metadata_typ == "html_area" ||
+            ci.object_path == "/case_narrative/case_opening_overview"
+        )
+        {
+            eval(`${ci.object_path} = "${ci.new_value.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`);
+        }
+        else
+        {
+            eval(`${ci.object_path} = '${ci.new_value}'`);
+        }
         
-        eval(`${ci.object_path} = '${ci.new_value}'`);
 
         //console.log("here");
 
 
     }
+
+    const el = document.getElementById("g_data_json");
+    el.value = JSON.stringify(g_data, null, 2);
 
     //console.log("here");
 
@@ -433,6 +452,21 @@ async function pdf_case_onclick(jurisdiction_id, case_id, revision_id)
     const section_name = 'all';
 
     const g_data = await get_case_revision(case_id, revision_id);
+
+    window.setTimeout(function()
+    {
+        openTab('./pdf-version',  unique_tab_name, section_name, g_metadata, g_data, true);
+    }, 1000);	
+
+}
+
+async function g_data_pdf_case_onclick(jurisdiction_id, case_id, revision_id) 
+{
+    const dropdown = "view";
+    const unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+    const section_name = 'all';
+
+    //const g_data = await get_case_revision(case_id, revision_id);
 
     window.setTimeout(function()
     {
