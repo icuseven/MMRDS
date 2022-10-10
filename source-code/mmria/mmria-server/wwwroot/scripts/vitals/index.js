@@ -89,11 +89,45 @@ function get_batch_set()
             }
 
             
+            function compare_dates(a, b)
+            {
+                const a_arr = a.split("/");
+                const a_year = parseInt(a_arr[2]);
+                const a_month = parseInt(a_arr[0]);
+                const a_day = parseInt(a_arr[1]);
+
+                const b_arr = b.split("/");
+                const b_year = parseInt(b_arr[2]);
+                const b_month = parseInt(b_arr[0]);
+                const b_day = parseInt(b_arr[1]);
+
+                if(a_year == b_year)
+                {
+
+                
+                    if(a_month == b_month)
+                    {
+                        return a_day - b_day;
+                    }
+                    else
+                    {
+                        return a_month - b_month;
+                    }
+                }
+                else
+                {
+                    return a_year - b_year;
+                }
+                
+            }
+
             
             if(g_date_list.indexOf(import_date) < 0)
             {
                 g_date_list.push(import_date);
             }
+
+            g_date_list.sort(compare_dates);
 
             item.import_date = import_date;
             item.reporting_state = reporting_state;
@@ -149,6 +183,7 @@ function initialize_ui()
     render_batch_list()
 }
 
+/*
 function clear_all_data_click()
 {
 	$.ajax({
@@ -162,6 +197,7 @@ function clear_all_data_click()
 
 	});
 }
+*/
 
 var g_current_state_batch = '';
 
