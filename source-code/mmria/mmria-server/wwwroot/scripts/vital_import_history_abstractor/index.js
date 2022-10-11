@@ -102,22 +102,22 @@ function get_batch_set()
                         const b_month = parseInt(b_arr[0]);
                         const b_day = parseInt(b_arr[1]);
         
-                        if(a_year == b_year)
+                        if(b_year == a_year)
                         {
         
                         
-                            if(a_month == b_month)
+                            if(b_month == a_month)
                             {
-                                return a_day - b_day;
+                                return b_day - a_day;
                             }
                             else
                             {
-                                return a_month - b_month;
+                                return b_month - a_month;
                             }
                         }
                         else
                         {
-                            return a_year - b_year;
+                            return b_year - a_year;
                         }
                         
                     }
