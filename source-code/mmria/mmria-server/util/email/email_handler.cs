@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.utils.email
 {
 
-	public class Email_Handler
+	public sealed class Email_Handler
 	{ 
 
 		/// <summary>

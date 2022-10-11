@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.utils
 {
-  public class mmrds_exporter
+  public sealed class mmrds_exporter
   {
     private string auth_token = null;
     private string user_name = null;

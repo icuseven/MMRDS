@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace mmria.server.utils
 {
-  public partial class exporter
+  public sealed partial class exporter
   {
 
 
-    class StandardReportList
+    sealed class StandardReportList
     {
         public StandardReportList() 
         {

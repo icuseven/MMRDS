@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace mmria.server.utils
 {
-	public class c_convert_to_dqr_detail
+	public sealed class c_convert_to_dqr_detail
 	{
 
 

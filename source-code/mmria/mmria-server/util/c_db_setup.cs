@@ -7,7 +7,7 @@ using Akka.Actor;
 
 namespace mmria.server.utils
 {
-    public class c_db_setup
+    public sealed class c_db_setup
     {
         private ActorSystem _actorSystem;
 

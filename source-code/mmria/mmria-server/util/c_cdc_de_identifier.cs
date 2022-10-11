@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server.utils
 {
-	public class c_cdc_de_identifier
+	public sealed class c_cdc_de_identifier
 	{
 		string case_item_json;
 

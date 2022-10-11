@@ -5,7 +5,7 @@ using System.Text;
 
 namespace mmria.server.utils.email
 {
-	public class Email
+	public sealed class Email
 	{
 
 		private  List<string> _To;

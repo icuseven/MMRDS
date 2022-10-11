@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace mmria.server.utils
 {
-  public partial class exporter
+  public sealed partial class exporter
   {
         private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
 

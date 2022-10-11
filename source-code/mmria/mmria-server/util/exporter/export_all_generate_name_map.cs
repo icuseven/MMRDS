@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.utils
 {
-	public class export_all_generate_name_map
+	public sealed class export_all_generate_name_map
 	{
 		private string auth_token = null;
 		private string user_name = null;

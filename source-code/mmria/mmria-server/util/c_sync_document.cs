@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace mmria.server.utils
 {
-	public class c_sync_document
+	public sealed class c_sync_document
 	{
 
 		private string document_json;

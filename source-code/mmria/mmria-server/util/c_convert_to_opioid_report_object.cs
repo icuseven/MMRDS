@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace mmria.server.utils
 {
-	public partial class c_convert_to_opioid_report_object
+	public sealed partial class c_convert_to_opioid_report_object
 	{
         
         //static HashSet<string> BlankIdSet = new HashSet<string>();

@@ -22,7 +22,7 @@ namespace mmria.server.utils
         WriteJurisdiction
     }
 
-    public class authorization
+    public sealed class authorization
     {
 
 

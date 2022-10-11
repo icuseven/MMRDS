@@ -104,8 +104,6 @@ function get_batch_set()
         
                         if(b_year == a_year)
                         {
-        
-                        
                             if(b_month == a_month)
                             {
                                 return b_day - a_day;

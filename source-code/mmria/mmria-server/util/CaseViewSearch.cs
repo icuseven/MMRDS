@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.utils
 {
-    public class CaseViewSearch
+    public sealed class CaseViewSearch
     {
         IConfiguration configuration;
 

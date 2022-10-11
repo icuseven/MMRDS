@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.utils
 {  
-    public class authorization_user
+    public sealed class authorization_user
     {
 
 

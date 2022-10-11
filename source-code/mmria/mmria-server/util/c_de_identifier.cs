@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server.utils
 {
-	public class c_de_identifier
+	public sealed class c_de_identifier
 	{
 		string case_item_json;
 		HashSet<string> de_identified_set = new HashSet<string>();

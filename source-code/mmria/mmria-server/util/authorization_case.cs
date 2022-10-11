@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.utils
 {  
-    public class authorization_case
+    public sealed class authorization_case
     {
 
         public static bool is_authorized_to_handle_jurisdiction_id
