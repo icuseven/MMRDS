@@ -6,7 +6,7 @@ using ICSharpCode.SharpZipLib.Zip;
 namespace mmria.server.utils
 {
 
-	public class cFolderCompressor
+	public sealed class cFolderCompressor
 	{
 
 		public cFolderCompressor() {}

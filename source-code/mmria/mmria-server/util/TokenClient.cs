@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace mmria.server.utils
 {
-    public class TokenClient
+    public sealed class TokenClient
     {
         private IConfiguration _configuration;
             string sams_endpoint_authorization;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace mmria.server.utils;
 
-public class WriteCSV
+public sealed class WriteCSV
 {
     string file_name;
 

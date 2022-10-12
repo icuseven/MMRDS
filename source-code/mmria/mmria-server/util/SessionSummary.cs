@@ -11,7 +11,7 @@ namespace mmria.server.utils
 {
 
 
-    public class SessionSummaryItem
+    public sealed class SessionSummaryItem
     {
         public SessionSummaryItem()
         {

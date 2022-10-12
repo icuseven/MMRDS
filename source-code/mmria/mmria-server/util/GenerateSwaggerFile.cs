@@ -2,7 +2,7 @@ using System;
 
 namespace mmria.server
 {
-	public class GenerateSwaggerFile
+	public sealed class GenerateSwaggerFile
 	{
 		public GenerateSwaggerFile ()
 		{

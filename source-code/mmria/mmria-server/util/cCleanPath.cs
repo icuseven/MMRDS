@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server
 {
-    public class CleanPath {
+    public sealed class CleanPath {
 
         public static String execute(String aString) 
         {

@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.utils
 {   
-    public class JurisdictionAuthorizationRequirement : IAuthorizationRequirement
+    public sealed class JurisdictionAuthorizationRequirement : IAuthorizationRequirement
     {
     }
 
 
-    public class HasJurisdictionAuthorizationHandler : AuthorizationHandler<JurisdictionAuthorizationRequirement, System.Dynamic.ExpandoObject>
+    public sealed class HasJurisdictionAuthorizationHandler : AuthorizationHandler<JurisdictionAuthorizationRequirement, System.Dynamic.ExpandoObject>
     {
         protected override Task HandleRequirementAsync
         (

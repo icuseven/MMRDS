@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server
 {
-    public class cURL_Result
+    public sealed class cURL_Result
     {
         public enum ResultTypeEnum
         {
@@ -25,7 +25,7 @@ namespace mmria.server
 
         
     }
-	public class cURL
+	public sealed class cURL
 	{
 		string method;
 		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;

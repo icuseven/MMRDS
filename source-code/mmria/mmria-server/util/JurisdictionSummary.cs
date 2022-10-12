@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.utils
 {
 
-    public class ItemCount
+    public sealed class ItemCount
     {
         public ItemCount(){}
 
@@ -20,7 +20,7 @@ namespace mmria.server.utils
         
         public int total{get; set; }
     }
-    public class JurisdictionSummaryItem
+    public sealed class JurisdictionSummaryItem
     {
         public JurisdictionSummaryItem(){}
         public string host_name {get; set; }
@@ -35,7 +35,7 @@ namespace mmria.server.utils
         public int num_user_cm{get; set; }
     }
 
-    class JSIComparer : IComparer<JurisdictionSummaryItem>
+    sealed class JSIComparer : IComparer<JurisdictionSummaryItem>
     {
         public int Compare(JurisdictionSummaryItem x, JurisdictionSummaryItem y)
         {
@@ -64,7 +64,7 @@ namespace mmria.server.utils
         }
     }
 
-    public class JurisdictionSummary
+    public sealed class JurisdictionSummary
     {
         IConfiguration configuration;
 
