@@ -937,14 +937,14 @@ async function geocode_dc_last_res(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1089,14 +1089,14 @@ function geocode_dc_injury_place(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1231,14 +1231,14 @@ function  geocode_dc_death_place(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1371,14 +1371,14 @@ function geocode_bc_delivery_place(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1510,14 +1510,14 @@ function geocode_bc_residence(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1649,14 +1649,14 @@ function geocode_pc_primary_care_location(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1789,14 +1789,14 @@ function geocode_erh_location(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -1929,14 +1929,14 @@ function geocode_omov_location(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2524,14 +2524,14 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
             
 
@@ -2706,14 +2706,14 @@ function medical_transport_destination_information_address_get_coordinates(p_con
             }
 
             let census_track_certainty_code = parseInt(geo_data.NAACCRCensusTractCertaintyCode);
-            if(
-                census_track_certainty_code == 3 ||
-                census_track_certainty_code == 4 ||
-                census_track_certainty_code == 9
+            if
+            (
+                census_track_certainty_code == 9 ||
+                census_track_certainty_code == 99
             )
             {
 
-                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 3 or 4 or 9", "There might be a potential error in the address. Please verify address.");
+                $mmria.info_dialog_show("Address Geocode","Validation: Census track certainty code is 9 or 99", "There might be a potential error in the address. Please verify address.");
             }
 
             g_data.medical_transport[current_mt_index].destination_information.address.urban_status = urban_status;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace mmria.server.model.dqr;
 
 
-public class DQRDetail_2
+public sealed class DQRDetail_2
 {
     public DQRDetail_2()
     {
@@ -16,7 +16,7 @@ public class DQRDetail_2
 
 }
 
-public class DQRDetail_3
+public sealed class DQRDetail_3
 {
     public DQRDetail_3()
     {
@@ -27,7 +27,7 @@ public class DQRDetail_3
 
 
 }
-public class DQRDetail
+public sealed class DQRDetail
 {
     public DQRDetail()
     {
