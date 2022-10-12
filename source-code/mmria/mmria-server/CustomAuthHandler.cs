@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.authentication
 {
-    public class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
+    public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
     {
         private IConfiguration _configuration;
 

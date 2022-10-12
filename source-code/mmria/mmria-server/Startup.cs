@@ -21,7 +21,7 @@ using mmria.server.extension;
 
 namespace mmria.server;
 
-public class Startup
+public sealed class Startup
 {
     public IConfiguration Configuration { get; }
 

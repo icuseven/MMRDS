@@ -93,7 +93,7 @@ core_test
     https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
  
 */
-    public partial class Program : WebHostService
+    public sealed partial class Program : WebHostService
     {
 
         public Program(IWebHost host) : base(host)

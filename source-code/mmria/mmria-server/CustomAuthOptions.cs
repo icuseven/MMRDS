@@ -4,7 +4,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace mmria.server.authentication
 {
-    public class CustomAuthOptions : AuthenticationSchemeOptions
+    public sealed class CustomAuthOptions : AuthenticationSchemeOptions
     {
         public const string DefaultScheme = "custom auth";
         public string Scheme => DefaultScheme;

@@ -89,7 +89,7 @@ mmria-server -> /app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64
 https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?view=aspnetcore-2.0&tabs=aspnetcore2x
 
 */
-    public partial class Program
+    public sealed partial class Program
     {
         static bool config_is_service = true;
         public static string config_geocode_api_key;
