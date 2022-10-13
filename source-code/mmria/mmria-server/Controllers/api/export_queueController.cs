@@ -17,7 +17,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "abstractor, data_analyst")]
 	[Route("api/[controller]")]
-	public class export_queueController: ControllerBase
+	public sealed class export_queueController: ControllerBase
 	{ 
 
 		private ActorSystem _actorSystem;

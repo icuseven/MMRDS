@@ -12,7 +12,7 @@ namespace mmria.server.Controllers
     
     [Route("api/[controller]")]
     [AllowAnonymous] 
-    public class healthzController : Controller
+    public sealed class healthzController : Controller
     {
 
         private IConfiguration configuration { get; }

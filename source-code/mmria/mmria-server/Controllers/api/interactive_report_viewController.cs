@@ -18,7 +18,7 @@ namespace mmria.server
 {
     [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/measure-indicator/{indicator_id}")]
-	public class interactive_report_viewController: ControllerBase 
+	public sealed class interactive_report_viewController: ControllerBase 
 	{  
 
         IConfiguration configuration;
