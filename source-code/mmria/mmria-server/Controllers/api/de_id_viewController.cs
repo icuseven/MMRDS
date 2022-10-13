@@ -13,7 +13,7 @@ namespace mmria.server
 {
     [Authorize(Roles  = "committee_member")]
     [Route("api/[controller]")]
-	public class de_id_viewController: ControllerBase
+	public sealed class de_id_viewController: ControllerBase
 	{
         IConfiguration configuration;
 

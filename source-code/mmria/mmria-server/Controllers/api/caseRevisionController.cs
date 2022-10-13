@@ -13,7 +13,7 @@ using mmria.common.model.couchdb.recover_doc;
 namespace mmria.server;
 	
 [Route("api/[controller]")]
-public class caseRevisionController: ControllerBase 
+public sealed class caseRevisionController: ControllerBase 
 { 
     private ActorSystem _actorSystem;
 

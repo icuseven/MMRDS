@@ -18,7 +18,7 @@ namespace mmria.server
 {
     [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/[controller]")]
-	public class case_viewController: ControllerBase 
+	public sealed class case_viewController: ControllerBase 
 	{  
 
         IConfiguration configuration;

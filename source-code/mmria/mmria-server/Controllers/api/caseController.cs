@@ -13,7 +13,7 @@ namespace mmria.server
 {
 	
 	[Route("api/[controller]")]
-    public class caseController: ControllerBase 
+    public sealed class caseController: ControllerBase 
 	{ 
 
 

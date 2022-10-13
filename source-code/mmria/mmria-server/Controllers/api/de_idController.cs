@@ -11,7 +11,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "committee_member")]
 	[Route("api/[controller]")]
-    public class de_idController: ControllerBase 
+    public sealed class de_idController: ControllerBase 
 	{ 
 
 

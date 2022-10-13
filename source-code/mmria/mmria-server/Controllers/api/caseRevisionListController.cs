@@ -14,7 +14,7 @@ namespace mmria.server;
 
 	
 [Route("api/[controller]")]
-public class caseRevisionListController: ControllerBase 
+public sealed class caseRevisionListController: ControllerBase 
 { 
     private ActorSystem _actorSystem;
 

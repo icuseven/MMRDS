@@ -12,7 +12,7 @@ namespace mmria.server;
 
 [Route("api/[controller]")]
 
-public class AuditRecoverUtilController: ControllerBase 
+public sealed class AuditRecoverUtilController: ControllerBase 
 {
 
     mmria.common.couchdb.ConfigurationSet configuration_set;

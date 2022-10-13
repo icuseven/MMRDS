@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 
-    public class IsDuplicateCaseRequest
+    public sealed class IsDuplicateCaseRequest
     {
         public IsDuplicateCaseRequest(){}
 
@@ -28,7 +28,7 @@ namespace mmria.server
 	
     [Authorize(Roles  = "abstractor")]
 	[Route("api/[controller]")]
-    public class isDuplicateCaseController: ControllerBase 
+    public sealed class isDuplicateCaseController: ControllerBase 
 	{ 
 		private ActorSystem _actorSystem;
  		private readonly IAuthorizationService _authorizationService;

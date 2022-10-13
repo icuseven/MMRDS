@@ -21,10 +21,10 @@ namespace mmria.server;
 
 [Authorize]
 [Route("api/[controller]")]
-public class cvsAPIController: ControllerBase 
+public sealed class cvsAPIController: ControllerBase 
 { 
 
-    public class CVS_File_Status
+    public sealed class CVS_File_Status
     {
         public CVS_File_Status () {}
 

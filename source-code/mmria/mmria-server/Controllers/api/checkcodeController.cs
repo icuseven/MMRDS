@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-    public class checkcodeController: ControllerBase 
+    public sealed class checkcodeController: ControllerBase 
 	{ 
 		public checkcodeController()
 		{

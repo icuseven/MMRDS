@@ -18,7 +18,7 @@ namespace mmria.server;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("api/[controller]")]
-public class caseRevisionList_case_viewController: ControllerBase 
+public sealed class caseRevisionList_case_viewController: ControllerBase 
 {  
 
     IConfiguration configuration;

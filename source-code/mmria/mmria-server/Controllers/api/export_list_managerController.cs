@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-    public class export_list_managerController: ControllerBase 
+    public sealed class export_list_managerController: ControllerBase 
 	{ 
 
 

@@ -18,7 +18,7 @@ namespace mmria.server
 {
     [Authorize(Roles  = "abstractor, data_analyst")]
     [Route("api/dqr-detail/{quarter_string}")]
-	public class dqrReportController: ControllerBase 
+	public sealed class dqrReportController: ControllerBase 
 	{  
 
         public struct Result_Struct

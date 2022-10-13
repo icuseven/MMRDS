@@ -11,7 +11,7 @@ namespace mmria.server
 {
 
 	[Route("api/[controller]")]
-	public class aggregate_reportController: ControllerBase 
+	public sealed class aggregate_reportController: ControllerBase 
 	{ 
 		public aggregate_reportController()
 		{

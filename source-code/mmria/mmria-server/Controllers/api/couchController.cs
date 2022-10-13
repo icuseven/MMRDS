@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace mmria.server
 {
     [Route("api/[controller]")]
-    public class couchController : ControllerBase
+    public sealed class couchController : ControllerBase
     {
         
         // GET api/values
