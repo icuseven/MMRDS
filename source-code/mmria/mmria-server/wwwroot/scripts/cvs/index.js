@@ -87,7 +87,7 @@ async function main_continue()
                 //console.log(response);
 
                 header.innerHTML = "Error: Community Vital Sign PDF";
-                el.innerHTML = "PDF cannot be generated.<br/><span style='color:FF0000;'>External Community Vital Signs Server is unavailable.</span> Please try again later.";
+                el.innerHTML = "PDF cannot be generated.<br/><br/><span style='color:FF0000;'>External Community Vital Signs Server is unavailable.</span> <br/><br/> Please wait 60 seconds, then click the refresh button on the browser toolbar. If still unsuccessful, please try again later.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
                 //$mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
