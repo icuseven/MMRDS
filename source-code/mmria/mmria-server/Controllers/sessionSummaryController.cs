@@ -10,7 +10,7 @@ namespace mmria.server.Controllers
 {
 
     [Authorize(Roles = "form_designer,cdc_admin")]
-    public class sessionSummaryController : Controller
+    public sealed class sessionSummaryController : Controller
     {
         IConfiguration configuration;
 

@@ -15,7 +15,7 @@ namespace mmria.server
 {
 	
 	[Route("api/[controller]")]
-	public class userController: ControllerBase 
+	public sealed class userController: ControllerBase 
 	{ 
 		
 		[Authorize(Roles  = "abstractor,data_analyst")]

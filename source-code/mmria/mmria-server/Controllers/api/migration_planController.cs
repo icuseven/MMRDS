@@ -16,7 +16,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "form_designer")]
 	[Route("api/[controller]")]
-	public class migration_planController: ControllerBase 
+	public sealed class migration_planController: ControllerBase 
 	{ 
 		private ActorSystem _actorSystem;
 		public migration_planController(ActorSystem actorSystem, IAuthorizationService authorizationService)

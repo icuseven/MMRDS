@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server.Controllers
 {
   [Route("api/[controller]")]
-  public class substance_mappingController : ControllerBase
+  public sealed class substance_mappingController : ControllerBase
   {
 
     [AllowAnonymous]

@@ -10,7 +10,7 @@ namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "abstractor,data_analyst")]
     
-    public class aggregate_reportController : Controller
+    public sealed class aggregate_reportController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         private IConfiguration configuration;

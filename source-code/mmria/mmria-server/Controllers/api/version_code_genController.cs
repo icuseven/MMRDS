@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-	public class version_code_genController: ControllerBase
+	public sealed class version_code_genController: ControllerBase
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 

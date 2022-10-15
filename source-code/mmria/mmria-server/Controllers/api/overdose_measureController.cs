@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
 	[Route("api/overdose-measures")]
-	public class overdose_measureController: ControllerBase
+	public sealed class overdose_measureController: ControllerBase
 	{ 
         public struct Result_Struct
         {

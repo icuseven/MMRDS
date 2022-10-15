@@ -8,7 +8,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public class power_bi_userController : Controller
+    public sealed class power_bi_userController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         //private readonly IDocumentRepository _documentRepository;

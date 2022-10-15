@@ -7,7 +7,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     
-    public class editorController : Controller
+    public sealed class editorController : Controller
     {
         public IActionResult Index()
         {

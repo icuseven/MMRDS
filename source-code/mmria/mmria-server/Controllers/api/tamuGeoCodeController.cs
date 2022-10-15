@@ -20,7 +20,7 @@ namespace mmria.server
 
 	[Authorize]
 	[Route("api/[controller]")]
-	public class tamuGeoCodeController: ControllerBase 
+	public sealed class tamuGeoCodeController: ControllerBase 
 	{ 
         IConfiguration configuration;
         mmria.common.couchdb.ConfigurationSet ConfigDB;

@@ -12,7 +12,7 @@ namespace mmria.server
 {
     [Authorize(Roles  = "form_designer")]
     [Route("api/[controller]")]
-	public class migration_plan_viewController: ControllerBase
+	public sealed class migration_plan_viewController: ControllerBase
 	{
         [HttpGet]
         public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>> Get

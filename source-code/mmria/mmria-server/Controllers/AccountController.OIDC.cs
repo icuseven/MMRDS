@@ -37,7 +37,7 @@ https://github.com/18F/identity-oidc-aspnet
 
 namespace mmria.common.Controllers
 {
-    public partial class AccountController : Controller
+    public sealed partial class AccountController : Controller
     {
         public const string ClientId = "urn:gov:gsa:openidconnect.profiles:sp:sso:logingov:aspnet_example";
         public const string ClientUrl = "http://localhost:50764";

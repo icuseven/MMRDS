@@ -19,7 +19,7 @@ namespace VitalsImport_FileUpload.Controllers
 {
     [Authorize(Roles = "abstractor, jurisdiction_admin")]
     [Route("vital-import-history")]
-    public class vital_import_history_abstractorController : Controller
+    public sealed class vital_import_history_abstractorController : Controller
     {
         private readonly ILogger<vitalsController> _logger;
 

@@ -18,7 +18,7 @@ namespace mmria.server.Controllers;
 
 [Authorize(Roles = "installation_admin")]
 
-public class backupManagerController : Controller
+public sealed class backupManagerController : Controller
 {
 
     private readonly IConfiguration _configuration;

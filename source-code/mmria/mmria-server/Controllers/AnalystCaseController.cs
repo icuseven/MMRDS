@@ -6,7 +6,7 @@ namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "data_analyst")]
     [Route("analyst-case")]
-    public class AnalystCaseController : Controller
+    public sealed class AnalystCaseController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         IConfiguration configuration;

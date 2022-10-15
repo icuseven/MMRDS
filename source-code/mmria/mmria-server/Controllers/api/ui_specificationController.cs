@@ -10,7 +10,7 @@ namespace mmria.server
 {
 	[Authorize(Policy = "form_designer")]
 	[Route("api/[controller]")]
-    public class ui_specificationController: ControllerBase 
+    public sealed class ui_specificationController: ControllerBase 
 	{ 
 		public ui_specificationController()
 		{

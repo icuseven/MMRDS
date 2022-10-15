@@ -9,7 +9,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "BuildingEntry")]
     
     [Authorize(Roles = "installation_admin")]
-    public class _configController : Controller
+    public sealed class _configController : Controller
     {
 
         private IConfiguration configuration { get; }

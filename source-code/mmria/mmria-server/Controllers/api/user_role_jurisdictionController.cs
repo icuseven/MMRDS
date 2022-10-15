@@ -8,7 +8,7 @@ using Serilog.Configuration;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-    public class user_role_jurisdictionController: ControllerBase 
+    public sealed class user_role_jurisdictionController: ControllerBase 
 	{ 
 		public user_role_jurisdictionController()
 		{

@@ -10,7 +10,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public class CvsController : Controller
+    public sealed class CvsController : Controller
     {
         public class CVS_View_Model
         {

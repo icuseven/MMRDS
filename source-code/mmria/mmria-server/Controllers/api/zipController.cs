@@ -15,7 +15,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "abstractor,data_analyst")]
 	[Route("api/[controller]")]
-	public class zipController: ControllerBase
+	public sealed class zipController: ControllerBase
 	{
 		private IConfiguration Configuration;
 		public zipController (IConfiguration configuration)

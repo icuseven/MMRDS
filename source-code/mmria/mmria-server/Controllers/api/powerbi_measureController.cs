@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
 	[Route("api/powerbi-measures/{indicator_id?}")]
-	public class powerbi_measureController: ControllerBase
+	public sealed class powerbi_measureController: ControllerBase
 	{ 
 
         public struct Result_Struct

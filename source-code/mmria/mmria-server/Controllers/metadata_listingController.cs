@@ -6,7 +6,7 @@ namespace mmria.server.Controllers
     [AllowAnonymous] 
     [Route("metadata-listing")]
     
-    public class metadata_listingController : Controller
+    public sealed class metadata_listingController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         //private readonly IDocumentRepository _documentRepository;

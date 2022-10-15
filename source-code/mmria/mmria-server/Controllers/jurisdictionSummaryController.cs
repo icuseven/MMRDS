@@ -10,7 +10,7 @@ namespace mmria.server.Controllers
 {
 
     [Authorize(Roles = "installation_admin,cdc_admin")]
-    public class jurisdictionSummaryController : Controller
+    public sealed class jurisdictionSummaryController : Controller
     {
         IConfiguration configuration;
 

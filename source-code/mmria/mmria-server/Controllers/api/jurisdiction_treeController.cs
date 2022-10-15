@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-    public class jurisdiction_treeController: ControllerBase 
+    public sealed class jurisdiction_treeController: ControllerBase 
 	{ 
 		public jurisdiction_treeController()
 		{

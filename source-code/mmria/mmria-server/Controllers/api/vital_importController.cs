@@ -13,7 +13,7 @@ namespace mmria.server
 {
 	
 	[Route("api/[controller]")]
-    public class vital_importController: ControllerBase 
+    public sealed class vital_importController: ControllerBase 
 	{ 
 
 

@@ -9,7 +9,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "installation_admin")]
 	[Route("api/[controller]")]
-	public class syncController: ControllerBase 
+	public sealed class syncController: ControllerBase 
 	{ 
 		public syncController()
 		{

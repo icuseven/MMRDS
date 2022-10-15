@@ -6,7 +6,7 @@ namespace mmria.server.Controllers
     [AllowAnonymous] 
     [Route("privacy-policy")]
     
-    public class privacy_policyController : Controller
+    public sealed class privacy_policyController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
 

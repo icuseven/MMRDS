@@ -6,7 +6,7 @@ namespace mmria.server.Controllers
     [AllowAnonymous] 
     
     
-    public class data_dictionaryController : Controller
+    public sealed class data_dictionaryController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         //private readonly IDocumentRepository _documentRepository;

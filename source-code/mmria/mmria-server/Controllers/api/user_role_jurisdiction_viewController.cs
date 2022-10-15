@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace mmria.server
 {
     [Route("api/[controller]")]
-	public class user_role_jurisdiction_viewController: ControllerBase
+	public sealed class user_role_jurisdiction_viewController: ControllerBase
 	{
 
 // GET api/values 

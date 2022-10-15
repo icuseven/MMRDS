@@ -18,7 +18,7 @@ using mmria.server.model;
 namespace mmria.server.Controllers
 {
     [Authorize(Roles = "cdc_admin,steve_mmria")]
-    public class steveMMRIAController : Controller
+    public sealed class steveMMRIAController : Controller
     {
         private readonly ILogger<steveMMRIAController> _logger;
 

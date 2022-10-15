@@ -18,7 +18,7 @@ using mmria.server.model;
 namespace VitalsImport_FileUpload.Controllers
 {
     [Authorize(Roles = "vital_importer")]
-    public class vitalsController : Controller
+    public sealed class vitalsController : Controller
     {
         private readonly ILogger<vitalsController> _logger;
 

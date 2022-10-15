@@ -25,7 +25,7 @@ using Akka.Actor;
 namespace mmria.server.Controllers
 {
     
-    public partial class AccountController : Controller
+    public sealed partial class AccountController : Controller
     {
 
         private IHttpContextAccessor _accessor;

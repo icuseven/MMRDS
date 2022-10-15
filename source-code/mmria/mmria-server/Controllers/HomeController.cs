@@ -14,7 +14,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     
-    public class HomeController : Controller
+    public sealed class HomeController : Controller
     {
 
 

@@ -5,7 +5,7 @@ namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "form_designer,cdc_analyst")]
     [Route("manage-substance-lists")]
-    public class manageSubstanceListsController : Controller
+    public sealed class manageSubstanceListsController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
 

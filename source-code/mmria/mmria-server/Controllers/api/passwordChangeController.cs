@@ -17,7 +17,7 @@ using mmria.common.model;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-	public class passwordChangeController: ControllerBase 
+	public sealed class passwordChangeController: ControllerBase 
 	{ 
 		private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;

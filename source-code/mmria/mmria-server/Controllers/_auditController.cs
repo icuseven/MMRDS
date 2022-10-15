@@ -10,7 +10,7 @@ using mmria.server;
 
 namespace mmria.server.Controllers
 {
-    public class Audit_View
+    public sealed class Audit_View
     {
         public Audit_View(){}
         public string id {get;set;} 
@@ -25,7 +25,7 @@ namespace mmria.server.Controllers
         public int total {get;set;} 
     }
 
-    public class Audit_Detail_View
+    public sealed class Audit_Detail_View
     {
         public Audit_Detail_View(){}
         public string id {get;set;} 
@@ -44,7 +44,7 @@ namespace mmria.server.Controllers
     }
     
     [Authorize(Roles = "abstractor")]
-    public class _auditController : Controller
+    public sealed class _auditController : Controller
     {
 
         public struct Change_Stack_Result_Struct

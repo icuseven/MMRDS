@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-    public class metadataController: ControllerBase 
+    public sealed class metadataController: ControllerBase 
 	{ 
 		public metadataController()
 		{

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
 	[Route("api/[controller]/{rev?}")]
-	public class validatorController: ControllerBase
+	public sealed class validatorController: ControllerBase
 	{ 
 		public IConfiguration Configuration { get; }
 		public validatorController(IConfiguration configuration)

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-	public class nioshController: ControllerBase
+	public sealed class nioshController: ControllerBase
 	{ 
         public record Record_Id_Response
         {

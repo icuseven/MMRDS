@@ -8,7 +8,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     [Authorize(Roles = "installation_admin,jurisdiction_admin")]
-    public class jurisdictionsController : Controller
+    public sealed class jurisdictionsController : Controller
     {
         public async Task<IActionResult> Index()
         {

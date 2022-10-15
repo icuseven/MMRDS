@@ -19,7 +19,7 @@ namespace mmria.server
 {
 	[Authorize(Roles  = "jurisdiction_admin")]
 	[Route("api/[controller]")]
-	public class sessionDBController: ControllerBase 
+	public sealed class sessionDBController: ControllerBase 
 	{
 
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}

@@ -8,7 +8,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "BuildingEntry")]
 
     [Route("form-designer")]
-    public class form_designerController : Controller
+    public sealed class form_designerController : Controller
     {
         [Authorize(Roles = "form_designer")]
         public IActionResult Index()

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server.Controllers
 {
 	[Route("api/[controller]")]
-	public class version_attachController: ControllerBase
+	public sealed class version_attachController: ControllerBase
 	{ 
 		[Authorize(Roles  = "form_designer")]
 		//[Route("{id}")]

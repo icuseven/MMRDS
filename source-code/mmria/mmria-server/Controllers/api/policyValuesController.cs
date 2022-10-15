@@ -11,7 +11,7 @@ namespace mmria.server
 {
     //[AllowAnonymous] 
     [Route("api/[controller]")]
-    public class policyValuesController : Controller
+    public sealed class policyValuesController : Controller
     {
         IConfiguration configuration;
         public policyValuesController(IConfiguration p_configuration)

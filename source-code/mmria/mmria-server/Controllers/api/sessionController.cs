@@ -15,7 +15,7 @@ namespace mmria.server
 {
 
     [Route("api/[controller]")]
-    public class sessionController: ControllerBase
+    public sealed class sessionController: ControllerBase
 	{
 
 

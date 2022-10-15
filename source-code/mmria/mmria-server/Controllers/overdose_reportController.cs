@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "abstractor,data_analyst")]
-    public class overdose_reportController : Controller
+    public sealed class overdose_reportController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         private IConfiguration configuration;

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-	public class versionController: ControllerBase
+	public sealed class versionController: ControllerBase
 	{ 
 
 		IConfiguration configuration;

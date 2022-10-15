@@ -9,7 +9,7 @@ using mmria.common.model;
 namespace mmria.server
 {
 	[Route("api/[controller]")]
-	public class queueController: ControllerBase
+	public sealed class queueController: ControllerBase
 	{
 		public queueController ()
 		{
