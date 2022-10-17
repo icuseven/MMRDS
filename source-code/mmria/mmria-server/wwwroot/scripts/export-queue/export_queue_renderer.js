@@ -883,6 +883,8 @@ function get_case_set()
 
 function render_search_result_list()
 {
+    if(g_case_view_request.respone_rows == null) return;
+
     let el = document.getElementById('search_result_list');
     let html = [];
 
