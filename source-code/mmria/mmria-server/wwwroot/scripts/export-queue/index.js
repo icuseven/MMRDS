@@ -100,6 +100,8 @@ function render()
     answer_summary,
     g_filter
   ).join('');
+
+  render_search_result_list();
   
 }
 
