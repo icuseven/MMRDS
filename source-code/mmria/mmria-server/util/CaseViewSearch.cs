@@ -712,7 +712,7 @@ public sealed class CaseViewSearch
                 return result;
             };
 
-            any_predicate_list.Add(f);
+            all_predicate_list.Add(f);
 
 /*
             if(field_selection == "all")
@@ -795,7 +795,7 @@ public sealed class CaseViewSearch
                 return result;
             };
 
-            any_predicate_list.Add(f);
+            all_predicate_list.Add(f);
 /*
             if(field_selection == "all")
                 any_predicate_list.Add(f);
