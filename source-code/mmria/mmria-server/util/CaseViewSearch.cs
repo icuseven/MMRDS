@@ -712,11 +712,15 @@ public sealed class CaseViewSearch
                 return result;
             };
 
+            any_predicate_list.Add(f);
+
+/*
             if(field_selection == "all")
                 any_predicate_list.Add(f);
 
             if(field_selection == "by_committee_review_date")
                 all_predicate_list.Add(f);
+                */
 
             return f;
         }
@@ -791,6 +795,8 @@ public sealed class CaseViewSearch
                 return result;
             };
 
+            any_predicate_list.Add(f);
+/*
             if(field_selection == "all")
                 any_predicate_list.Add(f);
 
@@ -800,6 +806,7 @@ public sealed class CaseViewSearch
                 field_selection == "by_month_of_death"
             )
                 all_predicate_list.Add(f);
+                */
             
             return f;
         }
