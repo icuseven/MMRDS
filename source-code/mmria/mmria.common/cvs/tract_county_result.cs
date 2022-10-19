@@ -2,7 +2,7 @@ using System;
 
 namespace mmria.common.cvs;
 
-public class tract
+public sealed class tract
 {
     public tract(){}
 
@@ -23,7 +23,7 @@ public class tract
     public double ICE_INCOME_all { get;set;}
     public double MEDHHINC { get;set;}
 }
-public class county
+public sealed class county
 {
     public county(){}
 
@@ -59,7 +59,7 @@ public class county
     public double isolation { get;set;}
 }
 
-public class tract_county_result
+public sealed class tract_county_result
 {
     public tract_county_result()
     {

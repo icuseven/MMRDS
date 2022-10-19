@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace mmria.common.cvs;
 
-public class post_payload
+public sealed class post_payload
 {
     public post_payload(){}
 
@@ -23,7 +23,7 @@ public class post_payload
 }
 
 
-public class all_data_payload
+public sealed class all_data_payload
 {
     public all_data_payload(){}
 
@@ -33,7 +33,7 @@ public class all_data_payload
 }
 
 
-public class get_dashboard_payload
+public sealed class get_dashboard_payload
 {
     public get_dashboard_payload(){}
 
@@ -45,14 +45,14 @@ public class get_dashboard_payload
 }
 
 
-public class get_year_payload
+public sealed class get_year_payload
 {
     public get_year_payload(){}
 
     public string table { get;set;} = "acs-county";
 }
 
-public class server_status_post_body
+public sealed class server_status_post_body
 {
     public server_status_post_body(){}
 
@@ -62,7 +62,7 @@ public class server_status_post_body
     public System.Collections.Generic.Dictionary<string,string> payload {get;set;}
 }
 
-public class get_all_data_post_body
+public sealed class get_all_data_post_body
 {
     public get_all_data_post_body(){}
 
@@ -73,7 +73,7 @@ public class get_all_data_post_body
     public all_data_payload payload {get;set;}
 }
 
-public class get_dashboard_post_body
+public sealed class get_dashboard_post_body
 {
     public get_dashboard_post_body(){}
 
@@ -85,7 +85,7 @@ public class get_dashboard_post_body
 }
 
 
-public class get_year_post_body
+public sealed class get_year_post_body
 {
     public get_year_post_body(){}
 

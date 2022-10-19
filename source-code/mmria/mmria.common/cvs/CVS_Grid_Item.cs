@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace mmria.common.cvs;
 
-public class CVS_Grid_Item
+public sealed class CVS_Grid_Item
 {
     public CVS_Grid_Item(){}
 
