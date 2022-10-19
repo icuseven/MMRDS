@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace mmria.common.niosh
 {
-        public class NioshResultItem
+        public sealed class NioshResultItem
         {
             public NioshResultItem(){}
 
@@ -11,7 +11,7 @@ namespace mmria.common.niosh
             public string Title { get;set; }
             public string Probability { get;set; }
         }
-        public class NioshResult
+        public sealed class NioshResult
         {
             public NioshResult()
             {
