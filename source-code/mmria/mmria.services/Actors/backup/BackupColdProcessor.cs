@@ -9,7 +9,7 @@ using Akka.Actor;
 
 namespace mmria.services.backup;
 
-public class BackupColdProcessor : ReceiveActor
+public sealed class BackupColdProcessor : ReceiveActor
 {
     protected override void PreStart() => Console.WriteLine("BackupColdProcessor started");
     protected override void PostStop() => Console.WriteLine("BackupColdProcessor stopped");

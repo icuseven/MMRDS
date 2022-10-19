@@ -9,7 +9,7 @@ using Akka.Actor;
 
 namespace mmria.services.backup;
 
-public class FileCompressor : ReceiveActor
+public sealed class FileCompressor : ReceiveActor
 {
     protected override void PreStart() => Console.WriteLine("FileCompressor started");
     protected override void PostStop() => Console.WriteLine("FileCompressor stopped");

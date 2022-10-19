@@ -41,7 +41,7 @@ public sealed class ScheduleInfoMessage
 }
 
 
-public class QuartzSupervisor : UntypedActor
+public sealed class QuartzSupervisor : UntypedActor
 {
     protected override void OnReceive(object message)
     {

@@ -9,7 +9,7 @@ using mmria.common.ije;
 
 namespace mmria.services.backup;
 
-public class BackupSupervisor : ReceiveActor
+public sealed class BackupSupervisor : ReceiveActor
 {
 
     public class PerformBackupMessage

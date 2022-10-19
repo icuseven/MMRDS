@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace mmria.services.backup;
 
-public class Backup
+public sealed class Backup
 {
 	public class BackupResultMessage
 	{

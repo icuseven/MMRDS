@@ -7,9 +7,9 @@ using Quartz.Impl;
 using Quartz.Logging;
 
 namespace mmria.services.vitalsimport;
-public class Pulse_job : IJob
+public sealed class Pulse_job : IJob
 {
-    public virtual Task Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
         //System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 

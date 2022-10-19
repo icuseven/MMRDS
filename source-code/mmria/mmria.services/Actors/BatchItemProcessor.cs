@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace RecordsProcessor_Worker.Actors;
 
-public class BatchItemProcessor : ReceiveActor
+public sealed class BatchItemProcessor : ReceiveActor
 {
     Dictionary<string, mmria.common.metadata.value_node[]> lookup;
     static Dictionary<string, string> IJE_to_MMRIA_Path = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

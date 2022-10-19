@@ -19,7 +19,7 @@ namespace mmria.services.vitalsimport.Controllers;
 [Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class backupController : Controller
+public sealed class backupController : Controller
 {
     private ActorSystem _actorSystem;
 

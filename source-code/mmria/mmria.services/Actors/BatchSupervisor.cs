@@ -10,7 +10,7 @@ using mmria.common.ije;
 
 namespace RecordsProcessor_Worker.Actors;
 
-public class BatchSupervisor : ReceiveActor
+public sealed class BatchSupervisor : ReceiveActor
 {
 
     Dictionary<string, mmria.common.ije.Batch.StatusEnum> batch_id_list;
@@ -30,8 +30,6 @@ public class BatchSupervisor : ReceiveActor
         {
             batch_id_list.Add(row.id, row.doc.Status);
         }
-
-
 
         Receive<mmria.common.ije.NewIJESet_Message>(message =>
         {
