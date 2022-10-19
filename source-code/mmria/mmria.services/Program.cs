@@ -18,7 +18,7 @@ using Quartz.Impl;
 
 namespace mmria.services.vitalsimport;
 
-public class Program
+public sealed class Program
 {
     //public static Akka.Actor.ActorSystem actorSystem;
 

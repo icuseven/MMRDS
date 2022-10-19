@@ -10,27 +10,27 @@ using Akka.Actor;
 using RecordsProcessor_Worker.Actors;
 using mmria.services.vitalsimport.Actors.VitalsImport;
 
-namespace mmria.services.vitalsimport
+namespace mmria.services.vitalsimport;
+
+public sealed class Worker : BackgroundService
 {
-    public class Worker : BackgroundService
+    private readonly ILogger<Worker> _logger;
+
+    private string _queueName = "vitals_import_queue";
+    private ActorSystem _actorSystem;
+
+
+    public Worker(ILogger<Worker> logger, ActorSystem actorSystem)
     {
-        private readonly ILogger<Worker> _logger;
+        _logger = logger;
+        _actorSystem = actorSystem;
+    }
 
-        private string _queueName = "vitals_import_queue";
-        private ActorSystem _actorSystem;
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        stoppingToken.ThrowIfCancellationRequested();
 
-
-        public Worker(ILogger<Worker> logger, ActorSystem actorSystem)
-        {
-            _logger = logger;
-            _actorSystem = actorSystem;
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            stoppingToken.ThrowIfCancellationRequested();
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }
+

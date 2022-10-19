@@ -14,60 +14,60 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace mmria.services.Classes
+namespace mmria.services.Classes;
+
+public sealed class HeaderAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    public class HeaderAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    private string headerName = "vital-service-key";
+    private mmria.common.couchdb.ConfigurationSet _configurationSet;
+    
+    public HeaderAuthenticationHandler(
+        IOptionsMonitor<AuthenticationSchemeOptions> options,
+        ILoggerFactory logger,
+        UrlEncoder encoder,
+        ISystemClock clock)
+        : base(options, logger, encoder, clock)
     {
-        private string headerName = "vital-service-key";
-        private mmria.common.couchdb.ConfigurationSet _configurationSet;
-        
-        public HeaderAuthenticationHandler(
-            IOptionsMonitor<AuthenticationSchemeOptions> options,
-            ILoggerFactory logger,
-            UrlEncoder encoder,
-            ISystemClock clock)
-            : base(options, logger, encoder, clock)
+        _configurationSet = Program.DbConfigSet;
+    }
+
+    protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+    {
+        // skip authentication if endpoint has [AllowAnonymous] attribute
+        var endpoint = Context.GetEndpoint();
+        if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+            return AuthenticateResult.NoResult();
+
+        if (!Request.Headers.ContainsKey(headerName))
         {
-            _configurationSet = Program.DbConfigSet;
+            Debug.WriteLine($"Missing Authorization Header"); 
+            return AuthenticateResult.Fail("Missing Authorization Header");
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        try
         {
-            // skip authentication if endpoint has [AllowAnonymous] attribute
-            var endpoint = Context.GetEndpoint();
-            if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
-                return AuthenticateResult.NoResult();
+            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers[headerName])?.Scheme?.ToString();
+            var serviceKey = _configurationSet.name_value["vital_service_key"];
 
-            if (!Request.Headers.ContainsKey(headerName))
+            if (authHeader != null && !authHeader.Equals(serviceKey))
             {
-                Debug.WriteLine($"Missing Authorization Header"); 
-                return AuthenticateResult.Fail("Missing Authorization Header");
+                return AuthenticateResult.Fail("Invalid Service Key Header");
             }
-
-            try
-            {
-                var authHeader = AuthenticationHeaderValue.Parse(Request.Headers[headerName])?.Scheme?.ToString();
-                var serviceKey = _configurationSet.name_value["vital_service_key"];
-
-                if (authHeader != null && !authHeader.Equals(serviceKey))
-                {
-                    return AuthenticateResult.Fail("Invalid Service Key Header");
-                }
-            }
-            catch
-            {
-                return AuthenticateResult.Fail("Invalid Authorization Header");
-            }
-
-            var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier,  "apiUser"),
-                new Claim(ClaimTypes.Name, "apiUser"),
-            };
-            var identity = new ClaimsIdentity(claims, Scheme.Name);
-            var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, Scheme.Name);
-
-            return AuthenticateResult.Success(ticket);
         }
+        catch
+        {
+            return AuthenticateResult.Fail("Invalid Authorization Header");
+        }
+
+        var claims = new[] {
+            new Claim(ClaimTypes.NameIdentifier,  "apiUser"),
+            new Claim(ClaimTypes.Name, "apiUser"),
+        };
+        var identity = new ClaimsIdentity(claims, Scheme.Name);
+        var principal = new ClaimsPrincipal(identity);
+        var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+        return AuthenticateResult.Success(ticket);
     }
 }
+
