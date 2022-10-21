@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace mmria.server.model.SummaryReport;
 
 
-public class Detail
+public sealed class Detail
 {
     public Detail(){}
     public string value { get; set; }
@@ -14,7 +14,7 @@ public class Detail
 }
 
 
-public class FrequencySummaryDocument
+public sealed class FrequencySummaryDocument
 {
     public FrequencySummaryDocument()
     {

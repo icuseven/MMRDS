@@ -4,177 +4,177 @@ using System.Linq;
 using Akka.Actor;
 using mmria.server.model.actor.quartz;
 
-namespace mmria.server.model.actor
+namespace mmria.server.model.actor;
+
+public sealed class ScheduleInfoMessage
 {
-    public sealed class ScheduleInfoMessage
+    public ScheduleInfoMessage
+    (
+        string p_cron_schedule, 
+        string p_couch_db_url,
+        string p_user_name,
+        string p_user_value,
+        string p_export_directory,
+        string p_jurisdiction_user_name = null,
+        string p_version_number = null
+        )
     {
-        public ScheduleInfoMessage
-        (
-            string p_cron_schedule, 
-            string p_couch_db_url,
-            string p_user_name,
-            string p_user_value,
-            string p_export_directory,
-            string p_jurisdiction_user_name = null,
-            string p_version_number = null
-         )
-        {
-            cron_schedule = p_cron_schedule;
-            couch_db_url = p_couch_db_url;
-            user_name = p_user_name;
-            user_value = p_user_value;
-            export_directory = p_export_directory;
-            jurisdiction_user_name = p_jurisdiction_user_name;
-            version_number = p_version_number;
-        }
-
-        public string cron_schedule { get; private set; }
-        public string couch_db_url { get; private set; }
-        public string user_name { get; private set; }
-
-        public string jurisdiction_user_name { get; private set; }
-
-        public string version_number { get; private set; }
-
-        public string user_value { get; private set; }
-        public string export_directory { get; private set; }
+        cron_schedule = p_cron_schedule;
+        couch_db_url = p_couch_db_url;
+        user_name = p_user_name;
+        user_value = p_user_value;
+        export_directory = p_export_directory;
+        jurisdiction_user_name = p_jurisdiction_user_name;
+        version_number = p_version_number;
     }
 
+    public string cron_schedule { get; private set; }
+    public string couch_db_url { get; private set; }
+    public string user_name { get; private set; }
 
-    public class QuartzSupervisor : UntypedActor
-    {
-        //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
+    public string jurisdiction_user_name { get; private set; }
 
-        //private ScheduleInfoMessage scheduleInfo = null;
+    public string version_number { get; private set; }
+
+    public string user_value { get; private set; }
+    public string export_directory { get; private set; }
+}
+
+
+public sealed class QuartzSupervisor : UntypedActor
+{
+    //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
+
+    //private ScheduleInfoMessage scheduleInfo = null;
 
 /*
-        public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
-        {
-            this.scheduleInfo = p_scheduleInfo;
-        }
+    public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
+    {
+        this.scheduleInfo = p_scheduleInfo;
+    }
 
 
-        public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
+    public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
 */
 
-        protected override void OnReceive(object message)
-        {
-
-            switch (message)
-            {
-                case "init":
-
-                    Console.WriteLine("Quartz Supervisor initialized");
-                    break;
-
-                case "pulse":
-
-                
-                
-                    mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
-						(
-							Program.config_cron_schedule,
-							Program.config_couchdb_url,
-							Program.config_timer_user_name,
-							Program.config_timer_value,
-							Program.config_export_directory,
-                            Program.app_instance_name,
-                            Program.metadata_release_version_name
-						);
-
-
-                    if(Program.is_db_check_enabled)
-                    {
-                        Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
-                        //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
-                    }
-                    
-                    bool is_rebuild_queue = false;
-
-                    var midnight_timespan = new TimeSpan(0, 0, 0);
-                    var difference = DateTime.Now - midnight_timespan;
-                    if(difference.Hour == 0 && difference.Minute == 0)
-                    {
-                        is_rebuild_queue = true;
-                    }
-
-                    if(is_rebuild_queue)
-                    {
-                        Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
-                        //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
-                        //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
-                    }
-                    else
-                    {
-                        Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
-                        Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
-                        Context.ActorOf(Props.Create<Vital_Import_Synchronizer>()).Tell(new_scheduleInfo);
-                        //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
-
-
-                        //Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
-                        //Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
-
-                    }
-
-
-                    
-
-                    
-
-                break;
-            }
-            
-        }
-
-    }
-
-    public class CheckForChanges : UntypedActor
+    protected override void OnReceive(object message)
     {
-        //protected override void PreStart() => Console.WriteLine("CheckForChanges started");
-        //protected override void PostStop() => Console.WriteLine("CheckForChanges stopped");
 
-        protected override void OnReceive(object message)
+        switch (message)
         {
-                Console.WriteLine($"CheckForChanges {System.DateTime.Now}");
+            case "init":
 
-            /*
-            switch (message)
-            {
-                case WriteFile file:
-                    //file-data/file-name-directory/hash-name.file
-                    string new_directory = System.IO.Path.Combine(file.workingdirectory, "file-data", file.filename.Replace(file.monitoreddirectory, ""));
-                    
+                Console.WriteLine("Quartz Supervisor initialized");
+                break;
 
-                    Console.WriteLine($"QuartzWriter.OnRecieve {file.filename} >> {new_directory}");
-                    if(!System.IO.Directory.Exists(new_directory))
-                    {
-                        System.IO.Directory.CreateDirectory(new_directory);
-                    }
+            case "pulse":
 
-                    string new_path = System.IO.Path.Combine(new_directory, GetHash(file.filename));
-                    if(!System.IO.File.Exists(new_path))
-                    {
-                        System.IO.File.Copy(file.filename, new_path);
-                    }
-                    
-                    break;
+            
+            
+                mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
+                    (
+                        Program.config_cron_schedule,
+                        Program.config_couchdb_url,
+                        Program.config_timer_user_name,
+                        Program.config_timer_value,
+                        Program.config_export_directory,
+                        Program.app_instance_name,
+                        Program.metadata_release_version_name
+                    );
 
-                    case RecordFileMessage rfm:
-                        Console.WriteLine(rfm.filename);
-                        break;
-            }*/
 
+                if(Program.is_db_check_enabled)
+                {
+                    Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
+                    //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
+                }
+                
+                bool is_rebuild_queue = false;
+
+                var midnight_timespan = new TimeSpan(0, 0, 0);
+                var difference = DateTime.Now - midnight_timespan;
+                if(difference.Hour == 0 && difference.Minute == 0)
+                {
+                    is_rebuild_queue = true;
+                }
+
+                if(is_rebuild_queue)
+                {
+                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
+                    //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
+                    //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
+                }
+                else
+                {
+                    Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>()).Tell(new_scheduleInfo);
+                    //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
+
+
+                    //Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
+                    //Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
+
+                }
+
+
+                
+
+                
+
+            break;
         }
-
+        
     }
-
-
-    
-
-
 
 }
+
+public sealed class CheckForChanges : UntypedActor
+{
+    //protected override void PreStart() => Console.WriteLine("CheckForChanges started");
+    //protected override void PostStop() => Console.WriteLine("CheckForChanges stopped");
+
+    protected override void OnReceive(object message)
+    {
+            Console.WriteLine($"CheckForChanges {System.DateTime.Now}");
+
+        /*
+        switch (message)
+        {
+            case WriteFile file:
+                //file-data/file-name-directory/hash-name.file
+                string new_directory = System.IO.Path.Combine(file.workingdirectory, "file-data", file.filename.Replace(file.monitoreddirectory, ""));
+                
+
+                Console.WriteLine($"QuartzWriter.OnRecieve {file.filename} >> {new_directory}");
+                if(!System.IO.Directory.Exists(new_directory))
+                {
+                    System.IO.Directory.CreateDirectory(new_directory);
+                }
+
+                string new_path = System.IO.Path.Combine(new_directory, GetHash(file.filename));
+                if(!System.IO.File.Exists(new_path))
+                {
+                    System.IO.File.Copy(file.filename, new_path);
+                }
+                
+                break;
+
+                case RecordFileMessage rfm:
+                    Console.WriteLine(rfm.filename);
+                    break;
+        }*/
+
+    }
+
+}
+
+
+
+
+
+
+
 
 
                         /*

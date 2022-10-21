@@ -1,11 +1,11 @@
 ﻿using System;
-namespace cqrs.write
+namespace cqrs.write;
+
+public sealed partial class AdsController
 {
-    public partial class AdsController
+    public void MarkAsInteresting_UsingCommands(MarkAdAsInterestingCommand command)
     {
-        public void MarkAsInteresting_UsingCommands(MarkAdAsInterestingCommand command)
-        {
-            _command_bus.Send(command);
-        }
+        _command_bus.Send(command);
     }
 }
+

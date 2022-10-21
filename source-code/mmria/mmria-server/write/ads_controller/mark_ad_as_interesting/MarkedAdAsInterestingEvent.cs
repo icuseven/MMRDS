@@ -1,9 +1,9 @@
 ﻿using System;
-namespace cqrs.write
+namespace cqrs.write;
+
+public sealed class MarkedAdAsInterestingEvent : IEvent
 {
-    public class MarkedAdAsInterestingEvent : IEvent
-    {
-        public int UserId { get; set; }
-        public int AdId { get; set; }
-    }
+    public int UserId { get; set; }
+    public int AdId { get; set; }
 }
+

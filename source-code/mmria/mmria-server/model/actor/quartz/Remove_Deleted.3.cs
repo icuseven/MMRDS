@@ -3,45 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 
-namespace mmria.server.model.actor.quartz
+namespace mmria.server.model.actor.quartz;
+
+public sealed class Remove_Deleted : UntypedActor
 {
-    public class Remove_Deleted : UntypedActor
+    //protected override void PreStart() => Console.WriteLine("Remove_Deleted started");
+    //protected override void PostStop() => Console.WriteLine("Remove_Deleted stopped");
+
+    protected override void OnReceive(object message)
     {
-        //protected override void PreStart() => Console.WriteLine("Remove_Deleted started");
-        //protected override void PostStop() => Console.WriteLine("Remove_Deleted stopped");
+            Console.WriteLine($"Remove_Deleted Baby {System.DateTime.Now}");
 
-        protected override void OnReceive(object message)
+        /*
+        switch (message)
         {
-                Console.WriteLine($"Remove_Deleted Baby {System.DateTime.Now}");
+            case WriteFile file:
+                //file-data/file-name-directory/hash-name.file
+                string new_directory = System.IO.Path.Combine(file.workingdirectory, "file-data", file.filename.Replace(file.monitoreddirectory, ""));
+                
 
-            /*
-            switch (message)
-            {
-                case WriteFile file:
-                    //file-data/file-name-directory/hash-name.file
-                    string new_directory = System.IO.Path.Combine(file.workingdirectory, "file-data", file.filename.Replace(file.monitoreddirectory, ""));
-                    
+                Console.WriteLine($"QuartzWriter.OnRecieve {file.filename} >> {new_directory}");
+                if(!System.IO.Directory.Exists(new_directory))
+                {
+                    System.IO.Directory.CreateDirectory(new_directory);
+                }
 
-                    Console.WriteLine($"QuartzWriter.OnRecieve {file.filename} >> {new_directory}");
-                    if(!System.IO.Directory.Exists(new_directory))
-                    {
-                        System.IO.Directory.CreateDirectory(new_directory);
-                    }
+                string new_path = System.IO.Path.Combine(new_directory, GetHash(file.filename));
+                if(!System.IO.File.Exists(new_path))
+                {
+                    System.IO.File.Copy(file.filename, new_path);
+                }
+                
+                break;
 
-                    string new_path = System.IO.Path.Combine(new_directory, GetHash(file.filename));
-                    if(!System.IO.File.Exists(new_path))
-                    {
-                        System.IO.File.Copy(file.filename, new_path);
-                    }
-                    
+                case RecordFileMessage rfm:
+                    Console.WriteLine(rfm.filename);
                     break;
-
-                    case RecordFileMessage rfm:
-                        Console.WriteLine(rfm.filename);
-                        break;
-            }*/
-
-        }
+        }*/
 
     }
+
 }
