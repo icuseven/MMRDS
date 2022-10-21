@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace mmria.identity.Models
+namespace mmria.identity.Models;
+
+// Add profile data for application users by adding properties to the ApplicationUser class
+public sealed class ApplicationUser : IdentityUser
 {
-    // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser
-    {
-    }
 }
+

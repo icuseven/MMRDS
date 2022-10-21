@@ -1,11 +1,11 @@
 using System;
 
-namespace mmria.server.model
-{
-    public class ErrorViewModel
-    {
-        public string RequestId { get; set; }
+namespace mmria.server.model;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+public sealed class ErrorViewModel
+{
+    public string RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }
+

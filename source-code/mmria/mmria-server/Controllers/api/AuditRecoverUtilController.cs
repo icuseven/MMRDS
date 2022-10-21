@@ -527,7 +527,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
         public int limit;
     }
 
-    public class Audit_Detail_View
+    public sealed class Audit_Detail_View
     {
         public Audit_Detail_View(){}
         public string id {get;set;} 
@@ -544,7 +544,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
                 
 
     }
-    public class Audit_View
+    public sealed class Audit_View
     {
         public Audit_View(){}
         public string id {get;set;} 
@@ -559,7 +559,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
         public int total {get;set;} 
     }
 
-    public class Metadata_Node
+    public sealed class Metadata_Node
     {
         public Metadata_Node(){}
         public bool is_multiform { get; set; }
@@ -579,7 +579,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
         public mmria.common.model.couchdb.Change_Stack[] docs;
     }
 
-    public class Change_Stack_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack> 
+    public sealed class Change_Stack_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack> 
     {
         public int Compare(mmria.common.model.couchdb.Change_Stack x, mmria.common.model.couchdb.Change_Stack y)
         {
@@ -588,7 +588,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
         }
     }
 
-    public class Change_Stack_Item_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack_Item> 
+    public sealed class Change_Stack_Item_DescendingDate : IComparer<mmria.common.model.couchdb.Change_Stack_Item> 
     {
         public int Compare(mmria.common.model.couchdb.Change_Stack_Item x, mmria.common.model.couchdb.Change_Stack_Item y)
         {

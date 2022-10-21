@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace mmria.server.model.dqr;
 
-
-
-public class DQRSL3
+public sealed class DQRSL3
 {
     public DQRSL3()
     {
@@ -16,21 +14,21 @@ public class DQRSL3
     public int? p { get; set; }
 }
 
-public class DQRSL2
+public sealed class DQRSL2
 {
     public DQRSL2 () {}
     public DQRSL3 m { get; set; }
 
     public DQRSL3 u { get; set; }
 }
-public class DQRCLine
+public sealed class DQRCLine
 {
     public DQRCLine () {}
     public DQRSL2 c { get; set; }
 
     public DQRSL2 p { get; set; }
 }
-public class DQRSummary
+public sealed class DQRSummary
 {
     public DQRSummary()
     {

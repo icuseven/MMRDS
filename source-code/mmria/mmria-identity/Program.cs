@@ -10,46 +10,46 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System.Linq;
 
-namespace mmria.identity
+namespace mmria.identity;
+
+public sealed class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var seed = args.Any(x => x == "/seed");
+        if (seed) args = args.Except(new[] { "/seed" }).ToArray();
+
+        var host = BuildWebHost(args);
+
+        if (seed)
         {
-            var seed = args.Any(x => x == "/seed");
-            if (seed) args = args.Except(new[] { "/seed" }).ToArray();
-
-            var host = BuildWebHost(args);
-
-            if (seed)
-            {
-                SeedData.EnsureSeedData(host.Services);
-                return;
-            }
-
-            host.Run();
+            SeedData.EnsureSeedData(host.Services);
+            return;
         }
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .MinimumLevel.Override("System", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.File(@"identityserver4_log.txt")
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
-                .CreateLogger();
+        host.Run();
+    }
 
-            return WebHost.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>()
-                    .ConfigureLogging(builder =>
-                    {
-                        builder.ClearProviders();
-                        builder.AddSerilog();
-                    })
-                    .Build();
-        }
+    public static IWebHost BuildWebHost(string[] args)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Override("System", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.File(@"identityserver4_log.txt")
+            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
+            .CreateLogger();
+
+        return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                })
+                .Build();
     }
 }
+

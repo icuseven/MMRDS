@@ -5,31 +5,30 @@ using Microsoft.AspNetCore.Hosting.WindowsServices;
 
 using System.Timers;
 
-namespace mmria.server
+namespace mmria.server;
+
+public sealed class MMRIA_Window_Service  : System.ServiceProcess.ServiceBase
 {
 
-    public class MMRIA_Window_Service  : System.ServiceProcess.ServiceBase
+
+    protected override void OnStart(string[] args)
     {
-
-
-        protected override void OnStart(string[] args)
-        {
-            base.OnStart(args);
-        }
-
-
-        protected override void OnStop()
-        {
-            base.OnStop();
-        }
+        base.OnStart(args);
     }
-/*
-    public static class MMRIA_Window_ServiceExtensions
+
+
+    protected override void OnStop()
     {
-        public static void RunAsCustomService(this IWebHost host)
-        {
-            var webHostService = new MMRIA_Window_Service(host);
-            ServiceBase.Run(webHostService);
-        }
-    } */
+        base.OnStop();
+    }
 }
+/*
+public static class MMRIA_Window_ServiceExtensions
+{
+    public static void RunAsCustomService(this IWebHost host)
+    {
+        var webHostService = new MMRIA_Window_Service(host);
+        ServiceBase.Run(webHostService);
+    }
+} */
+
