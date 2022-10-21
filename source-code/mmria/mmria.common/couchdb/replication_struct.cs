@@ -1,11 +1,11 @@
 ﻿using System;
-namespace mmria.common.model.couchdb
+namespace mmria.common.model.couchdb;
+
+public struct replication_struct
 {
-    public struct replication_struct
-    {
 
-            public string source;
-            public string target;
+        public string source;
+        public string target;
 
-    }
 }
+

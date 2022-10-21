@@ -1,12 +1,9 @@
 using System;
 
-namespace mmria.common.model.couchdb
+namespace mmria.common.model.couchdb;
+public sealed class replication_request
 {
-
-    public class replication_request
-    {
-        public replication_request(){}
-        public string source {get;set;}
-        public string target {get;set;}
-    }
+    public replication_request(){}
+    public string source {get;set;}
+    public string target {get;set;}
 }

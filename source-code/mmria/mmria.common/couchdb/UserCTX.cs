@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace mmria.common.model.couchdb
-{
-	public class UserCTX
-	{
-		public UserCTX ()
-		{
-		}
+namespace mmria.common.model.couchdb;
 
-		public string name { get; set;}
-		public string[] roles { get; set;}
-	}
+public sealed class UserCTX
+{
+    public UserCTX ()
+    {
+    }
+
+    public string name { get; set;}
+    public string[] roles { get; set;}
 }
+
 

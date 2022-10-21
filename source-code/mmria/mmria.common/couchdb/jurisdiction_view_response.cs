@@ -1,7 +1,7 @@
 using System;
 
-namespace mmria.common.model.couchdb
-{
+namespace mmria.common.model.couchdb;
+
 
 /*
 {
@@ -61,62 +61,62 @@ effective_end_date:doc.effective_end_date
 
 
 
-    public class jurisdiction_view_sortable_item
-    {
-        public jurisdiction_view_sortable_item () { }
+public sealed class jurisdiction_view_sortable_item
+{
+    public jurisdiction_view_sortable_item () { }
 
-        public DateTime? date_created{ get; set; }
-        public string created_by{ get; set; }
-        public DateTime? date_last_updated{ get; set; }
-        public string last_updated_by{ get; set; }
-        public string role_name{ get; set; }
-        public string user_id{ get; set; }
-        public string parent_id{ get; set; }
-        public string jurisdiction_id{ get; set; }
-        public bool? is_active{ get; set; }
-        public DateTime? effective_start_date{ get; set; }
-        public DateTime? effective_end_date{ get; set; }
+    public DateTime? date_created{ get; set; }
+    public string created_by{ get; set; }
+    public DateTime? date_last_updated{ get; set; }
+    public string last_updated_by{ get; set; }
+    public string role_name{ get; set; }
+    public string user_id{ get; set; }
+    public string parent_id{ get; set; }
+    public string jurisdiction_id{ get; set; }
+    public bool? is_active{ get; set; }
+    public DateTime? effective_start_date{ get; set; }
+    public DateTime? effective_end_date{ get; set; }
 
 
-    }
+}
 
 /*
 
-    public class jurisdiction_view_item
-	{
-        public jurisdiction_view_item(){}
+public sealed class jurisdiction_view_item
+{
+    public jurisdiction_view_item(){}
 
-		public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-		public string key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-        public jurisdiction_view_sortable_item value {  get; set; }
-	
-	}
+    public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
+    public string key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
+    public jurisdiction_view_sortable_item value {  get; set; }
 
-    public class jurisdiction_view_response
-	{
-        public jurisdiction_view_response () 
-        {
-            this.rows = new System.Collections.Generic.List<jurisdiction_view_item> ();
-        }
+}
 
-        public jurisdiction_view_response 
-        (
-            int p_offset,
-            System.Collections.Generic.List<jurisdiction_view_item> p_rows,
-            int p_total_rows 
-        ) 
-        {
-            this.offset = p_offset;
-            this.rows = p_rows;
-            this.total_rows = p_total_rows;
-        }
+public sealed class jurisdiction_view_response
+{
+    public jurisdiction_view_response () 
+    {
+        this.rows = new System.Collections.Generic.List<jurisdiction_view_item> ();
+    }
+
+    public jurisdiction_view_response 
+    (
+        int p_offset,
+        System.Collections.Generic.List<jurisdiction_view_item> p_rows,
+        int p_total_rows 
+    ) 
+    {
+        this.offset = p_offset;
+        this.rows = p_rows;
+        this.total_rows = p_total_rows;
+    }
 
 
-		public int offset { get; set; } //": 0,
-        public System.Collections.Generic.List<jurisdiction_view_item> rows { get; set; }
-		public int total_rows { get; set; } 
-	}
+    public int offset { get; set; } //": 0,
+    public System.Collections.Generic.List<jurisdiction_view_item> rows { get; set; }
+    public int total_rows { get; set; } 
+}
 
  */
-}
+
 
