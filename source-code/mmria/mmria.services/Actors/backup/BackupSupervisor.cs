@@ -12,7 +12,7 @@ namespace mmria.services.backup;
 public sealed class BackupSupervisor : ReceiveActor
 {
 
-    public class PerformBackupMessage
+    public sealed class PerformBackupMessage
     {
         public PerformBackupMessage(){}
 
@@ -22,7 +22,7 @@ public sealed class BackupSupervisor : ReceiveActor
         public bool ReturnToSender { get; set; } = true;
     }
 
-    public class BackupFinishedMessage
+    public sealed class BackupFinishedMessage
     {
         public BackupFinishedMessage(){}
         public string type  { get; set; }

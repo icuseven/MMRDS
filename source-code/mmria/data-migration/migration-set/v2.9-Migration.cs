@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace migrate.set;
 
-public class v2_9_Migration
+public sealed class v2_9_Migration
 {
 
 	public string host_db_url;
@@ -747,7 +746,7 @@ PS --> PW
 		return result;
 	}
 
-	public class Metadata_Node
+	public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
 		public bool is_multiform { get; set; }

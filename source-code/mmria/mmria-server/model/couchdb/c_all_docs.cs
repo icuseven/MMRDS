@@ -1,17 +1,15 @@
 ﻿using System;
 
-namespace mmria.server.model.couchdb
+namespace mmria.server.model.couchdb;
+
+public sealed class c_all_docs_row
 {
-
-
-	public class c_all_docs_row
-	{
-		public c_all_docs_row() {}
-		public string id { get; set;}
-		public string key { get; set;}
-		public c_change rev { get; set;}
-	}
-			
+    public c_all_docs_row() {}
+    public string id { get; set;}
+    public string key { get; set;}
+    public c_change rev { get; set;}
+}
+        
 /*
 {"total_rows":11,"offset":0,"rows":[
 {"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
@@ -27,15 +25,15 @@ namespace mmria.server.model.couchdb
 {"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
 ]}
 */
-	public class c_all_docs
-	{
-		public c_all_docs ()
-		{
-		}
+public sealed class c_all_docs
+{
+    public c_all_docs ()
+    {
+    }
 
-		public int total_rows { get; set;}
-		public int offset { get; set;}
-		public c_all_docs_row[] rows { get; set;}
-	}
+    public int total_rows { get; set;}
+    public int offset { get; set;}
+    public c_all_docs_row[] rows { get; set;}
 }
+
 

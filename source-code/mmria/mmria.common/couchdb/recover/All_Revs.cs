@@ -5,7 +5,7 @@ using System;
 namespace mmria.common.model.couchdb.recover_doc;
 
 
-public class Revision_Class
+public sealed class Revision_Class
 {
     public Revision_Class()
     {
@@ -16,7 +16,7 @@ public class Revision_Class
 
     
 }
-public class All_Revs
+public sealed class All_Revs
 {
     public All_Revs(){}
     public string _id { get; set; }

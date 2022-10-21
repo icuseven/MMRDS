@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace mmria.server.utils;
 
-public class c_generate_frequency_summary_report
+public sealed class c_generate_frequency_summary_report
 {
 
-	public class Metadata_Node
+	public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
 		public bool is_multiform { get; set; }

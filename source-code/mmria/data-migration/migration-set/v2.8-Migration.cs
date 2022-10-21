@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace migrate.set;
 
-public class v2_8_Migration
+public sealed class v2_8_Migration
 {
 
 	public string host_db_url;
@@ -414,7 +413,7 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 		return result;
 	}
 
-	public class Metadata_Node
+	public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
 		public bool is_multiform { get; set; }

@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-
 namespace migrate.set;
 
-public class CVS_Migration
+public sealed class CVS_Migration
 {
-
 	public string host_db_url;
 	public string db_name;
 	public string config_timer_user_name;
@@ -38,7 +36,6 @@ public class CVS_Migration
 	public Dictionary<string, HashSet<string>> summary_value_dictionary = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
 
 	public bool is_data_correction = false;
-
 
 	public CVS_Migration
 	(
@@ -568,7 +565,7 @@ cvs_api_request_result_message
 }
 
 
-	public class Metadata_Node
+	public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
 		public bool is_multiform { get; set; }

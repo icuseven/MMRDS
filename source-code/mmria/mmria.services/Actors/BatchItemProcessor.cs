@@ -3341,7 +3341,7 @@ if
 
     }
 
-    public class GeocodeTuple
+    public sealed class GeocodeTuple
     {
         public GeocodeTuple(){}
 

@@ -51,7 +51,7 @@ public sealed class Result_Item
 }
 
 
-public class Queue_Item
+public sealed class Queue_Item
 {
     public string queue_id { get; set;}
     public string processing_status { get; set;}

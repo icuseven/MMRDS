@@ -5,7 +5,7 @@ namespace mmria.services.backup;
 
 public sealed class Backup
 {
-	public class BackupResultMessage
+	public sealed class BackupResultMessage
 	{
 		public BackupResultMessage() {}
 
