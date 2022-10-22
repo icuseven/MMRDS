@@ -40,8 +40,8 @@ class Program
 
     static List<string> test_list = new List<string>()
     {
-        //"mo",
-        "ga",
+        "mo",
+        //"ga",
         //"fl",
         
         /*"fl_dev",*/
@@ -91,6 +91,20 @@ class Program
 /**/
     static HashSet<string> prefix_list = new HashSet<string>()
     {
+
+        "aa",
+                "anthc",
+                "cat",
+                "gl",
+                "gp",
+                "ica",
+                "nn",
+                "nwp",
+                "rm",
+                "sp",
+                "uset",
+                "chickasaw",
+                "gu",
         
 "afd",
 "dc",
@@ -216,12 +230,12 @@ class Program
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = false;
+        bool is_test_list = true;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
-        RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+        RunTypeEnum MigrationType = RunTypeEnum.OnBoarding;
 
         
 

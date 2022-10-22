@@ -33,7 +33,12 @@ public sealed class SaveRecord
         output_builder = p_output_builder;
     }
 
-    public async Task<bool> save_case(IDictionary<string, object> item, string p_migration_name, bool force_write = false)
+    public async Task<bool> save_case
+    (
+        IDictionary<string, object> item, 
+        string p_migration_name, 
+        bool force_write = false
+    )
     {
         bool result = false;
         var gsv = new C_Get_Set_Value(this.output_builder);
