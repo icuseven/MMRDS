@@ -1,33 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers
+namespace mmria.server.Controllers;
+
+[Authorize(Roles  = "form_designer")]
+
+public sealed class migrationplanController : Controller
 {
-    [Authorize(Roles  = "form_designer")]
-
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
-    //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public sealed class migrationplanController : Controller
+    private readonly IAuthorizationService _authorizationService;
+ 
+    public migrationplanController(IAuthorizationService authorizationService)
     {
-        private readonly IAuthorizationService _authorizationService;
-        //private readonly IDocumentRepository _documentRepository;
+        _authorizationService = authorizationService;
+     }
 
-        public migrationplanController(IAuthorizationService authorizationService)
-        {
-            _authorizationService = authorizationService;
-            //_documentRepository = documentRepository;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public IActionResult Index()
+    {
+        return View();
+    }
 
 
-        public IActionResult detail()
-        {
-            return View();
-        }
+    public IActionResult detail()
+    {
+        return View();
     }
 }

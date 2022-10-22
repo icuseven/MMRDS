@@ -1,26 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers
-{
-    [Authorize(Roles  = "form_designer,power_bi_manager")]
-    [Route("power-bi-user")]
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
-    //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public sealed class power_bi_userController : Controller
-    {
-        private readonly IAuthorizationService _authorizationService;
-        //private readonly IDocumentRepository _documentRepository;
+namespace mmria.server.Controllers;
 
-        public power_bi_userController(IAuthorizationService authorizationService)
-        {
-            _authorizationService = authorizationService;
-            //_documentRepository = documentRepository;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
+[Authorize(Roles  = "form_designer,power_bi_manager")]
+[Route("power-bi-user")]
+public sealed class power_bi_userController : Controller
+{
+    private readonly IAuthorizationService _authorizationService;
+ 
+    public power_bi_userController(IAuthorizationService authorizationService)
+    {
+        _authorizationService = authorizationService;
+    }
+    public IActionResult Index()
+    {
+        return View();
     }
 }
