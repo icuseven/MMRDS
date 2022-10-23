@@ -7,9 +7,6 @@ namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
 [Route("community-vital-signs")]
-//[Authorize(Policy = "Over21Only")]
-//[Authorize(Policy = "BuildingEntry")]
-//https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
 public sealed class CvsController : Controller
 {
     public sealed class CVS_View_Model

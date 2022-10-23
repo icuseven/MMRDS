@@ -1,23 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers
+namespace mmria.server.Controllers;
+
+public sealed class editorController : Controller
 {
-    //[Authorize(Policy = "EmployeeId")]
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
-    
-    public sealed class editorController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
+    }
 
 
-        [Authorize]
-        public IActionResult Members() {
-            return View();
-        }
+    [Authorize]
+    public IActionResult Members() {
+        return View();
     }
 }

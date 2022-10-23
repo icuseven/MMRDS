@@ -1,19 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers
-{
-    //[Authorize(Policy = "EmployeeId")]
-    //[Authorize(Policy = "Over21Only")]
-    //[Authorize(Policy = "BuildingEntry")]
+namespace mmria.server.Controllers;
     
-    [Authorize(Roles = "installation_admin,jurisdiction_admin")]
-    public sealed class _usersController : Controller
+[Authorize(Roles = "installation_admin,jurisdiction_admin")]
+public sealed class _usersController : Controller
+{
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        return View();
     }
+
 }

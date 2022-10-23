@@ -1,33 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers
+namespace mmria.server.Controllers;
+
+[AllowAnonymous] 
+
+
+public sealed class data_dictionaryController : Controller
 {
-    [AllowAnonymous] 
-    
-    
-    public sealed class data_dictionaryController : Controller
+    private readonly IAuthorizationService _authorizationService;
+
+    public data_dictionaryController(IAuthorizationService authorizationService)
     {
-        private readonly IAuthorizationService _authorizationService;
-        //private readonly IDocumentRepository _documentRepository;
+        _authorizationService = authorizationService;
+;
+    }
 
-        public data_dictionaryController(IAuthorizationService authorizationService)
-        {
-            _authorizationService = authorizationService;
-            //_documentRepository = documentRepository;
-        }
+    [Route("data-dictionary")]
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        [Route("data-dictionary")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        
-        [Route("data-dictionary/diff")]
-        public IActionResult diff()
-        {
-            return View();
-        }
+    
+    [Route("data-dictionary/diff")]
+    public IActionResult diff()
+    {
+        return View();
     }
 }
