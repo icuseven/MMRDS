@@ -17,8 +17,8 @@ using Serilog;
 using Serilog.Configuration;
 
 
-namespace mmria.server
-{
+namespace mmria.server;
+
 	/*
     action:start
     action:stop
@@ -93,164 +93,164 @@ core_test
     https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
  
 */
-    public sealed partial class Program : WebHostService
+public sealed partial class Program : WebHostService
+{
+
+    public Program(IWebHost host) : base(host)
     {
 
-        public Program(IWebHost host) : base(host)
+    }
+
+    public static void Main(string[] p_args)
+    {
+        args = p_args;
+
+        AppDomain currentDomain = AppDomain.CurrentDomain;
+        currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
+
+        try
         {
 
-        }
+            configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
 
-        public static void Main(string[] p_args)
-        {
-            args = p_args;
 
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
-
-            try
+            if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
             {
-
-                configuration = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-
-
-                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
-                {
-                    try
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                        .CreateLogger();
-                    }
-                    catch(System.Exception ex)
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .CreateLogger();    
-                    }
-                }
-                else
+                try
                 {
                     Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                     .WriteTo.Console()
-                    //.WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                    .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+                }
+                catch(System.Exception ex)
+                {
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
                     .CreateLogger();    
                 }
-
-                bool isService = true;
-                if (Debugger.IsAttached || args.Contains("--console"))
-                {
-                    isService = false;
-                }
-
-                var pathToContentRoot = Directory.GetCurrentDirectory();
-                if (isService)
-                {
-                    var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
-                    pathToContentRoot = Path.GetDirectoryName(pathToExe);
-                }
-
-                string web_site_url = configuration["mmria_settings:web_site_url"];
-
-                var host = WebHost.CreateDefaultBuilder(args)
-                    .UseContentRoot(pathToContentRoot)
-                    .UseStartup<Startup>()
-                    .UseUrls(web_site_url)
-                    //.UseApplicationInsights()
-                    .Build();
-
-                Log.Information($"Program config_is_service: {config_is_service}");
-                if (isService)
-                {
-                    host.RunAsCustomService();
-                }
-                else
-                {
-                    host.Run();
-                }
-
-/*
-                configuration = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-
-                
+            }
+            else
+            {
                 Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-
-                if 
-                (
-                    //Environment.UserInteractive || 
-                    //bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
-                    Debugger.IsAttached || 
-                    args.Contains("--use_environment")
-                ) 
-                {
-                    config_is_service = false;
-                }
-
-                var pathToContentRoot = AppContext.BaseDirectory;
-                if (config_is_service)
-                {
-                    var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
-                    pathToContentRoot = Path.GetDirectoryName(pathToExe);
-                }
-
-                Log.Information($"Program config_is_service: {config_is_service}");
-                Log.Information("Program.Run without environment");
-                new Program().Run(args); */
-
+                //.WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                .CreateLogger();    
             }
-            catch (System.Exception ex)
+
+            bool isService = true;
+            if (Debugger.IsAttached || args.Contains("--console"))
             {
-                EventLog.WriteEntry("Application", ex.ToString(), EventLogEntryType.Error);
+                isService = false;
             }
 
-               
+            var pathToContentRoot = Directory.GetCurrentDirectory();
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            string web_site_url = configuration["mmria_settings:web_site_url"];
+
+            var host = WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(pathToContentRoot)
+                .UseStartup<Startup>()
+                .UseUrls(web_site_url)
+                //.UseApplicationInsights()
+                .Build();
+
+            Log.Information($"Program config_is_service: {config_is_service}");
+            if (isService)
+            {
+                host.RunAsCustomService();
+            }
+            else
+            {
+                host.Run();
+            }
+
+/*
+            configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+
+            
+            Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+            if 
+            (
+                //Environment.UserInteractive || 
+                //bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
+                Debugger.IsAttached || 
+                args.Contains("--use_environment")
+            ) 
+            {
+                config_is_service = false;
+            }
+
+            var pathToContentRoot = AppContext.BaseDirectory;
+            if (config_is_service)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            Log.Information($"Program config_is_service: {config_is_service}");
+            Log.Information("Program.Run without environment");
+            new Program().Run(args); */
+
         }
+        catch (System.Exception ex)
+        {
+            EventLog.WriteEntry("Application", ex.ToString(), EventLogEntryType.Error);
+        }
+
+            
+    }
 
 /*
 
-        protected override void OnStarting(string[] args)
-        {
-            base.OnStarting(args);
-        }
-
-        protected override void OnStarted()
-        {
-            base.OnStarted();
-            new Program(this.host).Run(args);
-        }
-
-        protected override void OnStopping()
-        {
-            base.OnStopping();
-        }
-
-        public void Stop()
-        {
-            //Console.WriteLine("I stopped");
-        }
- 
-    }
- */
-
-    }
-    
-    public static class Program_ServiceExtensions
+    protected override void OnStarting(string[] args)
     {
-        public static void RunAsCustomService(this IWebHost host)
-        {
-            var webHostService = new Program(host);
-            System.ServiceProcess.ServiceBase.Run(webHostService);
-        }
+        base.OnStarting(args);
+    }
+
+    protected override void OnStarted()
+    {
+        base.OnStarted();
+        new Program(this.host).Run(args);
+    }
+
+    protected override void OnStopping()
+    {
+        base.OnStopping();
+    }
+
+    public void Stop()
+    {
+        //Console.WriteLine("I stopped");
     }
 
 }
+*/
+
+}
+
+public static class Program_ServiceExtensions
+{
+    public static void RunAsCustomService(this IWebHost host)
+    {
+        var webHostService = new Program(host);
+        System.ServiceProcess.ServiceBase.Run(webHostService);
+    }
+}
+
+

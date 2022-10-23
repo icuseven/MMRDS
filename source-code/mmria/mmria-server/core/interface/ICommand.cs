@@ -1,5 +1,4 @@
 ﻿using System;
-namespace cqrs
-{
-    public interface ICommand{}
-}
+namespace cqrs;
+
+public interface ICommand{}

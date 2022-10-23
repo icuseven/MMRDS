@@ -16,8 +16,8 @@ using System.Diagnostics;
 using Serilog;
 using Serilog.Configuration;
 
-namespace mmria.server
-{
+namespace mmria.server;
+
 	/*
     action:start
     action:stop
@@ -89,84 +89,84 @@ mmria-server -> /app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64
 https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?view=aspnetcore-2.0&tabs=aspnetcore2x
 
 */
-    public sealed partial class Program //: IMicroService, IConfiguration
+public sealed partial class Program //: IMicroService, IConfiguration
+{
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
+        AppDomain currentDomain = AppDomain.CurrentDomain;
+        currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
-            //var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
-            try
-            {
-                configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .AddUserSecrets<Startup>()
-                .Build();
+        //var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
+        try
+        {
+            configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .AddUserSecrets<Startup>()
+            .Build();
 
 
 /*
-               var Email = new mmria.server.utilsemail.Email();
-               Email.Body = "This is a MMRIA test";
-               Email.From = configuration["mmria_settings:EMAIL_FROM"];
-               Email.To = new List<string>(){"jhaines@brightnoise.net"};
-               Email.Subject = "Test Subject";
-               bool success = new mmria.server.utilsemail.Email_Handler(configuration).SendMessage(Email);
-  */
+            var Email = new mmria.server.utilsemail.Email();
+            Email.Body = "This is a MMRIA test";
+            Email.From = configuration["mmria_settings:EMAIL_FROM"];
+            Email.To = new List<string>(){"jhaines@brightnoise.net"};
+            Email.Subject = "Test Subject";
+            bool success = new mmria.server.utilsemail.Email_Handler(configuration).SendMessage(Email);
+*/
 
-                if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
+            if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
+            {
+                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+            }
+            else 
+            {
+                Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+                Program.config_export_directory = configuration["mmria_settings:export_directory"];
+            }
+
+
+            if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
+            {
+                try
                 {
-                    Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                    Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
+                    .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
                 }
-                else 
-                {
-                    Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                    Program.config_export_directory = configuration["mmria_settings:export_directory"];
-                }
-
-
-                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
-                {
-                    try
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                        .CreateLogger();
-                    }
-                    catch(System.Exception)
-                    {
-                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                        .WriteTo.Console()
-                        .CreateLogger();    
-                    }
-
-                }
-                else
+                catch(System.Exception)
                 {
                     Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                     .WriteTo.Console()
                     .CreateLogger();    
                 }
-            
 
-
-                var host = WebHost.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>()
-                    .UseUrls(Program.config_web_site_url)
-                    .Build();
-
-
-            
-                host.Run();
             }
-            catch (System.Exception ex)
+            else
             {
-                System.Console.WriteLine($"MMRIA Server error: ${ex}");
-            }    
+                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();    
+            }
+        
 
+
+            var host = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseUrls(Program.config_web_site_url)
+                .Build();
+
+
+        
+            host.Run();
         }
+        catch (System.Exception ex)
+        {
+            System.Console.WriteLine($"MMRIA Server error: ${ex}");
+        }    
+
     }
 }
+

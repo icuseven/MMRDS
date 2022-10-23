@@ -1,10 +1,10 @@
 ﻿using System;
-namespace cqrs
-{
-    public interface ICommandHandler {}
+namespace cqrs;
 
-    public interface ICommandHandler<TCommand> where TCommand : ICommand
-    {
-        void Handle(TCommand command);
-    }
+public interface ICommandHandler {}
+
+public interface ICommandHandler<TCommand> where TCommand : ICommand
+{
+    void Handle(TCommand command);
 }
+

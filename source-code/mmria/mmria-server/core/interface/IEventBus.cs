@@ -1,8 +1,8 @@
 ﻿using System;
-namespace cqrs
+namespace cqrs;
+
+public interface IEventBus
 {
-    public interface IEventBus
-    {
-        void Publish<TEvent>(TEvent @event) where TEvent : IEvent;
-    }
+    void Publish<TEvent>(TEvent @event) where TEvent : IEvent;
 }
+

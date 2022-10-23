@@ -1,8 +1,8 @@
 ﻿using System;
-namespace cqrs
+namespace cqrs;
+
+public interface ICommandBus
 {
-    public interface ICommandBus
-    {
-        void Send<TCommand>(TCommand command) where TCommand : ICommand;
-    }
+    void Send<TCommand>(TCommand command) where TCommand : ICommand;
 }
+
