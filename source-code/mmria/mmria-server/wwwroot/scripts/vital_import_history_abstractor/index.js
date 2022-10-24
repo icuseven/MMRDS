@@ -121,6 +121,7 @@ function get_batch_set()
                     }
 
                     g_date_list.sort(compare_dates);
+                    g_state_date_list[reporting_state].sort(compare_dates);
                     
                     
                     if(g_date_list.indexOf(import_date) < 0)
@@ -254,16 +255,16 @@ function render_batch_list()
 
 function state_list_onchange(p_value)
 {
-    let el = document.getElementById('date-list');
-    let html = [];
+    const el = document.getElementById('date-list');
+    const html = [];
     
     html.push(`<option value="all">All</option>`);
 
-    if(p_value == 'all')
+    if(p_value == 'all' || p_value == '')
     { 
         for (let i = 0; i < g_date_list.length; i++) 
         {
-            let item = g_date_list[i];
+            const item = g_date_list[i];
             html.push(`<option value="${item}">${item}</option>`);
         }
     }
@@ -272,7 +273,7 @@ function state_list_onchange(p_value)
         let list = g_state_date_list[p_value];
         for (let i = 0; i < list.length; i++) 
         {
-            let item = list[i];
+            const item = list[i];
             html.push(`<option value="${item}">${item}</option>`);
         }
     }
