@@ -1757,9 +1757,9 @@ public sealed class mmrds_exporter
                                 path_to_node_map[field_node].data_type != null &&
                                 path_to_node_map[field_node].data_type.ToLower() == "string" &&
                                 (
-                                grid_item_value == "9999" ||
-                                grid_item_value == "8888" ||
-                                grid_item_value == "7777"
+                                    grid_item_value == "9999" ||
+                                    grid_item_value == "8888" ||
+                                    grid_item_value == "7777"
                                 )
                             )
                             {
