@@ -7,103 +7,103 @@ using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server
-{
-	[Route("api/[controller]")]
-	public sealed class version_code_genController: ControllerBase
-	{ 
-		// GET api/values 
-		//public IEnumerable<master_record> Get() 
-		[AllowAnonymous] 
-		[HttpGet]
-		public async Task<string> Get()
-		{
-			string result = null;
+namespace mmria.server;
 
-			try
-			{
-				//"2016-06-12T13:49:24.759Z"
-                string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+[Route("api/[controller]")]
+public sealed class version_code_genController: ControllerBase
+{ 
+    // GET api/values 
+    //public IEnumerable<master_record> Get() 
+    [AllowAnonymous] 
+    [HttpGet]
+    public async Task<string> Get()
+    {
+        string result = null;
 
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-				request.Method = "GET";
-				request.PreAuthenticate = false;
+        try
+        {
+            //"2016-06-12T13:49:24.759Z"
+            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = await reader.ReadToEndAsync ();
+            System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+            request.Method = "GET";
+            request.PreAuthenticate = false;
 
-			}
-			catch(Exception ex) 
-			{
-				Console.WriteLine (ex);
-			}
+            System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+            System.IO.Stream dataStream = response.GetResponseStream();
+            System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+            result = await reader.ReadToEndAsync ();
 
-			return result;
-		} 
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine (ex);
+        }
 
-		// POST api/values 
-		[AllowAnonymous] 
-		[HttpPost]
-		[HttpPut]
-		public async System.Threading.Tasks.Task<ContentResult> Post
-		(
-			[FromBody] System.Dynamic.ExpandoObject code_gen_request
-		) 
-		{ 
-			var generatedFile = "";
+        return result;
+    } 
 
-			//if(!string.IsNullOrWhiteSpace(json))
-			try
-			{
+    // POST api/values 
+    [AllowAnonymous] 
+    [HttpPost]
+    [HttpPut]
+    public async System.Threading.Tasks.Task<ContentResult> Post
+    (
+        [FromBody] System.Dynamic.ExpandoObject code_gen_request
+    ) 
+    { 
+        var generatedFile = "";
 
-				var byName = (IDictionary<string,object>)code_gen_request;
-				var payload = byName["payload"].ToString(); 
-				//string id_val = null;
+        //if(!string.IsNullOrWhiteSpace(json))
+        try
+        {
 
-
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				var payload_string = Newtonsoft.Json.JsonConvert.SerializeObject(byName["payload"], settings);
+            var byName = (IDictionary<string,object>)code_gen_request;
+            var payload = byName["payload"].ToString(); 
+            //string id_val = null;
 
 
-				generatedFile = await GenerateFileAsync(payload_string);
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var payload_string = Newtonsoft.Json.JsonConvert.SerializeObject(byName["payload"], settings);
 
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
-			}
+
+            generatedFile = await GenerateFileAsync(payload_string);
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        }
 /*
-			this.Response.Clear();
-			this.Response.ClearHeaders();
-			this.Response.AddHeader("Content-Type", "text/plain");
- */
-			return Content(generatedFile, "text/plain");
-		}
+        this.Response.Clear();
+        this.Response.ClearHeaders();
+        this.Response.AddHeader("Content-Type", "text/plain");
+*/
+        return Content(generatedFile, "text/plain");
+    }
 
-		async Task<string> GenerateFileAsync(string schemaJson)
-		{
-				string result = null;
+    async Task<string> GenerateFileAsync(string schemaJson)
+    {
+            string result = null;
 
-				var schema = await NJsonSchema.JsonSchema.FromJsonAsync(schemaJson);
-				var settings = new NJsonSchema.CodeGeneration.CSharp.CSharpGeneratorSettings()
-				{
-					Namespace = "AwesomeSauce.v1",
-					//ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Inpc 
-					ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
-					GenerateJsonMethods = true,
-					GenerateDataAnnotations = true
-				};
+            var schema = await NJsonSchema.JsonSchema.FromJsonAsync(schemaJson);
+            var settings = new NJsonSchema.CodeGeneration.CSharp.CSharpGeneratorSettings()
+            {
+                Namespace = "AwesomeSauce.v1",
+                //ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Inpc 
+                ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
+                GenerateJsonMethods = true,
+                GenerateDataAnnotations = true
+            };
 
-				var generator = new NJsonSchema.CodeGeneration.CSharp.CSharpGenerator(schema, settings);
-				result = generator.GenerateFile();
+            var generator = new NJsonSchema.CodeGeneration.CSharp.CSharpGenerator(schema, settings);
+            result = generator.GenerateFile();
 
 //NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.
-				return result;
-		}
- 
-	} 
-}
+            return result;
+    }
+
+} 
+
 

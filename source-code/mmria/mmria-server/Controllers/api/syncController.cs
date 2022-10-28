@@ -5,50 +5,50 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server
-{
-	[Authorize(Roles  = "installation_admin")]
-	[Route("api/[controller]")]
-	public sealed class syncController: ControllerBase 
-	{ 
-		public syncController()
-		{
-			
-		}
+namespace mmria.server;
 
-		[HttpGet]
-		public string Get()
-		{
-			string result = null;
+[Authorize(Roles  = "installation_admin")]
+[Route("api/[controller]")]
+public sealed class syncController: ControllerBase 
+{ 
+    public syncController()
+    {
+        
+    }
 
-			System.Threading.Tasks.Task.Run
-			(
-				new Action (() =>
-				{
+    [HttpGet]
+    public string Get()
+    {
+        string result = null;
 
-					try 
-					{
-						
-						mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
-																			Program.config_couchdb_url,
-																			Program.config_timer_user_name,
-																			Program.config_timer_value
-																		);
+        System.Threading.Tasks.Task.Run
+        (
+            new Action (() =>
+            {
 
-						sync_all.executeAsync (); 
-					}
-					catch (Exception ex) 
-					{
-						System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
-					}
-				})
-			);
-			
+                try 
+                {
+                    
+                    mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
+                                                                        Program.config_couchdb_url,
+                                                                        Program.config_timer_user_name,
+                                                                        Program.config_timer_value
+                                                                    );
 
-			return result;
+                    sync_all.executeAsync (); 
+                }
+                catch (Exception ex) 
+                {
+                    System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
+                }
+            })
+        );
+        
 
-		} 
-	
-	} 
-}
+        return result;
+
+    } 
+
+} 
+
 
