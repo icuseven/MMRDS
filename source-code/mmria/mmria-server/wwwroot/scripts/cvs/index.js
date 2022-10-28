@@ -168,7 +168,6 @@ async function get_cvs_api_dashboard_info
 
 async function get_file(p_id)
 {
-    //http://localhost:12345/api/cvsAPI/GA-2012-1234
 
     var base_url = `${location.protocol}//${location.host}/api/cvsAPI/${p_id}`
 
