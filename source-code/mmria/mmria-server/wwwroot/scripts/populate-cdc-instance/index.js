@@ -40,8 +40,64 @@ var batch_status = [
 
 window.onload = function()
 {
-    get_batch_set();
-} 
+    main();
+}
+
+
+function main()
+{
+    const el = document.getElementById("output");
+
+    el.innerHTML = render();
+}
+
+function render()
+{
+    const result = [];
+
+    result.push("<p style='text-align:right'>")
+    result.push(render_save_button());
+    result.push(render_submit_button());
+    result.push("</p>")
+    result.push(render_table());
+
+    return result.join("");
+}
+
+function render_save_button()
+{
+    return `
+<button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()">
+Save Selections
+</button>`;
+}
+
+function render_submit_button()
+{
+    return `
+<button id="generate_btn" class="btn btn-primary btn-lg " onclick="submit_button_click()">
+Submit
+</button>`;
+
+}
+
+function render_table()
+{
+    const result = [];
+    result.push(`
+    <table>
+        <thead>
+            <tr style="background-color:#b890bb;">
+                <th>#</th>
+                <th>Transfer to Central MMRIA Instance</th>
+                <th>MMRIA Site Name</th>
+            </tr>
+        </thead>
+    </table>
+    `);
+
+    return result.join("");
+}
 
 function get_batch_set()
 {
