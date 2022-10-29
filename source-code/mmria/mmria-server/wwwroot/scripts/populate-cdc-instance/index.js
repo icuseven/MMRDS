@@ -8,6 +8,79 @@ var g_date_list = [];
 
 
 
+var state_list = [
+{ is_included:true, name:"aa - " },
+{ is_included:false, name:"afd - " },
+{ is_included:false, name:"ak - " },
+{ is_included:false, name:"al - " },
+{ is_included:false, name:"anthc - " },
+{ is_included:false, name:"ar - " },
+{ is_included:false, name:"az - " },
+{ is_included:false, name:"ca - " },
+{ is_included:false, name:"cat - " },
+//{ is_included:false, name:"cdc - " },
+{ is_included:true, name:"chickasaw - " },
+{ is_included:false, name:"co - " },
+{ is_included:false, name:"ct - " },
+{ is_included:false, name:"dc - " },
+{ is_included:false, name:"de - " },
+{ is_included:false, name:"demo - " },
+{ is_included:false, name:"fl - " },
+{ is_included:false, name:"ga - " },
+{ is_included:false, name:"gl - " },
+{ is_included:false, name:"gp - " },
+{ is_included:false, name:"gu - " },
+{ is_included:false, name:"hi - " },
+{ is_included:false, name:"ia - " },
+{ is_included:false, name:"ica - " },
+{ is_included:false, name:"id - " },
+{ is_included:false, name:"il - " },
+{ is_included:false, name:"in - " },
+{ is_included:false, name:"ks - " },
+{ is_included:false, name:"ky - " },
+{ is_included:false, name:"la - " },
+{ is_included:false, name:"ma - " },
+{ is_included:false, name:"md - " },
+{ is_included:false, name:"me - " },
+{ is_included:false, name:"mi - " },
+{ is_included:false, name:"mn - " },
+{ is_included:false, name:"mo - " },
+{ is_included:false, name:"ms - " },
+{ is_included:false, name:"mt - " },
+{ is_included:false, name:"nc - " },
+{ is_included:false, name:"nd - " },
+{ is_included:false, name:"ne - " },
+{ is_included:false, name:"nh - " },
+{ is_included:false, name:"nj - " },
+{ is_included:false, name:"nm - " },
+{ is_included:false, name:"nn - " },
+{ is_included:false, name:"nv - " },
+{ is_included:false, name:"nwp - " },
+{ is_included:false, name:"ny - " },
+{ is_included:false, name:"oh - " },
+{ is_included:false, name:"ok - " },
+{ is_included:false, name:"or - " },
+{ is_included:false, name:"pa - " },
+{ is_included:false, name:"pr - " },
+{ is_included:false, name:"ri - " },
+{ is_included:false, name:"rm - " },
+{ is_included:false, name:"sc - " },
+{ is_included:false, name:"sd - " },
+{ is_included:false, name:"sp - " },
+{ is_included:false, name:"tn - " },
+{ is_included:false, name:"tx - " },
+{ is_included:false, name:"uset - " },
+{ is_included:false, name:"ut - " },
+{ is_included:false, name:"va - " },
+{ is_included:false, name:"vt - " },
+{ is_included:false, name:"wa - " },
+{ is_included:false, name:"wi - " },
+{ is_included:false, name:"wv - " },
+{ is_included:false, name:"wy - " }
+
+]
+;
+
 var batch_item_status = [
     "Validating",
     "InProcess",
@@ -93,12 +166,31 @@ function render_table()
                 <th>MMRIA Site Name</th>
             </tr>
         </thead>
+        ${rendert_state_list()}
     </table>
     `);
 
     return result.join("");
 }
 
+
+function rendert_state_list()
+{
+    const result = [];
+    for(let i = 0; i < state_list.length; i++)
+    {
+        const number = i + 1;
+        result.push(`
+            <tr>
+                <td>${number}</td>
+                <td style='text-align:center'><input type=checkbox value=${i} ${state_list[i].is_included == true ? "checked":""}/></td>
+                <td>${state_list[i].name}</td>
+            </tr>
+        `);
+    }
+
+    return result.join("");
+}
 function get_batch_set()
 {
     let el = document.getElementById("batch_list");
