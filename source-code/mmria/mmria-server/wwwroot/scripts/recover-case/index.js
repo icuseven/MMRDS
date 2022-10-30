@@ -32,6 +32,8 @@ window.onload = main;
 
 async function main()
 {
+    g_jurisdiction_list.sort();
+
     const release_version = await $.ajax
     ({
         url: `${location.protocol}//${location.host}/api/version/release-version`,
