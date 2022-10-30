@@ -17,46 +17,30 @@ namespace mmria.services.vitalsimport.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public sealed class MessageController : ControllerBase
+public sealed class PopulateCDCInstanceController : ControllerBase
 {
     private ActorSystem _actorSystem;
     private IConfiguration _configurationSet;
 
-    public MessageController(ActorSystem actorSystem, IConfiguration configurationSet)
+    public PopulateCDCInstanceController(ActorSystem actorSystem, IConfiguration configurationSet)
     {
         _actorSystem = actorSystem;
         _configurationSet = configurationSet;
     }
 
 
-    [HttpGet("_health")]
-    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public ObjectResult _health()
-    {
-        string health = string.Empty;
-
-        object status = new
-        {
-            alive = true,
-            //RabbitMQ_Alive = IsRabbitMQConnectionAlive()
-        };
-
-        health = JsonConvert.SerializeObject(status);
-
-        return Ok(health);
-    }
-
-    [HttpPost("Read")]
+    [HttpGet("Read")]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public void ReadMessage([FromBody]RecordUpload_Message body)
     {
         var processor = _actorSystem.ActorOf<Recieve_Import_Actor>();
 
         processor.Tell(body);
+
     }
 
 
-    [HttpPut("IJESet")]
+    [HttpPut("Write")]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public mmria.common.ije.NewIJESet_MessageResponse ReadMessage([FromBody] mmria.common.ije.NewIJESet_MessageDTO body)
     {
