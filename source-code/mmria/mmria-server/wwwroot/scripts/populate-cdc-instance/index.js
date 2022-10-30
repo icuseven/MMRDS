@@ -7,7 +7,8 @@ var g_state_date_list = {};
 var g_date_list = [];
 
 var g_data = {
-
+_id: "populate-cdc-intance",
+    //"_rev": "22-755420131f3f91efa0bb10a3fb8816c6",
 transfer_result : "",
 transfer_status_number: 0,
 
@@ -116,9 +117,19 @@ var batch_status = [
 ];
 
 
-window.onload = function()
+window.onload = async function()
 {
+
+    g_data = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/populate_cdc_instance`,
+    });
+    
+
     main();
+
+
+
 }
 
 
