@@ -6,12 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class populate_cdc_instanceController : ControllerBase
 {
+
+    IConfiguration configuration;
+    mmria.common.couchdb.ConfigurationSet ConfigDB;
+
+    public populate_cdc_instanceController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    {
+        configuration = p_configuration;
+        ConfigDB = p_config_db;
+    }
 
     [Authorize(Roles = "cdc_admin")]
     [HttpGet]
@@ -91,6 +101,67 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
         return result;
     }
+
+    [Authorize(Roles  = "vital_importer")]
+    [HttpPut]
+    public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
+    { 
+        string object_string = null;
+        mmria.server.model.NewIJESet_MessageResponse result = new ();
+
+        try
+        {
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            object_string = Newtonsoft.Json.JsonConvert.SerializeObject(ijeset, settings);
+
+                //var localUrl = "https://localhost:44331/api/Message/IJESet";
+                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+                //var messge_curl_result = await message_curl.executeAsync();
+
+            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("IJESet", "PopulateCDCInstance");
+
+            var user_curl = new cURL("PUT", null, user_db_url, object_string);
+            user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+            var responseFromServer = await user_curl.executeAsync();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
+
+            if (!result.ok) 
+            {
+
+            }
+
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine (ex);
+            result.detail = ex.Message;
+            
+        }
+
+        return result;
+    } 
+
+
+    private mmria.common.couchdb.ConfigurationSet GetConfiguration()
+    {
+        var result = new mmria.common.couchdb.ConfigurationSet();
+        try
+        {
+            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = case_curl.execute();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return result;
+    }
+
 
     public static string Base64Decode(string base64EncodedData)
     {
