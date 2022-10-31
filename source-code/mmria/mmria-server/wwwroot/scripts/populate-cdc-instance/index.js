@@ -164,7 +164,8 @@ function rendert_state_list()
                 <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
                 <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td-->
                 <td style='text-align:left'>${item.prefix}</td>
-                <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td>
+                <!--td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td-->
+                <td style='text-align:left'>${item.name}</td>
             </tr>
         `);
     }
