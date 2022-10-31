@@ -130,16 +130,29 @@ function rendert_state_list()
         is_diabled = 'disabled="disabled"';
     }
 
+    
+    
+
     for(let i = 0; i < g_data.state_list.length; i++)
     {
         const item = g_data.state_list[i];
         const number = i + 1;
+
+        let bg_color = '';
+        let text_bg_color = '';
+        if(i % 2 == 1)
+        {
+            bg_color = "style='background-color:silver;'"
+            text_bg_color = "background-color:silver;"
+
+        }
         result.push(`
-            <tr>
+            <tr ${bg_color}>
                 <td>${number}</td>
                 <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
-                <td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td>
-                <td style='text-align:left'><input type=text value=${item.name} onchange='name_changed(${i}, this.value)' ${is_diabled}/></td>
+                <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td-->
+                <td style='text-align:left'>${item.prefix}</td>
+                <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td>
             </tr>
         `);
     }
