@@ -27,21 +27,60 @@ public sealed class populate_cdc_instanceController : ControllerBase
     [HttpGet]
     public async Task<mmria.common.metadata.Populate_CDC_Instance> Get()
     {
-        mmria.common.metadata.Populate_CDC_Instance result = null;
+        mmria.common.metadata.Populate_CDC_Instance result = new();
         try
         {
-        string request_string = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
-        var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-        string responseFromServer = await case_curl.executeAsync();
-        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
+            string request_string = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
+            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = await case_curl.executeAsync();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
+
+
+            var service_response = await GetFromService();  
+
+            Console.WriteLine("here");      
+                
         }
         catch (Exception ex)
         {
-        Console.WriteLine(ex);
+            Console.WriteLine(ex);
         }
 
         return result;
     }
+
+
+    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance> GetFromService() 
+    { 
+        string object_string = null;
+        mmria.common.metadata.Populate_CDC_Instance result = null;
+
+        try
+        {
+
+            //var localUrl = "https://localhost:44331/api/Message/IJESet";
+            //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+            //var messge_curl_result = await message_curl.executeAsync();
+
+            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
+
+            var user_curl = new cURL("GET", null, user_db_url, object_string);
+            user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+            var responseFromServer = await user_curl.executeAsync();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
+
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine (ex);
+            result.transfer_result = ex.Message;
+            
+        }
+
+        return result;
+    } 
+
+
 
     [Authorize(Roles = "cdc_admin")]
 
@@ -102,9 +141,9 @@ public sealed class populate_cdc_instanceController : ControllerBase
         return result;
     }
 
-    [Authorize(Roles  = "vital_importer")]
+    [Authorize(Roles  = "cdc_admin")]
     [HttpPut]
-    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
+    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance> Post([FromBody] mmria.common.metadata.Populate_CDC_Instance request_message) 
     { 
         string object_string = null;
         mmria.common.metadata.Populate_CDC_Instance result = new ();
@@ -113,13 +152,13 @@ public sealed class populate_cdc_instanceController : ControllerBase
         {
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            object_string = Newtonsoft.Json.JsonConvert.SerializeObject(ijeset, settings);
+            object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request_message, settings);
 
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
                 //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
-            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("IJESet", "PopulateCDCInstance");
+            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
 
             var user_curl = new cURL("PUT", null, user_db_url, object_string);
             user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);

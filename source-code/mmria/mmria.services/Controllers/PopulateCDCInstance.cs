@@ -29,21 +29,27 @@ public sealed class PopulateCDCInstanceController : ControllerBase
     }
 
 
-    [HttpGet("Read")]
+    [HttpGet]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public void ReadMessage([FromBody]RecordUpload_Message body)
+    public mmria.common.metadata.Populate_CDC_Instance ReadMessage()
     {
-        var processor = _actorSystem.ActorOf<Recieve_Import_Actor>();
+         mmria.common.metadata.Populate_CDC_Instance result = new ();
+        //var processor = _actorSystem.ActorOf<Recieve_Import_Actor>();
 
-        processor.Tell(body);
+        //processor.Tell(body);
+
+        System.Console.WriteLine("here");
+
+        return result;
 
     }
 
 
-    [HttpPut("Write")]
+    [HttpPut]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public mmria.common.ije.NewIJESet_MessageResponse ReadMessage([FromBody] mmria.common.ije.NewIJESet_MessageDTO body)
+    public mmria.common.metadata.Populate_CDC_Instance ReadMessage([FromBody] mmria.common.metadata.Populate_CDC_Instance body)
     {
+        /*
         var processor = _actorSystem.ActorSelection("user/batch-supervisor");
 
 
@@ -65,6 +71,13 @@ public sealed class PopulateCDCInstanceController : ControllerBase
         };
 
         processor.Tell(NewIJESet_Message);
+
+        return result;
+        */
+        mmria.common.metadata.Populate_CDC_Instance result = new ();
+        result.transfer_status_number = 1;
+        
+        System.Console.WriteLine("here");
 
         return result;
     }

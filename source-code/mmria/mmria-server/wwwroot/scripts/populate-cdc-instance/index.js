@@ -2,6 +2,7 @@
 
 var message_history = [];
 var g_data = {};
+var g_server = {}
 
 
 window.onload = async function()
@@ -11,6 +12,18 @@ window.onload = async function()
     ({
         url: `${location.protocol}//${location.host}/api/populate_cdc_instance`,
     });
+
+    /*
+    g_server = await $.ajax
+    (
+        {
+				url: location.protocol + '//' + location.host + '/api/populate_cdc_instance',
+				//contentType: 'application/json; charset=utf-8',
+				//dataType: 'json',
+				//data: JSON.stringify(g_data),
+				//type: "Get"
+		}
+    );*/
     
 
     main();
@@ -219,4 +232,36 @@ async function prefix_changed(i, value)
 async function name_changed(i, value)
 {
     g_data.state_list[i].name = value;
+}
+
+async function submit_button_click()
+{
+
+	const response = await $.ajax
+    (
+        {
+				url: location.protocol + '//' + location.host + '/api/populate_cdc_instance',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(g_data),
+				type: "PUT"
+		}
+    );
+        
+
+    if(response.transfer_status_number == 1)
+    {
+        //g_data._rev = response_obj.rev; 
+        g_data.transfer_status_number = 1;
+        render();
+    }
+    else
+    {
+        message_history.push(`Problem saving!  Data NOT saved to database. ${new Date()}`);
+        render();
+    }
+
+    
+		
+		
 }
