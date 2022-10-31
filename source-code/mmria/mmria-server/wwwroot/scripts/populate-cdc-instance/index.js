@@ -139,13 +139,12 @@ function rendert_state_list()
         const number = i + 1;
 
         let bg_color = '';
-        let text_bg_color = '';
+
         if(i % 2 == 1)
         {
-            bg_color = "style='background-color:silver;'"
-            text_bg_color = "background-color:silver;"
-
+            bg_color = "style='background-color:#DDDDDD;'"
         }
+
         result.push(`
             <tr ${bg_color}>
                 <td>${number}</td>
