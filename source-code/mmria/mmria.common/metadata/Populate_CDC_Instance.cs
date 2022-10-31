@@ -5,6 +5,7 @@ namespace mmria.common.metadata;
 public sealed class State_List_Item
 {
     public bool? is_included { get; set; }
+    public string prefix { get; set; }
     public string name { get; set; }
 }
 

@@ -104,10 +104,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
     [Authorize(Roles  = "vital_importer")]
     [HttpPut]
-    public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
+    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
     { 
         string object_string = null;
-        mmria.server.model.NewIJESet_MessageResponse result = new ();
+        mmria.common.metadata.Populate_CDC_Instance result = new ();
 
         try
         {
@@ -124,18 +124,13 @@ public sealed class populate_cdc_instanceController : ControllerBase
             var user_curl = new cURL("PUT", null, user_db_url, object_string);
             user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
             var responseFromServer = await user_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
-
-            if (!result.ok) 
-            {
-
-            }
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
 
         }
         catch(Exception ex) 
         {
             Console.WriteLine (ex);
-            result.detail = ex.Message;
+            result.transfer_result = ex.Message;
             
         }
 

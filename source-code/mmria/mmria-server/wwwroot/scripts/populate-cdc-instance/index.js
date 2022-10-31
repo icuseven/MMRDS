@@ -108,6 +108,7 @@ function render_table()
             <tr style="background-color:#b890bb;">
                 <th>#</th>
                 <th>Transfer to Central MMRIA Instance</th>
+                <th>Prefix</th>
                 <th>MMRIA Site Name</th>
             </tr>
         </thead>
@@ -122,6 +123,13 @@ function render_table()
 function rendert_state_list()
 {
     const result = [];
+
+    let is_diabled = '';
+    if(g_data.transfer_status_number === 1)
+    {
+        is_diabled = 'disabled="disabled"';
+    }
+
     for(let i = 0; i < g_data.state_list.length; i++)
     {
         const item = g_data.state_list[i];
@@ -129,8 +137,9 @@ function rendert_state_list()
         result.push(`
             <tr>
                 <td>${number}</td>
-                <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""}/></td>
-                <td>${item.name}</td>
+                <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
+                <td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td>
+                <td style='text-align:left'><input type=text value=${item.name} onchange='name_changed(${i}, this.value)' ${is_diabled}/></td>
             </tr>
         `);
     }
@@ -188,4 +197,14 @@ function sanitize_encodeHTML(s)
 async function checkbox_clicked(i)
 {
     g_data.state_list[i].is_included = !g_data.state_list[i].is_included;
+}
+
+async function prefix_changed(i, value)
+{
+    g_data.state_list[i].prefix = value;
+}
+
+async function name_changed(i, value)
+{
+    g_data.state_list[i].name = value;
 }
