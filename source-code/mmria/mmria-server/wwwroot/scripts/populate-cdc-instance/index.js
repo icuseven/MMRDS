@@ -48,9 +48,9 @@ function render()
 
     result.push(render_transfer_status());
     
-    result.push(`<p id='message-area-id'>${render_messages()} </p>`)
+    result.push(`<p  align=center id='message-area-id'>${render_messages()} </p>`)
     
-    result.push("<p style='text-align:right'>")
+    result.push("<p  align=center style='text-align:right'>")
     result.push(render_save_button());
     result.push(render_submit_button());
     result.push("</p>")
@@ -85,14 +85,14 @@ function render_transfer_status()
 
         case 1:
             result.push(`
-                <p><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
+                <p align=center><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
                 Transfer in progress (Submitted 09/28/2022 at 10:04:00). Please check again later for completion status.
                 </p>
             `);
             break;
         case 2:
             result.push(`
-            <p><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+            <p align=center><img src=${location.protocol}//${location.host}/img/TransferError.svg />
         Transfer could not be completed ( Time to transfer: 2 min | Submitted 09/28/2022 at 10:04:00| Failed 09/28/2022 at 10:06:00).
 
         Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00
@@ -102,7 +102,7 @@ function render_transfer_status()
         case 0:
         default:
             result.push(`
-            <p><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
+            <p align=center><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
             Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00
             </p>
             `);
@@ -116,17 +116,19 @@ function render_table()
 {
     const result = [];
     result.push(`
-    <table>
+
+    <table align=center>
         <thead>
             <tr style="background-color:#b890bb;">
                 <th>#</th>
                 <th>Transfer to Central MMRIA Instance</th>
-                <th>Prefix</th>
+                <!--th>Prefix</th-->
                 <th>MMRIA Site Name</th>
             </tr>
         </thead>
         ${rendert_state_list()}
     </table>
+
     `);
 
     return result.join("");
@@ -163,8 +165,8 @@ function rendert_state_list()
                 <td>${number}</td>
                 <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
                 <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td-->
-                <td style='text-align:left'>${item.prefix}</td>
-                <!--td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td-->
+                <!--td style='text-align:left'>${item.prefix}</td>
+                <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td-->
                 <td style='text-align:left'>${item.name}</td>
             </tr>
         `);
