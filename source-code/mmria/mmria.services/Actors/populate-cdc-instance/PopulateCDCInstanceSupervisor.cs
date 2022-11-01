@@ -12,6 +12,7 @@ namespace mmria.services.populate_cdc_instance;
 
 public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
 {
+    public record PopulateFinished(DateTime Date_Completed);
 
     string transfer_result = "";
     int transfer_status_number = 0;
@@ -20,65 +21,98 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
     int duration_in_hours = 0;
     int duration_in_minutes = 0;
       
-    Dictionary<string, mmria.common.ije.Batch.StatusEnum> batch_id_list;
     IConfiguration configuration;
     ILogger logger;
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public PopulateCDCInstanceSupervisor()
     {
-        //IConfiguration p_configuration
-        //configuration = p_configuration;
-        //logger = p_logger;
-        batch_id_list = new Dictionary<string, mmria.common.ije.Batch.StatusEnum>();
-
-        var alldocs = GetBatchSet();
-        foreach(var row in alldocs.rows)
-        {
-            batch_id_list.Add(row.id, row.doc.Status);
-        }
-
         Receive<DateTime>(message =>
         {
-            var result = new mmria.common.metadata.Populate_CDC_Instance_Record()
+            mmria.common.metadata.Populate_CDC_Instance_Record result;
+            if
+            (
+                transfer_status_number == 0 || 
+                transfer_status_number == 1
+            )
             {
-                transfer_result = transfer_result,
-                transfer_status_number = transfer_status_number,
-                date_submitted = date_submitted,
-                date_completed = date_completed,
-                duration_in_hours = duration_in_hours,
-                duration_in_minutes = duration_in_minutes
-            };
+                result = new mmria.common.metadata.Populate_CDC_Instance_Record()
+                {
+                    transfer_result = transfer_result,
+                    transfer_status_number = transfer_status_number,
+                    date_submitted = date_submitted,
+                    date_completed = date_completed,
+                    duration_in_hours = duration_in_hours,
+                    duration_in_minutes = duration_in_minutes
+                };
+            }
+            else
+            {
+                var time_diff = DateTime.Now - date_submitted;
+                var running_duration_in_hours = (int) time_diff.Value.TotalHours;
+                var running_duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
+                result = new mmria.common.metadata.Populate_CDC_Instance_Record()
+                {
+                    transfer_result = transfer_result,
+                    transfer_status_number = transfer_status_number,
+                    date_submitted = date_submitted,
+                    date_completed = date_completed,
+                    duration_in_hours = running_duration_in_hours,
+                    duration_in_minutes = running_duration_in_minutes
+                };
+            }
             Sender.Tell(result);
         });
 
-        Receive<mmria.common.ije.BatchStatusMessage>(message =>
-        {
-            batch_id_list[message.id] = message.status;
-            
+        Receive<mmria.common.metadata.Populate_CDC_Instance>(message =>
+        {   
+            transfer_status_number = 1;
+            date_submitted = DateTime.Now;
+            date_completed = null;
+            duration_in_hours = 0;
+            duration_in_minutes = 0;
+            transfer_result = $"Transfer in progress (Submitted 09/28/2022 at 10:04:00). Please check again later for completion status.";
+
         });
 
 
-        Receive<mmria.common.ije.BatchRemoveDataMessage>(message =>
+        Receive<PopulateFinished>(message =>
         {
-            if(batch_id_list.ContainsKey(message.id))
-            {
-                if
-                (
-                    batch_id_list[message.id] == mmria.common.ije.Batch.StatusEnum.Finished ||
-                    batch_id_list[message.id] == mmria.common.ije.Batch.StatusEnum.BatchRejected
-                )
-                {
-                    var batch_processor = Context.ActorOf<RecordsProcessor_Worker.Actors.BatchProcessor>(message.id);
-                    batch_processor.Tell(message);
-                }
-            }
-            
+            transfer_status_number = 0;
+            date_completed = DateTime.Now;
+            var time_diff = date_completed - date_submitted;
+            duration_in_hours = (int) time_diff.Value.TotalHours;
+            duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
+            transfer_result = $"Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
         });
 
-
-        
     }
+    protected override SupervisorStrategy SupervisorStrategy()
+    {
+        return new OneForOneStrategy
+        (
+            maxNrOfRetries: 0,
+            withinTimeRange: TimeSpan.FromMinutes(1),
+            localOnlyDecider: PopulateCDCFailed
+        );
+    }
+
+    Directive PopulateCDCFailed(Exception ex)
+    {
+        transfer_status_number = 2;
+        date_completed = DateTime.Now;
+        var time_diff = date_completed - date_submitted;
+        duration_in_hours = (int) time_diff.Value.TotalHours;
+        duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
+        transfer_result = ex.Message;
+
+        transfer_result = @$"Transfer could not be completed ( Time to transfer: 2 min | Submitted 09/28/2022 at 10:04:00| Failed 09/28/2022 at 10:06:00).
+
+        Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
+        return Directive.Stop;
+    } 
+
+
 
     private mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch> GetBatchSet()
     {

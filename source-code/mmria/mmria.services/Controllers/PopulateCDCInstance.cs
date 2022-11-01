@@ -48,35 +48,13 @@ public sealed class PopulateCDCInstanceController : ControllerBase
 
     [HttpPut]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public mmria.common.metadata.Populate_CDC_Instance ReadMessage([FromBody] mmria.common.metadata.Populate_CDC_Instance body)
+    public async Task<mmria.common.metadata.Populate_CDC_Instance_Record> ReadMessage([FromBody] mmria.common.metadata.Populate_CDC_Instance body)
     {
-        /*
-        var processor = _actorSystem.ActorSelection("user/batch-supervisor");
+        mmria.common.metadata.Populate_CDC_Instance_Record result = new (); 
 
+        var processor = _actorSystem.ActorSelection("user/populate-cdc-instance-supervisor");
 
-        var NewIJESet_Message = new mmria.common.ije.NewIJESet_Message()
-        {
-            batch_id = System.Guid.NewGuid().ToString(),
-            mor = body.mor,
-            nat = body.nat,
-            fet = body.fet,
-            mor_file_name = body.mor_file_name,
-            nat_file_name = body.nat_file_name,
-            fet_file_name = body.fet_file_name
-        };
-
-        var result = new mmria.common.ije.NewIJESet_MessageResponse()
-        {
-            batch_id = NewIJESet_Message.batch_id,
-            ok = true
-        };
-
-        processor.Tell(NewIJESet_Message);
-
-        return result;
-        */
-        mmria.common.metadata.Populate_CDC_Instance result = new ();
-        result.transfer_status_number = 1;
+        result = await processor.Ask(body) as mmria.common.metadata.Populate_CDC_Instance_Record;
         
         System.Console.WriteLine("here");
 
