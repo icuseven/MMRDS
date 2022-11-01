@@ -62,17 +62,18 @@ function render()
 function render_save_button()
 {
     return `
-<button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()">
+<label><button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()">
 Save Selections
-</button>`;
+</button></label>`;
 }
 
 function render_submit_button()
 {
     return `
+    <label>
 <button id="generate_btn" class="btn btn-primary btn-lg " onclick="submit_button_click()">
 Submit
-</button>`;
+</button></label>`;
 
 }
 
@@ -119,9 +120,9 @@ function render_table()
 
     <table align=center>
         <thead>
-            <tr style="background-color:#b890bb;">
+            <tr style="background-color:#b890bb;" align=center>
                 <th>#</th>
-                <th>Transfer to Central MMRIA Instance</th>
+                <th style="margin-left:10px;margin-right:10px">Transfer to Central MMRIA Instance</th>
                 <!--th>Prefix</th-->
                 <th>MMRIA Site Name</th>
             </tr>
@@ -163,10 +164,11 @@ function rendert_state_list()
         result.push(`
             <tr ${bg_color}>
                 <td>${number}</td>
-                <td style='text-align:center'><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
-                <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td-->
-                <!--td style='text-align:left'>${item.prefix}</td>
-                <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td-->
+                <td style='text-align:center'><label><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></label></td>
+                <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td>
+                <td style='text-align:left'>${item.prefix}</td>
+                <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td
+                -->
                 <td style='text-align:left'>${item.name}</td>
             </tr>
         `);
