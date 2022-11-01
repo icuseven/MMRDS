@@ -8,6 +8,18 @@ public sealed class State_List_Item
     public string prefix { get; set; }
     public string name { get; set; }
 }
+public record Populate_CDC_Instance_Record()
+{
+    public DateTime? date_submitted { get; init; } = DateTime.Now;
+
+    public DateTime? date_completed { get; init; }
+
+    public int? duration_in_hours { get; init; } = 0;
+    public int? duration_in_minutes { get; init; } = 0;
+
+    public string transfer_result { get; init; }
+    public int? transfer_status_number { get; init; }
+}
 
 
 public sealed class Populate_CDC_Instance

@@ -1,4 +1,5 @@
-﻿using Akka.Actor;
+﻿using System.Threading.Tasks;
+using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -31,12 +32,12 @@ public sealed class PopulateCDCInstanceController : ControllerBase
 
     [HttpGet]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public mmria.common.metadata.Populate_CDC_Instance ReadMessage()
+    public async Task<mmria.common.metadata.Populate_CDC_Instance_Record> ReadMessage()
     {
-         mmria.common.metadata.Populate_CDC_Instance result = new ();
-        //var processor = _actorSystem.ActorOf<Recieve_Import_Actor>();
+         mmria.common.metadata.Populate_CDC_Instance_Record result = new ();
+        var processor = _actorSystem.ActorSelection("user/populate-cdc-instance-supervisor");
 
-        //processor.Tell(body);
+        result = await processor.Ask(DateTime.Now) as mmria.common.metadata.Populate_CDC_Instance_Record;
 
         System.Console.WriteLine("here");
 

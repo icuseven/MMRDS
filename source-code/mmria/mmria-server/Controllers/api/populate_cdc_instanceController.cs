@@ -64,10 +64,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
     }
 
 
-    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance> GetFromService() 
+    public async System.Threading.Tasks.Task<mmria.common.metadata.Populate_CDC_Instance_Record> GetFromService() 
     { 
         string object_string = null;
-        mmria.common.metadata.Populate_CDC_Instance result = null;
+        mmria.common.metadata.Populate_CDC_Instance_Record result = null;
 
         try
         {
@@ -81,13 +81,17 @@ public sealed class populate_cdc_instanceController : ControllerBase
             var user_curl = new cURL("GET", null, user_db_url, object_string);
             user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
             var responseFromServer = await user_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance_Record>(responseFromServer);
 
         }
         catch(Exception ex) 
         {
             Console.WriteLine (ex);
-            result.transfer_result = ex.Message;
+            result = new common.metadata.Populate_CDC_Instance_Record()
+            {
+                transfer_status_number = 2,
+                transfer_result = ex.Message
+            };
             
         }
 

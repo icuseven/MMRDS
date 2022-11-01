@@ -144,6 +144,7 @@ public sealed class Program
                 var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
                 actorSystem.ActorOf<RecordsProcessor_Worker.Actors.BatchSupervisor>("batch-supervisor");
                 actorSystem.ActorOf<mmria.services.backup.BackupSupervisor>("backup-supervisor");
+                actorSystem.ActorOf<mmria.services.populate_cdc_instance.PopulateCDCInstanceSupervisor>("populate-cdc-instance-supervisor");
                 
                 services.AddHostedService<Worker>();
                 services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
