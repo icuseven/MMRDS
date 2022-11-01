@@ -38,6 +38,20 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
             var service_response = await GetFromService();  
 
+            if
+            (
+                service_response != null &&
+                !string.IsNullOrWhiteSpace(service_response.transfer_result)
+            )
+            {
+                result.transfer_result = service_response.transfer_result;
+                result.transfer_status_number = service_response.transfer_status_number;
+                result.date_submitted = service_response.date_submitted;
+                result.date_completed = service_response.date_completed;
+                result.duration_in_hours = service_response.duration_in_hours;
+                result.duration_in_minutes = service_response.duration_in_minutes;
+            }
+
             Console.WriteLine("here");      
                 
         }
