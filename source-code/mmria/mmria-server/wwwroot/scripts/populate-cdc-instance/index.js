@@ -51,8 +51,10 @@ function render()
     result.push(`<p  align=center id='message-area-id'>${render_messages()} </p>`)
     
     result.push("<p  align=center style='text-align:right'>")
+
     result.push(render_save_button());
     result.push(render_submit_button());
+    
     result.push("</p>")
     result.push(render_table());
 
@@ -61,17 +63,28 @@ function render()
 
 function render_save_button()
 {
+    let is_diabled = '';
+    if(g_data.transfer_status_number === 1)
+    {
+        is_diabled = 'disabled="disabled"';
+    }
+
     return `
-<label><button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()">
+<label><button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()" ${is_diabled}>
 Save Selections
 </button></label>`;
 }
 
 function render_submit_button()
 {
+    let is_diabled = '';
+    if(g_data.transfer_status_number === 1)
+    {
+        is_diabled = 'disabled="disabled"';
+    }
     return `
     <label>
-<button id="generate_btn" class="btn btn-primary btn-lg " onclick="submit_button_click()">
+<button id="generate_btn" class="btn btn-primary btn-lg " onclick="submit_button_click()" ${is_diabled}>
 Submit
 </button></label>`;
 
