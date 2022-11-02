@@ -19,6 +19,7 @@ public record Populate_CDC_Instance_Record()
 
     public string transfer_result { get; init; }
     public int? transfer_status_number { get; init; }
+    public string error_message { get; set; }
 }
 
 
@@ -37,6 +38,8 @@ public sealed class Populate_CDC_Instance
 
    public string transfer_result { get; set; }
   public int? transfer_status_number { get; set; }
+
+  public string error_message { get; set; }
   
 
     public List<State_List_Item> state_list { get; set; }

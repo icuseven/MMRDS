@@ -20,6 +20,8 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
     DateTime? date_completed;
     int duration_in_hours = 0;
     int duration_in_minutes = 0;
+
+    string error_message = "";
       
     IConfiguration configuration;
     ILogger logger;
@@ -43,7 +45,8 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
                     date_submitted = date_submitted,
                     date_completed = date_completed,
                     duration_in_hours = duration_in_hours,
-                    duration_in_minutes = duration_in_minutes
+                    duration_in_minutes = duration_in_minutes,
+                    error_message = error_message
                 };
             }
             else
@@ -58,7 +61,8 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
                     date_submitted = date_submitted,
                     date_completed = date_completed,
                     duration_in_hours = running_duration_in_hours,
-                    duration_in_minutes = running_duration_in_minutes
+                    duration_in_minutes = running_duration_in_minutes,
+                    error_message = error_message
                 };
             }
             Sender.Tell(result);
@@ -72,6 +76,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
             duration_in_hours = 0;
             duration_in_minutes = 0;
             transfer_result = $"Transfer in progress (Submitted 09/28/2022 at 10:04:00). Please check again later for completion status.";
+            error_message = "";
 
         });
 
@@ -84,6 +89,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
             duration_in_hours = (int) time_diff.Value.TotalHours;
             duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
             transfer_result = $"Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
+            error_message = "";
         });
 
     }
@@ -104,11 +110,13 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
         var time_diff = date_completed - date_submitted;
         duration_in_hours = (int) time_diff.Value.TotalHours;
         duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
-        transfer_result = ex.Message;
+        error_message = ex.Message;
 
         transfer_result = @$"Transfer could not be completed ( Time to transfer: 2 min | Submitted 09/28/2022 at 10:04:00| Failed 09/28/2022 at 10:06:00).
 
         Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
+
+
         return Directive.Stop;
     } 
 
