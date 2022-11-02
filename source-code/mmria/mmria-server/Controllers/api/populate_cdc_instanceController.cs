@@ -187,6 +187,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
         catch(Exception ex) 
         {
             Console.WriteLine (ex);
+            result.transfer_status_number = 2;
             result.transfer_result = ex.Message;
             
         }

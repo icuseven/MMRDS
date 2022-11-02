@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
@@ -10,6 +11,7 @@ namespace mmria.services.populate_cdc_instance;
 public sealed class PopulateCDCInstance : ReceiveActor
 {
 
+
     IConfiguration configuration;
     ILogger logger;
 
@@ -17,7 +19,30 @@ public sealed class PopulateCDCInstance : ReceiveActor
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public PopulateCDCInstance()
     {
+        Become(Waiting);
     }
 
+    void Processing()
+    {
+        Receive<mmria.common.metadata.Populate_CDC_Instance>(message =>
+        {
+            // discard message;
+        });
+    }
+
+    void Waiting()
+    {
+        Receive<mmria.common.metadata.Populate_CDC_Instance>(message =>
+        {
+            Become(Processing);
+            Process_Message(message);
+        });
+    }
+
+
+    private async Task Process_Message(mmria.common.metadata.Populate_CDC_Instance message)
+    {
+        throw new Exception("Exception thrown");
+    }
 
 }

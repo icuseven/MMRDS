@@ -25,10 +25,14 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
       
     IConfiguration configuration;
     ILogger logger;
+
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public PopulateCDCInstanceSupervisor()
     {
+        
+        Context.ActorOf<PopulateCDCInstance>("child");
+
         Receive<DateTime>(message =>
         {
             mmria.common.metadata.Populate_CDC_Instance_Record result;
@@ -69,7 +73,14 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
         });
 
         Receive<mmria.common.metadata.Populate_CDC_Instance>(message =>
-        {   
+        {
+
+            var processor = Context.ActorSelection("akka://mmria-actor-system/user/populate-cdc-instance-supervisor/child*");
+            //var processor = Context.ActorSelection("child");
+            
+            processor.Tell(message);
+
+
             transfer_status_number = 1;
             date_submitted = DateTime.Now;
             date_completed = null;
@@ -77,6 +88,20 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
             duration_in_minutes = 0;
             transfer_result = $"Transfer in progress (Submitted 09/28/2022 at 10:04:00). Please check again later for completion status.";
             error_message = "";
+
+            Sender.Tell
+            (
+                new mmria.common.metadata.Populate_CDC_Instance_Record()
+                {
+                    transfer_result = transfer_result,
+                    transfer_status_number = transfer_status_number,
+                    date_submitted = date_submitted,
+                    date_completed = date_completed,
+                    duration_in_hours = duration_in_hours,
+                    duration_in_minutes = duration_in_minutes,
+                    error_message = error_message
+                }
+            );
 
         });
 
@@ -98,7 +123,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
         return new OneForOneStrategy
         (
             maxNrOfRetries: 0,
-            withinTimeRange: TimeSpan.FromMinutes(1),
+            withinTimeRange: TimeSpan.FromMinutes(0),
             localOnlyDecider: PopulateCDCFailed
         );
     }
@@ -117,7 +142,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
         Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
 
 
-        return Directive.Stop;
+        return Directive.Restart;
     } 
 
 
