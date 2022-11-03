@@ -91,12 +91,12 @@ public sealed class c_sync_document
     public async System.Threading.Tasks.Task executeAsync()
     {
 
-        string de_identified_revision = await get_revision (connection.url + $"/{connection.prefix}de_id/" + this.document_id);
+        string de_identified_revision = await get_revision (connection.url + $"/de_id/" + this.document_id);
         System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
         string de_identified_json = null;
 
         de_identfied_url.Append(connection.url);
-        de_identfied_url.Append($"/{connection.prefix}de_id/");
+        de_identfied_url.Append($"/de_id/");
         de_identfied_url.Append(this.document_id);
 
         if(this.method == "DELETE")
@@ -183,7 +183,7 @@ public sealed class c_sync_document
         {
             string aggregate_json = new mmria.server.utils.c_convert_to_report_object(document_json, connection, metadata_release_version_name).execute();
 
-            string aggregate_revision = await get_revision (connection.url + $"/{connection.prefix}report/" + this.document_id);
+            string aggregate_revision = await get_revision (connection.url + $"/report/" + this.document_id);
 
             System.Text.StringBuilder aggregate_url = new System.Text.StringBuilder();
 
@@ -194,7 +194,7 @@ public sealed class c_sync_document
 
 
             aggregate_url.Append(connection.url);
-            aggregate_url.Append($"/{connection.prefix}report/");
+            aggregate_url.Append($"/report/");
             aggregate_url.Append(this.document_id);
 
             if(this.method == "DELETE")
@@ -225,7 +225,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
                 var opioid_id = "opioid-" + this.document_id;
-                string aggregate_revision = await get_revision (connection.url + $"/{connection.prefix}report/" + opioid_id);
+                string aggregate_revision = await get_revision (connection.url + $"/report/" + opioid_id);
 
 
                 var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
@@ -242,7 +242,7 @@ public sealed class c_sync_document
 
 
                 opioid_aggregate_url.Append(connection.url);
-                opioid_aggregate_url.Append($"/{connection.prefix}report/");
+                opioid_aggregate_url.Append($"/report/");
                 opioid_aggregate_url.Append(opioid_id);
     
                 if(this.method == "DELETE")
@@ -272,7 +272,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
                 var opioid_id = "powerbi-" + this.document_id;
-                string aggregate_revision = await get_revision (connection.url + $"/{connection.prefix}report/" + opioid_id);
+                string aggregate_revision = await get_revision (connection.url + $"/report/" + opioid_id);
 
 
                 var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
@@ -289,7 +289,7 @@ public sealed class c_sync_document
 
 
                 opioid_aggregate_url.Append(connection.url);
-                opioid_aggregate_url.Append($"/{connection.prefix}report/");
+                opioid_aggregate_url.Append($"/report/");
                 opioid_aggregate_url.Append(opioid_id);
     
                 if(this.method == "DELETE")
@@ -320,7 +320,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
                 var dqr_id = "dqr-" + this.document_id;
-                string current_detail_revision = await get_revision (connection.url + $"/{connection.prefix}report/" + dqr_id);
+                string current_detail_revision = await get_revision (connection.url + $"/report/" + dqr_id);
 
 
                 var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (dqr_detail_report_json);
@@ -342,7 +342,7 @@ public sealed class c_sync_document
 
 
                 dqr_detail_url.Append(connection.url);
-                dqr_detail_url.Append($"/{connection.prefix}report/");
+                dqr_detail_url.Append($"/report/");
                 dqr_detail_url.Append(dqr_id);
     
                 if(this.method == "DELETE")
@@ -376,7 +376,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {
                 var freq_id = "freq-" + this.document_id;
-                string current_detail_revision = await get_revision (connection.url + $"/{connection.prefix}report/" + freq_id);
+                string current_detail_revision = await get_revision (connection.url + $"/report/" + freq_id);
 
 
                 var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (freq_detail_report_json);
@@ -398,7 +398,7 @@ public sealed class c_sync_document
 
 
                 freq_detail_url.Append(connection.url);
-                freq_detail_url.Append($"/{connection.prefix}report/");
+                freq_detail_url.Append($"/report/");
                 freq_detail_url.Append(freq_id);
     
                 if(this.method == "DELETE")
