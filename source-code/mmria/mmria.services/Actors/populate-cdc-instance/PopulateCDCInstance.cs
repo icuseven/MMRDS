@@ -209,7 +209,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
                         try
                         {
-                            string request_string = $"{db_info.url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
                             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                             string case_view_responseFromServer = case_view_curl.execute();
@@ -227,22 +227,11 @@ public sealed class PopulateCDCInstance : ReceiveActor
                             Console.WriteLine(ex);
                         }
 
-
-/*
-
-                        string url = $"{db_info.url}/mmrds/_all_docs?include_docs=true";
-                        var case_curl = new mmria.getset.cURL("GET", null, url, null, db_info.user_name, db_info.user_value);
-                        string responseFromServer = case_curl.execute();
-                        var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
-
-                        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-                        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-*/
                         //foreach(var case_response_item in case_response.rows)
                         foreach(string case_id in Custom_Case_Id_List)
                         {
 
-                            string URL = $"{db_info.url}/mmrds/{case_id}";
+                            string URL = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
                             var document_curl = new mmria.getset.cURL("GET", null, URL, null, db_info.user_name, db_info.user_value);
                             System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
