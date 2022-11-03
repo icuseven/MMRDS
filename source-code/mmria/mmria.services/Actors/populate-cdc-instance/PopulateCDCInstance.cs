@@ -42,7 +42,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
     }
 
 
-    private async Task Process_Message(mmria.common.metadata.Populate_CDC_Instance message)
+    private void Process_Message(mmria.common.metadata.Populate_CDC_Instance message)
     {
         try
         {
@@ -67,14 +67,14 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
             
             var delete_mmrds_curl = new mmria.getset.cURL ("DELETE", null, cdc_db_url, null, cdc_connection.user_name, cdc_connection.user_value);
-            await delete_mmrds_curl.executeAsync();
+            delete_mmrds_curl.execute();
 
             string current_directory = AppContext.BaseDirectory;
 
             var mmrds_curl = new mmria.getset.cURL ("PUT", null, cdc_db_url, null, cdc_connection.user_name, cdc_connection.user_value);
-            System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.executeAsync ().GetAwaiter().GetResult());
+            System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.execute());
 
-            await new mmria.getset.cURL ("PUT", null, $"{cdc_db_url}/{cdc_connection.prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", cdc_connection.user_name, cdc_connection.user_value).executeAsync ();
+            new mmria.getset.cURL ("PUT", null, $"{cdc_db_url}/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", cdc_connection.user_name, cdc_connection.user_value).execute();
             System.Console.WriteLine("mmrds/_security completed successfully");
 
             try 
@@ -83,15 +83,15 @@ public sealed class PopulateCDCInstance : ReceiveActor
                 {
 
                     string case_design_sortable = sr.ReadToEnd ();
-                    var case_design_sortable_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/{cdc_connection.prefix}mmrds/_design/sortable", case_design_sortable, cdc_connection.user_name, cdc_connection.user_value);
-                    case_design_sortable_curl.executeAsync ().GetAwaiter().GetResult();
+                    var case_design_sortable_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/mmrds/_design/sortable", case_design_sortable, cdc_connection.user_name, cdc_connection.user_value);
+                    case_design_sortable_curl.execute();
                 }
 
                 using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
                 {
-                    string case_store_design_auth = sr.ReadToEndAsync ().GetAwaiter().GetResult();
-                    var case_store_design_auth_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/{cdc_connection.prefix}mmrds/_design/auth", case_store_design_auth, cdc_connection.user_name, cdc_connection.user_value);
-                    case_store_design_auth_curl.executeAsync ().GetAwaiter().GetResult();    
+                    string case_store_design_auth = sr.ReadToEnd();
+                    var case_store_design_auth_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/mmrds/_design/auth", case_store_design_auth, cdc_connection.user_name, cdc_connection.user_value);
+                    case_store_design_auth_curl.execute ();
                 }
                                                 
             }
@@ -103,7 +103,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
             try
             {
 
-                var delete_de_id_curl = new mmria.getset.cURL ("DELETE", null, $"{cdc_connection.url}/{cdc_connection.prefix}de_id", null, cdc_connection.user_name, cdc_connection.user_value);
+                var delete_de_id_curl = new mmria.getset.cURL ("DELETE", null, $"{cdc_connection.url}/de_id", null, cdc_connection.user_name, cdc_connection.user_value);
                 delete_de_id_curl.execute();
             }
             catch (Exception)
@@ -114,7 +114,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
             try
             {
-                var delete_report_curl = new mmria.getset.cURL ("DELETE", null, $"{cdc_connection.url}/{cdc_connection.prefix}report", null, cdc_connection.user_name, cdc_connection.user_value);
+                var delete_report_curl = new mmria.getset.cURL ("DELETE", null, $"{cdc_connection.url}/report", null, cdc_connection.user_name, cdc_connection.user_value);
                 delete_report_curl.execute();
             }
             catch (Exception)
@@ -125,7 +125,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
             try
             {
-                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/{cdc_connection.prefix}de_id", null, cdc_connection.user_name, cdc_connection.user_value);
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/de_id", null, cdc_connection.user_name, cdc_connection.user_value);
                 create_de_id_curl.execute();
             }
             catch (Exception)
@@ -145,7 +145,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                 using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
                 {
                     string result = sr.ReadToEnd();
-                    var create_de_id_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/{cdc_connection.prefix}de_id/_design/sortable", result, cdc_connection.user_name, cdc_connection.user_value);
+                    var create_de_id_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/de_id/_design/sortable", result, cdc_connection.user_name, cdc_connection.user_value);
                     create_de_id_curl.execute();					
                 }
 
@@ -160,7 +160,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
             try
             {
-                var create_report_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/{cdc_connection.prefix}report", null, cdc_connection.user_name, cdc_connection.user_value);
+                var create_report_curl = new mmria.getset.cURL ("PUT", null, $"{cdc_connection.url}/report", null, cdc_connection.user_name, cdc_connection.user_value);
                 create_report_curl.execute();	
             }
             catch (Exception)
@@ -173,7 +173,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
             {
                 var Report_Opioid_Index = new mmria.server.utils.c_document_sync_all.Report_Opioid_Index_Struct();
                 string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
-                var create_report_index_curl = new mmria.getset.cURL ("POST", null, $"{cdc_connection.url}/{cdc_connection.prefix}report/_index", index_json, cdc_connection.user_name, cdc_connection.user_value);
+                var create_report_index_curl = new mmria.getset.cURL ("POST", null, $"{cdc_connection.url}/report/_index", index_json, cdc_connection.user_name, cdc_connection.user_value);
                 create_report_index_curl.execute();
             }
             catch (Exception)
@@ -186,7 +186,17 @@ public sealed class PopulateCDCInstance : ReceiveActor
             for (var i = 0; i < message.state_list.Count; i++)
             {
 
-                if(message.state_list[i].is_included == false) continue;
+                if
+                (
+                    message.state_list[i].is_included == false ||
+                    (
+                        message.state_list[i].prefix != "test" &&
+                        message.state_list[i].prefix != "qa"
+                    )
+                ) 
+                continue;
+
+
                 var instance_name = message.state_list[i].prefix;
                 try
                 {
@@ -194,7 +204,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                     {
                         var db_info = db_config_set.detail_list[instance_name];
 
-                        string url = $"{db_info.url}/{db_info.prefix}mmrds/_all_docs?include_docs=true";
+                        string url = $"{db_info.url}/mmrds/_all_docs?include_docs=true";
                         var case_curl = new mmria.getset.cURL("GET", null, url, null, db_info.user_name, db_info.user_value);
                         string responseFromServer = case_curl.execute();
                         var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
@@ -226,7 +236,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                                 continue;
                             }
 
-                            var  target_url = $"{cdc_connection.url}/{cdc_connection.prefix}mmrds/{_id}";
+                            var  target_url = $"{cdc_connection.url}/mmrds/{_id}";
 
                             var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
                             var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json, instance_name, cdc_connection, metadata_release_version_name).executeAsync().GetAwaiter().GetResult();
@@ -240,7 +250,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                                 continue;
                             }
                             
-                            var revision = await get_revision(target_url, cdc_connection);
+                            var revision = get_revision(target_url, cdc_connection);
                             if(!string.IsNullOrWhiteSpace(revision))
                             {
                                 de_identified_dictionary["_rev"] = revision;
@@ -248,7 +258,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                             
                             var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
 
-                            var put_result_string = Put_Document(save_json, _id, target_url, cdc_connection.user_name, cdc_connection.user_value).GetAwaiter().GetResult();
+                            var put_result_string = Put_Document(save_json, _id, target_url, cdc_connection.user_name, cdc_connection.user_value);
 
                             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
 
@@ -281,6 +291,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
         }
         catch(Exception ex)
         {
+            Console.WriteLine(ex);
             Sender.Tell(new Status("Error", ex.Message));
         }
         
@@ -318,13 +329,13 @@ public sealed class PopulateCDCInstance : ReceiveActor
         return result;
     }
 
-    private async System.Threading.Tasks.Task<string> PostCommand (string p_database_url, string p_user_name, string p_user_value)
+    private string PostCommand (string p_database_url, string p_user_name, string p_user_value)
     {
         string result = null;
         var document_curl = new mmria.getset.cURL ("POST", null, p_database_url, null, p_user_name, p_user_value);
         try
         {
-            result = await document_curl.executeAsync();
+            result = document_curl.execute();
         }
         catch (Exception ex)
         {
@@ -333,13 +344,13 @@ public sealed class PopulateCDCInstance : ReceiveActor
         return result;
     }
 
-    private async System.Threading.Tasks.Task<string> Put_Document (string p_document_json, string p_id, string p_database_url, string p_user_name, string p_user_value)
+    private string Put_Document (string p_document_json, string p_id, string p_database_url, string p_user_name, string p_user_value)
     {
         string result = null;
         var document_curl = new mmria.getset.cURL ("PUT", null, p_database_url, p_document_json, p_user_name, p_user_value);
         try
         {
-            result = await document_curl.executeAsync();
+            result = document_curl.execute();
         }
         catch (Exception ex)
         {
@@ -348,7 +359,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
         return result;
     }
 
-    private async System.Threading.Tasks.Task<string> get_revision(string p_document_url, common.couchdb.DBConfigurationDetail p_connection)
+    private string get_revision(string p_document_url, common.couchdb.DBConfigurationDetail p_connection)
     {
 
         string result = null;
@@ -359,7 +370,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
         try
         {
             
-            temp_document_json = await document_curl.executeAsync();
+            temp_document_json = document_curl.execute();
             var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp_document_json);
             IDictionary<string, object> updater = request_result as IDictionary<string, object>;
             if(updater != null && updater.ContainsKey("_rev"))
