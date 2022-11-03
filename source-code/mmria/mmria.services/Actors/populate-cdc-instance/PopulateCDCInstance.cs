@@ -11,6 +11,8 @@ namespace mmria.services.populate_cdc_instance;
 public sealed class PopulateCDCInstance : ReceiveActor
 {
 
+    public record class Status(string Name, string Description);
+
 
     IConfiguration configuration;
     ILogger logger;
@@ -42,7 +44,15 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
     private async Task Process_Message(mmria.common.metadata.Populate_CDC_Instance message)
     {
-        throw new Exception("Exception thrown");
+        try
+        {
+            throw new Exception("Exception thrown");
+        }
+        catch(Exception ex)
+        {
+            Sender.Tell(new Status("Error", ex.Message));
+        }
+
     }
 
 }

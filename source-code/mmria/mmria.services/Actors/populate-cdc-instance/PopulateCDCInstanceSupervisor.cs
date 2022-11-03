@@ -117,7 +117,36 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
             error_message = "";
         });
 
+        
+        Receive<PopulateCDCInstance.Status>(message =>
+        {
+            date_completed = DateTime.Now;
+            var time_diff = date_completed - date_submitted;
+            duration_in_hours = (int) time_diff.Value.TotalHours;
+            duration_in_minutes = (int) time_diff.Value.TotalMinutes % 60;
+            
+            if(message.Name == "Error")
+            {
+                transfer_status_number = 2;
+                transfer_result =  @$"Transfer could not be completed ( Time to transfer: 2 min | Submitted 09/28/2022 at 10:04:00| Failed 09/28/2022 at 10:06:00).
+
+        Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
+
+                error_message = message.Description;
+            }
+            else
+            {
+                transfer_status_number = 0;
+                transfer_result = $"Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00";
+                error_message = "";
+            }
+            
+            
+        });
+
     }
+
+    /*
     protected override SupervisorStrategy SupervisorStrategy()
     {
         return new OneForOneStrategy
@@ -143,7 +172,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
 
 
         return Directive.Restart;
-    } 
+    } */
 
 
 
