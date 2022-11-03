@@ -22,8 +22,16 @@ public sealed class cURL
 
     string content_type;
 
-    public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_name = null,
-    string p_value = null, string p_content_type = "application/json")
+    public cURL 
+    (
+        string p_method, 
+        string p_headers, 
+        string p_url, 
+        string p_pay_load, 
+        string p_name = null,
+        string p_value = null, 
+        string p_content_type = "application/json"
+    )
     {
         this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
 
