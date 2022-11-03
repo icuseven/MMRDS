@@ -204,6 +204,32 @@ public sealed class PopulateCDCInstance : ReceiveActor
                     {
                         var db_info = db_config_set.detail_list[instance_name];
 
+                        var Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+                        try
+                        {
+                            string request_string = $"{db_info.url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+
+                            var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                            string case_view_responseFromServer = case_view_curl.execute();
+
+                            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
+
+                            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                            {
+                                Custom_Case_Id_List.Add(cvi.id);
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+
+
+/*
+
                         string url = $"{db_info.url}/mmrds/_all_docs?include_docs=true";
                         var case_curl = new mmria.getset.cURL("GET", null, url, null, db_info.user_name, db_info.user_value);
                         string responseFromServer = case_curl.execute();
@@ -211,34 +237,36 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
                         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
-                        foreach(var case_response_item in case_response.rows)
+*/
+                        //foreach(var case_response_item in case_response.rows)
+                        foreach(string case_id in Custom_Case_Id_List)
                         {
-                            var case_item = case_response_item.doc as IDictionary<string,object>;
 
-                            string _id = "";
+                            string URL = $"{db_info.url}/mmrds/{case_id}";
+                            var document_curl = new mmria.getset.cURL("GET", null, URL, null, db_info.user_name, db_info.user_value);
+                            System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
-                            if(case_item == null)
+                        
+                            IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+
+                            if
+                            (
+                                case_doc == null ||
+                                !case_doc.ContainsKey("_id") ||
+                                case_doc["_id"] == null ||
+                                case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
+                            )
                             {
                                 continue;
                             }
-                            else if (case_item.ContainsKey ("_id")) 
-                            {
-                                _id = case_item ["_id"].ToString();
-                            }
-                            else
-                            {
-                                continue;
-                            }
 
-                            if (_id.IndexOf ("_design/") > -1)
-                            {
-                                continue;
-                            }
+
+                            string _id = case_doc["_id"].ToString();
+
 
                             var  target_url = $"{cdc_connection.url}/mmrds/{_id}";
 
-                            var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
+                            var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_doc);
                             var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json, instance_name, cdc_connection, metadata_release_version_name).executeAsync().GetAwaiter().GetResult();
                             
                             var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
@@ -249,12 +277,12 @@ public sealed class PopulateCDCInstance : ReceiveActor
                             {
                                 continue;
                             }
-                            
+                            /*
                             var revision = get_revision(target_url, cdc_connection);
                             if(!string.IsNullOrWhiteSpace(revision))
                             {
                                 de_identified_dictionary["_rev"] = revision;
-                            }                                    
+                            }    */                                
                             
                             var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
 
