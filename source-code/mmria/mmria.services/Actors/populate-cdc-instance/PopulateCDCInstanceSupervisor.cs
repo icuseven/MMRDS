@@ -76,7 +76,6 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
         {
 
             var processor = Context.ActorSelection("akka://mmria-actor-system/user/populate-cdc-instance-supervisor/child*");
-            //var processor = Context.ActorSelection("child");
             
             processor.Tell(message);
 
