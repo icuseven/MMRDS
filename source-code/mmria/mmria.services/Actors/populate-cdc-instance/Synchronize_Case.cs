@@ -67,6 +67,7 @@ public sealed class Synchronize_Case : ReceiveActor
                 message.document_id, 
                 message.document_json, 
                 message.connection,
+                message.metadata_release_version_name,
                 message.method
             );
 
