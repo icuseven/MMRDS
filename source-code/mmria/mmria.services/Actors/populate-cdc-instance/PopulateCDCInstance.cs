@@ -300,8 +300,9 @@ public sealed class PopulateCDCInstance : ReceiveActor
                                 }
                                 else
                                 {
-                                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
                                     /*
+                                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
+                                    
                                     if(result.ok)
                                     {
                                         var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
