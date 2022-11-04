@@ -235,7 +235,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                         foreach(string case_id in Custom_Case_Id_List)
                         {
 
-                            string URL = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
+                            string URL = $"{db_info.url}/mmrds/{case_id}";
                             if(!string.IsNullOrWhiteSpace(db_info.prefix))
                             {
                                 URL = $"{db_info.url}/{db_info.prefix}_mmrds/{case_id}";
@@ -267,6 +267,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
                             var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json, instance_name, cdc_connection, metadata_release_version_name).executeAsync().GetAwaiter().GetResult();
                             
                             var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
+                            case_doc["_rev"] = null;
 
                             var de_identified_dictionary = de_identified_case as IDictionary<string,object>;
 
@@ -281,23 +282,45 @@ public sealed class PopulateCDCInstance : ReceiveActor
                                 de_identified_dictionary["_rev"] = revision;
                             }    */                                
                             
-                            var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
+                            var save_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
 
-                            var put_result_string = Put_Document(save_json, _id, target_url, cdc_connection.user_name, cdc_connection.user_value);
-
-                            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
-
-                            if(result.ok)
+                            try
                             {
-                                var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
-                                (
-                                    _id,
-                                    de_identified_json,
-                                    cdc_connection,
-                                    metadata_release_version_name
-                                );
 
-                                Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                var put_result_string = Put_Document(save_json, _id, target_url, cdc_connection.user_name, cdc_connection.user_value);
+                                
+                                if
+                                (
+                                    put_result_string.Length < 60 ||
+                                    put_result_string ==  "The remote server returned an error: (409) Conflict."
+
+                                )
+                                {
+                                    // do nothing for now
+                                }
+                                else
+                                {
+                                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
+                                    /*
+                                    if(result.ok)
+                                    {
+                                        var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+                                        (
+                                            _id,
+                                            de_identified_json,
+                                            cdc_connection,
+                                            metadata_release_version_name
+                                        );
+
+                                        Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                    }
+                                    */
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine($"Case save Problem:{instance_name} {_id}");
+                                Console.WriteLine(ex);
                             }
 
                         }
@@ -379,7 +402,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
         }
         catch (Exception ex)
         {
-            result = ex.ToString ();
+            result = ex.Message;
         }
         return result;
     }
