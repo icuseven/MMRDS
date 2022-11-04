@@ -209,7 +209,11 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
                         try
                         {
-                            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                            string request_string = $"{db_info.url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                            if(!string.IsNullOrWhiteSpace(db_info.prefix))
+                            {
+                                request_string = $"{db_info.url}/{db_info.prefix}_mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                            }
 
                             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                             string case_view_responseFromServer = case_view_curl.execute();
@@ -232,6 +236,10 @@ public sealed class PopulateCDCInstance : ReceiveActor
                         {
 
                             string URL = $"{db_info.url}/{db_info.prefix}mmrds/{case_id}";
+                            if(!string.IsNullOrWhiteSpace(db_info.prefix))
+                            {
+                                URL = $"{db_info.url}/{db_info.prefix}_mmrds/{case_id}";
+                            }
                             var document_curl = new mmria.getset.cURL("GET", null, URL, null, db_info.user_name, db_info.user_value);
                             System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 

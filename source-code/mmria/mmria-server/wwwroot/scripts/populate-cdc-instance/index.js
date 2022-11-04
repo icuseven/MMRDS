@@ -100,16 +100,14 @@ function render_transfer_status()
         case 1:
             result.push(`
                 <p align=center><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
-                Transfer in progress (Submitted 09/28/2022 at 10:04:00). Please check again later for completion status.
+                ${g_data.transfer_result}
                 </p>
             `);
             break;
         case 2:
             result.push(`
             <p align=center><img src=${location.protocol}//${location.host}/img/TransferError.svg />
-        Transfer could not be completed ( Time to transfer: 2 min | Submitted 09/28/2022 at 10:04:00| Failed 09/28/2022 at 10:06:00).
-
-        Please contact your system administrator for assistance.Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00
+            ${g_data.transfer_result}
             </p>
         `);
             break;
@@ -117,7 +115,7 @@ function render_transfer_status()
         default:
             result.push(`
             <p align=center><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
-            Transfer complete. Time to transfer: 2 hrs 14 min | Submitted 09/28/2022 at 10:04:00 | Completed 09/28/2022 at 12:18:00
+            ${g_data.transfer_result}
             </p>
             `);
             break;
@@ -269,8 +267,10 @@ async function submit_button_click()
 
     if(response.transfer_status_number == 1)
     {
-        //g_data._rev = response_obj.rev; 
-        g_data.transfer_status_number = 1;
+        g_data = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/populate_cdc_instance`,
+        });
         render();
     }
     else

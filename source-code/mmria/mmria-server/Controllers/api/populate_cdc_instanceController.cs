@@ -50,6 +50,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
                 result.date_completed = service_response.date_completed;
                 result.duration_in_hours = service_response.duration_in_hours;
                 result.duration_in_minutes = service_response.duration_in_minutes;
+                result.error_message = service_response.error_message;
             }
 
             Console.WriteLine("here");      
@@ -91,6 +92,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
             {
                 transfer_status_number = 2,
                 transfer_result = ex.Message
+                
             };
             
         }
