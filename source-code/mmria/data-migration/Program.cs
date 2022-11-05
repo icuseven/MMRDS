@@ -206,7 +206,9 @@ class Program
         OnBoarding,
         DataMigration,
 
-        OneTime
+        OneTime,
+
+        MMRDSImport
     }
 
     static async Task Main(string[] args)
@@ -235,7 +237,7 @@ class Program
         bool is_report_only_mode = true;
 
 
-        RunTypeEnum MigrationType = RunTypeEnum.OnBoarding;
+        RunTypeEnum MigrationType = RunTypeEnum.MMRDSImport;
 
         
 
@@ -355,9 +357,18 @@ class Program
                     Console.WriteLine("This is a one time only data migration");
                     output_string_builder["main"]["main"].AppendLine("This is a one time only data migration");
                     break;
+                    case RunTypeEnum.MMRDSImport:
+                    Console.WriteLine("This is a MMRDS to MMRIA data migration");
+                    output_string_builder["main"]["main"].AppendLine("This is a MMRDS to MMRIA data migration");
+                    break;
                 }
 
-                if(MigrationType == RunTypeEnum.OnBoarding)
+                if(MigrationType == RunTypeEnum.MMRDSImport)
+                {
+                    var mmrds_importer = new mmria.mmrds.import.mmrds_importer();
+                    mmrds_importer.Execute(new string[1]{ "database_file_path=" });
+                }
+                else if(MigrationType == RunTypeEnum.OnBoarding)
                 {
                     var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     await crpr.execute();
