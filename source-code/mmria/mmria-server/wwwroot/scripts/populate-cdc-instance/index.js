@@ -213,10 +213,10 @@ async function save_selections_button_click()
     );
         
 
-    let response_obj = eval(response);
-    if(response_obj.ok)
+
+    if(response.ok)
     {
-        g_data._rev = response_obj.rev; 
+        g_data._rev = response.rev; 
         message_history.push(`Save successful.  ${new Date()}`);
         render();
     }
@@ -253,6 +253,27 @@ async function name_changed(i, value)
 async function submit_button_click()
 {
 
+
+    const save_response = await $.ajax
+    (
+        {
+				url: location.protocol + '//' + location.host + '/api/populate_cdc_instance',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(g_data),
+				type: "POST"
+		}
+    );
+        
+    if(!save_response.ok)
+    {
+        g_data._rev = save_response.rev; 
+        message_history.push(`Problem saving!  Data NOT saved to database. ${new Date()}`);
+        render();
+        return;
+    }
+
+
 	const response = await $.ajax
     (
         {
@@ -275,7 +296,7 @@ async function submit_button_click()
     }
     else
     {
-        message_history.push(`Problem saving!  Data NOT saved to database. ${new Date()}`);
+        message_history.push(`Problem submitting!  Data may NOT have been submitted. ${new Date()}`);
         render();
     }
 
