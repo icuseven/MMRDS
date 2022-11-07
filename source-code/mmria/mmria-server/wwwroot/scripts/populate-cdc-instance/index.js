@@ -264,6 +264,8 @@ async function submit_button_click()
 				type: "POST"
 		}
     );
+
+    message_history = [];
         
     if(!save_response.ok)
     {
