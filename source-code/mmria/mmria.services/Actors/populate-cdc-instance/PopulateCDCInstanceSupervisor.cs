@@ -177,7 +177,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
     string GetDateString(DateTime? value)
     {
         if(value.HasValue)
-            return $"{value.Value.Month:D2}/{value.Value.Day:D2}/{value.Value.Year:D2}";
+            return $"{value.Value.Month.ToString().PadLeft(2,'0')}/{value.Value.Day.ToString().PadLeft(2,'0')}/{value.Value.Year.ToString().PadLeft(2,'0')}";
         else 
             return "no date";
     }
@@ -186,7 +186,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
     string GetTimeString(DateTime? value)
     {
         if(value.HasValue)
-            return $"{value.Value.Hour:D2}:{value.Value.Minute:D2}:{value.Value.Second:D2}";
+            return $"{value.Value.Hour.ToString().PadLeft(2,'0')}:{value.Value.Minute.ToString().PadLeft(2,'0')}:{value.Value.Second.ToString().PadLeft(2,'0')}";
         else 
             return "no date";
     }

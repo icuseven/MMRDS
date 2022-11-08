@@ -217,12 +217,12 @@ async function save_selections_button_click()
     if(response.ok)
     {
         g_data._rev = response.rev; 
-        message_history.push(`Save successful.  ${new Date()}`);
+        message_history.push(`Save successful ${formatDate(new Date())}`);
         render();
     }
     else
     {
-        message_history.push(`Problem saving!  Data NOT saved to database. ${new Date()}`);
+        message_history.push(`Problem saving!  Data NOT saved to database: ${formatDate(new Date())}`);
         render();
     }
 		
@@ -270,7 +270,7 @@ async function submit_button_click()
     if(!save_response.ok)
     {
         g_data._rev = save_response.rev; 
-        message_history.push(`Problem saving!  Data NOT saved to database. ${new Date()}`);
+        message_history.push(`Problem saving!  Data NOT saved to database: ${formatDate(new Date())}`);
         render();
         return;
     }
@@ -298,11 +298,24 @@ async function submit_button_click()
     }
     else
     {
-        message_history.push(`Problem submitting!  Data may NOT have been submitted. ${new Date()}`);
+        message_history.push(`Problem submitting!  Data may NOT have been submitted: ${formatDate(new Date())}`);
         render();
     }
 
     
 		
 		
+}
+
+function pad_number(n) 
+{
+    n = n + '';
+    return n.length >= 2 ? n : new Array(2 - n.length + 1).join("0") + n;
+}
+
+function formatDate(p_value)
+{
+    const result= `${pad_number(p_value.getMonth() + 1)}/${pad_number(p_value.getDate())}/${p_value.getFullYear()} at ${pad_number(p_value.getHours())}:${pad_number(p_value.getMinutes())}:${pad_number(p_value.getSeconds())}`;
+
+    return result;
 }
