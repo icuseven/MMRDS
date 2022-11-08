@@ -99,8 +99,9 @@ function render_transfer_status()
 
         case 1:
             result.push(`
-                <p align=center style="width: 100%; 
-                height: 70px;
+                <p style="
+                vertical-align: middle;
+                width: 100%; 
                 border-radius: 4px;
                 border: 1px solid #e3d3e4;
                 background-color: #f7f2f7;
@@ -111,8 +112,9 @@ function render_transfer_status()
             break;
         case 2:
             result.push(`
-            <p align=center style="width: 100%; 
-            height: 70px;
+            <p style="
+            vertical-align: middle;
+            width: 100%; 
             border-radius: 4px;
             border: 1px solid #FFC2C2;
             background-color: #FFE7E7;
@@ -124,8 +126,9 @@ function render_transfer_status()
         case 0:
         default:
             result.push(`
-            <p align=center style="width: 100%; 
-            height: 70px;
+            <p style="
+            vertical-align: middle;
+            width: 100%; 
             border-radius: 4px;
             border: 1px solid #DCEDC8;
             background-color: #F1F8E9;
