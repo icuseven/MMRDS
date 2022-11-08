@@ -99,14 +99,24 @@ function render_transfer_status()
 
         case 1:
             result.push(`
-                <p align=center><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
+                <p align=center style="width: 100%; 
+                height: 70px;
+                border-radius: 4px;
+                border: 1px solid #e3d3e4;
+                background-color: #f7f2f7;
+                "><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
                 ${g_data.transfer_result}
                 </p>
             `);
             break;
         case 2:
             result.push(`
-            <p align=center><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+            <p align=center style="width: 100%; 
+            height: 70px;
+            border-radius: 4px;
+            border: 1px solid #FFC2C2;
+            background-color: #FFE7E7;
+            "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
             ${g_data.transfer_result}
             </p>
         `);
@@ -114,7 +124,12 @@ function render_transfer_status()
         case 0:
         default:
             result.push(`
-            <p align=center><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
+            <p align=center style="width: 100%; 
+            height: 70px;
+            border-radius: 4px;
+            border: 1px solid #DCEDC8;
+            background-color: #F1F8E9;
+            "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
             ${g_data.transfer_result}
             </p>
             `);
