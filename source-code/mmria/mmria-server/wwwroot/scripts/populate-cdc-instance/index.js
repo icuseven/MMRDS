@@ -48,7 +48,7 @@ function render()
 
     result.push(render_transfer_status());
     
-    result.push(`<p  align=center id='message-area-id'>${render_messages()} </p>`)
+    result.push(`<div id='message-area-id'>${render_messages()} </div>`)
     
     result.push("<p  align=center style='text-align:right'>")
 
@@ -235,12 +235,31 @@ async function save_selections_button_click()
     if(response.ok)
     {
         g_data._rev = response.rev; 
-        message_history.push(`Save successful ${formatDate(new Date())}`);
+        message_history.push(`
+        <p style="
+        vertical-align: middle;
+        width: 100%; 
+        border-radius: 4px;
+        border: 1px solid #DCEDC8;
+        background-color: #F1F8E9;
+        "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
+        Save successful ${formatDate(new Date())}
+        </p>`);
         render();
     }
     else
     {
-        message_history.push(`Problem saving!  Data NOT saved to database: ${formatDate(new Date())}`);
+        message_history.push(`
+        <p style="
+        vertical-align: middle;
+        width: 100%; 
+        border-radius: 4px;
+        border: 1px solid #FFC2C2;
+        background-color: #FFE7E7;
+        "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+        Problem saving!  Data NOT saved to database: ${formatDate(new Date())}
+        </p>
+        `);
         render();
     }
 		
@@ -288,7 +307,16 @@ async function submit_button_click()
     if(!save_response.ok)
     {
         g_data._rev = save_response.rev; 
-        message_history.push(`Problem saving!  Data NOT saved to database: ${formatDate(new Date())}`);
+        message_history.push(`
+        <p style="
+        vertical-align: middle;
+        width: 100%; 
+        border-radius: 4px;
+        border: 1px solid #FFC2C2;
+        background-color: #FFE7E7;
+        "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+        Problem saving!  Data NOT saved to database: ${formatDate(new Date())}
+        </p>`);
         render();
         return;
     }
