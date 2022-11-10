@@ -229,8 +229,7 @@ async function save_selections_button_click()
 				type: "POST"
 		}
     );
-        
-
+    
 
     if(response.ok)
     {
@@ -243,7 +242,7 @@ async function save_selections_button_click()
         border: 1px solid #DCEDC8;
         background-color: #F1F8E9;
         "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
-        Save successful ${formatDate(new Date())}
+        Save successful on ${formatDate(new Date())}
         </p>`);
         render();
     }
@@ -257,7 +256,7 @@ async function save_selections_button_click()
         border: 1px solid #FFC2C2;
         background-color: #FFE7E7;
         "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
-        Problem saving!  Data NOT saved to database: ${formatDate(new Date())}
+        Current selections could not be saved. Please contact your system administrator for assistance.
         </p>
         `);
         render();
@@ -315,7 +314,7 @@ async function submit_button_click()
         border: 1px solid #FFC2C2;
         background-color: #FFE7E7;
         "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
-        Problem saving!  Data NOT saved to database: ${formatDate(new Date())}
+        Current selections could not be saved. Please contact your system administrator for assistance.
         </p>`);
         render();
         return;
@@ -344,7 +343,7 @@ async function submit_button_click()
     }
     else
     {
-        message_history.push(`Problem submitting!  Data may NOT have been submitted: ${formatDate(new Date())}`);
+        message_history.push(`Current selections could not be saved. Please contact your system administrator for assistance.`);
         render();
     }
 
