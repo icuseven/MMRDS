@@ -4232,7 +4232,8 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                parsedValue = parseHHmm_To_MMRIATime(value);
+                //parsedValue = parseHHmm_To_MMRIATime(value);
+                parsedValue = value;
             }
         }
 
@@ -4889,7 +4890,8 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                parsedValue = parseHHmm_To_MMRIATime(value);
+                //parsedValue = parseHHmm_To_MMRIATime(value);
+                parsedValue = value;
             }
         }
 
@@ -5100,7 +5102,8 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                parsedValue = parseHHmm_To_MMRIATime(value);
+                //parsedValue = parseHHmm_To_MMRIATime(value);
+                parsedValue = value;
             }
         }
 
