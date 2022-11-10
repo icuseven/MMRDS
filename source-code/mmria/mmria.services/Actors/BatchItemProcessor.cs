@@ -4265,7 +4265,7 @@ GNAME 27 50
             if (value.Length == 3)
                 value = $"0{value}";
 
-            parsedValue = DateTime.ParseExact(value, "HHmm", CultureInfo.CurrentCulture).ToString("hh:mm");
+            parsedValue = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
         }
         catch (Exception ex)
         {
