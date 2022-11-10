@@ -4232,8 +4232,7 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                //parsedValue = parseHHmm_To_MMRIATime(value);
-                parsedValue = value;
+                parsedValue = ConvertHHmm_To_MMRIATime(value);
             }
         }
 
@@ -4256,6 +4255,28 @@ GNAME 27 50
 
         return parsedValue;
     }
+
+    private static string ConvertHHmm_To_MMRIATime(string value)
+    {
+        string parsedValue;
+        try
+        {
+            //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
+            if (value.Length == 3)
+                value = $"0{value}";
+
+            parsedValue = DateTime.ParseExact(value, "HHmm", CultureInfo.CurrentCulture).ToString("hh:mm");
+        }
+        catch (Exception ex)
+        {
+            //Error parsing, eat it and put exact text in as to not lose data on import
+            parsedValue = value;
+        }
+
+        return parsedValue;
+    }
+
+    
 
     private static string parseHHmm_To_MMRIATime(string value)
     {
@@ -4890,8 +4911,7 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                //parsedValue = parseHHmm_To_MMRIATime(value);
-                parsedValue = value;
+                parsedValue = ConvertHHmm_To_MMRIATime(value);
             }
         }
 
@@ -5102,8 +5122,8 @@ GNAME 27 50
                 parsedValue = "";
             else
             {
-                //parsedValue = parseHHmm_To_MMRIATime(value);
-                parsedValue = value;
+                parsedValue = ConvertHHmm_To_MMRIATime(value);
+
             }
         }
 
