@@ -188,11 +188,7 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
                 if
                 (
-                    message.state_list[i].is_included == false ||
-                    (
-                        message.state_list[i].prefix != "test" &&
-                        message.state_list[i].prefix != "qa"
-                    )
+                    message.state_list[i].is_included == false 
                 ) 
                 continue;
 
