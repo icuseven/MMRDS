@@ -151,7 +151,7 @@ public sealed class SessionSummary
     { 
         try
         {
-            string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}session/_design/session_sortable/_view/by_date_created?descending=true";
+            string request_string = $"{p_config_detail.url}/{p_config_detail.prefix}session/_design/session_sortable/_view/by_date_created?descending=true&limit=500";
 
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -171,15 +171,14 @@ public sealed class SessionSummary
                 p_result.rpt_date.Add(0);
             }
             
-            foreach(var row in case_view_response.rows)
+            for(var i = 0; i < case_view_response.rows.Count; i++)
             {
+                var row = case_view_response.rows[i];
                 if(row.value.date_created >= cut_off_date)
                 {
-                    var row_day = row.value.date_created.Day;
-                    var row_index = current_day - row_day;
-
+                    var diff = System.DateTime.Now - row.value.date_created;
+                    var row_index = diff.Days;
                     p_result.rpt_date[row_index]++;
-
                 }
                 else
                 {
