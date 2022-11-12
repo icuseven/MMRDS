@@ -107,7 +107,7 @@ function render_de_identified_list()
 	result.push("<br/><table><tr><th>List Name(s)</th><th>Sort Order</th><th>Action</th></tr><tr><td>");
 
     
-    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)' size=7 >");
+    result.push("<select id='export-list-type' aria-label='List Name' onchange='on_export_list_type_change(this.value)' size=7 >");
 
     for(const sort_index in g_de_identified_list.sort_order)
     {
@@ -149,7 +149,7 @@ function render_de_identified_list()
     
     result.push("<hr/><br/>");
 
-    result.push("<select id='clone-source'  onchange='on_clone_source_change(this.value)'>");
+    result.push("<select id='clone-source' aria-label='Clone source.' onchange='on_clone_source_change(this.value)'>");
     
     result.push(`<option value='9999' disabled=''>lists</option>`);
     for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 

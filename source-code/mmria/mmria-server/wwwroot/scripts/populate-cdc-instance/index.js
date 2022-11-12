@@ -70,7 +70,7 @@ function render_save_button()
     }
 
     return `
-<label><button id="generate_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()" ${is_diabled}>
+<label><button id="save_btn" class="btn btn-primary btn-lg " onclick="save_selections_button_click()" ${is_diabled}>
 Save Selections
 </button></label>`;
 }
@@ -105,7 +105,7 @@ function render_transfer_status()
                 border-radius: 4px;
                 border: 1px solid #e3d3e4;
                 background-color: #f7f2f7;
-                "><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg />
+                "><img src=${location.protocol}//${location.host}/img/TransferInProgress.svg alt="Transfer in progress." />
                 ${g_data.transfer_result}
                 </p>
             `);
@@ -118,7 +118,7 @@ function render_transfer_status()
             border-radius: 4px;
             border: 1px solid #FFC2C2;
             background-color: #FFE7E7;
-            "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+            "><img src=${location.protocol}//${location.host}/img/TransferError.svg alt="Transfer error."/>
             ${g_data.transfer_result}
             </p>
         `);
@@ -132,7 +132,7 @@ function render_transfer_status()
             border-radius: 4px;
             border: 1px solid #DCEDC8;
             background-color: #F1F8E9;
-            "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
+            "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg alt="Transfer complete." />
             ${g_data.transfer_result}
             </p>
             `);
@@ -193,12 +193,12 @@ function rendert_state_list()
         result.push(`
             <tr ${bg_color}>
                 <td>${number}</td>
-                <td style='text-align:center'><label><input type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></label></td>
+                <td style='text-align:center'><input id='checkbox${i}' type=checkbox value=${i} onclick='checkbox_clicked(${i})' ${item.is_included == true ? "checked":""} ${is_diabled}/></td>
                 <!--td style='text-align:left'><input type=text value=${item.prefix} onchange='prefix_changed(${i}, this.value)' ${is_diabled}/></td>
                 <td style='text-align:left'>${item.prefix}</td>
                 <td style='text-align:left'><input type=text size=50 value='${item.name}' onchange='name_changed(${i}, this.value)'  ${bg_color} ${is_diabled}/></td
                 -->
-                <td style='text-align:left'>${item.name}</td>
+                <td style='text-align:left'><label for='checkbox${i}'>${item.name}<label></td>
             </tr>
         `);
     }
@@ -241,7 +241,7 @@ async function save_selections_button_click()
         border-radius: 4px;
         border: 1px solid #DCEDC8;
         background-color: #F1F8E9;
-        "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg />
+        "><img src=${location.protocol}//${location.host}/img/TransferComplete.svg  alt="Save successful"/>
         Save successful on ${formatDate(new Date())}
         </p>`);
         render();
@@ -255,7 +255,7 @@ async function save_selections_button_click()
         border-radius: 4px;
         border: 1px solid #FFC2C2;
         background-color: #FFE7E7;
-        "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+        "><img src=${location.protocol}//${location.host}/img/TransferError.svg  alt="Error when saving." />
         Current selections could not be saved. Please contact your system administrator for assistance.
         </p>
         `);

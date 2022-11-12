@@ -171,7 +171,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 								<button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_select_all_click()">
 									Select All Search Results
 								</button>
-                                <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_selected_search_result_click()">
+                                <button class="btn btn-secondary ml-3" id="select-all-deidentified-clear" onclick="de_identified_clear_selected_search_result_click()">
                                     Clear All Search Results
                                 </button>
                                 
@@ -207,7 +207,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 													<span id="de_identified_count">Selected Fields to De-identify (${
                             p_answer_summary.de_identified_field_set.length
                           })</span>
-                                        <button class="btn btn-secondary ml-3" id="select-all-deidentified" onclick="de_identified_clear_all_click()">
+                                        <button class="btn btn-secondary ml-3" onclick="de_identified_clear_all_click()">
                                             Clear All Selected
                                         </button>
 												</span>
@@ -387,7 +387,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										 onclick="case_file_type_click(this)" /> CSV
 						</label>
 						<label for="case_filter_type_custom" class="font-weight-normal">
-							<input id="case_file_type_csv"
+							<input id="case_file_type_xlsx"
 										 type="radio"
 										 name="case_file_type"
 										 value="xlsx"
