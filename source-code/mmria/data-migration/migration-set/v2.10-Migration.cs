@@ -184,75 +184,10 @@ public sealed class v2_10_Migration
 
 /*
 
-DC
-
-Time of Death
-dcci_to_death
-/death_certificate/certificate_identification/time_of_death 
-
-2
-
-DC
-
-Time of Injury
-dciai_to_injur
-/death_certificate/injury_associated_information/time_of_injury 
-
-3
-
-BCDC-Infant
-
-Time of Delivery
-bcifsri_to_deliv
+/death_certificate/certificate_identification/time_of_death
+/death_certificate/injury_associated_information/time_of_injury
 /birth_certificate_infant_fetal_section/record_identification/time_of_delivery
 
-4
-
-ER
-
-Time of Arrival
-evahmrbaadidoa_to_arriv
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival
-
-5
-
-ER
-
-Time of Admission
-evahmrbaadidoha_to_admis
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission
-
-6
-
-ER
-
-Time of Discharge
-evahmrbaadidohd_to_disch
-/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge
-
-7
-
-ER
-
-Time of Onset of Labor
-evahmrooldoool_tooo_labor
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor 
-
-8
-
-ER
-
-Time of Rupture
-evahmrooldor_to_ruptu
-/er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture
-
-9
-
-OMOV
-
-Arrival Time
-omovvdomov_a_time
-/other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time
 
 */
 
@@ -330,14 +265,6 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 
 
 			check_and_update_muilti_value("birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor ");
-			check_and_update_muilti_value("er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture");
-			check_and_update_muilti_value("other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time");
-
-
 
 
 				if(!is_report_only_mode && case_has_changed)
