@@ -518,6 +518,18 @@ function reformatDate(dt)
         {
             return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
         }
+        else if(dt.indexOf("-") > -1)
+        {
+            const arr = dt.split('-');
+            if(arr.length == 3)
+            {
+                return `${fmt2Digits(arr[1])}/${fmt2Digits(arr[2])}/${fmtYear(arr[0])}`
+            }
+            else
+            {
+                return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}`    
+            }
+        }
         else
         {
             return `${fmt2Digits(date.getMonth() + 1)}/${fmt2Digits(date.getDate())}/${fmtYear(date.getFullYear())}`
@@ -527,6 +539,22 @@ function reformatDate(dt)
     {
         return '';
     } 
+}
+
+function parseDateString(str) 
+{
+    const arr = str.split("-");
+    if(arr.length == 3)
+    {
+        var y = arr[0],
+            m = parseInt(arr[1]) - 1,
+            d = arr[2];
+        return new Date(y,m,d);
+    }
+    else
+    {
+        return '';
+    }
 }
 
 // Format date from data and return mm/dd/yyyy or blank if it contains 9999's
@@ -546,14 +574,18 @@ function fmtDateByFields(dt) {
 }
 
 // Format date and time string with mm/dd/yyyy hh:mm (military time)
-function fmtDateTime(dt) {
+function fmtDateTime(dt) 
+{
 	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
-	let fDate = new Date(dt);
-	let hh = fDate.getHours();
-	let mn = fDate.getMinutes();
+	
+    //let fDate = new Date(dt);
+    const fDate = parseDateString(dt);
+	const hh = fDate.getHours();
+	const mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
 	strTime = (strTime == '00:00') ? '' : strTime;
-	return `${fmt2Digits(fDate.getMonth() + 1)}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
+	
+    return `${fmt2Digits(fDate.getMonth() + 1)}/${fmt2Digits(fDate.getDate())}/${fmtYear(fDate.getFullYear())} ${strTime}`;
 }
 
 // Reformat date from data string and return mm/dd/yyyy 
