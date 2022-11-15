@@ -318,5 +318,9 @@ if [ "$DOTNET_RM_SRC" == "true" ]; then
   rm -rf /opt/app-root/src/*
 fi
 
+rm -rf /opt/app-root/app/mmria-server.deps.json
+rm -rf /opt/app-root/src/source-code/mmria/mmria-server/bin/Release/net7.0/mmria-server.deps.json
+
+
 # fix permissions
 fix-permissions /opt/app-root
