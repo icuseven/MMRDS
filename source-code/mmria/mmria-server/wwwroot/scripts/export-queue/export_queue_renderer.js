@@ -224,24 +224,24 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
 					<li class="mb-4">
 						<p class="mb-3">Select cases to include in export:</p>
-						<label for="case_filter_type_all" class="font-weight-normal mr-2">
+						<span class="font-weight-normal mr-2">
 							<input id="case_filter_type_all"
 										 type="radio"
 										 name="case_filter_type"
 										 value="all"
 										 data-prop="case_filter_type"
 										 ${p_answer_summary['case_filter_type'] == 'all' ? 'checked=true' : ''}
-										 onclick="case_filter_type_click(this)" /> All
-						</label>
-						<label for="case_filter_type_custom" class="font-weight-normal">
+										 onclick="case_filter_type_click(this)" aria-label="All"/> All
+						</span>
+						<span for="case_filter_type_custom" class="font-weight-normal">
 							<input id="case_filter_type_custom"
 										 type="radio"
 										 name="case_filter_type"
 										 value="custom"
 										 data-prop="case_filter_type"
 										 ${p_answer_summary['case_filter_type'] == 'custom' ? 'checked=true' : ''}
-										 onclick="case_filter_type_click(this)" /> Custom
-						</label>
+										 onclick="case_filter_type_click(this)" aria-label="Custom" /> Custom
+						</span>
 						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:${
               p_answer_summary['case_filter_type'] == 'custom'
                 ? 'block'
@@ -910,7 +910,7 @@ function render_search_result_list()
 										 value=${escape(item.id)}
 										 type="checkbox"
 										 onclick="result_checkbox_click(this)" ${checked} />
-							<label for="" class="sr-only">${escape(item.id)}</label>
+							<label for="${escape(item.id)}" class="sr-only">${escape(item.id)}</label>
 						</td>
 						<td class="td" data-type="date_last_updated">
 							${escape(value_list.date_last_updated)
@@ -983,7 +983,7 @@ function render_selected_case_list(p_result, p_answer_summary)
 								 value=${escape(item_id)}
 								 type="checkbox"
 								 onclick="cart_checkbox_click(this)" ${checked} />
-					<label for="" class="sr-only">${escape(item_id)}</label>
+					<label for="${escape(item_id)}" class="sr-only">${escape(item_id)}</label>
 				</td>
 				<td class="td" data-type="date_last_updated">
 					${escape(value_list.date_last_updated)
