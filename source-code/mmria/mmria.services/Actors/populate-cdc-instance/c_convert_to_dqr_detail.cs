@@ -273,7 +273,7 @@ public sealed class c_convert_to_dqr_detail
             {
                 if( !string.IsNullOrWhiteSpace(value_result.result.ToString()))
                 {
-                    result = value_result.result;
+                    result = value_result.result?.ToString();
                 }
             }
 

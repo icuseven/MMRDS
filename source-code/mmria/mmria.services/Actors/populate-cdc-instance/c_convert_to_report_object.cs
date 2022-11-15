@@ -135,7 +135,7 @@ public sealed partial class c_convert_to_report_object
         //dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
         report_object = new mmria.server.model.c_report_object ();
-        report_object._id = get_value (source_object, "_id").result;
+        report_object._id = get_value (source_object, "_id").result?.ToString();
 
 
         
@@ -278,7 +278,7 @@ public sealed partial class c_convert_to_report_object
                         if(dictionary_object == null)
                         {
                             result = null;
-                            return result;
+                            return new Get_Value_Result(){ result = result, is_erorr = is_error};;
                         }
 
                         object val = null;
@@ -335,7 +335,7 @@ public sealed partial class c_convert_to_report_object
                         if(dictionary_object == null)
                         {
                             result = null;
-                            return result;
+                            return new Get_Value_Result(){ result = result, is_erorr = is_error};;
                         }
 
                         object val = null;
@@ -392,17 +392,23 @@ public sealed partial class c_convert_to_report_object
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
                 }
                 else
                 {
@@ -546,7 +552,7 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
         get_value_result = get_value (p_source_object, "death_certificate/pregnancy_status");
         if(!get_value_result.is_erorr)
         {
-            status = get_value_result.result;
+            status = get_value_result.result?.ToString();
         }
 
         if (status == null) status = "";
@@ -671,7 +677,7 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
         var get_value_result = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
         if(! get_value_result.is_erorr)
         {
-            val = get_value_result.result;
+            val = get_value_result.result?.ToString();
         }
 
         if (val != null)
@@ -685,7 +691,7 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
                 get_value_result = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
                 if(! get_value_result.is_erorr)
                 {
-                    val = get_value_result.result;
+                    val = get_value_result.result?.ToString();
                 }
                 
                 if (dc_hispanic_origin.Contains (val))
@@ -1024,7 +1030,7 @@ pregnancy_status <- list field
         get_value_result = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
         if(! get_value_result.is_erorr)
         {
-            pregnancy_status_string = get_value_result.result;
+            pregnancy_status_string = get_value_result.result?.ToString();
         }
         
         
@@ -1561,7 +1567,7 @@ blank,
             var get_value_result = get_value(p_source_object, "committee_review/pregnancy_relatedness");
             if(! get_value_result.is_erorr)
             {
-                val = get_value_result.result;
+                val = get_value_result.result?.ToString();
             }
 
             if(val != null)
@@ -1688,7 +1694,7 @@ blank,
                     var get_value_result = get_value(p_source_object, p_mmria_path);
                     if(! get_value_result.is_erorr)
                     {
-                        val = get_value_result.result;
+                        val = get_value_result.result?.ToString();
                     }
 
                     if(val != null && p_result.ContainsKey(val))
@@ -1714,7 +1720,7 @@ blank,
                 var get_value_result = get_value(p_source_object, p_mmria_path);
                 if(! get_value_result.is_erorr)
                 {
-                    val = get_value_result.result;
+                    val = get_value_result.result?.ToString();
                 }
 
                 if(val != null && p_result.ContainsKey(val))

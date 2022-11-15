@@ -800,7 +800,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                     {
 
                         migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(case_expando_object, "_id");
-                        mmria_id = value_result.result;
+                        mmria_id = value_result.result?.ToString();
 
 
                         var DSTATE_result = gs.get_value(case_expando_object, IJE_to_MMRIA_Path["DState"]);
@@ -827,11 +827,15 @@ public sealed class BatchItemProcessor : ReceiveActor
                             GNAME_result.is_error == false
                         )
                         {
+                            var host_state_string = host_state_result.result?.ToString() ?? "";
+                            var LNAME_string = LNAME_result.result?.ToString() ?? "";
+                            var GNAME_string = GNAME_result.result?.ToString() ?? "";
+
                             if
                             (
-                                host_state_result.result.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
-                                LNAME_result.result.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
-                                GNAME_result.result.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
+                                host_state_string.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
+                                LNAME_string.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
+                                GNAME_string.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
                                 DOD_YR_result.result!= null &&
                                 DOD_MO_result.result!= null &&
                                 DOD_DY_result.result!= null &&
