@@ -220,7 +220,7 @@ async function erase_mm_link_click()
         $mmria.confirm_external_nav_dialog_confirm_close();
         window.open
         (
-            "http://www.erase-mm-cvsproject.org", 
+            "https://www.erase-mm-cvsproject.org", 
             "_blank"
         );
     }
