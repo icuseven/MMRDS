@@ -148,7 +148,7 @@ Record linkage of death certificate hospital discharge data
                                 case_change_count += 1;
                                 case_has_changed = true;
                             }
-                            dynamic new_value = "9999";
+                            object new_value = "9999";
 
                             case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from null to 9999 {value_result.result} => { new_value}";
@@ -166,7 +166,7 @@ Record linkage of death certificate hospital discharge data
                                     case_has_changed = true;
                                 }
 
-                                dynamic new_value = "2";
+                                object new_value = "2";
 
                                 case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from {value_result.result} => {new_value}";
@@ -181,7 +181,7 @@ Record linkage of death certificate hospital discharge data
                                     case_has_changed = true;
                                 }
 
-                                dynamic new_value = "3";
+                                object new_value = "3";
 
                                 case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from {value_result.result} => {new_value}";

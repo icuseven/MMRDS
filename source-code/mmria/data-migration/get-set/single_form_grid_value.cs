@@ -18,23 +18,23 @@ public sealed partial class C_Get_Set_Value
 
     public sealed class get_grid_value_result
     {
-        public get_grid_value_result(bool p_is_error, List<(int, dynamic)> p_result)
+        public get_grid_value_result(bool p_is_error, List<(int, object)> p_result)
         {
             is_error = p_is_error;
             result = p_result;
         }
 
         public bool is_error { get; set; }
-        public List<(int, dynamic)> result { get; set; }
+        public List<(int, object)> result { get; set; }
 
     }
     public get_grid_value_result get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
     {
         var is_error = false;
 
-        List<(int, dynamic)> result = new List<(int, dynamic)>();
+        List<(int, object)> result = new List<(int, object)>();
 
-        dynamic current = null;
+        object current = null;
 
         try
         {
@@ -43,7 +43,7 @@ public sealed partial class C_Get_Set_Value
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {
@@ -149,11 +149,11 @@ public sealed partial class C_Get_Set_Value
     }
 
 
-    public bool set_grid_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, dynamic)> p_value_list)
+    public bool set_grid_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, object)> p_value_list)
     {
         var result = false;
 
-        //List<(int, dynamic)> result = new List<(int, dynamic)>();
+        //List<(int, object)> result = new List<(int, object)>();
 
         try
         {
@@ -162,7 +162,7 @@ public sealed partial class C_Get_Set_Value
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {

@@ -709,9 +709,9 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
         }
     }
 
-    public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+    public object get_value(IDictionary<string, object> p_object, string p_path)
     {
-        dynamic result = null;
+        object result = null;
         /*
         foreach (KeyValuePair<string, object> kvp in p_object)
         {
@@ -730,7 +730,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             
             if (p_path.Contains("birth_order"))

@@ -499,10 +499,10 @@ public sealed partial class AccountController : Controller
     }
 
 
-
+/*
     private bool checkID(string idBody, string issuer, string clientID)
     {
-        dynamic o = JObject.Parse(idBody);
+        object o = JObject.Parse(idBody);
         
         if (o.iss != issuer) return false;
         if (o.aud != clientID) return false;
@@ -510,6 +510,7 @@ public sealed partial class AccountController : Controller
 
         return true;
     }
+    */
 
     private mmria.common.model.couchdb.user add_new_user(string p_name, string p_password)
     {

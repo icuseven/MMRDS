@@ -312,21 +312,21 @@ public sealed partial class C_Get_Set_Value
 
     public sealed class get_value_result
     {
-        public get_value_result(bool p_is_error, dynamic p_result)
+        public get_value_result(bool p_is_error, object p_result)
         {
             is_error = p_is_error;
             result = p_result;
         }
 
         public bool is_error { get; set; }
-        public dynamic result { get; set; }
+        public object result { get; set; }
 
     }
 
     public get_value_result get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
         var is_error = false;
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -335,7 +335,7 @@ public sealed partial class C_Get_Set_Value
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")
@@ -494,17 +494,23 @@ public sealed partial class C_Get_Set_Value
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
                 }
                 else
                 {

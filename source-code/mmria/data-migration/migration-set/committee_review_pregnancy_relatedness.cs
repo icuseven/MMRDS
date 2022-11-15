@@ -303,9 +303,9 @@ public sealed class committee_review_pregnancy_relatedness
     }
 
 
-    public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
+    public object get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -314,7 +314,7 @@ public sealed class committee_review_pregnancy_relatedness
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")

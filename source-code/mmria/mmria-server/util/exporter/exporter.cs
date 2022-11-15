@@ -139,7 +139,7 @@ public bool Execute(mmria.server.export_queue_item queue_item)
     string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
     string urlParameters = "?include_docs=true";
     cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
-    dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+    object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 */
     string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
     cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
@@ -504,7 +504,7 @@ if(multiform_field_list.Count > 0)
             //System.Console.WriteLine("break");
         }
 
-        dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+        object val = get_value(case_doc as IDictionary<string, object>, path);
         try
         {
             switch (path_to_node_map[path].type.ToLower())
@@ -693,8 +693,8 @@ if(multiform_field_list.Count > 0)
                 )
                 {
                     clearText = (path == "case_narrative/case_opening_overview")
-                        ? mmria.common.util.CaseNarrative.StripHTML(val)
-                        : mmria.common.util.TextAreaField.CleanUp(val);
+                        ? mmria.common.util.CaseNarrative.StripHTML(val?.ToString())
+                        : mmria.common.util.TextAreaField.CleanUp(val?.ToString());
                     if (clearText.Length > 0) 
                     {
                         
@@ -722,7 +722,7 @@ if(multiform_field_list.Count > 0)
                     (
                     mmria_case_id,
                     path,
-                    val,
+                    val?.ToString(),
                     -1,
                     -1
                     );
@@ -1341,7 +1341,7 @@ if(multiform_field_list.Count > 0)
         string p_column_name,
         Metadata_Node p_node,
         string p_mmria_case_id,
-        dynamic p_value,
+        object p_value,
         int p_form_index = -1,
         int p_grid_index = -1
         
@@ -1466,7 +1466,7 @@ if(multiform_field_list.Count > 0)
                                 (
                                     p_mmria_case_id,
                                     p_node.path,
-                                    p_value,
+                                    p_value?.ToString(),
                                     p_grid_index,
                                     p_form_index
                                 );
@@ -1956,9 +1956,9 @@ private string convert_path_to_file_name(string p_path)
     return value + ".csv";
 }
 
-public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
+public object get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
 {
-    dynamic result = null;
+    object result = null;
 
     var de_identified_path = System.Text.RegularExpressions.Regex.Replace(p_path, "/[0-9]/", "/");
 
@@ -1973,7 +1973,7 @@ public dynamic get_value(IDictionary<string, object> p_object, string p_path, bo
 
     System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
-    dynamic index = p_object;
+    object index = p_object;
 
 
     for (int i = 0; i < path.Length; i++)
@@ -2064,7 +2064,7 @@ public List<object> get_multiform_grid(IDictionary<string, object> p_object, str
     {
         for (int form_index = 0; form_index < multiform.Count; form_index++)
         {
-        dynamic index = multiform[form_index];
+        object index = multiform[form_index];
 
         for (int i = 1; i < path.Length; i++)
         {

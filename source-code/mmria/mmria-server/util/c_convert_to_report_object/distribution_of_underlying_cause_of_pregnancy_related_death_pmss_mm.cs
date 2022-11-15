@@ -34,7 +34,7 @@ public sealed partial class c_convert_to_report_object
                 var get_value_result = get_value(p_source_object, "committee_review/pmss_mm");
                 if(! get_value_result.is_erorr)
                 {
-                    val = get_value_result.result;
+                    val = get_value_result.result?.ToString();
                 }
 
                 if(val != null && result.ContainsKey(val))
@@ -50,7 +50,7 @@ public sealed partial class c_convert_to_report_object
                 get_value_result = get_value(p_source_object, "committee_review/pmss_mm_secondary");
                 if(! get_value_result.is_erorr)
                 {
-                    val = get_value_result.result;
+                    val = get_value_result.result?.ToString();
                 }
                 
                 if(val != null && result.ContainsKey(val))

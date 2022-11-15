@@ -500,7 +500,7 @@ public sealed class v2_4_Migration
                                 case_change_count += 1;
                                 case_has_changed = true;
                             }
-                            dynamic new_value_list = new List<object>(){ 9999 };
+                            object new_value_list = new List<object>(){ 9999 };
 
                             case_has_changed = case_has_changed && gs.set_multi_value(saepsec_homel_path, new_value_list, doc);
                             var output_text = $"item record_id: {mmria_id} path:{saepsec_homel_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
@@ -520,14 +520,14 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
 
-                            dynamic new_value = value_result.result;
+                            object new_value = value_result.result;
                             if(new_value.ToString() == "8888")
                             {
                                 new_value = "7777";
                             }
 
 
-                            dynamic new_value_list = new List<object>(){
+                            object new_value_list = new List<object>(){
                                 new_value
                             };
 
@@ -569,7 +569,7 @@ public sealed class v2_4_Migration
                                 case_change_count += 1;
                                 case_has_changed = true;
                             }
-                            dynamic new_value_list = new List<object>(){ 9999 };
+                            object new_value_list = new List<object>(){ 9999 };
 
                             case_has_changed = case_has_changed && gs.set_multi_value(saep_poc_incar_path, new_value_list, doc);
                             var output_text = $"item record_id: {mmria_id} path:{saep_poc_incar_path} Converted from single value to multivalue {value_result.result} => [{string.Join(',', new_value_list)}]";
@@ -587,7 +587,7 @@ public sealed class v2_4_Migration
                                 case_change_count += 1;
                                 case_has_changed = true;
                             }
-                            dynamic new_value_list = new List<object>(){
+                            object new_value_list = new List<object>(){
                                 value_result.result
                             };
 
@@ -637,7 +637,7 @@ public sealed class v2_4_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                dynamic new_value = pmss_map[value_string];
+                                object new_value = pmss_map[value_string];
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";
@@ -675,7 +675,7 @@ public sealed class v2_4_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                dynamic new_value = "7777";
+                                object new_value = "7777";
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
@@ -708,7 +708,7 @@ public sealed class v2_4_Migration
                                 
                                 for(int i = 0; i < list.Count; i++)
                                 {
-                                    dynamic value = list[i];
+                                    object value = list[i];
 
                                     if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
                                     {
@@ -725,7 +725,7 @@ public sealed class v2_4_Migration
                                         //	case_has_changed = true;
                                         //}
                                         is_list_changed = true;
-                                        dynamic new_value = 7777;
+                                        object new_value = 7777;
 
                                         new_list.Add(new_value);
 
@@ -775,17 +775,17 @@ public sealed class v2_4_Migration
                     {	
                         if(!grid_value_result.is_error)
                         {
-                            var list =  grid_value_result.result as IList<(int, dynamic)>;
+                            var list =  grid_value_result.result as IList<(int, object)>;
 
                             if(list != null)
                             {
-                                var new_list = new List<(int, dynamic)>();
+                                var new_list = new List<(int, object)>();
                                 var is_list_changed = false;
 
                                 var output_text = new System.Text.StringBuilder();
                                 for(int i = 0; i < list.Count; i++)
                                 {
-                                    (int, dynamic) tuple_value = list[i];
+                                    (int, object) tuple_value = list[i];
                                     var value = tuple_value.Item2;
 
                                     if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
@@ -804,7 +804,7 @@ public sealed class v2_4_Migration
                                         //	case_has_changed = true;
                                         //}
                                         is_list_changed = true;
-                                        dynamic new_value = 7777;
+                                        object new_value = 7777;
 
                                         new_list.Add((tuple_value.Item1, new_value));
                                         output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{tuple_value.Item1} Converted  8888 => 7777");
@@ -851,8 +851,8 @@ public sealed class v2_4_Migration
                     {
                         if(!multiform_value_result.is_error)
                         {
-                            var list = multiform_value_result.result as IList<(int, dynamic)>;
-                            var new_list = new List<(int, dynamic)>();
+                            var list = multiform_value_result.result as IList<(int, object)>;
+                            var new_list = new List<(int, object)>();
                             var is_list_changed = false;
 
                             var output_text = new System.Text.StringBuilder();
@@ -873,7 +873,7 @@ public sealed class v2_4_Migration
                                 {
                                     
                                     
-                                    dynamic new_value = 7777;
+                                    object new_value = 7777;
                                     new_list.Add((index, new_value));
                                     is_list_changed = true;
                                     output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} grid_index:{index} Converted 8888 => 7777");
@@ -914,8 +914,8 @@ public sealed class v2_4_Migration
                     {	
                         if(!multiform_value_result.is_error)
                         {
-                            var list = multiform_value_result.result as IList<(int, dynamic)>;
-                            var new_list = new List<(int, dynamic)>();
+                            var list = multiform_value_result.result as IList<(int, object)>;
+                            var new_list = new List<(int, object)>();
                             var is_list_changed = false;
 
                             var output_text = new System.Text.StringBuilder();
@@ -941,7 +941,7 @@ public sealed class v2_4_Migration
                                     {
                                         
                                         
-                                        dynamic new_value = 7777;
+                                        object new_value = 7777;
                                         new_value_list.Add(new_value);
                                         is_list_changed = true;
                                         output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} list_index:{new_value_list.Count -1} 8888 => 7777");
@@ -984,8 +984,8 @@ public sealed class v2_4_Migration
                     {
                         if(!multiform_grid_value_result.is_error)
                         {
-                            var list = multiform_grid_value_result.result as IList<(int, int, dynamic)>;
-                            var new_list = new List<(int, int, dynamic)>();
+                            var list = multiform_grid_value_result.result as IList<(int, int, object)>;
+                            var new_list = new List<(int, int, object)>();
                             var is_list_changed = false;
 
                             var output_text = new System.Text.StringBuilder();
@@ -1006,7 +1006,7 @@ public sealed class v2_4_Migration
                                 {
                                     
                                     
-                                    dynamic new_value = 7777;
+                                    object new_value = 7777;
                                     new_list.Add((form_index, grid_index, new_value));
                                     is_list_changed = true;
                                     output_text.AppendLine($"item record_id: {mmria_id} path:{node.path} form_index:{form_index} grid_index:{grid_index} 8888 => 7777");
@@ -1059,7 +1059,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "7777";
+                            object new_value = "7777";
 
                             case_has_changed = case_has_changed && gs.set_value(mhp_wtdpmh_condi_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{mhp_wtdpmh_condi_path} Converted 8888 => 7777";
@@ -1081,7 +1081,7 @@ public sealed class v2_4_Migration
                     if(!multiform_value_result.is_error)
                     {
                         var list = multiform_value_result.result;
-                        var new_list = new List<(int, dynamic)>();
+                        var new_list = new List<(int, object)>();
                         var is_list_changed = false;
 
                         var output_text = new System.Text.StringBuilder();
@@ -1154,7 +1154,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "2";
+                            object new_value = "2";
 
                             case_has_changed = case_has_changed && gs.set_value(ar_coa_infor_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{ar_coa_infor_path} Converted 4 => 2";
@@ -1188,7 +1188,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "4";
+                            object new_value = "4";
 
                             case_has_changed = case_has_changed && gs.set_value(pppcf_pp_type_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{pppcf_pp_type_path} Converted 3 => 4";
@@ -1212,7 +1212,7 @@ public sealed class v2_4_Migration
                     var grid_value_result = gs.get_grid_value(doc, posopc_p_type_path);
                     if(!grid_value_result.is_error)
                     {
-                        var new_list = new List<(int, dynamic)>();
+                        var new_list = new List<(int, object)>();
                         var is_list_changed = false;
                         var output_text = new System.Text.StringBuilder();
                         foreach(var (grid_index, value) in grid_value_result.result)
@@ -1226,7 +1226,7 @@ public sealed class v2_4_Migration
                             }
                             else if(value.ToString() == "3")
                             {
-                                dynamic new_value = 4;
+                                object new_value = 4;
                                 new_list.Add((grid_index, new_value));
                                 is_list_changed = true;
                                 output_text.AppendLine($"item record_id: {mmria_id} path:{posopc_p_type_path} grid_index:{grid_index} Converted 3 => 4");
@@ -1266,7 +1266,7 @@ public sealed class v2_4_Migration
                     if(!multiform_value_result.is_error)
                     {
                         var list = multiform_value_result.result;
-                        var new_list = new List<(int, dynamic)>();
+                        var new_list = new List<(int, object)>();
                         var is_list_changed = false;
 
                         var output_text = new System.Text.StringBuilder();
@@ -1431,7 +1431,7 @@ public sealed class v2_4_Migration
                     if(!multiform_value_result.is_error)
                     {
                         var list = multiform_value_result.result;
-                        var new_list = new List<(int, int, dynamic)>();
+                        var new_list = new List<(int, int, object)>();
                         var is_list_changed = false;
 
                         var output_text = new System.Text.StringBuilder();
@@ -1531,7 +1531,7 @@ public sealed class v2_4_Migration
                     if(!multiform_value_result.is_error)
                     {
                         var list = multiform_value_result.result;
-                        var new_list = new List<(int, int, dynamic)>();
+                        var new_list = new List<(int, int, object)>();
                         var is_list_changed = false;
 
                         var output_text = new System.Text.StringBuilder();
@@ -1609,7 +1609,7 @@ public sealed class v2_4_Migration
                     if(!multiform_value_result.is_error)
                     {
                         var list = multiform_value_result.result;
-                        var new_list = new List<(int, int, dynamic)>();
+                        var new_list = new List<(int, int, object)>();
                         var is_list_changed = false;
 
                         var output_text = new System.Text.StringBuilder();
@@ -1698,7 +1698,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "88";
+                            object new_value = "88";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_p_statu_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_p_statu_path} Converted 8888 => 88";
@@ -1938,7 +1938,7 @@ So for variable: omovmcf_p_type the data migration rule is: { "4", "9999"}
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "7777";
+                            object new_value = "7777";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 8888 => 7777";
@@ -1953,7 +1953,7 @@ So for variable: omovmcf_p_type the data migration rule is: { "4", "9999"}
                                 case_has_changed = true;
                             }
                             
-                            dynamic new_value = "3";
+                            object new_value = "3";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 4 => 3";

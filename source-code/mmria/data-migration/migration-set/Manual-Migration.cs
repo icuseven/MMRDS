@@ -371,7 +371,7 @@ public sealed class Manual_Migration
             
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
-
+/*
             var host_state_array = this.db_server_url.Split("-");
             var host_state = host_state_array[1];
 
@@ -381,7 +381,9 @@ public sealed class Manual_Migration
                 {
                     host_state = db_name.Split("_")[0];
                 }
-            }
+            }*/
+
+            var host_state = "mo";
 
             foreach(var row in case_response.rows)
             {
@@ -400,6 +402,8 @@ public sealed class Manual_Migration
                 }
 
                 // host_state  *** begin
+
+                /*
 
                 value_result = gs.get_value(case_item, "host_state");
                 var test_host_state_object = value_result.result;
@@ -435,9 +439,10 @@ public sealed class Manual_Migration
                         case_has_changed = case_has_changed && gs.set_value("host_state", host_state, case_item);
                     }
                 }
+                */
                 // host_state  *** end
 
-                List<(int, dynamic)> change_list = new System.Collections.Generic.List<(int, dynamic)>();	
+                List<(int, object)> change_list = new System.Collections.Generic.List<(int, object)>();	
 
                 C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(case_item, "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial");
                 
@@ -999,8 +1004,8 @@ public sealed class Manual_Migration
         C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(p_object, p_path);
         var grid_value = multiform_value_result.result;
 
-        var list_change_set  = new List<(int, dynamic)>();
-        var list_other_change_set  = new List<(int, dynamic)>();
+        var list_change_set  = new List<(int, object)>();
+        var list_other_change_set  = new List<(int, object)>();
 
         foreach(var child in grid_value)
         {
@@ -1039,8 +1044,8 @@ public sealed class Manual_Migration
         C_Get_Set_Value.get_grid_value_result grid_value_result = gs.get_grid_value(p_object, p_path);
         var grid_value = grid_value_result.result;
 
-        var list_change_set  = new List<(int, dynamic)>();
-        var list_other_change_set  = new List<(int, dynamic)>();
+        var list_change_set  = new List<(int, object)>();
+        var list_other_change_set  = new List<(int, object)>();
 
         foreach(var child in grid_value)
         {

@@ -594,9 +594,9 @@ mDeathbyRace  MDeathbyRace17 17
 
         return result;
     }
-    public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
+    public object get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -605,7 +605,7 @@ mDeathbyRace  MDeathbyRace17 17
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")
@@ -769,9 +769,9 @@ mDeathbyRace  MDeathbyRace17 17
 
     }
 
-    public List<(int, dynamic)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
+    public List<(int, object)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
     {
-        List<(int, dynamic)> result = new List<(int, dynamic)>();
+        List<(int, object)> result = new List<(int, object)>();
 
         //dynamic current = null;
 
@@ -782,7 +782,7 @@ mDeathbyRace  MDeathbyRace17 17
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {
@@ -3322,14 +3322,14 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 /*
 social_and_environmental_profile/socio_economic_characteristics/homelessness
 */
-        dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+        object object_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 
         if(dynamic_val != null && !(dynamic_val is IList<object>))
         {
             return;
         }
 
-        var object_list = dynamic_val as IList<object>;
+        var object_list = object_val as IList<object>;
 
         if(object_list!= null)
         foreach(var object_val in object_list)
@@ -3931,7 +3931,7 @@ val_string_list.Add(item.ToString());
 
 //social_and_environmental_profile/previous_or_current_incarcerations
 
-        dynamic val_list = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+        object val_list = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 
         if(val_list != null && !(val_list is IList<object>))
         {
@@ -4848,11 +4848,11 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
         var pmss_mm_string = string.Empty;
         double pmss_mm = double.NaN;
     
-        dynamic dynamic_val = get_value(p_source_object, "committee_review/pmss_mm");
+        object object_val = get_value(p_source_object, "committee_review/pmss_mm");
 
         if(dynamic_val != null )
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             if(object_val!=null)
                 pmss_mm_string = object_val.ToString();
         }
@@ -4923,20 +4923,20 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
         var was_this_death_preventable = string.Empty;
         var chance_to_alter_outcome = -1;;
 
-        dynamic dynamic_val = get_value(p_source_object, "committee_review/was_this_death_preventable");
+        object object_val = get_value(p_source_object, "committee_review/was_this_death_preventable");
 
         if(dynamic_val != null )
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             if(object_val!=null)
                 was_this_death_preventable = object_val.ToString();
         }
 
-        dynamic_val = get_value(p_source_object, "committee_review/chance_to_alter_outcome");
+        object_val = get_value(p_source_object, "committee_review/chance_to_alter_outcome");
 
         if(dynamic_val != null )
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             if
             (
                 object_val != null &&
@@ -5090,19 +5090,19 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
         var birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
         var death_certificate_race_race = 9999;
 
-        dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
+        object object_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
         
         if(dynamic_val != null)
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             if ( object_val!=null )
                 birth_fetal_death_certificate_parent_race_omb_race_recode_string = object_val.ToString();
         }
 
-        dynamic_val = get_value(p_source_object, "death_certificate/race/omb_race_recode");
+        object_val = get_value(p_source_object, "death_certificate/race/omb_race_recode");
         if(dynamic_val != null)
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             if ( object_val!= null )
                 death_certificate_race_race_string = object_val.ToString();
         }
@@ -5235,19 +5235,19 @@ var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 
 
 
-        dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+        object object_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
         
 
         if(dynamic_val != null)
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             birth_fetal_death_certificate_parent_race_race_of_mother_object_list = object_val as List<object>;
         }
 
-        dynamic_val = get_value(p_source_object, "death_certificate/race/race");
+        object_val = get_value(p_source_object, "death_certificate/race/race");
         if(dynamic_val != null)
         {
-            var object_val = dynamic_val as object;
+            var object_val = object_val as object;
             death_certificate_race_race_object_list = object_val as List<object>;
         }
 

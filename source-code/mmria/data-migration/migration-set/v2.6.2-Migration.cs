@@ -389,7 +389,7 @@ public sealed class v2_6_2_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                dynamic new_value = pmss_map[value_string];
+                                object new_value = pmss_map[value_string];
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";

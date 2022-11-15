@@ -212,9 +212,9 @@ public sealed class CVS_Migration
 
 
 					
-					void set_grid_value(string p_path, dynamic p_value_list)
+					void set_grid_value(string p_path, object p_value_list)
 					{
-						case_has_changed = case_has_changed &&  gs.set_grid_value(doc, p_path, new List<(int, dynamic)>() { ( 0, p_value_list) });
+						case_has_changed = case_has_changed &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
 					}
 
 

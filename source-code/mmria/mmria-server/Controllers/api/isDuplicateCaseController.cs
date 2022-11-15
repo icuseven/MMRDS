@@ -71,7 +71,7 @@ public sealed class isDuplicateCaseController: ControllerBase
                         {
 
                             migrate.C_Get_Set_Value.get_value_result value_result = gs.get_value(case_expando_object, "_id");
-                            mmria_id = value_result.result;
+                            mmria_id = value_result.result.ToString();
 
 
                             var DSTATE_result = gs.get_value(case_expando_object, "home_record/state_of_death_record");
@@ -94,9 +94,9 @@ public sealed class isDuplicateCaseController: ControllerBase
                             {
                                 if
                                 (
-                                    DSTATE_result.result.Equals(DuplicateCaseRequest.StateOfDeath, StringComparison.OrdinalIgnoreCase) &&
-                                    LNAME_result.result.Equals(DuplicateCaseRequest.LastName, StringComparison.OrdinalIgnoreCase) &&
-                                    GNAME_result.result.Equals(DuplicateCaseRequest.FirstName, StringComparison.OrdinalIgnoreCase) &&
+                                    DSTATE_result.result.ToString().Equals(DuplicateCaseRequest.StateOfDeath, StringComparison.OrdinalIgnoreCase) &&
+                                    LNAME_result.result.ToString().Equals(DuplicateCaseRequest.LastName, StringComparison.OrdinalIgnoreCase) &&
+                                    GNAME_result.result.ToString().Equals(DuplicateCaseRequest.FirstName, StringComparison.OrdinalIgnoreCase) &&
                                     DOD_YR_result.result!= null &&
                                     DOD_MO_result.result!= null &&
                                     DOD_DY_result.result!= null

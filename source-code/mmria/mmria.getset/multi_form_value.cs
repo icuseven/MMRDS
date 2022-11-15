@@ -27,7 +27,7 @@ public sealed partial class C_Get_Set_Value
 
         var result = new List<(int, object)>();
 
-        dynamic current = null;
+        object current = null;
 
         try
         {
@@ -44,7 +44,7 @@ public sealed partial class C_Get_Set_Value
                 return new get_multiform_value_result(is_error, result);
             }
 
-            dynamic index = case_dictionary[path[0]];
+            object index = case_dictionary[path[0]];
 
             var form_list = case_dictionary[path[0]] as IList<object>;
             if(form_list != null)
@@ -137,17 +137,22 @@ public sealed partial class C_Get_Set_Value
                         }
                     
                     }
-                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    else if(index != null)
                     {
-                        index = index[path[i]] as IList<object>;
-                    }
-                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                    {
-                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                    }
-                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                    {
-                        index = index[path[i]] as IDictionary<string, object>;
+                        Console.WriteLine(index.GetType());
+                        /*
+                        else if (index != null && index is ICollection collection[path[i]].GetType() == typeof(IList<object>))
+                        {
+                            index = index[path[i]] as IList<object>;
+                        }
+                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                        {
+                            //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                        }
+                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                        {
+                            index = index[path[i]] as IDictionary<string, object>;
+                        }*/
                     }
                     else
                     {
@@ -165,7 +170,7 @@ public sealed partial class C_Get_Set_Value
     }
 
 
-    public bool set_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, dynamic)> p_value_list)
+    public bool set_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, object)> p_value_list)
     {
 
         var result = false;
@@ -179,7 +184,7 @@ public sealed partial class C_Get_Set_Value
 
             IDictionary<string,object> case_dictionary = p_object as IDictionary<string,object>;
 
-            dynamic index = case_dictionary[path[0]];
+            object index = case_dictionary[path[0]];
 
             var form_list = case_dictionary[path[0]] as IList<object>;
             if(form_list != null)
@@ -225,17 +230,22 @@ public sealed partial class C_Get_Set_Value
                             }
                         
                         }
-                        else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                        else if (index != null)
                         {
-                            index = index[path[i]] as IList<object>;
-                        }
-                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                        {
-                            System.Console.WriteLine("set_multiform_value: Index not found. This should not happen. {0}", p_path);
-                        }
-                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                        {
-                            index = index[path[i]] as IDictionary<string, object>;
+                            System.Console.WriteLine(index.GetType());
+                            /*
+                            else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                            {
+                                index = index[path[i]] as IList<object>;
+                            }
+                            else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                            {
+                                System.Console.WriteLine("set_multiform_value: Index not found. This should not happen. {0}", p_path);
+                            }
+                            else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                            {
+                                index = index[path[i]] as IDictionary<string, object>;
+                            }*/
                         }
                         else
                         {

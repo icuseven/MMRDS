@@ -377,7 +377,7 @@ public sealed class mmrds_exporter
                 //System.Console.WriteLine("break");
             }
 
-            dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+            object val = get_value(case_doc as IDictionary<string, object>, path);
             try
             {
                 switch (path_to_node_map[path].type.ToLower())
@@ -563,7 +563,7 @@ public sealed class mmrds_exporter
 
                     if(path == "case_narrative/case_opening_overview")
                     {
-                        clearText = mmria.common.util.CaseNarrative.StripHTML(val);
+                        clearText = mmria.common.util.CaseNarrative.StripHTML(val?.ToString());
                         if (clearText.Length > 0) 
                         {
                             
@@ -592,7 +592,7 @@ public sealed class mmrds_exporter
                         (
                         mmria_case_id,
                         path,
-                        val,
+                        val?.ToString(),
                         -1,
                         -1
                         );
@@ -643,7 +643,7 @@ public sealed class mmrds_exporter
                 false
                 );
 
-                dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
+                object raw_data = get_value(case_doc as IDictionary<string, object>, path);
                 List<object> object_data = raw_data as List<object>;
 
                 if (object_data != null)
@@ -670,7 +670,7 @@ public sealed class mmrds_exporter
                         {
                             continue;
                         }
-                        dynamic val = grid_item_row[test_key];
+                        object val = grid_item_row[test_key];
 
                         if (de_identified_set.Contains(node))
                         {
@@ -866,7 +866,7 @@ public sealed class mmrds_exporter
                                 (
                                     mmria_case_id,
                                     node,
-                                    val,
+                                    val?.ToString(),
                                     i,
                                     -1
                                 );
@@ -945,7 +945,7 @@ public sealed class mmrds_exporter
                 false
             );
 
-            dynamic form_raw_data = get_value(case_doc as IDictionary<string, object>, kvp.Key);
+            object form_raw_data = get_value(case_doc as IDictionary<string, object>, kvp.Key);
             List<object> form_object_data = form_raw_data as List<object>;
 
             if (form_object_data != null)
@@ -985,7 +985,7 @@ public sealed class mmrds_exporter
 
                     }
 
-                    dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/", form_path_list));
+                    object val = get_value(case_doc as IDictionary<string, object>, string.Join("/", form_path_list));
 
                     switch (path_to_node_map[path].type.ToLower())
                     {
@@ -1163,7 +1163,7 @@ public sealed class mmrds_exporter
                         if (path == "informant_interviews/interview_narrative")
                         {
                             // Informant Interview Narrative - Clean up, if necessary
-                            string clearText = mmria.common.util.TextAreaField.CleanUp(val);
+                            string clearText = mmria.common.util.TextAreaField.CleanUp(val?.ToString());
                             if (clearText.Length > 0)
                             {
                                 WriteQualitativeData
@@ -1189,7 +1189,7 @@ public sealed class mmrds_exporter
                             (
                             mmria_case_id,
                             path,
-                            val,
+                            val?.ToString(),
                             i,
                             -1
                             );
@@ -1199,7 +1199,7 @@ public sealed class mmrds_exporter
 
                             
                             // Check the over the limit size
-                            if(val.Length > max_qualitative_length)
+                            if(val?.ToString().Length > max_qualitative_length)
                             {
                                 // Replace the field with over the limit notification
                                 form_row[file_field_name] = "Over the qualitative limit. Check the over-the-limit folder for details.";
@@ -1209,7 +1209,7 @@ public sealed class mmrds_exporter
                                 (
                                     mmria_case_id,
                                     path,
-                                    val,
+                                    val?.ToString(),
                                     i,
                                     -1,
                                     false
@@ -1680,12 +1680,12 @@ public sealed class mmrds_exporter
             );
 
 
-            dynamic raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
+            object raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
             List<object> raw_data_list = raw_data as List<object>;
             if(raw_data_list== null) return;
             if(parent_record_index > raw_data_list.Count) return;
 
-            List<object> grid_raw_data = raw_data[parent_record_index] as List<object>;
+            List<object> grid_raw_data = raw_data_list[parent_record_index] as List<object>;
 
             if (grid_raw_data == null) return;
 
@@ -2367,9 +2367,9 @@ public sealed class mmrds_exporter
         }
     }
 
-    public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
+    public object get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
     {
-        dynamic result = null;
+        object result = null;
         
         var de_identified_path = System.Text.RegularExpressions.Regex.Replace(p_path, "/[0-9]/", "/");
 
@@ -2384,7 +2384,7 @@ public sealed class mmrds_exporter
 
         System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
-        dynamic index = p_object;
+        object index = p_object;
 
 
         for (int i = 0; i < path.Length; i++)
@@ -2475,7 +2475,7 @@ public sealed class mmrds_exporter
         {
             for (int form_index = 0; form_index < multiform.Count; form_index++)
             {
-            dynamic index = multiform[form_index];
+            object index = multiform[form_index];
 
             for (int i = 1; i < path.Length; i++)
             {

@@ -432,7 +432,7 @@ namespace mmria.mmrds
 			return path[0];
 		}
 
-		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		public object get_value(IDictionary<string, object> p_object, string p_path)
 		{
 			dynamic result = null;
 

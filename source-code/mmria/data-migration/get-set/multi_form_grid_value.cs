@@ -12,19 +12,19 @@ public sealed partial class C_Get_Set_Value
     public sealed class get_multiform_grid_value_result
     {
         
-        public get_multiform_grid_value_result(bool p_is_error, List<(int, int, dynamic)> p_result)
+        public get_multiform_grid_value_result(bool p_is_error, List<(int, int, object)> p_result)
         {
             is_error = p_is_error;
             result = p_result;
         }
 
         public bool is_error { get; set; }
-        public List<(int, int, dynamic)> result { get; set; }
+        public List<(int, int, object)> result { get; set; }
     }
     public get_multiform_grid_value_result get_multiform_grid_value(IDictionary<string, object> p_object, string p_path)
     {
         bool is_error = false;
-        List<(int, int, dynamic)> result = new List<(int, int, dynamic)>();
+        List<(int, int, object)> result = new List<(int, int, object)>();
 
         try
         {
@@ -41,7 +41,7 @@ public sealed partial class C_Get_Set_Value
             {
                 for(int form_index = 0; form_index < multiform.Count; form_index++)
                 {
-                    dynamic index = multiform[form_index];
+                    object index = multiform[form_index];
 
                     for (int i = 1; i < path.Length; i++)
                     {
@@ -123,7 +123,7 @@ public sealed partial class C_Get_Set_Value
     }
 
 
-    public bool set_multiform_grid_value(IDictionary<string, object> p_object, string p_path, List<(int, int, dynamic)> p_value_list)
+    public bool set_multiform_grid_value(IDictionary<string, object> p_object, string p_path, List<(int, int, object)> p_value_list)
     {
         bool result = false;
 
@@ -155,7 +155,7 @@ public sealed partial class C_Get_Set_Value
                             continue;
                         }
 
-                        dynamic index = multiform[form_index];
+                        object index = multiform[form_index];
 
                         for (int i = 1; i < path.Length; i++)
                         {
@@ -280,7 +280,7 @@ public sealed partial class C_Get_Set_Value
             {
                 for(int form_index = 0; form_index < multiform.Count; form_index++)
                 {
-                    dynamic index = multiform[form_index];
+                    object index = multiform[form_index];
 
                     for (int i = 1; i < path.Length; i++)
                     {

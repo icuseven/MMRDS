@@ -102,14 +102,6 @@ public sealed class Backup
             return;
         }
 
-        /*
-        var mmria_server = new mmria_server_api_client(this.mmria_url);
-        mmria_server.login(this.user_name, this.password);
-
-        mmria.common.metadata.app metadata = mmria_server.get_metadata();
-        dynamic all_cases = mmria_server.get_all_cases(this.database_url);
-        */
-
         try 
         {
             cBulkDocument bulk_document = await GetDocumentList ();
@@ -145,8 +137,8 @@ public sealed class Backup
         cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.password);
         var curl_result = await document_curl.executeAsync();
 
-        dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
-        dynamic all_cases_rows = all_cases.rows;
+        object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+        object all_cases_rows = all_cases.rows;
 
         foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows) 
         {

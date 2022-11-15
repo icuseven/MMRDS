@@ -1212,13 +1212,13 @@ public sealed class BatchItemProcessor : ReceiveActor
                 }
 
 
-                //bool set_grid_value(string p_path, List<(int, dynamic)> p_value_list)
-                bool set_grid_value(string p_path, dynamic p_value_list)
+                //bool set_grid_value(string p_path, List<(int, object)> p_value_list)
+                bool set_grid_value(string p_path, object p_value_list)
 
                 {
                     var result = true;
 
-                    result = result &&  gs.set_grid_value(new_case, p_path, new List<(int, dynamic)>() { ( 0, p_value_list) });
+                    result = result &&  gs.set_grid_value(new_case, p_path, new List<(int, object)>() { ( 0, p_value_list) });
 
                     return result;
                 }
@@ -2057,31 +2057,31 @@ public sealed class BatchItemProcessor : ReceiveActor
                     new_case_dictionary["birth_certificate_infant_fetal_section"] = natal_fetal_list;
                     
                     var live_birth = "0";
-                    gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, dynamic)>() { (nat_index,  live_birth) });
+                    gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, object)>() { (nat_index,  live_birth) });
 
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTF"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"], "")) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"], "")) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, object)>() { (nat_index, DATE_OF_DELIVERY_Rule(nat_field_set[nat_index]["IDOB_YR"], nat_field_set[nat_index]["IDOB_MO"], nat_field_set[nat_index]["IDOB_DY"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["HOSPTO"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["HOSPTO"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["FILENO"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["FILENO"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["AUXNO"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["AUXNO"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TB"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["TB"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTF"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ATTF"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ATTV"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ATTV"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PRES"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["PRES"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ROUT"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ROUT"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR5"], new List<(int, object)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR5"], "")) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, object)>() { (nat_index, TryPaseToIntOr_DefaultBlank(nat_field_set[nat_index]["APGAR10"], "")) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ITRAN"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ITRAN"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ILIV"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ILIV"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BFED"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["BFED"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
 
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG"], new List<(int, dynamic)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_unit_of_measurement"], new List<(int, dynamic)>() { (nat_index, BWG_measu_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"], new List<(int, dynamic)>() { (nat_index, PLUR_gesta_NAT_Rule(nat_field_set[nat_index]["PLUR"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG"], new List<(int, object)>() { (nat_index, BWG_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["BWG_unit_of_measurement"], new List<(int, object)>() { (nat_index, BWG_measu_NAT_Rule(nat_field_set[nat_index]["BWG"])) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"], new List<(int, object)>() { (nat_index, PLUR_gesta_NAT_Rule(nat_field_set[nat_index]["PLUR"])) });
                     
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["abnormal_conditions_of_newborn"]
-                        , new List<(int, dynamic)>() { (nat_index, NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
+                        , new List<(int, object)>() { (nat_index, NAT_abnormal_Rule(nat_field_set[nat_index]["AVEN1"]
                         , nat_field_set[nat_index]["AVEN6"]
                         , nat_field_set[nat_index]["NICU"]
                         , nat_field_set[nat_index]["SURF"]
@@ -2091,7 +2091,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                         )) });
 
                     gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["congenital_anomalies"],
-                        new List<(int, dynamic)>() { (nat_index,
+                        new List<(int, object)>() { (nat_index,
                         NAT_congenital_Rule(nat_field_set[nat_index]["ANEN"]
                             , nat_field_set[nat_index]["MNSB"]
                             , nat_field_set[nat_index]["CCHD"]
@@ -2107,13 +2107,13 @@ public sealed class BatchItemProcessor : ReceiveActor
                         )
                         ) });
 
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["TLAB"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["RECORD_TYPE"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ISEX"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["ISEX"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["TLAB"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["TLAB"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["RECORD_TYPE"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["ISEX"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["ISEX"]) });
 
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
-                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, dynamic)>() { (nat_index, nat_field_set[nat_index]["APGAR10"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["SORD"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["SORD"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["INF_MED_REC_NUM"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["INF_MED_REC_NUM"]) });
+                    gs.set_multiform_value(new_case, NAT_IJE_to_MMRIA_Path["APGAR10"], new List<(int, object)>() { (nat_index, nat_field_set[nat_index]["APGAR10"]) });
 
 
 
@@ -2134,70 +2134,70 @@ public sealed class BatchItemProcessor : ReceiveActor
 
 //gs.set_multiform_value(p_object,p_path, list_change_set);
                     var fetal_death = "1";
-                    gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, dynamic)>() { (fet_index,  fetal_death) });
+                    gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/record_type", new List<(int, object)>() { (fet_index,  fetal_death) });
 
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, dynamic)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["FDOD_YR"], fet_field_set[fet_index]["FDOD_MO"], fet_field_set[fet_index]["FDOD_DY"])) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["DATE_OF_DELIVERY"], new List<(int, object)>() { (fet_index, FET_DATE_OF_DELIVERY_Rule(fet_field_set[fet_index]["FDOD_YR"], fet_field_set[fet_index]["FDOD_MO"], fet_field_set[fet_index]["FDOD_DY"])) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FILENO"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["FILENO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["AUXNO"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["AUXNO"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TD"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["TD"]) });
 
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
-
-
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTF"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["ATTF"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ATTV"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["ATTV"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PRES"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["PRES"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ROUT"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["ROUT"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["SORD"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["SORD"]) });
 
 
 
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a1"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a2"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a3"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a4"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a5"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a6"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a7"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a8"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a8"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a9"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a9"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a10"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a10"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a11"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a11"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a12"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a12"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a13"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a13"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a14"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18a14"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b1"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b2"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b3"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b4"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b5"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b6"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b7"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b8"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b8"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b9"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b9"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b10"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b10"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b11"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b11"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b12"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b12"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b13"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b13"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b14"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["COD18b14"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ICOD"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["ICOD"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD1"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD1"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD2"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD2"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD3"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD3"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD4"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD4"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD5"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD5"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD6"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD6"]) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD7"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["OCOD7"]) });
 
-                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FSEX"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["FSEX"]) });
-                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TLAB"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["TLAB"]) });
-                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, dynamic)>() { (fet_index, FWG_pound_FET_Rule(fet_field_set[fet_index]["FWG"])) });
-                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG_unit_of_measurement"],  new List<(int, dynamic)>() { (fet_index, FWG_measure_FET_Rule(fet_field_set[fet_index]["FWG"])) });
-                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"],  new List<(int, dynamic)>() { (fet_index, PLUR_gesta_FET_Rule(fet_field_set[fet_index]["PLUR"])) });
 
-                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, dynamic)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a1"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a1"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a2"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a2"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a3"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a3"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a4"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a4"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a5"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a5"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a6"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a6"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a7"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a7"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a8"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a8"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a9"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a9"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a10"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a10"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a11"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a11"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a12"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a12"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a13"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a13"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18a14"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18a14"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b1"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b1"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b2"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b2"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b3"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b3"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b4"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b4"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b5"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b5"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b6"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b6"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b7"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b7"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b8"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b8"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b9"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b9"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b10"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b10"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b11"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b11"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b12"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b12"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b13"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b13"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["COD18b14"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["COD18b14"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["ICOD"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["ICOD"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD1"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD1"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD2"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD2"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD3"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD3"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD4"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD4"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD5"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD5"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD6"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD6"]) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["OCOD7"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["OCOD7"]) });
+
+                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FSEX"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["FSEX"]) });
+                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["TLAB"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["TLAB"]) });
+                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG"],  new List<(int, object)>() { (fet_index, FWG_pound_FET_Rule(fet_field_set[fet_index]["FWG"])) });
+                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["FWG_unit_of_measurement"],  new List<(int, object)>() { (fet_index, FWG_measure_FET_Rule(fet_field_set[fet_index]["FWG"])) });
+                    gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["PLUR_is_multiple_gestation"],  new List<(int, object)>() { (fet_index, PLUR_gesta_FET_Rule(fet_field_set[fet_index]["PLUR"])) });
+
+                gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["RECORD_TYPE"], new List<(int, object)>() { (fet_index, fet_field_set[fet_index]["RECORD_TYPE"]) });
 
                 gs.set_multiform_value(new_case, FET_IJE_to_MMRIA_Path["congenital_anomalies"]
-                    , new List<(int, dynamic)>() { (fet_index,  FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
+                    , new List<(int, object)>() { (fet_index,  FET_congenital_Rule(fet_field_set[fet_index]["ANEN"]
                         , fet_field_set[fet_index]["MNSB"]
                         , fet_field_set[fet_index]["CCHD"]
                         , fet_field_set[fet_index]["CDH"]
@@ -2256,7 +2256,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                     string_builder.AppendLine($"06) Sixth mentioned: {fet_field_set[fet_index]["OCOD6"]}");
                     string_builder.AppendLine($"07) Seventh mentioned: {fet_field_set[fet_index]["OCOD7"]}");
 
-                    var res = gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/vitals_import_group/summary_text",new List<(int, dynamic)>(){ (fet_index, string_builder.ToString())});
+                    var res = gs.set_multiform_value(new_case, "birth_certificate_infant_fetal_section/vitals_import_group/summary_text",new List<(int, object)>(){ (fet_index, string_builder.ToString())});
 
                     if(!res)
                     {
@@ -11734,12 +11734,12 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
             return (weeks, days);
         }
 
-        dynamic p_event_year_dynamic;
-        dynamic p_event_month_dynamic;
-        dynamic p_event_day_dynamic;
-        dynamic p_lmp_year_dynamic;
-        dynamic p_lmp_month_dynamic;
-        dynamic p_lmp_day_dynamic;
+        object p_event_year_dynamic;
+        object p_event_month_dynamic;
+        object p_event_day_dynamic;
+        object p_lmp_year_dynamic;
+        object p_lmp_month_dynamic;
+        object p_lmp_day_dynamic;
 
 
         if

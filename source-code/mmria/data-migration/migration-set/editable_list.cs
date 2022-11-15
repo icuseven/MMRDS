@@ -223,8 +223,8 @@ public sealed class editable_list
         {
             var grid_value = multiform_value_result.result;
 
-            var list_change_set  = new List<(int, dynamic)>();
-            var list_other_change_set  = new List<(int, dynamic)>();
+            var list_change_set  = new List<(int, object)>();
+            var list_other_change_set  = new List<(int, object)>();
 
             var mmria_id = gs.get_value(p_object, "_id");
 
@@ -315,8 +315,8 @@ public sealed class editable_list
             var grid_value = grid_value_result.result;
 
             
-            var list_change_set  = new List<(int, dynamic)>();
-            var list_other_change_set  = new List<(int, dynamic)>();
+            var list_change_set  = new List<(int, object)>();
+            var list_other_change_set  = new List<(int, object)>();
             var mmria_id = gs.get_value(p_object, "_id");
 
             var path_key = $"{p_path}_other";

@@ -238,14 +238,14 @@ public sealed partial class c_convert_to_report_object
     {
         public Get_Value_Result(){}
 
-        public dynamic result { get; set;}
+        public object result { get; set;}
 
         public bool is_erorr { get; set;}
     }
 
     private Get_Value_Result get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
-        dynamic result = null;
+        object result = null;
         bool is_error = false;
 
         try
@@ -255,7 +255,7 @@ public sealed partial class c_convert_to_report_object
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")
@@ -991,7 +991,7 @@ pregnancy_status <- list field
 
 */
 
-        dynamic length_between_child_birth_and_death_of_mother_dynamic = null;
+        object length_between_child_birth_and_death_of_mother_dynamic = null;
 
         var get_value_result = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
         

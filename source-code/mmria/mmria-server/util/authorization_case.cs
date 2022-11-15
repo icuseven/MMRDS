@@ -23,15 +23,16 @@ public sealed class authorization_case
 
         var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
         
-        dynamic byName = (IDictionary<string,object>)p_case_expando_object;
-        if(byName.home_record == null)
+        IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
+        if(byName["home_record"] == null)
         {
-            byName.home_record = new Dictionary<string,object>();
+            byName["home_record"] = new Dictionary<string,object>();
         }
 
-        if(byName.home_record.jurisdiction_id == null)
+        var home_record = byName["home_record"] as IDictionary<string,object>;
+        if(home_record["jurisdiction_id"] == null)
         {
-            byName.home_record.jurisdiction_id = "/";
+            home_record["jurisdiction_id"] = "/";
         }
 
         
@@ -40,7 +41,7 @@ public sealed class authorization_case
             var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
             if
             (
-                regex.IsMatch(byName.home_record.jurisdiction_id) && 
+                regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
                 p_resoure_right_enum ==  jurisdiction_item.ResourceRight
             )
             {

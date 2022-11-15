@@ -196,8 +196,8 @@ public sealed class SubstanceMigration
                         if(!get_grid_value_result.is_error)
                         {
                             var list = get_grid_value_result.result;
-                            var new_list = new List<(int, dynamic)>();
-                            var new_other_list = new List<(int, dynamic)>();
+                            var new_list = new List<(int, object)>();
+                            var new_other_list = new List<(int, object)>();
 
                             var other_list = get_grid_value_other_result.result;
 
@@ -294,7 +294,7 @@ public sealed class SubstanceMigration
                         if(!get_grid_value_result.is_error)
                         {
                             var list = get_grid_value_result.result;
-                            var new_list = new List<(int, dynamic)>();
+                            var new_list = new List<(int, object)>();
 
                             for(var i = 0; i < list.Count; i++)
                             {

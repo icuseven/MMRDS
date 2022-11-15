@@ -143,7 +143,7 @@ public sealed class v2_3_Migration
                     }
                 }
 
-                List<(int, dynamic)> change_list = new System.Collections.Generic.List<(int, dynamic)>();	
+                List<(int, object)> change_list = new System.Collections.Generic.List<(int, object)>();	
 
                 string mmria_path = "home_record/case_status";
                 value_result = gs.get_value(case_item, mmria_path);
@@ -253,7 +253,7 @@ public sealed class v2_3_Migration
                 {
                     var grid = grid_value_result.result;
 
-                    List<(int, dynamic)> new_list = new List<(int, dynamic)>();
+                    List<(int, object)> new_list = new List<(int, object)>();
                     var is_changed = false;
                     for(var i = 0; i < grid.Count; i++)
                     {

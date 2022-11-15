@@ -115,7 +115,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
     string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
     string urlParameters = "?include_docs=true";
     cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
-    dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+    object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 */
     string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
     cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
@@ -397,7 +397,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
         //System.Console.WriteLine("path {0}", path);
 
-        dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+        object val = get_value(case_doc as IDictionary<string, object>, path);
         /*
                 if (path_to_int_map[path].ToString() == "41")
                 {
@@ -538,7 +538,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
                     (
                     mmria_case_id,
                     path,
-                    val,
+                    val?.ToString(),
                     -1,
                     -1
                     );
@@ -942,7 +942,7 @@ private void process_multiform_grid
 
         }
 
-        dynamic raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
+        object raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
         List<object> object_data = raw_data as List<object>;
 
         if (object_data != null)
@@ -965,7 +965,7 @@ private void process_multiform_grid
             {
                 try
                 {
-                dynamic val = grid_item_row[path_to_node_map[node].name];
+                object val = grid_item_row[path_to_node_map[node].name];
 
                 if (de_identified_set.Contains(node))
                 {
@@ -1002,7 +1002,7 @@ private void process_multiform_grid
                         (
                         mmria_case_id,
                         path,
-                        val,
+                        val?.ToString(),
                         i,
                         parent_record_index
                         );
@@ -1471,9 +1471,9 @@ public string get_csv_connection_string(string p_file_name)
     return result;
 }
 
-public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
+public object get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
 {
-    dynamic result = null;
+    object result = null;
 
     var de_identified_path = System.Text.RegularExpressions.Regex.Replace(p_path, "/[0-9]/", "/");
 
@@ -1495,7 +1495,7 @@ public dynamic get_value(IDictionary<string, object> p_object, string p_path, bo
     System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
     //IDictionary<string, object> index = p_object;
-    dynamic index = p_object;
+    object index = p_object;
 
     if (index != null)
         for (int i = 0; i < path.Length; i++)

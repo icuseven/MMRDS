@@ -198,8 +198,8 @@ public sealed class Process_Migrate_Charactor_to_Numeric
                             if(!get_grid_value_result.is_error)
                             {
                                 var list = get_grid_value_result.result;
-                                var new_list = new List<(int, dynamic)>();
-                                var new_other_list = new List<(int, dynamic)>();
+                                var new_list = new List<(int, object)>();
+                                var new_other_list = new List<(int, object)>();
 
                                 var other_list = get_grid_value_other_result.result;
 
@@ -327,7 +327,7 @@ public sealed class Process_Migrate_Charactor_to_Numeric
                                         case_has_changed = true;
                                     }
 
-                                    dynamic new_value = null;
+                                    object new_value = null;
 
                                     if(node.display_to_value.ContainsKey(value_string))
                                     {
@@ -444,7 +444,7 @@ if(is_data_correction)
                                         
                                         if(node.display_to_value.ContainsKey(value_string) || is_blank && node.display_to_value.ContainsKey("(blank)") )
                                         {
-                                            dynamic new_value = null;
+                                            object new_value = null;
 
                                             if(node.display_to_value.ContainsKey(value_string))
                                             {
@@ -513,7 +513,7 @@ if(is_data_correction)
                         {
                             var value_list =grid_value_result.result;
 
-                            var change_list = new List<(int, dynamic)>();
+                            var change_list = new List<(int, object)>();
 
                             var result_list = new List<object>();
 
@@ -545,7 +545,7 @@ if(is_data_correction)
                                             case_has_changed = true;
                                         }
 
-                                        dynamic new_value = null;
+                                        object new_value = null;
 
                                         if(node.display_to_value.ContainsKey(value_string))
                                         {
@@ -623,7 +623,7 @@ if(is_data_correction)
                         {
                             var grid_value_list = grid_value_result.result;
 
-                            var change_list = new List<(int, dynamic)>();
+                            var change_list = new List<(int, object)>();
 
                             //var result_list = new List<object>();
 
@@ -658,7 +658,7 @@ if(is_data_correction)
                                                 case_has_changed = true;
                                             }
 
-                                            dynamic new_value = null;
+                                            object new_value = null;
 
                                             if(node.display_to_value.ContainsKey(value_string))
                                             {
@@ -744,7 +744,7 @@ if(is_data_correction)
                         {
                             var multiform_value_list_set = multiform_value_result.result;
 
-                            var change_list = new List<(int, dynamic)>();
+                            var change_list = new List<(int, object)>();
 
                             foreach(var form in multiform_value_list_set)
                             {
@@ -772,7 +772,7 @@ if(is_data_correction)
                                             case_has_changed = true;
                                         }
 
-                                        dynamic new_value = null;
+                                        object new_value = null;
 
                                         if(question.display_to_value.ContainsKey(value_string))
                                         {
@@ -833,7 +833,7 @@ if(is_data_correction)
                         {
                             var multiform_value_list_set = multiform_value_result.result;
 
-                            var change_list = new List<(int, dynamic)>();
+                            var change_list = new List<(int, object)>();
 
                             foreach(var form in multiform_value_list_set)
                             {
@@ -871,7 +871,7 @@ if(is_data_correction)
                                                 case_has_changed = true;
                                             }
 
-                                            dynamic new_value = null;
+                                            object new_value = null;
 
                                             if(question.display_to_value.ContainsKey(value_string))
                                             {
@@ -947,7 +947,7 @@ if(is_data_correction)
                         {
                             var value_list = multiform_grid_value_result.result;
 
-                            var change_list = new List<(int, int, dynamic)>();
+                            var change_list = new List<(int, int, object)>();
 
                             foreach(var value_tuple in value_list)
                             {
@@ -974,7 +974,7 @@ if(is_data_correction)
                                             case_has_changed = true;
                                         }
 
-                                        dynamic new_value = null;
+                                        object new_value = null;
 
                                         if(node.display_to_value.ContainsKey(value_string))
                                         {
@@ -1040,7 +1040,7 @@ if(is_data_correction)
                         {
                             var multi_value_list = multiform_grid_value_result.result;
     
-                            var change_list = new List<(int, int, dynamic)>();
+                            var change_list = new List<(int, int, object)>();
 
                             foreach(var value_tuple in multi_value_list)
                             {
@@ -1074,7 +1074,7 @@ if(is_data_correction)
                                                 case_has_changed = true;
                                             }
 
-                                            dynamic new_value = null;
+                                            object new_value = null;
 
                                             if(node.display_to_value.ContainsKey(value_string))
                                             {
@@ -1157,8 +1157,8 @@ if(is_data_correction)
                         if(!grid_value_result.is_error)
                         {
                             var value_list = grid_value_result.result;
-                            var change_list = new List<(int, dynamic)>();
-                            var change_other_list = new List<(int, dynamic)>();
+                            var change_list = new List<(int, object)>();
+                            var change_other_list = new List<(int, object)>();
 
                             foreach(var value in value_list)
                             {

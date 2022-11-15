@@ -249,7 +249,7 @@ public sealed class c_de_identifier
                 {
                     IDictionary<string, object> dictionary_object = p_object as IDictionary<string, object>;
 
-                    dynamic val = null;
+                    object val = null;
 
                     if (dictionary_object.ContainsKey (path_list [0]))
                     {

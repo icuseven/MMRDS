@@ -250,7 +250,7 @@ public sealed class v2_9_Migration
 						var has_changed = false;
 
 
-						foreach((int index, dynamic dynamic_value) in grid_value_result.result)
+						foreach((int index, object object_value) in grid_value_result.result)
 						{
 							/*
 								9999	(blank)	

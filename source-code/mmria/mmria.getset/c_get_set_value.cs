@@ -116,9 +116,9 @@ public sealed partial class C_Get_Set_Value2
         return result;
     }
 /*
-    public dynamic get_value(mmria.common.metadata.app p_metadata, System.Dynamic.ExpandoObject p_object, string p_path)
+    public object get_value(mmria.common.metadata.app p_metadata, System.Dynamic.ExpandoObject p_object, string p_path)
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -133,7 +133,7 @@ public sealed partial class C_Get_Set_Value2
 
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
         }
         catch(System.Exception ex)
         {
@@ -141,9 +141,9 @@ public sealed partial class C_Get_Set_Value2
         }
     }
 
-    public dynamic get_value(mmria.common.metadata.node p_metadata, System.Dynamic.ExpandoObject p_object, string p_path)
+    public object get_value(mmria.common.metadata.node p_metadata, System.Dynamic.ExpandoObject p_object, string p_path)
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -152,7 +152,7 @@ public sealed partial class C_Get_Set_Value2
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
         }
         catch(System.Exception ex)
         {
@@ -160,9 +160,9 @@ public sealed partial class C_Get_Set_Value2
         }
     }
 */
-    public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
+    public object get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -171,7 +171,7 @@ public sealed partial class C_Get_Set_Value2
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")
@@ -308,17 +308,22 @@ public sealed partial class C_Get_Set_Value2
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                        /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }*/
                 }
                 else
                 {
@@ -336,9 +341,9 @@ public sealed partial class C_Get_Set_Value2
     }
 
 
-    public List<(int, dynamic)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
+    public List<(int, object)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
     {
-        List<(int, dynamic)> result = new List<(int, dynamic)>();
+        List<(int, object)> result = new List<(int, object)>();
 
         //dynamic current = null;
 
@@ -349,7 +354,7 @@ public sealed partial class C_Get_Set_Value2
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {
@@ -405,17 +410,22 @@ public sealed partial class C_Get_Set_Value2
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }*/
                 }
                 else
                 {
@@ -433,11 +443,11 @@ public sealed partial class C_Get_Set_Value2
     }
 
 
-    public bool set_grid_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, dynamic)> p_value_list)
+    public bool set_grid_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, object)> p_value_list)
     {
         var result = false;
 
-        //List<(int, dynamic)> result = new List<(int, dynamic)>();
+        //List<(int, object)> result = new List<(int, object)>();
 
         try
         {
@@ -446,7 +456,7 @@ public sealed partial class C_Get_Set_Value2
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {
@@ -523,17 +533,23 @@ public sealed partial class C_Get_Set_Value2
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
                 }
                 else
                 {
@@ -551,12 +567,12 @@ public sealed partial class C_Get_Set_Value2
     }
 
 
-    public List<(int, dynamic)> get_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path)
+    public List<(int, object)> get_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path)
     {
 
-        var result = new List<(int, dynamic)>();
+        var result = new List<(int, object)>();
 
-        dynamic current = null;
+        object current = null;
 
         try
         {
@@ -573,7 +589,7 @@ public sealed partial class C_Get_Set_Value2
                 return result;
             }
 
-            dynamic index = case_dictionary[path[0]];
+            object index = case_dictionary[path[0]];
 
             var form_list = case_dictionary[path[0]] as IList<object>;
             if(form_list != null)
@@ -653,17 +669,23 @@ public sealed partial class C_Get_Set_Value2
                         }
                     
                     }
-                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    else if (index != null)
                     {
-                        index = index[path[i]] as IList<object>;
-                    }
-                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                    {
-                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                    }
-                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                    {
-                        index = index[path[i]] as IDictionary<string, object>;
+                        System.Console.WriteLine(index.GetType());
+                        /*
+                        else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                        {
+                            index = index[path[i]] as IList<object>;
+                        }
+                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                        {
+                            //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                        }
+                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                        {
+                            index = index[path[i]] as IDictionary<string, object>;
+                        }
+                        */
                     }
                     else
                     {
@@ -680,7 +702,7 @@ public sealed partial class C_Get_Set_Value2
     }
 
 
-    public bool set_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, dynamic)> p_value_list)
+    public bool set_multiform_value(System.Dynamic.ExpandoObject p_object, string p_path, List<(int, object)> p_value_list)
     {
 
         var result = false;
@@ -694,7 +716,7 @@ public sealed partial class C_Get_Set_Value2
 
             IDictionary<string,object> case_dictionary = p_object as IDictionary<string,object>;
 
-            dynamic index = case_dictionary[path[0]];
+            object index = case_dictionary[path[0]];
 
             var form_list = case_dictionary[path[0]] as IList<object>;
             if(form_list != null)
@@ -740,17 +762,23 @@ public sealed partial class C_Get_Set_Value2
                             }
                         
                         }
-                        else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                        else if (index != null)
                         {
-                            index = index[path[i]] as IList<object>;
-                        }
-                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                        {
-                            System.Console.WriteLine("set_multiform_value: Index not found. This should not happen. {0}", p_path);
-                        }
-                        else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                        {
-                            index = index[path[i]] as IDictionary<string, object>;
+                            System.Console.WriteLine(index.GetType());
+                            /*
+                            else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                            {
+                                index = index[path[i]] as IList<object>;
+                            }
+                            else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                            {
+                                System.Console.WriteLine("set_multiform_value: Index not found. This should not happen. {0}", p_path);
+                            }
+                            else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                            {
+                                index = index[path[i]] as IDictionary<string, object>;
+                            }
+                            */
                         }
                         else
                         {
@@ -787,7 +815,7 @@ public sealed partial class C_Get_Set_Value2
             {
                 for(int form_index = 0; form_index < multiform.Count; form_index++)
                 {
-                    dynamic index = multiform[form_index];
+                    object index = multiform[form_index];
 
                     for (int i = 1; i < path.Length; i++)
                     {
@@ -857,9 +885,9 @@ public sealed partial class C_Get_Set_Value2
 
     }
 
-    public List<(int, int, dynamic)> get_multiform_grid_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = true)
+    public List<(int, int, object)> get_multiform_grid_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = true)
     {
-        List<(int, int, dynamic)> result = new List<(int, int, dynamic)>();
+        List<(int, int, object)> result = new List<(int, int, object)>();
 
         try
         {
@@ -876,7 +904,7 @@ public sealed partial class C_Get_Set_Value2
             {
                 for(int form_index = 0; form_index < multiform.Count; form_index++)
                 {
-                    dynamic index = multiform[form_index];
+                    object index = multiform[form_index];
 
                     for (int i = 1; i < path.Length; i++)
                     {

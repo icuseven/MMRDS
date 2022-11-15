@@ -397,7 +397,7 @@ mDeathbyRace  MDeathbyRace17 17
         
 
         report_object = new mmria.server.model.c_opioid_report_object (this.report_type);
-        report_object._id = get_value (source_object, "_id");
+        report_object._id = get_value (source_object, "_id").ToString();
         report_object.means_of_fatal_injury = means_of_fatal_injury;
 
         var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
@@ -592,9 +592,9 @@ mDeathbyRace  MDeathbyRace17 17
 
         return result;
     }
-    public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
+    public object get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
     {
-        dynamic result = null;
+        object result = null;
 
         try
         {
@@ -603,7 +603,7 @@ mDeathbyRace  MDeathbyRace17 17
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = p_object;
+            object index = p_object;
 
             /*
             if (path[1] == "abnormal_conditions_of_newborn")
@@ -740,17 +740,23 @@ mDeathbyRace  MDeathbyRace17 17
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
                 }
                 else
                 {
@@ -767,9 +773,9 @@ mDeathbyRace  MDeathbyRace17 17
 
     }
 
-    public List<(int, dynamic)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
+    public List<(int, object)> get_grid_value(System.Dynamic.ExpandoObject p_object, string p_path)
     {
-        List<(int, dynamic)> result = new List<(int, dynamic)>();
+        List<(int, object)> result = new List<(int, object)>();
 
         //dynamic current = null;
 
@@ -780,7 +786,7 @@ mDeathbyRace  MDeathbyRace17 17
             System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
             //IDictionary<string, object> index = p_object;
-            dynamic index = null;
+            object index = null;
 
             for (int i = 0; i < path.Length; i++)
             {
@@ -838,17 +844,22 @@ mDeathbyRace  MDeathbyRace17 17
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }*/
                 }
                 else
                 {
@@ -1039,7 +1050,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         if(is_hispanic_blank || race_name == "blank")
         {
-            val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+            val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin")?.ToString();
             if
             (
                 string.IsNullOrWhiteSpace(val.ToString()) ||
@@ -1541,7 +1552,7 @@ mDeathbyRace  MDeathbyRace17 17
             }
             else 
             {
-                val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+                val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin")?.ToString();
                 if (dc_hispanic_origin.Contains (val))
                 {
                     result.Add (ethnicity_enum.hispanic);
@@ -3133,7 +3144,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 // OR death_certificate/demographics/education_level in (0, 1, 2)
         try
         {	
-            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
             {
@@ -3148,7 +3159,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
             }
             else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
             {
-                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level")?.ToString();
                 if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=0 && test_int <= 2)
                 {
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -3171,7 +3182,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 
         try
         {	
-            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
             {
@@ -3186,7 +3197,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
             }
             else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
             {
-                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level")?.ToString();
                 if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=3 && test_int <= 3)
                 {
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -3205,7 +3216,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 //mEducation	Education	MEduc3	College Graduate	3	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Associate Degree' or 'Bachelor's Degree'  OR death_certificate/demographics/education_level = 'Associate Degree' or 'Bachelor's Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (4, 5) OR death_certificate/demographics/education_level in (4, 5)
         try
         {	
-            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
             {
@@ -3220,7 +3231,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
             }
             else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
             {
-                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level")?.ToString();
                 if(val_2 != null && int.TryParse(val_2, out test_int))
                 {
                     if(test_int >=4 && test_int <= 5)
@@ -3242,7 +3253,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 //mEducation	Education	MEduc4	Completed Advanced Degree	4	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Master's Degree' or 'Doctorate or Professional Degree' OR death_certificate/demographics/education_level = 'Master's Degree' or 'Doctorate or Professional Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (6, 7) OR death_certificate/demographics/education_levelin (6, 7)
         try
         {	
-            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && !(test_int > 7 && test_int <= blank_value))
             {
@@ -3258,7 +3269,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
             }
             else if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
             {
-                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+                string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level")?.ToString();
                 if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 7)
                 {
                     var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
@@ -3277,8 +3288,8 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 
         try
         {	
-            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
-            string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+            string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level")?.ToString();
+            string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level")?.ToString();
 
             var record_id = get_value(p_source_object, "_id");
             if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int > 7 && test_int <= blank_value))
@@ -3320,7 +3331,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 /*
 social_and_environmental_profile/socio_economic_characteristics/homelessness
 */
-        dynamic dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+        object dynamic_val = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
 
         if(dynamic_val != null && !(dynamic_val is IList<object>))
         {
@@ -3526,7 +3537,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
 */
 
-List<object> val_list = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+List<object> val_list = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress") as List<object>;
 
 List<string> val_string_list = new List<string>();
 
@@ -3842,7 +3853,7 @@ val_string_list.Add(item.ToString());
 //mHxofSubAbu	History of Documented Substance Use	MHxSub1	Yes	1	social_and_environmental_profile/documented_substance_use=Yes	social_and_environmental_profile/documented_substance_use = 1
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
             {
@@ -3863,7 +3874,7 @@ val_string_list.Add(item.ToString());
 //mHxofSubAbu	History of Documented Substance Use	MHxSub2	No	2	social_and_environmental_profile/documented_substance_use=No	social_and_environmental_profile/documented_substance_use = 0
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
             {
@@ -3885,7 +3896,7 @@ val_string_list.Add(item.ToString());
 
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7777)
             {
@@ -3904,7 +3915,7 @@ val_string_list.Add(item.ToString());
 
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/documented_substance_use")?.ToString();
             
             if(val_1 == null || string.IsNullOrWhiteSpace(val_1) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value))
             {
@@ -3929,7 +3940,7 @@ val_string_list.Add(item.ToString());
 
 //social_and_environmental_profile/previous_or_current_incarcerations
 
-        dynamic val_list = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
+        object val_list = get_value(p_source_object, "social_and_environmental_profile/previous_or_current_incarcerations");
 
         if(val_list != null && !(val_list is IList<object>))
         {
@@ -3937,7 +3948,7 @@ val_string_list.Add(item.ToString());
 
         }
 
-        foreach(var val_object in val_list)
+        foreach(var val_object in (IList<object>)val_list)
         {
             string val_1 = null;
 
@@ -4134,7 +4145,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mLivingArrange	Living Arrangements at time of death	MLivD1	Own	1	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Own	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=0
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
             {
@@ -4153,7 +4164,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mLivingArrange	Living Arrangements at time of death	MLivD2	Rent	2	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Rent	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=1
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
             {
@@ -4172,7 +4183,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mLivingArrange	Living Arrangements at time of death	MLivD3	Public Housing	3	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Public Housing	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=2
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
             {
@@ -4191,7 +4202,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mLivingArrange	Living Arrangements at time of death	MLivD4	Live with relative	4	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Live with relative	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=3
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
             {
@@ -4210,7 +4221,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mLivingArrange	Living Arrangements at time of death	MLivD5	Homeless	5	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=Homeless	social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements=4
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
             {
@@ -4230,7 +4241,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 5 || test_int == 7777 || test_int == 8888))
             {
@@ -4249,7 +4260,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 
         try
         {	
-            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements");
+            string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements")?.ToString();
             
             if(val_1 == null || string.IsNullOrWhiteSpace(val_1)|| (val_1 != null && int.TryParse(val_1, out test_int) && test_int == blank_value ))
             {
@@ -4276,7 +4287,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx1	Prior to Most Recent Pregnancy	1	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
         try
         {	
-            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy");
+            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy") as List<object>;
 
             List<string> val_string_list = new List<string>();
 
@@ -4307,7 +4318,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 //mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx2	Was During Most Recent Pregnancy	2	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
         try
         {	
-            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy");
+            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy") as List<object>;
 
             List<string> val_string_list = new List<string>();
 
@@ -4339,7 +4350,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 
         try
         {	
-            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
+            List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy") as List<object>;
 
             List<string> val_string_list = new List<string>();
 
@@ -4494,9 +4505,9 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 
                 string val_1 = null;
 
-                if(!string.IsNullOrWhiteSpace(tuple.Item2))
+                if(!string.IsNullOrWhiteSpace(tuple.Item2?.ToString()))
                 {
-                    val_1 = tuple.Item2;
+                    val_1 = tuple.Item2?.ToString();
                 }
 //mSubstAutop	MSubAuto1	Alcohol	1	autopsy_report/toxicology/substance= Substance that are mapped to ‘Alcohol‘ category in the substance categorization table below	autopsy_report/toxicology/substance = 'Alcohol'
 
@@ -4846,7 +4857,7 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
         var pmss_mm_string = string.Empty;
         double pmss_mm = double.NaN;
     
-        dynamic dynamic_val = get_value(p_source_object, "committee_review/pmss_mm");
+        object dynamic_val = get_value(p_source_object, "committee_review/pmss_mm");
 
         if(dynamic_val != null )
         {
@@ -4921,7 +4932,7 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
         var was_this_death_preventable = string.Empty;
         var chance_to_alter_outcome = -1;;
 
-        dynamic dynamic_val = get_value(p_source_object, "committee_review/was_this_death_preventable");
+        object dynamic_val = get_value(p_source_object, "committee_review/was_this_death_preventable");
 
         if(dynamic_val != null )
         {
@@ -5088,7 +5099,7 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
         var birth_fetal_death_certificate_parent_race_race_of_mother = 9999;
         var death_certificate_race_race = 9999;
 
-        dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
+        object dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/omb_race_recode");
         
         if(dynamic_val != null)
         {
@@ -5233,7 +5244,7 @@ var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 
 
 
-        dynamic dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
+        object dynamic_val = get_value(p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
         
 
         if(dynamic_val != null)
