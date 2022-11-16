@@ -65,9 +65,15 @@ public sealed class PopulateCDCInstance : ReceiveActor
 
              var cdc_db_url = $"{cdc_connection.url}/mmrds";
 
-            
-            var delete_mmrds_curl = new mmria.getset.cURL ("DELETE", null, cdc_db_url, null, cdc_connection.user_name, cdc_connection.user_value);
-            delete_mmrds_curl.execute();
+            try
+            {
+                var delete_mmrds_curl = new mmria.getset.cURL ("DELETE", null, cdc_db_url, null, cdc_connection.user_name, cdc_connection.user_value);
+                delete_mmrds_curl.execute();
+            }
+            catch(Exception)
+            {
+
+            }
 
             string current_directory = AppContext.BaseDirectory;
 
