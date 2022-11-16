@@ -31,7 +31,7 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
     public PopulateCDCInstanceSupervisor()
     {
         
-        Context.ActorOf<PopulateCDCInstance>("child");
+        //Context.ActorOf<PopulateCDCInstance>("child");
 
         var data = GetPopulate();
 
@@ -172,6 +172,20 @@ public sealed class PopulateCDCInstanceSupervisor : ReceiveActor
             
         });
 
+    }
+
+    public mmria.common.metadata.Populate_CDC_Instance_Record GetStatus()
+    {
+        return new mmria.common.metadata.Populate_CDC_Instance_Record()
+                {
+                    transfer_result = transfer_result,
+                    transfer_status_number = transfer_status_number,
+                    date_submitted = date_submitted,
+                    date_completed = date_completed,
+                    duration_in_hours = duration_in_hours,
+                    duration_in_minutes = duration_in_minutes,
+                    error_message = error_message
+                };
     }
 
     string GetDateString(DateTime? value)
