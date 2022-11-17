@@ -360,7 +360,7 @@ public sealed class v2_4_Migration
                 {
 
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-                    var mmria_id = value_result.result;
+                    var mmria_id = value_result.result?.ToString();
                     if(mmria_id.IndexOf("_design") > -1)
                     {
                         continue;
@@ -637,7 +637,7 @@ public sealed class v2_4_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                object new_value = pmss_map[value_string];
+                                string new_value = pmss_map[value_string];
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";
@@ -675,7 +675,7 @@ public sealed class v2_4_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                object new_value = "7777";
+                                string new_value = "7777";
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted 8888 => 7777";
@@ -699,7 +699,7 @@ public sealed class v2_4_Migration
                     {
                         if(!multivalue_result.is_error)
                         {
-                            var list =  multivalue_result.result as IList<dynamic>;
+                            var list =  multivalue_result.result as IList<object>;
 
                             if(list != null)
                             {
@@ -725,7 +725,7 @@ public sealed class v2_4_Migration
                                         //	case_has_changed = true;
                                         //}
                                         is_list_changed = true;
-                                        object new_value = 7777;
+                                        int new_value = 7777;
 
                                         new_list.Add(new_value);
 
@@ -921,12 +921,12 @@ public sealed class v2_4_Migration
                             var output_text = new System.Text.StringBuilder();
                             foreach(var (form_index, original_value) in list)
                             {
-                                var value_list = original_value as IList<dynamic>;
+                                var value_list = original_value as IList<object>;
                                 if(value_list == null)
                                 {
-                                    value_list = new List<dynamic>();
+                                    value_list = new List<object>();
                                 }
-                                var new_value_list = new List<dynamic>();
+                                var new_value_list = new List<object>();
                                 foreach(var value in value_list)
                                 {
                                     if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
@@ -1059,7 +1059,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "7777";
+                            string new_value = "7777";
 
                             case_has_changed = case_has_changed && gs.set_value(mhp_wtdpmh_condi_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{mhp_wtdpmh_condi_path} Converted 8888 => 7777";
@@ -1154,7 +1154,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "2";
+                            string new_value = "2";
 
                             case_has_changed = case_has_changed && gs.set_value(ar_coa_infor_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{ar_coa_infor_path} Converted 4 => 2";
@@ -1188,7 +1188,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "4";
+                            string new_value = "4";
 
                             case_has_changed = case_has_changed && gs.set_value(pppcf_pp_type_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{pppcf_pp_type_path} Converted 3 => 4";
@@ -1698,7 +1698,7 @@ public sealed class v2_4_Migration
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "88";
+                            string new_value = "88";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_p_statu_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_p_statu_path} Converted 8888 => 88";
@@ -1938,7 +1938,7 @@ So for variable: omovmcf_p_type the data migration rule is: { "4", "9999"}
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "7777";
+                            string new_value = "7777";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 8888 => 7777";
@@ -1953,7 +1953,7 @@ So for variable: omovmcf_p_type the data migration rule is: { "4", "9999"}
                                 case_has_changed = true;
                             }
                             
-                            object new_value = "3";
+                            string new_value = "3";
 
                             case_has_changed = case_has_changed && gs.set_value(dcdi_mo_death_path, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{dcdi_mo_death_path} Converted 4 => 3";

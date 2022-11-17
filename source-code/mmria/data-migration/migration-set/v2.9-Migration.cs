@@ -263,8 +263,8 @@ public sealed class v2_9_Migration
 
 							if
 							(
-								dynamic_value != null &&
-								!string.IsNullOrWhiteSpace(dynamic_value.ToString())
+								object_value != null &&
+								!string.IsNullOrWhiteSpace(object_value.ToString())
 							)
 							{
 

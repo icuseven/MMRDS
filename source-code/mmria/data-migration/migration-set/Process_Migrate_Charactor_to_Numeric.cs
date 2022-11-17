@@ -143,7 +143,7 @@ public sealed class Process_Migrate_Charactor_to_Numeric
                 {
 
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-                    var mmria_id = value_result.result;
+                    var mmria_id = value_result.result?.ToString();
                     if(mmria_id.IndexOf("_design") > -1)
                     {
                         continue;
@@ -305,7 +305,7 @@ public sealed class Process_Migrate_Charactor_to_Numeric
                         
                         if(!value_result.is_error)
                         {
-                            var value = value_result.result;
+                            var value = value_result.result?.ToString();
                             string value_string = "9999";
                             if(value == null || string.IsNullOrWhiteSpace(value.ToString()))
                             {
@@ -327,7 +327,7 @@ public sealed class Process_Migrate_Charactor_to_Numeric
                                         case_has_changed = true;
                                     }
 
-                                    object new_value = null;
+                                    string new_value = null;
 
                                     if(node.display_to_value.ContainsKey(value_string))
                                     {
@@ -632,7 +632,7 @@ if(is_data_correction)
                             foreach(var value_tuple in grid_value_list)
                             {
 
-                                var value_list = value_tuple.Item2;
+                                var value_list = value_tuple.Item2 as List<object>;
                                 var result_list = new List<object>();
                                 foreach(var value in value_list)
                                 {
@@ -1044,8 +1044,8 @@ if(is_data_correction)
 
                             foreach(var value_tuple in multi_value_list)
                             {
-                                var value_list = value_tuple.Item3;
-                                var result_list = new List<dynamic>();
+                                var value_list = value_tuple.Item3 as List<object>;
+                                var result_list = new List<object>();
 
                                 var is_list_changed = false;
 
@@ -1586,9 +1586,9 @@ example usage
                     dictionary = revision_response as IDictionary<string,object>;
                     
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(revision_response,"date_created");
-                    DateTime? date_created = value_result.result;
+                    DateTime? date_created = value_result.result as DateTime?;
                     value_result = gs.get_value(revision_response,"date_last_updated");
-                    DateTime? date_last_updated = value_result.result;
+                    DateTime? date_last_updated = value_result.result as DateTime?;
 
                     foreach(var p_mmria_path in p_mmria_path_list)
                     {

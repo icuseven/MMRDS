@@ -155,7 +155,7 @@ public sealed class v2_6_Migration
                 {
 
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-                    var mmria_id = value_result.result;
+                    var mmria_id = value_result.result?.ToString();
                     if(mmria_id.IndexOf("_design") > -1)
                     {
                         continue;

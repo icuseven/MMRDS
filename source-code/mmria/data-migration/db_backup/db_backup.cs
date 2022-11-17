@@ -137,8 +137,8 @@ public sealed class Backup
         cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.password);
         var curl_result = await document_curl.executeAsync();
 
-        object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
-        object all_cases_rows = all_cases.rows;
+        var all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+        var all_cases_rows = ((IDictionary<string,object>)all_cases)["rows"] as IList<System.Dynamic.ExpandoObject>;
 
         foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows) 
         {

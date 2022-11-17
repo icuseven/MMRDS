@@ -115,7 +115,7 @@ public sealed class GA_One_Time
                 {
 
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-                    var mmria_id = value_result.result;
+                    var mmria_id = value_result.result?.ToString();
                     if(mmria_id.IndexOf("_design") > -1)
                     {
                         continue;
@@ -148,7 +148,7 @@ Record linkage of death certificate hospital discharge data
                                 case_change_count += 1;
                                 case_has_changed = true;
                             }
-                            object new_value = "9999";
+                            string new_value = "9999";
 
                             case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                             var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from null to 9999 {value_result.result} => { new_value}";
@@ -166,7 +166,7 @@ Record linkage of death certificate hospital discharge data
                                     case_has_changed = true;
                                 }
 
-                                object new_value = "2";
+                                string new_value = "2";
 
                                 case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from {value_result.result} => {new_value}";
@@ -181,7 +181,7 @@ Record linkage of death certificate hospital discharge data
                                     case_has_changed = true;
                                 }
 
-                                object new_value = "3";
+                                string new_value = "3";
 
                                 case_has_changed = case_has_changed && gs.set_value(how_was_this_death_identified, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{how_was_this_death_identified} Converted from {value_result.result} => {new_value}";

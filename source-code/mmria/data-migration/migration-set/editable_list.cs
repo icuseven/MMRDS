@@ -328,7 +328,7 @@ public sealed class editable_list
             foreach(var child in grid_value)
             {
 
-                var list_value = child.Item2;
+                var list_value = child.Item2?.ToString();
 
                 if(string.IsNullOrWhiteSpace(list_value) && p_value_set.Contains("9999"))
                 {
@@ -343,7 +343,7 @@ public sealed class editable_list
 
                     if(!this.summary_value_dictionary[path_key].Contains(list_value))
                     {
-                        this.summary_value_dictionary[path_key].Add(list_value);
+                        this.summary_value_dictionary[path_key].Add(list_value.ToString());
                     }
                     this.output_builder.AppendLine($"editable list item added to other record_id: {mmria_id} path:{p_path} item: {list_value}");
                 }

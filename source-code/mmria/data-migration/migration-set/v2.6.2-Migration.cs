@@ -362,7 +362,7 @@ public sealed class v2_6_2_Migration
                 {
 
                     C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-                    var mmria_id = value_result.result;
+                    var mmria_id = value_result.result?.ToString();
                     if(mmria_id.IndexOf("_design") > -1)
                     {
                         continue;
@@ -389,7 +389,7 @@ public sealed class v2_6_2_Migration
                                     case_has_changed = true;
                                 }
                                 
-                                object new_value = pmss_map[value_string];
+                                string new_value = pmss_map[value_string];
 
                                 case_has_changed = case_has_changed && gs.set_value(node.path, new_value, doc);
                                 var output_text = $"item record_id: {mmria_id} path:{node.path} Converted {value_string} => {new_value}";

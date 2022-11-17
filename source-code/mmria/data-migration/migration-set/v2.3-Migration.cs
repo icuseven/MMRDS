@@ -119,7 +119,7 @@ public sealed class v2_3_Migration
 
 
                 C_Get_Set_Value.get_value_result value_result = gs.get_value(case_item, "_id");
-                var mmria_id = value_result.result;
+                var mmria_id = value_result.result?.ToString();
 
                 if(mmria_id.IndexOf("_design") > -1)
                 {
@@ -134,7 +134,7 @@ public sealed class v2_3_Migration
                     {
                         if(value_result.result is DateTime)
                         {
-                            date_created = value_result.result;
+                            date_created = value_result.result as DateTime?;
                         }
                         else
                         {

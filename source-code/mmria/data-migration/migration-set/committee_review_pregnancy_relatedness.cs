@@ -451,17 +451,23 @@ public sealed class committee_review_pregnancy_relatedness
                     }
                 
                 }
-                else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                else if (index != null)
                 {
-                    index = index[path[i]] as IList<object>;
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
-                {
-                    //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-                }
-                else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
-                {
-                    index = index[path[i]] as IDictionary<string, object>;
+                    System.Console.WriteLine(index.GetType());
+                    /*
+                    else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
+                    {
+                        index = index[path[i]] as IList<object>;
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
                 }
                 else
                 {
