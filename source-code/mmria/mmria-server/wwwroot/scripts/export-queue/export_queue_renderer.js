@@ -325,7 +325,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									</thead>
 									<thead class="thead">
 										<tr class="tr">
-											<th class="th" width="38" scope="col"></th>
+											<th class="th" width="38" scope="col" aria-label="select"></th>
 											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
 											<th class="th" scope="col">Name [Jurisdiction ID]</th>
 											<th class="th" scope="col">Record ID</th>
@@ -377,7 +377,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
                     <li class="mb-4">
 						<p class="mb-3">Select export file type:</p>
-						<label for="case_filter_type_all" class="font-weight-normal mr-2">
+						<label for="case_file_type_csv" class="font-weight-normal mr-2">
 							<input id="case_file_type_csv"
 										 type="radio"
 										 name="case_file_type"
@@ -386,7 +386,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										 ${p_answer_summary['case_file_type'] == 'csv' ? 'checked=true' : ''}
 										 onclick="case_file_type_click(this)" /> CSV
 						</label>
-						<label for="case_filter_type_custom" class="font-weight-normal">
+						<label for="case_file_type_xlsx" class="font-weight-normal">
 							<input id="case_file_type_xlsx"
 										 type="radio"
 										 name="case_file_type"

@@ -104,7 +104,7 @@ function render_de_identified_list()
 {
 
 	var result = [];
-	result.push("<br/><table><tr><th>List Name(s)</th><th>Sort Order</th><th>Action</th></tr><tr><td>");
+	result.push("<br/><table><tr><th>List Name(s)</th><th><label lable-for='sort-order'>Sort Order</label></th><th>Action</th></tr><tr><td>");
 
     
     result.push("<select id='export-list-type' aria-label='List Name' onchange='on_export_list_type_change(this.value)' size=7 >");
@@ -127,7 +127,7 @@ function render_de_identified_list()
     result.push(`
     </td>
     <td valign='top'>
-    <input type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' style='text-align:center;' />
+    <input id='sort-order' type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' style='text-align:center;' />
     </td>
     <td valign='top'>
     <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
@@ -135,7 +135,7 @@ function render_de_identified_list()
     </tr>
 <tr>
 <td colspan=3>
-<input type='text' id='new_list_name' value='' style='width:200px;' placeholder='Enter new list name' />
+<input type='text' id='new_list_name' value='' style='width:200px;' aria-label='Enter new list name' placeholder='Enter new list name' />
 <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
 
 </td>
@@ -217,9 +217,9 @@ function render_de_identified_list()
         let row_number = new Number(i);
         row_number++;
         result.push(`<td>${row_number} <input type=button value=k onclick=cut_selected(${row_number})>  <input type=button value=p  onclick=paste_selected(${row_number})></td>`)
-		result.push("<td><label title='");
+		result.push("<td><label label-for='row_${row_number}' title='");
 		result.push(item);
-		result.push("'><input size='120' type='text' value='");
+		result.push(`'><input id='row_${row_number}' size='120' type='text' value='`);
 		result.push(item);
 		result.push("' onblur='update_item("+ i+", this.value)'/></label></td>");
 		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
