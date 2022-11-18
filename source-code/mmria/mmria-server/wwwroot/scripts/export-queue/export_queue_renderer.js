@@ -325,7 +325,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									</thead>
 									<thead class="thead">
 										<tr class="tr">
-											<th class="th" width="38" scope="col" aria-label="select"></th>
+											<th class="th" width="38" scope="col"> </th>
 											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
 											<th class="th" scope="col">Name [Jurisdiction ID]</th>
 											<th class="th" scope="col">Record ID</th>
@@ -357,7 +357,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 									</thead>
 									<thead class="thead">
 										<tr class="tr">
-											<th class="th" width="38" scope="col"></th>
+											<th class="th" width="38" scope="col"> </th>
 											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
 											<th class="th" scope="col">Name [Jurisdiction ID]</th>
 											<th class="th" scope="col">Record ID</th>
