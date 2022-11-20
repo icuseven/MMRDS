@@ -1728,9 +1728,13 @@ public sealed class mmrds_exporter
                             {
 
 
-                                if (path_to_node_map[field_node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(grid_item_value.ToString()))
+                                if 
+                                (
+                                    path_to_node_map[field_node].type.ToLower() == "number" && 
+                                    !string.IsNullOrWhiteSpace(grid_item_value.ToString())
+                                )
                                 {
-                                grid_row[file_field_name] = grid_item_value;
+                                    grid_row[file_field_name] = grid_item_value;
                                 }
                                 else if (path_to_node_map[field_node].type.ToLower() == "list")
                                 {
@@ -1814,60 +1818,60 @@ public sealed class mmrds_exporter
 
                                     if (grid_item_value != null)
                                     {
-                                    if (grid_item_value is List<object>)
-                                    {
-                                        List<object> temp = grid_item_value as List<object>;
-                                        if (temp != null && temp.Count > 0)
+                                        if (grid_item_value is List<object>)
                                         {
-                                        List<string> temp2 = new List<string>();
-                                        foreach (var item in temp)
-                                        {
-                                            var key = "/" + field_node;
-                                            var item_key = item.ToString();
-                                            if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+                                            List<object> temp = grid_item_value as List<object>;
+                                            if (temp != null && temp.Count > 0)
                                             {
-                                            temp2.Add(List_Look_Up["/" + field_node][item.ToString()]);
+                                            List<string> temp2 = new List<string>();
+                                            foreach (var item in temp)
+                                            {
+                                                var key = "/" + field_node;
+                                                var item_key = item.ToString();
+                                                if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+                                                {
+                                                temp2.Add(List_Look_Up["/" + field_node][item.ToString()]);
+                                                }
+                                                else
+                                                {
+                                                temp2.Add(item.ToString());
+                                                }
+                                            }
+
+
+                                            grid_row[file_field_name] = string.Join("|", temp2);
+
                                             }
                                             else
                                             {
-                                            temp2.Add(item.ToString());
+                                                grid_row[file_field_name] = "(blank)";
                                             }
                                         }
-
-
-                                        grid_row[file_field_name] = string.Join("|", temp2);
-
-                                        }
                                         else
                                         {
-                                            grid_row[file_field_name] = "(blank)";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (grid_item_value == "")
-                                        {
+                                            if (grid_item_value == "")
+                                            {
 
-                                        if
-                                        (
-                                            path_to_node_map[field_node].data_type != null &&
-                                            path_to_node_map[field_node].data_type.ToLower() == "string"
-                                        )
-                                        {
-                                            grid_row[file_field_name] = "";
-                                        }
-                                        else
-                                        {
+                                            if
+                                            (
+                                                path_to_node_map[field_node].data_type != null &&
+                                                path_to_node_map[field_node].data_type.ToLower() == "string"
+                                            )
+                                            {
+                                                grid_row[file_field_name] = "";
+                                            }
+                                            else
+                                            {
+                                                grid_row[file_field_name] = "9999";
+                                            }
                                             grid_row[file_field_name] = "9999";
-                                        }
-                                        grid_row[file_field_name] = "9999";
-                                        }
-                                        else
-                                        {
-                                        grid_row[file_field_name] = grid_item_value;
-                                        }
+                                            }
+                                            else
+                                            {
+                                            grid_row[file_field_name] = grid_item_value;
+                                            }
 
-                                    }
+                                        }
                                     }
                                     else
                                     {
