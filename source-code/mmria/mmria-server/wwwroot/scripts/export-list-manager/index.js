@@ -104,10 +104,10 @@ function render_de_identified_list()
 {
 
 	var result = [];
-	result.push("<br/><table><tr><th>List Name(s)</th><th><label label-for='sort-order'>Sort Order</label></th><th>Action</th></tr><tr><td>");
+	result.push("<br/><table><tr><th><label label-for='export-list-type'>List Name(s)</label></th><th><label label-for='sort-order'>Sort Order</label></th><th>Action</th></tr><tr><td>");
 
     
-    result.push("<select id='export-list-type' aria-label='List Name' onchange='on_export_list_type_change(this.value)' size=7 >");
+    result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)' size=7 >");
 
     for(const sort_index in g_de_identified_list.sort_order)
     {
@@ -127,7 +127,7 @@ function render_de_identified_list()
     result.push(`
     </td>
     <td valign='top'>
-    <input id='sort-order' type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' style='text-align:center;' />
+    <input id='sort-order' type='text' value=${g_de_identified_list.sort_order.indexOf(g_selected_list) + 1} placeholder='Sort Order' title='Sort Order' onchange='update_sort_order("${g_selected_list}", this.value)' style='text-align:center;' />
     </td>
     <td valign='top'>
     <input type='button' value='remove [${g_selected_list}] list ...' onclick='remove_name_path_list_click()'/>
@@ -136,7 +136,7 @@ function render_de_identified_list()
 <tr>
 <td colspan=3>
 <label label-for='new_list_name'>Enter new list name</label><br/>
-<input type='text' id='new_list_name' value='' style='width:200px;' placeholder='Enter new list name' />
+<input type='text' id='new_list_name' value='' title='Enter new list name'  style='width:200px;' placeholder='Enter new list name' />
 
 <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
 
@@ -151,7 +151,7 @@ function render_de_identified_list()
     
     result.push("<hr/><br/>");
 
-    result.push("<select id='clone-source' aria-label='Clone source.' onchange='on_clone_source_change(this.value)'>");
+    result.push("<label label-for='clone-source'>Clone source</label> <select id='clone-source' onchange='on_clone_source_change(this.value)'>");
     
     result.push(`<option value='9999' disabled=''>lists</option>`);
     for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
@@ -196,8 +196,8 @@ function render_de_identified_list()
 	result.push("<table>");
 	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] Export Field List (" + selected_list.length + ")</th></tr>");
 	result.push("<tr>");
+	result.push("<th scope='col'>k/p</th>");
 	result.push("<th scope='col'>path</th>");
-	result.push("<th scope='col'>&nbsp;</th>");
 	result.push("</tr>");    
 	result.push("<tr><td colspan=3 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
@@ -219,9 +219,8 @@ function render_de_identified_list()
         let row_number = new Number(i);
         row_number++;
         result.push(`<td>${row_number} <input type=button value=k onclick=cut_selected(${row_number})>  <input type=button value=p  onclick=paste_selected(${row_number})></td>`)
-		result.push(`<td><label label-for='row_${row_number}' title='`);
-		result.push(item);
-		result.push(`'><input id='row_${row_number}' size='120' type='text' value='`);
+		result.push(`<td>`);
+		result.push(`<input id='row_${row_number}' size='120' type='text' title='${item}' value='`);
 		result.push(item);
 		result.push("' onblur='update_item("+ i+", this.value)'/></label></td>");
 		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
