@@ -578,8 +578,11 @@ function fmtDateTime(dt)
 {
 	if (dt == null || dt.length == 0 || dt == '0001-01-01T00:00:00') return '  /  /    ';
 	
-    //let fDate = new Date(dt);
-    const fDate = parseDateString(dt);
+    let fDate = new Date(dt);
+    if(dt.indexOf("T") < 0)
+    {
+        fDate = parseDateString(dt);
+    }
 	const hh = fDate.getHours();
 	const mn = fDate.getMinutes();
 	let strTime = `${fmt2Digits(hh)}:${fmt2Digits(mn)}`;
