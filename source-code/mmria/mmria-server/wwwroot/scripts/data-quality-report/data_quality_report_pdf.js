@@ -1285,7 +1285,7 @@ function format_summary_pages(ctx) {
 	// Header line 4
 	rows.push([
 		{
-			text: 'Key Characteristics of Reviewed Pregnancy-Related Deaths',
+			text: 'Committee Decisions for Reviewed Pregnancy-Related Deaths',
 			style: ['tableLabel', 'blueFill'],
 			border: [true, false, true, true],
 		},
