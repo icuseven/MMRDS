@@ -421,6 +421,13 @@ function on_apply_change_click
         const change = results[p_result_index];
         const ci = change.items[p_change_index];
 
+        const location = eval(`${ci.object_path}`);
+        if(location == null)
+        {
+            console.log("location is null");
+            return "";
+        }
+
         if
         ( 
             ci.metadata_typ == "html_area" ||
@@ -431,7 +438,7 @@ function on_apply_change_click
         }
         else
         {
-            eval(`${ci.object_path} = '${ci.new_value}'`);
+            eval(`${ci.object_path} = '${ci.new_value.replace(/"/g, '\\"').replace(/'/g, "\\'").replace(/\n/g, '\\n')}'`);
         }
         
 
