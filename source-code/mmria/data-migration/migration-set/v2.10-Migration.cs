@@ -289,8 +289,8 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 		{
 			if
 			(
-				p_value.Trim().StartsWith("12:") ||
-				p_value.Trim().StartsWith("24:")
+				p_value.Trim().ToUpper().Contains("AM") ||
+				p_value.Trim().ToUpper().Contains("PM")
 			)
 			{
 				result = false;
@@ -309,23 +309,49 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 
 		if(p_value != null)
 		{
+			var upper = p_value.Trim().ToUpper();
 			if
 			(
-				p_value.Trim().StartsWith("12:")
+				upper.Contains("AM")
 			)
 			{
-				var data = p_value.Split(":");
-				data[0] = "00";
+				var data = upper.Replace(" AM","").Split(":");
+				if(data[0].Contains("12"))
+				{
+					data[0] = "00";
+				}
 				result =string.Join(':',data);
 			}
-			else if
-			(
-				p_value.Trim().StartsWith("24:")
-			)
+			else if(upper.Contains("PM"))
 			{
-				var data = p_value.Split(":");
-				data[0] = "12";
-				result =string.Join(':',data);
+				var data = upper.Replace(" PM","").Split(":");
+				if(int.TryParse(data[0], out var hour))
+				{
+					var new_hour = hour + 12;
+					if(hour == 12)
+					{
+						new_hour = 12;
+					}
+
+					if(new_hour < 24)
+					{
+						data[0] = new_hour.ToString();
+						result =string.Join(':',data);
+					}
+					else
+					{
+						System.Console.WriteLine("Hour greater than 24...I should never happen");
+					}
+				}
+				else
+				{
+					System.Console.WriteLine("unable to parse data[0] should never happen");
+				}
+		
+			}
+			else
+			{
+				System.Console.WriteLine("I should never happen");
 			}
 		}
 
