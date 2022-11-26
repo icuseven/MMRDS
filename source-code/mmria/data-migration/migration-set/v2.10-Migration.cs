@@ -318,7 +318,7 @@ value_result = gs.get_value(doc, dcci_to_death_path);
 				var data = upper.Replace(" AM","").Split(":");
 				if(data[0].Contains("12"))
 				{
-					data[0] = "00";
+					data[0] = "0";
 				}
 				result =string.Join(':',data);
 			}
