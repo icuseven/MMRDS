@@ -103,282 +103,99 @@ public sealed class MMRDS_CS_Narrative_Migration
 			var ExistingRecordIds = await GetExistingRecordIds();
 
 
-			string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
-			var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
-			string responseFromServer = await case_curl.executeAsync();
-			
-
-
-			var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
 			var mmrds_data = new mmria.mmrds.data.cData(get_mdb_connection_string("this.database_path"));
 
-			var id_record_set = mmrds_data.GetDataTable("Select Distinct GlobalRecordId From MaternalMortality");
+			var id_record_set = mmrds_data.GetDataTable
+			(
+				"""
+				SELECT 
+					CoreSummary.FKEY, 
+					CoreSummary34.CS_Narrative
+				FROM 
+					CoreSummary INNER JOIN CoreSummary34 ON 
+						CoreSummary.GlobalRecordId = CoreSummary34.GlobalRecordId;
+				"""
+			);
 			string json_string = null;
 			List<string> id_list = new List<string>();
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
 /*
+
+
+
+
+
+
 CoreSummary.GlobalRecordId = 51bc4d10-ae5d-4875-8b4b-86647ddc1d34
 CoreSummary.FKEY = mmria_id
 CoreSummary34.CS_Narrative
 
 */
-			}
 
-			
-			foreach(var case_item in case_response.rows)
-			{
+				var mmria_id = row["FKEY"].ToString();
+
+				string url = $"{host_db_url}/{db_name}/{mmria_id}";
+				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
+				string responseFromServer = await case_curl.executeAsync();
+				
+
+
+				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+
 				var case_has_changed = false;
 				var case_change_count = 0;
 
-				var doc = case_item.doc;
+
 				
 				if(doc != null)
 				{
 
-					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-					var mmria_id = value_result.result.ToString();
-					if(mmria_id.IndexOf("_design") > -1)
+					var case_narrative_path = "case_narrative/case_opening_overview";
+
+					var cs_narrative = string.Empty;
+					
+					if(row["CS_Narrative"]!= DBNull.Value)
 					{
-						continue;
+						cs_narrative = row["CS_Narrative"].ToString();
 					}
 
+					case_has_changed = case_has_changed && gs.set_value(case_narrative_path, cs_narrative, doc);
+					var output_text = string.Empty;
 
-
-
-
-
-					void check_and_update_muilti_value(string p_path)
+					if
+					(
+						cs_narrative == null ||
+						cs_narrative.Length < 20
+					)
 					{
-
-						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
-
-						multiform_value_result = gs.get_multiform_value(doc, p_path);
-
-						if
-						(
-							multiform_value_result.result is not null &&
-							multiform_value_result.result is List<(int, object)> result_list && 
-							result_list.Count > 0
-						)
-						{
-
-							var new_list = new List<(int, object)>();
-							var has_changed = false;
-
-							foreach(var (index, value) in result_list)
-							{
-								if(value != null)
-								{
-									var time_value_string = value.ToString();
-
-									if( !isInNeedOfConversion(time_value_string))
-									{
-
-										var new_time = ConvertToStandardTime(time_value_string);
-
-
-										if(case_change_count == 0)
-										{
-											case_change_count += 1;
-											case_has_changed = true;
-										}
-										
-										new_list.Add((index, new_time));
-
-									}
-								}
-							}
-
-							if(new_list.Count > 0)
-							{
-
-								case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_path, new_list);
-								var output_text = $"item record_id: {mmria_id} path:{p_path} set from {string.Join(",",result_list)} => {string.Join(",",new_list)}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-						}
-					}
-
-/*
-
-/death_certificate/certificate_identification/time_of_death
-/death_certificate/injury_associated_information/time_of_injury
-/birth_certificate_infant_fetal_section/record_identification/time_of_delivery
-
-
-*/
-
-
-{
-var dcci_to_death_path = "death_certificate/certificate_identification/time_of_death";
-value_result = gs.get_value(doc, dcci_to_death_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dcci_to_death_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dcci_to_death_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-
-
-{
-	var dciai_to_injur_path = "death_certificate/injury_associated_information/time_of_injury";
-	value_result = gs.get_value(doc, dciai_to_injur_path);
-
-	if
-	(
-		value_result.result is not null &&
-		value_result.result is string time_value_string &&
-		!string.IsNullOrWhiteSpace(time_value_string)
-	)
-	{
-		if( !isInNeedOfConversion(time_value_string))
-		{
-
-			var new_time = ConvertToStandardTime(time_value_string);
-
-
-			if(case_change_count == 0)
-			{
-				case_change_count += 1;
-				case_has_changed = true;
-			}
-			
-			case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-			var output_text = $"item record_id: {mmria_id} path:{dciai_to_injur_path} set from {time_value_string} => {new_time}";
-			this.output_builder.AppendLine(output_text);
-			Console.WriteLine(output_text);
-
-
-		}
-	}
-}
-
-			check_and_update_muilti_value("birth_certificate_infant_fetal_section/record_identification/time_of_delivery");
-
-
-				if(!is_report_only_mode && case_has_changed)
-				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"MMRDS_CS_Narrative");
-				}
-
-			}
-
-		
-		}
-	}
-	catch(Exception ex)
-	{
-		Console.WriteLine(ex);
-	}
-
-	Console.WriteLine($"MMRDS_CS_Narrative Finished {DateTime.Now}");
-}
-
-	bool isInNeedOfConversion(string p_value)
-	{
-		var result = true;
-
-		if(p_value != null)
-		{
-			if
-			(
-				p_value.Trim().ToUpper().Contains("AM") ||
-				p_value.Trim().ToUpper().Contains("PM")
-			)
-			{
-				result = false;
-			}
-		}
-
-
-		return result;
-	}
-
-
-
-	string ConvertToStandardTime(string p_value)
-	{
-		var result = p_value;
-
-		if(p_value != null)
-		{
-			var upper = p_value.Trim().ToUpper();
-			if
-			(
-				upper.Contains("AM")
-			)
-			{
-				var data = upper.Replace(" AM","").Split(":");
-				if(data[0].Contains("12"))
-				{
-					data[0] = "0";
-				}
-				result =string.Join(':',data);
-			}
-			else if(upper.Contains("PM"))
-			{
-				var data = upper.Replace(" PM","").Split(":");
-				if(int.TryParse(data[0], out var hour))
-				{
-					var new_hour = hour + 12;
-					if(hour == 12)
-					{
-						new_hour = 12;
-					}
-
-					if(new_hour < 24)
-					{
-						data[0] = new_hour.ToString();
-						result =string.Join(':',data);
+						output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative}";
 					}
 					else
 					{
-						System.Console.WriteLine("Hour greater than 24...I should never happen");
+						output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative.Substring(0, 20)}";
+					}
+					this.output_builder.AppendLine(output_text);
+					Console.WriteLine(output_text);
+
+					if(!is_report_only_mode && case_has_changed)
+					{
+						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"MMRDS_CS_Narrative");
 					}
 				}
-				else
-				{
-					System.Console.WriteLine("unable to parse data[0] should never happen");
-				}
-		
-			}
-			else
-			{
-				System.Console.WriteLine("I should never happen");
 			}
 		}
+		catch(Exception ex)
+		{
+			Console.WriteLine(ex);
+		}
 
-
-		return result;
+		Console.WriteLine($"MMRDS_CS_Narrative Finished {DateTime.Now}");
 	}
+
+
 
 	public sealed class Metadata_Node
 	{
