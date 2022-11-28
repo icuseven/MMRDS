@@ -2332,6 +2332,11 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ul: key
 						narrative[i].ul.forEach((u) => {
 							let ulRet = '' + u.text;
+
+                            if(Array.isArray(u.text))
+                            {
+                                ulRet = '' + u.text.join("");
+                            }
 							// bullet list removed -  removed style: ['narrativeDetail'], 
 							ctx.content.push([
 								{ ul: [ulRet,], colSpan: '2', },
@@ -2342,6 +2347,11 @@ function print_pdf_render_content(ctx) {
 						// Found a record with the ol: key
 						narrative[i].ol.forEach((o) => {
 							let olRet = '' + o.text;
+
+                            if(Array.isArray(o.text))
+                            {
+                                ulRet = '' + o.text.join("");
+                            }
 							// ordered list -  removed style: ['narrativeDetail'], 
 							ctx.content.push([
 								{ ol: [olRet,], colSpan: '2', },
