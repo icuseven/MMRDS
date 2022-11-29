@@ -1050,7 +1050,17 @@ mDeathbyRace  MDeathbyRace17 17
 
         if(is_hispanic_blank || race_name == "blank")
         {
-            val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin")?.ToString();
+            var get_val_result = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+
+            if(get_val_result != null)
+            {
+                val = get_val_result.ToString();
+            }
+            else
+            {
+                val = null;
+            }
+            
             if
             (
                 string.IsNullOrWhiteSpace(val.ToString()) ||
@@ -3533,18 +3543,20 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 
         int test_int;
 
-/*
-social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
-*/
+        /*
+        social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
+        */
 
-List<object> val_list = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress") as List<object>;
+        List<object> val_list = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress") as List<object>;
 
-List<string> val_string_list = new List<string>();
+        if(val_list == null) return;
 
-foreach(var item in val_list)
-{
-val_string_list.Add(item.ToString());
-}
+        List<string> val_string_list = new List<string>();
+
+        foreach(var item in val_list)
+        {
+            val_string_list.Add(item.ToString());
+        }
 
 
 //mHxofEmoStress	History of Social or Emotional Stress	MEmoStress1	History of domestic violence	1	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of domestic violence	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=0
@@ -4289,23 +4301,26 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
         {	
             List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy") as List<object>;
 
-            List<string> val_string_list = new List<string>();
-
-            foreach(var item in val_list)
+            if(val_list != null)
             {
-                val_string_list.Add(item.ToString());
-            }
+                List<string> val_string_list = new List<string>();
 
-            foreach(string val_1 in val_string_list)
-            {
-                if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                foreach(var item in val_list)
                 {
-                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                    curr.indicator_id = "mMHTxTiming";
-                    curr.field_id = "MMHTx1";
-                    curr.value = 1;
-                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    break;
+                    val_string_list.Add(item.ToString());
+                }
+
+                foreach(string val_1 in val_string_list)
+                {
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mMHTxTiming";
+                        curr.field_id = "MMHTx1";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                        break;
+                    }
                 }
             }
             
@@ -4320,23 +4335,27 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
         {	
             List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy") as List<object>;
 
-            List<string> val_string_list = new List<string>();
-
-            foreach(var item in val_list)
+            if(val_list != null)
             {
-                val_string_list.Add(item.ToString());
-            }
 
-            foreach(string val_1 in val_string_list)
-            {
-                if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                List<string> val_string_list = new List<string>();
+
+                foreach(var item in val_list)
                 {
-                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                    curr.indicator_id = "mMHTxTiming";
-                    curr.field_id = "MMHTx2";
-                    curr.value = 1;
-                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    break;
+                    val_string_list.Add(item.ToString());
+                }
+
+                foreach(string val_1 in val_string_list)
+                {
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mMHTxTiming";
+                        curr.field_id = "MMHTx2";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                        break;
+                    }
                 }
             }
             
@@ -4352,22 +4371,25 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
         {	
             List<object> val_list = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy") as List<object>;
 
-            List<string> val_string_list = new List<string>();
+            if(val_list != null)
+            {
+                List<string> val_string_list = new List<string>();
 
-            foreach(var item in val_list)
-            {
-                val_string_list.Add(item.ToString());
-            }
-            foreach(string val_1 in val_string_list)
-            {
-                if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                foreach(var item in val_list)
                 {
-                    var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
-                    curr.indicator_id = "mMHTxTiming";
-                    curr.field_id = "MMHTx3";
-                    curr.value = 1;
-                    this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
-                    break;
+                    val_string_list.Add(item.ToString());
+                }
+                foreach(string val_1 in val_string_list)
+                {
+                    if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 5)
+                    {
+                        var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+                        curr.indicator_id = "mMHTxTiming";
+                        curr.field_id = "MMHTx3";
+                        curr.value = 1;
+                        this.indicators[$"{curr.indicator_id} {curr.field_id}"] = curr;
+                        break;
+                    }
                 }
             }
             

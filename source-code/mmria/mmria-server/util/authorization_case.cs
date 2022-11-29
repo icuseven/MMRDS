@@ -24,6 +24,9 @@ public sealed class authorization_case
         var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
+
+        if(byName == null) return false;
+        
         if(byName["home_record"] == null)
         {
             byName["home_record"] = new Dictionary<string,object>();
