@@ -25,7 +25,7 @@ public sealed class authorization_case
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
-        if(byName == null)
+        if(byName != null)
         {
             if
             (
