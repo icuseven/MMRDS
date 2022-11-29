@@ -27,29 +27,41 @@ public sealed class authorization_case
 
         if(byName == null)
         {
-            if(byName["home_record"] == null)
+            if
+            (
+                !byName.ContainsKey("home_record") || 
+                byName["home_record"] == null
+            )
             {
                 byName["home_record"] = new Dictionary<string,object>();
             }
 
             var home_record = byName["home_record"] as IDictionary<string,object>;
-            if(home_record["jurisdiction_id"] == null)
+
+            if(home_record != null)
             {
-                home_record["jurisdiction_id"] = "/";
-            }
-            
-            foreach(var jurisdiction_item in  jurisdiction_hashset)
-            {
-                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                 if
                 (
-                    regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
-                    p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+                    !home_record.ContainsKey("jurisdiction_id") || 
+                    home_record["jurisdiction_id"] == null
                 )
                 {
-                    
-                    result = true;
-                    break;
+                    home_record["jurisdiction_id"] = "/";
+                }
+                
+                foreach(var jurisdiction_item in  jurisdiction_hashset)
+                {
+                    var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                    if
+                    (
+                        regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
+                        p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+                    )
+                    {
+                        
+                        result = true;
+                        break;
+                    }
                 }
             }
         }
