@@ -25,32 +25,32 @@ public sealed class authorization_case
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
-        if(byName == null) return false;
-        
-        if(byName["home_record"] == null)
+        if(byName == null)
         {
-            byName["home_record"] = new Dictionary<string,object>();
-        }
-
-        var home_record = byName["home_record"] as IDictionary<string,object>;
-        if(home_record["jurisdiction_id"] == null)
-        {
-            home_record["jurisdiction_id"] = "/";
-        }
-
-        
-        foreach(var jurisdiction_item in  jurisdiction_hashset)
-        {
-            var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
-            if
-            (
-                regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
-                p_resoure_right_enum ==  jurisdiction_item.ResourceRight
-            )
+            if(byName["home_record"] == null)
             {
-                
-                result = true;
-                break;
+                byName["home_record"] = new Dictionary<string,object>();
+            }
+
+            var home_record = byName["home_record"] as IDictionary<string,object>;
+            if(home_record["jurisdiction_id"] == null)
+            {
+                home_record["jurisdiction_id"] = "/";
+            }
+            
+            foreach(var jurisdiction_item in  jurisdiction_hashset)
+            {
+                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                if
+                (
+                    regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
+                    p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+                )
+                {
+                    
+                    result = true;
+                    break;
+                }
             }
         }
 

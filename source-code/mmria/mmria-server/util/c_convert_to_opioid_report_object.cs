@@ -1058,7 +1058,7 @@ mDeathbyRace  MDeathbyRace17 17
             }
             else
             {
-                val = null;
+                val = "";
             }
             
             if
