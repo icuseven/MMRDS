@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,10 +10,10 @@ namespace mmria.mmrds.import
 	public class mmrds_importer
 	{
 		private string auth_token = null;
-		private string user_name = null;
-		private string password = null;
+		private string user_name = "";
+		private string password = "";
 		private string database_path = null;
-		private string mmria_url = null;
+		private string mmria_url = "";
 		private bool is_offline_mode = false;
 
 		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
@@ -22,10 +23,12 @@ namespace mmria.mmrds.import
 			
 
 		}
-		public void Execute(string[] args)
+		public  async Task Execute(string[] args)
 		{
-			string import_directory = System.Configuration.ConfigurationManager.AppSettings["import_directory"];
-			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+			//string import_directory = System.Configuration.ConfigurationManager.AppSettings["import_directory"];
+			//this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+
+			string import_directory = "c:\\temp\\mmrds\\import";
 
 			if (!System.IO.Directory.Exists(import_directory))
 			{
@@ -33,9 +36,9 @@ namespace mmria.mmrds.import
 			}
 
 
-			if (args.Length > 1)
+			if (args.Length > 0)
 			{
-				for (var i = 1; i < args.Length; i++)
+				for (var i = 0; i < args.Length; i++)
 				{
 					string arg = args[i];
 					int index = arg.IndexOf(':');
@@ -76,7 +79,7 @@ namespace mmria.mmrds.import
 
 				return;
 			}
-
+/*
 			if (string.IsNullOrWhiteSpace(this.mmria_url))
 			{
 				this.mmria_url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
@@ -106,23 +109,31 @@ namespace mmria.mmrds.import
 				System.Console.WriteLine(" form password:[password]");
 				System.Console.WriteLine(" example password:secret");
 				return;
-			}
+			}*/
 
-			var mmria_server = new mmria_server_api_client(this.mmria_url);
-			mmria_server.login(this.user_name, this.password);
+			//var mmria_server = new mmria_server_api_client(this.mmria_url);
+			//mmria_server.login(this.user_name, this.password);
 
-			mmria.common.metadata.app metadata = mmria_server.get_metadata();
+
+			string metadata_url = $"http://localhost:5984/metadata/version_specification-19.10.18/metadata";
+			
+			//var metadata_curl = new migrate.cURL("GET", null, metadata_url, null, null, null);
+			//mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
+		
+			var metadata_file_path = "C:\\work-space\\MMRDS\\source-code\\scratch\\owin\\owin\\database-scripts\\metadata.json";
+			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(System.IO.File.ReadAllText(metadata_file_path));
+
 
 			var mmrds_data = new cData(get_mdb_connection_string(this.database_path));
 
-			var directory_path = @"mapping-file-set";
+			var directory_path = @"C:\\work-space\\MMRDS\\source-code\\mmria\\data-migration\\mmrds-importer\\mapping-file-set";
 			var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
 			var mapping_data = new cData(get_csv_connection_string(directory_path));
 
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
 
 
-			var lookup_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-lookup-values.csv";
+			var lookup_mapping_file_name = @"C:\\work-space\\MMRDS\\source-code\\mmria\\data-migration\\mmrds-importer\\mapping-file-set\\MMRDS-Mapping-NO-GRIDS-lookup-values.csv";
 			var lookup_mapping_table = get_look_up_mappings(mapping_data, lookup_mapping_file_name);
 
 		
@@ -217,7 +228,7 @@ namespace mmria.mmrds.import
 			}
 
 
-			var case_data_list = new List<dynamic>();
+			var case_data_list = new List<object>();
 
 
 			var view_name_list = new string[] {
@@ -287,164 +298,86 @@ namespace mmria.mmrds.import
 
 			foreach (string global_record_id in id_list)
 			{
-				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
-
-				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
-					Formatting = Newtonsoft.Json.Formatting.Indented,
-					DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
-					DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
-				});
-				System.Console.WriteLine("json\n{0}", json_string);
-
-				foreach (string view_name in view_name_list)
+				try
 				{
-					System.Data.DataRow[] view_record_data = null;
-					System.Data.DataRow[] grid_record_data = null;
-					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
+					dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-					var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
+					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+						Formatting = Newtonsoft.Json.Formatting.Indented,
+						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+					});
+					System.Console.WriteLine("json\n{0}", json_string);
 
-					var grid_table_name_list = get_grid_table_name_list(mapping_data, view_name, grid_mapping_file_name);
-
-					if (view_name == "MaternalMortality")
+					foreach (string view_name in view_name_list)
 					{
-						view_record_data = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
+						System.Data.DataRow[] view_record_data = null;
+						System.Data.DataRow[] grid_record_data = null;
+						System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
 
-						IDictionary<string, object> updater = case_data as IDictionary<string, object>;
-						updater["_id"] = global_record_id;
-						updater["date_created"] = view_record_data[0]["FirstSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["FirstSaveTime"]).ToString("s") + "Z" : null;
-						updater["created_by"] = view_record_data[0]["FirstSaveLogonName"];
-						updater["date_last_updated"] = view_record_data[0]["LastSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["LastSaveTime"]).ToString("s") + "Z" : null;
-						updater["last_updated_by"] = view_record_data[0]["LastSaveLogonName"];
-					}
-					else
-					{
-						view_record_data = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+						var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
 
-					}
+						var grid_table_name_list = get_grid_table_name_list(mapping_data, view_name, grid_mapping_file_name);
 
-
-					if (view_record_data.Length > 1)
-					{
-						System.Console.WriteLine("multi rows: {0}\t{1}", view_name, view_record_data.Length);
-					}
-					//mmria.common.metadata.node form_metadata = metadata.children.Where(c => c.type == "form" && c.name == view_name_to_name_map[view_name]).First();
-					if (view_name_cardinality_map[view_name] == true)
-					{
-
-						for (int i = 0; i < view_record_data.Length; i++)
+						if (view_name == "MaternalMortality")
 						{
-							System.Data.DataRow row = view_record_data[i];
+							view_record_data = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
 
-							process_view
-							(
-								metadata,
-								case_maker,
-								case_data,
-								row,
-								mapping_view_table,
-								i
-							);
-
-							int column_index = -1;
-							for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
-							{
-								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
-								{
-									column_index = column_index_i;
-								}
-							}
-
-							foreach (string grid_name in grid_table_name_list)
-							{
-								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
-								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
-
-								if (grid_data.Rows.Count > 0)
-								{
-
-								}
-
-								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
-								{
-									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
-
-									process_grid
-									(
-										metadata,
-										case_maker,
-										case_data,
-										grid_row,
-										grid_mapping,
-										i,
-										grid_row_index
-									);
-								}
-							}
+							IDictionary<string, object> updater = case_data as IDictionary<string, object>;
+							updater["_id"] = global_record_id;
+							updater["date_created"] = view_record_data[0]["FirstSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["FirstSaveTime"]).ToString("s") + "Z" : null;
+							updater["created_by"] = view_record_data[0]["FirstSaveLogonName"];
+							updater["date_last_updated"] = view_record_data[0]["LastSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["LastSaveTime"]).ToString("s") + "Z" : null;
+							updater["last_updated_by"] = view_record_data[0]["LastSaveLogonName"];
 						}
-					}
-					else
-					{
-						foreach (System.Data.DataRow row in view_record_data)
+						else
 						{
-							process_view
-							(
-								metadata,
-								case_maker,
-								case_data,
-								row,
-								mapping_view_table
-							);
+							view_record_data = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+
+						}
 
 
-							int column_index = -1;
-							for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
+						if (view_record_data.Length > 1)
+						{
+							System.Console.WriteLine("multi rows: {0}\t{1}", view_name, view_record_data.Length);
+						}
+						//mmria.common.metadata.node form_metadata = metadata.children.Where(c => c.type == "form" && c.name == view_name_to_name_map[view_name]).First();
+						if (view_name_cardinality_map[view_name] == true)
+						{
+
+							for (int i = 0; i < view_record_data.Length; i++)
 							{
-								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
-								{
-									column_index = column_index_i;
-								}
-							}
+								System.Data.DataRow row = view_record_data[i];
 
-							foreach (string grid_name in grid_table_name_list)
-							{
-								System.Data.DataTable grid_data = null;
-								int check_index = grid_name.IndexOf("/");
-								if (check_index > 0)
-								{
-									grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name.Substring(0, check_index), row[column_index]));
-								}
-								else
-								{
-									grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));	
-								}
+								process_view
+								(
+									metadata,
+									case_maker,
+									case_data,
+									row,
+									mapping_view_table,
+									i
+								);
 
-								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
-
-								if (grid_data.Rows.Count > 0)
+								int column_index = -1;
+								for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
 								{
-
-								}
-
-								if (check_index > 0)
-								{
-									int grid_row_index = int.Parse(grid_name.Substring(check_index + 1, grid_name.Length - (check_index + 1)));
-									if (grid_data.Rows.Count > grid_row_index)
+									if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
 									{
-										process_grid
-											(
-												metadata,
-												case_maker,
-												case_data,
-												grid_data.Rows[grid_row_index],
-												grid_mapping,
-												null,
-												null
-											);
+										column_index = column_index_i;
 									}
 								}
-								else
+
+								foreach (string grid_name in grid_table_name_list)
 								{
+									System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
+									var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
+
+									if (grid_data.Rows.Count > 0)
+									{
+
+									}
+
 									for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
 									{
 										System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
@@ -456,127 +389,234 @@ namespace mmria.mmrds.import
 											case_data,
 											grid_row,
 											grid_mapping,
-											null,
+											i,
 											grid_row_index
 										);
 									}
 								}
 							}
 						}
+						else
+						{
+							foreach (System.Data.DataRow row in view_record_data)
+							{
+								process_view
+								(
+									metadata,
+									case_maker,
+									case_data,
+									row,
+									mapping_view_table
+								);
+
+
+								int column_index = -1;
+								for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
+								{
+									if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
+									{
+										column_index = column_index_i;
+									}
+								}
+
+								foreach (string grid_name in grid_table_name_list)
+								{
+									System.Data.DataTable grid_data = null;
+									int check_index = grid_name.IndexOf("/");
+									if (check_index > 0)
+									{
+										grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name.Substring(0, check_index), row[column_index]));
+									}
+									else
+									{
+										grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));	
+									}
+
+									var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
+
+									if (grid_data.Rows.Count > 0)
+									{
+
+									}
+
+									if (check_index > 0)
+									{
+										int grid_row_index = int.Parse(grid_name.Substring(check_index + 1, grid_name.Length - (check_index + 1)));
+										if (grid_data.Rows.Count > grid_row_index)
+										{
+											process_grid
+												(
+													metadata,
+													case_maker,
+													case_data,
+													grid_data.Rows[grid_row_index],
+													grid_mapping,
+													null,
+													null
+												);
+										}
+									}
+									else
+									{
+										for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
+										{
+											System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
+
+											process_grid
+											(
+												metadata,
+												case_maker,
+												case_data,
+												grid_row,
+												grid_mapping,
+												null,
+												grid_row_index
+											);
+										}
+									}
+								}
+							}
+
+						}
+
 
 					}
 
 
-				}
 
 
-
-
-				/*
-				if (case_data_list.Count == 0)
-				{
-					var result = mmria_server.set_case(json_string);
-				}
-				*/
-				try
-				{
-					// check if doc exists
-					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
-					var document_curl = new migrate.cURL("GET", null, document_url, null, this.user_name, this.password);
-					string document_json = null;
-
-					document_json = document_curl.execute();
-					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
-					IDictionary<string, object> updater = case_data as IDictionary<string, object>;
-					IDictionary<string, object> result_dictionary = result as IDictionary<string, object>;
-					if (result_dictionary.ContainsKey ("_rev")) 
+					/*
+					if (case_data_list.Count == 0)
 					{
-						updater ["_rev"] = result_dictionary ["_rev"];
+						var result = mmria_server.set_case(json_string);
+					}
+					*/
+					try
+					{
+						string document_url = "http://localhost:5984/mmrds/" + global_record_id;
+						/*
+						// check if doc exists
+						
+						var document_curl = new migrate.cURL("GET", null, document_url, null, this.user_name, this.password);
+						string document_json = null;
+
+						document_json = document_curl.execute();
+						var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
+						IDictionary<string, object> updater = case_data as IDictionary<string, object>;
+						IDictionary<string, object> result_dictionary = result as IDictionary<string, object>;
+						if (result_dictionary.ContainsKey ("_rev")) 
+						{
+							updater ["_rev"] = result_dictionary ["_rev"];
 
 
-						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+							json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+								Formatting = Newtonsoft.Json.Formatting.Indented,
+								DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+								DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+							});
+							System.Console.WriteLine ("json\n{0}", json_string);
+						}
+
+
+						var json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+						Formatting = Newtonsoft.Json.Formatting.Indented,
+						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc});
+							System.Console.WriteLine ("json\n{0}", json_string);*/
+
+						case_data["host_state"] = "mo";
+
+						IDictionary<string, object> home_record = case_data["home_record"] as IDictionary<string, object>;
+
+						if (home_record.ContainsKey("jurisdiction_id"))
+						{
+							home_record["jurisdiction_id"] = "/";
+						}
+						else
+						{
+							home_record.Add("jurisdiction_id", "/");
+						}
+
+
+					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+					Formatting = Newtonsoft.Json.Formatting.Indented,
+					DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+					DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+					});
+
+					System.Console.WriteLine("json\n{0}", json_string);	
+						
+
+						var update_curl = new migrate.cURL ("PUT", null, document_url, json_string, this.user_name, this.password);
+						try 
+						{
+							string de_id_result = update_curl.execute ();
+							System.Console.WriteLine ("update id");
+							System.Console.WriteLine (de_id_result);
+
+						}
+						catch (Exception ex) 
+						{
+							System.Console.WriteLine ("sync de_id");
+							System.Console.WriteLine (ex);
+						}
+
+					}
+					catch (Exception ex)
+					{
+						System.Console.WriteLine("Get case");
+						System.Console.WriteLine(ex);
+
+						case_data["host_state"] = "mo";
+
+						IDictionary<string, object> home_record = case_data["home_record"] as IDictionary<string, object>;
+
+						if (home_record.ContainsKey("jurisdiction_id"))
+						{
+							home_record["jurisdiction_id"] = "/";
+						}
+						else
+						{
+							home_record.Add("jurisdiction_id", "/");
+						}
+
+
+						json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
 							Formatting = Newtonsoft.Json.Formatting.Indented,
 							DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
 							DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
 						});
-						System.Console.WriteLine ("json\n{0}", json_string);
-					}
 
+						string document_url = "http://localhost:5984/mmrds/" + global_record_id;
+						var update_curl = new migrate.cURL("PUT", null, document_url, json_string, this.user_name, this.password);
+						try
+						{
+							string de_id_result = update_curl.execute();
+							System.Console.WriteLine("update id");
+							System.Console.WriteLine(de_id_result);
 
-					IDictionary<string, object> home_record = result_dictionary["home_record"] as IDictionary<string, object>;
-
-					if (home_record.ContainsKey("jurisdiction_id"))
-					{
-						home_record["jurisdiction_id"] = "/";
-					}
-					else
-					{
-						home_record.Add("jurisdiction_id", "/");
-					}
-
-					var update_curl = new migrate.cURL ("PUT", null, document_url, json_string, this.user_name, this.password);
-					try 
-					{
-						string de_id_result = update_curl.execute ();
-						System.Console.WriteLine ("update id");
-						System.Console.WriteLine (de_id_result);
+						}
+						catch (Exception ex2)
+						{
+							System.Console.WriteLine("sync de_id");
+							System.Console.WriteLine(ex2);
+						}
+						System.Console.WriteLine("json\n{0}", json_string);
 
 					}
-					catch (Exception ex) 
-					{
-						System.Console.WriteLine ("sync de_id");
-						System.Console.WriteLine (ex);
-					}
 
+
+
+					//return;
+					System.IO.File.WriteAllText(import_directory + "/" + global_record_id + ".json", json_string);
+
+					//break;
+					case_data_list.Add(case_data);
 				}
-				catch (Exception ex)
+				catch(Exception ex)
 				{
-					System.Console.WriteLine("Get case");
-					System.Console.WriteLine(ex);
-
-					IDictionary<string, object> home_record = case_data["home_record"] as IDictionary<string, object>;
-
-					if (home_record.ContainsKey("jurisdiction_id"))
-					{
-						home_record["jurisdiction_id"] = "/";
-					}
-					else
-					{
-						home_record.Add("jurisdiction_id", "/");
-					}
-
-
-					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
-						Formatting = Newtonsoft.Json.Formatting.Indented,
-						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
-						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
-					});
-
-					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
-					var update_curl = new migrate.cURL("PUT", null, document_url, json_string, this.user_name, this.password);
-					try
-					{
-						string de_id_result = update_curl.execute();
-						System.Console.WriteLine("update id");
-						System.Console.WriteLine(de_id_result);
-
-					}
-					catch (Exception ex2)
-					{
-						System.Console.WriteLine("sync de_id");
-						System.Console.WriteLine(ex2);
-					}
-					System.Console.WriteLine("json\n{0}", json_string);
-
+					System.Console.WriteLine("Don't stop:\n{0}", ex);
 				}
-
-
-
-				//return;
-				System.IO.File.WriteAllText(import_directory + "/" + global_record_id + ".json", json_string);
-
-				//break;
-				case_data_list.Add(case_data);
 			}
 			case_maker.flush_bad_mapping();
 
@@ -632,14 +672,14 @@ namespace mmria.mmrds.import
 		public System.Data.DataTable get_look_up_mappings(cData p_mapping, string p_mapping_table_name)
 		{
 			mmria.mmrds.util.csv_Data csv_data = new util.csv_Data();
-			System.Data.DataTable result = csv_data.get_datatable(@"mapping-file-set/MMRDS-Mapping-NO-GRIDS-lookup-values.csv");
+			System.Data.DataTable result = csv_data.get_datatable(@"C:\\work-space\\MMRDS\\source-code\\mmria\\data-migration\\mmrds-importer\\mapping-file-set\\MMRDS-Mapping-NO-GRIDS-lookup-values.csv");
 			//string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
 			result.Columns ["path"].ColumnName = "source_path";
 			//result = p_mapping.GetDataTable(mapping_sql);
 
 
 
-			System.Data.DataTable grid_mapping_data_table = csv_data.get_datatable (@"mapping-file-set/grid-mapping-lookup-values.csv");
+			System.Data.DataTable grid_mapping_data_table = csv_data.get_datatable (@"C:\\work-space\\MMRDS\\source-code\\mmria\\data-migration\\mmrds-importer\\mapping-file-set\\grid-mapping-lookup-values.csv");
 
 			foreach (System.Data.DataRow row in grid_mapping_data_table.Rows) 
 			{

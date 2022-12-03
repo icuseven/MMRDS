@@ -44,9 +44,11 @@ namespace mmria.mmrds
 
 		public mmria.common.metadata.app get_metadata()
 		{
-			mmria.common.metadata.app result = null;
+			mmria.common.metadata.app result = null;//"
 
-			string URL = this.mmria_url + "/api/metadata";
+			string metadata_url = $"{this.mmria_url}/metadata/version_specification-19.10.18/metadata";
+			
+			string URL =  $"{this.mmria_url}/metadata/version_specification-19.10.18/metadata";;
 			//string urlParameters = "?api_key=123";
 			string urlParameters = "";
 
@@ -206,7 +208,7 @@ namespace mmria.mmrds
 			return result;
 		}
 
-		public dynamic get_all_cases(string p_database_url)
+		public object get_all_cases(string p_database_url)
 		{
 			bool is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
 
@@ -283,7 +285,7 @@ namespace mmria.mmrds
 			return result;
 		}
 
-		public dynamic get_all_cases()
+		public object get_all_cases()
 		{
 			dynamic result = new List<System.Dynamic.ExpandoObject>();
 

@@ -104,7 +104,7 @@ public sealed class MMRDS_CS_Narrative_Migration
 
 
 
-			var mmrds_data = new mmria.mmrds.data.cData(get_mdb_connection_string("this.database_path"));
+			var mmrds_data = new mmria.mmrds.data.cData(get_mdb_connection_string("data_migration:database_path"));
 
 			var id_record_set = mmrds_data.GetDataTable
 			(
@@ -135,55 +135,60 @@ CoreSummary34.CS_Narrative
 
 */
 
-				var mmria_id = row["FKEY"].ToString();
-
-				string url = $"{host_db_url}/{db_name}/{mmria_id}";
-				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
-				string responseFromServer = await case_curl.executeAsync();
-				
-
-
-				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-
-				var case_has_changed = false;
-				var case_change_count = 0;
-
-
-				
-				if(doc != null)
+				try
 				{
+					var mmria_id = row["FKEY"].ToString();
 
-					var case_narrative_path = "case_narrative/case_opening_overview";
-
-					var cs_narrative = string.Empty;
+					string url = $"{host_db_url}/{db_name}/{mmria_id}";
+					var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
+					string responseFromServer = await case_curl.executeAsync();
 					
-					if(row["CS_Narrative"]!= DBNull.Value)
-					{
-						cs_narrative = row["CS_Narrative"].ToString();
-					}
 
-					case_has_changed = case_has_changed && gs.set_value(case_narrative_path, cs_narrative, doc);
-					var output_text = string.Empty;
 
-					if
-					(
-						cs_narrative == null ||
-						cs_narrative.Length < 20
-					)
-					{
-						output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative}";
-					}
-					else
-					{
-						output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative.Substring(0, 20)}";
-					}
-					this.output_builder.AppendLine(output_text);
-					Console.WriteLine(output_text);
+					var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 
-					if(!is_report_only_mode && case_has_changed)
+					var case_has_changed = false;
+					var case_change_count = 0;
+
+					if(doc != null)
 					{
-						var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"MMRDS_CS_Narrative");
+
+						var case_narrative_path = "case_narrative/case_opening_overview";
+
+						var cs_narrative = string.Empty;
+						
+						if(row["CS_Narrative"]!= DBNull.Value)
+						{
+							cs_narrative = row["CS_Narrative"].ToString();
+						}
+
+						case_has_changed = case_has_changed && gs.set_value(case_narrative_path, cs_narrative, doc);
+						var output_text = string.Empty;
+
+						if
+						(
+							cs_narrative == null ||
+							cs_narrative.Length < 20
+						)
+						{
+							output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative}";
+						}
+						else
+						{
+							output_text = $"item record_id: {mmria_id} path:{case_narrative_path} updated to  {cs_narrative.Substring(0, 20)}";
+						}
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
+
+						if(!is_report_only_mode && case_has_changed)
+						{
+							var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"MMRDS_CS_Narrative");
+						}
 					}
+				}
+				catch(Exception ex)
+				{
+					Console.WriteLine(ex);
 				}
 			}
 		}
