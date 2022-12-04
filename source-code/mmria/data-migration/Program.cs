@@ -40,7 +40,7 @@ class Program
 
     static List<string> test_list = new List<string>()
     {
-        "mo",
+        "ar",
         //"ga",
         //"fl",
         
@@ -234,10 +234,10 @@ class Program
 
         bool is_test_list = true;
         
-        bool is_report_only_mode = true;
+        bool is_report_only_mode = false;
 
 
-        RunTypeEnum MigrationType = RunTypeEnum.MMRDSImport;
+        RunTypeEnum MigrationType = RunTypeEnum.OneTime;
 
         
 
@@ -291,6 +291,18 @@ class Program
         {
             run_list = prefix_list.ToList();
         }
+
+
+        if(MigrationType == RunTypeEnum.MMRDSImport)
+        {
+            var mmrds_importer = new mmria.mmrds.import.mmrds_importer();
+            await mmrds_importer.Execute
+            (
+                new string[1]{ $"database_file_path={Configuration["data_migration:database_path"]}" }
+            );
+            return;
+        }
+                
 
         foreach(var prefix in run_list)
         {
@@ -363,12 +375,7 @@ class Program
                     break;
                 }
 
-                if(MigrationType == RunTypeEnum.MMRDSImport)
-                {
-                    var mmrds_importer = new mmria.mmrds.import.mmrds_importer();
-                    mmrds_importer.Execute(new string[1]{ "database_file_path=" });
-                }
-                else if(MigrationType == RunTypeEnum.OnBoarding)
+                 if(MigrationType == RunTypeEnum.OnBoarding)
                 {
                     var crpr = new migrate.set.committee_review_pregnancy_relatedness(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["committee_review_pregnancy_relatedness"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     await crpr.execute();
@@ -430,8 +437,16 @@ class Program
                 else if(MigrationType == RunTypeEnum.OneTime)
                 {
 
-                    var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
-                    await CVS_Migration.execute();
+
+                    //var MMRDS_CS_Narrative_Migration = new migrate.set.MMRDS_CS_Narrative_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    //await MMRDS_CS_Narrative_Migration.execute();
+
+
+                    var v2_10 = new migrate.set.v2_10_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v2_10.execute();
+
+                    //var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    //await CVS_Migration.execute();
 
 
                     //var v2_8_1 = new migrate.set.v2_8_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
