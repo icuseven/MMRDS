@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.PlatformAbstractions;
 using System.Timers;
 using System.Threading.Tasks;
 using Serilog;
@@ -15,27 +14,12 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using System.Diagnostics;
-using Serilog;
 using Serilog.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Akka.Actor;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Akka.Quartz.Actor;
-using Quartz;
-using Quartz.Impl;
 using mmria.server.extension;
 using mmria.server.authentication;
 
@@ -88,9 +72,6 @@ public sealed partial class Program
     public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
     public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
     public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
-
-
-
     
     public static Akka.Actor.ActorSystem actorSystem;
     
@@ -104,7 +85,6 @@ public sealed partial class Program
     public static string Last_Change_Sequence = null;
 
     private static IConfiguration configuration = null;
-
 
     public static void Main(string[] args)
     {
@@ -405,22 +385,25 @@ public sealed partial class Program
                 options.AddPolicy("guest", policy => policy.RequireRole("guest"));
             });
 
-            builder.Services.AddMvc(config =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                                .RequireAuthenticatedUser()
-                                .Build();
-                config.Filters.Add(new AuthorizeFilter(policy));
+            builder.Services.AddMvc
+            (
+                config =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                                    .RequireAuthenticatedUser()
+                                    .Build();
+                    config.Filters.Add(new AuthorizeFilter(policy));
 
-                config.CacheProfiles.Add
-                (
-                    "NoStore",
-                    new Microsoft.AspNetCore.Mvc.CacheProfile()
-                    {
-                        NoStore = true
-                    }
-                );
-            });
+                    config.CacheProfiles.Add
+                    (
+                        "NoStore",
+                        new Microsoft.AspNetCore.Mvc.CacheProfile()
+                        {
+                            NoStore = true
+                        }
+                    );
+                }
+            );
 
             //services.AddControllers();
 
@@ -428,7 +411,16 @@ public sealed partial class Program
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Start();
+            if (Program.is_schedule_enabled)
+            {
+                System.Threading.Tasks.Task.Run
+                (
+                    new Action(async () =>
+                    {
+                        await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
+                    }
+                ));
+            }
 
             var app = builder.Build();
 
@@ -532,37 +524,12 @@ public sealed partial class Program
         {
             System.Console.WriteLine($"MMRIA Server error: ${ex}");
         }    
-
     }
 
-
-    
     static void AppDomain_UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args) 
     {
         Exception e = (Exception) args.ExceptionObject;
         Console.WriteLine("AppDomain_UnhandledExceptionHandler caught : " + e.Message);
-    }
-
-
-    public static void Start()
-    {
-        if (Program.is_schedule_enabled)
-        {
-            System.Threading.Tasks.Task.Run
-            (
-                new Action(async () =>
-                {
-                    await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
-                }
-
-            ));
-        }
-        else
-        {
-
-        }
-
-        
     }
 
     private static mmria.common.couchdb.ConfigurationSet GetConfiguration()
@@ -574,7 +541,6 @@ public sealed partial class Program
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
-
         }
         catch(Exception ex)
         {
@@ -614,8 +580,6 @@ public sealed partial class Program
 
         return result;
     }
-
-
 
 }
 
