@@ -292,7 +292,10 @@ public sealed class Startup
             );
         });
 
-        services.AddControllers().AddNewtonsoftJson();
+        //services.AddControllers();
+
+        services.AddServerSideBlazor();
+        services.AddControllersWithViews().AddNewtonsoftJson();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         this.Start();
@@ -421,6 +424,7 @@ public sealed class Startup
     [Obsolete]
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
+        /*
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -511,9 +515,10 @@ public sealed class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+            endpoints.MapBlazorHub();
         });
 
-
+        */
     }
 
     public void Start()
