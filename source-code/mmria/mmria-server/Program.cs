@@ -20,6 +20,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
+
 using mmria.server.extension;
 using mmria.server.authentication;
 
@@ -406,7 +411,7 @@ public sealed partial class Program
             );
 
             //services.AddControllers();
-
+            builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -511,9 +516,21 @@ public sealed partial class Program
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+/*
+            app.MapBlazorHub();
+            app.MapControllers();
+
+            */
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute
+                (
+                    "default", 
+                    "{controller=Home}/{action=Index}"
+                );
+                
                 endpoints.MapBlazorHub();
             });
 
