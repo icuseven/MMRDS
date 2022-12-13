@@ -312,15 +312,12 @@ public sealed partial class Program
             ISchedulerFactory schedFact = new StdSchedulerFactory();
             Quartz.IScheduler sched = schedFact.GetScheduler().Result;
 
-            // compute a time that is on the next round minute
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
-            // define the job and tie it to our HelloJob class
             IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
                 .Build();
 
-            // Trigger the job to run on the next round minute
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("trigger1", "group1")
                 .StartAt(runTime.AddMinutes(3))
@@ -353,7 +350,6 @@ public sealed partial class Program
                 })
                 .AddCustomAuth(options =>
                 {
-                    // Configure single or multiple passwords for authentication
                     options.AuthKey = "custom auth key";
                     options.Is_SAMS = true;
                 });
@@ -369,7 +365,6 @@ public sealed partial class Program
                 })
                 .AddCustomAuth(options =>
                 {
-                    // Configure single or multiple passwords for authentication
                     options.AuthKey = "custom auth key";
                     options.Is_SAMS = false;
                 });
@@ -377,7 +372,6 @@ public sealed partial class Program
 
             builder.Services.AddAuthorization(options =>
             {
-                //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
                 options.AddPolicy("abstractor", policy => policy.RequireRole("abstractor"));
                 options.AddPolicy("data_analyst", policy => policy.RequireRole("data_analyst"));
                 options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
@@ -410,7 +404,6 @@ public sealed partial class Program
                 }
             );
 
-            //services.AddControllers();
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
@@ -517,11 +510,6 @@ public sealed partial class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-/*
-            app.MapBlazorHub();
-            app.MapControllers();
-
-            */
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
