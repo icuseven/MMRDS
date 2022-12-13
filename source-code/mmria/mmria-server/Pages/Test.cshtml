@@ -1,4 +1,39 @@
-@page "/Test"
+@page "/test"
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using mmria.server;
+@using mmria.server.Components
+
 @model mmria.blazor.Pages.TestModel
+@namespace mmria.blazor.Pages
+
 <h3>Basic Component</h3>
 
+
+
+@(await Html.RenderComponentAsync<mmria.server.Components.Test2>(RenderMode.ServerPrerendered))
+@(await Html.RenderComponentAsync<mmria.server.Components.Test2>(RenderMode.Static))
+<mmria.server.Components.Test2 render-mode="ServerPreRendered" />
+<Test2 />
+
+<component type="typeof(mmria.server.Components.Test2)" render-mode="Static" />
+
+@(await Html.RenderComponentAsync<mmria.server.Components.Component>( RenderMode.Static))
+<mmria.server.Components.Component rendermode="ServerPreRendered" />
+
+<component type="typeof(mmria.server.Components.Component)" render-mode="Static" param-Text="@("andu fa la")"/>
+@(await Html.RenderComponentAsync<mmria.server.Components.Component>(RenderMode.WebAssemblyPrerendered))
+
+@(await Html.RenderComponentAsync<mmria.server.Components.Component>(RenderMode.WebAssemblyPrerendered))
+@*<script src="_framework/blazor.server.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>*@
