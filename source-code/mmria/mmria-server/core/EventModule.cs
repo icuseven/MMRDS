@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Autofac;
+//using Autofac;
 
 namespace cqrs;
 
+/*
 public sealed class EventModule : Module
 {
     protected override void Load(ContainerBuilder builder)
@@ -33,5 +34,6 @@ public sealed class EventModule : Module
                 .AsImplementedInterfaces();
     }
 }
+*/
 
 

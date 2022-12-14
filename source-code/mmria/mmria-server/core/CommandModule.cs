@@ -1,10 +1,10 @@
 ﻿
 using System;
 using System.Linq;
-using Autofac;
+//using Autofac;
 
 namespace cqrs;
-
+/*
 public sealed class CommandModule : Autofac.Module
 {
     protected override void Load(ContainerBuilder builder)
@@ -30,4 +30,5 @@ public sealed class CommandModule : Autofac.Module
             .AsImplementedInterfaces();
     }
 }
+*/
 
