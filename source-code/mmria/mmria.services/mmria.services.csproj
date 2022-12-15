@@ -11,7 +11,7 @@
     <PackageReference Include="Akka.DI.Core" Version="1.4.46" />
     <PackageReference Include="Akka.DI.Extensions.DependencyInjection" Version="1.4.22" />
     
-    <PackageReference Include="SharpZipLib" Version="1.3.3"/>
+    <PackageReference Include="SharpZipLib" Version="1.4.1"/>
   </ItemGroup>
 
   <ItemGroup>
