@@ -384,6 +384,8 @@ public sealed partial class Program
                 options.AddPolicy("guest", policy => policy.RequireRole("guest"));
             });
 
+            //builder.RootComponents.Add<App>("app");
+
             builder.Services.AddMvc
             (
                 config =>
@@ -521,6 +523,9 @@ public sealed partial class Program
                 
                 endpoints.MapBlazorHub();
             });
+
+
+            //app.MapFallbackToPage("/_Host");
 
             app.Run(config_web_site_url);
 
