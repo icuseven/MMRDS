@@ -507,7 +507,26 @@ public sealed partial class Program
             );
 
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+
+            var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            // Add new mappings
+            provider.Mappings[".dll"] = "application/octet-stream";
+            provider.Mappings[".blat"] = "application/octet-stream";
+            provider.Mappings[".dat"] = "application/octet-stream";
+
+            app.UseStaticFiles(
+                
+                new StaticFileOptions
+            {
+                
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                RequestPath = "",
+                ContentTypeProvider = provider
+            });
+
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
