@@ -34,6 +34,7 @@ echo "---> Remove unneeded files - End ..."
 cd /opt/app-root/src
 
 
+dotnet workload install wasm-tools
 
 echo "---> Version Setup - Begin ..."
 #current_build=$(git rev-parse --short HEAD)
