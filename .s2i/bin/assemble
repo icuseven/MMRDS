@@ -33,9 +33,6 @@ echo "---> Remove unneeded files - End ..."
 
 cd /opt/app-root/src
 
-
-dotnet workload install wasm-tools
-
 echo "---> Version Setup - Begin ..."
 #current_build=$(git rev-parse --short HEAD)
 
@@ -73,6 +70,9 @@ echo "---> Installing application source..."
 if [ -d /tmp/src ]; then
   mv /tmp/src/* ./
 fi
+
+dotnet workload install wasm-tools
+dotnet workload install wasm-experimental
 
 if [ "$DEV_MODE" == true ]; then
   BUILD_TYPE=source
