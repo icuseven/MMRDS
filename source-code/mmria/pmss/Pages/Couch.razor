@@ -1,0 +1,79 @@
+@page "/couchdb"
+
+<h3>Test to Connect to MMRIA API and Couch DB</h3>
+
+
+<button class="btn btn-primary" @onclick="GetMetadata">Test MMRIA api metadata call</button>
+<br/>
+<textarea rows=7 cols=80 value="@meta">
+
+</textarea>
+<br/>
+<br/>
+<button class="btn btn-primary" @onclick="GetCouchDBData">Test CouchDB api Call</button>
+<br/>
+<textarea rows=7 cols=80 value="@couch">
+
+</textarea>
+
+@code {
+
+
+    string meta = null;
+
+    string couch = null;
+    private async Task GetMetadata()
+    {
+        System.Console.WriteLine ("Recieved message.");
+        string result = null;
+        System.Dynamic.ExpandoObject json_result = null;
+        try
+        {
+
+           //
+
+            //"2016-06-12T13:49:24.759Z"
+           // string request_string = $"https://test-mmria.apps.ecpaas-dev.cdc.gov/api/version/22.09.13/metadata";
+
+            string request_string = $"http://localhost:12345/api/version/22.09.13/metadata";
+     //string request_string = $"http://localhost:12345/api/healthz";
+
+
+            using (var httpClient = new System.Net.Http.HttpClient())
+            {
+                using HttpResponseMessage response = await httpClient.GetAsync(request_string);
+    
+                //response.EnsureSuccessStatusCode().WriteRequestToConsole();
+    
+                meta = await response.Content.ReadAsStringAsync();
+
+            }
+
+            
+
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine (ex);
+
+            meta = ex.ToString();
+        }
+    }
+
+    
+    private async Task GetCouchDBData()
+    {
+            string request_string = $"http://localhost:5984/metadata/2016-06-12T13:49:24.759Z";
+
+            using (var httpClient = new System.Net.Http.HttpClient())
+            {
+                using HttpResponseMessage response = await httpClient.GetAsync(request_string);
+    
+                //response.EnsureSuccessStatusCode().WriteRequestToConsole();
+    
+                couch = await response.Content.ReadAsStringAsync();
+
+            }
+    }
+}
+
