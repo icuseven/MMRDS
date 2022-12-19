@@ -73,7 +73,7 @@ fi
 
 dotnet workload install wasm-tools
 dotnet workload install wasm-experimental
-dotnet workload restore
+dotnet workload restore "${DOTNET_STARTUP_PROJECT}"
 
 if [ "$DEV_MODE" == true ]; then
   BUILD_TYPE=source
