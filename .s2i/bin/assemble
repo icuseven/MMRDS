@@ -25,6 +25,8 @@ sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/
 
 dotnet workload install wasm-tools
 
+dotnet workload restore 
+
 #echo "---> running NPM build"
 #cd /tmp/src/source-code/mmria/mmria-server
 #npm install
