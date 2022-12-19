@@ -421,6 +421,23 @@ public sealed partial class Program
                     }
                 ));
             }
+/*
+            builder.Services.AddCors
+            (
+                policy =>
+                {
+                    policy.AddPolicy
+                    (
+                        "_myAllowSpecificOrigins", 
+                        builder => builder
+                        .WithOrigins("http://localhost:5000/")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                    );
+                }
+            );
+            */
 
             var app = builder.Build();
 
@@ -514,6 +531,7 @@ public sealed partial class Program
             provider.Mappings[".dll"] = "application/octet-stream";
             provider.Mappings[".blat"] = "application/octet-stream";
             provider.Mappings[".dat"] = "application/octet-stream";
+            provider.Mappings[".css"] = "text/css";
 
             app.UseStaticFiles(
                 
