@@ -22,11 +22,6 @@ echo "---> Remove unneeded files - End ..."
 #echo "---> changing ChakraCore version from windows to linux"
 #sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
 
-
-dotnet workload install wasm-tools
-
-
-
 #echo "---> running NPM build"
 #cd /tmp/src/source-code/mmria/mmria-server
 #npm install
@@ -38,7 +33,7 @@ dotnet workload install wasm-tools
 
 cd /opt/app-root/src
 
-dotnet workload restore 
+
 
 echo "---> Version Setup - Begin ..."
 #current_build=$(git rev-parse --short HEAD)
