@@ -122,7 +122,7 @@ echo "Trace Line 115"
     # source build
     BUILD_TYPE=source
     if [ ${#PROJFILES[@]} -eq 1 ]; then
-      # single project file
+	  echo "Trace Line 125 ($DOTNET_STARTUP_PROJECT)" # single project file
       DOTNET_STARTUP_PROJECT="${DOTNET_STARTUP_PROJECT:-.}"
       if [ -n "$DOTNET_ASSEMBLY_NAME" ]; then
         APP_DLL_NAME="${DOTNET_ASSEMBLY_NAME}.dll"
@@ -278,7 +278,7 @@ if [ "$BUILD_TYPE" == "source" ]; then
   fi
   echo "---> Restoring application dependencies..."
   dotnet restore "$DOTNET_STARTUP_PROJECT" $RESTORE_OPTIONS $VERBOSITY_OPTION
-  echo "---> Publishing application..."
+  echo "---> Publishing application... ($DOTNET_PUBLISH_OPTIONS)"
   dotnet publish "$DOTNET_STARTUP_PROJECT" -f "$DOTNET_FRAMEWORK" -c "$DOTNET_CONFIGURATION" $VERBOSITY_OPTION \
          $DOTNET_PUBLISH_OPTIONS -o "$DOTNET_APP_PATH"
 else
