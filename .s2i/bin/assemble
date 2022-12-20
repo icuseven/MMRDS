@@ -73,7 +73,11 @@ fi
 
 dotnet workload install wasm-tools
 dotnet workload install wasm-experimental
-dotnet workload restore "${DOTNET_STARTUP_PROJECT}"
+
+if [[ -f /opt/app-root/src/source-code/mmria/pmss/pmss.csproj ]]
+then
+	dotnet workload restore /opt/app-root/src/source-code/mmria/pmss/pmss.csproj
+fi
 
 if [ "$DEV_MODE" == true ]; then
   BUILD_TYPE=source
