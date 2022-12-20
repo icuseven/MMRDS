@@ -74,9 +74,10 @@ fi
 dotnet workload install wasm-tools
 dotnet workload install wasm-experimental
 
-if [[ -f /opt/app-root/src/source-code/mmria/pmss/pmss.csproj ]]
+if [[ -f "/opt/app-root/src/source-code/mmria/pmss/pmss.csproj" ]]
 then
 	dotnet workload restore /opt/app-root/src/source-code/mmria/pmss/pmss.csproj
+	echo "workload restore on pmss.csproj"
 fi
 
 if [ "$DEV_MODE" == true ]; then
