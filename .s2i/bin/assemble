@@ -79,7 +79,7 @@ then
 	dotnet workload restore /opt/app-root/src/source-code/mmria/pmss/pmss.csproj
 	echo "workload restore on pmss.csproj"
 fi
-
+echo "Trace Line 82"
 if [ "$DEV_MODE" == true ]; then
   BUILD_TYPE=source
 else
@@ -112,7 +112,7 @@ else
       fi
     fi
   fi
-
+echo "Trace Line 115"
   if [ -n "${DOTNET_STARTUP_ASSEMBLY}" ]; then
     # binary build
     BUILD_TYPE=binary
@@ -153,7 +153,7 @@ else
     fi
   fi
 fi
-
+echo "Trace Line 156"
 DOTNET_CONFIGFILE_OPTION=""
 if [ -f "${DOTNET_RESTORE_CONFIGFILE}" ]; then
   # We don't support 'DOTNET_RESTORE_CONFIGFILE' and 'DOTNET_RESTORE_SOURCES' being used together.
@@ -166,7 +166,7 @@ elif [ -n "${DOTNET_RESTORE_CONFIGFILE}" ]; then
   echo "The DOTNET_RESTORE_CONFIGFILE '${DOTNET_RESTORE_CONFIGFILE}' does not exist."
   exit 1
 fi
-
+echo "Trace Line 169"
 if [ "$BUILD_TYPE" == "source" ]; then
   echo "Using SDK: $(dotnet --version)"
 
@@ -194,7 +194,7 @@ if [ "$BUILD_TYPE" == "source" ]; then
     npm install ${DOTNET_NPM_TOOLS}
     popd
   fi
-
+echo "Trace Line 197"
   # dotnet tools
   if [ -n "${DOTNET_TOOLS}" ]; then
     # Build nuget sources list for when doing the restore
@@ -234,14 +234,14 @@ EOF
     done
   fi
 fi
-
+echo "Trace Line 237"
 if [ "$DEV_MODE" == true ]; then
   # fix permissions
   fix-permissions /opt/app-root
 
   exit 0
 fi
-
+echo "Trace Line 244"
 if [ "$BUILD_TYPE" == "source" ]; then
   # User settable environment
   DOTNET_CONFIGURATION="${DOTNET_CONFIGURATION:-Release}"
@@ -291,13 +291,13 @@ if [ ! -f "$DOTNET_APP_PATH/${APP_DLL_NAME}" ]; then
   echo "error: Build output does not contain entrypoint assembly: ${APP_DLL_NAME}"
   exit 1
 fi
-
+echo "Trace Line 294"
 
 cat >/opt/app-root/app/secrets.json <<EOF
 {}
 EOF
 
-
+echo "Trace Line 300"
 
 
 # Create run script in publish folder
@@ -313,7 +313,7 @@ if [ "$DOTNET_PACK" == "true" ]; then
   fix-permissions $DOTNET_APP_PATH
   tar -czf /opt/app-root/app.tar.gz -C $DOTNET_APP_PATH .
 fi
-
+echo "Trace Line 316"
 # cleanup NuGet artifacts
 DOTNET_INCREMENTAL="${DOTNET_INCREMENTAL:-false}"
 if [ "$DOTNET_INCREMENTAL" == "true" ]; then
@@ -321,7 +321,7 @@ if [ "$DOTNET_INCREMENTAL" == "true" ]; then
   find /opt/app-root/.nuget/packages -type f -maxdepth 3 -name '*.nupkg' -exec mv -t /opt/app-root/packages-for-incremental-build {} \+
 fi
 rm -rf /opt/app-root/{.nuget,.local}
-
+echo "Trace Line 324"
 if [ "$DOTNET_RM_SRC" == "true" ]; then
   echo "---> Removing sources..."
   rm -rf /opt/app-root/src/*
