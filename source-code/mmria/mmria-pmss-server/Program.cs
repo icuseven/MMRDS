@@ -63,7 +63,7 @@ namespace mmria_pmss_server
                     });
             app.MapGet("/hello", () => Results.Ok(new Message() {  Text = "Hello World!" }))
                 .Produces<Message>();
-            app.Run("http://localhost:5000");
+            app.Run("http://localhost:8080");
         }
 
     }
