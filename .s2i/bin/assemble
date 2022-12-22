@@ -284,7 +284,7 @@ if [ "$BUILD_TYPE" == "source" ]; then
 		echo "publish mmria-pmss-client"
 		dotnet publish "source-code/mmria/mmria-pmss-client/mmria-pmss-client.csproj" -c Release
 	
-		mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/publish/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
+		mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
 	
 	fi
   
