@@ -311,11 +311,11 @@ if [ "$BUILD_TYPE" == "source" ]; then
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish
-		mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot
+		#mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot
 		
 		echo "made directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
-		mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
-	
+		#mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
+		mv /opt/app-root/app/wwwroot /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish
 	fi 
 		 
 else
