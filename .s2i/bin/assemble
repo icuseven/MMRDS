@@ -242,6 +242,20 @@ if [ "$DEV_MODE" == true ]; then
   exit 0
 fi
 echo "Trace Line 244"
+recurse() {
+ for i in "$1"/*;do
+    if [ -d "$i" ];then
+        echo "dir: $i"
+        recurse "$i"
+    elif [ -f "$i" ]; then
+        echo "file: $i"
+    fi
+ done
+}
+
+
+
+
 if [ "$BUILD_TYPE" == "source" ]; then
   # User settable environment
   DOTNET_CONFIGURATION="${DOTNET_CONFIGURATION:-Release}"
@@ -290,6 +304,8 @@ if [ "$BUILD_TYPE" == "source" ]; then
 	
 		echo "before make directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
 		#mkdir /opt/app-root/app/bin
+		recurse /opt/app-root/app 
+		
 		mkdir /opt/app-root/app/bin
 		mkdir /opt/app-root/app/bin/Release
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1
