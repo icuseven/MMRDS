@@ -21,7 +21,7 @@ namespace mmria_pmss_server
             provider.Mappings[".css"] = "text/css";
 
 
-            if(app.Environment.IsDevelopment())
+            /*if(app.Environment.IsDevelopment())
             {
                 var static_content_location = Path.Combine
                             (
@@ -51,9 +51,9 @@ namespace mmria_pmss_server
                 );
             }
             else
-            {
+            {*/
                 app.UseStaticFiles();
-            }
+            //}
 
 
 
