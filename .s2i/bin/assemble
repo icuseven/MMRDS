@@ -278,13 +278,19 @@ if [ "$BUILD_TYPE" == "source" ]; then
   fi
   echo "---> Restoring application dependencies..."
   dotnet restore "$DOTNET_STARTUP_PROJECT" $RESTORE_OPTIONS $VERBOSITY_OPTION
-  
+    
+  echo "---> Publishing application... ($DOTNET_STARTUP_PROJECT) ($DOTNET_FRAMEWORK) ($DOTNET_PUBLISH_OPTIONS)($DOTNET_CONFIGURATION) ($DOTNET_APP_PATH)($VERBOSITY_OPTION)"
+  dotnet publish "$DOTNET_STARTUP_PROJECT" -f "$DOTNET_FRAMEWORK" -c "$DOTNET_CONFIGURATION" $VERBOSITY_OPTION \
+         $DOTNET_PUBLISH_OPTIONS -o "$DOTNET_APP_PATH"
+		 
 	if [ "$DOTNET_STARTUP_PROJECT" = "source-code/mmria/mmria-pmss-server/mmria-pmss-server.csproj" ]
 	then
 		echo "publish mmria-pmss-client"
 		dotnet publish "source-code/mmria/mmria-pmss-client/mmria-pmss-client.csproj" -c Release
 	
 		echo "before make directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
+		#mkdir /opt/app-root/app/bin
+		#mkdir /opt/app-root/app/bin
 		mkdir /opt/app-root/app/bin/Release
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm
@@ -294,11 +300,8 @@ if [ "$BUILD_TYPE" == "source" ]; then
 		echo "made directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
 		mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
 	
-	fi
-  
-  echo "---> Publishing application... ($DOTNET_STARTUP_PROJECT) ($DOTNET_FRAMEWORK) ($DOTNET_PUBLISH_OPTIONS)($DOTNET_CONFIGURATION) ($DOTNET_APP_PATH)($VERBOSITY_OPTION)"
-  dotnet publish "$DOTNET_STARTUP_PROJECT" -f "$DOTNET_FRAMEWORK" -c "$DOTNET_CONFIGURATION" $VERBOSITY_OPTION \
-         $DOTNET_PUBLISH_OPTIONS -o "$DOTNET_APP_PATH"
+	fi 
+		 
 else
   # binary build: move pre-compiled application
   mv ./* "$DOTNET_APP_PATH"
