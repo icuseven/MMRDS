@@ -290,7 +290,7 @@ if [ "$BUILD_TYPE" == "source" ]; then
 	
 		echo "before make directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
 		#mkdir /opt/app-root/app/bin
-		#mkdir /opt/app-root/app/bin
+		mkdir /opt/app-root/app/bin
 		mkdir /opt/app-root/app/bin/Release
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1
 		mkdir /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm
