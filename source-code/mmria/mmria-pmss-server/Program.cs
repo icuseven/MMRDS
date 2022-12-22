@@ -21,39 +21,34 @@ namespace mmria_pmss_server
             provider.Mappings[".css"] = "text/css";
 
 
-            /*if(app.Environment.IsDevelopment())
-            {
-                var static_content_location = Path.Combine
-                            (
-                                Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
-                            "bin",
-                            "Release",
-                            "netstandard2.1",
-                            "browser-wasm",
-                            "publish",
-                            "wwwroot"
-                            );
 
-                app.UseStaticFiles
-                (
-                    
-                    new StaticFileOptions
-                {
-                    
-                        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider
+            var static_content_location = Path.Combine
                         (
-                            static_content_location
-                            //Path.Combine("..", "mmria-pmss-client","wwwroot")
-                        ),
-                        RequestPath = "",
-                        ContentTypeProvider = provider
-                    }
-                );
-            }
-            else
-            {*/
-                app.UseStaticFiles();
-            //}
+                            Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+                        "bin",
+                        "Release",
+                        "netstandard2.1",
+                        "browser-wasm",
+                        "publish",
+                        "wwwroot"
+                        );
+
+            app.UseStaticFiles
+            (
+                
+                new StaticFileOptions
+            {
+                
+                    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider
+                    (
+                        static_content_location
+                        //Path.Combine("..", "mmria-pmss-client","wwwroot")
+                    ),
+                    RequestPath = "",
+                    ContentTypeProvider = provider
+                }
+            );
+
 
 
 
