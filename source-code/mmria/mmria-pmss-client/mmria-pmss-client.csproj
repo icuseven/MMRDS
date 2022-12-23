@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <LangVersion>11</LangVersion>
     <UseBlazorWebAssembly>true</UseBlazorWebAssembly>
     <RazorLangVersion>3.0</RazorLangVersion>
   </PropertyGroup>
