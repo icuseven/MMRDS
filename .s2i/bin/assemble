@@ -71,14 +71,14 @@ if [ -d /tmp/src ]; then
   mv /tmp/src/* ./
 fi
 
-dotnet workload install wasm-tools
-dotnet workload install wasm-experimental
+#dotnet workload install wasm-tools
+#dotnet workload install wasm-experimental
 
-if [[ -f "/opt/app-root/src/source-code/mmria/pmss/pmss.csproj" ]]
-then
-	dotnet workload restore /opt/app-root/src/source-code/mmria/pmss/pmss.csproj
-	echo "workload restore on pmss.csproj"
-fi
+#if [[ -f "/opt/app-root/src/source-code/mm#ria/pmss/pmss.csproj" ]]
+#then
+#	dotnet workload restore /opt/app-root/src/source-code/mmria/pmss/pmss.csproj
+#	echo "workload restore on pmss.csproj"
+#fi
 echo "Trace Line 82"
 if [ "$DEV_MODE" == true ]; then
   BUILD_TYPE=source
