@@ -89,9 +89,9 @@ function render_data_analyst_dictionary_link
 }
 
 
-function on_dictionary_lookup_click(p_path)
+async function on_dictionary_lookup_click(p_path)
 {
-    $mmria.data_dictionary_dialog_show
+    await $mmria.data_dictionary_dialog_show
     (
         "Dictionary Look Up",
         p_path,

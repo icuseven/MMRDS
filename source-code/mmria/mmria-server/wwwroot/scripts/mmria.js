@@ -1339,7 +1339,8 @@ var $mmria = function()
 
                 element.style.maxWidth = "1024px";
                 element.style.transform = "translateY(0%)";
-                element.style.maxHeight = "800px";
+                element.style.maxHeight = "600px";
+                element.style.overflow = "hidden";
     
                 let html = [];
                 html.push(`
@@ -1347,15 +1348,18 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
-                        <div class="modal-body" style="overflow-y: scroll">
+                    <div id="mmria_dialog" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
                             <p><strong>${p_header}</strong></p>
                             ${p_inner_html}
                             ${text}
                         </div>
-                        <footer class="modal-footer">
-                            <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">OK</button>
-                        </footer>
+
+                    </div>
+                    <div>
+                    <footer class="modal-footer">
+                        <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">Close</button>
+                    </footer>
                     </div>
                 `);
     
