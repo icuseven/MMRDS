@@ -216,54 +216,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			if(p_path != p_search_text)
 			{
                 return;
-				let is_search_match = false;
-				let search_array = p_search_text.trim().split(" ");
-				
-				for(let i = 0; i < search_array.length; i++)
-				{
-					let search_term = search_array[i].toLowerCase().trim();
-					
-					if
-					(
-						search_term == null || 
-						search_term == ""
-					)
-					{
-						continue;
-                    }
-
-
-					for(let j = 0; j < p_metadata.tags.length; j++)
-					{
-						let check_item = p_metadata.tags[j].toLowerCase();
-
-                        if
-                        (
-                            check_item.indexOf(search_term) > -1
-
-                        )
-						{
-							is_search_match = true;
-							break;
-						}
-					}	
-				}
-				
-				if
-				(
-					!is_search_match && 
-					!(
-						p_metadata.name.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
-						p_metadata.prompt.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
-                        (p_metadata.sass_export_name!= null && p_metadata.sass_export_name.toLowerCase().indexOf(p_search_text.trim()) > -1) ||
-                        (file_name!=null && file_name.indexOf(p_search_text.trim()) > -1) ||
-						(field_name!=null && field_name.indexOf(p_search_text.trim()) > -1)
-					)
-				
-				)
-				{
-					return;
-				}
 			}
 
 			let form_name = "(none)";
@@ -359,34 +311,11 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				 form_name == '(none)' ||
 				 form_name.indexOf('blank') !== -1 ||
 				 form_name == '(blank)'
-			) {
+			) 
+            {
 				return;
 			}
 
-			// Adding a header per section
-			if (last_form !== form_name) {
-				last_form = form_name;
-				p_result.push(`
-					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
-							<th class="th" colspan="7" scope="colgroup">
-								${form_name}
-							</th>
-						</tr>
-					</thead>
-					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
-							<th class="th" width="140" scope="col">MMRIA Form</th>
-							<th class="th" width="140" scope="col">Export File Name</th>
-							<th class="th" width="120" scope="col">Export Field</th>
-							<th class="th" width="180" scope="col">Prompt</th>
-							<th class="th" width="380" scope="col">Description</th>
-							<th class="th" width="260" scope="col">Path</th>
-							<th class="th" width="110" scope="col">Data Type</th>
-						</tr>
-					</thead>
-				`);
-			}
 
 			p_result.push(`
 				<tr class="tr">
