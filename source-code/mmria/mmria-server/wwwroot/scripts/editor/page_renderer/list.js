@@ -71,6 +71,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                ${style_object && style_object.prompt ? `style="${get_style_string(style_object.prompt.style)}"` : ``}
                ${p_metadata.description && p_metadata.description.length > 0 ? `rel="tooltip" data-original-title="${p_metadata.description.replace(/'/g, "&#39;")}"` : ``}>
             ${p_metadata.prompt}
+            ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                (
+                    p_metadata, 
+                    p_dictionary_path
+                ) : ""}
         </label>
     `);
 
