@@ -1117,6 +1117,261 @@ var $mmria = function()
             }
 
             return result;
+        },
+        data_dictionary_dialog_show: async function (p_title, p_header, p_inner_html)
+        {
+
+            let text = `
+            <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
+            <tr class="tr bg-gray-l1 font-weight-bold">
+	<th class="th" width="140" scope="col">MMRIA Form</th>
+	<th class="th" width="140" scope="col">Export File Name</th>
+	<th class="th" width="120" scope="col">Export Field</th>
+	<th class="th" width="180" scope="col">Prompt</th>
+	<th class="th" width="380" scope="col">Description</th>
+	<th class="th" width="260" scope="col">Path</th>
+	<th class="th" width="110" scope="col">Data Type</th>
+</tr>
+
+<tr class="tr">
+	<td class="td" width="140">Home Record</td>
+	<td class="td" width="140">mmria_case_export.csv</td>
+	<td class="td" width="120">hr_f_name</td>
+	<td class="td" width="180">First Name</td>
+	<td class="td" width="380">First Name</td>
+	<td class="td" width="260">/home_record/first_name</td>
+	<td class="td" width="110">string</td>
+</tr>
+
+<tr class="tr">
+<td class="td" width="140"></td>
+<td class="td p-0" colspan="5">
+<table class="table table--standard rounded-0 m-0">
+    <thead class="thead">
+        <tr class="tr bg-gray-l2">
+            <th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
+        </tr>
+    </thead>
+    <thead class="thead">
+        <tr class="tr bg-gray-l2">
+            <th class="th" width="140" scope="col">Value</th>
+            <th class="th" width="680" scope="col">Display</th>
+            <th class="th" width="260" scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody class="tbody">	
+
+        <tr class="tr">
+            <td class="td" width="140">9999</td>
+            <td class="td" width="680">(blank)</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">1</td>
+            <td class="td" width="680">1</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">2</td>
+            <td class="td" width="680">2</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">3</td>
+            <td class="td" width="680">3</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">4</td>
+            <td class="td" width="680">4</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">5</td>
+            <td class="td" width="680">5</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">6</td>
+            <td class="td" width="680">6</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">7</td>
+            <td class="td" width="680">7</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">8</td>
+            <td class="td" width="680">8</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">9</td>
+            <td class="td" width="680">9</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">10</td>
+            <td class="td" width="680">10</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">11</td>
+            <td class="td" width="680">11</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+            <td class="td" width="140">12</td>
+            <td class="td" width="680">12</td>
+            <td class="td" width="260"></td>
+        </tr>
+
+        <tr class="tr">
+        <td class="td" width="140">9999</td>
+        <td class="td" width="680">(blank)</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">1</td>
+        <td class="td" width="680">1</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">2</td>
+        <td class="td" width="680">2</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">3</td>
+        <td class="td" width="680">3</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">4</td>
+        <td class="td" width="680">4</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">5</td>
+        <td class="td" width="680">5</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">6</td>
+        <td class="td" width="680">6</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">7</td>
+        <td class="td" width="680">7</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">8</td>
+        <td class="td" width="680">8</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">9</td>
+        <td class="td" width="680">9</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">10</td>
+        <td class="td" width="680">10</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">11</td>
+        <td class="td" width="680">11</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    <tr class="tr">
+        <td class="td" width="140">12</td>
+        <td class="td" width="680">12</td>
+        <td class="td" width="260"></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+<td class="td" colspan="2"></td>
+
+</table>
+            `;
+
+
+            let element = document.getElementById("dictionary-lookup-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "dictionary-lookup-id");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.maxWidth = "1024px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "800px";
+    
+                let html = [];
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body" style="overflow-y: scroll">
+                            <p><strong>${p_header}</strong></p>
+                            ${p_inner_html}
+                            ${text}
+                        </div>
+                        <footer class="modal-footer">
+                            <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">OK</button>
+                        </footer>
+                    </div>
+                `);
+    
+                // html.push(`<h3 class="mt-0">${p_title}</h3>`);
+                // html.push(`<p><strong>${p_header}</p>`);
+                // html.push(`${p_inner_html}`);
+                // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">OK</button>');
+                
+                element.innerHTML = html.join("");
+    
+                element.showModal();
+        },
+        data_dictionary_dialog_click: function ()
+        {
+            let el = document.getElementById("dictionary-lookup-id");
+            el.close();
         }
     };
 

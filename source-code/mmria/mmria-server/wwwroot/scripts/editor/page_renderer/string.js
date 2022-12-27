@@ -91,7 +91,7 @@ function render_data_analyst_dictionary_link
 
 function on_dictionary_lookup_click(p_path)
 {
-    $mmria.info_dialog_show
+    $mmria.data_dictionary_dialog_show
     (
         "Dictionary Look Up",
         p_path,
