@@ -1120,6 +1120,7 @@ var $mmria = function()
         },
         data_dictionary_dialog_show: async function (p_title, p_inner_html)
         {
+
             let element = document.getElementById("dictionary-lookup-id");
                 if(element == null)
                 {
@@ -1145,6 +1146,15 @@ var $mmria = function()
                     <div id="mmria_dialog" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                             <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
+                                <tr class="tr bg-gray-l1 font-weight-bold">
+                                    <th class="th" width="140" scope="col">MMRIA Form</th>
+                                    <th class="th" width="140" scope="col">Export File Name</th>
+                                    <th class="th" width="120" scope="col">Export Field</th>
+                                    <th class="th" width="180" scope="col">Prompt</th>
+                                    <th class="th" width="380" scope="col">Description</th>
+                                    <th class="th" width="260" scope="col">Path</th>
+                                    <th class="th" width="110" scope="col">Data Type</th>
+                                </tr>
                                 ${p_inner_html}
                             </table>
                         </div>
