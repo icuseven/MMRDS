@@ -151,8 +151,11 @@ function navigation_render(p_metadata, p_level, p_ui)
 
 
                 result.push('<button class="anti-btn fancy-form-icon 24 fill-p cdc-icon-search-solid" type="submit"><span class="sr-only">Click to search</span></button>');
+
               result.push('</div>');
             result.push('</div>');
+            result.push('<br/><br/>');
+            result.push(render_conversion_calculator_button(result));
           result.push('</li>');
 
         }
@@ -179,4 +182,22 @@ function updateUrlFromSelectValue(event, val)
 
   // scroll to top of page regardless of form change
   document.body.scrollTop = document.documentElement.scrollTop = 0;
+}
+
+
+function render_conversion_calculator_button(p_result)
+{
+
+
+    p_result.push(
+        `
+        <input 
+            type="button" 
+            class="btn btn-primary ml-3" 
+            value="Conversion Calculator" 
+            onclick="$mmria.converter_calculater_dialog_show()"
+        >
+
+        `
+    );
 }

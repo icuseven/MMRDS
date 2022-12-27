@@ -1167,11 +1167,6 @@ var $mmria = function()
                     </div>
                 `);
     
-                // html.push(`<h3 class="mt-0">${p_title}</h3>`);
-                // html.push(`<p><strong>${p_header}</p>`);
-                // html.push(`${p_inner_html}`);
-                // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">OK</button>');
-                
                 element.innerHTML = html.join("");
     
                 element.showModal();
@@ -1180,7 +1175,71 @@ var $mmria = function()
         {
             let el = document.getElementById("dictionary-lookup-id");
             el.close();
+        },
+
+        converter_calculater_dialog_show: async function ()
+        {
+
+            let element = document.getElementById("converter-calculater-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "converter-calculater-id");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.maxWidth = "324px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "600px";
+                element.style.overflow = "hidden";
+                element.style.top = "775px"
+                element.style.left = "-950px";
+                element.style.float = "left";
+    
+                let html = [];
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">Converstion Calculator</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog" style="overflow-y: scroll;width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                            <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
+                                <tr class="tr bg-gray-l1 font-weight-bold">
+                                    <th class="th" width="140" scope="col">MMRIA Form</th>
+                                    <th class="th" width="140" scope="col">Export File Name</th>
+                                    <th class="th" width="120" scope="col">Export Field</th>
+                                    <th class="th" width="180" scope="col">Prompt</th>
+                                    <th class="th" width="380" scope="col">Description</th>
+                                    <th class="th" width="260" scope="col">Path</th>
+                                    <th class="th" width="110" scope="col">Data Type</th>
+                                </tr>
+                                $ {p_inner_html }
+                            </table>
+                        </div>
+
+                    </div>
+                    <div>
+                    <footer class="modal-footer">
+                        <button class="btn btn-primary mr-1" onclick="$mmria.converter_calculater_dialog_click()">Close</button>
+                    </footer>
+                    </div>
+                `);
+    
+                element.innerHTML = html.join("");
+    
+                element.show();
+        },
+        converter_calculater_dialog_click: function ()
+        {
+            let el = document.getElementById("converter-calculater-id");
+            el.close();
         }
+
+
     };
 
 }();
