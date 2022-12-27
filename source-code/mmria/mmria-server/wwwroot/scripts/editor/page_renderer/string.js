@@ -81,7 +81,8 @@ function render_data_analyst_dictionary_link
     return `
 <a 
 	class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
-	title="Dictionary look up for ${p_metadata.prompt} path: ${p_dictionary_path}."
+    data-toggle="tooltip" 
+    data-placement="bottom"
     onclick="on_dictionary_lookup_click('${p_dictionary_path}')" >
 </a>
 `;
