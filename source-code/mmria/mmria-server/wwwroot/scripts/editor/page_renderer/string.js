@@ -45,9 +45,23 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
                    ${pDescription && pDescription.length > 0 ? `rel="tooltip" data-original-title="${pDescription.replace(/'/g, "\\'")}"` : ''}
                    ${pValidationDescript && pValidationDescript.length > 0 ? `validation-tooltip="${p_validation_description.replace(/'/g, "\\'")}"` : ''}>
                 ${p_metadata.prompt}
+                ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                    (
+                        p_metadata, 
+                        p_object_path
+                    ) : ""}
             </label>
         `);
-
+/*
+    p_result.push
+    (
+        render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            convert_object_path_to_jquery_id(p_object_path),
+            p_object_path
+        )
+    );*/
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
 
@@ -55,4 +69,33 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         
     p_result.push(`</div>`);
     
+}
+
+
+function render_data_analyst_dictionary_link
+(
+    p_metadata,
+    p_object_path
+)
+{
+    return `
+<a 
+	class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
+	title="Dictionary look up for ${p_metadata.prompt} path: ${p_object_path}."
+    onclick="on_dictionary_lookup_click('${p_object_path}')" >
+</a>
+`;
+
+}
+
+
+function on_dictionary_lookup_click(p_path)
+{
+    $mmria.info_dialog_show
+    (
+        "Dictionary Look Up",
+        p_path,
+
+        `<p>Dictionary look up for path: <b>${p_path}</b>.</p>`
+    );
 }
