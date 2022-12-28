@@ -1188,7 +1188,7 @@ var $mmria = function()
             
                     "toolbar=no,scrollbars=no,location=no,statusbar=no," +
             
-                    "menubar=no,resizable=0,width=454,height=800," +
+                    "menubar=no,resizable=0,width=500,height=900," +
             
                     "left=490,top=300"
             
