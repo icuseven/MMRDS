@@ -101,6 +101,10 @@ function convert_clicked()
         )
     )
     {
+
+        if(cm_input.value < 1) cm_input.value = 1.00;
+        if(cm_input.value > 1) cm_input.value = 1000.00;
+
         in_input.value = cm_to_in(cm_input.value).toFixed(2);
     }
     else if
@@ -113,6 +117,9 @@ function convert_clicked()
         )
     )
     {
+        if(in_input.value < 1) in_input.value = 1.00;
+        if(in_input.value > 1) in_input.value = 1000.00;
+
         cm_input.value = in_to_cm(in_input.value).toFixed(2);
     }
 
@@ -126,6 +133,9 @@ function convert_clicked()
         )
     )
     {
+        if(m_input.value < 1) m_input.value = 1.00;
+        if(m_input.value > 1) m_input.value = 1000.00;
+
         ft_input.value = m_to_ft(m_input.value).toFixed(2);
     }
     else if
@@ -138,7 +148,10 @@ function convert_clicked()
         )
     )
     {
-        m_input.value = ft_to_m(f_input.value).toFixed(2);
+        if(ft_input.value < 1) ft_input.value = 1.00;
+        if(ft_input.value > 1) ft_input.value = 1000.00;
+
+        m_input.value = ft_to_m(ft_input.value).toFixed(2);
     }
 
     if
@@ -151,6 +164,9 @@ function convert_clicked()
         )
     )
     {
+        if(lbs_input.value < 1) lbs_input.value = 1.00;
+        if(lbs_input.value > 1) lbs_input.value = 1000.00;
+
         kg_input.value = lbs_to_kg(lbs_input.value).toFixed(2);
     }
     else if
@@ -163,6 +179,9 @@ function convert_clicked()
         )
     )
     {
+        if(kg_input.value < 1) kg_input.value = 1.00;
+        if(kg_input.value > 1) kg_input.value = 1000.00;
+
         lbs_input.value = kg_to_lbs(kg_input.value).toFixed(2);
     }
 
@@ -176,6 +195,9 @@ function convert_clicked()
         )
     )
     {
+        if(oz_input.value < 1) oz_input.value = 1.00;
+        if(oz_input.value > 1) oz_input.value = 1000.00;
+
         g_input.value = oz_to_g(oz_input.value).toFixed(2);
     }
     else if
@@ -188,6 +210,9 @@ function convert_clicked()
         )
     )
     {
+        if(g_input.value < 1) g_input.value = 1.00;
+        if(g_input.value > 1) g_input.value = 1000.00;
+
         oz_input.value = g_to_oz(g_input.value).toFixed(2);
     }
 
@@ -201,7 +226,10 @@ function convert_clicked()
         )
     )
     {
-        c_input.value = f_to_c(f.value).toFixed(2);
+        if(f_input.value < 1) f_input.value = 1.00;
+        if(f_input.value > 1) f_input.value = 1000.00;
+
+        c_input.value = f_to_c(f_input.value).toFixed(2);
     }
     else if
     (
@@ -213,6 +241,9 @@ function convert_clicked()
         )
     )
     {
+        if(c_input.value < 1) c_input.value = 1.00;
+        if(c_input.value > 1) c_input.value = 1000.00;
+
         f_input.value = c_to_f(c_input.value).toFixed(2);
     }
     
@@ -222,14 +253,10 @@ function convert_clicked()
 function cm_to_in(p_value)
 {
     return p_value  * 0.3937007874;
-    //cm_input.value = "";
-    //in_input.value = "";
 }
 function in_to_cm(p_value)
 {
     return p_value * 2.54;
-    //cm_input.value = "";
-    //in_input.value = "";
 }
 
 
@@ -237,14 +264,10 @@ function in_to_cm(p_value)
 function m_to_ft(p_value)
 {
     return p_value * 3.28084;
-    // m_input.value = "";
-    //ft_input.value = "";
 }
 function ft_to_m(p_value)
 {
     return p_value * 0.3048;
-    //m_input.value = "";
-    //ft_input.value = "";
 }
 
 
@@ -252,33 +275,20 @@ function ft_to_m(p_value)
 function lbs_to_kg(p_value)
 {
     return p_value * 0.4535924;
-    //lbs_input.value = "";
-    //kg_input.value = "";
 }
 function kg_to_lbs(p_value)
 {
     return p_value * 2.204623;
-    //lbs_input.value = "";
-    //kg_input.value = "";
 }
-
-
-
 
 
 function oz_to_g(p_value)
 {
     return p_value * 28.34952;
-    //oz_input.value = "";
-    //g_input.value = "";
-
 }
 function g_to_oz(p_value)
 {
     return p_value * 0.03527396;
-    //oz_input.value = "";
-    //g_input.value = "";
-
 }
 
 
@@ -286,12 +296,8 @@ function g_to_oz(p_value)
 function f_to_c(p_value)
 {
     return (p_value - 32) / 1.8000
-    //f_input.value = "";
-    //c_input.value = "";
 }
 function c_to_f(p_value)
 {
     return p_value * 1.8000 + 32
-    //f_input.value = "";
-    //c_input.value = ""; 
 }
