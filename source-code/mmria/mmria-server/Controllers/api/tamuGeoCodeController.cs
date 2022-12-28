@@ -31,7 +31,7 @@ public sealed class tamuGeoCodeController: ControllerBase
     [HttpGet]
     public async Task<mmria.common.texas_am.geocode_response> Get
     (
-        string street_address,
+        string streetAddress,
         string city,
         string state,
         string zip
@@ -43,7 +43,7 @@ public sealed class tamuGeoCodeController: ControllerBase
             string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
             //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
 
-            string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={street_address}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
+            string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={streetAddress}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
 
             var curl = new mmria.getset.cURL("GET", null, request_string, null);
             try
