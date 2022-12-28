@@ -1179,6 +1179,30 @@ var $mmria = function()
 
         converter_calculater_dialog_show: async function ()
         {
+            
+            let popUpObj=window.open
+                (
+                    "conversion-calculator",
+            
+                    "ConversionCalculator",
+            
+                    "toolbar=no,scrollbars=no,location=no,statusbar=no," +
+            
+                    "menubar=no,resizable=0,width=454,height=800," +
+            
+                    "left=490,top=300"
+            
+                );
+            
+            window.setTimeout(()=> { popUpObj.focus(); }, 0);
+                
+            
+                //LoadModalDiv();
+        
+            
+
+/*
+
 
             let element = document.getElementById("converter-calculater-id");
                 if(element == null)
@@ -1232,6 +1256,7 @@ var $mmria = function()
                 element.innerHTML = html.join("");
     
                 element.show();
+                */
         },
         converter_calculater_dialog_click: function ()
         {
