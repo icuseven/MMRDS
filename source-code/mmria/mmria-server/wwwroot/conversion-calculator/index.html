@@ -76,7 +76,7 @@
 }
 
 input {
-    width:55px;
+    width:75px;
 }
     
     </style>
@@ -86,26 +86,35 @@ input {
     <div id="conversion-calculator" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
         <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
-    <div id="values-limited-to-1">Values limited to 1.00 - 1000.00</div>
+    <div id="values-limited-to-1"  style="text-align:center;">Values limited to 1.00 - 1000.00</div>
+    <br/>
     <div>Height
         <div>
-            <div><input type="text" value="" /> cm &lt;--&gt; <input type="text" value="" /> in</div>
-            <div><input type="text" value="" /> m &lt;--&gt; <input type="text" value="" /> ft</div>
+            <div><input type="text" value="" /> cm &lt; - &gt; <input type="text" value="" /> in</div>
+            <br/>
+            <div><input type="text" value="" /> m &lt; - &gt; <input type="text" value="" /> ft</div>
         </div>
     </div>
 
-
+    <br/>
     <div>Weight
         <div>
-            <div><input type="text" value="" /> lbs &lt;--&gt; <input type="text" value="" /> kg</div>
-            <div><input type="text" value="" /> oz &lt;--&gt; <input type="text" value="" /> g</div>
+            <div><input type="text" value="" /> lbs &lt; - &gt; <input type="text" value="" /> kg</div>
+            <br/>
+            <div><input type="text" value="" /> oz &lt; - &gt; <input type="text" value="" /> g</div>
         </div>
     </div>
-
+    <br/>
     <div>Temperature
         <div>
-            <div><input type="text" value="" /> <sup>o</sup>F &lt;--&gt; <input type="text" value="" /> <sup>o</sup>C</div>
+            <div><input type="text" value="" /> <sup>o</sup>F &lt; - &gt; <input type="text" value="" /> <sup>o</sup>C</div>
         </div>
+    </div>
+    <br/><br/>
+    <div style="text-align:right;">
+        <input type="button" value="Reset" />
+        <input type="button" value="Convert" />
+
     </div>
 </body>
 
