@@ -79,10 +79,14 @@ input {
     width:75px;
 }
     
+div {
+    padding: 2px;
+}
+
     </style>
   </head>
 <body id="rectangle">
-
+<div>
     <div id="conversion-calculator" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
         <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
     </div>
@@ -111,11 +115,13 @@ input {
         </div>
     </div>
     <br/><br/>
-    <div style="text-align:right;">
+    <div style="text-align:right;padding-right: 8px;">
         <input type="button" value="Reset" />
-        <input type="button" value="Convert" />
+        <input class="btn-primary" type="button" value="Convert" />
 
     </div>
+
+</div>
 </body>
 
 
