@@ -76,7 +76,7 @@
 }
 
 input {
-    width:75px;
+    width:100px;
 }
     
 div {
@@ -85,7 +85,7 @@ div {
 
     </style>
   </head>
-<body id="rectangle">
+<body id="rectangle" onload="main()">
 <div>
     <div id="conversion-calculator" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
         <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
@@ -94,30 +94,30 @@ div {
     <br/>
     <div>Height
         <div>
-            <div><input type="text" value="" /> cm &lt; - &gt; <input type="text" value="" /> in</div>
+            <div><input id="cm" type="number" value="" max="1000" min="1" onchange="render_convert();" /> cm &lt; - &gt; <input id="in" type="number" value="" max="1000" min="1" onchange="render_convert();" /> in</div>
             <br/>
-            <div><input type="text" value="" /> m &lt; - &gt; <input type="text" value="" /> ft</div>
+            <div><input id="m" type="number" value="" max="1000" min="1" onchange="render_convert();" /> m &lt; - &gt; <input id="ft" type="number" value="" max="1000" min="1" onchange="render_convert();" /> ft</div>
         </div>
     </div>
 
     <br/>
     <div>Weight
         <div>
-            <div><input type="text" value="" /> lbs &lt; - &gt; <input type="text" value="" /> kg</div>
+            <div><input id="lbs" type="number" value="" max="1000" min="1" onchange="render_convert();" /> lbs &lt; - &gt; <input id="kg" type="number" value="" max="1000" min="1" onchange="render_convert();" /> kg</div>
             <br/>
-            <div><input type="text" value="" /> oz &lt; - &gt; <input type="text" value="" /> g</div>
+            <div><input id="oz" type="number" value="" max="1000" min="1" onchange="render_convert();" /> oz &lt; - &gt; <input id="g" type="number" value="" max="1000" min="1" onchange="render_convert();" /> g</div>
         </div>
     </div>
     <br/>
     <div>Temperature
         <div>
-            <div><input type="text" value="" /> <sup>o</sup>F &lt; - &gt; <input type="text" value="" /> <sup>o</sup>C</div>
+            <div><input id="f" type="number" value="" max="1000" min="1" onchange="render_convert();" /> <sup>o</sup>F &lt; - &gt; <input id="c" type="number" value="" max="1000" min="1" onchange="render_convert();" /> <sup>o</sup>C</div>
         </div>
     </div>
     <br/><br/>
     <div style="text-align:right;padding-right: 8px;">
-        <input type="button" value="Reset" />
-        <input class="btn-primary" type="button" value="Convert" />
+        <input id="reset" type="button" value="Reset" onclick="reset_clicked()"/>
+        <input id="convert" class="btn-primary" type="button" value="Convert" onclick="convert_clicked()" />
 
     </div>
 
