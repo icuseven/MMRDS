@@ -96,47 +96,47 @@ function convert_clicked()
 
     if(cm_input.value != null && cm_input.value != '')
     {
-        in_input.value = cm_to_in(cm_input.value);
+        in_input.value = cm_to_in(cm_input.value).toFixed(2);
     }
     else if(in_input.value != null && in_input.value != '')
     {
-        cm_input.value = in_to_cm(in_input.value);
+        cm_input.value = in_to_cm(in_input.value).toFixed(2);
     }
 
     if(m_input.value != null && m_input.value != '')
     {
-        ft_input.value = m_to_ft(m_input.value);
+        ft_input.value = m_to_ft(m_input.value).toFixed(2);
     }
     else if(ft_input.value != null && ft_input.value != '')
     {
-        m_input.value = ft_to_m(f_input.value);
+        m_input.value = ft_to_m(f_input.value).toFixed(2);
     }
 
     if(lbs_input.value != null && lbs_input.value != '')
     {
-        kg_input.value = lbs_to_kg(lbs_input.value);
+        kg_input.value = lbs_to_kg(lbs_input.value).toFixed(2);
     }
     else if(kg_input.value != null && kg_input.value != '')
     {
-        lbs_input.value = kg_to_lbs(kg_input.value);
+        lbs_input.value = kg_to_lbs(kg_input.value).toFixed(2);
     }
 
     if(oz_input.value != null && oz_input.value != '')
     {
-        g_input.value = oz_to_g(kg_input.value);
+        g_input.value = oz_to_g(oz_input.value).toFixed(2);
     }
     else if(g_input.value != null && g_input.value != '')
     {
-        oz_input.value = g_to_oz(g_input.value);
+        oz_input.value = g_to_oz(g_input.value).toFixed(2);
     }
 
     if(f_input.value != null && f_input.value != '')
     {
-        c_input.value = f_to_c(f.value);
+        c_input.value = f_to_c(f.value).toFixed(2);
     }
     else if(c_input.value != null && c_input.value != '')
     {
-        f_input.value = c_to_f(f_input.value);
+        f_input.value = c_to_f(c_input.value).toFixed(2);
     }
     
     render_convert();
