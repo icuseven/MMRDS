@@ -118,7 +118,7 @@ function convert_clicked()
     )
     {
         if(in_input.value < 1) in_input.value = 1.00;
-        if(in_input.value > 1) in_input.value = 1000.00;
+        if(in_input.value > 1000) in_input.value = 1000.00;
 
         cm_input.value = in_to_cm(in_input.value).toFixed(2);
     }
@@ -134,7 +134,7 @@ function convert_clicked()
     )
     {
         if(m_input.value < 1) m_input.value = 1.00;
-        if(m_input.value > 1) m_input.value = 1000.00;
+        if(m_input.value > 1000) m_input.value = 1000.00;
 
         ft_input.value = m_to_ft(m_input.value).toFixed(2);
     }
@@ -149,7 +149,7 @@ function convert_clicked()
     )
     {
         if(ft_input.value < 1) ft_input.value = 1.00;
-        if(ft_input.value > 1) ft_input.value = 1000.00;
+        if(ft_input.value > 1000) ft_input.value = 1000.00;
 
         m_input.value = ft_to_m(ft_input.value).toFixed(2);
     }
@@ -165,7 +165,7 @@ function convert_clicked()
     )
     {
         if(lbs_input.value < 1) lbs_input.value = 1.00;
-        if(lbs_input.value > 1) lbs_input.value = 1000.00;
+        if(lbs_input.value > 1000) lbs_input.value = 1000.00;
 
         kg_input.value = lbs_to_kg(lbs_input.value).toFixed(2);
     }
@@ -180,7 +180,7 @@ function convert_clicked()
     )
     {
         if(kg_input.value < 1) kg_input.value = 1.00;
-        if(kg_input.value > 1) kg_input.value = 1000.00;
+        if(kg_input.value > 1000) kg_input.value = 1000.00;
 
         lbs_input.value = kg_to_lbs(kg_input.value).toFixed(2);
     }
@@ -196,7 +196,7 @@ function convert_clicked()
     )
     {
         if(oz_input.value < 1) oz_input.value = 1.00;
-        if(oz_input.value > 1) oz_input.value = 1000.00;
+        if(oz_input.value > 1000) oz_input.value = 1000.00;
 
         g_input.value = oz_to_g(oz_input.value).toFixed(2);
     }
@@ -211,7 +211,7 @@ function convert_clicked()
     )
     {
         if(g_input.value < 1) g_input.value = 1.00;
-        if(g_input.value > 1) g_input.value = 1000.00;
+        if(g_input.value > 1000) g_input.value = 1000.00;
 
         oz_input.value = g_to_oz(g_input.value).toFixed(2);
     }
@@ -227,7 +227,7 @@ function convert_clicked()
     )
     {
         if(f_input.value < 1) f_input.value = 1.00;
-        if(f_input.value > 1) f_input.value = 1000.00;
+        if(f_input.value > 1000) f_input.value = 1000.00;
 
         c_input.value = f_to_c(f_input.value).toFixed(2);
     }
@@ -242,7 +242,7 @@ function convert_clicked()
     )
     {
         if(c_input.value < 1) c_input.value = 1.00;
-        if(c_input.value > 1) c_input.value = 1000.00;
+        if(c_input.value > 1000) c_input.value = 1000.00;
 
         f_input.value = c_to_f(c_input.value).toFixed(2);
     }
