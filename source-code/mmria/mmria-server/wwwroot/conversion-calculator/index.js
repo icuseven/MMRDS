@@ -103,7 +103,7 @@ function convert_clicked()
     {
 
         if(cm_input.value < 1) cm_input.value = 1.00;
-        if(cm_input.value > 1) cm_input.value = 1000.00;
+        if(cm_input.value > 1000) cm_input.value = 1000.00;
 
         in_input.value = cm_to_in(cm_input.value).toFixed(2);
     }
