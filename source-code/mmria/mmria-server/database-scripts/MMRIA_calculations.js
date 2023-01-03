@@ -882,7 +882,7 @@ async function geocode_dc_last_res(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1034,7 +1034,7 @@ function geocode_dc_injury_place(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1176,7 +1176,7 @@ function  geocode_dc_death_place(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1316,7 +1316,7 @@ function geocode_bc_delivery_place(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1455,7 +1455,7 @@ function geocode_bc_residence(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1594,7 +1594,7 @@ function geocode_pc_primary_care_location(p_control)
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1734,7 +1734,7 @@ function geocode_erh_location(p_control)
     var state = this.state;
     var zip = this.zip_code;
     var current_erh_index = $global.get_current_multiform_index();
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -1874,7 +1874,7 @@ function geocode_omov_location(p_control)
     var state = this.state;
     var zip = this.zip_code;
     var current_omov_index = $global.get_current_multiform_index();
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         var urban_status = null;
         var state_county_fips = null;
@@ -2468,7 +2468,7 @@ function medical_transport_origin_information_address_get_coordinates(p_control)
     let city = this.city;
     let state = this.state;
     let zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         let urban_status = null;
         let state_county_fips = null;
@@ -2650,7 +2650,7 @@ function medical_transport_destination_information_address_get_coordinates(p_con
     let city = this.city;
     let state = this.state;
     let zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    $mmria.get_geocode_info(street, city, state, zip, g_data.home_record.date_of_death.year, function (geo_data) 
     {
         let urban_status = null;
         let state_county_fips = null;

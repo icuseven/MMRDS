@@ -34,16 +34,34 @@ public sealed class tamuGeoCodeController: ControllerBase
         string streetAddress,
         string city,
         string state,
-        string zip
+        string zip,
+        string census_year = "2020"
     ) 
     { 
 
             var result = new common.texas_am.geocode_response();
 
+            int test_year = -1; 
+            
+            var censusYear = "2020";
+
+            //"2000|2010"
+            if(int.TryParse(census_year, out test_year ))
+            {
+                censusYear = test_year switch
+                {
+                    < 2000 => "1990",
+                    < 2010 => "2000",
+                    < 2020 => "2010",
+                    _ => "2020"
+                };
+            }
+
+
             string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
             //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
 
-            string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={streetAddress}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
+            string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={streetAddress}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear={censusYear}&notStore=false&version=4.01");
 
             var curl = new mmria.getset.cURL("GET", null, request_string, null);
             try
@@ -62,7 +80,7 @@ public sealed class tamuGeoCodeController: ControllerBase
     }
 
     
-
+/*
 
     private class TAMUGeoCode
     {
@@ -73,7 +91,8 @@ public sealed class tamuGeoCodeController: ControllerBase
             string street_address,
             string city,
             string state,
-            string zip
+            string zip,
+            string census
         ) 
         { 
 
@@ -127,7 +146,7 @@ public sealed class tamuGeoCodeController: ControllerBase
 
             return result;
         } 
-    }
+    }*/
 
 } 
 
