@@ -187,7 +187,17 @@ function render_search_text_input_control(p_ctx)
                 ${
                     style_object && style_object.prompt && style_object.prompt.style && `style="${style_string}"`
                 }
-            >${p_ctx.metadata.prompt}</label>
+            >${p_ctx.metadata.prompt}
+            
+
+                ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                (
+                    p_ctx.metadata, 
+                    p_ctx.mmria_path
+                ) : ""}
+            
+            
+            </label>
         `);
 
             
@@ -397,7 +407,15 @@ function renderSearchDateControl(p_ctx)
       }
     result.push("</p>");
 
-    result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}">${p_ctx.metadata.prompt}</label>`);
+    result.push(`
+    <label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}">${p_ctx.metadata.prompt}
+    
+    ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_ctx.metadata, 
+            p_ctx.mmria_path
+        ) : ""}
+    </label>`);
 
     result.push(`<input style="${style_object && style_object.control && style_object.control.style ? control_string : ''}" id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_input" class="form-control date ${!is_valid && 'is-invalid'}" type="date" min="1900-01-01" max="2100-12-31"`);
       result.push(` data-value="${p_ctx.data}" value="${p_ctx.data}" `); 
@@ -483,7 +501,15 @@ function renderSearchDateTimeControl(p_ctx)
       }
     result.push(`</p>`);
     
-    result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}">${p_ctx.metadata.prompt}</label>`);
+    result.push
+    (`
+    <label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}">${p_ctx.metadata.prompt}
+    ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_ctx.metadata, 
+            p_ctx.mmria_path
+        ) : ""}
+    </label>`);
     
     result.push(`<div class="datetime-control row no-gutters ${!is_valid && 'is-invalid'}" style="${style_object && style_object.control && style_object.control.style ? control_string : ''}">`);
       result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_dateinput" class="form-control datetime-date form-control w-50 h-100" type="date" min="1900-01-01" max="2100-12-31"`);
@@ -638,7 +664,13 @@ function render_search_text_textarea_control(p_ctx)
               }
           p_ctx.result.push("</p>");
 
-          p_ctx.result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}" style="${get_only_size_and_font_style_string(style_object.prompt.style)}">${p_ctx.metadata.prompt}</label>`);
+          p_ctx.result.push(`<label class="row no-gutters w-auto h-auto" for="${p_ctx.mmria_path.replace(/\//g, "--")}" style="${get_only_size_and_font_style_string(style_object.prompt.style)}">${p_ctx.metadata.prompt}
+          ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+            (
+                p_ctx.metadata, 
+                p_ctx.mmria_path
+            ) : ""}
+          </label>`);
 
           p_ctx.result.push(`<textarea id="${p_ctx.mmria_path.replace(/\//g, "--")}" class="${p_ctx.mmria_path.indexOf('case_narrative') !== -1 ? 'quicksearch-rich-text-editor': ''} form-control" style="${get_only_size_and_font_style_string(style_object.control.style)}; ${p_ctx.mmria_path.indexOf('case_narrative') !== -1 ? 'height: auto': ''}" `);
 
@@ -889,6 +921,14 @@ function render_search_text_select_control(p_ctx)
                 //result.push(get_style_string(style_object.prompt.style)); 
                 p_ctx.result.push("'>");
                 p_ctx.result.push(p_ctx.metadata.prompt);
+                p_ctx.result.push
+                (`
+                    ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                    (
+                        p_ctx.metadata, 
+                        p_ctx.mmria_path
+                    ) : ""}
+                `);
                 p_ctx.result.push("</label>");
             
                 p_ctx.result.push(`<select ${is_readonly ? 'disabled' : ''} id='`);
@@ -1069,6 +1109,15 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
     }
     
     p_result.push(p_metadata.prompt);
+
+    p_result.push
+    (`
+        ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            p_dictionary_path
+        ) : ""}
+    `);
     p_result.push("</label>");
 
     p_result.push("<div style='");
@@ -1401,6 +1450,14 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
 
     p_result.push(">");
     p_result.push(p_metadata.prompt);
+    p_result.push
+    (`
+        ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            p_dictionary_path
+        ) : ""}
+    `);
     p_result.push("</legend>");
 
     let data_value_list = p_metadata.values;
@@ -1558,6 +1615,14 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         // p_result.push(">");
         // p_result.push(p_metadata.prompt);
         // p_result.push("</legend>");
+        p_result.push
+        (`
+            ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                (
+                    p_metadata, 
+                    p_dictionary_path
+                ) : ""}
+        `);
     p_result.push("</p>");
 
     let data_value_list = p_metadata.values;
