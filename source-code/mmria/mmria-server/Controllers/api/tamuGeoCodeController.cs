@@ -57,7 +57,6 @@ public sealed class tamuGeoCodeController: ControllerBase
                 };
             }
 
-
             string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
             //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
 

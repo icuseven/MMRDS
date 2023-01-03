@@ -30,6 +30,15 @@ function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push(">");
         p_result.push(p_metadata.prompt);
+
+        p_result.push
+        (`
+            ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+            (
+                p_metadata, 
+                p_dictionary_path
+            ) : ""}
+        `);
         p_result.push("</label> ");
 
         p_result.push("<div>");

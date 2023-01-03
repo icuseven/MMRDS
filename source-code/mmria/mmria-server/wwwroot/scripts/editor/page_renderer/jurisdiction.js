@@ -8,6 +8,11 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         `<label for="${convert_object_path_to_jquery_id(p_object_path)}_control"
             ${styleObject ? `style="${get_style_string(styleObject.prompt.style)}"` : ''}>
             Case Folder
+            ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                (
+                    p_metadata, 
+                    p_dictionary_path
+                ) : ""}
         </label>`
     );
 

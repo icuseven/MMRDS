@@ -312,6 +312,16 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     
 
     p_result.push(p_metadata.prompt);
+    p_result.push
+    (`
+        ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            p_dictionary_path
+        ) : ""}
+    `);
+
+
     p_result.push("</label>");
 
 
@@ -789,6 +799,14 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
 
     p_result.push(">");
     p_result.push(p_metadata.prompt);
+    p_result.push
+    (`
+        ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            p_dictionary_path
+        ) : ""}
+    `);
     p_result.push("</legend>");
 
     // Wrapper element that contains all radios
@@ -932,6 +950,14 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     p_result.push(">");
     p_result.push(p_metadata.prompt);
+    p_result.push
+    (`
+        ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+        (
+            p_metadata, 
+            p_dictionary_path
+        ) : ""}
+    `);
     p_result.push("</legend>");
 
     let data_value_list = p_metadata.values;
