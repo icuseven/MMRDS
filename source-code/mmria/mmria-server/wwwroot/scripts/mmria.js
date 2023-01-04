@@ -520,7 +520,15 @@ var $mmria = function()
 
 
         },
-        get_geocode_info: function(p_street, p_city, p_state, p_zip, p_call_back_action)
+        get_geocode_info: function
+        (
+            p_street, 
+            p_city, 
+            p_state, 
+            p_zip, 
+            p_census_year,
+            p_call_back_action
+        )
         {
             
             let request = [];
@@ -544,7 +552,9 @@ var $mmria = function()
             request.push(state);
             request.push("&zip=")
             request.push(p_zip);
-            request.push("&format=json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01");
+            request.push("&census_year=")
+            request.push(p_census_year);
+            //request.push("&format=json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01");
 
             let geocode_url = request.join("");
 
@@ -1140,7 +1150,7 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,100) : p_title}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
@@ -1162,7 +1172,7 @@ var $mmria = function()
                     </div>
                     <div>
                     <footer class="modal-footer">
-                        <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()">Close</button>
+                        <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
                     </footer>
                     </div>
                 `);
