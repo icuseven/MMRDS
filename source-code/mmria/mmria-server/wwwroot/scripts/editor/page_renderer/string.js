@@ -52,16 +52,7 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
                     ) : ""}
             </label>
         `);
-/*
-    p_result.push
-    (
-        render_data_analyst_dictionary_link
-        (
-            p_metadata, 
-            convert_object_path_to_jquery_id(p_object_path),
-            p_object_path
-        )
-    );*/
+
         page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
 
@@ -79,12 +70,12 @@ function render_data_analyst_dictionary_link
 )
 {
     return `
-<a 
-	class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
-    data-toggle="tooltip" 
-    data-placement="bottom"
-    onclick="on_dictionary_lookup_click('${p_dictionary_path}')" >
-</a>
+    <a 
+        class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
+        data-toggle="tooltip" 
+        data-placement="bottom"
+        onclick="on_dictionary_lookup_click('${p_dictionary_path}')" >
+    </a>
 `;
 
 }
