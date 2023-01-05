@@ -1189,7 +1189,7 @@ var $mmria = function()
 
         converter_calculater_dialog_show: async function ()
         {
-            
+            /*
             let popUpObj=window.open
                 (
                     "conversion-calculator",
@@ -1208,10 +1208,10 @@ var $mmria = function()
                 
             
                 //LoadModalDiv();
-        
+        */
             
 
-/*
+
 
 
             let element = document.getElementById("converter-calculater-id");
@@ -1225,6 +1225,12 @@ var $mmria = function()
                     document.firstElementChild.appendChild(element);
                 }
 
+                element.style.width = "400px";
+                element.style.transform = "translateY(0%)";
+                element.style.height = "600px";
+                element.style.overflow = "hidden";
+
+/*
                 element.style.maxWidth = "324px";
                 element.style.transform = "translateY(0%)";
                 element.style.maxHeight = "600px";
@@ -1232,6 +1238,7 @@ var $mmria = function()
                 element.style.top = "775px"
                 element.style.left = "-950px";
                 element.style.float = "left";
+                */
     
                 let html = [];
                 html.push(`
@@ -1239,34 +1246,65 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title">Converstion Calculator</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog" style="overflow-y: scroll;width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
-                            <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
-                                <tr class="tr bg-gray-l1 font-weight-bold">
-                                    <th class="th" width="140" scope="col">MMRIA Form</th>
-                                    <th class="th" width="140" scope="col">Export File Name</th>
-                                    <th class="th" width="120" scope="col">Export Field</th>
-                                    <th class="th" width="180" scope="col">Prompt</th>
-                                    <th class="th" width="380" scope="col">Description</th>
-                                    <th class="th" width="260" scope="col">Path</th>
-                                    <th class="th" width="110" scope="col">Data Type</th>
-                                </tr>
-                                $ {p_inner_html }
-                            </table>
+                                <div style="width: 377px;
+                                height: 536px;
+                                padding: 2px 2px 2px 2px;
+                                border-radius: 4px;
+                                border: 1px solid #bdbdbd;
+                                background-color: #f7f2f7;
+                                box-sizing: border-box;">
+                                <div id="values-limited-to-1"  style="text-align:center;">Numeric values limited to 1.00 - 1000.00</div>
+                                <br/>
+                                    <div style="padding:2px"><b>Height</b>
+                                        <div style="padding:2px">
+                                            <div style="padding:2px"><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> cm &lt;-- convert --&gt; <input id="cc_in" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> in</div>
+                                            <br/>
+                                            <div style="padding:2px"><input id="cc_m" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> m &lt;-- convert --&gt; <input id="cc_ft" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> ft</div>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                    <br/>
+                                    <div style="padding:2px"><b>Weight</b>
+                                        <div style="padding:2px">
+                                            <div style="padding:2px"><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> lbs &lt;-- convert --&gt; <input id="cc_kg" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> kg</div>
+                                            <br/>
+                                            <div style="padding:2px"><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> oz &lt;-- convert --&gt; <input id="cc_g" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> g</div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <br/>
+                                    <div style="padding:2px"><b>Temperature</b>
+                                        <div style="padding:2px">
+                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- convert --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
+                                        </div>
+                                    </div>
+                                    <br/><br/>
+                                    <div style="text-align:right;padding-right: 8px;">
+                                        <input id="cc_reset" type="button" value="Reset" onclick="reset_clicked()"/>
+                                        <input id="cc_convert" class="btn-primary" type="button" value="Convert" onclick="convert_clicked()" />
+                                        <br/><br/>
+                                        <div id="cc_reset_message"style="padding:2px;text-align:center;">Please click the Reset button for additional conversions.</div>
+                                    </div>
+
+                                </div>
+                        
                         </div>
 
                     </div>
-                    <div>
-                    <footer class="modal-footer">
-                        <button class="btn btn-primary mr-1" onclick="$mmria.converter_calculater_dialog_click()">Close</button>
-                    </footer>
-                    </div>
+                    <!--div>
+                        <footer class="modal-footer">
+                            <button class="btn btn-primary mr-1" onclick="$mmria.converter_calculater_dialog_click()">Close</button>
+                        </footer>
+                    </div-->
                 `);
     
                 element.innerHTML = html.join("");
     
-                element.show();
-                */
+                element.showModal();
+                
         },
         converter_calculater_dialog_click: function ()
         {
