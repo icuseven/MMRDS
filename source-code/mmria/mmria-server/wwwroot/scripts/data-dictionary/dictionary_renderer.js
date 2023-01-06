@@ -202,6 +202,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
         case "chart":
         case "label":
         case "button":
+        case "always_enabled_button":
             break;
 
 		default:
