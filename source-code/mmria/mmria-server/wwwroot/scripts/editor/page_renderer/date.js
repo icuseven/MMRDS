@@ -30,12 +30,23 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push(p_metadata.prompt);
 
+        var lookup_path = p_dictionary_path;
+
+        if
+        (
+            p_metadata.mirror_reference != null &&
+            p_metadata.mirror_reference.length > 2
+        )
+        {
+            lookup_path = "/"  + p_metadata.mirror_reference;
+        }
+
         p_result.push
         (
             `${g_is_data_analyst_mode? render_data_analyst_dictionary_link
             (
                 p_metadata, 
-                p_dictionary_path
+                lookup_path
             ) : ""}`
         );
 

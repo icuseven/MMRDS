@@ -97,7 +97,7 @@ async function on_dictionary_lookup_click(p_path)
 	
 
     const result = []
-    render_search_result(result, p_path);
+    render_search_result(result, p_path.toLowerCase());
 
     await $mmria.data_dictionary_dialog_show
     (
@@ -138,7 +138,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				{
 					let item = p_metadata.children[i];
 
-					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
 				}
 			}
 			else
@@ -149,7 +149,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					{
 						let item = p_metadata.children[i];
 
-						render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+						render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
 					}
 				}
 			}
@@ -170,11 +170,11 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 				if(form_filter.toLowerCase() == "(any form)")
 				{
-					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
 				}
 				else if(item.type.toLowerCase() == "form")
 				{
-					render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
 				}
 				
 			}
@@ -185,7 +185,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				let item = p_metadata.children[i];
-				render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
 			}
 			break;
 
