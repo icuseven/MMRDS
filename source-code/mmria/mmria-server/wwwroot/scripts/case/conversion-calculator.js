@@ -18,26 +18,45 @@ let cc_c_input = null;
 let cc_reset_input = null;
 let cc_convert_input = null;
 
+let cc_reset_message = null;
 
 function cc_main()
 {
-    console.log("here");
+    if(cc_c_input != null) return;
+    
+    cc_cm_input = document.getElementById("cc_cm");
+    cc_in_input = document.getElementById("cc_in");
+    cc_m_input = document.getElementById("cc_m");
+    cc_ft_input = document.getElementById("cc_ft");
+    cc_lbs_input = document.getElementById("cc_lbs");
+    cc_kg_input = document.getElementById("cc_kg");
+    cc_oz_input = document.getElementById("cc_oz");
+    cc_g_input = document.getElementById("cc_g");
+    cc_f_input = document.getElementById("cc_f");
+    cc_c_input = document.getElementById("cc_c");
+    cc_reset_input = document.getElementById("cc_reset");
 
+    cc_reset_message = document.getElementById("cc_reset_message");
+    cc_reset_message.style.display = "none";
 
-    cc_cm_input = document.getElementById("cm");
-    cc_in_input = document.getElementById("in");
-    cc_m_input = document.getElementById("m");
-    cc_ft_input = document.getElementById("ft");
-    cc_lbs_input = document.getElementById("lbs");
-    cc_kg_input = document.getElementById("kg");
-    cc_oz_input = document.getElementById("oz");
-    cc_g_input = document.getElementById("g");
-    cc_f_input = document.getElementById("f");
-    cc_c_input = document.getElementById("c");
-    cc_reset_input = document.getElementById("reset");
-
-    cc_convert_input= document.getElementById("convert")
+    cc_convert_input= document.getElementById("cc_convert")
     cc_convert_input.disabled = true;
+
+
+    cc_cm_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_in_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_m_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_ft_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_lbs_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_kg_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_oz_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_g_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_f_input.addEventListener("keypress",cc_only_numeric_input);
+    cc_c_input.addEventListener("keypress",cc_only_numeric_input);
+
+
+    
+    
 }
 
 
@@ -56,24 +75,35 @@ function cc_reset_clicked()
     cc_f_input.value = "";
     cc_c_input.value = "";
     
-    render_convert();
+    cc_reset_message.style.display = "none";
+
+    cc_render_convert();
 }
 
 
-function cc_render_convert()
+function cc_render_convert(p_value)
 {
     let is_able_to_convert = false;
 
-    is_able_to_convert = is_able_to_convert || (cc_cm_input.value != null && cc_cm_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_in_input.value != null && cc_in_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_m_input.value != null && cc_m_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_ft_input.value != null && cc_ft_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_lbs_input.value != null && cc_lbs_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_kg_input.value != null && cc_kg_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_oz_input.value != null && cc_oz_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_g_input.value != null && cc_g_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_f_input.value != null && cc_f_input.value != '');
-    is_able_to_convert = is_able_to_convert || (cc_c_input.value != null && cc_c_input.value != '');
+    if(p_value != null)
+    {
+        is_able_to_convert = is_able_to_convert || (p_value != null && p_value != '');
+    } 
+    else
+    {
+        is_able_to_convert = is_able_to_convert || (cc_cm_input.value != null && cc_cm_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_in_input.value != null && cc_in_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_m_input.value != null && cc_m_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_ft_input.value != null && cc_ft_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_lbs_input.value != null && cc_lbs_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_kg_input.value != null && cc_kg_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_oz_input.value != null && cc_oz_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_g_input.value != null && cc_g_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_f_input.value != null && cc_f_input.value != '');
+        is_able_to_convert = is_able_to_convert || (cc_c_input.value != null && cc_c_input.value != '');
+    }
+    
+
 
     if(is_able_to_convert)
     {
@@ -244,7 +274,11 @@ function cc_convert_clicked()
         cc_f_input.value = cc_c_to_f(cc_c_input.value).toFixed(2);
     }
     
-    render_convert();
+    cc_reset_message.style.display = "block";
+    cc_convert_input.disabled = true;
+    
+    //cc_render_convert();
+    
 }
 
 function cc_cm_to_in(p_value)
@@ -298,4 +332,21 @@ function cc_f_to_c(p_value)
 function cc_c_to_f(p_value)
 {
     return p_value * 1.8000 + 32
+}
+
+
+function cc_only_numeric_input(evt)
+{
+    if
+    (
+        (
+            evt.which < 48 || 
+            evt.which > 57
+        ) &&
+        evt.which != 46 
+    )
+    {
+        evt.preventDefault();
+    }
+    
 }
