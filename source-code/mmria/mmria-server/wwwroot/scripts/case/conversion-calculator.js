@@ -22,7 +22,7 @@ let cc_reset_message = null;
 
 function cc_main()
 {
-    if(cc_c_input != null) return;
+    //if(cc_c_input != null) return;
     
     cc_cm_input = document.getElementById("cc_cm");
     cc_in_input = document.getElementById("cc_in");
