@@ -1253,15 +1253,16 @@ var $mmria = function()
                                 padding: 2px 2px 2px 2px;
                                 border-radius: 4px;
                                 border: 1px solid #bdbdbd;
+                                font-family: 'Open Sans';
                                 background-color: #f7f2f7;
                                 box-sizing: border-box;">
                                 <div id="values-limited-to-1"  style="text-align:center;">Numeric values limited to 1.00 - 1000.00</div>
                                 <br/>
                                     <div style="padding:2px"><b>Height</b>
                                         <div style="padding:2px">
-                                            <div style="padding:2px"><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> cm &lt;-- convert --&gt; <input id="cc_in" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> in</div>
+                                            <div style="padding:2px"><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> cm &lt;-- convert --&gt; <input id="cc_in" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> in</div>
                                             <br/>
-                                            <div style="padding:2px"><input id="cc_m" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> m &lt;-- convert --&gt; <input id="cc_ft" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> ft</div>
+                                            <div style="padding:2px"><input id="cc_m" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> m &lt;-- convert --&gt; <input id="cc_ft" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> ft</div>
                                         </div>
                                     </div>
 
@@ -1269,22 +1270,22 @@ var $mmria = function()
                                     <br/>
                                     <div style="padding:2px"><b>Weight</b>
                                         <div style="padding:2px">
-                                            <div style="padding:2px"><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> lbs &lt;-- convert --&gt; <input id="cc_kg" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> kg</div>
+                                            <div style="padding:2px"><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> lbs &lt;-- convert --&gt; <input id="cc_kg" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> kg</div>
                                             <br/>
-                                            <div style="padding:2px"><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> oz &lt;-- convert --&gt; <input id="cc_g" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> g</div>
+                                            <div style="padding:2px"><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> oz &lt;-- convert --&gt; <input id="cc_g" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> g</div>
                                         </div>
                                     </div>
                                     <hr/>
                                     <br/>
                                     <div style="padding:2px"><b>Temperature</b>
                                         <div style="padding:2px">
-                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- convert --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
+                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- convert --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
                                         </div>
                                     </div>
                                     <br/><br/>
                                     <div style="text-align:right;padding-right: 8px;">
-                                        <input id="cc_reset" type="button" value="Reset" onclick="reset_clicked()"/>
-                                        <input id="cc_convert" class="btn-primary" type="button" value="Convert" onclick="convert_clicked()" />
+                                        <input id="cc_reset" type="button" value="Reset" onclick="cc_reset_clicked()"/>
+                                        <input id="cc_convert" class="btn-primary" type="button" value="Convert" onclick="cc_convert_clicked()" />
                                         <br/><br/>
                                         <div id="cc_reset_message"style="padding:2px;text-align:center;">Please click the Reset button for additional conversions.</div>
                                     </div>
@@ -1302,6 +1303,8 @@ var $mmria = function()
                 `);
     
                 element.innerHTML = html.join("");
+
+                window.setTimeout(()=> { cc_main(); }, 0);
     
                 element.showModal();
                 
