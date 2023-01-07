@@ -154,8 +154,17 @@ function navigation_render(p_metadata, p_level, p_ui)
 
               result.push('</div>');
             result.push('</div>');
-            result.push('<br/><br/>');
-            result.push(render_conversion_calculator_button(result));
+
+
+            if
+            (
+                g_is_data_analyst_mode == null ||
+                g_is_data_analyst_mode == false
+            )
+            {                
+                result.push('<br/><br/>');
+                result.push(render_conversion_calculator_button(result));
+            }
           result.push('</li>');
 
         }
