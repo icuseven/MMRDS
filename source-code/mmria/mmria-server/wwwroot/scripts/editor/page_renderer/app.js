@@ -236,7 +236,17 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                         ${!g_is_data_analyst_mode ? (
                             `<td class="td">
                                 <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
+                                
                                 <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
+
+                                ${render_pin_un_pin_button
+                                    (
+                                        item, 
+                                        is_checked_out, 
+                                        is_checked_out_expired(item.value),
+                                        delete_enabled_html
+                                    )
+                                }
                                 </td>`
                             ) : ''}
                         </tr>`
@@ -647,5 +657,27 @@ function records_per_page_change(p_value)
         g_ui.case_view_request.take = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
+    }
+}
+
+function render_pin_un_pin_button
+(
+    p_case_view_item,
+    p_is_checked_out,
+    p_is_checked_out_expired,
+    p_delete_enabled_html
+)
+{
+    if(!p_is_checked_out && p_delete_enabled_html == '')
+    {
+        return `
+        
+        <img src="../img/pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" />
+        
+        `;
+    }
+    else
+    {
+        return "";
     }
 }
