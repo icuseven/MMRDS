@@ -672,7 +672,7 @@ function render_pin_un_pin_button
     {
         return `
         
-        <img src="../img/pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" />
+        <img src="../img/pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" onclick="pin_unpin_clicked('${p_case_view_item.id}')"/>
         
         `;
     }
@@ -680,4 +680,9 @@ function render_pin_un_pin_button
     {
         return "";
     }
+}
+
+function pin_unpin_clicked(p_id)
+{
+    $mmria.pin_un_pin_dialog_show();
 }

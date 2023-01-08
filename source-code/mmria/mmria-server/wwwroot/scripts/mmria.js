@@ -1313,8 +1313,117 @@ var $mmria = function()
         {
             let el = document.getElementById("converter-calculater-id");
             el.close();
-        }
+        },
+        pin_un_pin_dialog_show: async function ()
+        {
+            /*
+            let popUpObj=window.open
+                (
+                    "conversion-calculator",
+            
+                    "ConversionCalculator",
+            
+                    "toolbar=no,scrollbars=no,location=no,statusbar=no," +
+            
+                    "menubar=no,resizable=0,width=500,height=900," +
+            
+                    "left=490,top=300"
+            
+                );
+            
+            window.setTimeout(()=> { popUpObj.focus(); }, 0);
+                
+            
+                //LoadModalDiv();
+        */
+            const Title_Text = [
+                "Pin Case Options",
+                "Unpin Case for All"
+            ];
 
+            const Button_Text = [
+                "Pin For Everyone",
+                "Pin For Me Only",
+                "Cancel",
+                "Unpin For Everyon"
+            ]
+
+
+            const Description_Text = [
+                "Would you like to pin this case for all abstractors in this jurisdiction or pin this case only on your account?",
+                "Are you sure you want to unpin this case for all users in this jurisdiction?"
+            ];
+
+
+
+
+            let element = document.getElementById("pin-unpin-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "pin-unpin-id");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.width = "430px";
+                element.style.transform = "translateY(0%)";
+/*
+                element.style.width = "400px";
+                element.style.transform = "translateY(0%)";
+                element.style.height = "600px";
+                element.style.overflow = "hidden";
+
+
+                element.style.maxWidth = "324px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "600px";
+                element.style.overflow = "hidden";
+                element.style.top = "775px"
+                element.style.left = "-950px";
+                element.style.float = "left";
+                */
+    
+                let html = [];
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.pin_un_pin_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                                <div >
+                       ${Description_Text[0]}
+                       <br/><br/>
+                                    <div style="text-align:right;padding-right: 8px;">
+                                        <input id="cc_reset" class="btn-primary" type="button" value="Pin For Everyone" />
+                                        <input id="cc_convert" class="btn-primary" type="button" value="Pin For Me Only"  />
+                                        
+            
+                                    </div>
+
+                                </div>
+                        
+                        </div>
+
+                    </div>
+
+                `);
+    
+                element.innerHTML = html.join("");
+
+                //window.setTimeout(()=> { cc_main(); }, 0);
+    
+                element.showModal();
+                
+        },
+        pin_un_pin_dialog_click: function ()
+        {
+            let el = document.getElementById("pin-unpin-id");
+            el.close();
+        }
 
     };
 
