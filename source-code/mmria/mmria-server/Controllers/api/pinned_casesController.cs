@@ -12,21 +12,25 @@ namespace mmria.server.Controllers;
 [Route("api/[controller]")]
 public sealed class pinned_casesController : ControllerBase
 {
+    [Authorize(Roles = "abstractor")]
     [HttpGet]
-    public async Task<mmria.common.metadata.Substance_Mapping> Get()
+    public async Task<mmria.common.model.couchdb.pinned_case_set> Get()
     {
-        mmria.common.metadata.Substance_Mapping result = null;
+        mmria.common.model.couchdb.pinned_case_set result = await GetPinnedCaseSet();
+
+        
+        /*
         try
         {
             string request_string = $"{Program.config_couchdb_url}/jurisdiction/penned-case-set";
             var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Substance_Mapping>(responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }
         catch (Exception ex)
         {
         Console.WriteLine(ex);
-        }
+        }*/
 
         return result;
     }
