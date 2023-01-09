@@ -104,51 +104,51 @@ public sealed class v2_10_1_CertaintyHotfix
 
 
 
-			const string certainty_code_field = "/naaccr_census_tract_certainty_code";
-			const string year_of_death_path = "/home_record/date_of_death/year";
+			const string certainty_code_field = "naaccr_census_tract_certainty_code";
+			const string year_of_death_path = "home_record/date_of_death/year";
 
 			var SingleFormSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 			{
-				"/death_certificate/place_of_last_residence/",
-				"/death_certificate/address_of_injury/",
-				"/death_certificate/address_of_death/",
-				"/birth_fetal_death_certificate_parent/facility_of_delivery_location/",
-				"/birth_fetal_death_certificate_parent/location_of_residence/",
-				"/prenatal/location_of_primary_prenatal_care_facility/"
+				"death_certificate/place_of_last_residence/",
+				"death_certificate/address_of_injury/",
+				"death_certificate/address_of_death/",
+				"birth_fetal_death_certificate_parent/facility_of_delivery_location/",
+				"birth_fetal_death_certificate_parent/location_of_residence/",
+				"prenatal/location_of_primary_prenatal_care_facility/"
 			};
 
 			var MultiFormSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 			{
-				"/er_visit_and_hospital_medical_records/name_and_location_facility/",
-				"/other_medical_office_visits/location_of_medical_care_facility/",
-				"/medical_transport/origin_information/",
-				"/medical_transport/destination_information/"
+				"er_visit_and_hospital_medical_records/name_and_location_facility/",
+				"other_medical_office_visits/location_of_medical_care_facility/",
+				"medical_transport/origin_information/",
+				"medical_transport/destination_information/"
 			};
 
 			var GeoCodeResultSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 			{
-				"/street",
-				"/apartment",
-				"/city",
-				"/state",
-				"/country",
-				"/zip_code",
-				"/county",
-				"/feature_matching_geography_type",
-				"/latitude",
-				"/longitude",
-				"/naaccr_gis_coordinate_quality_code",
-				"/naaccr_gis_coordinate_quality_type",
-				"/naaccr_census_tract_certainty_code",
-				"/naaccr_census_tract_certainty_type",
-				"/state_county_fips",
-				"/census_state_fips",
-				"/census_county_fips",
-				"/census_tract_fips",
-				"/urban_status",
-				"/census_met_div_fips",
-				"/census_cbsa_fips",
-				"/census_cbsa_micro"
+				"street",
+				"apartment",
+				"city",
+				"state",
+				"country",
+				"zip_code",
+				"county",
+				"feature_matching_geography_type",
+				"latitude",
+				"longitude",
+				"naaccr_gis_coordinate_quality_code",
+				"naaccr_gis_coordinate_quality_type",
+				"naaccr_census_tract_certainty_code",
+				"naaccr_census_tract_certainty_type",
+				"state_county_fips",
+				"census_state_fips",
+				"census_county_fips",
+				"census_tract_fips",
+				"urban_status",
+				"census_met_div_fips",
+				"census_cbsa_fips",
+				"census_cbsa_micro"
 			};
 
 
@@ -294,11 +294,22 @@ if
 							if( !isInNeedOfConversion(certainty_value_string))
 							{
 
-								string streetAddress = get_single_form_value(base_path, "/street");
-								string city = get_single_form_value(base_path, "/city");
-								string state = get_single_form_value(base_path, "/state");
-								string zip = get_single_form_value(base_path, "/zip");
+								string streetAddress = get_single_form_value(base_path, "street");
+								string city = get_single_form_value(base_path, "city");
+								string state = get_single_form_value(base_path, "state");
+								string zip = get_single_form_value(base_path, "zip");
 								string census_year = get_single_form_value(year_of_death_path, "");
+
+
+								if
+								(
+									string.IsNullOrEmpty(streetAddress) ||
+									string.IsNullOrEmpty(city) ||
+									string.IsNullOrEmpty(state) ||
+									string.IsNullOrEmpty(zip) 
+								)
+								continue;
+
 
 								var geocode_result = Convert(await GetGeocodeInfo
 								(
@@ -367,11 +378,21 @@ if
 							{
 								if( !isInNeedOfConversion(certainty_value_string))
 								{
-									string streetAddress = get_single_form_value(base_path, "/street");
-									string city = get_single_form_value(base_path, "/city");
-									string state = get_single_form_value(base_path, "/state");
-									string zip = get_single_form_value(base_path, "/zip");
+									string streetAddress = get_single_form_value(base_path, "street");
+									string city = get_single_form_value(base_path, "city");
+									string state = get_single_form_value(base_path, "state");
+									string zip = get_single_form_value(base_path, "zip");
 									string census_year = get_single_form_value(year_of_death_path, "");
+
+
+									if
+									(
+										string.IsNullOrEmpty(streetAddress) ||
+										string.IsNullOrEmpty(city) ||
+										string.IsNullOrEmpty(state) ||
+										string.IsNullOrEmpty(zip) 
+									)
+									continue;
 
 									var geocode_result = Convert(await GetGeocodeInfo
 									(
@@ -396,16 +417,17 @@ if
 										case_has_changed = true;
 									}
 
-									case_has_changed = case_has_changed && Set_SingleForm_Location_Gecocode
+									case_has_changed = case_has_changed && Set_MultiForm_Location_Gecocode
 									(
 										gs,
 										geocode_result,
 										doc,
+										index,
 										base_path
 									);
 									
 									//case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-									var output_text = $"item record_id: {mmria_id} path:{base_path} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}";
+									var output_text = $"item record_id: {mmria_id} path:{base_path} Form Index: {index} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}";
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 
@@ -416,6 +438,7 @@ if
 
 					}
 
+				/*
 
 					void check_and_update_muilti_value(string p_path)
 					{
@@ -469,6 +492,7 @@ if
 							}
 						}
 					}
+				*/
 
 /*
 
@@ -829,8 +853,7 @@ if
                 };
             }
 
-            //string geocode_api_key = configuration["data_migration:geocode_api_key"];
-            string geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+            string geocode_api_key = configuration["data_migration:geocode_api_key"];
 
             string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={streetAddress}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear={censusYear}&notStore=false&version=4.01");
 
