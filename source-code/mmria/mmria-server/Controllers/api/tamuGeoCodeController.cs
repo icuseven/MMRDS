@@ -39,7 +39,7 @@ public sealed class tamuGeoCodeController: ControllerBase
     ) 
     { 
 
-            var result = new common.texas_am.geocode_response();
+            var result = new mmria.common.texas_am.geocode_response();
 
             int test_year = -1; 
             

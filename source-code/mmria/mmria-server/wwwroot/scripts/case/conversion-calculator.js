@@ -42,7 +42,6 @@ function cc_main()
     cc_convert_input= document.getElementById("cc_convert")
     cc_convert_input.disabled = true;
 
-
     cc_cm_input.addEventListener("keypress",cc_only_numeric_input);
     cc_in_input.addEventListener("keypress",cc_only_numeric_input);
     cc_m_input.addEventListener("keypress",cc_only_numeric_input);
@@ -54,11 +53,7 @@ function cc_main()
     cc_f_input.addEventListener("keypress",cc_only_numeric_input);
     cc_c_input.addEventListener("keypress",cc_only_numeric_input);
 
-
-    
-    
 }
-
 
 
 function cc_reset_clicked()
