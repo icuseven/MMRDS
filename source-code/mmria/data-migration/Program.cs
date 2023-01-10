@@ -46,9 +46,9 @@ class Program
         
         /*"fl_dev",*/
         //"uat",
-        "localhost",
+        //"localhost",
         //"qa",
-        //"test",
+        "test",
         //"fl_dev",
         /*"az",
                 "ma",
@@ -436,13 +436,13 @@ class Program
                 }
                 else if(MigrationType == RunTypeEnum.OneTime)
                 {
-
-
-
-
                     var v2_10_1 = new migrate.set.v2_10_1_CertaintyHotfix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     v2_10_1.SetConfiguration(Configuration);
+                    v2_10_1.SetConfigDB(ConfigurationSet);
                     await v2_10_1.execute();
+
+                   // var v2_10_1_CVS_Migration = new migrate.set.v2_10_1_CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                   // await v2_10_1_CVS_Migration.execute();
 
                     //var MMRDS_CS_Narrative_Migration = new migrate.set.MMRDS_CS_Narrative_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     //await MMRDS_CS_Narrative_Migration.execute();

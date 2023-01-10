@@ -410,7 +410,21 @@ public sealed partial class C_Get_Set_Value
                     }
                     else
                     {
-                        index = ((IDictionary<string, object>)p_object)[path[i]];
+                        var dictionary = p_object as IDictionary<string, object>;
+                        if
+                        (
+                            dictionary != null &&
+                            dictionary.ContainsKey(path[i])
+                        )
+                        {
+                            index = dictionary[path[i]];
+                        }
+                        else
+                        {
+                            is_error = true;
+                            result = null;
+                            return new get_value_result(is_error, result);
+                        }
                     }
                 }
                 else if (i == path.Length - 1)
@@ -497,6 +511,28 @@ public sealed partial class C_Get_Set_Value
                 else if (index != null)
                 {
                     System.Console.WriteLine(index.GetType());
+/*
+                    if (index is IList<object> index_list)
+                    {
+                        index = index_list;//index[path[i]] as IList<object>;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine(index.GetType());
+                    }
+                    
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
+                    {
+                        //System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+                    }
+                    else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
+                    {
+                        index = index[path[i]] as IDictionary<string, object>;
+                    }
+                    */
+
+
+
                     /*
                     else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
                     {

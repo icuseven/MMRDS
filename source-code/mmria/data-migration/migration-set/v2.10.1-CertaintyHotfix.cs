@@ -37,6 +37,10 @@ public sealed class v2_10_1_CertaintyHotfix
 
 	public bool is_data_correction = false;
 
+	mmria.common.couchdb.ConfigurationSet configDB;
+
+	migrate.common.CVS_API CVS_API = null;
+
 
 	public v2_10_1_CertaintyHotfix
 	(
@@ -57,6 +61,8 @@ public sealed class v2_10_1_CertaintyHotfix
 		output_builder = p_output_builder;
 		summary_value_dictionary = p_summary_value_dictionary;
 		is_report_only_mode = p_is_report_only_mode;
+
+		 
 	}
 
 
@@ -74,13 +80,20 @@ public sealed class v2_10_1_CertaintyHotfix
 		try
 		{
 			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
-			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-20.12.01/metadata";
+			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-22.09.13/metadata";
 
 			//string metadata_url = $"{host_db_url}/metadata/version_specification-20.12.01/metadata";
 			
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
 		
+			CVS_API = new common.CVS_API
+			(
+				configDB,
+				this.output_builder,
+				metadata
+			);
+
 			this.lookup = get_look_up(metadata);
 
 			all_list_set = get_metadata_node_by_type(metadata, "list");
@@ -152,6 +165,7 @@ public sealed class v2_10_1_CertaintyHotfix
 			};
 
 
+
 			var ExistingRecordIds = await GetExistingRecordIds();
 
 			string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
@@ -171,6 +185,14 @@ public sealed class v2_10_1_CertaintyHotfix
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
 					var mmria_id = value_result.result.ToString();
+					
+					
+					value_result = gs.get_value(doc, "home_record/record_id");
+					var mmria_record_id = "";
+					
+					if(value_result.result != null)
+						mmria_record_id = value_result.result.ToString();
+
 					if(mmria_id.IndexOf("_design") > -1)
 					{
 						continue;
@@ -275,7 +297,9 @@ if
 					}
 
 
+					string census_year = get_single_form_value(year_of_death_path, "");
 
+					int over_count = 0;
 
 					foreach(var base_path in SingleFormSet)
 					{
@@ -297,16 +321,29 @@ if
 								string streetAddress = get_single_form_value(base_path, "street");
 								string city = get_single_form_value(base_path, "city");
 								string state = get_single_form_value(base_path, "state");
-								string zip = get_single_form_value(base_path, "zip");
-								string census_year = get_single_form_value(year_of_death_path, "");
-
-
+								string zip = get_single_form_value(base_path, "zip_code");
+								
 								if
 								(
-									string.IsNullOrEmpty(streetAddress) ||
-									string.IsNullOrEmpty(city) ||
-									string.IsNullOrEmpty(state) ||
-									string.IsNullOrEmpty(zip) 
+									(
+										string.IsNullOrEmpty(streetAddress) &&
+										string.IsNullOrEmpty(city) &&
+										string.IsNullOrEmpty(state) &&
+										string.IsNullOrEmpty(zip) 
+									) ||
+									(
+										//string.IsNullOrEmpty(streetAddress) ||
+										string.IsNullOrEmpty(city) &&
+										string.IsNullOrEmpty(state) &&
+										string.IsNullOrEmpty(zip) 
+									)
+									||
+									(
+										string.IsNullOrEmpty(streetAddress) &&
+										string.IsNullOrEmpty(city) &&
+										!string.IsNullOrEmpty(state) &&
+										string.IsNullOrEmpty(zip) 
+									)
 								)
 								continue;
 
@@ -321,14 +358,45 @@ if
 								));
 
 
+								
 								if
 								(
-									geocode_result.Census_Value.NAACCRCensusTractCertaintyCode.Trim() == certainty_value_string.Trim()
+									geocode_result.Census_Value.NAACCRCensusTractCertaintyCode.Trim() == "9"
 								)
 								{
-									continue;
+									over_count += 1;
+
+									if(over_count == 2)
+									{
+										System.Console.WriteLine("here");
+									}
 								}
 
+
+								var old_certainy_code = -1;
+								var new_certainty_code = -1;
+								
+
+								int.TryParse(certainty_value_string, out old_certainy_code);		
+								int.TryParse(geocode_result.Census_Value.NAACCRCensusTractCertaintyCode, out new_certainty_code);
+								
+								if
+								(
+									old_certainy_code != -1 && 
+									old_certainy_code < new_certainty_code 
+								)
+								{
+									var possible_problem_text = $"possible problem: item id: {mmria_id} record_id:{mmria_record_id} path:{base_path} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}  street: {streetAddress} city:{city} state:{state} zip:{zip} yod:{census_year}";
+									this.output_builder.AppendLine(possible_problem_text);
+									Console.WriteLine(possible_problem_text);
+									continue;
+								}
+								else if
+								(
+									old_certainy_code != -1 && 
+									old_certainy_code == new_certainty_code 
+								)
+								continue;
 
 								if(case_change_count == 0)
 								{
@@ -343,9 +411,14 @@ if
 									doc,
 									base_path
 								);
+
+								if(base_path == "death_certificate/place_of_last_residence/")
+								{
+									case_has_changed = case_has_changed && await CVS_API.Execute(doc, base_path);
+								}
 								
 								//case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-								var output_text = $"item record_id: {mmria_id} path:{base_path} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}";
+								var output_text = $"item id: {mmria_id} case_has_changed: {case_has_changed} record_id:{mmria_record_id} path:{base_path} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}  street: {streetAddress} city:{city} state:{state} zip:{zip} yod:{census_year}";
 								this.output_builder.AppendLine(output_text);
 								Console.WriteLine(output_text);
 
@@ -367,6 +440,17 @@ if
 						var new_list = new List<(int, object)>();
 						var has_changed = false;
 
+
+						if(certainty_list.Count < 1) 
+						{
+							continue;
+						}
+
+						List<(int index, string value)> streetAddress = get_multi_form_value(base_path, "street");
+						List<(int index, string value)> city = get_multi_form_value(base_path, "city");
+						List<(int index, string value)> state = get_multi_form_value(base_path, "state");
+						List<(int index, string value)> zip = get_multi_form_value(base_path, "zip_code");
+						
 						foreach(var (index, value) in certainty_list)
 						{
 							if
@@ -378,38 +462,69 @@ if
 							{
 								if( !isInNeedOfConversion(certainty_value_string))
 								{
-									string streetAddress = get_single_form_value(base_path, "street");
-									string city = get_single_form_value(base_path, "city");
-									string state = get_single_form_value(base_path, "state");
-									string zip = get_single_form_value(base_path, "zip");
-									string census_year = get_single_form_value(year_of_death_path, "");
-
-
 									if
 									(
-										string.IsNullOrEmpty(streetAddress) ||
-										string.IsNullOrEmpty(city) ||
-										string.IsNullOrEmpty(state) ||
-										string.IsNullOrEmpty(zip) 
+										(
+											string.IsNullOrEmpty(streetAddress[index].value) &&
+											string.IsNullOrEmpty(city[index].value) &&
+											string.IsNullOrEmpty(state[index].value) &&
+											string.IsNullOrEmpty(zip[index].value) 
+										) ||
+										(
+											//string.IsNullOrEmpty(streetAddress[index].value) &&
+											string.IsNullOrEmpty(city[index].value) &&
+											string.IsNullOrEmpty(state[index].value) &&
+											string.IsNullOrEmpty(zip[index].value) 
+										)
+										||
+										(
+											string.IsNullOrEmpty(streetAddress[index].value) &&
+											string.IsNullOrEmpty(city[index].value) &&
+											!string.IsNullOrEmpty(state[index].value) &&
+											string.IsNullOrEmpty(zip[index].value) 
+										)
 									)
 									continue;
 
 									var geocode_result = Convert(await GetGeocodeInfo
 									(
-										streetAddress,
-										city,
-										state,
-										zip,
+										streetAddress[index].value,
+										city[index].value,
+										state[index].value,
+										zip[index].value,
 										census_year
 									));
 
+
+									if(geocode_result.Census_Value.NAACCRCensusTractCertaintyCode.Trim() == "9")
+									{
+										System.Console.WriteLine("here");
+									}
+
+									var old_certainy_code = -1;
+									var new_certainty_code = -1;
+									
+
+									int.TryParse(certainty_value_string, out old_certainy_code);		
+									int.TryParse(geocode_result.Census_Value.NAACCRCensusTractCertaintyCode, out new_certainty_code);
+									
 									if
 									(
-										geocode_result.Census_Value.NAACCRCensusTractCertaintyCode.Trim() == certainty_value_string.Trim()
+										old_certainy_code != -1 && 
+										old_certainy_code < new_certainty_code 
 									)
 									{
+										var possible_problem_text = $"possible problem: item id: {mmria_id} record_id:{mmria_record_id} path:{base_path} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}  street: {streetAddress[index].value} city:{city[index].value} state:{state[index].value} zip:{zip[index].value} yod:{census_year}";
+										this.output_builder.AppendLine(possible_problem_text);
+										Console.WriteLine(possible_problem_text);
 										continue;
 									}
+									else if
+									(
+										old_certainy_code != -1 && 
+										old_certainy_code == new_certainty_code 
+									)
+									continue;
 
 									if(case_change_count == 0)
 									{
@@ -427,7 +542,7 @@ if
 									);
 									
 									//case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
-									var output_text = $"item record_id: {mmria_id} path:{base_path} Form Index: {index} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}";
+									var output_text = $"item id: {mmria_id} record_id:{mmria_record_id} path:{base_path} Form Index: {index} Certainty from :{certainty_value_string} => {geocode_result.Census_Value.NAACCRCensusTractCertaintyCode}  street: {streetAddress[index].value} city:{city[index].value} state:{state[index].value} zip:{zip[index].value} yod:{census_year}";
 									this.output_builder.AppendLine(output_text);
 									Console.WriteLine(output_text);
 
@@ -503,11 +618,17 @@ if
 
 */
 
-
+/*
+				if(mmria_id == "")
+				{
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.10.1");
+				}
+				else 
+				*/
 
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.10.1 part1");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.10.1");
 				}
 
 			}
@@ -908,8 +1029,15 @@ if
 	public void SetConfiguration(Microsoft.Extensions.Configuration.IConfiguration value)
 	{
 		configuration = value;
+
 	}
 
+
+	public void SetConfigDB(mmria.common.couchdb.ConfigurationSet value)
+	{
+		configDB = value;
+		
+	}
 
     private bool Set_SingleForm_Location_Gecocode
 	(
@@ -1008,25 +1136,25 @@ if
                 state_county_fips = censusValues_data?.CensusStateFips + censusValues_data?.CensusCountyFips;
             }
 
-            result = result && gs.set_value($"{p_base_path}/latitude", latitude, new_case);
-            result = result && gs.set_value($"{p_base_path}/longitude",longitude, new_case);
+            result = result && gs.set_value($"{p_base_path}latitude", latitude, new_case);
+            result = result && gs.set_value($"{p_base_path}longitude",longitude, new_case);
         }
 
-        result = result && gs.set_value($"{p_base_path}/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        result = result && gs.set_value($"{p_base_path}/latitude", latitude, new_case);
-        result = result && gs.set_value($"{p_base_path}/longitude", longitude, new_case);
-        result = result && gs.set_value($"{p_base_path}/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        result = result && gs.set_value($"{p_base_path}/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        result = result && gs.set_value($"{p_base_path}/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        result = result && gs.set_value($"{p_base_path}/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_state_fips", census_state_fips, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_county_fips", census_county_fips, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_tract_fips", census_tract_fips, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_cbsa_fips", census_cbsa_fips, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_cbsa_micro", census_cbsa_micro, new_case);
-        result = result && gs.set_value($"{p_base_path}/census_met_div_fips", census_met_div_fips, new_case);
-        result = result && gs.set_value($"{p_base_path}/urban_status", urban_status, new_case);
-        result = result && gs.set_value($"{p_base_path}/state_county_fips", state_county_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}feature_matching_geography_type", feature_matching_geography_type, new_case);
+        result = result && gs.set_value($"{p_base_path}latitude", latitude, new_case);
+        result = result && gs.set_value($"{p_base_path}longitude", longitude, new_case);
+        result = result && gs.set_value($"{p_base_path}naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+        result = result && gs.set_value($"{p_base_path}naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+        result = result && gs.set_value($"{p_base_path}naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+        result = result && gs.set_value($"{p_base_path}naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+        result = result && gs.set_value($"{p_base_path}census_state_fips", census_state_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}census_county_fips", census_county_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}census_tract_fips", census_tract_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}census_cbsa_fips", census_cbsa_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}census_cbsa_micro", census_cbsa_micro, new_case);
+        result = result && gs.set_value($"{p_base_path}census_met_div_fips", census_met_div_fips, new_case);
+        result = result && gs.set_value($"{p_base_path}urban_status", urban_status, new_case);
+        result = result && gs.set_value($"{p_base_path}state_county_fips", state_county_fips, new_case);
 
 		return result;
     }
@@ -1130,25 +1258,25 @@ if
                 state_county_fips = censusValues_data?.CensusStateFips + censusValues_data?.CensusCountyFips;
             }
 
-            result = result && gs.set_multiform_value(new_case, $"{p_base_path}/latitude", new () { ( p_multiform_index, latitude ) });
-            result = result && gs.set_multiform_value(new_case, $"{p_base_path}/longitude", new () { ( p_multiform_index, longitude) } );
+            result = result && gs.set_multiform_value(new_case, $"{p_base_path}latitude", new () { ( p_multiform_index, latitude ) });
+            result = result && gs.set_multiform_value(new_case, $"{p_base_path}longitude", new () { ( p_multiform_index, longitude) } );
         }
 
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/feature_matching_geography_type", new () { ( p_multiform_index, feature_matching_geography_type) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/latitude", new () { ( p_multiform_index, latitude) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/longitude", new () { ( p_multiform_index, longitude) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/naaccr_gis_coordinate_quality_code", new () { ( p_multiform_index, naaccr_gis_coordinate_quality_code) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/naaccr_gis_coordinate_quality_type", new () { ( p_multiform_index, naaccr_gis_coordinate_quality_type) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/naaccr_census_tract_certainty_code", new () { ( p_multiform_index, naaccr_census_tract_certainty_code) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/naaccr_census_tract_certainty_type", new () { ( p_multiform_index, naaccr_census_tract_certainty_type) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_state_fips", new () { ( p_multiform_index, census_state_fips) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_county_fips", new () { ( p_multiform_index, census_county_fips) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_tract_fips", new () { ( p_multiform_index, census_tract_fips) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_cbsa_fips", new () { ( p_multiform_index, census_cbsa_fips) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_cbsa_micro", new () { ( p_multiform_index, census_cbsa_micro) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/census_met_div_fips", new () { ( p_multiform_index, census_met_div_fips) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/urban_status", new () { ( p_multiform_index, urban_status) } );
-        result = result && gs.set_multiform_value(new_case, $"{p_base_path}/state_county_fips", new () { ( p_multiform_index, state_county_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}feature_matching_geography_type", new () { ( p_multiform_index, feature_matching_geography_type) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}latitude", new () { ( p_multiform_index, latitude) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}longitude", new () { ( p_multiform_index, longitude) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}naaccr_gis_coordinate_quality_code", new () { ( p_multiform_index, naaccr_gis_coordinate_quality_code) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}naaccr_gis_coordinate_quality_type", new () { ( p_multiform_index, naaccr_gis_coordinate_quality_type) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}naaccr_census_tract_certainty_code", new () { ( p_multiform_index, naaccr_census_tract_certainty_code) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}naaccr_census_tract_certainty_type", new () { ( p_multiform_index, naaccr_census_tract_certainty_type) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_state_fips", new () { ( p_multiform_index, census_state_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_county_fips", new () { ( p_multiform_index, census_county_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_tract_fips", new () { ( p_multiform_index, census_tract_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_cbsa_fips", new () { ( p_multiform_index, census_cbsa_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_cbsa_micro", new () { ( p_multiform_index, census_cbsa_micro) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}census_met_div_fips", new () { ( p_multiform_index, census_met_div_fips) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}urban_status", new () { ( p_multiform_index, urban_status) } );
+        result = result && gs.set_multiform_value(new_case, $"{p_base_path}state_county_fips", new () { ( p_multiform_index, state_county_fips) } );
 
 		return result;
     }
