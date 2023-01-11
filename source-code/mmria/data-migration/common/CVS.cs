@@ -11,6 +11,8 @@ public sealed class CVS_API
     public System.Text.StringBuilder output_builder;
 
     mmria.common.metadata.app metadata;
+
+    
     public CVS_API
     (
         mmria.common.couchdb.ConfigurationSet p_config_db,
@@ -21,18 +23,18 @@ public sealed class CVS_API
         ConfigDB = p_config_db;
         output_builder = p_output_builder;
         metadata = p_metadata;
+
     }
 
     public async Task<bool> Execute
     (
         System.Dynamic.ExpandoObject doc,
-        string p_path
+        string p_path,
+        bool case_has_changed
     )
     {
 
         var begin_time = DateTime.Now;
-
-        var case_has_changed = true;
 
         this.output_builder.AppendLine($"Update CSV at: {begin_time.ToString("o")}");
 		
