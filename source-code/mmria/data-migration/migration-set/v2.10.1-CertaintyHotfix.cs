@@ -414,7 +414,7 @@ if
 
 								if(base_path == "death_certificate/place_of_last_residence/")
 								{
-									case_has_changed = case_has_changed && await CVS_API.Execute(doc, base_path);
+									case_has_changed = case_has_changed && await CVS_API.Execute(doc, base_path, case_has_changed);
 								}
 								
 								//case_has_changed = case_has_changed && gs.set_value(dciai_to_injur_path, new_time, doc);
