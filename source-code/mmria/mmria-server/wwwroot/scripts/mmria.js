@@ -1425,6 +1425,67 @@ var $mmria = function()
             el.close();
         }
 
+
     };
 
 }();
+
+
+async function mmria_abstractor_pin_case_click(p_id)
+{
+    const message = {
+        is_pin: true,
+        case_id: p_id,
+        user_id: ""
+
+    };
+
+    var method = "POST";
+
+    var url = `${location.protocol}//${location.host}/api/pinned_cases`;
+    // abstractor post
+    // jurisdiction put
+    const pin_response = await $.ajax
+    ({
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(message),
+        type: method,
+    });
+
+
+
+
+
+}
+
+
+async function mmria_un_pin_case_click(p_id)
+{
+
+    const message = {
+        is_pin: false,
+        case_id: p_id,
+        user_id: ""
+
+    };
+
+    var method = "POST";
+
+    var url = `${location.protocol}//${location.host}/api/pinned_cases`;
+    // abstractor post
+    // jurisdiction put
+    const pin_response = await $.ajax
+    ({
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(message),
+        type: method,
+    });
+
+
+
+
+}
