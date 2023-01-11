@@ -79,6 +79,11 @@ public sealed class v2_10_1_CertaintyHotfix
 
 		try
 		{
+
+
+
+
+
 			//string metadata_url = host_db_url + "/metadata/2016-06-12T13:49:24.759Z";
 			string metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-22.09.13/metadata";
 
@@ -93,6 +98,45 @@ public sealed class v2_10_1_CertaintyHotfix
 				this.output_builder,
 				metadata
 			);
+
+
+
+			string ping_result = await CVS_API.PingCVSServer();
+			int ping_count = 1;
+
+			System.Console.WriteLine($"CVS for: {host_db_url}");
+			
+			while
+			(
+				(
+					ping_result == null ||
+					ping_result != "Server is up!"
+				) && 
+				ping_count < 2
+			)
+			{
+
+
+				var output_text = $"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}";
+				this.output_builder.AppendLine(output_text);
+				Console.WriteLine(output_text);
+				
+
+				const int Milliseconds_In_Second = 1000;
+				var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
+				while(DateTime.Now < next_date)
+				{
+					// do nothing
+				}
+				
+				ping_result = await CVS_API.PingCVSServer();
+				ping_count +=1;
+
+			}
+
+
+			//var Valid_CVS_Years = await CVS_Get_Valid_Years();
+
 
 			this.lookup = get_look_up(metadata);
 
@@ -616,16 +660,15 @@ if
 /birth_certificate_infant_fetal_section/record_identification/time_of_delivery
 
 
-*/
 
-/*
+
+
 				if(mmria_id == "")
 				{
 					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.10.1");
 				}
-				else 
-				*/
-
+				else*/ 
+				
 				if(!is_report_only_mode && case_has_changed)
 				{
 					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v2.10.1");

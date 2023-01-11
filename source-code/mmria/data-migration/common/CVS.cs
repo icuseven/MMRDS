@@ -113,7 +113,7 @@ public sealed class CVS_API
             var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
 
 
-            // check if record already populated
+            // ensure cvs node exists in case
             var new_case_dictionary = doc as IDictionary<string, object>;
             if(!new_case_dictionary.ContainsKey("cvs"))
             {
@@ -149,7 +149,7 @@ public sealed class CVS_API
             var cvs_pctowner_occ_tract	 = get_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract");
 
 
-
+            /*
             if
             (
                 api_result_message.Count > 0 &&
@@ -162,12 +162,7 @@ public sealed class CVS_API
             {
                 var api_result_text = api_result_message[0].Item2;
 
-/*
-                if(mmria_id.Equals("", StringComparison.OrdinalIgnoreCase))
-                {
-                    System.Console.WriteLine("here");
-                }
-*/
+
                 if(api_result_text.IndexOf("check quality") >  -1)
                 {
                     // do nothing continue
@@ -197,6 +192,7 @@ public sealed class CVS_API
                     return case_has_changed;
                 }
             }
+            */
 
 
             var int_year_of_death = -1;
@@ -386,7 +382,7 @@ public sealed class CVS_API
         return case_has_changed;
     }
 
-    async Task<string> PingCVSServer() 
+    public async Task<string> PingCVSServer() 
     { 
         var response_string = "";
 
