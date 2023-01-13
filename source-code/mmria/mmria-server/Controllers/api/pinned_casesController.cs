@@ -152,6 +152,25 @@ public sealed class pinned_casesController : ControllerBase
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }
+        catch (System.Net.WebException wex)
+        {
+            if(wex.Message.Contains("(404) Object Not Found"))
+            {
+                result = new();
+
+                result.date_created = DateTime.Now;
+                result.created_by = "system";
+                result.date_last_updated = DateTime.Now;
+                result.last_updated_by = "system";
+
+
+                SetPinnedCaseSet(result);
+            }
+            else
+            {
+                Console.WriteLine(wex);
+            }
+        }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
@@ -168,11 +187,15 @@ public sealed class pinned_casesController : ControllerBase
     {
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response();
 
-        var document_content = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 
-        if(value._id == "jurisdiction/pinned-case-set")
+
+        var document_content = Newtonsoft.Json.JsonConvert.SerializeObject(value, settings);
+
+        if(value._id == "pinned-case-set")
         {
-            string url = $"{Program.config_couchdb_url}/metadata/substance-mapping";
+            string url = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
             //System.Console.WriteLine ("json\n{0}", object_string);
 
             cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
@@ -182,6 +205,7 @@ public sealed class pinned_casesController : ControllerBase
 
             try
             {
+
                 string responseFromServer = await put_document_curl.executeAsync();
                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
             }
