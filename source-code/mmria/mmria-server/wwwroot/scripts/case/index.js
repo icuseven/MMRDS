@@ -1631,8 +1631,6 @@ async function get_case_set(p_call_back)
 
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;
-    // abstractor post
-    // jurisdiction put
     g_pinned_case_set = await $.ajax
     ({
         url: url
