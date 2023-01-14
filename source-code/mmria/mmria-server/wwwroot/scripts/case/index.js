@@ -44,6 +44,8 @@ var g_case_narrative_original_value = null;
 
 var g_is_committee_member_view = false;
 
+var g_pinned_case_set = null;
+
 let save_start_time, save_end_time;
 
 const g_cvs_api_request_data = new Map();
@@ -1612,7 +1614,7 @@ function create_jurisdiction_list(p_data)
 
 var update_session_timer_interval_id = null;
 
-function get_case_set(p_call_back) 
+async function get_case_set(p_call_back) 
 {
 
     //var url = `${location.protocol}//${location.host}/api/pinned_cases`;
@@ -1624,70 +1626,83 @@ function get_case_set(p_call_back)
     '/api/case_view' +
     g_ui.case_view_request.get_query_string();
 
-  $.ajax({
-    url: case_view_url,
-  })
-  .done
-  (
-    function (case_view_response) 
-    {
-        g_ui.case_view_list = [];
-        g_ui.case_view_request.total_rows = case_view_response.total_rows;
 
-        for (var i = 0; i < case_view_response.rows.length; i++) 
-        {
-            g_ui.case_view_list.push(case_view_response.rows[i]);
-        }
 
-        if (p_call_back) 
-        {
-            p_call_back();
-        } 
-        else 
-        {
-            var post_html_call_back = [];
 
-            document.getElementById('navbar').innerHTML = navigation_render
-            (
-                g_metadata,
-                0,
-                g_ui
-                ).join('');
-                document.getElementById('form_content_id').innerHTML =
-                '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
-                document.getElementById('form_content_id').innerHTML = page_render(
-                g_metadata,
-                default_object,
-                g_ui,
-                'g_metadata',
-                'default_object',
-                '',
-                false,
-                post_html_call_back
-            ).join('');
 
-            if (post_html_call_back.length > 0) 
-            {
-                eval(post_html_call_back.join(''));
-            }
-
-            var section_list = document.getElementsByTagName('section');
-
-            for (var i = 0; i < section_list.length; i++) 
-            {
-                var section = section_list[i];
-
-                if (section.id == 'app_summary') 
-                {
-                    section.style.display = 'block';
-                } 
-                else 
-                {
-                    section.style.display = 'block';
-                }
-            }
-        }
+    var url = `${location.protocol}//${location.host}/api/pinned_cases`;
+    // abstractor post
+    // jurisdiction put
+    g_pinned_case_set = await $.ajax
+    ({
+        url: url
     });
+
+
+
+
+
+    const case_view_response = await $.ajax({
+    url: case_view_url,
+    })  ;
+
+
+    g_ui.case_view_list = [];
+    g_ui.case_view_request.total_rows = case_view_response.total_rows;
+
+    for (var i = 0; i < case_view_response.rows.length; i++) 
+    {
+        g_ui.case_view_list.push(case_view_response.rows[i]);
+    }
+
+    if (p_call_back) 
+    {
+        p_call_back();
+    } 
+    else 
+    {
+        var post_html_call_back = [];
+
+        document.getElementById('navbar').innerHTML = navigation_render
+        (
+            g_metadata,
+            0,
+            g_ui
+            ).join('');
+            document.getElementById('form_content_id').innerHTML =
+            '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
+            document.getElementById('form_content_id').innerHTML = page_render(
+            g_metadata,
+            default_object,
+            g_ui,
+            'g_metadata',
+            'default_object',
+            '',
+            false,
+            post_html_call_back
+        ).join('');
+
+        if (post_html_call_back.length > 0) 
+        {
+            eval(post_html_call_back.join(''));
+        }
+
+        var section_list = document.getElementsByTagName('section');
+
+        for (var i = 0; i < section_list.length; i++) 
+        {
+            var section = section_list[i];
+
+            if (section.id == 'app_summary') 
+            {
+                section.style.display = 'block';
+            } 
+            else 
+            {
+                section.style.display = 'block';
+            }
+        }
+    }
 }
 
 
@@ -2599,7 +2614,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2616,7 +2631,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
+				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {
@@ -2646,7 +2661,7 @@ function print_case_onclick(event)
 	const dropdown = btn.previousSibling;
 	// get value of selected option
 	let section_name = dropdown.value;
-	unique_tab_name = '_print_tab_' //+ Math.random().toString(36).substring(2, 9);
+	unique_tab_name = '_print_tab_' + Math.random().toString(36).substring(2, 9);
   
 	if (section_name) 
 	{
