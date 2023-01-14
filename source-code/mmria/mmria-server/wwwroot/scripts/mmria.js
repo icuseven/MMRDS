@@ -1431,7 +1431,7 @@ var $mmria = function()
 }();
 
 
-async function mmria_abstractor_pin_case_click(p_id)
+async function mmria_pin_case_click(p_id)
 {
     const message = {
         is_pin: true,
