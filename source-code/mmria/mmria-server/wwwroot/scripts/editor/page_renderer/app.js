@@ -668,14 +668,14 @@ function render_pin_un_pin_button
     p_delete_enabled_html
 )
 {
-    var is_pin = false;
+    var is_pin = true;
     if(Object.hasOwn(g_pinned_case_set, 'list'))
     {
         if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
         {
             if(Object.hasOwn(g_pinned_case_set.list.everyone, g_date.id))
             {
-                is_pin = true;
+                is_pin = false;
             }
         }
 
@@ -683,7 +683,7 @@ function render_pin_un_pin_button
         {
             if(Object.hasOwn(g_pinned_case_set.list.everyone[g_user_name], g_date.id))
             {
-                is_pin = true;
+                is_pin = false;
             }
         }
     }
