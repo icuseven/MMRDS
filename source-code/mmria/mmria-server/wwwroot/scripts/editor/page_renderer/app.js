@@ -673,7 +673,7 @@ function render_pin_un_pin_button
     {
         if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
         {
-            if(Object.hasOwn(g_pinned_case_set.list.everyone, g_date.id))
+            if(g_pinned_case_set.list.everyone.indexOf(p_case_view_item.id) != -1)
             {
                 is_pin = false;
             }
@@ -681,7 +681,7 @@ function render_pin_un_pin_button
 
         if(Object.hasOwn(g_pinned_case_set.list, g_user_name))
         {
-            if(Object.hasOwn(g_pinned_case_set.list.everyone[g_user_name], g_date.id))
+            if(g_pinned_case_set.list[g_user_name].indexOf(p_case_view_item.id) != -1)
             {
                 is_pin = false;
             }
