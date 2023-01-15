@@ -1460,6 +1460,7 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
 
     console.log(pin_response);
  
+    g_render();
 
 
 }
@@ -1494,6 +1495,8 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
     });
 
     console.log(pin_response);
+
+    g_render();
 
 
 }
