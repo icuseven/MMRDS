@@ -1431,7 +1431,7 @@ var $mmria = function()
 }();
 
 
-async function mmria_pin_case_click(p_id)
+async function mmria_pin_case_click(p_id, p_is_everyone)
 {
     const message = {
         is_pin: true,
@@ -1441,6 +1441,10 @@ async function mmria_pin_case_click(p_id)
     };
 
     var method = "POST";
+    if(g_is_jurisdiction_admin && p_is_everyone)
+    {
+        method = "PUT";
+    }
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;
     // abstractor post
@@ -1461,7 +1465,7 @@ async function mmria_pin_case_click(p_id)
 }
 
 
-async function mmria_un_pin_case_click(p_id)
+async function mmria_un_pin_case_click(p_id, p_is_everyone)
 {
 
     const message = {
@@ -1472,6 +1476,10 @@ async function mmria_un_pin_case_click(p_id)
     };
 
     var method = "POST";
+    if(g_is_jurisdiction_admin && p_is_everyone)
+    {
+        method = "PUT";
+    }
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;
     // abstractor post

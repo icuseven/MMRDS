@@ -668,13 +668,47 @@ function render_pin_un_pin_button
     p_delete_enabled_html
 )
 {
+    var is_pin = false;
+    if(Object.hasOwn(g_pinned_case_set, 'list'))
+    {
+        if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
+        {
+            if(Object.hasOwn(g_pinned_case_set.list.everyone, g_date.id))
+            {
+                is_pin = true;
+            }
+        }
+
+        if(Object.hasOwn(g_pinned_case_set.list, g_user_name))
+        {
+            if(Object.hasOwn(g_pinned_case_set.list.everyone[g_user_name], g_date.id))
+            {
+                is_pin = true;
+            }
+        }
+    }
+
+
+
     if(!p_is_checked_out && p_delete_enabled_html == '')
     {
-        return `
+        if(is_pin)
+        {
+            return `
         
-        <img src="../img/pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" onclick="pin_unpin_clicked('${p_case_view_item.id}')"/>
+        <img src="../img/pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
         
         `;
+        }
+        else
+        {
+            return `
+        
+        <img src="../img/un-pin-case.svg" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" onclick="un_pin_case_clicked('${p_case_view_item.id}')"/>
+        
+        `;
+        }
+        
     }
     else
     {
@@ -682,7 +716,26 @@ function render_pin_un_pin_button
     }
 }
 
-function pin_unpin_clicked(p_id)
+async function pin_case_clicked(p_id)
 {
-    $mmria.pin_un_pin_dialog_show();
+    if(g_is_jurisdiction_admin)
+    {
+        $mmria.pin_un_pin_dialog_show();
+    }
+    else
+    {
+        mmria_pin_case_click(p_id, false)
+    }
+}
+
+async function unpin_case_clicked(p_id)
+{
+    if(g_is_jurisdiction_admin)
+    {
+        $mmria.pin_un_pin_dialog_show();
+    }
+    else
+    {
+        mmria_un_pin_case_click(p_id, false)
+    }
 }

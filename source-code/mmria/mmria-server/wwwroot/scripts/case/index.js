@@ -45,6 +45,7 @@ var g_case_narrative_original_value = null;
 var g_is_committee_member_view = false;
 
 var g_pinned_case_set = null;
+var g_is_jurisdiction_admin = false;
 
 let save_start_time, save_end_time;
 
@@ -1515,6 +1516,10 @@ async function load_and_set_data()
         if(value.role_name=="abstractor")
         {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+        }
+        else if(value.role_name=="jurisdiction_admin")
+        {
+            g_is_jurisdiction_admin = true;
         }
     }
 
