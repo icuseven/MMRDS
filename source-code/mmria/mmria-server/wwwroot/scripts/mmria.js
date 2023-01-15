@@ -1441,8 +1441,10 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
     };
 
     var method = "POST";
+    var is_admin = false;
     if(g_is_jurisdiction_admin && p_is_everyone)
     {
+        is_admin = true;
         method = "PUT";
     }
 
@@ -1458,7 +1460,18 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
         type: method,
     });
 
-    console.log(pin_response);
+    if(pin_response.ok)
+    {
+        if(is_admin)
+        {
+           g_pinned_case_set.list.everyone.push(p_id);
+        }
+        else
+        {
+            g_pinned_case_set.list[g_user_name].push(p_id);
+        }
+
+    }
  
     g_render();
 
@@ -1477,8 +1490,10 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
     };
 
     var method = "POST";
+    var is_admin = false;
     if(g_is_jurisdiction_admin && p_is_everyone)
     {
+        is_admin = true;
         method = "PUT";
     }
 
@@ -1494,7 +1509,22 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
         type: method,
     });
 
-    console.log(pin_response);
+    if(pin_response.ok)
+    {
+        if(is_admin)
+        {
+           const index = g_pinned_case_set.list.everyone.indexOf(p_id);
+
+           g_pinned_case_set.list.everyone.splice(index,1);
+        }
+        else
+        {
+
+            const index = g_pinned_case_set.list[g_user_name].indexOf(p_id);
+            g_pinned_case_set.list[g_user_name].splice(index,1);
+        }
+
+    }
 
     g_render();
 
