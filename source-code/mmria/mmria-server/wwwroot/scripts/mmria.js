@@ -1436,7 +1436,7 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
     const message = {
         is_pin: true,
         case_id: p_id,
-        user_id: ""
+        user_id: g_user_name
 
     };
 
@@ -1458,8 +1458,8 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
         type: method,
     });
 
-
-
+    console.log(pin_response);
+ 
 
 
 }
@@ -1471,7 +1471,7 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
     const message = {
         is_pin: false,
         case_id: p_id,
-        user_id: ""
+        user_id: g_user_name
 
     };
 
@@ -1493,7 +1493,7 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
         type: method,
     });
 
-
+    console.log(pin_response);
 
 
 }
