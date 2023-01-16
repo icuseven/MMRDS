@@ -1649,8 +1649,14 @@ async function get_case_set(p_call_back)
     url: case_view_url,
     })  ;
 
+    const new_list = [];
 
-    g_ui.case_view_list = [];
+
+    g_ui.case_view_list.map((item, i) => { if(app_is_item_pinned(item.id)) new_list.push(item) ;});
+
+    g_ui.case_view_list = new_list;
+
+
     g_ui.case_view_request.total_rows = case_view_response.total_rows;
 
     for (var i = 0; i < case_view_response.rows.length; i++) 
