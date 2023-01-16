@@ -805,7 +805,7 @@ function render_app_pinned_summary_result(item, i)
     const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
 
     return (
-    `<tr class="tr" path="${caseID}">
+    `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
         <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
