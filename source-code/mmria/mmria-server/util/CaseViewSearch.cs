@@ -982,23 +982,73 @@ public sealed class CaseViewSearch
             result.offset = case_view_response.offset;
             result.total_rows = case_view_response.total_rows;
             
-            var data = case_view_response.rows
-                .Where
-                (
-                    cvi => 
-                        all_predicate_list.All( f => f(cvi)) &&
-                        (
-                            any_predicate_list.Count == 0 ||
-                            any_predicate_list.Any( f => f(cvi)) 
-                        )
-                    
-                );
-
-            
 
 
-            result.total_rows = data.Count();
-            result.rows =  data.Skip (skip).Take (take).ToList ();
+            if (! is_case_identified_data)
+            {
+                var pinned_cases = await GetPinnedCaseSet();
+                
+                var pinned_id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                
+                
+                foreach(var kvp in pinned_cases.list)
+                {
+                    foreach(var case_id in kvp.Value)
+                    {
+                        pinned_id_set.Add(case_id);
+                    }
+                }
+                
+
+                var pinned_data = case_view_response.rows
+                    .Where
+                    (
+                        cvi => pinned_id_set.Contains(cvi.id)
+                        
+                    );
+
+                result.total_rows = pinned_data.Count();
+
+                var data = case_view_response.rows
+                    .Where
+                    (
+                        cvi => 
+                            all_predicate_list.All( f => f(cvi)) &&
+                            (
+                                any_predicate_list.Count == 0 ||
+                                any_predicate_list.Any( f => f(cvi)) 
+                            ) && 
+                            ! pinned_id_set.Contains(cvi.id)
+                        
+                    );
+
+                var unpinned_rows = data.Skip (skip).Take (take).ToList ();
+                var next = unpinned_rows.Skip(result.total_rows).Take(skip - result.total_rows);
+                result.total_rows = result.total_rows + next.Count();
+                result.rows.AddRange(next);
+
+
+            }
+            else
+            {
+                var data = case_view_response.rows
+                    .Where
+                    (
+                        cvi => 
+                            all_predicate_list.All( f => f(cvi)) &&
+                            (
+                                any_predicate_list.Count == 0 ||
+                                any_predicate_list.Any( f => f(cvi)) 
+                            )
+                        
+                    );
+
+                result.total_rows = data.Count();
+                result.rows =  data.Skip (skip).Take (take).ToList ();
+            }
+
+
+
         
 
             return result;
@@ -1069,6 +1119,28 @@ public sealed class CaseViewSearch
         is_valid_record_id = create_predicate_by_record_id(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_date_of_review = create_predicate_by_date_of_review(field_selection, date_of_review_range);
         is_valid_date_of_death = create_predicate_by_date_of_death(field_selection, date_of_death_range);
+    }
+
+
+    async Task<mmria.common.model.couchdb.pinned_case_set> GetPinnedCaseSet()
+    {
+
+        mmria.common.model.couchdb.pinned_case_set result = null;
+
+        try
+        {
+            string request_string = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
+            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = await case_curl.executeAsync();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return result;
+        
     }
 }
 
