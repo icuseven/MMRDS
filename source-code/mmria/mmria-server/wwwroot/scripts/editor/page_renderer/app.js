@@ -157,7 +157,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 </tr>
             </thead>
             <tbody class="tbody">
-                
+                ${g_pinned_case_count = 0}
                 ${p_ui.case_view_list.map((item, i) => render_app_pinned_summary_result(item, i)).join('')}
 
                 ${p_ui.case_view_list.map((item, i) => render_app_summary_result_item(item, i)).join('')}
@@ -712,6 +712,7 @@ function render_app_summary_result_item(item, i)
     if (projectedReviewDate.length > 0 && actualReviewDate.length < 1) actualReviewDate = '(blank)';
     const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
 
+
     return (
     `<tr class="tr" path="${caseID}">
         <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
@@ -815,15 +816,24 @@ function render_app_pinned_summary_result(item, i)
     if (projectedReviewDate.length > 0 && actualReviewDate.length < 1) actualReviewDate = '(blank)';
     const reviewDates = `${projectedReviewDate}${projectedReviewDate || actualReviewDate ? ', ' : ''} ${actualReviewDate}`;
 
+    g_pinned_case_count += 1;
+
+
+    let border_bottom_color = ""
+    if(g_pinned_case_count == mmria_count_number_pinned())
+    {
+        border_bottom_color = 'style="border-bottom-color: #712177;border-bottom-width:2px"';
+    }
+
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
-        <td class="td" scope="col">${currentCaseStatus}</td>
-        <td class="td">${reviewDates}</td>
-        <td class="td">${createdBy} - ${dateCreated}</td>
-        <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
-        <td class="td">
+        <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
+        <td class="td" ${border_bottom_color}>${reviewDates}</td>
+        <td class="td" ${border_bottom_color}>${createdBy} - ${dateCreated}</td>
+        <td class="td" ${border_bottom_color}>${lastUpdatedBy} - ${lastUpdatedDate}</td>
+        <td class="td" ${border_bottom_color}>
             ${is_checked_out ? (`
             <span class="icn-info">${lockedBy}</span>
             `) : ''}
@@ -835,7 +845,7 @@ function render_app_pinned_summary_result(item, i)
             `) : ''}
         </td>
         ${!g_is_data_analyst_mode ? (
-            `<td class="td">
+            `<td class="td" ${border_bottom_color}>
                 <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
                 
                 ${render_pin_un_pin_button

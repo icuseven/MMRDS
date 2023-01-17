@@ -1645,3 +1645,31 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
         }
     }
 }
+
+function mmria_count_number_pinned()
+{
+    const case_set = new Set();
+
+    if(Object.hasOwn(g_pinned_case_set, 'list'))
+    {
+        if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
+        {
+            for(const i in g_pinned_case_set.list.everyone)
+            {
+                case_set.add(g_pinned_case_set.list.everyone[i]);
+            }
+        }
+
+        
+        if(Object.hasOwn(g_pinned_case_set.list, g_user_name))
+        {
+            for(const i in g_pinned_case_set.list[g_user_name])
+            {
+                case_set.add(g_pinned_case_set.list[g_user_name][i]);
+            }
+        }
+        
+    }
+
+    return case_set.size;
+}

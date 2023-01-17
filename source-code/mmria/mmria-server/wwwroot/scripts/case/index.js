@@ -45,6 +45,8 @@ var g_case_narrative_original_value = null;
 var g_is_committee_member_view = false;
 
 var g_pinned_case_set = null;
+
+var g_pinned_case_count = 0;
 var g_is_jurisdiction_admin = false;
 
 let save_start_time, save_end_time;
@@ -1640,10 +1642,6 @@ async function get_case_set(p_call_back)
     ({
         url: url
     });
-
-
-
-
 
     const case_view_response = await $.ajax({
     url: case_view_url,
