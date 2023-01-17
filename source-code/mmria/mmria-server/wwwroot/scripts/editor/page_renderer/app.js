@@ -622,9 +622,16 @@ function render_pin_un_pin_button
         }
         else
         {
+            let click_event = ` onclick="unpin_case_clicked('${p_case_view_item.id}')" `;
+            let cursor_pointer = "cursor: pointer;";
+            if(is_pinned == 2 && g_is_jurisdiction_admin == false)
+            {
+                cursor_pointer = "";
+                click_event = "";
+            }
             return `
         
-        <img src="../img/icon_unpin.png" style="width:14px;height:22px;background-color:#712177;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
+        <img src="../img/icon_unpin.png" style="width:14px;height:22px;background-color:#712177;${cursor_pointer}" ${click_event}/>
         
         `;
         }
