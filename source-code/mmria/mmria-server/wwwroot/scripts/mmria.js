@@ -1487,7 +1487,17 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
 
     }
  
-    g_render();
+    document.getElementById('form_content_id').innerHTML = page_render
+    (
+        g_metadata,
+        g_data,
+        g_ui,
+        'g_metadata',
+        'g_data',
+        '',
+        false,
+        null
+    ).join('');
 
 
 }
@@ -1546,7 +1556,17 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
 
     }
 
-    g_render();
+    document.getElementById('form_content_id').innerHTML = page_render
+    (
+        g_metadata,
+        g_data,
+        g_ui,
+        'g_metadata',
+        'g_data',
+        '',
+        false,
+        null
+    ).join('');
 
 
 }

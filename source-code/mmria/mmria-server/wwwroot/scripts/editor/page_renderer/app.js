@@ -629,6 +629,8 @@ function render_pin_un_pin_button
                 cursor_pointer = "";
                 click_event = "";
             }
+
+
             return `
         
         <img src="../img/icon_unpin.png" style="width:14px;height:22px;background-color:#712177;${cursor_pointer}" ${click_event}/>
@@ -861,7 +863,7 @@ async function pin_case_clicked(p_id)
     }
     else
     {
-        mmria_pin_case_click(p_id, false)
+        await mmria_pin_case_click(p_id, false)
     }
 }
 
@@ -873,6 +875,6 @@ async function unpin_case_clicked(p_id)
     }
     else
     {
-        mmria_un_pin_case_click(p_id, false)
+        await mmria_un_pin_case_click(p_id, false)
     }
 }
