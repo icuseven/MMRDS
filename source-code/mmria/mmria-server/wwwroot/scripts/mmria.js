@@ -1487,6 +1487,7 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
 
     }
  
+    const post_html_call_back = [];
     document.getElementById('form_content_id').innerHTML = page_render
     (
         g_metadata,
@@ -1496,16 +1497,25 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
         'g_data',
         '',
         false,
-        null
+        post_html_call_back
     ).join('');
 
-
+    if (post_html_call_back.length > 0) 
+    {
+        try
+        {
+        eval(post_html_call_back.join(''));
+        } 
+        catch (ex) 
+        {
+        console.log(ex);
+        }
+    }
 }
 
 
 async function mmria_un_pin_case_click(p_id, p_is_everyone)
 {
-
     const message = {
         is_pin: false,
         case_id: p_id,
@@ -1556,6 +1566,7 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
 
     }
 
+    const post_html_call_back = [];
     document.getElementById('form_content_id').innerHTML = page_render
     (
         g_metadata,
@@ -1565,8 +1576,19 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
         'g_data',
         '',
         false,
-        null
+        post_html_call_back
     ).join('');
 
 
+    if (post_html_call_back.length > 0) 
+    {
+        try
+        {
+        eval(post_html_call_back.join(''));
+        } 
+        catch (ex) 
+        {
+        console.log(ex);
+        }
+    }
 }
