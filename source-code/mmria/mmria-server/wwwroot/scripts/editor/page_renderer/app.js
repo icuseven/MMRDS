@@ -572,27 +572,30 @@ function records_per_page_change(p_value)
 
 function app_is_item_pinned(p_id)
 {
-    var is_pin = true;
+    var is_pin = 0;
     if(Object.hasOwn(g_pinned_case_set, 'list'))
     {
         if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
         {
             if(g_pinned_case_set.list.everyone.indexOf(p_id) != -1)
             {
-                is_pin = false;
+                is_pin = 2;
             }
         }
 
-        if(Object.hasOwn(g_pinned_case_set.list, g_user_name))
+        if(is_pin == 0)
         {
-            if(g_pinned_case_set.list[g_user_name].indexOf(p_id) != -1)
+            if(Object.hasOwn(g_pinned_case_set.list, g_user_name))
             {
-                is_pin = false;
+                if(g_pinned_case_set.list[g_user_name].indexOf(p_id) != -1)
+                {
+                    is_pin = 1;
+                }
             }
         }
     }
 
-    return ! is_pin;
+    return is_pin;
 }
 
 function render_pin_un_pin_button
@@ -609,7 +612,7 @@ function render_pin_un_pin_button
 
     if(!p_is_checked_out && p_delete_enabled_html == '')
     {
-        if(! is_pinned)
+        if(is_pinned == 0)
         {
             return `
         
@@ -638,7 +641,7 @@ function render_pin_un_pin_button
 function render_app_summary_result_item(item, i)
 {
 
-    if(app_is_item_pinned(item.id))
+    if(app_is_item_pinned(item.id) != 0)
     {
         return "";
     }
@@ -743,7 +746,7 @@ function render_app_summary_result_item(item, i)
 
 function render_app_pinned_summary_result(item, i)
 {
-    if(! app_is_item_pinned(item.id))
+    if(app_is_item_pinned(item.id) == 0)
     {
         return "";
     }
@@ -847,7 +850,7 @@ async function pin_case_clicked(p_id)
 {
     if(g_is_jurisdiction_admin)
     {
-        $mmria.pin_un_pin_dialog_show();
+        $mmria.pin_un_pin_dialog_show(p_id, true);
     }
     else
     {
@@ -857,9 +860,9 @@ async function pin_case_clicked(p_id)
 
 async function unpin_case_clicked(p_id)
 {
-    if(g_is_jurisdiction_admin)
+    if(g_is_jurisdiction_admin && app_is_item_pinned(p_id) != 1)
     {
-        $mmria.pin_un_pin_dialog_show();
+        $mmria.pin_un_pin_dialog_show(p_id, false);
     }
     else
     {

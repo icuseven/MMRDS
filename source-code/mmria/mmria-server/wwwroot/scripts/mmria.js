@@ -1314,9 +1314,14 @@ var $mmria = function()
             let el = document.getElementById("converter-calculater-id");
             el.close();
         },
-        pin_un_pin_dialog_show: async function ()
+        pin_un_pin_dialog_show: async function (p_case_id, p_is_pin)
         {
             /*
+
+
+            mmria_pin_case_click(p_id, p_is_everyone)
+
+            mmria_un_pin_case_click(p_id, p_is_everyone)
             let popUpObj=window.open
                 (
                     "conversion-calculator",
@@ -1336,26 +1341,36 @@ var $mmria = function()
             
                 //LoadModalDiv();
         */
-            const Title_Text = [
-                "Pin Case Options",
-                "Unpin Case for All"
-            ];
+            const Title_Text = [];
+            const Button_Text = [];
+            const Description_Text = [];
+            const Button_Event = [];
 
-            const Button_Text = [
-                "Pin For Everyone",
-                "Pin For Me Only",
-                "Cancel",
-                "Unpin For Everyon"
-            ]
+            if(p_is_pin)
+            {
+                Title_Text.push("Pin Case Options");
+                Button_Text.push("Pin For Everyone");
+                Button_Text.push("Pin For Me Only");
+                Description_Text.push("Would you like to pin this case for all abstractors in this jurisdiction or pin this case only on your account?");
+                
+                
+                Button_Event.push(`mmria_pin_case_click('${p_case_id}', true)`);
+                Button_Event.push(`mmria_pin_case_click('${p_case_id}', false)`);
+                
+            }
+            else
+            {
+                Title_Text.push("Unpin Case for All");
+                Button_Text.push("Cancel");
+                Button_Text.push("Unpin For Everyone");
+                Description_Text.push("Are you sure you want to unpin this case for all users in this jurisdiction?");
+                
+                //Description_Event.push(`mmria_un_pin_case_click(${p_case_id}, p_is_everyone)`);
 
-
-            const Description_Text = [
-                "Would you like to pin this case for all abstractors in this jurisdiction or pin this case only on your account?",
-                "Are you sure you want to unpin this case for all users in this jurisdiction?"
-            ];
-
-
-
+                
+                Button_Event.push(`$mmria.pin_un_pin_dialog_click()`);
+                Button_Event.push(`mmria_un_pin_case_click('${p_case_id}', true)`);
+            }
 
             let element = document.getElementById("pin-unpin-id");
                 if(element == null)
@@ -1370,21 +1385,7 @@ var $mmria = function()
 
                 element.style.width = "430px";
                 element.style.transform = "translateY(0%)";
-/*
-                element.style.width = "400px";
-                element.style.transform = "translateY(0%)";
-                element.style.height = "600px";
-                element.style.overflow = "hidden";
 
-
-                element.style.maxWidth = "324px";
-                element.style.transform = "translateY(0%)";
-                element.style.maxHeight = "600px";
-                element.style.overflow = "hidden";
-                element.style.top = "775px"
-                element.style.left = "-950px";
-                element.style.float = "left";
-                */
     
                 let html = [];
                 html.push(`
@@ -1398,8 +1399,8 @@ var $mmria = function()
                        ${Description_Text[0]}
                        <br/><br/>
                                     <div style="text-align:right;padding-right: 8px;">
-                                        <input id="cc_reset" class="btn-primary" type="button" value="Pin For Everyone" />
-                                        <input id="cc_convert" class="btn-primary" type="button" value="Pin For Me Only"  />
+                                        <input id="cc_reset" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" />
+                                        <input id="cc_convert" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" />
                                         
             
                                     </div>
@@ -1421,8 +1422,9 @@ var $mmria = function()
         },
         pin_un_pin_dialog_click: function ()
         {
-            let el = document.getElementById("pin-unpin-id");
-            el.close();
+            const el = document.getElementById("pin-unpin-id");
+            if(el != null)
+                el.close();
         }
 
 
@@ -1445,7 +1447,13 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
     if(g_is_jurisdiction_admin && p_is_everyone)
     {
         is_admin = true;
+        message.user_id = "everyone";
         method = "PUT";
+    }
+
+    if(g_is_jurisdiction_admin)
+    {
+        $mmria.pin_un_pin_dialog_click();
     }
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;
@@ -1464,10 +1472,16 @@ async function mmria_pin_case_click(p_id, p_is_everyone)
     {
         if(is_admin)
         {
-           g_pinned_case_set.list.everyone.push(p_id);
+            if(g_pinned_case_set.list.everyone == null)
+                g_pinned_case_set.list.everyone = [];
+
+            g_pinned_case_set.list.everyone.push(p_id);
         }
         else
         {
+            if(g_pinned_case_set.list[g_user_name] == null)
+                g_pinned_case_set.list[g_user_name] = []
+
             g_pinned_case_set.list[g_user_name].push(p_id);
         }
 
@@ -1494,7 +1508,13 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
     if(g_is_jurisdiction_admin && p_is_everyone)
     {
         is_admin = true;
+        message.user_id = "everyone";
         method = "PUT";
+    }
+
+    if(g_is_jurisdiction_admin)
+    {
+        $mmria.pin_un_pin_dialog_click();
     }
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;

@@ -1652,7 +1652,7 @@ async function get_case_set(p_call_back)
     const new_list = [];
 
 
-    g_ui.case_view_list.map((item, i) => { if(app_is_item_pinned(item.id)) new_list.push(item) ;});
+    g_ui.case_view_list.map((item, i) => { if(app_is_item_pinned(item.id) != 0) new_list.push(item) ;});
 
     g_ui.case_view_list = new_list;
 
