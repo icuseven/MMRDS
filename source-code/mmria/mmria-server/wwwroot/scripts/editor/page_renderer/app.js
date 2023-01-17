@@ -523,6 +523,7 @@ function clear_case_search()
     g_ui.case_view_request.take = 100;
     g_ui.case_view_request.page = 1;
     g_ui.case_view_request.skip = 0;
+    g_ui.case_view_list = [];
 
     get_case_set();
 }
