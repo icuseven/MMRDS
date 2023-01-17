@@ -1345,6 +1345,25 @@ var $mmria = function()
             const Button_Text = [];
             const Description_Text = [];
             const Button_Event = [];
+            const Button_style = [];
+
+            /*
+
+            #cancelbutton {
+  width: 89px;
+  height: 38px;
+  padding: 2px 2px 2px 2px;
+  border-radius: 4px;
+  border: 1px solid #797979;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  color: #333333;
+  text-align: center;
+  line-height: normal;
+}
+
+*/
 
             if(p_is_pin)
             {
@@ -1356,6 +1375,17 @@ var $mmria = function()
                 
                 Button_Event.push(`mmria_pin_case_click('${p_case_id}', true)`);
                 Button_Event.push(`mmria_pin_case_click('${p_case_id}', false)`);
+                Button_style.push(`style="height: 38px;
+                padding: 2px 2px 2px 2px;
+                border-radius: 4px;
+                border: 1px solid #712177;
+                background-color: #712177;
+                box-sizing: border-box;
+                font-family: 'Open Sans', sans-serif;
+                color: rgba(255, 255, 255, 1);
+                text-align: center;
+                line-height: normal;
+                cursor: pointer;"`);
                 
             }
             else
@@ -1370,6 +1400,19 @@ var $mmria = function()
                 
                 Button_Event.push(`$mmria.pin_un_pin_dialog_click()`);
                 Button_Event.push(`mmria_un_pin_case_click('${p_case_id}', true)`);
+                Button_style.push(`style="  width: 89px;
+                height: 38px;
+                padding: 2px 2px 2px 2px;
+                border-radius: 4px;
+                border: 1px solid #797979;
+                background-color: #ffffff;
+                color: #000000;
+                box-sizing: border-box;
+                font-family: 'Open Sans', sans-serif;
+                color: #333333;
+                text-align: center;
+                line-height: normal;
+                cursor: pointer;"`);
             }
 
             let element = document.getElementById("pin-unpin-id");
@@ -1399,8 +1442,18 @@ var $mmria = function()
                        ${Description_Text[0]}
                        <br/><br/>
                                     <div style="text-align:right;padding-right: 8px;">
-                                        <input id="cc_reset" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" />
-                                        <input id="cc_convert" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" />
+                                        <input id="cc_reset" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" ${Button_style[0]}/>
+                                        <input id="cc_convert" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" style="height: 38px;
+                                        padding: 2px 2px 2px 2px;
+                                        border-radius: 4px;
+                                        border: 1px solid #712177;
+                                        background-color: #712177;
+                                        box-sizing: border-box;
+                                        font-family: 'Open Sans', sans-serif;
+                                        color: rgba(255, 255, 255, 1);
+                                        text-align: center;
+                                        line-height: normal;
+                                        cursor: pointer;"/>
                                         
             
                                     </div>

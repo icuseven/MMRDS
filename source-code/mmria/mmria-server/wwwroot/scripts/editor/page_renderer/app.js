@@ -153,7 +153,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     <th class='th' scope='col'>Created</th>
                     <th class='th' scope='col'>Last Updated</th>
                     <th class='th' scope='col'>Currently Edited By</th>
-                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col'>Actions</th>` : ''}
+                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col' style="width: 115px;">Actions</th>` : ''}
                 </tr>
             </thead>
             <tbody class="tbody">
@@ -731,9 +731,7 @@ function render_app_summary_result_item(item, i)
             `) : ''}
         </td>
         ${!g_is_data_analyst_mode ? (
-            `<td class="td">
-                <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
-                
+            `<td class="td">       
                 <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
 
                 ${render_pin_un_pin_button
@@ -837,10 +835,8 @@ function render_app_pinned_summary_result(item, i)
         </td>
         ${!g_is_data_analyst_mode ? (
             `<td class="td">
-                <!--<button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="delete_record(${i})" style="line-height: 1.15" ${delete_enabled_html}>Click twice<br />to delete</button>-->
-                
                 <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
-
+                
                 ${render_pin_un_pin_button
                     (
                         item, 
