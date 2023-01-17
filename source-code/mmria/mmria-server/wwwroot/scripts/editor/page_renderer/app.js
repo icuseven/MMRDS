@@ -1,5 +1,8 @@
 function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx) 
 {
+
+    g_pinned_case_count = 0;
+    
     p_result.push("<section id='app_summary'>");
 
     /* The Intro */
@@ -138,6 +141,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             }
         p_result.push("</div>");
     p_result.push("</div>");
+    
     p_result.push(`
         <table class="table mb-0">
             <thead class='thead'>
@@ -157,7 +161,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 </tr>
             </thead>
             <tbody class="tbody">
-                ${g_pinned_case_count = 0}
+                
                 ${p_ui.case_view_list.map((item, i) => render_app_pinned_summary_result(item, i)).join('')}
 
                 ${p_ui.case_view_list.map((item, i) => render_app_summary_result_item(item, i)).join('')}
