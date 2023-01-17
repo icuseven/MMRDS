@@ -1644,22 +1644,59 @@ async function get_case_set(p_call_back)
     });
 
     const case_view_response = await $.ajax({
-    url: case_view_url,
+        url: case_view_url,
     })  ;
 
     const new_list = [];
+    const new_list_id_set = new Set();
 
+    for(const i in g_ui.case_view_list)
+    {
+        const item = g_ui.case_view_list[i];
+        if
+        (
+            app_is_item_pinned(item.id) != 0 && 
+            !new_list_id_set.has(item.id)
+        ) 
+        { 
+            new_list.push(item); 
+            new_list_id_set.add(item.id); 
+        }
 
-    g_ui.case_view_list.map((item, i) => { if(app_is_item_pinned(item.id) != 0) new_list.push(item) ;});
-
-    g_ui.case_view_list = new_list;
-
+    }
 
     g_ui.case_view_request.total_rows = case_view_response.total_rows;
 
+    if(new_list.length != 0)
+    {
+        g_ui.case_view_list = new_list;
+        
+    }
+    else
+    {
+        //case_view_response.rows.map((item, i) => { if(app_is_item_pinned(item.id) != 0 && !new_list_id_set.has(item.id)) { new_list.push(item); new_list_id_set.add(item.id)} });
+        for(const i in case_view_response.rows)
+        {
+            const item = case_view_response.rows[i];
+            if
+            (
+                app_is_item_pinned(item.id) != 0 && 
+                !new_list_id_set.has(item.id)
+            ) 
+            { 
+                new_list.push(item); 
+                new_list_id_set.add(item.id);
+            }
+
+        }
+        g_ui.case_view_list = new_list;
+    }
+
     for (var i = 0; i < case_view_response.rows.length; i++) 
     {
-        g_ui.case_view_list.push(case_view_response.rows[i]);
+        const item = case_view_response.rows[i];
+        if(!new_list_id_set.has(item.id))
+            g_ui.case_view_list.push(case_view_response.rows[i]);
     }
 
     if (p_call_back) 

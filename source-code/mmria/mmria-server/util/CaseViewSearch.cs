@@ -984,7 +984,7 @@ public sealed class CaseViewSearch
             
 
 
-            if (! is_case_identified_data)
+            if (is_case_identified_data)
             {
                 var pinned_cases = await GetPinnedCaseSet();
                 
@@ -995,7 +995,15 @@ public sealed class CaseViewSearch
                 {
                     foreach(var case_id in kvp.Value)
                     {
-                        pinned_id_set.Add(case_id);
+                        if(kvp.Key == "everyone")
+                        {
+                            pinned_id_set.Add(case_id);
+                        }
+                        else if(kvp.Key.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            pinned_id_set.Add(case_id);
+                        }
+
                     }
                 }
                 
@@ -1008,6 +1016,8 @@ public sealed class CaseViewSearch
                     );
 
                 result.total_rows = pinned_data.Count();
+
+                result.rows.AddRange(pinned_data);
 
                 var data = case_view_response.rows
                     .Where
@@ -1023,8 +1033,8 @@ public sealed class CaseViewSearch
                     );
 
                 var unpinned_rows = data.Skip (skip).Take (take).ToList ();
-                var next = unpinned_rows.Skip(result.total_rows).Take(skip - result.total_rows);
-                result.total_rows = result.total_rows + next.Count();
+                var next = unpinned_rows.Take(take - result.total_rows);
+                result.total_rows = result.total_rows + data.Count();
                 result.rows.AddRange(next);
 
 
