@@ -985,7 +985,8 @@ function convert_attribute_to_pdf(p_node, p_result)
 	let result = {};
 
 
-	if (p_result != null) {
+	if (p_result != null) 
+    {
 		result = p_result;
 	}
 
@@ -1065,24 +1066,31 @@ function rgb_to_hex(p_value)
 
 	let a = p_value.split("(")[1].split(")")[0];
 	a = a.split(",");
-	let b = a.map(function (x) {             //For each array element
-		x = parseInt(x).toString(16);      //Convert to a base16 string
-		return (x.length == 1) ? "0" + x : x;  //Add zero if we get only one character
-	})
+	let b = a.map
+    (
+        function (x) 
+        {
+		    x = parseInt(x).toString(16);
+		    return (x.length == 1) ? "0" + x : x;
+        }
+    );
 
 	return "#" + b.join("");
 }
 
-function GetTableHeader(p_result, p_node) {
+function GetTableHeader(p_result, p_node) 
+{
 	//if(p_result.length > 0) return;
 
-	switch (p_node.nodeName.toUpperCase()) {
+	switch (p_node.nodeName.toUpperCase()) 
+    {
 		case "TH":
 			p_result.push(p_node.textContent.trim());
 			break;
 		case "TR":
 		default:
-			for (let i = 0; i < p_node.childNodes.length; i++) {
+			for (let i = 0; i < p_node.childNodes.length; i++) 
+            {
 				let child = p_node.childNodes[i];
 
 				GetTableHeader(p_result, child);
