@@ -1011,7 +1011,8 @@ public sealed class CaseViewSearch
                 var pinned_data = case_view_response.rows
                     .Where
                     (
-                        cvi => pinned_id_set.Contains(cvi.id)
+                        cvi => pinned_id_set.Contains(cvi.id) && 
+                        is_valid_jurisdition(cvi)
                         
                     );
 
