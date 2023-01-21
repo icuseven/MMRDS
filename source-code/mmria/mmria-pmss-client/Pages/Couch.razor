@@ -35,11 +35,11 @@
             //"2016-06-12T13:49:24.759Z"
            // string request_string = $"https://test-mmria.apps.ecpaas-dev.cdc.gov/api/version/22.09.13/metadata";
 
-            string request_string = $"hello";
+            string request_string = $"http://localhost:5010/hello";
      //string request_string = $"http://localhost:12345/api/healthz";
 
 
-            //using (var httpClient = new System.Net.Http.HttpClient())
+            using (var httpClient = new System.Net.Http.HttpClient())
             {
                 using HttpResponseMessage response = await httpClient.GetAsync(request_string);
     

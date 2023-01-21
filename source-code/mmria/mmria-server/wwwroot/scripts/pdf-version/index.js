@@ -1100,15 +1100,18 @@ function GetTableHeader(p_result, p_node)
 	}
 }
 
-function GetTableDetailRow(p_result, p_node) {
+function GetTableDetailRow(p_result, p_node) 
+{
 	//if(p_result.length > 0) return;
 
-	switch (p_node.nodeName.toUpperCase()) {
+	switch (p_node.nodeName.toUpperCase()) 
+    {
 		case "TD":
 			p_result.push(p_node.textContent.trim());
 			break;
 		default:
-			for (let i = 0; i < p_node.childNodes.length; i++) {
+			for (let i = 0; i < p_node.childNodes.length; i++) 
+            {
 				let child = p_node.childNodes[i];
 
 				GetTableDetailRow(p_result, child);
