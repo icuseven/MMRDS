@@ -1,0 +1,64 @@
+﻿@page "/view-data"
+@inject IHttpClientFactory httpFactory
+
+<h1>View Data</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (metadata == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+
+                <tr>
+                    <td>forecast.Date.ToShortDateString()</td>
+                    <td>forecast.TemperatureC</td>
+                    <td>forecast.TemperatureF</td>
+                    <td>forecast.Summary</td>
+                </tr>
+            
+        </tbody>
+    </table>
+}
+
+@code {
+
+
+    mmria.common.metadata.app metadata;
+
+    protected override async Task OnInitializedAsync()
+    {
+        metadata = await GetMetadata();
+    }
+
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+
+
+    private async Task<mmria.common.metadata.app> GetMetadata()
+    {
+        var client = httpFactory.CreateClient("database_client");
+
+        return await client.GetFromJsonAsync<mmria.common.metadata.app>("metadata/mmria-pmss-builder");
+    }
+}

@@ -1,5 +1,7 @@
 @page "/couchdb"
-@inject HttpClient httpClient
+@inject IHttpClientFactory httpFactory
+@*inject IDatabaseService database_service*@
+
 <h3>Test to Connect to MMRIA API and Couch DB</h3>
 
 
@@ -29,24 +31,13 @@
         System.Dynamic.ExpandoObject json_result = null;
         try
         {
+            var client = httpFactory.CreateClient("base_client");
 
-           //
-
-            //"2016-06-12T13:49:24.759Z"
-           // string request_string = $"https://test-mmria.apps.ecpaas-dev.cdc.gov/api/version/22.09.13/metadata";
-
-            string request_string = $"http://localhost:5010/hello";
-     //string request_string = $"http://localhost:12345/api/healthz";
-
-
-            using (var httpClient = new System.Net.Http.HttpClient())
+            using (var response = await client.GetAsync("hello"))
             {
-                using HttpResponseMessage response = await httpClient.GetAsync(request_string);
-    
-                //response.EnsureSuccessStatusCode().WriteRequestToConsole();
-    
-                meta = await response.Content.ReadAsStringAsync();
+                response.EnsureSuccessStatusCode();
 
+                meta = await response.Content.ReadAsStringAsync();
             }
 
             
@@ -63,17 +54,14 @@
     
     private async Task GetCouchDBData()
     {
-            string request_string = $"http://localhost:5984/metadata/2016-06-12T13:49:24.759Z";
+        var client = httpFactory.CreateClient("database_client");
 
-            using (var httpClient = new System.Net.Http.HttpClient())
-            {
-                using HttpResponseMessage response = await httpClient.GetAsync(request_string);
-    
-                //response.EnsureSuccessStatusCode().WriteRequestToConsole();
-    
-                couch = await response.Content.ReadAsStringAsync();
+        using (var response = await client.GetAsync("metadata/2016-06-12T13:49:24.759Z"))
+        {
+            response.EnsureSuccessStatusCode();
 
-            }
+            couch = await response.Content.ReadAsStringAsync();
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <!--TargetFramework>net7.0</TargetFramework-->
     <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
     <LangVersion>11</LangVersion>
     <UseBlazorWebAssembly>true</UseBlazorWebAssembly>
@@ -13,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="3.2.1" />
     <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0' ">
@@ -21,6 +23,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.1" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <!--ProjectReference Include="..\mmria.common\mmria.common.csproj"/>
+    <ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/-->
   </ItemGroup>
 
 

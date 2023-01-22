@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Http;
 
 namespace mmria_pmss_client;
 
@@ -17,7 +18,24 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
         builder.RootComponents.Add<App>("app");
 
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        //builder.Services.AddHttpClient("base_client", c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+        builder.Services.AddHttpClient("base_client", c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+        builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri("http://localhost:5984/"));
+        
+/*        
+        builder.Services.AddHttpClient<IDatabaseService, DatabaseService>(c => new HttpClient { BaseAddress = new Uri("http://localhost:5984/") });
+
+
+services.AddHttpClient<ICatalogService, CatalogService>(client =>
+{
+ client.BaseAddress = new Uri(Configuration["BaseUrl"]);
+})
+ .AddPolicyHandler(GetRetryPolicy())
+ .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+*/
+
+        //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
         var app = builder.Build();
 
