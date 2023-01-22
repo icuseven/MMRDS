@@ -11,6 +11,20 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        var config = builder.Configuration;
+
+         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:couchdb_url"]}/"));
+
+        /*builder.Services.AddCors();
+        
+        builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
+        { 
+            builder.WithOrigins(
+                "http://*:5000");
+        }));
+*/
+
         var app = builder.Build();
 
         var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
@@ -33,6 +47,10 @@ public class Program
                     "wwwroot"
                     );
 
+
+       
+
+
         app.UseStaticFiles
         (
             
@@ -50,9 +68,20 @@ public class Program
         );
 
 
+/*
 
+        app.UseStaticFiles();
 
+*/
+
+       /* app.UseCors();
         
+         app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());*/
+ //.AllowCredentials());
+
 
         //app.MapGet("/", () => "Hello World!");
 
@@ -65,8 +94,8 @@ public class Program
             .Produces<Message>();
 
 
-        app.Run("http://*:8080");
-        //app.Run("http://localhost:5000");
+        //app.Run("http://*:8080");
+        app.Run(config["mmria_settings:web_site_url"]);
     }
 
 }
