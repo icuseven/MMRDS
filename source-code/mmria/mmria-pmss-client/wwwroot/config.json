@@ -1,0 +1,5 @@
+{
+    "greeting": "Hi There",
+    "environment": "dev",
+    "mmria_settings:web_site_url": "http://localhost:5010"
+}
