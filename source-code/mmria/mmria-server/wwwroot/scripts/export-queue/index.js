@@ -137,7 +137,8 @@ function create_queue_item
   p_case_file_type,
   p_case_set,
   p_de_identify_standard_fields
-) {
+) 
+{
   var new_date = new Date().toISOString();
   var result = {
     _id: new_date.replace(/:/g, '-') + '.zip',
@@ -177,11 +178,11 @@ function create_queue_item
     //result.export_type = 'Core CSV';
     if(result.case_file_type == 'xlsx')
     {
-        result.export_type = result.export_type + ' XLXS';
+        result.export_type = result.all_or_core + ' XLXS';
     }
     else
     {
-        result.export_type =  result.export_type + ' CSV';
+        result.export_type =  result.all_or_core + ' CSV';
     }
   }
   else
@@ -189,11 +190,11 @@ function create_queue_item
     //result.export_type = result.all_or_core + ' CSV';
     if(result.case_file_type == 'xlsx')
     {
-        result.export_type = 'ALL XLXS';
+        result.export_type = result.all_or_core + ' XLXS';
     }
     else
     {
-        result.export_type = 'ALL CSV';
+        result.export_type =  result.all_or_core + ' CSV';
     }
   }
 
@@ -218,8 +219,10 @@ function custom_field_click() {
   alert('you clicked to open the custom field interface. ');
 }
 
-function add_new_all_export_item() {
-  if (answer_summary.de_identify_standard_fields) {
+function add_new_all_export_item() 
+{
+  if (answer_summary.de_identify_standard_fields) 
+  {
   }
 
   let queue_item = create_queue_item(
