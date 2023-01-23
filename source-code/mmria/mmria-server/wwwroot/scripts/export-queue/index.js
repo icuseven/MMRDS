@@ -74,11 +74,18 @@ function load_data()
     url: url,
   }).done(function (response) {
     g_data = [];
-    for (var i = 0; i < response.length; i++) {
-      if (response[i].status != 'Deleted' && response[i].status != 'expunged') {
-        g_data.push(response[i]);
-      }
+    for (var i = 0; i < response.length; i++) 
+    {
+        if 
+        (
+            response[i].status != 'Deleted' && 
+            response[i].status != 'expunged'
+        ) 
+        {
+            g_data.push(response[i]);
+        }
     }
+
     load_standard_export_report_set();
     get_metadata();
 
@@ -215,7 +222,8 @@ function create_queue_item
   return result;
 }
 
-function custom_field_click() {
+function custom_field_click() 
+{
   alert('you clicked to open the custom field interface. ');
 }
 
@@ -246,10 +254,13 @@ function add_new_all_export_item()
   //render();
 }
 
-function find_export_item(p_id) {
+function find_export_item(p_id) 
+{
   var result = null;
-  for (var i = 0; i < g_data.length; i++) {
-    if (g_data[i]._id == p_id) {
+  for (var i = 0; i < g_data.length; i++) 
+  {
+    if (g_data[i]._id == p_id) 
+    {
       result = g_data[i];
       break;
     }
@@ -258,10 +269,12 @@ function find_export_item(p_id) {
   return result;
 }
 
-function confirm_export_item(p_id) {
+function confirm_export_item(p_id) 
+{
   // submit queue item
   var item = find_export_item(p_id);
-  if (item) {
+  if (item) 
+  {
     item.status = 'In Queue...';
     item.date_last_updated = new Date().toISOString();
     item.last_updated_by = '';
@@ -284,10 +297,13 @@ function confirm_export_item(p_id) {
     }).done(function (response) {
       render();
 
-      if (update_queue_interval_id == null) {
+      if (update_queue_interval_id == null) 
+      {
         update_queue_interval_id = window.setInterval(update_queue_task, 10000);
         update_queue_interval_count = 1;
-      } else {
+      } 
+      else 
+      {
         update_queue_interval_count += 1;
       }
 
@@ -297,9 +313,12 @@ function confirm_export_item(p_id) {
   }
 }
 
-function cancel_export_item(p_id) {
-  for (var i = 0; i < g_data.length; i++) {
-    if (g_data[i]._id == p_id) {
+function cancel_export_item(p_id) 
+{
+  for (var i = 0; i < g_data.length; i++) 
+  {
+    if (g_data[i]._id == p_id) 
+    {
       g_data.splice(i, 1);
       break;
     }
@@ -307,18 +326,26 @@ function cancel_export_item(p_id) {
   render();
 }
 
-function download_export_item(p_id) {
+function download_export_item(p_id) 
+{
   var item = find_export_item(p_id);
-  if (item) {
+  if (item) 
+  {
     var download_url =
       location.protocol + '//' + location.host + '/api/zip/' + p_id;
     window.open(download_url, '_zip');
     load_data();
 
-    if (update_queue_interval_id != null && update_queue_interval_count > 0) {
+    if 
+    (
+        update_queue_interval_id != null && 
+        update_queue_interval_count > 0
+    ) 
+    {
       update_queue_interval_count -= 1;
 
-      if (update_queue_interval_count == 0) {
+      if (update_queue_interval_count == 0) 
+      {
         clearInterval(update_queue_interval_id);
         update_queue_interval_id = null;
       }
@@ -328,9 +355,11 @@ function download_export_item(p_id) {
   }
 }
 
-function delete_export_item(p_id) {
+function delete_export_item(p_id) 
+{
   var item = find_export_item(p_id);
-  if (item) {
+  if (item) 
+  {
     item.status = 'Deleted';
     item.date_last_updated = new Date().toISOString();
     item.last_updated_by = '';
@@ -449,11 +478,13 @@ function update_queue_task()
     });
 }
 
-function zip_key_changed(p_value) {
+function zip_key_changed(p_value) 
+{
   answer_summary.zip_key = p_value;
 }
 
-function setAnswerSummary(event) {
+function setAnswerSummary(event) 
+{
   return new Promise((resolve, reject) => { 
     const target = event.target;
     const val = target.value;
@@ -493,16 +524,12 @@ function setAnswerSummary(event) {
 
 function load_standard_export_report_set()
 {
-
 	$.ajax({
 		url: location.protocol + '//' + location.host + '/api/export_list_manager',
 	}).done(function(response) 
 	{
 		g_standard_export_report_set = response;
-		
-		
 	});
-
 }
 
 function getDeIdentifiedPaths(children, path = '') 
