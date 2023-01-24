@@ -41,7 +41,8 @@ public sealed class case_viewController: ControllerBase
         string field_selection = "all",
         string pregnancy_relatedness ="all",
         string date_of_death_range = "all",
-        string date_of_review_range = "all"
+        string date_of_review_range = "all",
+        bool include_pinned_cases = false
 
     ) 
     {
@@ -51,7 +52,8 @@ public sealed class case_viewController: ControllerBase
         (
             configuration, 
             User,
-            is_identefied_case
+            is_identefied_case,
+            include_pinned_cases
         );
 
         var result = await cvs.execute
