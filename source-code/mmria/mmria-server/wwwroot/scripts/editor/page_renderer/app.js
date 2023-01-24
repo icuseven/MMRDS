@@ -621,7 +621,7 @@ function render_pin_un_pin_button
         {
             return `
         
-        <img src="../img/pin-case.svg" style="width:16px;height:22px;background-color:#712177;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
+        <img src="../img/pin-case.svg" style="width:16px;height:32px;background-color:#712177;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
         
         `;
         }
@@ -638,7 +638,7 @@ function render_pin_un_pin_button
 
             return `
         
-        <img src="../img/icon_unpin.png" style="width:16px;height:22px;background-color:#712177;${cursor_pointer}" ${click_event}/>
+        <img src="../img/icon_unpin.png" style="width:16px;height:32px;background-color:#712177;${cursor_pointer}" ${click_event}/>
         
         `;
         }
