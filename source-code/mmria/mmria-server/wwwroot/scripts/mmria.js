@@ -1262,12 +1262,12 @@ var $mmria = function()
                                         <table style="padding:2px">
                                             <tr style="padding:2px">
                                                 <td><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> cm</td>
-                                                <td>&lt;-- convert --&gt; </td>
+                                                <td>&lt;-- <b>convert</b> --&gt; </td>
                                                 <td><input id="cc_in" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> in</td>
                                             </tr>
                                             <tr style="padding:2px">
                                                 <td><input id="cc_m" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> m</td>
-                                                <td>&lt;-- convert --&gt;</td>
+                                                <td>&lt;-- <b>convert</b> --&gt;</td>
                                                 <td><input id="cc_ft" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> ft</td>
                                             </tr>
                                         </table>
@@ -1279,13 +1279,13 @@ var $mmria = function()
                                         <table style="padding:2px">
                                             <tr style="padding:2px">
                                                 <td><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> lbs</td>
-                                                <td>&lt;-- convert --&gt; </td>
+                                                <td>&lt;-- <b>convert</b> --&gt; </td>
                                                 <td><input id="cc_kg" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> kg</td>
                                             </tr>
                                             
                                             <tr style="padding:2px">
                                                 <td><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" />&nbsp;oz</td>
-                                                <td>&lt;-- convert --&gt; </td>
+                                                <td>&lt;-- <b>convert</b> --&gt; </td>
                                                 <td><input id="cc_g" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> g</td>
                                             </tr>
                                         </table>
@@ -1294,7 +1294,7 @@ var $mmria = function()
                                     <br/>
                                     <div style="padding:2px"><b>Temperature</b>
                                         <div style="padding:2px">
-                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- convert --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
+                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- <b>convert</b> --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
                                         </div>
                                     </div>
                                     <br/><br/>
