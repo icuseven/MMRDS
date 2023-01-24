@@ -1227,30 +1227,20 @@ var $mmria = function()
 
                 element.style.width = "400px";
                 element.style.transform = "translateY(0%)";
-                element.style.height = "600px";
+                element.style.height = "490px";
                 element.style.overflow = "hidden";
-
-/*
-                element.style.maxWidth = "324px";
-                element.style.transform = "translateY(0%)";
-                element.style.maxHeight = "600px";
-                element.style.overflow = "hidden";
-                element.style.top = "775px"
-                element.style.left = "-950px";
-                element.style.float = "left";
-                */
     
-                let html = [];
+                const html = [];
                 html.push(`
                     <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
                         <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
-                        <div class="modal-body">
+                        <div class="modal-body" style="padding-left:12px;">
                                 <div style="width: 377px;
-                                height: 536px;
-                                padding: 2px 2px 2px 2px;
+                                height: 420px;
+                                padding: 2px 2px 2px 0px;
                                 border-radius: 4px;
                                 border: 1px solid #bdbdbd;
                                 font-family: 'Open Sans';
@@ -1584,8 +1574,7 @@ async function mmria_un_pin_case_click(p_id, p_is_everyone)
     }
 
     var url = `${location.protocol}//${location.host}/api/pinned_cases`;
-    // abstractor post
-    // jurisdiction put
+
     const pin_response = await $.ajax
     ({
         url: url,
