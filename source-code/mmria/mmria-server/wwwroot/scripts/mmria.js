@@ -1366,7 +1366,8 @@ var $mmria = function()
                 Button_Event.push(`mmria_pin_case_click('${p_case_id}', true)`);
                 Button_Event.push(`mmria_pin_case_click('${p_case_id}', false)`);
                 Button_style.push(`style="height: 38px;
-                padding: 2px 2px 2px 2px;
+                padding-left: 12px;
+                padding-right: 12px;
                 border-radius: 4px;
                 border: 1px solid #712177;
                 background-color: #712177;
@@ -1392,7 +1393,8 @@ var $mmria = function()
                 Button_Event.push(`mmria_un_pin_case_click('${p_case_id}', true)`);
                 Button_style.push(`style="  width: 89px;
                 height: 38px;
-                padding: 2px 2px 2px 2px;
+                padding-left: 12px;
+                padding-right: 12px;
                 border-radius: 4px;
                 border: 1px solid #797979;
                 background-color: #ffffff;
@@ -1434,7 +1436,8 @@ var $mmria = function()
                                     <div style="text-align:right;padding-right: 8px;">
                                         <input id="cc_reset" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" ${Button_style[0]}/>
                                         <input id="cc_convert" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" style="height: 38px;
-                                        padding: 2px 2px 2px 2px;
+                                        padding-left: 12px;
+                                        padding-right: 12px;
                                         border-radius: 4px;
                                         border: 1px solid #712177;
                                         background-color: #712177;
