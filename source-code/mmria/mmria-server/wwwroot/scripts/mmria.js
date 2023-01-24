@@ -1316,31 +1316,6 @@ var $mmria = function()
         },
         pin_un_pin_dialog_show: async function (p_case_id, p_is_pin)
         {
-            /*
-
-
-            mmria_pin_case_click(p_id, p_is_everyone)
-
-            mmria_un_pin_case_click(p_id, p_is_everyone)
-            let popUpObj=window.open
-                (
-                    "conversion-calculator",
-            
-                    "ConversionCalculator",
-            
-                    "toolbar=no,scrollbars=no,location=no,statusbar=no," +
-            
-                    "menubar=no,resizable=0,width=500,height=900," +
-            
-                    "left=490,top=300"
-            
-                );
-            
-            window.setTimeout(()=> { popUpObj.focus(); }, 0);
-                
-            
-                //LoadModalDiv();
-        */
             const Title_Text = [];
             const Button_Text = [];
             const Description_Text = [];

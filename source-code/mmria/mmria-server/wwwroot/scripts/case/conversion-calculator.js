@@ -70,6 +70,17 @@ function cc_reset_clicked()
     cc_f_input.value = "";
     cc_c_input.value = "";
     
+    cc_cm_input.readOnly = false;
+    cc_in_input.readOnly = false;
+    cc_m_input.readOnly = false;
+    cc_ft_input.readOnly = false;
+    cc_lbs_input.readOnly = false;
+    cc_kg_input.readOnly = false;
+    cc_oz_input.readOnly = false;
+    cc_g_input.readOnly = false;
+    cc_f_input.readOnly = false;
+    cc_c_input.readOnly = false;
+        
     cc_reset_message.style.display = "none";
 
     cc_render_convert();
@@ -79,6 +90,8 @@ function cc_reset_clicked()
 function cc_render_convert(p_value)
 {
     let is_able_to_convert = false;
+
+
 
     if(p_value != null)
     {
@@ -113,6 +126,18 @@ function cc_render_convert(p_value)
 
 function cc_convert_clicked()
 {
+
+    cc_cm_input.readOnly = true;
+    cc_in_input.readOnly = true;
+    cc_m_input.readOnly = true;
+    cc_ft_input.readOnly = true;
+    cc_lbs_input.readOnly = true;
+    cc_kg_input.readOnly = true;
+    cc_oz_input.readOnly = true;
+    cc_g_input.readOnly = true;
+    cc_f_input.readOnly = true;
+    cc_c_input.readOnly = true;
+
     if
     (
         cc_cm_input.value != null && 

@@ -19,14 +19,22 @@ public sealed class CaseViewSearch
     System.Security.Claims.ClaimsPrincipal User;
 
     bool is_case_identified_data = false;
+    bool is_include_pinned_cases = false;
     mmria.server.utils.ResourceRightEnum ResourceRight;
 
-    public CaseViewSearch(IConfiguration p_configuration, System.Security.Claims.ClaimsPrincipal p_user, bool p_is_case_identified_data = false)
+    public CaseViewSearch
+    (
+        IConfiguration p_configuration, 
+        System.Security.Claims.ClaimsPrincipal p_user, 
+        bool p_is_case_identified_data = false,
+        bool p_include_pinned_cases = false
+    )
     {
         configuration = p_configuration;
         User = p_user;
 
         is_case_identified_data = p_is_case_identified_data;
+        is_include_pinned_cases = p_include_pinned_cases;
 
         if(is_case_identified_data)
         {
@@ -984,7 +992,7 @@ public sealed class CaseViewSearch
             
 
 
-            if (is_case_identified_data)
+            if (is_case_identified_data && is_include_pinned_cases)
             {
                 var pinned_cases = await GetPinnedCaseSet();
                 
