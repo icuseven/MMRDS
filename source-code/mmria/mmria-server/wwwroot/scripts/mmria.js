@@ -1416,7 +1416,7 @@ var $mmria = function()
                     document.firstElementChild.appendChild(element);
                 }
 
-                element.style.width = "430px";
+                element.style.width = "500px";
                 element.style.transform = "translateY(0%)";
 
     
