@@ -1243,7 +1243,7 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">Converstion Calculator</span>
+                        <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
