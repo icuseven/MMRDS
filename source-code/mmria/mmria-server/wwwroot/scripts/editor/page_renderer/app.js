@@ -162,7 +162,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             </thead>
             <tbody class="tbody">
                 
-                ${p_ui.case_view_list.map((item, i) => render_app_pinned_summary_result(item, i)).join('')}
+                ${ !g_is_data_analyst_mode ? p_ui.case_view_list.map((item, i) => render_app_pinned_summary_result(item, i)).join('') : ""}
 
                 ${p_ui.case_view_list.map((item, i) => render_app_summary_result_item(item, i)).join('')}
             </tbody>
