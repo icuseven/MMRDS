@@ -1246,7 +1246,7 @@ var $mmria = function()
                                 font-family: 'Open Sans';
                                 background-color: #f7f2f7;
                                 box-sizing: border-box;">
-                                <div id="values-limited-to-1"  style="text-align:center;">Enter a value and press enter or tab.<br/>Numeric values limited to 1.00 - 1000.00</div>
+                                <div id="values-limited-to-1"  style="text-align:center;">Enter a value and press enter or tab.<br/>(Numeric values limited to 1.00 - 1000.00)</div>
                                 <br/>
                                     <div style="padding:2px"><b>Height</b>
                                         <table style="padding:2px">
