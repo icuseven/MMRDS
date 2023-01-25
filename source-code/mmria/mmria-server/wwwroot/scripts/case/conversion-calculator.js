@@ -411,10 +411,16 @@ function cc_only_numeric_input(evt)
         (
             evt.which < 48 || 
             evt.which > 57
-        ) &&
-        evt.which != 46 
+            
+        ) 
+        &&
+        (
+            evt.which != 46 &&
+            evt.which != 13
+        )
     )
     {
+        console.log(evt.which);
         evt.preventDefault();
     }
     
