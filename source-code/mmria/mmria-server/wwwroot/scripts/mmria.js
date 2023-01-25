@@ -1227,7 +1227,7 @@ var $mmria = function()
 
                 element.style.width = "400px";
                 element.style.transform = "translateY(0%)";
-                element.style.height = "490px";
+                element.style.height = "530px";
                 element.style.overflow = "hidden";
     
                 const html = [];
@@ -1239,7 +1239,7 @@ var $mmria = function()
                     <div id="mmria_dialog" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body" style="padding-left:12px;">
                                 <div style="width: 377px;
-                                height: 420px;
+                                height: 460px;
                                 padding: 2px 2px 2px 0px;
                                 border-radius: 4px;
                                 border: 1px solid #bdbdbd;
