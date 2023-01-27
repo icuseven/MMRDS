@@ -408,6 +408,19 @@ function cc_only_numeric_input(evt)
 {
     if
     (
+        evt.srcElement.value.length > 12 ||
+        
+        (
+            evt.srcElement.value.length == 0 &&
+            (evt.which == 46 || evt.which == 48)
+        )
+        ||
+        (
+            evt.srcElement.value.length > 0 &&
+            parseInt(evt.srcElement.value) == 0 &&
+            evt.which == 46 
+        )
+        ||
         (
             evt.which < 48 || 
             evt.which > 57
@@ -418,6 +431,7 @@ function cc_only_numeric_input(evt)
             evt.which != 46 &&
             evt.which != 13
         )
+
     )
     {
         console.log(evt.which);
