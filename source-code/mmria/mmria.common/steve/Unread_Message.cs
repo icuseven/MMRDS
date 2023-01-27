@@ -1,5 +1,5 @@
 namespace mmria.common.steve;
-public class Unread_Message
+public sealed class Unread_Message
 {
     public Unread_Message(){}
 
@@ -8,7 +8,7 @@ public class Unread_Message
     public string status {get;set;}
 }
 
-public class UnreadMessageResult
+public sealed class UnreadMessageResult
 {
     public UnreadMessageResult() {}
     public Unread_Message[] unreadMessages {get;set;}

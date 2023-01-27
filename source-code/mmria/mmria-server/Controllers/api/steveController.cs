@@ -61,17 +61,15 @@ public sealed class steveController : ControllerBase
 
         return result;
 
-
         var AuthRequestBody = new AuthRequestBody()
         {
-            seaBucketKMSKey = _configurationSet[""],
-            clientName = _configurationSet[""],
-            clientSecretKey = _configurationSet[""]
+            seaBucketKMSKey = _configurationSet["steve_api:sea_bucket_kms_key"],
+            clientName = _configurationSet["steve_api:client_name"],
+            clientSecretKey = _configurationSet["steve_api:client_secreat_key"]
         };
 
-        var base_url = _configurationSet[""];
+        var base_url = _configurationSet["steve_api:base_url"];
         var auth_url = $"{base_url}/auth";
-
 
         string jsonString = System.Text.Json.JsonSerializer.Serialize(AuthRequestBody);
         var curl = new cURL("POST", null, auth_url, jsonString, null, null);
@@ -80,8 +78,6 @@ public sealed class steveController : ControllerBase
         //System.Console.WriteLine(response);
 
         var auth_reponse = System.Text.Json.JsonSerializer.Deserialize<AuthResponse>(response);
-
-
 
         var list_mailboxes_url = $"{base_url}/mailbox";
         var mail_box_curl = new cURL("GET", null, list_mailboxes_url, null, null, null);        
@@ -117,7 +113,6 @@ To get only unread messages for the month of October, retrieving only 25 results
                 System.Console.WriteLine(response);
         }
 
-
         var message_id = "9ddfd4b0-797c-45e8-8302-286b1c822546";
         //var message_id = "fc3f22a0-1206-486d-8ecf-fd5b81e18973";
         //var message_id = "ee19a81c-e13e-438a-b909-3c49571f9029";
@@ -128,12 +123,6 @@ To get only unread messages for the month of October, retrieving only 25 results
         System.Console.WriteLine(response);
 
         System.Console.WriteLine("here");
-
-
-
-
-
-
 
     }
 }

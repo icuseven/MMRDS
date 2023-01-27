@@ -1,6 +1,6 @@
 namespace mmria.common.steve;
 
-public class Mailbox
+public sealed class Mailbox
 {
     public Mailbox()
     {
@@ -14,7 +14,7 @@ public class Mailbox
     public string routingCode { get; set; }
 }
 
-public class GetMailboxListResult
+public sealed class GetMailboxListResult
 {
     public GetMailboxListResult()
     {

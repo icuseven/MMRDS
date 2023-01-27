@@ -1,6 +1,6 @@
 namespace mmria.common.steve;
 
-public class AuthRequestBody
+public sealed class AuthRequestBody
 {
     public AuthRequestBody(){}
     public string clientName {get;set;}
@@ -8,7 +8,7 @@ public class AuthRequestBody
     public string seaBucketKMSKey  {get;set;}
 }
 
-public class AuthResponse
+public sealed class AuthResponse
 {
     public AuthResponse(){}
     public string id {get;set;}
