@@ -398,6 +398,7 @@ function cc_f_to_c(p_value)
 {
     return (p_value - 32) / 1.8000
 }
+
 function cc_c_to_f(p_value)
 {
     return p_value * 1.8000 + 32
@@ -406,35 +407,39 @@ function cc_c_to_f(p_value)
 
 function cc_only_numeric_input(evt)
 {
-    if
+    const cr_enter = 13;
+    const zero = 48;
+    const dot = 46;
+    const nine = 57
+
+    if // preventDefault if
     (
         evt.srcElement.value.length > 12 ||
         
         (
             evt.srcElement.value.length == 0 &&
-            (evt.which == 46 || evt.which == 48)
+            (evt.which == dot || evt.which == zero)
         )
         ||
         (
             evt.srcElement.value.length > 0 &&
             parseInt(evt.srcElement.value) == 0 &&
-            evt.which == 46 
+            evt.which == dot 
         )
         ||
         (
-            evt.which < 48 || 
-            evt.which > 57
+            evt.which < zero || 
+            evt.which > nine
             
         ) 
         &&
         (
-            evt.which != 46 &&
-            evt.which != 13
+            evt.which != dot &&
+            evt.which != cr_enter
         )
-
     )
     {
-        console.log(evt.which);
+        //console.log(evt.which);
         evt.preventDefault();
     }
     
