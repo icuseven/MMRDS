@@ -2,6 +2,7 @@ let BeginDateControl = null;
 let EndDateControl = null;
 let MailboxControl = null;
 let StartDownloadButton
+let queue_result = null;
 
 let begin_date = new Date();
 let end_date = new Date();
@@ -10,16 +11,26 @@ let Mailbox = null;
 
 window.onload = main;
 
-function main()
+async function main()
 {
     BeginDateControl = document.getElementById("BeginDate");
     EndDateControl = document.getElementById("EndDate");
     MailboxControl = document.getElementById("Mailbox");
     StartDownloadButton = document.getElementById("StartDownloadButton");
 
+    queue_result = document.getElementById("queue_result");
+
     BeginDateControl.onchange = ()=> begin_date_change(BeginDateControl.value);
     EndDateControl.onchange = ()=> end_date_change(EndDateControl.value);
     MailboxControl.onchange = ()=> mailbox_change(MailboxControl.value);
+
+    StartDownloadButton.onclick = ()=> download_click();
+
+    begin_date_change(BeginDateControl.value);
+    end_date_change(EndDateControl.value);
+
+    var q = await get_queue_result_list();
+    console.log(q);    
     
 }
 
@@ -118,4 +129,42 @@ function ControlFormatDate(p_value)
     const result= p_value.getFullYear() + '-' + pad_number(p_value.getMonth() + 1) + '-' + pad_number(p_value.getDate());
 
     return result;
+}
+
+
+async function get_queue_result_list()
+{
+    const get_data_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/stevePRAMS/GetQueueResult`
+    });
+
+    return get_data_response;
+}
+
+async function download_click()
+{
+    if
+    (
+        Mailbox != null &&
+        Mailbox.toLowerCase() != "(select value)"
+    )
+    {
+        const request = {
+            BeginDate: begin_date.toISOString(),
+            EndDate: end_date.toISOString(),
+            Mailbox: Mailbox
+        };
+
+        const response = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/stevePRAMS/SetDownloadRequest`,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(request),
+            type: 'POST',
+        });
+
+        console.log(response);
+    }
 }

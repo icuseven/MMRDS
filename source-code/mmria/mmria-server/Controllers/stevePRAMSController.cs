@@ -40,6 +40,19 @@ public sealed class stevePRAMSController : Controller
         return Json(queue_Result);
     }
 
+    [HttpPost]
+    public async Task<JsonResult> SetDownloadRequest
+    (
+        [FromBody] DownloadRequest request
+    )
+    {
+
+
+        var queue_Result = new mmria.common.steve.QueueResult();
+        return Json(queue_Result);
+    }
+    
+
     [HttpGet]
     public  async Task<FileResult> GetFileResult(string FileName)
     {

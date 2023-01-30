@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,8 @@ namespace mmria.server.Controllers;
 [Authorize(Roles = "cdc_admin,steve_mmria")]
 public sealed class steveMMRIAController : Controller
 {
+
+
 
     IConfiguration Configuration;
 
@@ -37,6 +40,19 @@ public sealed class steveMMRIAController : Controller
     [HttpGet]
     public async Task<JsonResult> GetQueueResult()
     {
+        var queue_Result = new mmria.common.steve.QueueResult();
+        return Json(queue_Result);
+    }
+
+
+    [HttpPost]
+    public async Task<JsonResult> SetDownloadRequest
+    (
+        [FromBody] DownloadRequest request
+    )
+    {
+
+
         var queue_Result = new mmria.common.steve.QueueResult();
         return Json(queue_Result);
     }
