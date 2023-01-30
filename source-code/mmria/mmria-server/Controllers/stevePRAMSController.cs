@@ -1,4 +1,5 @@
-
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.IO;
+using Akka.Actor;
 
 
 namespace mmria.server.Controllers;
@@ -14,14 +16,22 @@ namespace mmria.server.Controllers;
 public sealed class stevePRAMSController : Controller
 {
     IConfiguration Configuration;
-    private readonly ILogger<stevePRAMSController> _logger;
+
+    ActorSystem _actorSystem;
+    readonly ILogger<stevePRAMSController> _logger;
+
+    Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+
 
     public stevePRAMSController
     (
+        ActorSystem actorSystem,
         ILogger<stevePRAMSController> logger,
         IConfiguration configuration
     )
     {
+        _actorSystem  = actorSystem;
         _logger = logger;
         Configuration = configuration;
     }
@@ -49,6 +59,11 @@ public sealed class stevePRAMSController : Controller
 
 
         var queue_Result = new mmria.common.steve.QueueResult();
+        if(mailbox_map.ContainsKey(request.Mailbox))
+        {
+
+
+        }
         return Json(queue_Result);
     }
     

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using Akka.Actor;
 
 
 namespace mmria.server.Controllers;
@@ -18,15 +19,20 @@ public sealed class steveMMRIAController : Controller
 
 
     IConfiguration Configuration;
+    ActorSystem _actorSystem;
 
     readonly ILogger<steveMMRIAController> _logger;
 
+    Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
     public steveMMRIAController
     (
+        ActorSystem actorSystem,
         ILogger<steveMMRIAController> logger,
         IConfiguration configuration
     )
     {
+        _actorSystem = actorSystem;
         _logger = logger;
         Configuration = configuration;
     }
@@ -52,8 +58,14 @@ public sealed class steveMMRIAController : Controller
     )
     {
 
-
         var queue_Result = new mmria.common.steve.QueueResult();
+        if(mailbox_map.ContainsKey(request.Mailbox))
+        {
+
+
+        }
+
+        
         return Json(queue_Result);
     }
     
