@@ -68,6 +68,11 @@ public sealed class steveMMRIAController : Controller
         {
             System.DateTime? result = null; 
 
+            request.seaBucketKMSKey = Configuration["steve_api:sea_bucket_kms_key"];
+            request.clientName = Configuration["steve_api:client_name"];
+            request.clientSecretKey = Configuration["steve_api:client_secreat_key"];
+            request.base_url = Configuration["steve_api:base_url"];
+
             var processor = _actorSystem.ActorSelection("user/steve-api-supervisor");
 
             result = (System.DateTime) await processor.Ask(request);
