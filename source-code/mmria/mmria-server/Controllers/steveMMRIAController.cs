@@ -23,7 +23,12 @@ public sealed class steveMMRIAController : Controller
 
     readonly ILogger<steveMMRIAController> _logger;
 
-    Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "Mortality","Mortality"},
+        { "Fetal Death","FetalDeath"},
+        { "Natality", "Natality"}
+    };
 
     public steveMMRIAController
     (
@@ -61,7 +66,15 @@ public sealed class steveMMRIAController : Controller
         var queue_Result = new mmria.common.steve.QueueResult();
         if(mailbox_map.ContainsKey(request.Mailbox))
         {
+            System.DateTime? result = null; 
 
+            var processor = _actorSystem.ActorSelection("user/steve-api-supervisor");
+
+            result = (System.DateTime) await processor.Ask(request);
+            
+            System.Console.WriteLine("here");
+
+   
 
         }
 

@@ -332,6 +332,8 @@ public sealed partial class Program
             }
 
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+            actorSystem.ActorOf<mmria.server.SteveAPISupervisor>("steve-api-supervisor");
+        
 
             quartzSupervisor.Tell("init");
 
