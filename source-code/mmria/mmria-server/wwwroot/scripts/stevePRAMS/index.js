@@ -1,7 +1,8 @@
 let BeginDateControl = null;
 let EndDateControl = null;
 let MailboxControl = null;
-let StartDownloadButton
+let StartDownloadButton = null;
+let RefreshButton = null;
 let queue_result = null;
 
 let begin_date = new Date();
@@ -17,6 +18,7 @@ async function main()
     EndDateControl = document.getElementById("EndDate");
     MailboxControl = document.getElementById("Mailbox");
     StartDownloadButton = document.getElementById("StartDownloadButton");
+    RefreshButton = document.getElementById("Refresh");
 
     queue_result = document.getElementById("queue_result");
 
