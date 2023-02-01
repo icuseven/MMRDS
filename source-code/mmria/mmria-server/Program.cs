@@ -305,6 +305,12 @@ public sealed partial class Program
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
             Program.configuration_set = DbConfigSet;
+
+
+            configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
+            configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
+            configuration["steve_api:client_secreat_key"] = DbConfigSet.name_value["steve_api:client_secreat_key"];
+            configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
                         
             Program.actorSystem = ActorSystem.Create("mmria-actor-system");
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
