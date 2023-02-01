@@ -1,18 +1,19 @@
 namespace mmria.common.steve;
-public sealed class Unread_Message
+public sealed class Message
 {
-    public Unread_Message(){}
+    public Message(){}
 
     public string messageId {get;set;}
     public string fileName {get;set;}
     public string status {get;set;}
 }
 
-public sealed class UnreadMessageResult
+public sealed class MailBoxMessageResult
 {
-    public UnreadMessageResult() {}
-    public Unread_Message[] unreadMessages {get;set;}
+    public MailBoxMessageResult() {}
+    public Message[] messages {get;set;}
     public int? maxCount {get;set;}
+    public string apiVersion {get;set;}
     public string mailboxId {get;set;}
     public bool? success {get;set;}
     public string message {get;set;}

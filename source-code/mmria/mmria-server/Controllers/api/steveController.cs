@@ -108,9 +108,9 @@ To get only unread messages for the month of October, retrieving only 25 results
             mailbox_unread_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
             response = await mailbox_unread_curl.executeAsync();
 
-            var UnreadMessageResult = System.Text.Json.JsonSerializer.Deserialize<UnreadMessageResult>(response);
-            if(UnreadMessageResult.unreadMessages?.Length > 0)
-                System.Console.WriteLine(response);
+            var UnreadMessageResult = System.Text.Json.JsonSerializer.Deserialize<MailBoxMessageResult>(response);
+            //if(UnreadMessageResult.unreadMessages?.Length > 0)
+             //   System.Console.WriteLine(response);
         }
 
         var message_id = "9ddfd4b0-797c-45e8-8302-286b1c822546";

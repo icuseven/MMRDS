@@ -22,7 +22,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public SteveAPI_Instance()
     {
-        Receive<DownloadRequest>(async message =>
+        Receive<DownloadRequest>(message =>
         {
             var AuthRequestBody = new AuthRequestBody()
             {
@@ -36,7 +36,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
             string jsonString = System.Text.Json.JsonSerializer.Serialize(AuthRequestBody);
             var curl = new cURL("POST", null, auth_url, jsonString, null, null);
-            var response = await curl.executeAsync();
+            var response = curl.execute();
 
             //System.Console.WriteLine(response);
 
@@ -45,7 +45,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             var list_mailboxes_url = $"{base_url}/mailbox";
             var mail_box_curl = new cURL("GET", null, list_mailboxes_url, null, null, null);        
             mail_box_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-            response = await mail_box_curl.executeAsync();
+            response = mail_box_curl.execute();
             //System.Console.WriteLine(response);
 
             var GetMailboxListResult = System.Text.Json.JsonSerializer.Deserialize<GetMailboxListResult>(response);
@@ -66,21 +66,21 @@ public sealed class SteveAPI_Instance : ReceiveActor
     //toDate
     //fromDate
     */
-                var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?count=5000&fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
+                var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
                 var mailbox_unread_curl = new cURL("GET", null, mailbox_unread_url, null, null, null);        
                 mailbox_unread_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-                response = await mailbox_unread_curl.executeAsync();
+                response = mailbox_unread_curl.execute();
 
-                var UnreadMessageResult = System.Text.Json.JsonSerializer.Deserialize<UnreadMessageResult>(response);
-                if(UnreadMessageResult.unreadMessages?.Length > 0)
+                var UnreadMessageResult = System.Text.Json.JsonSerializer.Deserialize<MailBoxMessageResult>(response);
+                if(UnreadMessageResult.messages?.Length > 0)
                 {
-                    foreach(var msg in UnreadMessageResult.unreadMessages)
+                    foreach(var msg in UnreadMessageResult.messages)
                     {
                         var message_id = msg.messageId;
                         var download_message_url = $"{base_url}/file/{message_id}";
                         var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
                         download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-                        response = await download_message_curl.executeAsync();
+                        response = download_message_curl.execute();
                         System.Console.WriteLine(response);
                     }
                 }
