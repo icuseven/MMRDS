@@ -33,9 +33,47 @@ async function main()
 
 
     var q = await get_queue_result_list();
-    console.log(q);    
+
+    const html = [];
+        
+    html.push(`
+        <table>
+        
+        <tr>
+        <th>createdBy</th>
+        <th>dateCreated</th>
+        <th>dateLastUpdated</th>
+        <th>exportType</th>
+        <th>fileName</th>
+        <th>lastUpdatedBy</th>
+        <th>status</th>
+        </tr>
+    
+    `);
+
+    for(const i in q.items)
+    {
+        html.push(`
+        <tr>
+        <td>${q.items[i].createdBy}</td>
+        <td>${q.items[i].dateCreated}</td>
+        <td>${q.items[i].dateLastUpdated}</td>
+        <td>${q.items[i].exportType}</td>
+        <td>${q.items[i].fileName}</td>
+        <td>${q.items[i].lastUpdatedBy}</td>
+        <td>${q.items[i].status}</td>
+        </tr>
+        `);
+    }
+
+    html.push("</table>");
+
+    queue_result.innerHTML = html.join("");
+    //console.log(q);    
     
 }
+
+
 
 function mailbox_change(p_value)
 {
