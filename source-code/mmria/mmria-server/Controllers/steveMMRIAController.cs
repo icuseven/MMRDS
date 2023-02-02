@@ -172,6 +172,19 @@ public sealed class steveMMRIAController : Controller
 
     }
 
+    [HttpGet]
+    public  async Task<JsonResult> DeleteFileResult(string FileName)
+    {
+        var path = System.IO.Path.Combine (download_directory, FileName);
+
+        if(System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+        }
+
+        return await GetQueueResult();
+    }
+
 
     byte[] GetFile(string s)
     {

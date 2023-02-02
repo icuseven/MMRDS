@@ -52,16 +52,14 @@ function render_queue_result(q)
     if(q.items.length > 0)
     {
         html.push(`
-        <br/><table>
+        <br/><table border=1>
         
         <tr>
-        <th>createdBy</th>
         <th>dateCreated</th>
-        <th>dateLastUpdated</th>
-        <th>exportType</th>
+        <!--th>dateLastUpdated</th-->
         <th>fileName</th>
-        <th>lastUpdatedBy</th>
         <th>status</th>
+        <th>action</th>
         </tr>
     
         `);
@@ -69,25 +67,37 @@ function render_queue_result(q)
         {
             html.push(`
             <tr>
-            <td>${q.items[i].createdBy}</td>
             <td>${q.items[i].dateCreated}</td>
-            <td>${q.items[i].dateLastUpdated}</td>
-            <td>${q.items[i].exportType}</td>
-            <td>${q.items[i].fileName}</td>
-            <td>${q.items[i].lastUpdatedBy}</td>
+            <!--td>${q.items[i].dateLastUpdated}</td-->
+            <td><b>${q.items[i].fileName}</b></td>
             <td>${q.items[i].status}</td>
+            <td>
+            
+            <a target="_new" href="stevePRAMS/GetFileResult?FileName=${q.items[i].fileName}">Download</a> | 
+            <a href="javascript:delete_file_click('${q.items[i].fileName}')">Delete</a>
+            </td>
             </tr>
             `);
         }
     }
     else
     {
-        html.push("<br/><table><tr><td colspan=7 align=center>-- No File Results --</td></tr>");
+        html.push("<br/><table><tr><td colspan=4 align=center>-- No File Results --</td></tr>");
     }
 
     html.push("</table>");
 
     return html.join("");
+}
+
+async function delete_file_click(p_file_name)
+{
+    const q = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/stevePRAMS/DeleteFileResult??FileName=${p_file_name}`
+    });
+
+    queue_result.innerHTML = render_queue_result(q);
 }
 
 function mailbox_change(p_value)
@@ -221,6 +231,16 @@ async function download_click()
             type: 'POST',
         });
 
-        console.log(response);
+        //console.log(response);
     }
+}
+
+async function delete_file(p_file_name)
+{
+    const get_data_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/stevePRAMS/GetQueueResult`
+    });
+
+    return get_data_response;
 }

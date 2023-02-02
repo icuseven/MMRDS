@@ -92,27 +92,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
                 }
 
-    /*
-    •	count (number)
-    •	fromDate (in YYYY-MM-DD format)
-    •	toDate (in YYYY-MM-DD format)
-    All three are optional. For example, the route to use for getting all (both read and unread) messages from November 1 to present would be:
-    /mailbox/{mailboxId}/all?fromDate=2022-11-01
-
-    To get only unread messages for the month of October, retrieving only 25 results maximum would be:
-    /mailbox/{mailboxId}/unread?count=25&fromDate=2022-10-01&toDate=2022-10-31
-
-    //toDate
-    //fromDate
-
-
-    
-    */
-
-
-
-
-                var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
+                var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?count=1000&fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
                 var mailbox_unread_curl = new cURL("GET", null, mailbox_unread_url, null, null, null);        
                 mailbox_unread_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
                 response = mailbox_unread_curl.execute();

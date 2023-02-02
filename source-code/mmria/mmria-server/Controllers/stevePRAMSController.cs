@@ -86,7 +86,7 @@ public sealed class stevePRAMSController : Controller
     }
 
     [HttpGet]
-    public JsonResult GetQueueResult()
+    public async Task<JsonResult> GetQueueResult()
     {
         var queue_Result = new mmria.common.steve.QueueResult();
 
@@ -209,6 +209,19 @@ public sealed class stevePRAMSController : Controller
         var milli_second = value.Millisecond.ToString().PadLeft(4,'0');
 
         return $"steveMMRIA-{p_file_name}-{year}-{month}-{day}-{hour}-{minute}-{second}-{milli_second}";
+    }
+
+    [HttpGet]
+    public  async Task<JsonResult> DeleteFileResult(string FileName)
+    {
+        var path = System.IO.Path.Combine (download_directory, FileName);
+
+        if(System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+        }
+
+        return await GetQueueResult();
     }
 }
 
