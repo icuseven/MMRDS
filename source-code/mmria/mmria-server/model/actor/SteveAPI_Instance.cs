@@ -128,7 +128,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             System.IO.File.WriteAllText
             (
                 download_directory + "/download-log.txt", 
-                $"success:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
+                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)}\nsuccess:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
             );
 
 
