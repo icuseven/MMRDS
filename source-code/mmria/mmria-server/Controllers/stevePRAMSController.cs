@@ -50,6 +50,45 @@ public sealed class stevePRAMSController : Controller
     public JsonResult GetQueueResult()
     {
         var queue_Result = new mmria.common.steve.QueueResult();
+        //var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], FileName);
+        var path = Configuration["mmria_settings:export_directory"];
+
+        var directory = new System.IO.DirectoryInfo(path);
+
+        foreach(var info in directory.GetDirectories())
+        {
+            if(!info.Name.StartsWith("steveMMRIA")) continue;
+
+            var qr = new mmria.common.steve.QueueItem()
+            {
+                DateCreated = info.CreationTimeUtc,
+                //CreatedBy = 
+                DateLastUpdated = info.LastAccessTimeUtc,
+                //LastUpdatedBy = 
+                FileName = info.Name,
+                ExportType = "steve",
+                Status = "in-progress"
+            };
+            queue_Result.Items.Add(qr);
+        }
+
+        foreach(var info in directory.GetFiles())
+        {
+            if(!info.Name.StartsWith("steveMMRIA")) continue;
+
+            var qr = new mmria.common.steve.QueueItem()
+            {
+                DateCreated = info.CreationTimeUtc,
+                //CreatedBy = 
+                DateLastUpdated = info.LastAccessTimeUtc,
+                //LastUpdatedBy = 
+                FileName = info.Name,
+                ExportType = "steve",
+                Status = "complete"
+            };
+            queue_Result.Items.Add(qr);
+        }
+
         return Json(queue_Result);
     }
 
@@ -75,6 +114,8 @@ public sealed class stevePRAMSController : Controller
 
             request.download_directory = Configuration["mmria_settings:export_directory"];
 
+            request.file_name = GetFileName(request.Mailbox);
+
             result = (System.DateTime) await processor.Ask(request);
             
             System.Console.WriteLine("here");
@@ -88,8 +129,44 @@ public sealed class stevePRAMSController : Controller
     public  async Task<FileResult> GetFileResult(string FileName)
     {
         var queue_Result = new mmria.common.steve.QueueResult();
-        var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], FileName);
+        //var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], FileName);
+        var path = Configuration["mmria_settings:export_directory"];
 
+        var directory = new System.IO.DirectoryInfo(path);
+
+        foreach(var info in directory.GetDirectories())
+        {
+            if(!info.Name.StartsWith("steveMMRIA")) continue;
+
+            var qr = new mmria.common.steve.QueueItem()
+            {
+                DateCreated = info.CreationTimeUtc,
+                //CreatedBy = 
+                DateLastUpdated = info.LastAccessTimeUtc,
+                //LastUpdatedBy = 
+                FileName = info.Name,
+                ExportType = "steve",
+                Status = "in-progress"
+            };
+            queue_Result.Items.Add(qr);
+        }
+
+        foreach(var info in directory.GetFiles())
+        {
+            if(!info.Name.StartsWith("steveMMRIA")) continue;
+
+            var qr = new mmria.common.steve.QueueItem()
+            {
+                DateCreated = info.CreationTimeUtc,
+                //CreatedBy = 
+                DateLastUpdated = info.LastAccessTimeUtc,
+                //LastUpdatedBy = 
+                FileName = info.Name,
+                ExportType = "steve",
+                Status = "complete"
+            };
+            queue_Result.Items.Add(qr);
+        }
 
         byte[] fileBytes = GetFile(path);
         return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
@@ -115,6 +192,21 @@ public sealed class stevePRAMSController : Controller
         if (br != (int) fs_length)
             throw new System.IO.IOException(s);
         return data;
+    }
+
+    string GetFileName(string p_file_name)
+    {
+        DateTime value = DateTime.Now;
+
+        var year = value.Year.ToString();
+        var month = value.Month.ToString().PadLeft(2,'0');
+        var day = value.Day.ToString().PadLeft(2,'0');
+        var hour = value.Hour.ToString().PadLeft(2,'0');
+        var minute = value.Minute.ToString().PadLeft(2,'0');
+        var second = value.Second.ToString().PadLeft(2,'0');
+        var milli_second = value.Millisecond.ToString().PadLeft(4,'0');
+
+        return $"steveMMRIA-{p_file_name}-{year}-{month}-{day}-{hour}-{minute}-{second}-{milli_second}";
     }
 }
 

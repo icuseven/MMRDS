@@ -43,6 +43,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             var base_url = message.base_url;
             var auth_url = $"{base_url}/auth";
 
+
             string jsonString = System.Text.Json.JsonSerializer.Serialize(AuthRequestBody);
             var curl = new cURL("POST", null, auth_url, jsonString, null, null);
             var response = curl.execute();
@@ -62,7 +63,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
             var download_directory = System.IO.Path.Combine(message.download_directory,message.file_name);
 
-
+            System.IO.Directory.CreateDirectory(download_directory);
 
             var ErrorList = new List<string>();
             var SuccessCount = 0;
@@ -194,8 +195,8 @@ public sealed class SteveAPI_Instance : ReceiveActor
     string ToRequestString(DateTime value)
     {
         var year = value.Year.ToString();
-        var month = value.Month.ToString().PadRight(2,'0');
-        var day = value.Day.ToString().PadRight(2,'0');
+        var month = value.Month.ToString().PadLeft(2,'0');
+        var day = value.Day.ToString().PadLeft(2,'0');
 
         return $"{year}-{month}-{day}";
     }

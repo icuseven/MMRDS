@@ -110,9 +110,23 @@ public sealed class cURL
         }
 
 
+        System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
         foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
         {
-            httpWebRequest.Headers.Add (kvp.Key, SanitizeHeader(kvp.Value));
+            var key = rgx.Replace(kvp.Key, "");
+            if(key != "Authorization")
+            {
+                var val = rgx.Replace(kvp.Value, "");
+                if(!string.IsNullOrWhiteSpace(key))
+                {
+                    httpWebRequest.Headers.Add (key, SanitizeHeader(val));
+                }
+            }
+            else
+            {
+                httpWebRequest.Headers.Add (key, SanitizeHeader(kvp.Value));
+            }
+            //httpWebRequest.Headers.Add (kvp.Key, SanitizeHeader(kvp.Value));
         }
 
         if (this.pay_load != null) 

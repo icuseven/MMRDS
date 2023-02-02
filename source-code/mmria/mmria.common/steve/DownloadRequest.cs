@@ -12,4 +12,7 @@ public class DownloadRequest
     public string clientSecretKey { get;set;}
     public string base_url { get;set;}
 
+    public string file_name { get;set;}
+    public string download_directory {get;set; }
+
 }
