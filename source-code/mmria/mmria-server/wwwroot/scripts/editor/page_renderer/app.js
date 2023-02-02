@@ -615,47 +615,40 @@ function render_pin_un_pin_button
 
     const is_pinned = app_is_item_pinned(p_case_view_item.id);
 
-    if(!p_is_checked_out && p_delete_enabled_html == '')
+    if(is_pinned == 0)
     {
-        if(is_pinned == 0)
-        {
-            return `
-        
-        <img src="../img/icon_pin.png" style="width:16px;height:32px;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
-        
-        `;
-        }
-        else if(is_pinned == 1)
-        {
-            return `
-        
-        <img src="../img/icon_unpin.png" style="width:16px;height:32px;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
-        
-        `;
-        }
-        else
-        {
-            let click_event = ` onclick="unpin_case_clicked('${p_case_view_item.id}')" `;
-            let cursor_pointer = "cursor: pointer;";
-            if(is_pinned == 2 && g_is_jurisdiction_admin == false)
-            {
-                cursor_pointer = "";
-                click_event = "";
-            }
-
-
-            return `
-        
-        <img src="../img/icon_unpinMultiple.png" style="width:16px;height:32px;${cursor_pointer}" ${click_event}/>
-        
-        `;
-        }
-        
+        return `
+    
+    <img src="../img/icon_pin.png" style="width:16px;height:32px;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
+    
+    `;
+    }
+    else if(is_pinned == 1)
+    {
+        return `
+    
+    <img src="../img/icon_unpin.png" style="width:16px;height:32px;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
+    
+    `;
     }
     else
     {
-        return "";
+        let click_event = ` onclick="unpin_case_clicked('${p_case_view_item.id}')" `;
+        let cursor_pointer = "cursor: pointer;";
+        if(is_pinned == 2 && g_is_jurisdiction_admin == false)
+        {
+            cursor_pointer = "";
+            click_event = "";
+        }
+
+
+        return `
+    
+    <img src="../img/icon_unpinMultiple.png" style="width:16px;height:32px;${cursor_pointer}" ${click_event}/>
+    
+    `;
     }
+
 }
 
 
