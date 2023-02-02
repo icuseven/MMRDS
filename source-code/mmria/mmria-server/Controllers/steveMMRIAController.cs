@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using Akka.Actor;
+using System.Security.Claims;
 
 
 namespace mmria.server.Controllers;
@@ -23,6 +25,8 @@ public sealed class steveMMRIAController : Controller
 
     readonly ILogger<steveMMRIAController> _logger;
 
+    string _userName = null;
+    string _download_directory = null;
     Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
         { "Mortality","Mortality"},
@@ -42,7 +46,36 @@ public sealed class steveMMRIAController : Controller
         Configuration = configuration;
     }
 
-    
+    string userName
+    {
+        get
+        {
+            if (_userName == null)
+            {
+                if (User.Identities.Any(u => u.IsAuthenticated))
+                {
+                    _userName = User.Identities.First(
+                        u => u.IsAuthenticated && 
+                        u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+                }
+            }
+            return _userName;
+        }
+    }
+
+    string download_directory
+    {
+        get
+        {
+            if (_download_directory == null)
+            {
+
+                _download_directory = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], userName);
+            }
+            return _download_directory;
+        }
+    }
+
     public IActionResult Index()
     {
         return View();
@@ -52,10 +85,11 @@ public sealed class steveMMRIAController : Controller
     public async Task<JsonResult> GetQueueResult()
     {
         var queue_Result = new mmria.common.steve.QueueResult();
-        //var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], FileName);
-        var path = Configuration["mmria_settings:export_directory"];
 
-        var directory = new System.IO.DirectoryInfo(path);
+        if(!System.IO.Directory.Exists(download_directory))
+            return Json(queue_Result);
+
+        var directory = new System.IO.DirectoryInfo(download_directory);
 
         foreach(var info in directory.GetDirectories())
         {
@@ -64,9 +98,9 @@ public sealed class steveMMRIAController : Controller
             var qr = new mmria.common.steve.QueueItem()
             {
                 DateCreated = info.CreationTimeUtc,
-                //CreatedBy = 
+                CreatedBy = userName,
                 DateLastUpdated = info.LastAccessTimeUtc,
-                //LastUpdatedBy = 
+                LastUpdatedBy = userName,
                 FileName = info.Name,
                 ExportType = "steve",
                 Status = "in-progress"
@@ -81,9 +115,9 @@ public sealed class steveMMRIAController : Controller
             var qr = new mmria.common.steve.QueueItem()
             {
                 DateCreated = info.CreationTimeUtc,
-                //CreatedBy = 
+                CreatedBy = userName,
                 DateLastUpdated = info.LastAccessTimeUtc,
-                //LastUpdatedBy = 
+                LastUpdatedBy = userName,
                 FileName = info.Name,
                 ExportType = "steve",
                 Status = "complete"
@@ -100,7 +134,6 @@ public sealed class steveMMRIAController : Controller
         [FromBody] DownloadRequest request
     )
     {
-
         var queue_Result = new mmria.common.steve.QueueResult();
         if(mailbox_map.ContainsKey(request.Mailbox))
         {
@@ -110,7 +143,7 @@ public sealed class steveMMRIAController : Controller
             request.clientName = Configuration["steve_api:client_name"];
             request.clientSecretKey = Configuration["steve_api:client_secreat_key"];
             request.base_url = Configuration["steve_api:base_url"];
-            request.download_directory = Configuration["mmria_settings:export_directory"];
+            request.download_directory = download_directory;
             request.file_name = GetFileName(request.Mailbox);
 
             var processor = _actorSystem.ActorSelection("user/steve-api-supervisor");
@@ -132,46 +165,8 @@ public sealed class steveMMRIAController : Controller
     public  async Task<FileResult> GetFileResult(string FileName)
     {
         var queue_Result = new mmria.common.steve.QueueResult();
-        //var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], FileName);
-        var path = Configuration["mmria_settings:export_directory"];
+        var path = System.IO.Path.Combine (download_directory, FileName);
 
-        var directory = new System.IO.DirectoryInfo(path);
-
-        foreach(var info in directory.GetDirectories())
-        {
-            if(!info.Name.StartsWith("steveMMRIA")) continue;
-
-            var qr = new mmria.common.steve.QueueItem()
-            {
-                DateCreated = info.CreationTimeUtc,
-                //CreatedBy = 
-                DateLastUpdated = info.LastAccessTimeUtc,
-                //LastUpdatedBy = 
-                FileName = info.Name,
-                ExportType = "steve",
-                Status = "in-progress"
-            };
-
-            queue_Result.Items.Add(qr);
-        }
-
-        foreach(var info in directory.GetFiles())
-        {
-            if(!info.Name.StartsWith("steveMMRIA")) continue;
-
-            var qr = new mmria.common.steve.QueueItem()
-            {
-                DateCreated = info.CreationTimeUtc,
-                //CreatedBy = 
-                DateLastUpdated = info.LastAccessTimeUtc,
-                //LastUpdatedBy = 
-                FileName = info.Name,
-                ExportType = "steve",
-                Status = "complete"
-            };
-
-            queue_Result.Items.Add(qr);
-        }
         byte[] fileBytes = GetFile(path);
         return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
 

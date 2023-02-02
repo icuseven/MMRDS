@@ -27,15 +27,32 @@ async function main()
     MailboxControl.onchange = ()=> mailbox_change(MailboxControl.value);
 
     StartDownloadButton.onclick = ()=> download_click();
+    RefreshButton.onclick = ()=> refresh_click();
 
     begin_date_change(BeginDateControl.value);
     end_date_change(EndDateControl.value);
 
+    await refresh_click();
+
+    //console.log(q);    
+    
+}
+
+async function refresh_click()
+{
     var q = await get_queue_result_list();
+
+    queue_result.innerHTML = render_queue_result(q);
+}
+
+function render_queue_result(q)
+{
     const html = [];
         
-    html.push(`
-        <table>
+    if(q.items.length > 0)
+    {
+        html.push(`
+        <br/><table>
         
         <tr>
         <th>createdBy</th>
@@ -47,28 +64,30 @@ async function main()
         <th>status</th>
         </tr>
     
-    `);
-
-    for(const i in q.items)
-    {
-        html.push(`
-        <tr>
-        <td>${q.items[i].createdBy}</td>
-        <td>${q.items[i].dateCreated}</td>
-        <td>${q.items[i].dateLastUpdated}</td>
-        <td>${q.items[i].exportType}</td>
-        <td>${q.items[i].fileName}</td>
-        <td>${q.items[i].lastUpdatedBy}</td>
-        <td>${q.items[i].status}</td>
-        </tr>
         `);
+        for(const i in q.items)
+        {
+            html.push(`
+            <tr>
+            <td>${q.items[i].createdBy}</td>
+            <td>${q.items[i].dateCreated}</td>
+            <td>${q.items[i].dateLastUpdated}</td>
+            <td>${q.items[i].exportType}</td>
+            <td>${q.items[i].fileName}</td>
+            <td>${q.items[i].lastUpdatedBy}</td>
+            <td>${q.items[i].status}</td>
+            </tr>
+            `);
+        }
+    }
+    else
+    {
+        html.push("<br/><table><tr><td colspan=7 align=center>-- No File Results --</td></tr>");
     }
 
     html.push("</table>");
 
-    queue_result.innerHTML = html.join("");
-    //console.log(q);    
-    
+    return html.join("");
 }
 
 function mailbox_change(p_value)
