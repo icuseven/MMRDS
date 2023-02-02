@@ -14,6 +14,15 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
     public record class Status(string Name, string Description);
 
+    Dictionary<string,string> steve_file_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "Mortality","Mortality"},
+        { "Fetal Death","FetalDeath"},
+        { "Natality", "Natality"},
+        { "PRAMS", "Natality"},
+
+    };
+
 
     IConfiguration configuration;
     ILogger logger;
@@ -50,8 +59,37 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
             var GetMailboxListResult = System.Text.Json.JsonSerializer.Deserialize<GetMailboxListResult>(response);
             
+
+            var download_directory = System.IO.Path.Combine(message.download_directory,message.file_name);
+
+
+
+            var ErrorList = new List<string>();
+            var SuccessCount = 0;
+
             foreach(var mail_box in GetMailboxListResult.mailboxes)
             {
+                if(mail_box.routingCode != "DRH") continue;
+
+                if(!steve_file_map.ContainsKey(message.Mailbox)) continue;
+                
+                if
+                (
+                    steve_file_map[message.Mailbox] == "PRAMS" &&
+                    mail_box.listName.ToUpper() != "PRAMS"
+                )
+                {
+                    continue;
+                }
+                else
+                {
+                    if
+                    (
+                        mail_box.listName.ToUpper() != "JURISDICTION DATA" ||  
+                        mail_box.fileType != steve_file_map[message.Mailbox]
+                    ) continue;
+
+                }
 
     /*
     •	count (number)
@@ -65,7 +103,14 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
     //toDate
     //fromDate
+
+
+    
     */
+
+
+
+
                 var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
                 var mailbox_unread_curl = new cURL("GET", null, mailbox_unread_url, null, null, null);        
                 mailbox_unread_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
@@ -78,15 +123,67 @@ public sealed class SteveAPI_Instance : ReceiveActor
                     {
                         var message_id = msg.messageId;
                         var download_message_url = $"{base_url}/file/{message_id}";
-                        var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
-                        download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-                        response = download_message_curl.execute();
-                        System.Console.WriteLine(response);
+                        var message_path = System.IO.Path.Combine(download_directory, msg.messageId);
+                        try
+                        {
+                            var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
+                            download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
+                            response = download_message_curl.execute();
+
+                            System.IO.File.WriteAllText(message_path, response);
+
+                            SuccessCount += 1;
+                            //System.Console.WriteLine(response);
+                        }
+                        catch(Exception ex)
+                        {
+                            ErrorList.Add($"{message_path} => {ex.Message}");
+                        }
                     }
                 }
             }
 
 
+            System.IO.File.WriteAllText
+            (
+                download_directory + "/log.txt", 
+                $"success:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
+            );
+
+
+            var zip_file_name = message.file_name + ".zip";
+            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+            string encryption_key = null;
+
+            try
+            {
+
+
+                var target_zip_file = System.IO.Path.Combine(message.download_directory, zip_file_name);
+
+                if(System.IO.File.Exists(target_zip_file))
+                {
+                    System.IO.File.Delete(target_zip_file);
+                }
+
+                if(System.IO.Directory.Exists(download_directory))
+                {
+                    folder_compressor.Compress
+                    (
+                        target_zip_file,
+                        encryption_key,
+                        download_directory
+                    );
+
+                    System.IO.Directory.Delete(download_directory, true);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"File Compressor \n{ex}");
+            }
+                    
 
             System.Console.WriteLine("here");
 

@@ -72,6 +72,7 @@ public sealed class steveMMRIAController : Controller
             request.clientName = Configuration["steve_api:client_name"];
             request.clientSecretKey = Configuration["steve_api:client_secreat_key"];
             request.base_url = Configuration["steve_api:base_url"];
+            request.download_directory = Configuration["mmria_settings:export_directory"];
 
             var processor = _actorSystem.ActorSelection("user/steve-api-supervisor");
 

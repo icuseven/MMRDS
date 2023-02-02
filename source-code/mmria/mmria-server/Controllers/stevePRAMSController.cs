@@ -73,6 +73,8 @@ public sealed class stevePRAMSController : Controller
             request.clientSecretKey = Configuration["steve_api:client_secreat_key"];
             request.base_url = Configuration["steve_api:base_url"];
 
+            request.download_directory = Configuration["mmria_settings:export_directory"];
+
             result = (System.DateTime) await processor.Ask(request);
             
             System.Console.WriteLine("here");
