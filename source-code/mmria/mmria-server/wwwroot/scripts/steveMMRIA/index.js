@@ -231,7 +231,7 @@ async function download_click()
             type: 'POST',
         });
 
-        console.log(response);
+        window.setTimeout(refresh_click, 1000);
     }
 }
 

@@ -124,6 +124,8 @@ public sealed class steveMMRIAController : Controller
             };
             queue_Result.Items.Add(qr);
         }
+
+        queue_Result.Items = queue_Result.Items.OrderByDescending( x=> x.DateCreated).ToList();
         return Json(queue_Result);
     }
 
