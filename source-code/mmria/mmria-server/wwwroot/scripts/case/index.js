@@ -4942,56 +4942,56 @@ async function autorecalculate
 
                 if(niosh_result.industry.length > 0)
                 {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.industry[0].code;
-                }
-                else
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = "";
-                }
-                
-                if(niosh_result.industry.length > 1)
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.industry[1].code;
-                }
-                else
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = "";
-                }
-                
-                if(niosh_result.industry.length > 2)
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.industry[2].code;
-                }
-                else
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = "";
-                }
-                
-                if(niosh_result.occupation.length > 0)
-                {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.occupation[0].code;
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = niosh_result.industry[0].code;
                 }
                 else
                 {
                     g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = "";
                 }
                 
-                if(niosh_result.occupation.length > 1)
+                if(niosh_result.industry.length > 1)
                 {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.occupation[1].code;
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = niosh_result.industry[1].code;
                 }
                 else
                 {
                     g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = "";
                 }
                 
-                if(niosh_result.occupation.length > 2)
+                if(niosh_result.industry.length > 2)
                 {
-                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.occupation[2].code;
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = niosh_result.industry[2].code;
                 }
                 else
                 {
                     g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = "";
+                }
+                
+                if(niosh_result.occupation.length > 0)
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = niosh_result.occupation[0].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = "";
+                }
+                
+                if(niosh_result.occupation.length > 1)
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = niosh_result.occupation[1].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = "";
+                }
+                
+                if(niosh_result.occupation.length > 2)
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = niosh_result.occupation[2].code;
+                }
+                else
+                {
+                    g_data.social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = "";
                 }
                 
 
