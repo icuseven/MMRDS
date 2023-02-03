@@ -31,7 +31,8 @@ public sealed class steveMMRIAController : Controller
     {
         { "Mortality","Mortality"},
         { "Fetal Death","FetalDeath"},
-        { "Natality", "Natality"}
+        { "Natality", "Natality"},
+        { "Other", "Other"}
     };
 
     public steveMMRIAController

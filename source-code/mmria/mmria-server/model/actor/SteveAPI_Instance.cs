@@ -19,6 +19,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
         { "Mortality","Mortality"},
         { "Fetal Death","FetalDeath"},
         { "Natality", "Natality"},
+        { "Other", "Other"},
         { "PRAMS", "Natality"},
 
     };
@@ -100,25 +101,51 @@ public sealed class SteveAPI_Instance : ReceiveActor
                 var UnreadMessageResult = System.Text.Json.JsonSerializer.Deserialize<MailBoxMessageResult>(response);
                 if(UnreadMessageResult.messages?.Length > 0)
                 {
-                    foreach(var msg in UnreadMessageResult.messages)
+
+                    using (var client = new System.Net.Http.HttpClient())
                     {
-                        var message_id = msg.messageId;
-                        var download_message_url = $"{base_url}/file/{message_id}";
-                        var message_path = System.IO.Path.Combine(download_directory, msg.fileName);
-                        try
-                        {
-                            var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
-                            download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-                            response = download_message_curl.execute();
+                        client.DefaultRequestHeaders.Add("Authorization","Bearer " + auth_reponse.token);
 
-                            System.IO.File.WriteAllText(message_path, response);
-
-                            SuccessCount += 1;
-                            //System.Console.WriteLine(response);
-                        }
-                        catch(Exception ex)
+                        foreach(var msg in UnreadMessageResult.messages)
                         {
-                            ErrorList.Add($"{message_path} => {ex.Message}");
+                            var message_id = msg.messageId;
+                            var download_message_url = $"{base_url}/file/{message_id}";
+                            var message_path = System.IO.Path.Combine(download_directory, msg.fileName);
+                            try
+                            {
+                                /*
+                                var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
+                                download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
+                                response = download_message_curl.execute();
+                                */
+
+                                //System.IO.File.WriteAllText(message_path, response);
+
+                               
+
+
+                                using (var client_response = client.GetAsync(download_message_url).Result)
+                                {
+                                    using (var content = client_response.Content)
+                                    {
+                                        using (var fs = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
+                                        {
+                                            client_response.Content.CopyToAsync(fs).GetAwaiter().GetResult();
+                                            //await fs.FlushAsync();
+                                            
+                                        }
+                                    }
+                                }
+
+                                SuccessCount += 1;
+
+                                
+                                //System.Console.WriteLine(response);
+                            }
+                            catch(Exception ex)
+                            {
+                                ErrorList.Add($"{message_path} => {ex.Message}");
+                            }
                         }
                     }
                 }
