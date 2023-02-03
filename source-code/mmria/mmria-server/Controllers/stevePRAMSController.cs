@@ -98,6 +98,8 @@ public sealed class stevePRAMSController : Controller
         {
             if(!info.Name.StartsWith("steveMMRIA")) continue;
 
+            if(!info.Name.Contains("PRAMS")) continue;
+
             var qr = new mmria.common.steve.QueueItem()
             {
                 DateCreated = info.CreationTimeUtc,
@@ -114,6 +116,8 @@ public sealed class stevePRAMSController : Controller
         foreach(var info in directory.GetFiles())
         {
             if(!info.Name.StartsWith("steveMMRIA")) continue;
+
+            if(!info.Name.Contains("PRAMS")) continue;
 
             var qr = new mmria.common.steve.QueueItem()
             {

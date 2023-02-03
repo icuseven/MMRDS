@@ -94,6 +94,8 @@ public sealed class steveMMRIAController : Controller
         foreach(var info in directory.GetDirectories())
         {
             if(!info.Name.StartsWith("steveMMRIA")) continue;
+            
+            if(info.Name.Contains("PRAMS")) continue;
 
             var qr = new mmria.common.steve.QueueItem()
             {
@@ -111,6 +113,8 @@ public sealed class steveMMRIAController : Controller
         foreach(var info in directory.GetFiles())
         {
             if(!info.Name.StartsWith("steveMMRIA")) continue;
+            
+            if(info.Name.Contains("PRAMS")) continue;
 
             var qr = new mmria.common.steve.QueueItem()
             {
