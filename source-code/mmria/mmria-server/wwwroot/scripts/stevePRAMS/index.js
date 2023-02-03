@@ -101,7 +101,7 @@ async function delete_file_click(p_file_name)
 {
     const q = await $.ajax
     ({
-        url: `${location.protocol}//${location.host}/stevePRAMS/DeleteFileResult??FileName=${p_file_name}`
+        url: `${location.protocol}//${location.host}/stevePRAMS/DeleteFileResult?FileName=${p_file_name}`
     });
 
     queue_result.innerHTML = render_queue_result(q);
