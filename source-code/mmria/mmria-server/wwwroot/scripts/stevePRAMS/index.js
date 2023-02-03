@@ -54,7 +54,7 @@ function render_queue_result(q)
         html.push(`
         <br/><table border=1>
         <tr class="tr bg-tertiary">
-        <th colspan=4>Download Listing</th>
+        <th colspan=4 style="padding: 15px;">Download Listing</th>
         </tr>
         <tr style="background-color:#DDDDDD;">
         <th style="padding: 15px;">dateCreated</th>
