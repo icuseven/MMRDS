@@ -48,6 +48,8 @@ async function refresh_click()
 function render_queue_result(q)
 {
     const html = [];
+
+
         
     if(q.items.length > 0)
     {
@@ -65,6 +67,13 @@ function render_queue_result(q)
         `);
         for(const i in q.items)
         {
+            
+            let download_button = `in-progress`;
+            if(q.items[i].status == "complete")
+            {
+                download_button = `<a target="_new" href="steveMMRIA/GetFileResult?FileName=${q.items[i].fileName}">Download</a> | 
+                <a href="javascript:delete_file_click('${q.items[i].fileName}')">Delete</a>`;
+            }
             html.push(`
             <tr>
             <td>${q.items[i].dateCreated}</td>
@@ -72,9 +81,7 @@ function render_queue_result(q)
             <td><b>${q.items[i].fileName}</b></td>
             <td>${q.items[i].status}</td>
             <td>
-            
-            <a target="_new" href="steveMMRIA/GetFileResult?FileName=${q.items[i].fileName}">Download</a> | 
-            <a href="javascript:delete_file_click('${q.items[i].fileName}')">Delete</a>
+            ${download_button}
             </td>
             </tr>
             `);
