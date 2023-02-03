@@ -55,8 +55,10 @@ function render_queue_result(q)
     {
         html.push(`
         <br/><table border=1>
-        
-        <tr>
+        <tr class="tr bg-tertiary">
+        <th colspan=4>Download Listing</th>
+        </tr>
+        <tr style="background-color:#DDDDDD;">
         <th>dateCreated</th>
         <!--th>dateLastUpdated</th-->
         <th>fileName</th>
