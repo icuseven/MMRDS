@@ -104,7 +104,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                     {
                         var message_id = msg.messageId;
                         var download_message_url = $"{base_url}/file/{message_id}";
-                        var message_path = System.IO.Path.Combine(download_directory, msg.messageId);
+                        var message_path = System.IO.Path.Combine(download_directory, msg.fileName);
                         try
                         {
                             var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
