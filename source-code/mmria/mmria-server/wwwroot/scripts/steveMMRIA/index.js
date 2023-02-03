@@ -59,11 +59,10 @@ function render_queue_result(q)
         <th colspan=4>Download Listing</th>
         </tr>
         <tr style="background-color:#DDDDDD;">
-        <th>dateCreated</th>
-        <!--th>dateLastUpdated</th-->
-        <th>fileName</th>
-        <th>status</th>
-        <th>action</th>
+        <th style="padding: 15px;">dateCreated</th>
+        <th style="padding: 15px;">fileName</th>
+        <th style="padding: 15px;">status</th>
+        <th style="padding: 15px;">action</th>
         </tr>
     
         `);
@@ -78,11 +77,10 @@ function render_queue_result(q)
             }
             html.push(`
             <tr>
-            <td>${q.items[i].dateCreated}</td>
-            <!--td>${q.items[i].dateLastUpdated}</td-->
-            <td><b>${q.items[i].fileName}</b></td>
-            <td>${q.items[i].status}</td>
-            <td>
+            <td style="padding: 15px;">${q.items[i].dateCreated}</td>
+            <td style="padding: 15px;"><b>${q.items[i].fileName}</b></td>
+            <td style="padding: 15px;">${q.items[i].status}</td>
+            <td style="padding: 15px;">
             ${download_button}
             </td>
             </tr>
@@ -240,7 +238,7 @@ async function download_click()
             type: 'POST',
         });
 
-        window.setTimeout(refresh_click, 1000);
+        window.setTimeout(refresh_click, 2000);
     }
 }
 
