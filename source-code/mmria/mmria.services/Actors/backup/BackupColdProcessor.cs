@@ -98,12 +98,36 @@ public sealed class BackupColdProcessor : ReceiveActor
             var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-ready-for-compression.txt");
             System.IO.File.WriteAllText (db_folder_finished, "");
 
+            var exclude_from_backup_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            if
+            (
+                db_config_set.name_value.ContainsKey("exclude_from_backup_list") &&
+                !string.IsNullOrWhiteSpace(db_config_set.name_value["exclude_from_backup_list"])
+            )
+            {
+                var list = db_config_set.name_value["exclude_from_backup_list"].Split(",");
+                System.Console.Write("exclude_from_backup_list: ");
+                foreach(var item in list)
+                {
+                    exclude_from_backup_set.Add(item);
+                    System.Console.Write($"{item} ");
+                    
+                }
+                System.Console.WriteLine("");
+            }
+
             foreach(var kvp in db_config_set.detail_list)
             {
                 var prefix = kvp.Key.ToLower();
                 var data_connection = kvp.Value;
 
                 if(kvp.Key.Equals("vital_import", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if(exclude_from_backup_set.Contains(kvp.Key))
                 {
                     continue;
                 }
