@@ -7,7 +7,7 @@ let queue_result = null;
 
 let begin_date = new Date();
 let end_date = new Date();
-let Mailbox = null;
+let Mailbox = "PRAMS";
 
 
 window.onload = main;
