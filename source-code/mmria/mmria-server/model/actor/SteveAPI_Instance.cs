@@ -68,16 +68,41 @@ public sealed class SteveAPI_Instance : ReceiveActor
             var ErrorList = new List<string>();
             var SuccessCount = 0;
 
-            OneMailBox
-            (
-                message,
-                GetMailboxListResult,
-                base_url,
-                auth_response.token,
-                download_directory,
-                ref SuccessCount,
-                ref ErrorList
-            );
+            if(message.Mailbox.Equals("all", StringComparison.OrdinalIgnoreCase))
+            {
+                foreach(var item in steve_file_map.Where( x=> x.Key != "PRAMS"))
+                {
+                    var new_message = message with { Mailbox = item.Value };
+
+                    var mailbox_directory = System.IO.Path.Combine(download_directory, item.Value);
+
+                    System.IO.Directory.CreateDirectory(mailbox_directory);
+                    OneMailBox
+                    (
+                        new_message,
+                        GetMailboxListResult,
+                        base_url,
+                        auth_response.token,
+                        mailbox_directory,
+                        ref SuccessCount,
+                        ref ErrorList
+                    );
+
+                }
+            }
+            else
+            {
+                OneMailBox
+                (
+                    message,
+                    GetMailboxListResult,
+                    base_url,
+                    auth_response.token,
+                    download_directory,
+                    ref SuccessCount,
+                    ref ErrorList
+                );
+            }
 
 
             System.IO.File.WriteAllText

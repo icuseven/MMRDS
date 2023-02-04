@@ -161,9 +161,10 @@ public sealed class stevePRAMSController : Controller
 
             request.file_name = GetFileName(request.Mailbox);
 
-            result = (System.DateTime) await processor.Ask(request);
+            //result = (System.DateTime) await processor.Ask(request);
+            processor.Tell(request);
             
-            System.Console.WriteLine("here");
+            //System.Console.WriteLine("here");
 
         }
         return Json(queue_Result);

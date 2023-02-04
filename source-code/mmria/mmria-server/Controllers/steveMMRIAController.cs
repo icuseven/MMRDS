@@ -29,10 +29,12 @@ public sealed class steveMMRIAController : Controller
     string _download_directory = null;
     Dictionary<string,string> mailbox_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
+        { "All", "All"},
         { "Mortality","Mortality"},
         { "Fetal Death","FetalDeath"},
         { "Natality", "Natality"},
         { "Other", "Other"}
+        
     };
 
     public steveMMRIAController
@@ -155,9 +157,10 @@ public sealed class steveMMRIAController : Controller
 
             var processor = _actorSystem.ActorSelection("user/steve-api-supervisor");
 
-            result = (System.DateTime) await processor.Ask(request);
+            //result = (System.DateTime) await processor.Ask(request);
+            processor.Tell(request);
             
-            System.Console.WriteLine("here");
+            //System.Console.WriteLine("here");
 
    
 
