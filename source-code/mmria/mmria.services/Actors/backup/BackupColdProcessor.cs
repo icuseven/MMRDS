@@ -74,6 +74,27 @@ public sealed class BackupColdProcessor : ReceiveActor
             var db_folder = System.IO.Path.Combine(target_folder, "vital_import");
             System.IO.Directory.CreateDirectory($"{db_folder}/_design");
             
+            var exclude_from_backup_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            var exclude_list_builder = new System.Text.StringBuilder();
+            if
+            (
+                db_config_set.name_value.ContainsKey("exclude_from_backup_list") &&
+                !string.IsNullOrWhiteSpace(db_config_set.name_value["exclude_from_backup_list"])
+            )
+            {
+                var list = db_config_set.name_value["exclude_from_backup_list"].Split(",");
+                exclude_list_builder.Append("exclude_from_backup_list: ");
+                foreach(var item in list)
+                {
+                    exclude_from_backup_set.Add(item);
+                    exclude_list_builder.Append($"{item} ");
+                    
+                }
+                System.Console.WriteLine(exclude_list_builder.ToString());
+                document_counts.Add((exclude_list_builder.ToString(), list.Count()));
+            }
+
             var vital_import_backup_result_message = b.Execute
             (
                 new[]
@@ -97,25 +118,6 @@ public sealed class BackupColdProcessor : ReceiveActor
 
             var db_folder_finished = System.IO.Path.Combine(target_folder, $"vital_import-ready-for-compression.txt");
             System.IO.File.WriteAllText (db_folder_finished, "");
-
-            var exclude_from_backup_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            if
-            (
-                db_config_set.name_value.ContainsKey("exclude_from_backup_list") &&
-                !string.IsNullOrWhiteSpace(db_config_set.name_value["exclude_from_backup_list"])
-            )
-            {
-                var list = db_config_set.name_value["exclude_from_backup_list"].Split(",");
-                System.Console.Write("exclude_from_backup_list: ");
-                foreach(var item in list)
-                {
-                    exclude_from_backup_set.Add(item);
-                    System.Console.Write($"{item} ");
-                    
-                }
-                System.Console.WriteLine("");
-            }
 
             foreach(var kvp in db_config_set.detail_list)
             {
