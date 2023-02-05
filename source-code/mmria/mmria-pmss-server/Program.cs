@@ -14,7 +14,14 @@ public class Program
 
         var config = builder.Configuration;
 
-        builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:couchdb_url"]}/"));
+        var db_url = config["mmria_settings:couchdb_url"];
+        if(string.IsNullOrWhiteSpace(db_url))
+        {
+            db_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+            config["mmria_settings:couchdb_url"] = db_url;
+        }
+
+        builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{db_url}/"));
 
   /*      builder.Services.AddCors();
         
