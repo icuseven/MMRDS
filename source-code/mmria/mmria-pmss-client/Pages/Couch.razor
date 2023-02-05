@@ -5,7 +5,15 @@
 <h3>Test to Connect to MMRIA API and Couch DB</h3>
 
 
-<button class="btn btn-primary" @onclick="GetMetadata">Test MMRIA api metadata call</button>
+<button class="btn btn-primary" @onclick="GetAPIData">Test MMRIA api metadata call</button>
+<br/>
+<textarea rows=7 cols=80 value="@api_data">
+
+</textarea>
+<br/>
+<br/>
+
+<button class="btn btn-primary" @onclick="GetMetadata">Test Inproject</button>
 <br/>
 <textarea rows=7 cols=80 value="@meta">
 
@@ -20,6 +28,8 @@
 
 @code {
 
+
+    string api_data = null;
 
     string meta = null;
 
@@ -61,6 +71,19 @@
             response.EnsureSuccessStatusCode();
 
             couch = await response.Content.ReadAsStringAsync();
+        }
+    }
+
+
+    private async Task GetAPIData()
+    {
+        var client = httpFactory.CreateClient("api_client");
+
+        using (var response = await client.GetAsync("hello"))
+        {
+            response.EnsureSuccessStatusCode();
+
+            api_data = await response.Content.ReadAsStringAsync();
         }
     }
 }

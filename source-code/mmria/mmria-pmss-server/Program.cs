@@ -14,16 +14,16 @@ public class Program
 
         var config = builder.Configuration;
 
-         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:couchdb_url"]}/"));
+        builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:couchdb_url"]}/"));
 
-        /*builder.Services.AddCors();
+  /*      builder.Services.AddCors();*/
         
-        builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
+       builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
         { 
             builder.WithOrigins(
                 "http://*:5000");
         }));
-*/
+
 
         var app = builder.Build();
 
@@ -74,12 +74,12 @@ public class Program
 
 */
 
-       /* app.UseCors();
-        
+       /*  app.UseCors();*/
+       
          app.UseCors(builder => builder
             .AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader());*/
+            .AllowAnyHeader());
  //.AllowCredentials());
 
 
@@ -92,6 +92,20 @@ public class Program
                 });
         app.MapGet("/hello", () => Results.Ok(new Message() {  Text = "Hello World!" }))
             .Produces<Message>();
+
+        app.MapGet("/metadata/mmria-pmss-builder", (IHttpClientFactory httpClientFactory) =>
+        {
+             var client = httpClientFactory.CreateClient("database_client");
+
+            //var metadata_path = "metadata/mmria-pmss-builder";
+            var metadata_path = "metadata/2016-06-12T13:49:24.759Z";
+
+            var result = client.GetFromJsonAsync<mmria.common.metadata.app>(metadata_path).GetAwaiter().GetResult();
+
+            return Results.Ok(result);
+           
+        });
+
 
 
         //app.Run("http://*:8080");

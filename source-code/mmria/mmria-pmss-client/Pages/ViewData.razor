@@ -11,26 +11,13 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-
-                <tr>
-                    <td>forecast.Date.ToShortDateString()</td>
-                    <td>forecast.TemperatureC</td>
-                    <td>forecast.TemperatureF</td>
-                    <td>forecast.Summary</td>
-                </tr>
-            
-        </tbody>
-    </table>
+    <ul>
+    @foreach (var item in metadata.children.Where(x=> x.type == "form"))
+    {
+        <li>@item.prompt</li>    
+    }
+    </ul>
+    
 }
 
 @code {
@@ -57,7 +44,7 @@ else
 
     private async Task<mmria.common.metadata.app> GetMetadata()
     {
-        var client = httpFactory.CreateClient("database_client");
+        var client = httpFactory.CreateClient("base_client");
 
         return await client.GetFromJsonAsync<mmria.common.metadata.app>("metadata/mmria-pmss-builder");
     }
