@@ -16,13 +16,13 @@ public class Program
 
         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:couchdb_url"]}/"));
 
-  /*      builder.Services.AddCors();*/
+  /*      builder.Services.AddCors();
         
        builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
         { 
             builder.WithOrigins(
                 "http://*:5000");
-        }));
+        }));*/
 
 
         var app = builder.Build();
@@ -74,12 +74,12 @@ public class Program
 
 */
 
-       /*  app.UseCors();*/
+       /*  app.UseCors();
        
          app.UseCors(builder => builder
             .AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader());*/
  //.AllowCredentials());
 
 
@@ -108,8 +108,8 @@ public class Program
 
 
 
-        //app.Run("http://*:8080");
-        app.Run(config["mmria_settings:web_site_url"]);
+        app.Run("http://*:8080");
+        //app.Run(config["mmria_settings:web_site_url"]);
     }
 
 }
