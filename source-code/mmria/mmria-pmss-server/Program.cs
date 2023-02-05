@@ -19,6 +19,11 @@ public class Program
         {
             db_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
             config["mmria_settings:couchdb_url"] = db_url;
+            var timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
+            var timer_value = System.Environment.GetEnvironmentVariable ("timer_password");
+            config["mmria_settings:timer_user_name"] = timer_user_name;
+            config["mmria_settings:timer_password"] = timer_value;
+
         }
 
         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{db_url}/"));
