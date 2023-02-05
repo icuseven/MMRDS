@@ -114,7 +114,7 @@ public class Program
 
             var result = client.GetFromJsonAsync<mmria.common.metadata.app>(metadata_path).GetAwaiter().GetResult();
 
-            return Results.Ok(result);
+            return Results.Ok<mmria.common.metadata.app>(result);
            
         });
 
