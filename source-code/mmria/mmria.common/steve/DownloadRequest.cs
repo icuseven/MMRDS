@@ -1,5 +1,5 @@
 using System;    
-public class DownloadRequest
+public record DownloadRequest
 {
     public DownloadRequest(){}
 
