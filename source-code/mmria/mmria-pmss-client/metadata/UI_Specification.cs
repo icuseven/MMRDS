@@ -5,6 +5,7 @@ namespace mmria.common.metadata;
 
 public sealed class Dimension
 {
+    public Dimension(){}
     public string style { get; set; }
     public float? x { get; set; }
     public float? y { get; set; }
@@ -14,6 +15,7 @@ public sealed class Dimension
 
 public sealed class Dimension_Object
 {
+    public Dimension_Object(){}
     public Dimension prompt { get; set; }
     public Dimension control { get; set; }
     
