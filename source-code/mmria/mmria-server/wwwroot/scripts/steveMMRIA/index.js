@@ -59,10 +59,10 @@ function render_queue_result(q)
         <th colspan=4 style="padding: 15px;">Download Listing</th>
         </tr>
         <tr style="background-color:#DDDDDD;">
-        <th style="padding: 15px;">dateCreated</th>
-        <th style="padding: 15px;">fileName</th>
-        <th style="padding: 15px;">status</th>
-        <th style="padding: 15px;">action</th>
+        <th style="padding: 15px;">Date Created</th>
+        <th style="padding: 15px;">File Name</th>
+        <th style="padding: 15px;">Status</th>
+        <th style="padding: 15px;">Action</th>
         </tr>
     
         `);
