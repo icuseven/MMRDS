@@ -172,7 +172,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             
             if
             (
-                steve_file_map[message.Mailbox] == "PRAMS" &&
+                message.Mailbox == "PRAMS" &&
                 mail_box.listName.ToUpper() != "PRAMS"
             )
             {
