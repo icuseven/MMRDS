@@ -72,7 +72,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             {
                 foreach(var item in steve_file_map.Where( x=> x.Key != "PRAMS"))
                 {
-                    var new_message = message with { Mailbox = item.Value };
+                    var new_message = message with { Mailbox = item.Key };
 
                     var mailbox_directory = System.IO.Path.Combine(download_directory, item.Value);
 
