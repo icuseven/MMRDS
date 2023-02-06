@@ -46,8 +46,12 @@ else
     {
         var client = httpFactory.CreateClient("base_client");
 
-        
+        var response = await client.GetStringAsync("metadata/mmria-pmss-builder");
 
-        return await client.GetFromJsonAsync<mmria.common.metadata.app>("metadata/mmria-pmss-builder");
+        System.Console.WriteLine(response.Substring(0, 100));
+
+        var result = System.Text.Json.JsonSerializer.Deserialize<mmria.common.metadata.app>(response);
+
+        return result;
     }
 }
