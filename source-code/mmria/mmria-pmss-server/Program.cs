@@ -15,7 +15,7 @@ public class Program
         var config = builder.Configuration;
 
         var db_url = config["mmria_settings:couchdb_url"];
-        if(string.IsNullOrWhiteSpace(db_url))
+        if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("couchdb_url")))
         {
             db_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
             config["mmria_settings:couchdb_url"] = db_url;
@@ -28,13 +28,15 @@ public class Program
 
         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{db_url}/"));
 
-  /*      builder.Services.AddCors();
-        
-       builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
-        { 
-            builder.WithOrigins(
-                "http://*:5000");
-        }));*/
+  
+        if(builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
+                { 
+                    builder.WithOrigins(
+                        "http://*:5000");
+                }));
+        }
 
 
         var app = builder.Build();
@@ -47,27 +49,23 @@ public class Program
         provider.Mappings[".css"] = "text/css";
 
 
-
         var static_content_location = Path.Combine
-                    (
-                        Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
-                    "bin",
-                    "Release",
-                    "netstandard2.1",
-                    "browser-wasm",
-                    "publish",
-                    "wwwroot"
-                    );
+            (
+                Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+            "bin",
+            "Release",
+            "netstandard2.1",
+            "browser-wasm",
+            "publish",
+            "wwwroot"
+            );
 
-
-       
-
-
+            
         app.UseStaticFiles
         (
             
             new StaticFileOptions
-        {
+            {
             
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider
                 (
@@ -78,21 +76,20 @@ public class Program
                 ContentTypeProvider = provider
             }
         );
+        
 
 
-/*
 
-        app.UseStaticFiles();
 
-*/
 
-       /*  app.UseCors();
-       
-         app.UseCors(builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());*/
- //.AllowCredentials());
+        if(builder.Environment.IsDevelopment())
+        {
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            //.AllowCredentials());
+        }
 
 
         //app.MapGet("/", () => "Hello World!");
@@ -119,9 +116,15 @@ public class Program
         });
 
 
-
-        app.Run("http://*:8080");
-        //app.Run(config["mmria_settings:web_site_url"]);
+        if(builder.Environment.IsDevelopment())
+        {
+            app.Run(config["mmria_settings:web_site_url"]);
+        }
+        else
+        {
+            app.Run("http://*:8080");
+        }
+        
     }
 
 }
