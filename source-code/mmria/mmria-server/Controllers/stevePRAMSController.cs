@@ -57,9 +57,13 @@ public sealed class stevePRAMSController : Controller
             {
                 if (User.Identities.Any(u => u.IsAuthenticated))
                 {
-                    _userName = User.Identities.First(
+                     _userName = User.Identities.First
+                    (
                         u => u.IsAuthenticated && 
-                        u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+                        u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)
+                    )
+                    .FindFirst(System.Security.Claims.ClaimTypes.Name)
+                    .Value.Replace("@","-").Replace("'","-");
                 }
             }
             return _userName;
