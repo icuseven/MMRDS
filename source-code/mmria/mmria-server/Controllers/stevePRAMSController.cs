@@ -213,7 +213,7 @@ public sealed class stevePRAMSController : Controller
         var second = value.Second.ToString().PadLeft(2,'0');
         var milli_second = value.Millisecond.ToString().PadLeft(4,'0');
 
-        return $"stevePRAMS-{p_file_name}-{year}-{month}-{day}-{hour}-{minute}-{second}-{milli_second}";
+        return $"stevePRAMS-{p_file_name}-{year}-{month}-{day}T{hour}-{minute}-{second}-{milli_second}";
     }
 
     [HttpGet]
