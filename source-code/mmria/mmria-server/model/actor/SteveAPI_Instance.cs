@@ -57,7 +57,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             var mail_box_curl = new cURL("GET", null, list_mailboxes_url, null, null, null);        
             mail_box_curl.AddHeader("Authorization","Bearer " + auth_response.token); 
             response = mail_box_curl.execute();
-            //System.Console.WriteLine(response);
+            System.Console.WriteLine(response);
 
             var GetMailboxListResult = System.Text.Json.JsonSerializer.Deserialize<GetMailboxListResult>(response);            
 
@@ -172,21 +172,22 @@ public sealed class SteveAPI_Instance : ReceiveActor
             
             if
             (
-                message.Mailbox == "PRAMS" &&
-                mail_box.listName.ToUpper() != "PRAMS"
+                message.Mailbox == "PRAMS" 
             )
-            {
-                continue;
-            }
-            else
             {
                 if
                 (
-                    mail_box.listName.ToUpper() != "JURISDICTION DATA" ||  
-                    mail_box.fileType != steve_file_map[message.Mailbox]
-                ) continue;
-
+                    mail_box.listName.ToUpper() != "PRAMS"
+                )   
+                continue;
             }
+            else if
+            (
+                mail_box.listName.ToUpper() != "JURISDICTION DATA" ||  
+                mail_box.fileType != steve_file_map[message.Mailbox]
+            ) continue;
+
+            
 
             var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?count=1000&fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
             var mailbox_unread_curl = new cURL("GET", null, mailbox_unread_url, null, null, null);        

@@ -69,8 +69,8 @@ function render_queue_result(q)
         for(const i in q.items)
         {
             
-            let download_button = `in-progress`;
-            if(q.items[i].status == "complete")
+            let download_button = `In Progress`;
+            if(q.items[i].status == "Complete")
             {
                 download_button = `<a target="_new" href="steveMMRIA/GetFileResult?FileName=${q.items[i].fileName}">Download</a> | 
                 <a href="javascript:delete_file_click('${q.items[i].fileName}')">Delete</a>`;

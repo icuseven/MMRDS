@@ -108,7 +108,7 @@ public sealed class steveMMRIAController : Controller
                 LastUpdatedBy = userName,
                 FileName = info.Name,
                 ExportType = "steve",
-                Status = "in-progress"
+                Status = "In Progress"
             };
             queue_Result.Items.Add(qr);
         }
@@ -127,7 +127,7 @@ public sealed class steveMMRIAController : Controller
                 LastUpdatedBy = userName,
                 FileName = info.Name,
                 ExportType = "steve",
-                Status = "complete"
+                Status = "Complete"
             };
             queue_Result.Items.Add(qr);
         }
