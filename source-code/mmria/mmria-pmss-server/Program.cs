@@ -106,8 +106,8 @@ public class Program
         {
              var client = httpClientFactory.CreateClient("database_client");
 
-            var metadata_path = "metadata/mmria-pmss-builder";
-            //var metadata_path = "metadata/2016-06-12T13:49:24.759Z";
+            //var metadata_path = "metadata/mmria-pmss-builder";
+            var metadata_path = "metadata/2016-06-12T13:49:24.759Z";
 
             var result = client.GetFromJsonAsync<mmria.common.metadata.app>(metadata_path).GetAwaiter().GetResult();
 
