@@ -14,10 +14,41 @@ else
     <ul>
     @foreach (var item in metadata.children.Where(x=> x.type == "form"))
     {
-        <li>@item.prompt</li>    
+        <li>
+
+            <NavLink class="nav-link" href="@("view-data#" + item.name)">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> @item.prompt
+            </NavLink>
+        </li>    
     }
     </ul>
     
+    var form  =  metadata.children.Where(x=> x.type == "form").FirstOrDefault();
+    @foreach (var item  in form.children)
+    {
+        @switch (item.type.ToUpper())
+        {
+            case "STRING":
+            case "NUMBER":
+            <p>@item.prompt</p>
+            <input type="text" value="" />  
+            break;
+
+                        
+            case "LIST":
+            <p>@item.prompt</p>
+            <select>
+
+            @foreach (var option  in item.values)
+            {
+
+            }
+
+            </select> 
+            break;
+        }
+          
+    }
 }
 
 @code {
@@ -27,6 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        System.Console.WriteLine("OnInitializedAsync");
         metadata = await GetMetadata();
     }
 
@@ -42,7 +74,7 @@ else
     }
 
 
-    private async Task<mmria.common.metadata.app> GetMetadata()
+    async Task<mmria.common.metadata.app> GetMetadata()
     {
         var client = httpFactory.CreateClient("base_client");
 
@@ -54,4 +86,7 @@ else
 
         return result;
     }
+
+
+
 }
