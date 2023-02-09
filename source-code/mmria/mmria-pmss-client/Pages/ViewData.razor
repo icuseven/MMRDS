@@ -2,6 +2,7 @@
 @inject IHttpClientFactory httpFactory
 
 <h1>View Data</h1>
+<h2>@CurrentForm</h2>
 
 <p>This component demonstrates fetching data from the server.</p>
 
@@ -16,15 +17,17 @@ else
     {
         <li>
 
-            <NavLink class="nav-link" href="@("view-data#" + item.name)">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> @item.prompt
-            </NavLink>
+            <button @onclick="@(e=> NavButtonClick(e, @item.name))">
+                @item.prompt
+            </button>
         </li>    
     }
     </ul>
     
-    var form  =  metadata.children.Where(x=> x.type == "form").FirstOrDefault();
-    @foreach (var item  in form.children)
+    <MetadataForm Metadata="@selected_node"> </MetadataForm>
+
+    //var form  =  metadata.children.Where(x=> x.type == "form").FirstOrDefault();
+    @foreach (var item  in selected_node.children)
     {
         @switch (item.type.ToUpper())
         {
@@ -47,12 +50,18 @@ else
             </select> 
             break;
         }
+
+        break;
           
     }
 }
 
-@code {
+@code 
+{
+    
+    public string CurrentForm { get; set; } = "Test";
 
+    mmria.common.metadata.node selected_node;
 
     mmria.common.metadata.app metadata;
 
@@ -60,6 +69,8 @@ else
     {
         System.Console.WriteLine("OnInitializedAsync");
         metadata = await GetMetadata();
+        selected_node = metadata.children.Where(x=> x.type == "form").FirstOrDefault();
+        
     }
 
     public class WeatherForecast
@@ -87,6 +98,11 @@ else
         return result;
     }
 
+    void NavButtonClick(MouseEventArgs e, string tab)
+    {
+        CurrentForm = tab;
+        selected_node = metadata.children.Where(x=> x.type == "form" && x.name == tab).FirstOrDefault();
 
+    }
 
 }

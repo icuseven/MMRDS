@@ -1,0 +1,42 @@
+﻿<h2>@Metadata.prompt</h2>
+
+@foreach (var item  in Metadata.children)
+{
+    @switch (item.type.ToUpper())
+    {
+        case "STRING":
+        case "NUMBER":
+        <p>@item.prompt</p>
+        <input type="text" value="" />  
+        break;
+
+                    
+        case "LIST":
+        <p>@item.prompt</p>
+        <select>
+
+        @foreach (var option  in item.values)
+        {
+
+        }
+
+        </select> 
+        break;
+    }
+        
+}
+
+
+@code 
+{
+
+    [Parameter]
+    public mmria.common.metadata.node Metadata { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        System.Console.WriteLine("OnInitializedAsync");
+       // metadata = await GetMetadata();
+    }
+
+}
