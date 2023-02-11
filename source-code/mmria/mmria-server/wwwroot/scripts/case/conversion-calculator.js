@@ -123,7 +123,7 @@ function cc_render_convert(p_value)
 
 
     
-    if(cc_cm_input.value != null)
+    if(cc_cm_input.value != null && cc_cm_input.value != '')
     {
         cc_in_input.readOnly = true;
     }
@@ -455,6 +455,40 @@ function cc_only_numeric_input(evt)
     else //if (evt.which == cr_enter)
     {
         cc_render_convert(evt.which - zero);
+        switch(evt.srcElement.id)
+        {
+
+            case "cc_cm":
+                cc_in_input.readOnly = true;
+            break;
+            case "cc_in":
+                cc_cm_input.readOnly = true;
+            break;
+            case "cc_m":
+                cc_ft_input.readOnly = true;
+            break;
+            case "cc_ft":
+                cc_m_input.readOnly = true;
+            break;
+            case "cc_lbs":
+                cc_kg_input.readOnly = true;
+            break;
+            case "cc_kg":
+                cc_lbs_input.readOnly = true;
+            break;
+            case "cc_oz":
+                cc_g_input.readOnly = true;
+            break;
+            case "cc_g":
+                cc_oz_input.readOnly = true;
+            break;
+            case "cc_f":
+                cc_c_input.readOnly = true;
+            break;
+            case "cc_c":
+                cc_f_input.readOnly = true;
+            break;     
+        }
     }
     
 }
@@ -462,12 +496,91 @@ function cc_only_numeric_input(evt)
 
 function cc_onKeyDown(event) 
 {
-    const BACKSPACE = 8
+    const BACKSPACE = 8;
+    const TAB = 9;
     var key = event.keyCode || event.charCode;
 
     if( key == BACKSPACE)
     {
         if(event.srcElement.value.length < 2)
+        {
+            //console.log(event.srcElement.id)
             cc_render_convert('');
+            switch(event.srcElement.id)
+            {
+
+                case "cc_cm":
+                    cc_in_input.readOnly = false;
+                break;
+                case "cc_in":
+                    cc_cm_input.readOnly = false;
+                break;
+                case "cc_m":
+                    cc_ft_input.readOnly = false;
+                break;
+                case "cc_ft":
+                    cc_m_input.readOnly = false;
+                break;
+                case "cc_lbs":
+                    cc_kg_input.readOnly = false;
+                break;
+                case "cc_kg":
+                    cc_lbs_input.readOnly = false;
+                break;
+                case "cc_oz":
+                    cc_g_input.readOnly = false;
+                break;
+                case "cc_g":
+                    cc_oz_input.readOnly = false;
+                break;
+                case "cc_f":
+                    cc_c_input.readOnly = false;
+                break;
+                case "cc_c":
+                    cc_f_input.readOnly = false;
+                break;     
+            }
+        }
+        else
+        {
+            switch(event.srcElement.id)
+            {
+
+                case "cc_cm":
+                    cc_in_input.readOnly = true;
+                break;
+                case "cc_in":
+                    cc_cm_input.readOnly = true;
+                break;
+                case "cc_m":
+                    cc_ft_input.readOnly = true;
+                break;
+                case "cc_ft":
+                    cc_m_input.readOnly = true;
+                break;
+                case "cc_lbs":
+                    cc_kg_input.readOnly = true;
+                break;
+                case "cc_kg":
+                    cc_lbs_input.readOnly = true;
+                break;
+                case "cc_oz":
+                    cc_g_input.readOnly = true;
+                break;
+                case "cc_g":
+                    cc_oz_input.readOnly = true;
+                break;
+                case "cc_f":
+                    cc_c_input.readOnly = true;
+                break;
+                case "cc_c":
+                    cc_f_input.readOnly = true;
+                break;     
+            }
+        }
+    }
+    else if( key == TAB)
+    {
+        cc_render_convert();
     }
 };
