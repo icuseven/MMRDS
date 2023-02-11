@@ -1251,14 +1251,14 @@ var $mmria = function()
                                     <div style="padding:2px"><b>Height</b>
                                         <table style="padding:2px">
                                             <tr style="padding:2px">
-                                                <td><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> cm</td>
+                                                <td><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_cm">cm</label></td>
                                                 <td>&lt;-- <b>convert</b> --&gt; </td>
-                                                <td><input id="cc_in" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> in</td>
+                                                <td><input id="cc_in" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_in">in</label></td>
                                             </tr>
                                             <tr style="padding:2px">
-                                                <td><input id="cc_m" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> m</td>
+                                                <td><input id="cc_m" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_m">m</label></td>
                                                 <td>&lt;-- <b>convert</b> --&gt;</td>
-                                                <td><input id="cc_ft" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> ft</td>
+                                                <td><input id="cc_ft" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_ft">ft</label></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -1268,15 +1268,15 @@ var $mmria = function()
                                     <div style="padding:2px"><b>Weight</b>
                                         <table style="padding:2px">
                                             <tr style="padding:2px">
-                                                <td><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> lbs</td>
+                                                <td><input id="cc_lbs" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_lbs">lbs</label></td>
                                                 <td>&lt;-- <b>convert</b> --&gt; </td>
-                                                <td><input id="cc_kg" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> kg</td>
+                                                <td><input id="cc_kg" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_kg">kg</label></td>
                                             </tr>
                                             
                                             <tr style="padding:2px">
-                                                <td><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" />&nbsp;oz</td>
+                                                <td><input id="cc_oz" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" />&nbsp;<label for="cc_oz">oz</label></td>
                                                 <td>&lt;-- <b>convert</b> --&gt; </td>
-                                                <td><input id="cc_g" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> g</td>
+                                                <td><input id="cc_g" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_g">g</label></td>
                                             </tr>
                                         </table>
                                     </div>
