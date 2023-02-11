@@ -53,6 +53,18 @@ function cc_main()
     cc_f_input.addEventListener("keypress",cc_only_numeric_input);
     cc_c_input.addEventListener("keypress",cc_only_numeric_input);
 
+
+    cc_cm_input.addEventListener("keydown",cc_onKeyDown);
+    cc_in_input.addEventListener("keydown",cc_onKeyDown);
+    cc_m_input.addEventListener("keydown",cc_onKeyDown);
+    cc_ft_input.addEventListener("keydown",cc_onKeyDown);
+    cc_lbs_input.addEventListener("keydown",cc_onKeyDown);
+    cc_kg_input.addEventListener("keydown",cc_onKeyDown);
+    cc_oz_input.addEventListener("keydown",cc_onKeyDown);
+    cc_g_input.addEventListener("keydown",cc_onKeyDown);
+    cc_f_input.addEventListener("keydown",cc_onKeyDown);
+    cc_c_input.addEventListener("keydown",cc_onKeyDown);
+
 }
 
 
@@ -91,11 +103,9 @@ function cc_render_convert(p_value)
 {
     let is_able_to_convert = false;
 
-
-
     if(p_value != null)
     {
-        is_able_to_convert = is_able_to_convert || (p_value != null && p_value != '');
+        is_able_to_convert = is_able_to_convert || p_value != '';
     } 
     else
     {
@@ -113,7 +123,7 @@ function cc_render_convert(p_value)
 
 
     
-    if(cc_cm_input.value != null && cc_cm_input.value != '')
+    if(cc_cm_input.value != null)
     {
         cc_in_input.readOnly = true;
     }
@@ -198,7 +208,7 @@ function cc_convert_clicked()
     )
     {
 
-        if(cc_cm_input.value < 1) cc_cm_input.value = 1.00;
+        if(cc_cm_input.value < 0) cc_cm_input.value = 0.00;
         if(cc_cm_input.value > 1000) cc_cm_input.value = 1000.00;
 
         cc_in_input.value = cc_cm_to_in(cc_cm_input.value).toFixed(2);
@@ -213,7 +223,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_in_input.value < 1) cc_in_input.value = 1.00;
+        if(cc_in_input.value < 0) cc_in_input.value = 0.00;
         if(cc_in_input.value > 1000) cc_in_input.value = 1000.00;
 
         cc_cm_input.value = cc_in_to_cm(cc_in_input.value).toFixed(2);
@@ -229,7 +239,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_m_input.value < 1) cc_m_input.value = 1.00;
+        if(cc_m_input.value < 0) cc_m_input.value = 0.00;
         if(cc_m_input.value > 1000) cc_m_input.value = 1000.00;
 
         cc_ft_input.value = cc_m_to_ft(cc_m_input.value).toFixed(2);
@@ -244,7 +254,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_ft_input.value < 1) cc_ft_input.value = 1.00;
+        if(cc_ft_input.value < 0) cc_ft_input.value = 0.00;
         if(cc_ft_input.value > 1000) cc_ft_input.value = 1000.00;
 
         cc_m_input.value = cc_ft_to_m(cc_ft_input.value).toFixed(2);
@@ -260,7 +270,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_lbs_input.value < 1) cc_lbs_input.value = 1.00;
+        if(cc_lbs_input.value < 0) cc_lbs_input.value = 0.00;
         if(cc_lbs_input.value > 1000) cc_lbs_input.value = 1000.00;
 
         cc_kg_input.value = cc_lbs_to_kg(cc_lbs_input.value).toFixed(2);
@@ -275,7 +285,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_kg_input.value < 1) cc_kg_input.value = 1.00;
+        if(cc_kg_input.value < 0) cc_kg_input.value = 0.00;
         if(cc_kg_input.value > 1000) cc_kg_input.value = 1000.00;
 
         cc_lbs_input.value = cc_kg_to_lbs(cc_kg_input.value).toFixed(2);
@@ -291,7 +301,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_oz_input.value < 1) cc_oz_input.value = 1.00;
+        if(cc_oz_input.value < 0) cc_oz_input.value = 0.00;
         if(cc_oz_input.value > 1000) cc_oz_input.value = 1000.00;
 
         cc_g_input.value = cc_oz_to_g(cc_oz_input.value).toFixed(2);
@@ -306,7 +316,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_g_input.value < 1) cc_g_input.value = 1.00;
+        if(cc_g_input.value < 0) cc_g_input.value = 0.00;
         if(cc_g_input.value > 1000) cc_g_input.value = 1000.00;
 
         cc_oz_input.value = cc_g_to_oz(cc_g_input.value).toFixed(2);
@@ -322,7 +332,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_f_input.value < 1) cc_f_input.value = 1.00;
+        if(cc_f_input.value < 0) cc_f_input.value = 0.00;
         if(cc_f_input.value > 1000) cc_f_input.value = 1000.00;
 
         cc_c_input.value = cc_f_to_c(cc_f_input.value).toFixed(2);
@@ -337,7 +347,7 @@ function cc_convert_clicked()
         )
     )
     {
-        if(cc_c_input.value < 1) cc_c_input.value = 1.00;
+        if(cc_c_input.value < 0) cc_c_input.value = 0.00;
         if(cc_c_input.value > 1000) cc_c_input.value = 1000.00;
 
         cc_f_input.value = cc_c_to_f(cc_c_input.value).toFixed(2);
@@ -442,5 +452,22 @@ function cc_only_numeric_input(evt)
         //console.log(evt.which);
         evt.preventDefault();
     }
+    else //if (evt.which == cr_enter)
+    {
+        cc_render_convert(evt.which - zero);
+    }
     
 }
+
+
+function cc_onKeyDown(event) 
+{
+    const BACKSPACE = 8
+    var key = event.keyCode || event.charCode;
+
+    if( key == BACKSPACE)
+    {
+        if(event.srcElement.value.length < 2)
+            cc_render_convert('');
+    }
+};
