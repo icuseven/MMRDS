@@ -1212,7 +1212,7 @@ var $mmria = function()
             
 
 
-
+            //document.addEventListener('keydown',cc_onKeyDown);
 
             let element = document.getElementById("converter-calculater-id");
                 if(element == null)
@@ -1246,7 +1246,7 @@ var $mmria = function()
                                 font-family: 'Open Sans';
                                 background-color: #f7f2f7;
                                 box-sizing: border-box;">
-                                <div id="values-limited-to-1"  style="text-align:center;">Enter a value and press enter or tab.<br/>(Numeric values limited to 1.00 - 1000.00)</div>
+                                <div id="values-limited-to-1"  style="text-align:center;">Input values are limited to 0.00 - 1000.00</div>
                                 <br/>
                                     <div style="padding:2px"><b>Height</b>
                                         <table style="padding:2px">
@@ -1316,6 +1316,8 @@ var $mmria = function()
         },
         converter_calculater_dialog_click: function ()
         {
+            //document.removeEventListener('keydown',cc_onKeyDown);
+
             let el = document.getElementById("converter-calculater-id");
             el.close();
         },
