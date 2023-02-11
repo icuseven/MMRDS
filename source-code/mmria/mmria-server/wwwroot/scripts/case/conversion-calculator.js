@@ -426,7 +426,7 @@ function cc_only_numeric_input(evt)
     (
         evt.srcElement.value.length > 12 ||
         
-        (
+        /*(
             evt.srcElement.value.length == 0 &&
             (evt.which == dot || evt.which == zero)
         )
@@ -442,15 +442,28 @@ function cc_only_numeric_input(evt)
             evt.which > nine
             
         ) 
-        &&
+        &&*/
         (
             evt.which != dot &&
-            evt.which != cr_enter
+            evt.which != cr_enter &&
+            
+            (
+                evt.which < zero || 
+                evt.which > nine
+            )
         )
     )
     {
         //console.log(evt.which);
         evt.preventDefault();
+    }
+    else if 
+    (
+        evt.which == cr_enter &&
+        evt.srcElement.value.length == 0 
+    )
+    {
+
     }
     else //if (evt.which == cr_enter)
     {
