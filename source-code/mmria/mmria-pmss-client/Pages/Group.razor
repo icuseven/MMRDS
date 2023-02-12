@@ -1,4 +1,4 @@
-﻿<fieldset>
+﻿<fieldset style="@Control_Style">
     <legend>@Metadata.prompt</legend>
 
 @foreach (var item  in Metadata.children)
@@ -40,7 +40,14 @@
         break;
         case "GROUP":
             
-            <Group Metadata="@item" UI_Specification="@UI_Specification" MMRIA_Path="@dictionary_path"> </Group>
+            <Group 
+                Metadata="@item" 
+                UI_Specification="@UI_Specification" 
+                MMRIA_Path="@dictionary_path"
+                Prompt_Style="@prompt_style"
+                Control_Style="@control_style"
+            > 
+            </Group>
         break;
     }
         
@@ -59,6 +66,12 @@
     [Parameter]
     public string MMRIA_Path { get; set; }
 
+    [Parameter]
+    public string Prompt_Style { get; set; }
+
+    [Parameter]
+    public string Control_Style { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         System.Console.WriteLine("OnInitializedAsync");
@@ -68,9 +81,41 @@
     string get_style_string(string p_style_string)
     {
         //"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
-        var result = p_style_string.Substring(1);
+        var result_array = p_style_string.TrimStart('{').TrimEnd('}').Replace("\"", "").Replace("color:rgb(0, 0, 0)", "color:rgb(0 0 0)").Split(",");
+        var new_array = new List<string>();
+        for(var i = 0; i < result_array.Length; i++)
+        {
+            var item = result_array[i];
+            var pair = item.Split(":");
+            if(pair.Length < 2) continue;
+            switch(pair[0])
+            {
+                
+                case "top": //12
+                case "left": //8
+                case "height": // 50
+                case "width": //110.219
+                
+                case "font-size"://"16px"
+                    if(!pair[1].Trim().EndsWith("px"))
+                    {
+                        pair[1] += "px";
+                    }
+                    new_array.Add($"{pair[0].Trim()}:{pair[1].Trim()}");
+                    break;
+                case "font-weight": //"400":
+                case "font-style": //"normal"
+                case "color"://"rgb(0, 0, 0)"
+                case "position": //"absolute"
+                default:
+                    
+                    new_array.Add($"{pair[0].Trim()}:{pair[1].Trim()}");
+                break;
+            }
+        }
+        var result = string.Join(";",new_array); 
 
-        result = result.Replace("\"", "").Replace("{","").Replace("}","").Replace(",", ";");
+        //result = result.Replace("\"", "").Replace("{","").Replace("}","").Replace(",", ";");
 
         return result;
     }
